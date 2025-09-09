@@ -1,0 +1,25 @@
+{
+  // Allow VS Code to run tasks automatically when the folder opens
+  "task.allowAutomaticTasks": "on",
+
+  // Recommended editor settings
+  "editor.formatOnSave": true,
+  "files.autoSave": "off",
+
+  // Make sure Prettier is the default formatter
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+
+  // Language-specific overrides
+  "[svelte]": {
+    "editor.defaultFormatter": "svelte.svelte-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
+}

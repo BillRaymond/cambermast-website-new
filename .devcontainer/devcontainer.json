@@ -1,9 +1,11 @@
 {
   "name": "Cambermast Web",
   "image": "mcr.microsoft.com/devcontainers/javascript-node:20",
-  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}/web",
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
   "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/${localWorkspaceFolderBasename},type=bind",
-  "postCreateCommand": "npm ci",
+
+  "postCreateCommand": "cd web && npm ci",
+
   "forwardPorts": [5173],
   "customizations": {
     "vscode": {
