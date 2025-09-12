@@ -21,24 +21,15 @@
 			Our website is under construction. Please check back soon.
 		</p>
 
-		for each trainin a json file, list it here with a button to email us about it
 		<div class="mt-6">
 			<a
 				href="mailto:hello@cambermast.com"
 				class="inline-flex items-center justify-center rounded-lg bg-blue-600 px-6 py-3 font-semibold text-white hover:bg-blue-700"
 			>
-				[Training #1]
+				Contact us
 			</a>
 		</div>
-		<div class="mt-6">
-			<a
-				href="mailto:hello@cambermast.com"
-				class="inline-flex items-center justify-center rounded-lg bg-blue-600 px-6 py-3 font-semibold text-white hover:bg-blue-700"
-			>
-				[Training #2]
-			</a>
-		</div>
-		end for
+
 		<p class="mt-10 text-sm text-gray-400">
 			© {new Date().getFullYear()} Cambermast LLC. All rights reserved.
 		</p>
