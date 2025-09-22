@@ -32,27 +32,27 @@
 </section>
 
 <!-- Below here, content uses the layout's container automatically -->
-<section class="py-16">
-	<div class="grid gap-6 md:grid-cols-3">
-		<div class="rounded-2xl border bg-white p-6 shadow-sm">
-			<h3 class="text-xl font-semibold">Workshops</h3>
-			<p class="mt-2 text-gray-600">
-				Hands-on sessions: AI fundamentals, prompting, productivity, and “ship it” playbooks.
-			</p>
-		</div>
-		<div class="rounded-2xl border bg-white p-6 shadow-sm">
-			<h3 class="text-xl font-semibold">Advisory</h3>
-			<p class="mt-2 text-gray-600">
-				Roadmaps, governance, and vendor choices—so your team moves confidently.
-			</p>
-		</div>
-		<div class="rounded-2xl border bg-white p-6 shadow-sm">
-			<h3 class="text-xl font-semibold">Automation</h3>
-			<p class="mt-2 text-gray-600">
-				n8n + APIs for docs, email, and data flows that actually save time.
-			</p>
-		</div>
-	</div>
+<section class="mt-12 grid gap-6 md:grid-cols-3">
+	<article class="rounded-2xl border bg-white p-6 shadow-sm">
+		<h3 class="text-xl font-semibold">AI Training</h3>
+		<p class="mt-2 text-gray-600">
+			Hands-on sessions: AI fundamentals, prompting, productivity, and “ship it” playbooks.
+		</p>
+	</article>
+
+	<article class="rounded-2xl border bg-white p-6 shadow-sm">
+		<h3 class="text-xl font-semibold">AI Strategy</h3>
+		<p class="mt-2 text-gray-600">
+			Roadmaps, governance, and vendor choices—so your team moves confidently.
+		</p>
+	</article>
+
+	<article class="rounded-2xl border bg-white p-6 shadow-sm">
+		<h3 class="text-xl font-semibold">AI Agents</h3>
+		<p class="mt-2 text-gray-600">
+			n8n + APIs for docs, email, and data flows that actually save time.
+		</p>
+	</article>
 </section>
 
 <footer class="py-10">

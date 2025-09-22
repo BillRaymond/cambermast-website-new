@@ -1,0 +1,38 @@
+{
+	"training": [
+		{
+			"title": "AI Fundamentals",
+			"summary": "Plain-English foundation: what AI can + can’t do, and how to use it responsibly.",
+			"bullets": ["Core concepts", "Prompting patterns", "Risks & guardrails"]
+		},
+		{
+			"title": "Productivity with AI",
+			"summary": "Everyday workflows for email, docs, slides, and quick automations.",
+			"bullets": ["Writing & editing", "Summarization & synthesis", "Content reuse"]
+		},
+		{
+			"title": "AI for Leaders",
+			"summary": "Enable teams, pick tools, and measure impact without over-engineering.",
+			"bullets": ["Governance patterns", "Selecting tools", "Scaling pilots"]
+		}
+	],
+	"agents": [
+		{
+			"title": "Automation Starter (n8n + APIs)",
+			"summary": "Ship one real automation that saves time and is easy to maintain.",
+			"bullets": ["Scope & success metrics", "Build + handoff", "Simple monitoring"]
+		}
+	],
+	"strategy": [
+		{
+			"title": "Advisory Sprint (2–4 weeks)",
+			"summary": "Short roadmap sprint to pick the right use cases and tools.",
+			"bullets": ["Prioritization", "Vendor choices", "Light governance"]
+		},
+		{
+			"title": "Project Management",
+			"summary": "Make AI work deliver on time and with quality—without turning it into a giant project.",
+			"bullets": ["Clear scope & metrics", "Light guardrails", "Visible weekly progress"]
+		}
+	]
+}
