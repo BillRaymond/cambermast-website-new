@@ -1,7 +1,9 @@
 <script>
 	import '../app.css';
-	import { page } from '$app/stores'; // keep this (works with your setup)
+	import { page } from '$app/stores';
 	import Nav from '$lib/components/Nav.svelte';
+
+	let navOpen = false;
 </script>
 
 <header class="flex flex-col items-center border-b bg-white px-6 py-4">
@@ -12,8 +14,19 @@
 			style="width:100%;height:auto;"
 		/>
 	</a>
-	<div class="flex w-full flex-wrap justify-center">
-		<Nav />
+	<div class="flex w-full flex-wrap justify-center relative">
+		<!-- Hamburger for small screens -->
+		<button
+			class="sm:hidden flex items-center px-3 py-2 border rounded text-gray-700 border-gray-400 mr-2"
+			aria-label="Toggle navigation"
+			on:click={() => navOpen = !navOpen}
+		>
+			<span class="text-xl mr-2">☰</span> Navigation
+		</button>
+		<!-- Nav: horizontal on sm+, vertical dropdown on mobile when open -->
+		<div class={`w-full sm:w-auto ${navOpen ? '' : 'hidden'} sm:flex`}>
+			<Nav vertical={navOpen} />
+		</div>
 	</div>
 </header>
 

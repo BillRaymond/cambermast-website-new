@@ -2,6 +2,8 @@
 	import { page } from '$app/stores';
 	import catalog from '$lib/data/catalog.json';
 
+	export let vertical = false;
+
 	// Build nav links from catalog, sorted by homeorder
 	const navLinks = Object.entries(catalog)
 		.sort(([, a], [, b]) => (a.homeorder ?? 999) - (b.homeorder ?? 999))
@@ -11,7 +13,7 @@
 		}));
 </script>
 
-<nav class="flex flex-wrap gap-5 text-gray-700">
+<nav class={`flex gap-8 ${vertical ? 'flex-col items-start py-2' : 'flex-row items-center'}`}>
 	<a
 		href="/"
 		class={$page.url.pathname === '/' ? 'font-semibold text-blue-600' : 'hover:text-blue-600'}
