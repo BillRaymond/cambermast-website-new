@@ -12,25 +12,32 @@
 			<a
 				href="/"
 				class={$page.url.pathname === '/' ? 'font-semibold text-blue-600' : 'hover:text-blue-600'}
+				>Home</a
 			>
-				Home
-			</a>
 			<a
 				href="/training"
 				class={$page.url.pathname.startsWith('/training')
 					? 'font-semibold text-blue-600'
-					: 'hover:text-blue-600'}
+					: 'hover:text-blue-600'}>AI Training</a
 			>
-				AI Training
-			</a>
+			<a
+				href="/agents"
+				class={$page.url.pathname.startsWith('/agents')
+					? 'font-semibold text-blue-600'
+					: 'hover:text-blue-600'}>AI Agents</a
+			>
+			<a
+				href="/strategy"
+				class={$page.url.pathname.startsWith('/strategy')
+					? 'font-semibold text-blue-600'
+					: 'hover:text-blue-600'}>AI Strategy</a
+			>
 			<a
 				href="/contact"
 				class={$page.url.pathname.startsWith('/contact')
 					? 'font-semibold text-blue-600'
-					: 'hover:text-blue-600'}
+					: 'hover:text-blue-600'}>Contact</a
 			>
-				Contact
-			</a>
 		</nav>
 	</div>
 </header>
