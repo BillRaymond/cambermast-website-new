@@ -13,27 +13,24 @@
 
 <!-- Full-bleed hero -->
 <section class="relative left-1/2 right-1/2 -mx-[50vw] w-screen overflow-hidden bg-blue-50">
-    <!-- Removed gradient background, replaced with a subtle blue tint using bg-blue-50 -->
+	<!-- Removed gradient background, replaced with a subtle blue tint using bg-blue-50 -->
 
-    <div
-        class="relative mx-auto flex max-w-4xl items-center justify-between px-6"
-        style="height:100px"
-    >
-        <!-- Left: headline only -->
-        <h1 class="text-2xl font-extrabold tracking-tight text-gray-900">
-            AI Training & Consulting
-        </h1>
+	<div
+		class="relative mx-auto flex max-w-4xl items-center justify-between px-6"
+		style="height:100px"
+	>
+		<!-- Left: headline only -->
+		<h1 class="text-2xl font-extrabold tracking-tight text-gray-900">AI Training & Consulting</h1>
 
-        <!-- Right: portrait with name below -->
-        <div class="flex flex-col items-center">
-            <img
-                src="/images/bill.jpg"
-                alt="Bill Raymond"
-                class="h-16 w-16 rounded-2xl border border-gray-200 object-cover shadow-2xl"
-            />
-            <span class="mt-1 text-xs text-gray-500">Bill Raymond</span>
-        </div>
-    </div>
+		<!-- Right: portrait with name below -->
+		<div class="flex flex-col items-center">
+			<img
+				src="/images/bill.jpg"
+				alt="Bill Raymond"
+				class="h-16 w-16 rounded-2xl border border-gray-200 object-cover shadow-2xl"
+			/>
+		</div>
+	</div>
 </section>
 
 <!-- Cards rendered from JSON (label + headline only) -->
