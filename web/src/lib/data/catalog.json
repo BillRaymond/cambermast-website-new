@@ -1,38 +1,57 @@
 {
-	"training": [
-		{
-			"title": "AI Fundamentals",
-			"summary": "Plain-English foundation: what AI can + can’t do, and how to use it responsibly.",
-			"bullets": ["Core concepts", "Prompting patterns", "Risks & guardrails"]
-		},
-		{
-			"title": "Productivity with AI",
-			"summary": "Everyday workflows for email, docs, slides, and quick automations.",
-			"bullets": ["Writing & editing", "Summarization & synthesis", "Content reuse"]
-		},
-		{
-			"title": "AI for Leaders",
-			"summary": "Enable teams, pick tools, and measure impact without over-engineering.",
-			"bullets": ["Governance patterns", "Selecting tools", "Scaling pilots"]
-		}
-	],
-	"agents": [
-		{
-			"title": "Automation Starter (n8n + APIs)",
-			"summary": "Ship one real automation that saves time and is easy to maintain.",
-			"bullets": ["Scope & success metrics", "Build + handoff", "Simple monitoring"]
-		}
-	],
-	"strategy": [
-		{
-			"title": "Advisory Sprint (2–4 weeks)",
-			"summary": "Short roadmap sprint to pick the right use cases and tools.",
-			"bullets": ["Prioritization", "Vendor choices", "Light governance"]
-		},
-		{
-			"title": "Project Management",
-			"summary": "Make AI work deliver on time and with quality—without turning it into a giant project.",
-			"bullets": ["Clear scope & metrics", "Light guardrails", "Visible weekly progress"]
-		}
-	]
+	"training": {
+		"label": "AI Training",
+		"headline": "Hands-on workshops to build practical skills that your team can apply immediately.",
+		"homeorder": 0,
+		"items": [
+			{
+				"id": "training-ai-fundamentals",
+				"title": "AI Fundamentals",
+				"summary": "Plain-English foundation: what AI can + can’t do...",
+				"bullets": ["Core concepts", "Prompting patterns", "Risks & guardrails"],
+				"order": 0,
+				"published": true
+			},
+			{
+				"id": "training-productivity",
+				"title": "Productivity with AI",
+				"summary": "Everyday workflows for email, docs, slides...",
+				"bullets": ["Writing & editing", "Summarization", "Content reuse"],
+				"order": 1,
+				"published": true
+			}
+		]
+	},
+
+	"agents": {
+		"label": "AI Agents & Automation",
+		"headline": "Practical automations using n8n and APIs—focused on real outcomes.",
+		"homeorder": 1,
+		"items": [
+			{
+				"id": "agents-automation-starter",
+				"title": "Automation Starter (n8n + APIs)",
+				"summary": "Ship one real automation that saves time and is easy to maintain.",
+				"bullets": ["Scope & success metrics", "Build + handoff", "Monitoring"],
+				"order": 0,
+				"published": true
+			}
+		]
+	},
+
+	"strategy": {
+		"label": "AI Strategy & Advisory",
+		"headline": "Strategic guidance and execution support—so pilots turn into repeatable wins.",
+		"homeorder": 2,
+		"items": [
+			{
+				"id": "strategy-advisory-sprint",
+				"title": "Advisory Sprint (2–4 weeks)",
+				"summary": "Short roadmap sprint to pick the right use cases and tools.",
+				"bullets": ["Prioritization", "Vendor choices", "Light governance"],
+				"order": 0,
+				"published": true
+			}
+		]
+	}
 }

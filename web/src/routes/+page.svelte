@@ -1,5 +1,14 @@
 <script>
+	// Note: catalog is imported here to ensure it's included in the build,
+	import catalog from '$lib/data/catalog.json';
+	// This is for the footer copyright year
 	const year = new Date().getFullYear();
+
+	// Build the list of sections purely from { label, headline }
+	// Skip any non-section keys like "home" if you add one.
+	const sections = Object.entries(catalog)
+		.filter(([slug, sec]) => slug !== 'home' && sec?.label && sec?.headline)
+		.map(([slug, sec]) => ({ slug, ...sec }));
 </script>
 
 <!-- Full-bleed hero (escapes the layout's container) -->
@@ -21,38 +30,18 @@
 			>
 				Book a call
 			</a>
-			<a
-				href="/training"
-				class="inline-block rounded-lg border border-gray-300 px-5 py-3 text-gray-800 hover:bg-gray-100"
-			>
-				AI Training
-			</a>
 		</div>
 	</div>
 </section>
 
-<!-- Below here, content uses the layout's container automatically -->
+<!-- Cards rendered from JSON (label + headline only) -->
 <section class="mt-12 grid gap-6 md:grid-cols-3">
-	<article class="rounded-2xl border bg-white p-6 shadow-sm">
-		<h3 class="text-xl font-semibold">AI Training</h3>
-		<p class="mt-2 text-gray-600">
-			Hands-on sessions: AI fundamentals, prompting, productivity, and “ship it” playbooks.
-		</p>
-	</article>
-
-	<article class="rounded-2xl border bg-white p-6 shadow-sm">
-		<h3 class="text-xl font-semibold">AI Strategy</h3>
-		<p class="mt-2 text-gray-600">
-			Roadmaps, governance, and vendor choices—so your team moves confidently.
-		</p>
-	</article>
-
-	<article class="rounded-2xl border bg-white p-6 shadow-sm">
-		<h3 class="text-xl font-semibold">AI Agents</h3>
-		<p class="mt-2 text-gray-600">
-			n8n + APIs for docs, email, and data flows that actually save time.
-		</p>
-	</article>
+	{#each sections as s}
+		<article class="rounded-2xl border bg-white p-6 shadow-sm">
+			<h3 class="text-xl font-semibold">{s.label}</h3>
+			<p class="mt-2 text-gray-600">{s.headline}</p>
+		</article>
+	{/each}
 </section>
 
 <footer class="py-10">
