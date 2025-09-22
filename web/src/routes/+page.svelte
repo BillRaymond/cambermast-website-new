@@ -12,42 +12,28 @@
 </script>
 
 <!-- Full-bleed hero -->
-<section class="relative left-1/2 right-1/2 -mx-[50vw] w-screen overflow-hidden">
-	<!-- Background gradient -->
-	<div class="absolute inset-0 bg-gradient-to-b from-blue-50 to-white"></div>
+<section class="relative left-1/2 right-1/2 -mx-[50vw] w-screen overflow-hidden bg-blue-50">
+    <!-- Removed gradient background, replaced with a subtle blue tint using bg-blue-50 -->
 
-	<!-- Content grid -->
-	<div
-		class="relative mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-6 py-20 md:grid-cols-2"
-	>
-		<!-- Left: text + CTA -->
-		<div class="text-center md:text-left">
-			<h1 class="text-4xl font-extrabold tracking-tight text-gray-900 md:text-5xl">
-				AI Training & Consulting
-			</h1>
-			<p class="mx-auto mt-4 max-w-2xl text-lg text-gray-600 md:mx-0">
-				Your first and last stop for AI.
-			</p>
+    <div
+        class="relative mx-auto flex max-w-4xl items-center justify-between px-6"
+        style="height:100px"
+    >
+        <!-- Left: headline only -->
+        <h1 class="text-2xl font-extrabold tracking-tight text-gray-900">
+            AI Training & Consulting
+        </h1>
 
-			<div class="mt-8 flex items-center justify-center gap-3 md:justify-start">
-				<a
-					href="/contact"
-					class="inline-block rounded-lg bg-blue-600 px-5 py-3 font-medium text-white shadow hover:bg-blue-700"
-				>
-					Book a call
-				</a>
-			</div>
-		</div>
-
-		<!-- Right: portrait -->
-		<div class="flex justify-center md:justify-end">
-			<img
-				src="/images/bill.jpg"
-				alt="Bill Raymond"
-				class="max-h-80 rounded-2xl border border-gray-200 object-cover shadow-2xl"
-			/>
-		</div>
-	</div>
+        <!-- Right: portrait with name below -->
+        <div class="flex flex-col items-center">
+            <img
+                src="/images/bill.jpg"
+                alt="Bill Raymond"
+                class="h-16 w-16 rounded-2xl border border-gray-200 object-cover shadow-2xl"
+            />
+            <span class="mt-1 text-xs text-gray-500">Bill Raymond</span>
+        </div>
+    </div>
 </section>
 
 <!-- Cards rendered from JSON (label + headline only) -->
