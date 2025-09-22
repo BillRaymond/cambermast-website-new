@@ -1,44 +1,19 @@
 <script>
 	import '../app.css';
 	import { page } from '$app/stores'; // keep this (works with your setup)
+	import Nav from '$lib/components/Nav.svelte';
 </script>
 
-<header class="sticky top-0 z-40 border-b bg-white/90 backdrop-blur">
-	<div
-		class="mx-auto flex max-w-7xl flex-col gap-3 px-6 py-3 sm:flex-row sm:items-center sm:justify-between"
-	>
-		<a href="/" class="text-xl font-bold text-gray-900">Cambermast</a>
-		<nav class="flex flex-wrap gap-5 text-gray-700">
-			<a
-				href="/"
-				class={$page.url.pathname === '/' ? 'font-semibold text-blue-600' : 'hover:text-blue-600'}
-				>Home</a
-			>
-			<a
-				href="/training"
-				class={$page.url.pathname.startsWith('/training')
-					? 'font-semibold text-blue-600'
-					: 'hover:text-blue-600'}>AI Training</a
-			>
-			<a
-				href="/agents"
-				class={$page.url.pathname.startsWith('/agents')
-					? 'font-semibold text-blue-600'
-					: 'hover:text-blue-600'}>AI Agents</a
-			>
-			<a
-				href="/strategy"
-				class={$page.url.pathname.startsWith('/strategy')
-					? 'font-semibold text-blue-600'
-					: 'hover:text-blue-600'}>AI Strategy</a
-			>
-			<a
-				href="/contact"
-				class={$page.url.pathname.startsWith('/contact')
-					? 'font-semibold text-blue-600'
-					: 'hover:text-blue-600'}>Contact</a
-			>
-		</nav>
+<header class="flex flex-col items-center border-b bg-white px-6 py-4">
+	<a href="/" class="mb-2 block" style="width:160px;min-width:160px;">
+		<img
+			src="/images/cambermast-logo-full.png"
+			alt="Cambermast logo"
+			style="width:100%;height:auto;"
+		/>
+	</a>
+	<div class="flex w-full flex-wrap justify-center">
+		<Nav />
 	</div>
 </header>
 

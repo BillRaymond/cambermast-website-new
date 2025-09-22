@@ -1,6 +1,8 @@
 {
 	"training": {
 		"label": "AI Training",
+		"navlabel": "AI Training",
+		"route": "/training",
 		"headline": "Hands-on workshops to build practical skills that your team can apply immediately.",
 		"homeorder": 0,
 		"items": [
@@ -25,6 +27,8 @@
 
 	"agents": {
 		"label": "AI Agents & Automation",
+		"navlabel": "AI Agents",
+		"route": "/agents",
 		"headline": "Practical automations using n8n and APIs—focused on real outcomes.",
 		"homeorder": 1,
 		"items": [
@@ -41,6 +45,8 @@
 
 	"strategy": {
 		"label": "AI Strategy & Advisory",
+		"navlabel": "AI Strategy",
+		"route": "/strategy",
 		"headline": "Strategic guidance and execution support—so pilots turn into repeatable wins.",
 		"homeorder": 2,
 		"items": [
