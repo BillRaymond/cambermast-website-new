@@ -20,14 +20,8 @@
 	<div
 		class="relative mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-6 py-20 md:grid-cols-2"
 	>
-		<!-- Left: logo + text + CTA -->
+		<!-- Left: text + CTA -->
 		<div class="text-center md:text-left">
-			<img
-				src="/images/cambermast-logo-full.png"
-				alt="Cambermast Logo"
-				class="mx-auto mb-6 h-12 w-auto md:mx-0 md:h-14"
-			/>
-
 			<h1 class="text-4xl font-extrabold tracking-tight text-gray-900 md:text-5xl">
 				AI Training & Consulting
 			</h1>
