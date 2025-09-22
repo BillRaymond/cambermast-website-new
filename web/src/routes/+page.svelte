@@ -20,10 +20,12 @@
 		style="height:100px"
 	>
 		<!-- Left: headline only -->
-		<h1 class="text-2xl font-extrabold tracking-tight text-gray-900">AI Training & Consulting</h1>
+		<h1 class="text-1xl font-extrabold tracking-tight text-gray-900">
+			I want to help you realize the full potential of AI for your business.<br />-Bill Raymond
+		</h1>
 
 		<!-- Right: portrait with name below -->
-		<div class="flex flex-col items-center">
+		<div class="flex flex-shrink-0 flex-col items-center">
 			<img
 				src="/images/bill.jpg"
 				alt="Bill Raymond"

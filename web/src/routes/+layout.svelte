@@ -14,14 +14,14 @@
 			style="width:100%;height:auto;"
 		/>
 	</a>
-	<div class="flex w-full flex-wrap justify-center relative">
+	<div class="relative flex w-full flex-wrap justify-center">
 		<!-- Hamburger for small screens -->
 		<button
-			class="sm:hidden flex items-center px-3 py-2 border rounded text-gray-700 border-gray-400 mr-2"
+			class="mr-2 flex items-center rounded border border-gray-400 px-3 py-2 text-gray-700 sm:hidden"
 			aria-label="Toggle navigation"
-			on:click={() => navOpen = !navOpen}
+			on:click={() => (navOpen = !navOpen)}
 		>
-			<span class="text-xl mr-2">☰</span> Navigation
+			<span class="mr-2 text-xl">☰</span> Navigation
 		</button>
 		<!-- Nav: horizontal on sm+, vertical dropdown on mobile when open -->
 		<div class={`w-full sm:w-auto ${navOpen ? '' : 'hidden'} sm:flex`}>
