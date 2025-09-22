@@ -6,7 +6,7 @@
 	<div class="absolute inset-0 bg-gradient-to-b from-blue-50 to-white"></div>
 	<div class="relative mx-auto max-w-7xl px-6 py-20 text-center">
 		<h1 class="text-4xl font-extrabold tracking-tight text-gray-900 md:text-5xl">
-			AI training & consulting for teams
+			AI Training and Strategy for Teams
 		</h1>
 		<p class="mx-auto mt-4 max-w-2xl text-lg text-gray-600">
 			Practical workshops, advisory, and automations that ship fast—and stay maintainable.
