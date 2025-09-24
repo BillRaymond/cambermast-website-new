@@ -21,7 +21,7 @@
 	>
 		<!-- Left: headline only -->
 		<h1 class="text-1xl font-extrabold tracking-tight text-gray-900">
-			I want to help you realize the full potential of AI for your business.<br />-Bill Raymond
+			Apply AI today for success tomorrow. -Bill<br />
 		</h1>
 
 		<!-- Right: portrait with name below -->
@@ -31,9 +31,32 @@
 				alt="Bill Raymond"
 				class="h-16 w-16 rounded-2xl border border-gray-200 object-cover shadow-2xl"
 			/>
+			<span class="mt-2 text-xs font-medium text-gray-500">
+				Bill Raymond, Founder, Cambermast LLC
+			</span>
 		</div>
 	</div>
 </section>
+
+<!-- Add podcast and newsletter buttons -->
+<div class="mt-8 flex justify-center gap-4">
+	<a
+		href="https://billtalksai.com/"
+		target="_blank"
+		rel="noopener"
+		class="rounded-lg bg-blue-600 px-5 py-3 font-semibold text-white shadow transition hover:bg-blue-700"
+	>
+		📰 The Bill Talks AI Newsletter
+	</a>
+	<a
+		href="https://agileinaction.com/"
+		target="_blank"
+		rel="noopener"
+		class="rounded-lg bg-gray-900 px-5 py-3 font-semibold text-white shadow transition hover:bg-gray-800"
+	>
+		🎙️ The Agile in Action Podcast
+	</a>
+</div>
 
 <!-- Cards rendered from JSON (label + headline only) -->
 <section class="mt-12 grid gap-6 md:grid-cols-3">
