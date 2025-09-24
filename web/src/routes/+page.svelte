@@ -1,6 +1,8 @@
 <script>
 	// Note: catalog is imported here to ensure it's included in the build
 	import catalog from '$lib/data/catalog.json';
+	// import ServiceCard from '$lib/components/ServiceCard.svelte';
+	import Card from '$lib/components/ServiceCard.svelte';
 	// This is for the footer copyright year
 	const year = new Date().getFullYear();
 
@@ -61,10 +63,13 @@
 <!-- Cards rendered from JSON (label + headline only) -->
 <section class="mt-12 grid gap-6 md:grid-cols-3">
 	{#each sections as s}
-		<article class="rounded-2xl border bg-white p-6 shadow-sm">
-			<h3 class="text-xl font-semibold">{s.label}</h3>
-			<p class="mt-2 text-gray-600">{s.headline}</p>
-		</article>
+		<Card
+			icon={s.icon}
+			label={s.label}
+			headline={s.headline}
+			testimonial={s.testimonial}
+			author={s.author}
+		/>
 	{/each}
 </section>
 

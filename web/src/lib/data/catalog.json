@@ -2,6 +2,9 @@
 	"training": {
 		"label": "AI Training",
 		"navlabel": "AI Training",
+		"testimonial": "Bill’s training is excellent! He’s an industry pro and a great communicator.",
+		"author": "Tara M.",
+		"icon": "🛠️",
 		"route": "/training",
 		"headline": "Hands-on workshops to build practical skills that your team can apply immediately.",
 		"homeorder": 0,
@@ -28,6 +31,9 @@
 	"agents": {
 		"label": "AI Agents & Automation",
 		"navlabel": "AI Agents",
+		"testimonial": "Bill worked with our new automations and showed us what’s possible.",
+		"author": "Brett K.",
+		"icon": "🤖",
 		"route": "/agents",
 		"headline": "Practical automations using n8n and APIs—focused on real outcomes.",
 		"homeorder": 1,
@@ -46,6 +52,9 @@
 	"strategy": {
 		"label": "AI Strategy & Advisory",
 		"navlabel": "AI Strategy",
+		"testimonial": "Bill’s experience helped us develop and execute an AI automation strategy.",
+		"author": "Brian C.",
+		"icon": "🎯",
 		"route": "/strategy",
 		"headline": "Strategic guidance and execution support—so pilots turn into repeatable wins.",
 		"homeorder": 2,
