@@ -1,0 +1,41 @@
+name: local-stack
+version: 0.0.1
+schema: v1
+
+models:
+  - name: Gemma 3 12B Chat
+    provider: openai
+    model: google/gemma-3-12b
+    apiBase: http://localhost:1234/v1
+    apiKey: lm-studio
+    roles: [chat]
+    defaultCompletionOptions:
+      temperature: 0.2
+  - name: Qwen2.5 Coder 7B Inline
+    provider: openai
+    model: qwen2.5-coder-7b-instruct-mlx
+    apiBase: http://localhost:1234/v1
+    apiKey: lm-studio
+    roles: [autocomplete]
+    defaultCompletionOptions:
+      temperature: 0.1
+      topP: 0.95
+  - name: bge-m3 Embeddings
+    provider: ollama
+    model: bge-m3
+    roles: [embed] # replaces embeddingsProvider in JSON
+    embedOptions:
+      maxChunkSize: 2048
+      maxBatchSize: 8
+
+# Built-in context providers you can call with "@"
+context:
+  - provider: repo-map # outline of the repo. can include signatures if indexing is enabled
+    params:
+      includeSignatures: true
+  - provider: code # reference functions or classes across the project
+  - provider: file # add specific files as context
+  - provider: open # all open files
+  - provider: diff # git changes
+  - provider: terminal
+  - provider: problems
