@@ -23,7 +23,7 @@
 	>
 		<!-- Left: headline only -->
 		<h1 class="text-1xl font-extrabold tracking-tight text-gray-900">
-			Apply AI today for success tomorrow. -Bill<br />
+			Applying AI leadership skills.<br />
 		</h1>
 
 		<!-- Right: portrait with name below -->
@@ -71,6 +71,33 @@
 			author={s.author}
 		/>
 	{/each}
+</section>
+<!-- Add a section break line -->
+<hr class="my-12 border-gray-300" />
+<!-- Microsoft Project Server Service-->
+<section>
+	<div class="mt-12 flex flex-col items-center">
+		<h2 class="text-1xl mb-4 font-bold text-gray-900">
+			Are you a Microsoft Project Server customer?
+		</h2>
+		<p class="mb-6 max-w-xl text-center text-gray-700">
+			Did you know that Bill Raymond wrote the book on Microsoft Project Server? Microsoft stopped
+			supporting it, but you may still be using this beloved product. Cambermast partners with
+			ProjectHosts to provide hosting and support for Microsoft Project Server.
+			<a href="https://projecthosts.com">ProjectHosts.</a>
+		</p>
+
+		<!-- svelte-ignore a11y_consider_explicit_label -->
+		<p>
+			<a
+				href="https://cambermast.com/services/microsoft-project-server/"
+				target="_blank"
+				rel="noopener"
+				class="text-1xl rounded-lg bg-green-600 px-5 py-3 font-semibold text-white shadow transition hover:bg-green-700"
+				>Learn More ></a
+			>
+		</p>
+	</div>
 </section>
 
 <footer class="py-10">
