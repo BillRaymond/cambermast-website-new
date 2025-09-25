@@ -69,6 +69,7 @@
 			headline={s.headline}
 			testimonial={s.testimonial}
 			author={s.author}
+			route={s.route}
 		/>
 	{/each}
 </section>
