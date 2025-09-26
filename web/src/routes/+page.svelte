@@ -75,6 +75,23 @@
 </section>
 <!-- Add a section break line -->
 <hr class="my-12 border-gray-300" />
+<!-- Upcoming events embed -->
+<section class="mt-12 flex flex-col items-center px-4">
+	<h2 class="mb-6 text-center text-2xl font-bold text-gray-900">Upcoming Events</h2>
+	<div class="w-full max-w-4xl overflow-hidden rounded-lg shadow-sm">
+		<iframe
+			title="Bill Talks AI upcoming events calendar"
+			src="https://luma.com/embed/calendar/cal-WiCb89B8ouz3ZFH/events"
+			class="h-[600px] w-full"
+			loading="lazy"
+			frameborder="0"
+			style="border: 1px solid #bfcbda88; border-radius: 4px;"
+			allowfullscreen
+		></iframe>
+	</div>
+</section>
+<!-- Add a section break line -->
+<hr class="my-12 border-gray-300" />
 <!-- Microsoft Project Server Service-->
 <section>
 	<div class="mt-12 flex flex-col items-center">
@@ -84,8 +101,8 @@
 		<p class="mb-6 max-w-xl text-center text-gray-700">
 			Did you know that Bill Raymond wrote the book on Microsoft Project Server? Microsoft stopped
 			supporting it, but you may still be using this beloved product. Cambermast partners with
-			ProjectHosts to provide hosting and support for Microsoft Project Server.
-			<a href="https://projecthosts.com">ProjectHosts.</a>
+			<a class="inline-link" href="https://projecthosts.com">ProjectHosts</a> to provide hosting and support for Microsoft
+			Project Server.
 		</p>
 
 		<!-- svelte-ignore a11y_consider_explicit_label -->
@@ -107,3 +124,23 @@
 		<a class="underline" href="mailto:hello@cambermast.com">hello@cambermast.com</a>
 	</div>
 </footer>
+
+<style>
+	.inline-link {
+		color: #2563eb;
+		font-weight: 600;
+		text-decoration: underline;
+		text-decoration-thickness: 0.08em;
+		text-underline-offset: 0.2em;
+		transition: color 0.2s ease-in-out;
+	}
+
+	.inline-link:hover {
+		color: #1d4ed8;
+	}
+
+	.inline-link:focus-visible {
+		outline: 2px solid #1d4ed8;
+		outline-offset: 2px;
+	}
+</style>
