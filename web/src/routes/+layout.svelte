@@ -31,7 +31,7 @@
 </header>
 
 <!-- Default container for every page -->
-<main class="mx-auto max-w-7xl px-6 pb-20">
+<main class="text-fluid mx-auto max-w-7xl px-6 pb-20">
 	<slot />
 </main>
 

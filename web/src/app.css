@@ -1,4 +1,21 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-@import 'tailwindcss';
+@import "tailwindcss";
+
+@layer base {
+	:root {
+		/* Base font size scales with viewport but stays more compact */
+		--font-size-base: clamp(0.74rem, 0.7rem + 0.18vw, 0.88rem);
+	}
+
+	body {
+		font-size: var(--font-size-base);
+		line-height: 1.45;
+	}
+}
+
+@layer utilities {
+	/* Apply to containers that need compact, fluid typography */
+	.text-fluid {
+		font-size: clamp(0.7rem, 0.66rem + 0.16vw, 0.84rem);
+		line-height: 1.45;
+	}
+}
