@@ -1,43 +1,14 @@
 <script>
-	import { goto } from '$app/navigation';
-	import { browser } from '$app/environment';
-
 	export let icon;
 	export let label;
 	export let headline;
 	export let testimonial;
 	export let author;
 	export let route;
-
-	const navigateToRoute = () => {
-		if (!route || !browser) return;
-		goto(route);
-	};
-
-	const handleCardClick = (event) => {
-		if (!route) return;
-		if (event.target instanceof HTMLElement && event.target.closest('a')) {
-			return;
-		}
-		navigateToRoute();
-	};
-
-	const handleCardKeydown = (event) => {
-		if (!route) return;
-		if (event.key === 'Enter' || event.key === ' ') {
-			event.preventDefault();
-			navigateToRoute();
-		}
-	};
 </script>
 
 <article
-	class="flex h-full flex-col rounded-2xl border-2 border-blue-300 bg-white p-6 text-center shadow-sm transition hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2"
-	class:cursor-pointer={!!route}
-	role={route ? 'link' : undefined}
-	tabindex={route ? 0 : undefined}
-	on:click={handleCardClick}
-	on:keydown={handleCardKeydown}
+	class="flex h-full flex-col rounded-2xl border-2 border-blue-300 bg-white p-6 text-center shadow-sm transition hover:shadow-md"
 >
 	<div class="flex flex-1 flex-col items-center">
 		{#if icon}

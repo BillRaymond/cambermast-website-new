@@ -11,9 +11,14 @@
 		"items": [
 			{
 				"id": "training-ai-fundamentals",
-				"title": "AI Fundamentals",
-				"summary": "Plain-English foundation: what AI can + can’t do...",
-				"bullets": ["Core concepts", "Prompting patterns", "Risks & guardrails"],
+				"title": "AI Power Prompting (AI Fundamentals)",
+				"summary": "A four-hour live course that unlocks a 10% productivity lift with strategic AI prompting.",
+				"bullets": [
+					"Hands-on labs with ChatGPT, Copilot, Claude, and Gemini",
+					"Repeatable prompting frameworks for daily workflows",
+					"Governance guardrails that keep outputs trustworthy"
+				],
+				"route": "/training/ai-fundamentals",
 				"order": 0,
 				"published": true
 			},
@@ -22,6 +27,7 @@
 				"title": "Productivity with AI",
 				"summary": "Everyday workflows for email, docs, slides...",
 				"bullets": ["Writing & editing", "Summarization", "Content reuse"],
+				"route": "/training/productivity",
 				"order": 1,
 				"published": true
 			}
