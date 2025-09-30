@@ -10,7 +10,7 @@ export const aiFundamentals = {
 	secondaryDescription:
 		'Build confidence through guided demos and exercises with ChatGPT, Copilot, Claude, and Gemini so you know when to reach for each tool and how to collaborate with it.',
 	primaryCta: {
-		label: 'Reserve seats',
+		label: 'Book your spot',
 		url: 'https://luma.com/BillTalksAI?k=c'
 	},
 	secondaryCta: {

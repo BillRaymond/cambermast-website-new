@@ -150,7 +150,7 @@
 							href={session.registerUrl}
 							class="mt-3 inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700"
 						>
-							Reserve a seat
+							Book your spot
 						</a>
 					</li>
 				{/each}
@@ -255,7 +255,7 @@
 		<div class="md:max-w-xl">
 			<h2 class="text-3xl font-bold">Ready to bring AI clarity to your team?</h2>
 			<p class="mt-4 text-lg text-blue-100">
-				Reserve your seats or schedule a call with Bill to customize the training for your
+				Book your spot or schedule a call with Bill to customize the training for your
 				organization.
 			</p>
 		</div>
