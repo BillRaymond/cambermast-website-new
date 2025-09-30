@@ -233,7 +233,7 @@
 							class:mt-2={index > 0}
 						>
 							<span class="mt-1 inline-flex h-2 w-2 rounded-full bg-blue-600"></span>
-							<p class="text-gray-700">{answer}</p>
+							<p class="text-gray-700 whitespace-pre-line">{answer}</p>
 						</div>
 					{/each}
 				</details>
