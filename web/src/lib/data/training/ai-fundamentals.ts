@@ -3,6 +3,8 @@ export const aiFundamentals = {
 	title: 'AI Power Prompting',
 	nickname: 'Your AI fundamentals • From prompting to productivity',
 	tagline: 'A live primer on prompting: learn how AI works and how to prompt successfully.',
+	heroImage: '/images/ai-fundamentals.jpeg',
+	heroImageAlt: 'AI Power Prompting training workshop illustration',
 	description:
 		'AI Power Prompting is a four-hour crash course that explains how modern AI systems work and shows you how to craft prompts that consistently deliver results.',
 	secondaryDescription:

@@ -13,6 +13,8 @@
 				"id": "training-ai-fundamentals",
 				"title": "AI Power Prompting (AI Fundamentals)",
 				"summary": "Primer on prompting that explains how AI works and shows you how to prompt successfully.",
+				"image": "/images/ai-fundamentals.jpeg",
+				"imageAlt": "AI Power Prompting training workshop illustration",
 				"bullets": [
 					"Understand how today’s AI models generate answers",
 					"Learn four core prompt types you can reuse anywhere",

@@ -15,6 +15,14 @@
 		<div class="grid gap-6 md:grid-cols-3">
 			{#each items as i}
 				<article class="flex h-full flex-col rounded-2xl border bg-white p-6 text-center shadow-sm">
+					{#if i.image}
+						<img
+							src={i.image}
+							alt={i.imageAlt ?? i.title}
+							class="mb-4 w-full rounded-xl object-cover"
+							loading="lazy"
+						/>
+					{/if}
 					<h2 class="text-xl font-semibold">{i.title}</h2>
 					{#if i.summary}<p class="mt-2 text-gray-600">{i.summary}</p>{/if}
 					{#if i.bullets?.length}

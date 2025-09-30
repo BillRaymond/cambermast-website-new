@@ -17,6 +17,14 @@
 		<div class="flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
 			<div class="md:max-w-2xl">
 				<p class="text-sm font-semibold uppercase tracking-wide text-blue-600">Training Program</p>
+				{#if data.heroImage}
+					<img
+						src={data.heroImage}
+						alt={data.heroImageAlt ?? data.title}
+						class="mt-6 w-full rounded-2xl border border-blue-100 object-cover"
+						loading="lazy"
+					/>
+				{/if}
 				<h1 class="mt-2 text-4xl font-bold text-gray-900">{data.title}</h1>
 				{#if data.nickname}
 					<p class="mt-1 text-sm font-medium text-blue-600">{data.nickname}</p>
