@@ -126,7 +126,7 @@
 
 	<section class="grid gap-8 md:grid-cols-2">
 		<div>
-			<h2 class="text-2xl font-semibold text-gray-900">What your team will walk away with</h2>
+			<h2 class="text-2xl font-semibold text-gray-900">Results you can use</h2>
 			<ul class="mt-4 space-y-3 text-gray-700">
 				{#each data.takeaways as takeaway}
 					<li class="flex items-start gap-3">
@@ -199,7 +199,7 @@
 			<h2 class="text-2xl font-semibold text-gray-900">{data.aboutTrainer.title}</h2>
 			<div class="mt-6 flex flex-col gap-6 md:flex-row md:items-start md:gap-10">
 				{#if data.aboutTrainer.photo}
-					<div class="flex flex-col items-center md:items-start md:shrink-0">
+					<div class="flex flex-col items-center md:shrink-0 md:items-start">
 						<img
 							src={data.aboutTrainer.photo}
 							alt={data.aboutTrainer.photoAlt ?? data.aboutTrainer.name}
@@ -213,7 +213,9 @@
 					<p class="mt-4 text-base text-gray-700">{data.aboutTrainer.summary}</p>
 				</div>
 				{#if data.aboutTrainer.highlights?.length}
-					<ul class="flex-1 space-y-3 rounded-2xl border border-blue-100 bg-blue-50 p-6 text-gray-800">
+					<ul
+						class="flex-1 space-y-3 rounded-2xl border border-blue-100 bg-blue-50 p-6 text-gray-800"
+					>
 						{#each data.aboutTrainer.highlights as highlight}
 							<li class="flex items-start gap-3">
 								<span class="mt-1 inline-flex h-2 w-2 rounded-full bg-blue-600"></span>
@@ -241,7 +243,7 @@
 							class:mt-2={index > 0}
 						>
 							<span class="mt-1 inline-flex h-2 w-2 rounded-full bg-blue-600"></span>
-							<p class="text-gray-700 whitespace-pre-line">{answer}</p>
+							<p class="whitespace-pre-line text-gray-700">{answer}</p>
 						</div>
 					{/each}
 				</details>
@@ -255,8 +257,7 @@
 		<div class="md:max-w-xl">
 			<h2 class="text-3xl font-bold">Ready to bring AI clarity to your team?</h2>
 			<p class="mt-4 text-lg text-blue-100">
-				Book your spot or schedule a call with Bill to customize the training for your
-				organization.
+				Book your spot or schedule a call with Bill to customize the training for your organization.
 			</p>
 		</div>
 		<div class="mt-6 flex flex-col gap-3 md:mt-0">

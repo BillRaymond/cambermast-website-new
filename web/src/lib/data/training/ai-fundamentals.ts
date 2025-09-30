@@ -46,10 +46,10 @@ export const aiFundamentals = {
 		'Comfort using a modern web browser.'
 	],
 	takeaways: [
-		'Confidence explaining how AI works to colleagues, clients, and stakeholders.',
-		'Reusable templates for the four core prompting approaches.',
-		'Checklist for collaborating with AI to ideate, draft, and refine deliverables.',
-		'Process for validating outputs so you can trust what you ship.'
+		'Explain AI clearly to colleagues and clients.',
+		'Apply four proven prompt techniques with ready-made templates.',
+		'Save hours drafting content and documents.',
+		'Jump-start projects with AI-generated plans and ideas.'
 	],
 	sessions: [
 		{
