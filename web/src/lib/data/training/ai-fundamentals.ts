@@ -2,11 +2,11 @@ export const aiFundamentals = {
 	slug: 'ai-fundamentals',
 	title: 'AI Power Prompting',
 	nickname: 'aka AI Fluency · AI Fundamentals · From Prompt to Productivity',
-	tagline: 'A 4-hour course teaching how to start with AI.',
+	tagline: 'A live primer on prompting: learn how AI works and how to prompt successfully.',
 	description:
-		'Increase your productivity by at least 10% by using AI. Transform how you work, create, and solve problems with AI as your personal assistant, ghostwriter, and subject-matter guide. The skills you gain will continue to deliver value as AI evolves, keeping you efficient, creative, and competitive.',
+		'AI Power Prompting is a four-hour crash course that explains how modern AI systems work and shows you how to craft prompts that consistently deliver results.',
 	secondaryDescription:
-		'Discover how to leverage AI chatbots like ChatGPT, Copilot, Claude, and Gemini to boost productivity and creativity with strategic prompting techniques.',
+		'Build confidence through guided demos and exercises with ChatGPT, Copilot, Claude, and Gemini so you know when to reach for each tool and how to collaborate with it.',
 	primaryCta: {
 		label: 'Reserve seats',
 		url: 'https://luma.com/BillTalksAI?k=c'
@@ -16,32 +16,30 @@ export const aiFundamentals = {
 		url: '/contact'
 	},
 	stats: [
-		{ label: 'Duration', value: '4-hour intensive workshop' },
-		{ label: 'Format', value: 'Virtual or on-site, live facilitation' },
-		{ label: 'Tools', value: 'ChatGPT, Copilot, Claude, Gemini' }
+		{ label: 'Duration', value: '4-hour live session' },
+		{ label: 'Format', value: 'Delivered over Zoom or on-site' },
+		{ label: 'Cost', value: '$349 per person (virtual cohort)' },
+		{ label: 'In-person', value: 'Custom pricing for private teams' }
 	],
 	audience: [
-		'Professionals who want AI fluency to accelerate their work',
-		'Entrepreneurs boosting business productivity with lean teams',
-		'Creatives expanding ideation capacity with collaborative AI',
-		'Beginners and intermediate users ready to build confidence'
+		'Beginners who want to get a head start with AI.',
+		'Professionals looking to build their AI confidence.'
 	],
 	objectives: [
-		'Understand fundamental AI concepts, capabilities, and limits',
-		'Develop effective prompting strategies for repeatable workflows',
-		'Apply AI tools to enhance personal and professional output',
-		'Recognize AI’s creative and problem-solving potential'
+		'Understand how modern AI systems process inputs and generate responses.',
+		'Learn the four core prompt types to improve every AI interaction.',
+		'Collaborate with AI to brainstorm ideas and move work forward faster.'
 	],
 	prerequisites: [
-		'Access to an AI chatbot (ChatGPT recommended; Claude, Gemini, or Copilot also work)',
-		'Curiosity and openness to experimentation',
-		'Comfort using a modern web browser'
+		'Access to an AI chatbot (ChatGPT recommended; Claude, Gemini, or Copilot also work).',
+		'Curiosity and openness to experimentation.',
+		'Comfort using a modern web browser.'
 	],
 	takeaways: [
-		'Practical framework for turning vague ideas into precise prompts that deliver usable outputs.',
-		'Confidence selecting the right AI tool for writing, analysis, planning, or ideation tasks.',
-		'Productivity playbook designed to unlock at least a 10% efficiency lift across daily workflows.',
-		'Repeatable review and QA process to manage hallucinations and ensure trustworthy results.'
+		'Confidence explaining how AI works to colleagues, clients, and stakeholders.',
+		'Reusable templates for the four core prompting approaches.',
+		'Checklist for collaborating with AI to ideate, draft, and refine deliverables.',
+		'Process for validating outputs so you can trust what you ship.'
 	],
 	sessions: [
 		{
@@ -66,7 +64,7 @@ export const aiFundamentals = {
 			title: '1. AI Fundamentals',
 			details: [
 				'Explain AI in your own words and align on shared language.',
-				'Compare the strengths of ChatGPT, Copilot, Claude, and Gemini.',
+				'Distinguish how ChatGPT, Copilot, Claude, and Gemini approach tasks.',
 				'Outline responsible-use scenarios and ethical guardrails.',
 				'Explore chatbot interfaces and capture usability wins.'
 			]
@@ -75,9 +73,9 @@ export const aiFundamentals = {
 			title: '2. Prompting Basics',
 			details: [
 				'Break down the anatomy of an effective prompt for clarity and context.',
-				'Experience zero-shot, few-shot, and chat prompting styles—and compare outputs.',
+				'Practice the four core prompt types—zero-shot, few-shot, chain-of-thought, and chat.',
 				'Rewrite weak prompts and articulate what changed.',
-				'Practice spotting hallucinations and validating responses.'
+				'Identify and troubleshoot hallucinations.'
 			]
 		},
 		{
@@ -116,7 +114,7 @@ export const aiFundamentals = {
 	],
 	resources: [
 		'Course workbook with prompt templates and examples.',
-		'Productivity scorecard to measure your 10% efficiency lift.',
+		'Productivity scorecard to measure your confidence lift.',
 		'Executive-ready follow-up recap for internal alignment.',
 		'Optional office hours with Bill for implementation questions.'
 	],

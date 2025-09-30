@@ -12,11 +12,11 @@
 			{
 				"id": "training-ai-fundamentals",
 				"title": "AI Power Prompting (AI Fundamentals)",
-				"summary": "A four-hour live course that unlocks a 10% productivity lift with strategic AI prompting.",
+				"summary": "Primer on prompting that explains how AI works and shows you how to prompt successfully.",
 				"bullets": [
-					"Hands-on labs with ChatGPT, Copilot, Claude, and Gemini",
-					"Repeatable prompting frameworks for daily workflows",
-					"Governance guardrails that keep outputs trustworthy"
+					"Understand how today’s AI models generate answers",
+					"Learn four core prompt types you can reuse anywhere",
+					"Collaborate with AI to brainstorm and polish ideas"
 				],
 				"route": "/training/ai-fundamentals",
 				"order": 0,
