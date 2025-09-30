@@ -22,8 +22,9 @@ export const aiFundamentals = {
 		{ label: 'In-person', value: 'Custom pricing for private teams' }
 	],
 	audience: [
-		'Beginners who want to get a head start with AI.',
-		'Anyone looking to build their AI confidence.'
+		'People just starting with AI who want a solid foundation.',
+		'Professionals who want to feel more confident using AI in daily work.',
+		'Curious learners ready to apply AI in practical, hands-on ways.'
 	],
 	audienceExamples: [
 		'Team leads helping non-technical staff adopt AI safely.',
@@ -121,9 +122,8 @@ export const aiFundamentals = {
 	],
 	resources: [
 		'Course workbook with prompt templates and examples.',
-		'Productivity scorecard to measure your confidence lift.',
-		'Executive-ready follow-up recap for internal alignment.',
-		'Optional office hours with Bill for implementation questions.'
+		'Earn a certificate you can showcase with pride.',
+		'A free one-hour follow-up two weeks after the training.'
 	],
 	reviews: [
 		{
@@ -150,21 +150,41 @@ export const aiFundamentals = {
 			"Bill guided our leadership team through what's possible with AI while keeping us realistic about the risks.",
 		author: 'Elena P., VP of Operations'
 	},
+	aboutTrainer: {
+		title: 'About your trainer',
+		name: 'Bill Raymond',
+		role: 'Founder, Cambermast LLC',
+		photo: '/images/bill.jpg',
+		photoAlt: 'Bill Raymond',
+		summary:
+			'Bill focuses on AI learning and development, project management, and leadership initiatives that help teams adopt new technology responsibly.',
+		highlights: [
+			'Author of the Bill Talks AI newsletter.',
+			'Founding member of the AI Collective.',
+			'NASA award winner.',
+			'Microsoft MVP.',
+			'Host of the Agile in Action podcast with 130+ episodes and 30,000+ listeners.'
+		]
+	},
 	faqs: [
 		{
 			question: 'How customizable is the agenda?',
-			answer:
-				'We run a discovery call beforehand to collect scenarios and priorities, then tailor prompts and demos to your workflows.'
+			answers: [
+				'If you are taking a publicly scheduled course, the agenda is fixed.',
+				'For private team workshops, we can adjust the agenda to focus on specific use cases or tools.'
+			]
 		},
 		{
 			question: 'Do participants need prior AI experience?',
-			answer:
+			answers: [
 				'No. The course is designed for beginners through intermediate users, mixing demos with guided exercises.'
+			]
 		},
 		{
 			question: 'Can we host the workshop in person?',
-			answer:
+			answers: [
 				'Yes. On-site sessions include travel in the proposal; virtual cohorts are available worldwide.'
+			]
 		}
 	]
 };

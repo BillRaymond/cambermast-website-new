@@ -3,6 +3,8 @@
 	import aiFundamentals from '$lib/data/training/ai-fundamentals';
 
 	const data = aiFundamentals;
+
+	const getFaqAnswers = (faq) => faq.answers ?? [faq.answer];
 </script>
 
 <svelte:head>
@@ -61,7 +63,7 @@
 	<section class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
 		{#if data.audience?.length}
 			<div class="rounded-2xl bg-white p-6 shadow">
-				<h2 class="text-2xl font-semibold text-gray-900">Target audience</h2>
+				<h2 class="text-2xl font-semibold text-gray-900">Who its for</h2>
 				<ul class="mt-4 space-y-3 text-gray-700">
 					{#each data.audience as group}
 						<li class="flex items-start gap-3">
@@ -74,7 +76,7 @@
 		{/if}
 		{#if data.audienceExamples?.length}
 			<div class="rounded-2xl border border-blue-100 bg-white p-6 shadow">
-				<h2 class="text-2xl font-semibold text-gray-900">Teams we’ve trained</h2>
+				<h2 class="text-2xl font-semibold text-gray-900">Designed for people like you</h2>
 				<ul class="mt-4 space-y-3 text-gray-700">
 					{#each data.audienceExamples as example}
 						<li class="flex items-start gap-3">
@@ -184,6 +186,38 @@
 		{/if}
 	</section>
 
+	{#if data.aboutTrainer}
+		<section class="rounded-3xl bg-white p-8 shadow md:p-10">
+			<h2 class="text-2xl font-semibold text-gray-900">{data.aboutTrainer.title}</h2>
+			<div class="mt-6 flex flex-col gap-6 md:flex-row md:items-start md:gap-10">
+				{#if data.aboutTrainer.photo}
+					<div class="flex flex-col items-center md:items-start md:shrink-0">
+						<img
+							src={data.aboutTrainer.photo}
+							alt={data.aboutTrainer.photoAlt ?? data.aboutTrainer.name}
+							class="h-40 w-40 rounded-3xl border border-blue-100 object-cover shadow-lg"
+						/>
+					</div>
+				{/if}
+				<div class="md:max-w-xl">
+					<p class="text-lg font-semibold text-gray-900">{data.aboutTrainer.name}</p>
+					<p class="mt-1 text-sm uppercase tracking-wide text-blue-600">{data.aboutTrainer.role}</p>
+					<p class="mt-4 text-base text-gray-700">{data.aboutTrainer.summary}</p>
+				</div>
+				{#if data.aboutTrainer.highlights?.length}
+					<ul class="flex-1 space-y-3 rounded-2xl border border-blue-100 bg-blue-50 p-6 text-gray-800">
+						{#each data.aboutTrainer.highlights as highlight}
+							<li class="flex items-start gap-3">
+								<span class="mt-1 inline-flex h-2 w-2 rounded-full bg-blue-600"></span>
+								<span>{highlight}</span>
+							</li>
+						{/each}
+					</ul>
+				{/if}
+			</div>
+		</section>
+	{/if}
+
 	<section>
 		<h2 class="text-2xl font-semibold text-gray-900">Frequently asked questions</h2>
 		<div class="mt-6 space-y-5">
@@ -192,7 +226,16 @@
 					<summary class="cursor-pointer text-lg font-semibold text-gray-900">
 						{faq.question}
 					</summary>
-					<p class="mt-3 text-gray-700">{faq.answer}</p>
+					{#each getFaqAnswers(faq) as answer, index}
+						<div
+							class="flex items-start gap-3 text-gray-700"
+							class:mt-3={index === 0}
+							class:mt-2={index > 0}
+						>
+							<span class="mt-1 inline-flex h-2 w-2 rounded-full bg-blue-600"></span>
+							<p class="text-gray-700">{answer}</p>
+						</div>
+					{/each}
 				</details>
 			{/each}
 		</div>
