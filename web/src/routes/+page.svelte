@@ -77,7 +77,19 @@
 <hr class="my-12 border-gray-300" />
 <!-- Upcoming events embed -->
 <section class="mt-12 flex flex-col items-center px-4">
-	<h2 class="mb-6 text-center text-2xl font-bold text-gray-900">Upcoming Events</h2>
+	<h2 class="mb-4 text-center text-2xl font-bold text-gray-900">
+		Bill's Upcoming Training and Speaking Events
+	</h2>
+	<div class="mb-6 flex justify-center">
+		<a
+			href="https://luma.com/BillTalksAI?k=c"
+			target="_blank"
+			rel="noopener"
+			class="rounded-lg bg-blue-600 px-5 py-3 font-semibold text-white shadow transition hover:bg-blue-700"
+		>
+			View Events on Lu.ma
+		</a>
+	</div>
 	<div class="w-full max-w-4xl overflow-hidden rounded-lg shadow-sm">
 		<iframe
 			title="Bill Talks AI upcoming events calendar"
