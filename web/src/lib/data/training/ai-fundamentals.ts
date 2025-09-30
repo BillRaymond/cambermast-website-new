@@ -1,7 +1,7 @@
 export const aiFundamentals = {
 	slug: 'ai-fundamentals',
 	title: 'AI Power Prompting',
-	nickname: 'aka AI Fluency · AI Fundamentals · From Prompt to Productivity',
+	nickname: 'From prompting to productivity',
 	tagline: 'A live primer on prompting: learn how AI works and how to prompt successfully.',
 	description:
 		'AI Power Prompting is a four-hour crash course that explains how modern AI systems work and shows you how to craft prompts that consistently deliver results.',
@@ -23,7 +23,14 @@ export const aiFundamentals = {
 	],
 	audience: [
 		'Beginners who want to get a head start with AI.',
-		'Professionals looking to build their AI confidence.'
+		'Anyone looking to build their AI confidence.'
+	],
+	audienceExamples: [
+		'Team leads helping non-technical staff adopt AI safely.',
+		'Knowledge workers in operations, HR, finance, or customer support.',
+		'Consultants and agency pros creating AI-enhanced deliverables.',
+		'Product managers and analysts pairing AI with existing workflows.',
+		'Educators and L&D leaders building AI literacy programs.'
 	],
 	objectives: [
 		'Understand how modern AI systems process inputs and generate responses.',
@@ -120,17 +127,20 @@ export const aiFundamentals = {
 	],
 	reviews: [
 		{
-			quote: 'Our marketing squad left the session with a shared language for AI and a repeatable prompting playbook we now use daily.',
+			quote:
+				'Our marketing squad left the session with a shared language for AI and a repeatable prompting playbook we now use daily.',
 			author: 'Jasmine R.',
 			role: 'Director of Demand Gen'
 		},
 		{
-			quote: 'Bill connects strategy to hands-on practice better than any other AI workshop we have brought in.',
+			quote:
+				'Bill connects strategy to hands-on practice better than any other AI workshop we have brought in.',
 			author: 'Miguel A.',
 			role: 'VP, Product Operations'
 		},
 		{
-			quote: 'The team immediately applied the frameworks to client deliverables and saved hours in the first week.',
+			quote:
+				'The team immediately applied the frameworks to client deliverables and saved hours in the first week.',
 			author: 'Priya D.',
 			role: 'Agency Managing Partner'
 		}
@@ -148,7 +158,8 @@ export const aiFundamentals = {
 		},
 		{
 			question: 'Do participants need prior AI experience?',
-			answer: 'No. The course is designed for beginners through intermediate users, mixing demos with guided exercises.'
+			answer:
+				'No. The course is designed for beginners through intermediate users, mixing demos with guided exercises.'
 		},
 		{
 			question: 'Can we host the workshop in person?',

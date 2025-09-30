@@ -7,10 +7,7 @@
 
 <svelte:head>
 	<title>{data.title} Training | Cambermast</title>
-	<meta
-		name="description"
-		content="{data.tagline}"
-	/>
+	<meta name="description" content={data.tagline} />
 </svelte:head>
 
 <main class="mx-auto flex max-w-5xl flex-col gap-16 px-4 py-12 md:px-6">
@@ -61,7 +58,7 @@
 		</section>
 	{/if}
 
-	<section class="grid gap-8 md:grid-cols-2">
+	<section class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
 		{#if data.audience?.length}
 			<div class="rounded-2xl bg-white p-6 shadow">
 				<h2 class="text-2xl font-semibold text-gray-900">Target audience</h2>
@@ -70,6 +67,19 @@
 						<li class="flex items-start gap-3">
 							<span class="mt-1 inline-flex h-2 w-2 rounded-full bg-blue-600"></span>
 							<span>{group}</span>
+						</li>
+					{/each}
+				</ul>
+			</div>
+		{/if}
+		{#if data.audienceExamples?.length}
+			<div class="rounded-2xl border border-blue-100 bg-white p-6 shadow">
+				<h2 class="text-2xl font-semibold text-gray-900">Teams we’ve trained</h2>
+				<ul class="mt-4 space-y-3 text-gray-700">
+					{#each data.audienceExamples as example}
+						<li class="flex items-start gap-3">
+							<span class="mt-1 inline-flex h-2 w-2 rounded-full bg-blue-600"></span>
+							<span>{example}</span>
 						</li>
 					{/each}
 				</ul>
@@ -139,7 +149,7 @@
 	</section>
 
 	<section class="rounded-3xl bg-white p-8 shadow md:p-10">
-		<h2 class="text-2xl font-semibold text-gray-900">Sample agenda</h2>
+		<h2 class="text-2xl font-semibold text-gray-900">Agenda</h2>
 		<div class="mt-6 grid gap-6 md:grid-cols-3">
 			{#each data.agenda as block}
 				<div class="rounded-2xl border border-blue-100 p-5">
@@ -188,11 +198,14 @@
 		</div>
 	</section>
 
-	<section class="rounded-3xl bg-gradient-to-r from-blue-600 to-blue-500 p-8 text-white md:flex md:items-center md:justify-between md:gap-8 md:p-12">
+	<section
+		class="rounded-3xl bg-gradient-to-r from-blue-600 to-blue-500 p-8 text-white md:flex md:items-center md:justify-between md:gap-8 md:p-12"
+	>
 		<div class="md:max-w-xl">
 			<h2 class="text-3xl font-bold">Ready to bring AI clarity to your team?</h2>
 			<p class="mt-4 text-lg text-blue-100">
-				Reserve your seats or schedule a call with Bill to customize the training for your organization.
+				Reserve your seats or schedule a call with Bill to customize the training for your
+				organization.
 			</p>
 		</div>
 		<div class="mt-6 flex flex-col gap-3 md:mt-0">
