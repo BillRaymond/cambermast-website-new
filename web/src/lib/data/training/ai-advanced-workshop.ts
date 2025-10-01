@@ -24,6 +24,7 @@ export const aiAdvancedWorkshop = {
 		{ label: 'Duration', value: 'Seven weeks, 2-hour commitment per week' },
 		{ label: 'Format', value: ['🔴 Live online', '🏫 In-person option available'] },
 		{ label: 'Cost', value: '$1,749 per participant for Zoom-based cohorts' },
+		{ label: 'Environment', value: '💙 Learn in a supportive, judgment-free environment' },
 		{ label: 'Planning Investment', value: '$1,500 for two 1-hour consultations to shape the agenda' },
 		{ label: 'In-person', value: 'Custom pricing available for on-site delivery' }
 	],
