@@ -1,5 +1,6 @@
 <script>
 	import { page } from '$app/stores';
+	import { createEventDispatcher } from 'svelte';
 	import catalog from '$lib/data/catalog.json';
 
 	export let vertical = false;
@@ -11,11 +12,27 @@
 			href: sec.route,
 			label: sec.navlabel
 		}));
+
+	const dispatch = createEventDispatcher();
+
+	const handleNavClick = (event) => {
+		if (event.defaultPrevented) return;
+		if (event.button !== 0) return;
+		if (event.metaKey || event.altKey || event.ctrlKey || event.shiftKey) return;
+		dispatch('navigate');
+	};
 </script>
 
-<nav class={`flex gap-8 ${vertical ? 'flex-col items-start py-2' : 'flex-row items-center'}`}>
+<nav
+	class={`flex gap-8 ${
+		vertical
+			? 'flex-col items-start py-2 sm:flex-row sm:items-center sm:py-0'
+			: 'flex-row items-center'
+	}`}
+>
 	<a
 		href="/"
+		on:click={handleNavClick}
 		class={$page.url.pathname === '/' ? 'font-semibold text-blue-600' : 'hover:text-blue-600'}
 	>
 		Home
@@ -23,6 +40,7 @@
 	{#each navLinks as link}
 		<a
 			href={link.href}
+			on:click={handleNavClick}
 			class={$page.url.pathname.startsWith(link.href)
 				? 'font-semibold text-blue-600'
 				: 'hover:text-blue-600'}
@@ -32,6 +50,7 @@
 	{/each}
 	<a
 		href="/contact"
+		on:click={handleNavClick}
 		class={$page.url.pathname.startsWith('/contact')
 			? 'font-semibold text-blue-600'
 			: 'hover:text-blue-600'}

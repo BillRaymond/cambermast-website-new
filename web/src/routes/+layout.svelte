@@ -25,7 +25,7 @@
 		</button>
 		<!-- Nav: horizontal on sm+, vertical dropdown on mobile when open -->
 		<div class={`w-full sm:w-auto ${navOpen ? '' : 'hidden'} sm:flex`}>
-			<Nav vertical={navOpen} />
+			<Nav vertical={navOpen} on:navigate={() => (navOpen = false)} />
 		</div>
 	</div>
 </header>
