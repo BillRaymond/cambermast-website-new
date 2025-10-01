@@ -5,7 +5,7 @@ export type TrainingCta = {
 
 export type TrainingStat = {
 	label: string;
-	value: string;
+	value: string | string[];
 };
 
 export type TrainingSession = {

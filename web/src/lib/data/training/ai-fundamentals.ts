@@ -24,7 +24,7 @@ export const aiFundamentals = {
 	// Keep pricing + duration aligned with the sales one-pager before publishing updates.
 	stats: [
 		{ label: 'Duration', value: '4-hours' },
-		{ label: 'Format', value: 'Live Zoom sessions. Contact us for on-site intensives.' },
+		{ label: 'Format', value: ['🔴 Live online', '🏫 In-person option available'] },
 		{ label: 'Cost', value: '$349 per person (virtual cohort)' },
 		{ label: 'In-person', value: 'Custom pricing for private teams' }
 	],

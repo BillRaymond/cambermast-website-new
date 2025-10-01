@@ -22,7 +22,7 @@ export const aiAcceleratorWorkshop = {
 	},
 	stats: [
 		{ label: 'Duration', value: 'Four weeks, 2-hour commitment per week' },
-		{ label: 'Format', value: 'Live Zoom sessions. Contact us for on-site intensives.' },
+		{ label: 'Format', value: ['🔴 Live online', '🏫 In-person option available'] },
 		{ label: 'What’s included', value: 'AI Power Prompting + advanced build labs' },
 		{ label: 'Virtual pricing', value: '$849 per participant (Zoom delivery)' },
 		{ label: 'In-person', value: 'Custom pricing available for on-site training' }

@@ -50,7 +50,15 @@
 					{#each program.stats as stat}
 						<li class="rounded-xl border border-blue-100 bg-blue-50 p-4">
 							<p class="text-xs font-semibold uppercase tracking-wide text-blue-600">{stat.label}</p>
-							<p class="mt-2 text-sm font-medium text-gray-900">{stat.value}</p>
+							{#if Array.isArray(stat.value)}
+								<ul class="mt-2 list-none space-y-2 text-sm font-medium text-gray-900">
+									{#each stat.value as option}
+										<li class="leading-snug">{option}</li>
+									{/each}
+								</ul>
+							{:else}
+								<p class="mt-2 text-sm font-medium text-gray-900">{stat.value}</p>
+							{/if}
 						</li>
 					{/each}
 				</ul>
