@@ -11,7 +11,7 @@ export const aiWorkshopForContentCreators = {
 	description:
 		'The AI Workshop for Content Creators is a live, seven-week cohort that helps technical communicators and content teams weave generative AI into their daily production workflows.',
 	secondaryDescription:
-		'Across weekly 90-minute sessions (Week 1 runs two hours), participants combine strategy discussions with hands-on practice to automate repetitive tasks, preserve brand voice, and publish higher-impact content faster.',
+		'Across weekly 2-hour sessions, participants combine strategy discussions with hands-on practice to automate repetitive tasks, preserve brand voice, and publish higher-impact content faster.',
 	primaryCta: {
 		label: 'Find a start date',
 		url: 'https://lu.ma/BillTalksAI?tag=ai%20workshop%20for%20content%20creators'
@@ -21,8 +21,8 @@ export const aiWorkshopForContentCreators = {
 		url: '/contact'
 	},
 	stats: [
-		{ label: 'Duration', value: 'Seven-week cohort with 90-minute live sessions (Week 1 is two hours)' },
-		{ label: 'Format', value: 'Virtual delivery over Zoom with optional weekly office hours' },
+		{ label: 'Duration', value: 'Seven weeks, 2-hour commitment per week' },
+		{ label: 'Format', value: 'Live Zoom sessions. Contact us for on-site intensives.' },
 		{ label: 'Pricing', value: '$1,749 per participant' },
 		{ label: 'Partner', value: 'Presented in partnership with The Content Wrangler' }
 	],
@@ -56,7 +56,7 @@ export const aiWorkshopForContentCreators = {
 		{
 			name: 'Winter 2025 Open Enrollment',
 			date: 'Nov 4 - Dec 30, 2025 (Tuesdays)',
-			time: '10:00-11:30 am PT / 1:00-2:30 pm ET',
+			time: '10:00 am-12:00 pm PT / 1:00-3:00 pm ET',
 			location: 'Live on Zoom',
 			spots: 'Open enrollment',
 			registerUrl: 'https://lu.ma/BillTalksAI?tag=ai%20workshop%20for%20content%20creators'
@@ -64,7 +64,7 @@ export const aiWorkshopForContentCreators = {
 		{
 			name: 'Spring 2026 Open Enrollment',
 			date: 'Jan 27 - Mar 10, 2026 (Tuesdays)',
-			time: '10:00-11:30 am PT / 1:00-2:30 pm ET',
+			time: '10:00 am-12:00 pm PT / 1:00-3:00 pm ET',
 			location: 'Live on Zoom',
 			spots: 'Open enrollment',
 			registerUrl: 'https://lu.ma/BillTalksAI?tag=ai%20workshop%20for%20content%20creators'

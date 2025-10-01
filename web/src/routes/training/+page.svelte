@@ -1,11 +1,23 @@
 <script>
 	import catalog from '$lib/data/catalog.json';
+	import { getTrainingProgram } from '$lib/data/training';
+
 	const section = catalog.training;
+
+	const getDurationForRoute = (route) => {
+		if (!route) return undefined;
+		const slug = route.split('/').filter(Boolean).pop();
+		if (!slug) return undefined;
+		const program = getTrainingProgram(slug);
+		const durationStat = program?.stats?.find((stat) => stat.label.toLowerCase() === 'duration');
+		return durationStat?.value;
+	};
 
 	// Title for the page and services we offer from JSON
 	const items = (section.items ?? [])
 		.filter((i) => i.published ?? true)
-		.sort((a, b) => (a.order ?? 999) - (b.order ?? 999));
+		.sort((a, b) => (a.order ?? 999) - (b.order ?? 999))
+		.map((item) => ({ ...item, duration: getDurationForRoute(item.route) }));
 </script>
 
 <h1 class="mb-6 text-3xl font-bold">{section.label}</h1>
@@ -30,14 +42,17 @@
 							{#each i.bullets as b}<li class="flex items-start gap-2"><span class="mt-1 h-1 w-1 rounded-full bg-blue-500"></span><span>{b}</span></li>{/each}
 						</ul>
 					{/if}
-					{#if i.route}
-						<a
-							href={i.route}
-							class="mt-6 inline-flex justify-center rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white shadow transition hover:bg-blue-700"
-						>
-							Learn more
-						</a>
-					{/if}
+						{#if i.route}
+							{#if i.duration}
+								<p class="mt-6 text-sm font-semibold text-gray-700">Duration: {i.duration}</p>
+							{/if}
+							<a
+								href={i.route}
+								class={`inline-flex justify-center rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white shadow transition hover:bg-blue-700 ${i.duration ? 'mt-2' : 'mt-6'}`}
+							>
+								Learn more
+							</a>
+						{/if}
 				</article>
 			{/each}
 		</div>

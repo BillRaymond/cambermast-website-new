@@ -22,7 +22,7 @@ export const aiAutomationWithAgents = {
 	},
 	stats: [
 		{ label: 'Duration', value: 'Two-day live workshop + follow-up support' },
-		{ label: 'Format', value: 'Hybrid: Zoom-based build labs or on-site sprints' },
+		{ label: 'Format', value: 'Live Zoom sessions. Contact us for on-site intensives.' },
 		{ label: 'Virtual Pricing', value: '$1,749 per participant (Zoom delivery)' },
 		{ label: 'In-person', value: 'Custom fees for SF Bay Area or on-site sessions' },
 		{ label: 'Done-for-you option', value: 'Request a quote if you prefer us to build the agents for you' },

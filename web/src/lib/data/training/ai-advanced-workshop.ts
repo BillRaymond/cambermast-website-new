@@ -21,8 +21,8 @@ export const aiAdvancedWorkshop = {
 		url: '/training'
 	},
 	stats: [
-		{ label: 'Duration', value: 'Seven-week hybrid engagement' },
-		{ label: 'Format', value: 'Live Zoom sessions + optional on-site intensives' },
+		{ label: 'Duration', value: 'Seven weeks, 2-hour commitment per week' },
+		{ label: 'Format', value: 'Live Zoom sessions. Contact us for on-site intensives.' },
 		{ label: 'Planning Investment', value: '$1,500 for two 1-hour consultations to shape the agenda' },
 		{ label: 'Virtual Pricing', value: '$1,749 per participant for Zoom-based cohorts' },
 		{ label: 'In-person', value: 'Custom pricing available for on-site delivery' }
@@ -45,7 +45,7 @@ export const aiAdvancedWorkshop = {
 	prerequisites: [
 		'Foundational understanding of prompting and responsible AI use.',
 		'Access to the AI platforms you plan to use (ChatGPT Enterprise, Claude Team, custom models, or automation stacks).',
-		'Availability for weekly working sessions across the seven-week cadence.'
+		'Availability for weekly 2-hour working sessions across the seven-week cadence.'
 	],
 	takeaways: [
 		'Custom AI roadmap with milestones, responsibilities, and ROI targets.',
@@ -65,7 +65,7 @@ export const aiAdvancedWorkshop = {
 		{
 			name: 'Weekly Advanced Labs',
 			date: 'Weeks 1–6',
-			time: '90-minute live build sessions',
+			time: '2-hour live build sessions',
 			location: 'Zoom + shared workspace',
 			spots: 'Up to 25 team members',
 			registerUrl: '/contact'

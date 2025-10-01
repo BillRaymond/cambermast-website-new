@@ -9,9 +9,9 @@ export const aiAcceleratorWorkshop = {
 	heroImage: '/images/ai-accelerator.jpeg',
 	heroImageAlt: 'AI Accelerator Workshop illustration',
 	description:
-		'The AI Accelerator Workshop includes the AI Power Prompting course and layers on professional AI features so you can run your business more efficiently. You will leave with hands-on practice using custom GPTs, AI projects, and research frameworks tailored to your workflows.',
+		'The AI Accelerator Workshop includes the AI Power Prompting course and layers on professional AI features so you can run your business more efficiently. You will leave with hands-on practice using custom GPTs, AI projects, and research frameworks tailored to your workflows across four focused weeks.',
 	secondaryDescription:
-		'This blended program is ideal for teams who want a head start with AI fundamentals and the confidence to operationalize advanced capabilities without reinventing the wheel each time.',
+		'This blended, four-week program is ideal for teams who want a head start with AI fundamentals and the confidence to operationalize advanced capabilities without reinventing the wheel each time.',
 	primaryCta: {
 		label: 'Save your seat',
 		url: 'https://luma.com/BillTalksAI?k=c'
@@ -21,8 +21,8 @@ export const aiAcceleratorWorkshop = {
 		url: '/contact'
 	},
 	stats: [
-		{ label: 'Duration', value: 'Two half-day live sessions (virtual) or one on-site day' },
-		{ label: 'Format', value: 'Interactive Zoom cohorts with optional private delivery' },
+		{ label: 'Duration', value: 'Four weeks, 2-hour commitment per week' },
+		{ label: 'Format', value: 'Live Zoom sessions. Contact us for on-site intensives.' },
 		{ label: 'What’s included', value: 'AI Power Prompting + advanced build labs' },
 		{ label: 'Virtual pricing', value: '$849 per participant (Zoom delivery)' },
 		{ label: 'In-person', value: 'Custom pricing available for on-site training' }
@@ -58,7 +58,7 @@ export const aiAcceleratorWorkshop = {
 		{
 			name: 'Open Cohort',
 			date: 'May 2025',
-			time: '9:00am – 1:00pm PT (two consecutive days)',
+			time: 'Weekly 2-hour live session across four consecutive weeks',
 			location: 'Live on Zoom',
 			spots: '30 seats',
 			registerUrl: 'https://luma.com/BillTalksAI?k=c'
@@ -66,7 +66,7 @@ export const aiAcceleratorWorkshop = {
 		{
 			name: 'Private Team Workshop',
 			date: 'Schedule a date that fits your team',
-			time: 'Half-day virtual or full-day on-site',
+			time: 'Four weekly 2-hour sessions (virtual) or condensed on-site delivery',
 			location: 'Zoom or on-site',
 			spots: 'Up to 25 participants',
 			registerUrl: '/contact'
