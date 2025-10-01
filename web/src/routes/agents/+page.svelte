@@ -18,12 +18,19 @@
 
 	type EnrichedItem = CatalogItem & {
 		duration?: string | string[];
+		linkHref?: string;
 	};
 
 	const getProgram = (route?: string): TrainingProgram | undefined => {
 		if (!route) return undefined;
 		const slug = route.split('/').filter(Boolean).pop();
 		return slug ? getTrainingProgram(slug) : undefined;
+	};
+
+	const withSourceQuery = (route?: string): string | undefined => {
+		if (!route) return undefined;
+		const separator = route.includes('?') ? '&' : '?';
+		return `${route}${separator}via=agents`;
 	};
 
 	const items: EnrichedItem[] = ((section.items ?? []) as CatalogItem[])
@@ -39,7 +46,8 @@
 				...item,
 				image: item.image ?? program?.heroImage,
 				imageAlt: item.imageAlt ?? program?.heroImageAlt ?? item.title,
-				duration: durationStat?.value
+				duration: durationStat?.value,
+				linkHref: withSourceQuery(item.route)
 			};
 		});
 </script>
@@ -76,7 +84,7 @@
 						<p class="mt-6 text-sm font-semibold text-gray-700">Duration: {item.duration}</p>
 					{/if}
 					<a
-						href={item.route}
+						href={item.linkHref ?? item.route}
 						class={`inline-flex justify-center rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white shadow transition hover:bg-blue-700 ${item.duration ? 'mt-2' : 'mt-6'}`}
 					>
 						Learn more

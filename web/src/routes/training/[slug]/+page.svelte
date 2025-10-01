@@ -1,9 +1,18 @@
 <script lang="ts">
 	import ProgramPage from '$lib/components/training/ProgramPage.svelte';
+	import { page } from '$app/stores';
 
 	import type { PageData } from './$types';
 
 	export let data: PageData;
+
+	const defaultBackLink = { href: '/training', label: 'Back to AI Training' } as const;
+	let backLink = defaultBackLink;
+
+	$: backLink =
+		$page.url.searchParams.get('via') === 'agents'
+			? { href: '/agents', label: 'Back to AI Agents & Automation' }
+			: defaultBackLink;
 </script>
 
 <svelte:head>
@@ -11,7 +20,4 @@
 	<meta name="description" content={data.program.tagline} />
 </svelte:head>
 
-<ProgramPage
-	program={data.program}
-	backLink={{ href: '/training', label: 'Back to AI Training' }}
-/>
+<ProgramPage program={data.program} backLink={backLink} />
