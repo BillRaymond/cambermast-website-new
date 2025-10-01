@@ -8,11 +8,11 @@
 		"route": "/training",
 		"headline": "Hands-on workshops to build practical skills that your team can apply immediately.",
 		"homeorder": 0,
-		"items": [
-			{
-				"id": "training-ai-fundamentals",
-				"title": "AI Power Prompting (AI Fundamentals)",
-				"summary": "Primer on prompting that explains how AI works and shows you how to prompt successfully.",
+	"items": [
+		{
+			"id": "training-ai-fundamentals",
+			"title": "AI Power Prompting (AI Fundamentals)",
+			"summary": "Primer on prompting that explains how AI works and shows you how to prompt successfully.",
 				"image": "/images/ai-fundamentals.jpeg",
 				"imageAlt": "AI Power Prompting training workshop illustration",
 				"bullets": [
@@ -25,12 +25,42 @@
 				"published": true
 			},
 			{
-				"id": "training-productivity",
-				"title": "Productivity with AI",
-				"summary": "Everyday workflows for email, docs, slides...",
-				"bullets": ["Writing & editing", "Summarization", "Content reuse"],
-				"route": "/training/productivity",
+				"id": "training-ai-accelerator",
+				"title": "AI Accelerator Workshop",
+				"summary": "Power prompting plus advanced build labs so AI runs your business processes.",
+				"bullets": [
+					"Everything in AI Power Prompting",
+					"Custom GPTs tuned to your workflows",
+					"Organize prompts, files, and research in AI projects"
+				],
+				"route": "/training/ai-accelerator-workshop",
 				"order": 1,
+				"published": true
+			},
+			{
+				"id": "training-ai-advanced",
+				"title": "AI Advanced Workshop",
+				"summary": "Seven-week custom engagement that scales advanced AI automation across the business.",
+				"bullets": [
+					"Prioritize high-impact AI initiatives",
+					"Prototype advanced workflows with your data",
+					"Enable teams with custom playbooks"
+				],
+				"route": "/training/ai-advanced-workshop",
+				"order": 2,
+				"published": true
+			},
+			{
+				"id": "training-ai-automation-with-agents",
+				"title": "AI Automation with Agents Workshop",
+				"summary": "Hands-on agent building with n8n, OpenAI, and your internal APIs.",
+				"bullets": [
+					"Design human-in-the-loop automations",
+					"Build working agents in guided labs",
+					"Optimize for reliability and cost"
+				],
+				"route": "/training/ai-automation-with-agents",
+				"order": 3,
 				"published": true
 			}
 		]
@@ -47,10 +77,11 @@
 		"homeorder": 1,
 		"items": [
 			{
-				"id": "agents-automation-starter",
-				"title": "Automation Starter (n8n + APIs)",
-				"summary": "Ship one real automation that saves time and is easy to maintain.",
-				"bullets": ["Scope & success metrics", "Build + handoff", "Monitoring"],
+				"id": "agents-ai-automation-with-agents",
+				"title": "AI Automation with Agents Workshop",
+				"summary": "Automate a high-value process with AI agents that know when to involve humans.",
+				"bullets": ["Hands-on build labs", "Human-in-the-loop guardrails", "30-day support"],
+				"route": "/training/ai-automation-with-agents",
 				"order": 0,
 				"published": true
 			}

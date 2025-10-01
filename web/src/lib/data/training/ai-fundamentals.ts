@@ -1,3 +1,5 @@
+import type { TrainingProgram } from './types';
+
 export const aiFundamentals = {
 	slug: 'ai-fundamentals',
 	title: 'AI Power Prompting',
@@ -193,8 +195,8 @@ export const aiFundamentals = {
 			answers: [
 				'Yes! Here’s a customizable letter you can use:\n\nSubject: Request to Attend AI Training\n\nHi [Manager’s Name],\n\nI’d like to attend the upcoming [Workshop Name] with Bill Raymond. Bill is a founding member of the AI Collective (https://www.aicollective.com) and the author of the popular Bill Talks AI newsletter (https://BillTalksAI.com). His work focuses on helping professionals safely and effectively adopt AI, and this program is designed to build practical skills and confidence in everyday use.\n\nThe workshop also includes a certification that validates the skills I’ll be applying in my role. I believe this will benefit both my growth and the value I bring to our team. The cost is [insert cost]. Thank you for considering this request.\n\nHere is a link to the course: [Insert Training Program URL]\n\nBest,\n[Your Name]'
 			]
-		}
+	}
 	]
-};
+} satisfies TrainingProgram;
 
 export default aiFundamentals;
