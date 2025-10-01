@@ -2,13 +2,31 @@
 	import ReviewCard from '$lib/components/ReviewCard.svelte';
 	import type { TrainingFaq, TrainingProgram } from '$lib/data/training/types';
 
+	type BackLink = {
+		href: string;
+		label: string;
+	};
+
 	export let program: TrainingProgram;
+	export let backLink: BackLink | undefined = undefined;
 
 	const getFaqAnswers = (faq: TrainingFaq): string[] =>
 		faq.answers ?? (faq.answer ? [faq.answer] : []);
 </script>
 
-<main class="mx-auto flex max-w-5xl flex-col gap-16 px-4 py-12 md:px-6">
+{#if backLink}
+	<nav class="mx-auto max-w-5xl px-4 pt-3 pb-1 md:px-6 md:pt-4">
+		<a
+			href={backLink.href}
+			class="inline-flex items-center gap-2 text-sm font-semibold text-blue-600 transition hover:text-blue-700"
+		>
+			<span aria-hidden="true">&larr;</span>
+			{backLink.label}
+		</a>
+	</nav>
+{/if}
+
+<main class="mx-auto flex max-w-5xl flex-col gap-16 px-4 pb-12 pt-5 md:px-6 md:pt-6">
 	<section class="rounded-3xl bg-gradient-to-br from-blue-50 to-white p-8 shadow-sm md:p-12">
 		<div class="flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
 			<div class="md:max-w-2xl">

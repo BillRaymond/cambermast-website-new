@@ -11,4 +11,7 @@
 	<meta name="description" content={data.program.tagline} />
 </svelte:head>
 
-<ProgramPage program={data.program} />
+<ProgramPage
+	program={data.program}
+	backLink={{ href: '/training', label: 'Back to AI Training' }}
+/>

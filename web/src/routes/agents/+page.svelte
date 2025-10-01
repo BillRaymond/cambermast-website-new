@@ -3,4 +3,7 @@
 	import { aiAutomationWithAgents } from '$lib/data/training/ai-automation-with-agents';
 </script>
 
-<ProgramPage program={aiAutomationWithAgents} />
+<ProgramPage
+	program={aiAutomationWithAgents}
+	backLink={{ href: '/agents', label: 'Back to AI Agents & Automation' }}
+/>
