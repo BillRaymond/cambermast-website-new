@@ -58,6 +58,14 @@
 	>
 		🎙️ The Agile in Action Podcast
 	</a>
+	<a
+		href="https://youtube.com/@bill-raymond"
+		target="_blank"
+		rel="noopener"
+		class="rounded-lg bg-red-600 px-5 py-3 font-semibold text-white shadow transition hover:bg-red-700"
+	>
+		▶️ Bill on YouTube
+	</a>
 </div>
 
 <!-- Cards rendered from JSON (label + headline only) -->
