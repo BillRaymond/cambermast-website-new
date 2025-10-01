@@ -129,7 +129,7 @@ export const aiAdvancedWorkshop = {
 	reviews: [
 		{
 			quote:
-				'Our advanced cohort finally aligned on which automations to scale and how to measure success—this program built the shared playbook.',
+				'Our advanced cohort finally aligned on which automations to scale and how to measure success. This program built the shared playbook.',
 			author: 'Chloe M.',
 			role: 'Chief Operations Officer'
 		},
