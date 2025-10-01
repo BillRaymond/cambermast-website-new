@@ -28,6 +28,8 @@
 				"id": "training-ai-accelerator",
 				"title": "AI Accelerator Workshop",
 				"summary": "Power prompting plus advanced build labs so AI runs your business processes.",
+				"image": "/images/ai-accelerator.jpeg",
+				"imageAlt": "AI Accelerator Workshop illustration",
 				"bullets": [
 					"Everything in AI Power Prompting",
 					"Custom GPTs tuned to your workflows",
