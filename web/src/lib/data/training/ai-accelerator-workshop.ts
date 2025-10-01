@@ -74,7 +74,7 @@ export const aiAcceleratorWorkshop = {
 	],
 	agenda: [
 		{
-			title: '1. AI Power Prompting Core',
+			title: 'Week 1: AI Power Prompting Core',
 			details: [
 				'Cover everything inside the AI Power Prompting curriculum.',
 				'Practice the four core prompt types across writing, analysis, and ideation.',
@@ -82,7 +82,7 @@ export const aiAcceleratorWorkshop = {
 			]
 		},
 		{
-			title: '2. Custom GPT Foundations',
+			title: 'Week 2: Custom GPT Foundations',
 			details: [
 				'Map business processes that benefit from custom GPTs.',
 				'Configure custom instructions, knowledge, and actions that keep outputs on brand.',
@@ -90,7 +90,7 @@ export const aiAcceleratorWorkshop = {
 			]
 		},
 		{
-			title: '3. AI Projects & Workflow Organization',
+			title: 'Week 3: AI Projects & Workflow Organization',
 			details: [
 				'Organize prompts, files, and context inside AI project spaces.',
 				'Create reusable folders for marketing, support, and operations workflows.',
@@ -98,18 +98,11 @@ export const aiAcceleratorWorkshop = {
 			]
 		},
 		{
-			title: '4. Deep Research with AI',
+			title: 'Week 4: Market-Ready AI Delivery',
 			details: [
 				'Use advanced AI research strategies for competitor analysis and market planning.',
 				'Combine AI insights with curated human sources to maintain accuracy.',
-				'Turn findings into action plans and executive-ready summaries.'
-			]
-		},
-		{
-			title: '5. AI Visibility & Marketplace Readiness',
-			details: [
-				'List your business in the first AI business marketplace on ChatGPT.',
-				'Apply AI-driven strategies to increase how prospects discover your services.',
+				'Package your offering for GPT marketplace listings and discovery.',
 				'Plan follow-up experiments that keep your automations relevant.'
 			]
 		}

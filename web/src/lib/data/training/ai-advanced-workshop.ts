@@ -81,7 +81,7 @@ export const aiAdvancedWorkshop = {
 	],
 	agenda: [
 		{
-			title: '1. Advanced Discovery',
+			title: 'Week 1: Advanced Discovery',
 			details: [
 				'Map priority workflows, data sources, and compliance considerations.',
 				'Select high-value AI opportunities and define success metrics.',
@@ -89,7 +89,15 @@ export const aiAdvancedWorkshop = {
 			]
 		},
 		{
-			title: '2. Prototyping Sprints',
+			title: 'Week 2: Opportunity Prioritization & Roadmapping',
+			details: [
+				'Score advanced use cases against impact, effort, and readiness.',
+				'Sequence near-term pilots and supporting enablers on a shared roadmap.',
+				'Align executive sponsors on ROI targets and guardrails for the build weeks.'
+			]
+		},
+		{
+			title: 'Week 3: Prototyping Sprints',
 			details: [
 				'Build AI co-pilots and automations that plug into existing systems.',
 				'Set up evaluation loops to measure quality, latency, and cost.',
@@ -97,7 +105,7 @@ export const aiAdvancedWorkshop = {
 			]
 		},
 		{
-			title: '3. Data & Governance',
+			title: 'Week 4: Data & Governance',
 			details: [
 				'Define approval flows, escalation paths, and human-in-the-loop checkpoints.',
 				'Configure secure access to documents, APIs, and knowledge bases.',
@@ -105,7 +113,7 @@ export const aiAdvancedWorkshop = {
 			]
 		},
 		{
-			title: '4. Enablement & Change',
+			title: 'Week 5: Enablement & Change',
 			details: [
 				'Coach team leads on adoption tactics and performance tracking.',
 				'Plan internal communications and reinforcement sessions.',
@@ -113,11 +121,19 @@ export const aiAdvancedWorkshop = {
 			]
 		},
 		{
-			title: '5. Scale & Measure',
+			title: 'Week 6: Scale & Measure',
 			details: [
 				'Standardize reporting on AI impact across teams.',
 				'Prepare executive updates that articulate value and next bets.',
 				'Identify follow-on experiments to keep momentum.'
+			]
+		},
+		{
+			title: 'Week 7: Executive Playbook & Transition',
+			details: [
+				'Finalize automation runbooks, prompt libraries, and support models.',
+				'Deliver an executive-ready briefing that shares wins, risks, and next bets.',
+				'Define ongoing coaching, office hours, and success metrics post-engagement.'
 			]
 		}
 	],
