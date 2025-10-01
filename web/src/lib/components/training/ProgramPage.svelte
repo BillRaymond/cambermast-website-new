@@ -1,6 +1,6 @@
 <script lang="ts">
 	import ReviewCard from '$lib/components/ReviewCard.svelte';
-	import type { TrainingFaq, TrainingProgram } from '$lib/data/training/types';
+	import type { TrainingFaq, TrainingProgram, TrainingStat } from '$lib/data/training/types';
 
 	type BackLink = {
 		href: string;
@@ -12,6 +12,21 @@
 
 	const getFaqAnswers = (faq: TrainingFaq): string[] =>
 		faq.answers ?? (faq.answer ? [faq.answer] : []);
+
+	let statsBeforeCta: TrainingStat[] = [];
+	let statsAfterCta: TrainingStat[] = [];
+	let ctaInsertIndex = -1;
+
+	const normalizeLabel = (label?: string): string | undefined => label?.toLowerCase().trim();
+
+	$: {
+		const stats = program?.stats ?? [];
+		ctaInsertIndex = stats.findIndex(
+			(stat) => normalizeLabel(stat.label) === 'cost'
+		);
+		statsBeforeCta = ctaInsertIndex >= 0 ? stats.slice(0, ctaInsertIndex + 1) : stats;
+		statsAfterCta = ctaInsertIndex >= 0 ? stats.slice(ctaInsertIndex + 1) : [];
+	}
 </script>
 
 {#if backLink}
@@ -63,9 +78,43 @@
 					</a>
 				</div>
 			</div>
-			{#if program.stats?.length}
-				<ul class="grid gap-4 rounded-2xl bg-white p-6 shadow md:w-72">
-					{#each program.stats as stat}
+	{#if program.stats?.length}
+		<div class="flex flex-col gap-4 rounded-2xl bg-white p-6 shadow md:sticky md:top-6 md:w-72">
+			{#if program.primaryCta && ctaInsertIndex < 0}
+				<a
+					href={program.primaryCta.url}
+					class="inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700"
+				>
+					{program.primaryCta.label}
+				</a>
+			{/if}
+			<ul class="grid gap-4">
+				{#each statsBeforeCta as stat (stat.label)}
+					<li class="rounded-xl border border-blue-100 bg-blue-50 p-4">
+						<p class="text-xs font-semibold uppercase tracking-wide text-blue-600">{stat.label}</p>
+						{#if Array.isArray(stat.value)}
+							<ul class="mt-2 list-none space-y-2 text-sm font-medium text-gray-900">
+								{#each stat.value as option}
+									<li class="leading-snug">{option}</li>
+								{/each}
+							</ul>
+						{:else}
+							<p class="mt-2 text-sm font-medium text-gray-900">{stat.value}</p>
+						{/if}
+					</li>
+				{/each}
+			</ul>
+			{#if program.primaryCta && ctaInsertIndex >= 0}
+				<a
+					href={program.primaryCta.url}
+					class="inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700"
+				>
+					{program.primaryCta.label}
+				</a>
+			{/if}
+			{#if statsAfterCta.length}
+				<ul class="grid gap-4">
+					{#each statsAfterCta as stat (stat.label)}
 						<li class="rounded-xl border border-blue-100 bg-blue-50 p-4">
 							<p class="text-xs font-semibold uppercase tracking-wide text-blue-600">{stat.label}</p>
 							{#if Array.isArray(stat.value)}
@@ -81,6 +130,8 @@
 					{/each}
 				</ul>
 			{/if}
+		</div>
+	{/if}
 		</div>
 	</section>
 
@@ -194,6 +245,23 @@
 		</section>
 	{/if}
 
+	{#if program.sessions?.length && program.primaryCta}
+		<div class="rounded-2xl border border-blue-100 bg-gradient-to-r from-blue-50 to-white p-6 shadow md:flex md:items-center md:justify-between">
+			<div class="md:max-w-xl">
+				<h3 class="text-xl font-semibold text-gray-900">Lock in your seat</h3>
+				<p class="mt-2 text-sm text-gray-600">
+					Pick the session that fits you best or reach out for a private workshop.
+				</p>
+			</div>
+			<a
+				href={program.primaryCta.url}
+				class="mt-4 inline-flex items-center justify-center rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-blue-700 md:mt-0"
+			>
+				{program.primaryCta.label}
+			</a>
+		</div>
+	{/if}
+
 	{#if program.agenda?.length}
 		<section class="rounded-3xl bg-white p-8 shadow md:p-10">
 			<h2 class="text-2xl font-semibold text-gray-900">Agenda</h2>
@@ -210,6 +278,22 @@
 				{/each}
 			</div>
 		</section>
+		{#if program.primaryCta}
+			<div class="mt-6 flex flex-col gap-4 rounded-2xl border border-blue-100 bg-blue-50 p-6 shadow md:flex-row md:items-center md:justify-between">
+				<div class="md:max-w-xl">
+					<h3 class="text-xl font-semibold text-gray-900">Ready to work through this agenda with us?</h3>
+					<p class="mt-2 text-sm text-gray-600">
+						Secure your spot now and get the playbook delivered to your team.
+					</p>
+				</div>
+				<a
+					href={program.primaryCta.url}
+					class="inline-flex items-center justify-center rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-blue-700"
+				>
+					{program.primaryCta.label}
+				</a>
+			</div>
+		{/if}
 	{/if}
 
 	{#if program.resources?.length || program.testimonial}
@@ -228,9 +312,17 @@
 				</div>
 			{/if}
 			{#if program.testimonial}
-				<blockquote class="flex h-full flex-col justify-between rounded-2xl bg-white p-6 shadow">
+				<blockquote class="flex h-full flex-col gap-4 rounded-2xl bg-white p-6 shadow">
 					<p class="text-lg font-medium text-gray-800">“{program.testimonial.quote}”</p>
-					<cite class="mt-4 text-sm font-semibold text-gray-600">— {program.testimonial.author}</cite>
+					<cite class="text-sm font-semibold text-gray-600">— {program.testimonial.author}</cite>
+					{#if program.primaryCta}
+						<a
+							href={program.primaryCta.url}
+							class="mt-2 inline-flex items-center justify-center self-start rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700"
+						>
+							{program.primaryCta.label}
+						</a>
+					{/if}
 				</blockquote>
 			{/if}
 		</section>

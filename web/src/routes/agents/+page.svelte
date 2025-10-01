@@ -19,6 +19,8 @@
 	type EnrichedItem = CatalogItem & {
 		duration?: string | string[];
 		linkHref?: string;
+		bookUrl?: string;
+		bookLabel?: string;
 	};
 
 	const getProgram = (route?: string): TrainingProgram | undefined => {
@@ -47,9 +49,13 @@
 				image: item.image ?? program?.heroImage,
 				imageAlt: item.imageAlt ?? program?.heroImageAlt ?? item.title,
 				duration: durationStat?.value,
-				linkHref: withSourceQuery(item.route)
+				linkHref: withSourceQuery(item.route),
+				bookUrl: program?.primaryCta?.url,
+				bookLabel: program?.primaryCta?.label ?? 'Book your spot'
 			};
 		});
+
+	const primaryBooking = items.find((item) => item.bookUrl);
 </script>
 
 <h1 class="mb-6 text-3xl font-bold">{section.label}</h1>
@@ -83,19 +89,29 @@
 					{#if item.duration}
 						<p class="mt-6 text-sm font-semibold text-gray-700">Duration: {item.duration}</p>
 					{/if}
-					<a
-						href={item.linkHref ?? item.route}
-						class={`inline-flex justify-center rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white shadow transition hover:bg-blue-700 ${item.duration ? 'mt-2' : 'mt-6'}`}
-					>
-						Learn more
-					</a>
+					<div class="mt-auto flex flex-col gap-2 pt-6">
+						{#if item.bookUrl}
+							<a
+								href={item.bookUrl}
+								class="inline-flex justify-center rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white shadow transition hover:bg-blue-700"
+							>
+								{item.bookLabel ?? 'Book your spot'}
+							</a>
+						{/if}
+						<a
+							href={item.linkHref ?? item.route}
+							class="inline-flex justify-center rounded-lg border border-blue-200 px-4 py-2 font-semibold text-blue-700 transition hover:border-blue-500 hover:text-blue-900"
+						>
+							Learn more
+						</a>
+					</div>
 				{/if}
 			</article>
 		{/each}
 	</div>
 </section>
 
-<section class="rounded-2xl border bg-gray-50 p-6">
+<section class="mb-24 rounded-2xl border bg-gray-50 p-6 md:mb-0">
 	<h3 class="text-lg font-semibold">Need help scoping an automation?</h3>
 	<p class="mt-2 text-gray-700">
 		Tell us what your team wants to streamline, and we'll recommend the fastest path to a working agent.
@@ -104,3 +120,14 @@
 		>Contact us</a
 	>
 </section>
+
+{#if primaryBooking?.bookUrl}
+	<div class="pointer-events-none fixed inset-x-0 bottom-4 z-30 px-4 md:hidden">
+		<a
+			href={primaryBooking.bookUrl}
+			class="pointer-events-auto flex items-center justify-center rounded-full bg-blue-600 px-6 py-3 font-semibold text-white shadow-lg shadow-blue-500/30 transition hover:bg-blue-700"
+		>
+			{primaryBooking.bookLabel ?? 'Book your spot'}
+		</a>
+	</div>
+{/if}
