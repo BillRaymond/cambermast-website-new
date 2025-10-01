@@ -3,16 +3,26 @@
   "image": "mcr.microsoft.com/devcontainers/javascript-node:20",
   "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
   "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/${localWorkspaceFolderBasename},type=bind",
+  "runArgs": [
+    "-p",
+    "5173:5173"
+  ],
 
   "postCreateCommand": "cd web && npm ci",
 
   "forwardPorts": [5173],
+  "portsAttributes": {
+    "5173": {
+      "requireLocalPort": false
+    }
+  },
   "customizations": {
     "vscode": {
       "extensions": [
         "svelte.svelte-vscode",
         "esbenp.prettier-vscode",
         "dbaeumer.vscode-eslint",
+        "openai.chatgpt",
         "bradlc.vscode-tailwindcss"
       ]
     }
