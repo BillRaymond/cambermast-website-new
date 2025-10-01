@@ -13,7 +13,7 @@ export const aiAcceleratorWorkshop = {
 	secondaryDescription:
 		'This blended, four-week program is ideal for teams who want a head start with AI fundamentals and the confidence to operationalize advanced capabilities without reinventing the wheel each time.',
 	primaryCta: {
-		label: 'Save your seat',
+		label: 'Book your spot',
 		url: 'https://luma.com/BillTalksAI?k=c'
 	},
 	secondaryCta: {
