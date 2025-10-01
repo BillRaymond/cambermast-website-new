@@ -1,15 +1,17 @@
 import type { TrainingProgram } from './types';
 
-import { aiAutomationWithAgents } from './ai-automation-with-agents';
 import { aiFundamentals } from './ai-fundamentals';
-import { aiAdvancedWorkshop } from './ai-advanced-workshop';
 import { aiAcceleratorWorkshop } from './ai-accelerator-workshop';
+import { aiAdvancedWorkshop } from './ai-advanced-workshop';
+import { aiAutomationWithAgents } from './ai-automation-with-agents';
+import { aiWorkshopForContentCreators } from './ai-workshop-for-content-creators';
 
 const allPrograms: TrainingProgram[] = [
 	aiFundamentals,
 	aiAcceleratorWorkshop,
 	aiAdvancedWorkshop,
-	aiAutomationWithAgents
+	aiAutomationWithAgents,
+	aiWorkshopForContentCreators
 ];
 
 export const trainingPrograms: Record<string, TrainingProgram> = allPrograms.reduce(

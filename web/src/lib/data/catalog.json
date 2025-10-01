@@ -1,117 +1,138 @@
 {
-	"training": {
-		"label": "AI Training",
-		"navlabel": "AI Training",
-		"testimonial": "Bill’s training is excellent! He’s an industry pro and a great communicator.",
-		"author": "Tara M.",
-		"icon": "🛠️",
-		"route": "/training",
-		"headline": "Hands-on workshops to build practical skills that your team can apply immediately.",
-		"homeorder": 0,
-	"items": [
-		{
-			"id": "training-ai-fundamentals",
-			"title": "AI Power Prompting (AI Fundamentals)",
-			"summary": "Primer on prompting that explains how AI works and shows you how to prompt successfully.",
-				"image": "/images/ai-fundamentals.jpeg",
-				"imageAlt": "AI Power Prompting training workshop illustration",
-				"bullets": [
-					"Understand how today’s AI models generate answers",
-					"Learn four core prompt types you can reuse anywhere",
-					"Collaborate with AI to brainstorm and polish ideas"
-				],
-				"route": "/training/ai-fundamentals",
-				"order": 0,
-				"published": true
-			},
-			{
-				"id": "training-ai-accelerator",
-				"title": "AI Accelerator Workshop",
-				"summary": "Power prompting plus advanced build labs so AI runs your business processes.",
-				"image": "/images/ai-accelerator.jpeg",
-				"imageAlt": "AI Accelerator Workshop illustration",
-				"bullets": [
-					"Everything in AI Power Prompting",
-					"Custom GPTs tuned to your workflows",
-					"Organize prompts, files, and research in AI projects"
-				],
-				"route": "/training/ai-accelerator-workshop",
-				"order": 1,
-				"published": true
-			},
-			{
-				"id": "training-ai-advanced",
-				"title": "AI Advanced Workshop",
-				"summary": "Seven-week custom engagement that scales advanced AI automation across the business.",
-				"image": "/images/ai-advanced.jpeg",
-				"imageAlt": "AI Advanced Workshop illustration",
-				"bullets": [
-					"Prioritize high-impact AI initiatives",
-					"Prototype advanced workflows with your data",
-					"Enable teams with custom playbooks"
-				],
-				"route": "/training/ai-advanced-workshop",
-				"order": 2,
-				"published": true
-			},
-			{
-				"id": "training-ai-automation-with-agents",
-				"title": "AI Automation with Agents Workshop",
-				"summary": "Hands-on agent building with n8n, OpenAI, and your internal APIs.",
-				"image": "/images/ai-automation.jpg",
-				"imageAlt": "AI Automation with Agents Workshop illustration",
-				"bullets": [
-					"Design human-in-the-loop automations",
-					"Build working agents in guided labs",
-					"Optimize for reliability and cost"
-				],
-				"route": "/training/ai-automation-with-agents",
-				"order": 3,
-				"published": true
-			}
-		]
-	},
-
-	"agents": {
-		"label": "AI Agents & Automation",
-		"navlabel": "AI Agents",
-		"testimonial": "Bill worked with our new automations and showed us what’s possible.",
-		"author": "Brett K.",
-		"icon": "🤖",
-		"route": "/agents",
-		"headline": "Practical automations using n8n and APIs—focused on real outcomes.",
-		"homeorder": 1,
-		"items": [
-			{
-				"id": "agents-ai-automation-with-agents",
-				"title": "AI Automation with Agents Workshop",
-				"summary": "Automate a high-value process with AI agents that know when to involve humans.",
-				"bullets": ["Hands-on build labs", "Human-in-the-loop guardrails", "30-day support"],
-				"route": "/training/ai-automation-with-agents",
-				"order": 0,
-				"published": true
-			}
-		]
-	},
-
-	"strategy": {
-		"label": "AI Advisory",
-		"navlabel": "AI Advisory",
-		"testimonial": "Bill’s experience helped us develop and execute an AI automation strategy.",
-		"author": "Brian C.",
-		"icon": "🎯",
-		"route": "/strategy",
-		"headline": "Strategic guidance and execution support—so pilots turn into repeatable wins.",
-		"homeorder": 2,
-		"items": [
-			{
-				"id": "strategy-advisory-sprint",
-				"title": "Advisory Sprint (2–4 weeks)",
-				"summary": "Short roadmap sprint to pick the right use cases and tools.",
-				"bullets": ["Prioritization", "Vendor choices", "Light governance"],
-				"order": 0,
-				"published": true
-			}
-		]
-	}
+    "training": {
+        "label": "AI Training",
+        "navlabel": "AI Training",
+        "testimonial": "Bill\u2019s training is excellent! He\u2019s an industry pro and a great communicator.",
+        "author": "Tara M.",
+        "icon": "\ud83d\udee0\ufe0f",
+        "route": "/training",
+        "headline": "Hands-on workshops to build practical skills that your team can apply immediately.",
+        "homeorder": 0,
+        "items": [
+            {
+                "id": "training-ai-fundamentals",
+                "title": "AI Power Prompting (AI Fundamentals)",
+                "summary": "Primer on prompting that explains how AI works and shows you how to prompt successfully.",
+                "image": "/images/ai-fundamentals.jpeg",
+                "imageAlt": "AI Power Prompting training workshop illustration",
+                "bullets": [
+                    "Understand how today\u2019s AI models generate answers",
+                    "Learn four core prompt types you can reuse anywhere",
+                    "Collaborate with AI to brainstorm and polish ideas"
+                ],
+                "route": "/training/ai-fundamentals",
+                "order": 0,
+                "published": true
+            },
+            {
+                "id": "training-ai-accelerator",
+                "title": "AI Accelerator Workshop",
+                "summary": "Power prompting plus advanced build labs so AI runs your business processes.",
+                "image": "/images/ai-accelerator.jpeg",
+                "imageAlt": "AI Accelerator Workshop illustration",
+                "bullets": [
+                    "Everything in AI Power Prompting",
+                    "Custom GPTs tuned to your workflows",
+                    "Organize prompts, files, and research in AI projects"
+                ],
+                "route": "/training/ai-accelerator-workshop",
+                "order": 1,
+                "published": true
+            },
+            {
+                "id": "training-ai-advanced",
+                "title": "AI Advanced Workshop",
+                "summary": "Seven-week custom engagement that scales advanced AI automation across the business.",
+                "image": "/images/ai-advanced.jpeg",
+                "imageAlt": "AI Advanced Workshop illustration",
+                "bullets": [
+                    "Prioritize high-impact AI initiatives",
+                    "Prototype advanced workflows with your data",
+                    "Enable teams with custom playbooks"
+                ],
+                "route": "/training/ai-advanced-workshop",
+                "order": 2,
+                "published": true
+            },
+            {
+                "id": "training-ai-automation-with-agents",
+                "title": "AI Automation with Agents Workshop",
+                "summary": "Hands-on agent building with n8n, OpenAI, and your internal APIs.",
+                "image": "/images/ai-automation.jpg",
+                "imageAlt": "AI Automation with Agents Workshop illustration",
+                "bullets": [
+                    "Design human-in-the-loop automations",
+                    "Build working agents in guided labs",
+                    "Optimize for reliability and cost"
+                ],
+                "route": "/training/ai-automation-with-agents",
+                "order": 3,
+                "published": true
+            },
+            {
+                "id": "training-ai-workshop-content-creators",
+                "title": "AI Workshop for Content Creators",
+                "summary": "Seven-week cohort that helps content and documentation teams layer AI into their workflows.",
+                "image": "/images/ai-workshop-for-content-creators.jpeg",
+                "imageAlt": "AI Workshop for Content Creators illustration",
+                "bullets": [
+                    "Automate repetitive content production tasks with AI",
+                    "Preserve brand voice with reusable prompts and guardrails",
+                    "Ship a final project and earn a completion certificate"
+                ],
+                "route": "/training/ai-workshop-for-content-creators",
+                "order": 4,
+                "published": true
+            }
+        ]
+    },
+    "agents": {
+        "label": "AI Agents & Automation",
+        "navlabel": "AI Agents",
+        "testimonial": "Bill worked with our new automations and showed us what\u2019s possible.",
+        "author": "Brett K.",
+        "icon": "\ud83e\udd16",
+        "route": "/agents",
+        "headline": "Practical automations using n8n and APIs\u2014focused on real outcomes.",
+        "homeorder": 1,
+        "items": [
+            {
+                "id": "agents-ai-automation-with-agents",
+                "title": "AI Automation with Agents Workshop",
+                "summary": "Automate a high-value process with AI agents that know when to involve humans.",
+                "bullets": [
+                    "Hands-on build labs",
+                    "Human-in-the-loop guardrails",
+                    "30-day support"
+                ],
+                "route": "/training/ai-automation-with-agents",
+                "order": 0,
+                "published": true
+            }
+        ]
+    },
+    "strategy": {
+        "label": "AI Advisory",
+        "navlabel": "AI Advisory",
+        "testimonial": "Bill\u2019s experience helped us develop and execute an AI automation strategy.",
+        "author": "Brian C.",
+        "icon": "\ud83c\udfaf",
+        "route": "/strategy",
+        "headline": "Strategic guidance and execution support\u2014so pilots turn into repeatable wins.",
+        "homeorder": 2,
+        "items": [
+            {
+                "id": "strategy-advisory-sprint",
+                "title": "Advisory Sprint (2\u20134 weeks)",
+                "summary": "Short roadmap sprint to pick the right use cases and tools.",
+                "bullets": [
+                    "Prioritization",
+                    "Vendor choices",
+                    "Light governance"
+                ],
+                "order": 0,
+                "published": true
+            }
+        ]
+    }
 }
