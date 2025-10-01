@@ -13,7 +13,7 @@ export const aiAutomationWithAgents = {
 	secondaryDescription:
 		'Across guided labs you will design, build, and optimize agents using tools like n8n, OpenAI, and best-practice API integrations—so your team leaves with something running.',
 	primaryCta: {
-		label: 'Book a strategy call',
+		label: 'Book your spot',
 		url: '/contact'
 	},
 	secondaryCta: {
