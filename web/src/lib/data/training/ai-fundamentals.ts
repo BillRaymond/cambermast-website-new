@@ -152,8 +152,7 @@ export const aiFundamentals = {
 			role: 'VP, Product Operations'
 		},
 		{
-			quote:
-				'The team immediately applied the frameworks to client deliverables and saved hours in the first week.',
+			quote: 'I was able to immediately apply what I learned and saved hours in my first week.',
 			author: 'Priya D.',
 			role: 'Agency Managing Partner'
 		}
