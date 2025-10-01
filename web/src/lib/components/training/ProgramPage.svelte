@@ -221,34 +221,32 @@
 	{#if program.aboutTrainer}
 		<section class="rounded-3xl bg-white p-8 shadow md:p-10">
 			<h2 class="text-2xl font-semibold text-gray-900">{program.aboutTrainer.title}</h2>
-			<div class="mt-6 flex flex-col gap-6 lg:flex-row lg:items-start lg:gap-10">
-				{#if program.aboutTrainer.photo || program.aboutTrainer.highlights?.length}
-					<div class="flex flex-col items-center gap-6 lg:w-72 lg:shrink-0 lg:items-start">
-						{#if program.aboutTrainer.photo}
-							<img
-								src={program.aboutTrainer.photo}
-								alt={program.aboutTrainer.photoAlt ?? program.aboutTrainer.name}
-								class="h-40 w-40 rounded-3xl border border-blue-100 object-cover shadow-lg"
-							/>
-						{/if}
-						<div class="lg:max-w-xl">
-							<p class="text-lg font-semibold text-gray-900">{program.aboutTrainer.name}</p>
-							<p class="mt-1 text-sm uppercase tracking-wide text-blue-600">
-								{program.aboutTrainer.role}
-							</p>
-							<p class="mt-4 text-base text-gray-700">{program.aboutTrainer.summary}</p>
-						</div>
-						{#if program.aboutTrainer.highlights?.length}
-							<ul class="w-full space-y-3 rounded-2xl border border-blue-100 bg-blue-50 p-6 text-gray-800">
-								{#each program.aboutTrainer.highlights as highlight}
-									<li class="flex items-start gap-3">
-									<span class="mt-1 inline-flex h-2 w-2 flex-shrink-0 rounded-full bg-blue-600"></span>
-										<span>{highlight}</span>
-									</li>
-								{/each}
-							</ul>
-						{/if}
+			<div class="mt-6 flex flex-col gap-8 lg:flex-row lg:items-start lg:gap-10">
+				<div class="flex flex-col items-center gap-6 lg:flex-1 lg:flex-row lg:items-start lg:gap-8">
+					{#if program.aboutTrainer.photo}
+						<img
+							src={program.aboutTrainer.photo}
+							alt={program.aboutTrainer.photoAlt ?? program.aboutTrainer.name}
+							class="h-40 w-40 rounded-3xl border border-blue-100 object-cover shadow-lg"
+						/>
+					{/if}
+					<div class="text-center lg:max-w-xl lg:text-left">
+						<p class="text-lg font-semibold text-gray-900">{program.aboutTrainer.name}</p>
+						<p class="mt-1 text-sm uppercase tracking-wide text-blue-600">
+							{program.aboutTrainer.role}
+						</p>
+						<p class="mt-4 text-base text-gray-700">{program.aboutTrainer.summary}</p>
 					</div>
+				</div>
+				{#if program.aboutTrainer.highlights?.length}
+					<ul class="w-full space-y-3 rounded-2xl border border-blue-100 bg-blue-50 p-6 text-gray-800 lg:max-w-sm lg:flex-shrink-0">
+						{#each program.aboutTrainer.highlights as highlight}
+							<li class="flex items-start gap-3">
+								<span class="mt-1 inline-flex h-2 w-2 flex-shrink-0 rounded-full bg-blue-600"></span>
+								<span>{highlight}</span>
+							</li>
+						{/each}
+					</ul>
 				{/if}
 			</div>
 		</section>
