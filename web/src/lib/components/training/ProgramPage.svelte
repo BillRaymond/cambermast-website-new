@@ -314,7 +314,7 @@
 			{#if program.testimonial}
 				<blockquote class="flex h-full flex-col gap-4 rounded-2xl bg-white p-6 shadow">
 					<p class="text-lg font-medium text-gray-800">“{program.testimonial.quote}”</p>
-					<cite class="text-sm font-semibold text-gray-600">— {program.testimonial.author}</cite>
+					<cite class="text-sm font-semibold text-gray-600">{program.testimonial.author}</cite>
 					{#if program.primaryCta}
 						<a
 							href={program.primaryCta.url}
