@@ -268,16 +268,16 @@
 				Book your spot or schedule a call with Bill to customize the training for your organization.
 			</p>
 		</div>
-		<div class="mt-6 flex flex-col gap-3 md:mt-0">
+		<div class="mt-6 flex flex-col gap-4 md:mt-0">
 			<a
 				href={data.primaryCta.url}
-				class="inline-flex items-center justify-center rounded-xl bg-white px-5 py-3 text-base font-semibold text-blue-700 shadow transition hover:bg-blue-50"
+				class="inline-flex items-center justify-center whitespace-nowrap rounded-xl bg-white px-6 py-3.5 text-base font-semibold text-blue-700 shadow transition hover:bg-blue-50"
 			>
 				{data.primaryCta.label}
 			</a>
 			<a
 				href={data.secondaryCta.url}
-				class="inline-flex items-center justify-center rounded-xl border border-white/40 px-5 py-3 text-base font-semibold text-white transition hover:bg-white/10"
+				class="inline-flex items-center justify-center whitespace-nowrap rounded-xl border border-white/40 px-6 py-3.5 text-base font-semibold text-white transition hover:bg-white/10"
 			>
 				{data.secondaryCta.label}
 			</a>
