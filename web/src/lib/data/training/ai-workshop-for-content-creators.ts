@@ -23,7 +23,7 @@ export const aiWorkshopForContentCreators = {
 	stats: [
 		{ label: 'Duration', value: 'Seven weeks, 2-hour commitment per week' },
 		{ label: 'Format', value: ['🔴 Live online', '🏫 In-person option available'] },
-		{ label: 'Pricing', value: '$1,749 per participant' },
+		{ label: 'Cost', value: '$1,749 per participant' },
 		{ label: 'Partner', value: 'Presented in partnership with The Content Wrangler' }
 	],
 	audience: [
