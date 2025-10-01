@@ -6,6 +6,8 @@ export const aiAutomationWithAgents = {
 	nickname: 'Hands-on agent building with n8n + APIs',
 	tagline:
 		'Automate internal processes with AI agents that act like team members—while keeping humans in the loop where it counts.',
+	heroImage: '/images/ai-automation.jpg',
+	heroImageAlt: 'AI Automation with Agents Workshop illustration',
 	description:
 		'The AI Automation with Agents Workshop is a primer on automating internal processes using the latest AI agents. We tackle real-world scenarios where an agent behaves like a teammate, coordinating steps and escalating to people when necessary.',
 	secondaryDescription:

@@ -58,6 +58,8 @@
 				"id": "training-ai-automation-with-agents",
 				"title": "AI Automation with Agents Workshop",
 				"summary": "Hands-on agent building with n8n, OpenAI, and your internal APIs.",
+				"image": "/images/ai-automation.jpg",
+				"imageAlt": "AI Automation with Agents Workshop illustration",
 				"bullets": [
 					"Design human-in-the-loop automations",
 					"Build working agents in guided labs",
