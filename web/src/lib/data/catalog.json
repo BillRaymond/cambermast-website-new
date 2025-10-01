@@ -43,6 +43,8 @@
 				"id": "training-ai-advanced",
 				"title": "AI Advanced Workshop",
 				"summary": "Seven-week custom engagement that scales advanced AI automation across the business.",
+				"image": "/images/ai-advanced.jpeg",
+				"imageAlt": "AI Advanced Workshop illustration",
 				"bullets": [
 					"Prioritize high-impact AI initiatives",
 					"Prototype advanced workflows with your data",

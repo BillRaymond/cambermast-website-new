@@ -6,6 +6,8 @@ export const aiAdvancedWorkshop = {
 	nickname: 'Seven weeks to operationalize advanced AI',
 	tagline:
 		'Co-design advanced AI playbooks that automate decisions, elevate customer touchpoints, and improve how your team delivers work.',
+	heroImage: '/images/ai-advanced.jpeg',
+	heroImageAlt: 'AI Advanced Workshop illustration',
 	description:
 		'The AI Advanced Workshop builds upon the AI Accelerator workshop by sharing how you can use advanced AI features to improve how you run your business. This is a custom course built specifically for you and your business.',
 	secondaryDescription:
