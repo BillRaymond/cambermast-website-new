@@ -1,10 +1,16 @@
-<script>
+<script lang="ts">
 	import ReviewCard from '$lib/components/ReviewCard.svelte';
 	import aiFundamentals from '$lib/data/training/ai-fundamentals';
 
 	const data = aiFundamentals;
 
-	const getFaqAnswers = (faq) => faq.answers ?? [faq.answer];
+	type Faq = {
+		question: string;
+		answers?: string[];
+		answer?: string;
+	};
+
+	const getFaqAnswers = (faq: Faq): string[] => faq.answers ?? (faq.answer ? [faq.answer] : []);
 </script>
 
 <svelte:head>
