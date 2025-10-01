@@ -68,7 +68,7 @@
 		</section>
 	{/if}
 
-	<section class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+	<section class="grid gap-8 md:grid-cols-2">
 		{#if data.audience?.length}
 			<div class="rounded-2xl bg-white p-6 shadow">
 				<h2 class="text-2xl font-semibold text-gray-900">Who its for</h2>
@@ -95,37 +95,41 @@
 				</ul>
 			</div>
 		{/if}
-		{#if data.objectives?.length}
-			<div class="rounded-2xl border border-blue-100 bg-blue-50 p-6">
-				<h2 class="text-2xl font-semibold text-gray-900">Learning objectives</h2>
-				<ul class="mt-4 space-y-3 text-gray-800">
-					{#each data.objectives as objective}
-						<li class="flex items-start gap-3">
-							<span class="mt-1 inline-flex h-2 w-2 rounded-full bg-blue-600"></span>
-							<span>{objective}</span>
-						</li>
-					{/each}
-				</ul>
-			</div>
-		{/if}
 	</section>
 
-	{#if data.prerequisites?.length}
-		<section class="rounded-2xl border border-gray-200 bg-white p-6 shadow">
-			<h2 class="text-2xl font-semibold text-gray-900">Prerequisites</h2>
-			<ul class="mt-4 space-y-3 text-gray-700">
-				{#each data.prerequisites as prerequisite}
-					<li class="flex items-start gap-3">
-						<span class="mt-1 inline-flex h-2 w-2 rounded-full bg-blue-600"></span>
-						<span>{prerequisite}</span>
-					</li>
-				{/each}
-			</ul>
+	{#if data.objectives?.length || data.prerequisites?.length}
+		<section class="grid gap-8 md:grid-cols-2">
+			{#if data.objectives?.length}
+				<div class="rounded-2xl border border-blue-100 bg-blue-50 p-6">
+					<h2 class="text-2xl font-semibold text-gray-900">Learning objectives</h2>
+					<ul class="mt-4 space-y-3 text-gray-800">
+						{#each data.objectives as objective}
+							<li class="flex items-start gap-3">
+								<span class="mt-1 inline-flex h-2 w-2 rounded-full bg-blue-600"></span>
+								<span>{objective}</span>
+							</li>
+						{/each}
+					</ul>
+				</div>
+			{/if}
+			{#if data.prerequisites?.length}
+				<div class="rounded-2xl border border-gray-200 bg-white p-6 shadow">
+					<h2 class="text-2xl font-semibold text-gray-900">Prerequisites</h2>
+					<ul class="mt-4 space-y-3 text-gray-700">
+						{#each data.prerequisites as prerequisite}
+							<li class="flex items-start gap-3">
+								<span class="mt-1 inline-flex h-2 w-2 rounded-full bg-blue-600"></span>
+								<span>{prerequisite}</span>
+							</li>
+						{/each}
+					</ul>
+				</div>
+			{/if}
 		</section>
 	{/if}
 
 	<section class="grid gap-8 md:grid-cols-2">
-		<div>
+		<div class="rounded-2xl border border-blue-100 bg-white p-6 shadow">
 			<h2 class="text-2xl font-semibold text-gray-900">Results you can use</h2>
 			<ul class="mt-4 space-y-3 text-gray-700">
 				{#each data.takeaways as takeaway}
@@ -197,32 +201,36 @@
 	{#if data.aboutTrainer}
 		<section class="rounded-3xl bg-white p-8 shadow md:p-10">
 			<h2 class="text-2xl font-semibold text-gray-900">{data.aboutTrainer.title}</h2>
-			<div class="mt-6 flex flex-col gap-6 md:flex-row md:items-start md:gap-10">
-				{#if data.aboutTrainer.photo}
-					<div class="flex flex-col items-center md:shrink-0 md:items-start">
-						<img
-							src={data.aboutTrainer.photo}
-							alt={data.aboutTrainer.photoAlt ?? data.aboutTrainer.name}
-							class="h-40 w-40 rounded-3xl border border-blue-100 object-cover shadow-lg"
-						/>
+			<div class="mt-6 flex flex-col gap-6 lg:flex-row lg:items-start lg:gap-10">
+				{#if data.aboutTrainer.photo || data.aboutTrainer.highlights?.length}
+					<div class="flex flex-col items-center gap-6 lg:w-72 lg:shrink-0 lg:items-start">
+						{#if data.aboutTrainer.photo}
+							<img
+								src={data.aboutTrainer.photo}
+								alt={data.aboutTrainer.photoAlt ?? data.aboutTrainer.name}
+								class="h-40 w-40 rounded-3xl border border-blue-100 object-cover shadow-lg"
+							/>
+						{/if}
+						<div class="lg:max-w-xl">
+							<p class="text-lg font-semibold text-gray-900">{data.aboutTrainer.name}</p>
+							<p class="mt-1 text-sm uppercase tracking-wide text-blue-600">
+								{data.aboutTrainer.role}
+							</p>
+							<p class="mt-4 text-base text-gray-700">{data.aboutTrainer.summary}</p>
+						</div>
+						{#if data.aboutTrainer.highlights?.length}
+							<ul
+								class="w-full space-y-3 rounded-2xl border border-blue-100 bg-blue-50 p-6 text-gray-800"
+							>
+								{#each data.aboutTrainer.highlights as highlight}
+									<li class="flex items-start gap-3">
+										<span class="mt-1 inline-flex h-2 w-2 rounded-full bg-blue-600"></span>
+										<span>{highlight}</span>
+									</li>
+								{/each}
+							</ul>
+						{/if}
 					</div>
-				{/if}
-				<div class="md:max-w-xl">
-					<p class="text-lg font-semibold text-gray-900">{data.aboutTrainer.name}</p>
-					<p class="mt-1 text-sm uppercase tracking-wide text-blue-600">{data.aboutTrainer.role}</p>
-					<p class="mt-4 text-base text-gray-700">{data.aboutTrainer.summary}</p>
-				</div>
-				{#if data.aboutTrainer.highlights?.length}
-					<ul
-						class="flex-1 space-y-3 rounded-2xl border border-blue-100 bg-blue-50 p-6 text-gray-800"
-					>
-						{#each data.aboutTrainer.highlights as highlight}
-							<li class="flex items-start gap-3">
-								<span class="mt-1 inline-flex h-2 w-2 rounded-full bg-blue-600"></span>
-								<span>{highlight}</span>
-							</li>
-						{/each}
-					</ul>
 				{/if}
 			</div>
 		</section>
