@@ -54,7 +54,7 @@
 		href="/images/cambermast-apple-touch-icon-180x180.png"
 	/>
 
-	<!-- Android Icons -->
+	<!-- Android / Chrome Icons -->
 	<link
 		rel="icon"
 		type="image/png"
@@ -79,6 +79,9 @@
 		sizes="512x512"
 		href="/images/cambermast-android-chrome-512x512.png"
 	/>
+
+	<!-- Manifest -->
+	<link rel="manifest" href="/site.webmanifest" />
 </svelte:head>
 
 <!-- Full-bleed hero -->
