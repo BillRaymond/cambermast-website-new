@@ -5,7 +5,7 @@
 	let status: 'idle' | 'sending' | 'sent' | 'error' = 'idle';
 	let errorMsg = '';
 
-	const webhook = 'https://n8n.cambermast.com/webhook-test/0095b76c-c32c-49ce-a59d-de6435af2b3e';
+	const webhook = '/contact';
 
 	async function submitForm(e: Event) {
 		e.preventDefault();
@@ -19,7 +19,20 @@
 				body: JSON.stringify({ name, email, message, source: 'cambermast.com' })
 			});
 
-			if (!res.ok) throw new Error(`Webhook error: ${res.status}`);
+			let data: { success?: boolean; message?: string } | null = null;
+			try {
+				data = await res.json();
+			} catch (err) {
+				data = null;
+			}
+
+			if (!res.ok) {
+				throw new Error(data?.message || `Webhook error: ${res.status}`);
+			}
+
+			if (!data?.success) {
+				throw new Error('Unexpected response from the contact service.');
+			}
 			status = 'sent';
 		} catch (err: any) {
 			status = 'error';
