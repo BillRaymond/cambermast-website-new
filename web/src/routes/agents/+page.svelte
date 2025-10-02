@@ -76,12 +76,9 @@
 				<h2 class="text-xl font-semibold">{item.title}</h2>
 				{#if item.summary}<p class="mt-1.5 text-gray-600">{item.summary}</p>{/if}
 				{#if item.bullets?.length}
-					<ul class="mt-3 space-y-1.5 text-left text-gray-700">
+					<ul class="mt-3 list-disc space-y-1.5 pl-5 text-left text-gray-700 marker:text-blue-500">
 						{#each item.bullets as bullet}
-							<li class="flex items-start gap-2">
-								<span class="mt-1 h-1 w-1 rounded-full bg-blue-500"></span>
-								<span>{bullet}</span>
-							</li>
+							<li>{bullet}</li>
 						{/each}
 					</ul>
 				{/if}

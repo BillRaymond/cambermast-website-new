@@ -1,166 +1,140 @@
 import type { TrainingProgram } from './types';
 
-export const aiAdvancedWorkshop = {
+export const aiAdvancedWorkshop: TrainingProgram = {
 	slug: 'ai-advanced-workshop',
-	title: 'AI Advanced Workshop',
-	nickname: 'Seven weeks to operationalize advanced AI',
+	title: 'AI Workshop for Modern Teams',
+	nickname: 'Seven-week cohort for cross-functional teams',
 	tagline:
-		'Co-design advanced AI playbooks that automate decisions, elevate customer touchpoints, and improve how your team delivers work.',
+		'AI-enhanced team workflows that deliver measurable results in seven weeks.',
 	heroImage: '/images/ai-advanced.jpeg',
-	heroImageAlt: 'AI Advanced Workshop illustration',
+	heroImageAlt: 'AI Workshop for Modern Teams illustration',
 	description:
-		'The AI Advanced Workshop builds upon the AI Accelerator workshop by sharing how you can use advanced AI features to improve how you run your business. This is a custom course built specifically for you and your business.',
+		'The AI Workshop for Modern Teams is a live, seven-week cohort that helps cross-functional teams weave generative AI into everyday planning, delivery, and reporting workflows.',
 	secondaryDescription:
-		'Across seven weeks we help you identify the advanced use cases that matter, prototype with your data and tools, and coach your team until the workflows stick.',
+		'Each week blends strategic discussions with hands-on practice so your team can automate routine work, improve decision quality, and collaborate with AI responsibly.',
 	primaryCta: {
-		label: 'Start your custom plan',
-		url: '/contact'
+		label: 'Find a start date',
+		url: 'https://lu.ma/BillTalksAI?tag=ai%20workshop%20for%20teams'
 	},
 	secondaryCta: {
-		label: 'Explore other workshops',
-		url: '/training'
+		label: 'Talk with Bill',
+		url: '/contact'
 	},
 	stats: [
 		{ label: 'Duration', value: 'Seven weeks, 2-hour commitment per week' },
 		{ label: 'Format', value: ['🔴 Live online', '🏫 In-person option available'] },
-		{ label: 'Cost', value: '$1,749 per participant for Zoom-based cohorts' },
+		{ label: 'Cost', value: '$1,749 per participant' },
 		{ label: 'Environment', value: '💙 Learn in a supportive, judgment-free environment' },
-		{ label: 'Planning Investment', value: '$1,500 for two 1-hour consultations to shape the agenda' },
-		{ label: 'In-person', value: 'Custom pricing available for on-site delivery' }
+		{ label: 'Team size', value: 'Ideal for intact teams of 6-25 participants' }
 	],
 	audience: [
-		'Experienced AI users ready to expand automation and augmentation across the business.',
-		'Leaders willing to invest time upfront to design an engagement that delivers exactly what they need.'
+		'Cross-functional teams modernizing operations, product delivery, and customer experiences with AI.',
+		'Managers responsible for scaling AI adoption without sacrificing compliance or brand voice.',
+		'Leaders who want a repeatable system to evaluate, pilot, and scale AI initiatives.'
 	],
 	audienceExamples: [
-		'Heads of operations aligning AI with service delivery teams.',
-		'Marketing and revenue leaders orchestrating multi-channel personalization.',
-		'Innovation managers combining AI, data, and automation squads.',
-		'Product teams training assistants on proprietary knowledge bases.'
+		'Operations leads improving handoffs between departments and tools.',
+		'Product managers coordinating research, planning, and launch communications.',
+		'Customer success and support teams balancing personalization with efficiency.',
+		'Enablement groups building shared playbooks for knowledge workers.'
 	],
 	objectives: [
-		'Prioritize the advanced AI initiatives that unlock measurable business outcomes.',
-		'Design guardrails, data flows, and accountability for scaled AI adoption.',
-		'Prototype advanced workflows, then document and hand off playbooks your teams can run.'
+		'Automate repetitive tasks so teams can focus on strategic, human-centered work.',
+		'Co-create prompts, templates, and workflows that reflect your quality standards and guardrails.',
+		'Connect AI experiments to measurable outcomes, dashboards, and handoffs.'
 	],
 	prerequisites: [
-		'Foundational understanding of prompting and responsible AI use.',
-		'Access to the AI platforms you plan to use (ChatGPT Enterprise, Claude Team, custom models, or automation stacks).',
-		'Availability for weekly 2-hour working sessions across the seven-week cadence.'
+		'Access to a paid account for a foundational LLM such as ChatGPT, Claude, Gemini, or Copilot.',
+		'Readiness to bring real processes or projects to explore during the cohort.',
+		'Commitment to experimenting within existing policies, compliance requirements, and brand guidelines.'
 	],
 	takeaways: [
-		'Custom AI roadmap with milestones, responsibilities, and ROI targets.',
-		'Advanced prompt libraries, automations, and agent blueprints built for your workflows.',
-		'Enablement materials to onboard new team members quickly.',
-		'Executive-ready briefing that explains outcomes, risks, and next investments.'
+		'Team-specific workflow maps that pinpoint where AI adds leverage.',
+		'Reusable prompt libraries, playbooks, and decision frameworks.',
+		'A documented adoption plan with checkpoints, owners, and success metrics.',
+		'Digital certificate of completion once the Week 7 project is presented.'
 	],
 	sessions: [
 		{
-			name: 'Discovery & Alignment',
-			date: 'Scheduled with your leadership team',
-			time: '60-minute kickoff',
-			location: 'Zoom (optional on-site)',
-			spots: 'Core stakeholders',
-			registerUrl: '/contact'
+			name: 'Winter 2025 Open Enrollment',
+			date: 'Nov 6 - Dec 18, 2025 (Thursdays)',
+			time: '10:00 am-12:00 pm PT / 1:00-3:00 pm ET',
+			location: 'Live on Zoom',
+			spots: 'Open enrollment',
+			registerUrl: 'https://lu.ma/BillTalksAI?tag=ai%20workshop%20for%20teams'
 		},
 		{
-			name: 'Weekly Advanced Labs',
-			date: 'Weeks 1–6',
-			time: '2-hour live build sessions',
-			location: 'Zoom + shared workspace',
-			spots: 'Up to 25 team members',
-			registerUrl: '/contact'
-		},
-		{
-			name: 'Executive Playbook Review',
-			date: 'Week 7',
-			time: '60-minute strategy wrap-up',
-			location: 'Zoom or on-site presentation',
-			spots: 'Leadership + project team',
+			name: 'Private Team Cohorts',
+			date: 'Schedule a start date that fits your team',
+			time: 'Seven weekly 2-hour sessions (virtual or on-site intensives)',
+			location: 'Zoom or on-site',
+			spots: 'Up to 25 participants',
 			registerUrl: '/contact'
 		}
 	],
 	agenda: [
 		{
-			title: 'Week 1: Advanced Discovery',
+			title: 'Week 1: Adopting the AI Mindset',
 			details: [
-				'Map priority workflows, data sources, and compliance considerations.',
-				'Select high-value AI opportunities and define success metrics.',
-				'Align executive sponsors and delivery teams on goals and guardrails.'
+				'Explore AI foundations for cross-functional teams and align on ethical guardrails.',
+				'Identify quick wins that remove repetitive busywork across departments.',
+				'Practice prompt fundamentals for clarity, context, and accuracy.'
 			]
 		},
 		{
-			title: 'Week 2: Opportunity Prioritization & Roadmapping',
+			title: 'Week 2: Mapping Your Workflows',
 			details: [
-				'Score advanced use cases against impact, effort, and readiness.',
-				'Sequence near-term pilots and supporting enablers on a shared roadmap.',
-				'Align executive sponsors on ROI targets and guardrails for the build weeks.'
+				'Document end-to-end processes that benefit from AI augmentation.',
+				'Align stakeholders on success metrics, handoffs, and constraints.',
+				'Test AI tools that simulate common scenarios and edge cases.'
 			]
 		},
 		{
-			title: 'Week 3: Prototyping Sprints',
+			title: 'Week 3: Personalization at Scale',
 			details: [
-				'Build AI co-pilots and automations that plug into existing systems.',
-				'Set up evaluation loops to measure quality, latency, and cost.',
-				'Capture decisions in reusable prompt and workflow templates.'
+				'Streamline communication across channels without losing brand consistency.',
+				'Automate tone, style, and format adjustments with controlled prompts.',
+				'Design custom GPT instructions tailored to your team workflows.'
 			]
 		},
 		{
-			title: 'Week 4: Data & Governance',
+			title: 'Week 4: Accelerating Value Delivery',
 			details: [
-				'Define approval flows, escalation paths, and human-in-the-loop checkpoints.',
-				'Configure secure access to documents, APIs, and knowledge bases.',
-				'Document risk mitigations and compliance responsibilities.'
+				'Standardize production workflows and remove bottlenecks.',
+				'Run AI-powered audits to prioritize improvements and de-risk adoption.',
+				'Plan projects and tasks that increase measurable impact.'
 			]
 		},
 		{
-			title: 'Week 5: Enablement & Change',
+			title: 'Week 5: Deep Insights and Research',
 			details: [
-				'Coach team leads on adoption tactics and performance tracking.',
-				'Plan internal communications and reinforcement sessions.',
-				'Equip champions with training guides and office-hour formats.'
+				'Use AI to surface gaps, opportunities, and research angles.',
+				'Co-develop outlines and drafts for upcoming deliverables.',
+				'Define the project you will carry through Weeks 6 and 7.'
 			]
 		},
 		{
-			title: 'Week 6: Scale & Measure',
+			title: 'Week 6: Data-Driven Decisions',
 			details: [
-				'Standardize reporting on AI impact across teams.',
-				'Prepare executive updates that articulate value and next bets.',
-				'Identify follow-on experiments to keep momentum.'
+				'Instrument feedback mechanisms to evaluate AI-generated work.',
+				'Apply advanced prompting to sharpen clarity and reduce variance.',
+				'Review progress on team projects and share peer feedback.'
 			]
 		},
 		{
-			title: 'Week 7: Executive Playbook & Transition',
+			title: 'Week 7: Operationalizing Your Roadmap',
 			details: [
-				'Finalize automation runbooks, prompt libraries, and support models.',
-				'Deliver an executive-ready briefing that shares wins, risks, and next bets.',
-				'Define ongoing coaching, office hours, and success metrics post-engagement.'
+				'Present final projects and capture stakeholder feedback.',
+				'Codify a long-term roadmap for AI-enabled operations.',
+				'Celebrate wins and finalize support plans for sustained adoption.'
 			]
 		}
 	],
 	resources: [
-		'Custom AI enablement hub with recordings, templates, and SOPs.',
-		'Executive briefing deck and ROI calculator.',
-		'Optional office hours between sessions for implementation support.'
+		'Weekly office hours and a shared workspace for questions and feedback.',
+		'Downloadable templates, prompt libraries, and adoption checklists.',
+		'Digital certification recognizing successful course completion.'
 	],
-	reviews: [
-		{
-			quote:
-				'Our advanced cohort finally aligned on which automations to scale and how to measure success. This program built the shared playbook.',
-			author: 'Chloe M.',
-			role: 'Chief Operations Officer'
-		},
-		{
-			quote:
-				'The weekly labs turned advanced AI theory into production-ready workflows tailored to our data stack.',
-			author: 'Rahul P.',
-			role: 'Head of Product Innovation'
-		}
-	],
-	testimonial: {
-		quote: 'The engagement brought clarity to our AI roadmap and helped us upskill leaders at the same time.',
-		author: 'Dana L., VP of Strategy'
-	},
 	aboutTrainer: {
 		title: 'About your trainer',
 		name: 'Bill Raymond',
@@ -168,36 +142,62 @@ export const aiAdvancedWorkshop = {
 		photo: '/images/bill.jpg',
 		photoAlt: 'Bill Raymond',
 		summary:
-			'Bill partners with leadership teams to scale AI adoption responsibly—tying advanced technology back to measurable business value.',
+			'Bill is a technical content strategist and AI practitioner who helps teams operationalize generative AI with measurable outcomes.',
 		highlights: [
 			'Author of the Bill Talks AI newsletter.',
 			'Founding member of the AI Collective.',
-			'NASA award winner.',
-			'Microsoft MVP.',
+			'NASA award winner and Microsoft MVP.',
 			'Host of the Agile in Action podcast with 130+ episodes.'
 		]
 	},
 	faqs: [
 		{
-			question: 'How customized is the curriculum?',
+			question: 'Will I receive a certificate of completion?',
 			answers: [
-				'Every engagement starts with discovery and co-planning so that the weekly labs focus on your real workflows and data.',
-				'We can expand or swap modules as priorities evolve during the seven weeks.'
+				'Yes. Graduates receive a digital certificate after presenting their final project.'
 			]
 		},
 		{
-			question: 'Can we include other teams mid-program?',
+			question: 'Will there be makeup dates?',
 			answers: [
-				'Yes. We recommend selecting champions in advance, but we can run supplemental enablement sessions to bring new participants up to speed.'
+				'There are no official makeup dates, but Bill accommodates reasonable requests when scheduling conflicts arise.'
 			]
 		},
 		{
-			question: 'What if we only need portions of the workshop?',
+			question: 'Do I need anything before the workshop starts?',
 			answers: [
-				'We can adapt the schedule into a shorter accelerator or focused lab. Reach out and we will design the right format together.'
+				'Bring access to a paid generative AI account (ChatGPT, Claude, Gemini, Copilot, etc.) and a project where you can apply the lessons.'
+			]
+		},
+		{
+			question: 'Are the meetings virtual or in-person?',
+			answers: [
+				'All cohort sessions are hosted live on Zoom, with optional on-site intensives for private teams.'
+			]
+		},
+		{
+			question: 'How can I ask questions about the course?',
+			answers: [
+				'Use the "Contact the Host" link on the Lu.ma event page or reach out through the Cambermast contact form.'
+			]
+		},
+		{
+			question: 'Will there be exercises and take-home work?',
+			answers: [
+				'Yes. Expect optional take-home exercises and encouragement to apply each lesson directly to your team workflows.'
+			]
+		},
+		{
+			question: 'Are there scheduled collaboration meetings after each class?',
+			answers: [
+				'Not formally, but Bill hosts weekly office hours and maintains a discussion thread for ongoing peer support.'
+			]
+		},
+		{
+			question: "I can't take this course. Are there others?",
+			answers: [
+				'Follow Bill\'s training calendar at https://lu.ma/BillTalksAI and subscribe to the Bill Talks AI newsletter for upcoming offerings.'
 			]
 		}
 	]
-} satisfies TrainingProgram;
-
-export default aiAdvancedWorkshop;
+};

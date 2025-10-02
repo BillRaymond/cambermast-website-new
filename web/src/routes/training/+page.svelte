@@ -38,8 +38,8 @@
 					<h2 class="text-xl font-semibold">{i.title}</h2>
 					{#if i.summary}<p class="mt-1.5 text-gray-600">{i.summary}</p>{/if}
 					{#if i.bullets?.length}
-						<ul class="mt-3 space-y-1.5 text-left text-gray-700">
-							{#each i.bullets as b}<li class="flex items-start gap-2"><span class="mt-1 h-1 w-1 rounded-full bg-blue-500"></span><span>{b}</span></li>{/each}
+						<ul class="mt-3 list-disc space-y-1.5 pl-5 text-left text-gray-700 marker:text-blue-500">
+							{#each i.bullets as b}<li>{b}</li>{/each}
 						</ul>
 					{/if}
 						{#if i.route}

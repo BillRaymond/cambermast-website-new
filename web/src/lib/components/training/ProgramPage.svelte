@@ -148,12 +148,9 @@
 			{#if program.audience?.length}
 				<div class="rounded-2xl bg-white p-5 shadow">
 					<h2 class="text-2xl font-semibold text-gray-900">Who it's for</h2>
-					<ul class="mt-3.5 space-y-2.5 text-gray-700">
+					<ul class="mt-3.5 list-disc space-y-2.5 pl-5 text-gray-700 marker:text-blue-600">
 						{#each program.audience as group}
-							<li class="flex items-start gap-2.5">
-								<span class="mt-0.5 inline-flex h-2 w-2 flex-shrink-0 rounded-full bg-blue-600"></span>
-								<span>{group}</span>
-							</li>
+							<li>{group}</li>
 						{/each}
 					</ul>
 				</div>
@@ -161,12 +158,9 @@
 			{#if program.audienceExamples?.length}
 				<div class="rounded-2xl border border-blue-100 bg-white p-5 shadow">
 					<h2 class="text-2xl font-semibold text-gray-900">Designed for people like you</h2>
-					<ul class="mt-3.5 space-y-2.5 text-gray-700">
+					<ul class="mt-3.5 list-disc space-y-2.5 pl-5 text-gray-700 marker:text-blue-600">
 						{#each program.audienceExamples as example}
-							<li class="flex items-start gap-2.5">
-								<span class="mt-0.5 inline-flex h-2 w-2 flex-shrink-0 rounded-full bg-blue-600"></span>
-								<span>{example}</span>
-							</li>
+							<li>{example}</li>
 						{/each}
 					</ul>
 				</div>
@@ -179,12 +173,9 @@
 			{#if program.objectives?.length}
 				<div class="rounded-2xl border border-blue-100 bg-blue-50 p-5">
 					<h2 class="text-2xl font-semibold text-gray-900">Learning objectives</h2>
-					<ul class="mt-3.5 space-y-2.5 text-gray-800">
+					<ul class="mt-3.5 list-disc space-y-2.5 pl-5 text-gray-800 marker:text-blue-600">
 						{#each program.objectives as objective}
-							<li class="flex items-start gap-2.5">
-								<span class="mt-0.5 inline-flex h-2 w-2 flex-shrink-0 rounded-full bg-blue-600"></span>
-								<span>{objective}</span>
-							</li>
+							<li>{objective}</li>
 						{/each}
 					</ul>
 				</div>
@@ -192,12 +183,9 @@
 			{#if program.prerequisites?.length}
 				<div class="rounded-2xl border border-gray-200 bg-white p-5 shadow">
 					<h2 class="text-2xl font-semibold text-gray-900">Prerequisites</h2>
-					<ul class="mt-3.5 space-y-2.5 text-gray-700">
+					<ul class="mt-3.5 list-disc space-y-2.5 pl-5 text-gray-700 marker:text-blue-600">
 						{#each program.prerequisites as prerequisite}
-							<li class="flex items-start gap-2.5">
-								<span class="mt-0.5 inline-flex h-2 w-2 flex-shrink-0 rounded-full bg-blue-600"></span>
-								<span>{prerequisite}</span>
-							</li>
+							<li>{prerequisite}</li>
 						{/each}
 					</ul>
 				</div>
@@ -210,12 +198,9 @@
 			{#if program.takeaways?.length}
 				<div class="rounded-2xl border border-blue-100 bg-white p-5 shadow">
 					<h2 class="text-2xl font-semibold text-gray-900">Results you can use</h2>
-					<ul class="mt-3.5 space-y-2.5 text-gray-700">
+					<ul class="mt-3.5 list-disc space-y-2.5 pl-5 text-gray-700 marker:text-blue-600">
 						{#each program.takeaways as takeaway}
-							<li class="flex items-start gap-2.5">
-								<span class="mt-0.5 inline-flex h-2 w-2 flex-shrink-0 rounded-full bg-blue-600"></span>
-								<span>{takeaway}</span>
-							</li>
+							<li>{takeaway}</li>
 						{/each}
 					</ul>
 				</div>
@@ -269,9 +254,9 @@
 				{#each program.agenda as block}
 					<div class="rounded-2xl border border-blue-100 p-4">
 						<h3 class="text-lg font-semibold text-blue-700">{block.title}</h3>
-						<ul class="mt-2.5 space-y-1.5 text-sm text-gray-700">
+						<ul class="mt-2.5 list-disc space-y-1.5 pl-5 text-sm text-gray-700 marker:text-blue-600">
 							{#each block.details as item}
-								<li>• {item}</li>
+								<li>{item}</li>
 							{/each}
 						</ul>
 					</div>
@@ -301,12 +286,9 @@
 			{#if program.resources?.length}
 				<div class="rounded-2xl border border-blue-100 bg-blue-50 p-5">
 					<h2 class="text-2xl font-semibold text-gray-900">Included in the workshop</h2>
-					<ul class="mt-3.5 space-y-2.5 text-gray-700">
+					<ul class="mt-3.5 list-disc space-y-2.5 pl-5 text-gray-700 marker:text-blue-600">
 						{#each program.resources as resource}
-							<li class="flex items-start gap-2.5">
-								<span class="mt-0.5 inline-flex h-2 w-2 flex-shrink-0 rounded-full bg-blue-600"></span>
-								<span>{resource}</span>
-							</li>
+							<li>{resource}</li>
 						{/each}
 					</ul>
 				</div>
@@ -349,12 +331,9 @@
 					</div>
 				</div>
 				{#if program.aboutTrainer.highlights?.length}
-					<ul class="w-full space-y-2.5 rounded-2xl border border-blue-100 bg-blue-50 p-5 text-gray-800 lg:max-w-sm lg:flex-shrink-0">
+					<ul class="w-full list-disc space-y-2.5 rounded-2xl border border-blue-100 bg-blue-50 p-5 pl-5 text-gray-800 marker:text-blue-600 lg:max-w-sm lg:flex-shrink-0">
 						{#each program.aboutTrainer.highlights as highlight}
-							<li class="flex items-start gap-2.5">
-								<span class="mt-0.5 inline-flex h-2 w-2 flex-shrink-0 rounded-full bg-blue-600"></span>
-								<span>{highlight}</span>
-							</li>
+							<li>{highlight}</li>
 						{/each}
 					</ul>
 				{/if}
