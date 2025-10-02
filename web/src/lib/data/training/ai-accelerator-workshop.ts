@@ -57,14 +57,6 @@ export const aiAcceleratorWorkshop = {
 	],
 	sessions: [
 		{
-			name: 'Open Cohort',
-			date: 'May 2025',
-			time: 'Weekly 2-hour live session across four consecutive weeks',
-			location: 'Live on Zoom',
-			spots: '30 seats',
-			registerUrl: 'https://luma.com/BillTalksAI?k=c'
-		},
-		{
 			name: 'Private Team Workshop',
 			date: 'Schedule a date that fits your team',
 			time: 'Four weekly 2-hour sessions (virtual) or condensed on-site delivery',

@@ -1,23 +1,41 @@
-<script>
+<script lang="ts">
 	import catalog from '$lib/data/catalog.json';
 	import { getTrainingProgram } from '$lib/data/training';
+	import type { TrainingProgram, TrainingSession } from '$lib/data/training/types';
 
 	const section = catalog.training;
+	const scheduleLabel = 'Schedule for your team';
 
-	const getDurationForRoute = (route) => {
+	const getProgramForRoute = (route?: string): TrainingProgram | undefined => {
 		if (!route) return undefined;
 		const slug = route.split('/').filter(Boolean).pop();
-		if (!slug) return undefined;
-		const program = getTrainingProgram(slug);
-		const durationStat = program?.stats?.find((stat) => stat.label.toLowerCase() === 'duration');
-		return durationStat?.value;
+		return slug ? getTrainingProgram(slug) : undefined;
 	};
+
+	const isExternalUrl = (url?: string): boolean => /^https?:\/\//i.test(url ?? '');
+
+	const getScheduleUrl = (program?: TrainingProgram): string => program?.secondaryCta?.url ?? '/contact';
+
+	const gatherUpcomingSessions = (program?: TrainingProgram): TrainingSession[] =>
+		(program?.sessions ?? []).filter((session) => isExternalUrl(session.registerUrl));
 
 	// Title for the page and services we offer from JSON
 	const items = (section.items ?? [])
 		.filter((i) => i.published ?? true)
 		.sort((a, b) => (a.order ?? 999) - (b.order ?? 999))
-		.map((item) => ({ ...item, duration: getDurationForRoute(item.route) }));
+		.map((item) => {
+			const program = getProgramForRoute(item.route);
+			const durationStat = program?.stats?.find((stat) => stat.label.toLowerCase() === 'duration');
+			const upcomingSessions = gatherUpcomingSessions(program);
+
+			return {
+				...item,
+				duration: durationStat?.value,
+				upcomingSessions,
+				scheduleUrl: getScheduleUrl(program),
+				scheduleLabel
+			};
+		});
 </script>
 
 <h1 class="mb-5 text-3xl font-bold">{section.label}</h1>
@@ -42,19 +60,46 @@
 							{#each i.bullets as b}<li>{b}</li>{/each}
 						</ul>
 					{/if}
-						{#if i.route}
-							<div class="mt-auto flex flex-col items-center gap-2 pt-5">
-							{#if i.duration}
-								<p class="text-sm font-semibold text-gray-700">Duration: {i.duration}</p>
-							{/if}
-							<a
-								href={i.route}
-								class="inline-flex justify-center rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white shadow transition hover:bg-blue-700"
-							>
-								Learn more
-							</a>
-						</div>
+				{#if i.route}
+					<div class="mt-auto flex w-full flex-col items-center gap-3 pt-5">
+						{#if i.duration}
+							<p class="text-sm font-semibold text-gray-700">Duration: {i.duration}</p>
 						{/if}
+						{#if i.upcomingSessions?.length}
+							<div class="w-full rounded-2xl border border-blue-100 bg-blue-50 p-4 text-left">
+								<p class="text-xs font-semibold uppercase tracking-wide text-blue-600">Upcoming sessions</p>
+								<ul class="mt-3 space-y-3">
+									{#each i.upcomingSessions as session (session.registerUrl + session.date)}
+										<li class="rounded-lg border border-white/60 bg-white/80 p-3">
+											<p class="text-sm font-semibold text-gray-900">{session.name}</p>
+											<p class="text-xs text-gray-600">{session.date}</p>
+											<p class="text-xs text-gray-600">{session.time}</p>
+											<a
+												href={session.registerUrl}
+												class="mt-2 inline-flex items-center justify-center rounded-lg bg-blue-600 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-blue-700"
+											>
+												Register
+											</a>
+										</li>
+									{/each}
+								</ul>
+							</div>
+						{:else}
+							<a
+								href={i.scheduleUrl}
+								class="inline-flex w-full justify-center rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white shadow transition hover:bg-blue-700"
+							>
+								{i.scheduleLabel}
+							</a>
+						{/if}
+						<a
+							href={i.route}
+							class="inline-flex w-full justify-center rounded-lg border border-blue-200 px-4 py-2 font-semibold text-blue-700 transition hover:border-blue-500 hover:text-blue-900"
+						>
+							Learn more
+						</a>
+					</div>
+				{/if}
 				</article>
 			{/each}
 		</div>

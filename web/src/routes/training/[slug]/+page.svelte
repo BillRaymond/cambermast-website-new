@@ -7,8 +7,13 @@
 
 	export let data: PageData;
 
-	const defaultBackLink = { href: '/training', label: 'Back to AI Training' } as const;
-	let backLink = defaultBackLink;
+	type BackLink = {
+		href: string;
+		label: string;
+	};
+
+	const defaultBackLink: BackLink = { href: '/training', label: 'Back to AI Training' };
+	let backLink: BackLink = defaultBackLink;
 
 	$: backLink =
 		browser && $page.url.searchParams.get('via') === 'agents'

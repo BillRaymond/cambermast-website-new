@@ -13,7 +13,7 @@ export const aiAdvancedWorkshop: TrainingProgram = {
 	secondaryDescription:
 		'Each week blends strategic discussions with hands-on practice so your team can automate routine work, improve decision quality, and collaborate with AI responsibly.',
 	primaryCta: {
-		label: 'Find a start date',
+		label: 'Book your spot',
 		url: 'https://lu.ma/BillTalksAI?tag=ai%20workshop%20for%20teams'
 	},
 	secondaryCta: {
@@ -55,14 +55,6 @@ export const aiAdvancedWorkshop: TrainingProgram = {
 		'Digital certificate of completion once the Week 7 project is presented.'
 	],
 	sessions: [
-		{
-			name: 'Winter 2025 Open Enrollment',
-			date: 'Nov 6 - Dec 18, 2025 (Thursdays)',
-			time: '10:00 am-12:00 pm PT / 1:00-3:00 pm ET',
-			location: 'Live on Zoom',
-			spots: 'Open enrollment',
-			registerUrl: 'https://lu.ma/BillTalksAI?tag=ai%20workshop%20for%20teams'
-		},
 		{
 			name: 'Private Team Cohorts',
 			date: 'Schedule a start date that fits your team',

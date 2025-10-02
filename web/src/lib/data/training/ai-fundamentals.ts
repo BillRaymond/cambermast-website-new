@@ -61,14 +61,6 @@ export const aiFundamentals = {
 	],
 	sessions: [
 		{
-			name: 'Virtual Cohort',
-			date: 'April 16, 2025',
-			time: '9:00am – 12:30pm PT',
-			location: 'Live on Zoom',
-			spots: '25 seats',
-			registerUrl: 'https://luma.com/BillTalksAI?k=c'
-		},
-		{
 			name: 'Private Team Workshop',
 			date: 'You pick the date',
 			time: 'Half-day or full-day',
