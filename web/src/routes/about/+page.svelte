@@ -5,14 +5,20 @@
 			role: 'AI and Change Leadership',
 			description:
 				'Leads enterprise adoption programs and change management initiatives that ensure AI investments stick.',
-			link: 'https://www.linkedin.com/in/jhufnagel/'
+			link: 'https://www.linkedin.com/in/jhufnagel/',
+			image: '/images/jennifer-hufnagel-headshot.jpg',
+			imageAlt: 'Jennifer Hufnagel headshot',
+			imageFit: 'cover'
 		},
 		{
 			name: 'Scott Abel',
 			role: 'The Content Wrangler',
 			description:
 				'Advises on intelligent content strategies and enterprise documentation workflows built for AI.',
-			link: 'https://thecontentwrangler.com/'
+			link: 'https://thecontentwrangler.com/',
+			image: '/images/the-content-wrangler.jpeg',
+			imageAlt: 'The Content Wrangler logo',
+			imageFit: 'contain'
 		}
 	];
 
@@ -58,7 +64,16 @@
 	</article>
 
 	<article class="rounded-2xl border bg-white p-6 shadow-sm">
-		<h2 class="text-xl font-semibold">Cambermast at a Glance</h2>
+		<div class="flex items-center gap-4">
+			<div class="flex h-20 w-20 items-center justify-center rounded-2xl border border-gray-200 bg-white shadow">
+				<img
+					src="/images/cambermast-logo-small-square-white.png"
+					alt="Cambermast logo"
+					class="h-16 w-16 object-contain"
+				/>
+			</div>
+			<h2 class="text-xl font-semibold">Cambermast at a Glance</h2>
+		</div>
 		<p class="mt-3 text-gray-700">
 			We guide teams from pilot to production with lightweight governance, structured build labs, and
 			lasting knowledge transfer.
@@ -83,18 +98,29 @@
 	</p>
 	<div class="mt-6 grid gap-5 md:grid-cols-2">
 		{#each partners as partner}
-			<article class="flex flex-col justify-between rounded-xl border bg-white p-5 shadow-sm">
-				<div>
-					<h4 class="text-lg font-semibold">{partner.name}</h4>
-					<p class="text-sm text-gray-500">{partner.role}</p>
-					<p class="mt-2 text-gray-700">{partner.description}</p>
+			<article class="flex h-full flex-col gap-4 rounded-xl border bg-white p-5 shadow-sm">
+				<div class="flex items-center gap-4">
+					{#if partner.image}
+						<img
+							src={partner.image}
+							alt={partner.imageAlt}
+							class="h-20 w-20 rounded-2xl border border-gray-200 bg-white shadow"
+							class:object-cover={partner.imageFit !== 'contain'}
+							class:object-contain={partner.imageFit === 'contain'}
+						/>
+					{/if}
+					<div>
+						<h4 class="text-lg font-semibold">{partner.name}</h4>
+						<p class="text-sm text-gray-500">{partner.role}</p>
+					</div>
 				</div>
+				<p class="text-gray-700">{partner.description}</p>
 				{#if partner.link}
 					<a
 						href={partner.link}
 						target="_blank"
 						rel="noopener"
-						class="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-blue-600 hover:text-blue-700"
+						class="mt-auto inline-flex items-center gap-1 text-sm font-semibold text-blue-600 hover:text-blue-700"
 					>
 						Learn more&nbsp;&rarr;
 					</a>
