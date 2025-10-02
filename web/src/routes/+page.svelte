@@ -138,12 +138,6 @@
 	</div>
 </section>
 
-<footer class="py-8">
-	<div class="text-center text-sm text-gray-500">
-		© {year} Cambermast LLC ·
-		<a class="underline" href="mailto:hello@cambermast.com">hello@cambermast.com</a>
-	</div>
-</footer>
 
 <style>
 	.inline-link {

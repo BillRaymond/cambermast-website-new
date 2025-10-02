@@ -48,13 +48,4 @@
 			{link.label}
 		</a>
 	{/each}
-	<a
-		href="/contact"
-		on:click={handleNavClick}
-		class={$page.url.pathname.startsWith('/contact')
-			? 'font-semibold text-blue-600'
-			: 'hover:text-blue-600'}
-	>
-		Contact
-	</a>
 </nav>

@@ -38,6 +38,6 @@
 <footer class="border-t">
 	<div class="mx-auto max-w-6xl px-4 py-6 text-center text-sm text-gray-500">
 		© {new Date().getFullYear()} Cambermast LLC ·
-		<a class="underline" href="mailto:hello@cambermast.com">hello@cambermast.com</a>
+		<a class="underline" href="/contact">Contact</a>
 	</div>
 </footer>
