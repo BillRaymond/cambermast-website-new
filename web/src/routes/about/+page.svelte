@@ -70,7 +70,7 @@
 				>
 					Bill Talks AI
 				</a>
-				newsletter and
+				newsletter
 			</li>
 			<li>
 				Host of the
