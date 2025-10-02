@@ -3,10 +3,7 @@
   "image": "mcr.microsoft.com/devcontainers/javascript-node:20",
   "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
   "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/${localWorkspaceFolderBasename},type=bind",
-  "runArgs": [
-    "-p",
-    "5173:5173"
-  ],
+  "runArgs": ["-p", "5173:5173"],
 
   "postCreateCommand": "cd web && npm ci",
 
@@ -23,7 +20,8 @@
         "esbenp.prettier-vscode",
         "dbaeumer.vscode-eslint",
         "openai.chatgpt",
-        "bradlc.vscode-tailwindcss"
+        "bradlc.vscode-tailwindcss",
+        "github.vscode-github-actions"
       ]
     }
   }
