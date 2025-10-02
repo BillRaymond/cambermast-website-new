@@ -87,5 +87,7 @@
 
 <p class="mt-6 text-sm text-gray-600">
 	Or email us directly at
-	<a class="text-blue-600 underline" href="mailto:hello@cambermast.com">hello@cambermast.com</a>.
+	<a class="text-blue-600 underline" href="mailto:bill.raymond@cambermast.com"
+		>bill.raymond@cambermast.com</a
+	>.
 </p>
