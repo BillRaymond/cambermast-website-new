@@ -17,7 +17,7 @@
 			label: sec.navlabel
 		}));
 
-	const navLinks = [{ href: '/about', label: 'About' }, ...catalogLinks];
+	const navLinks = [...catalogLinks, { href: '/about', label: 'About' }];
 
 	const pathname = $derived(page.url.pathname);
 
@@ -47,9 +47,7 @@
 		<a
 			href={link.href}
 			onclick={handleNavClick}
-			class={pathname.startsWith(link.href)
-				? 'font-semibold text-blue-600'
-				: 'hover:text-blue-600'}
+			class={pathname.startsWith(link.href) ? 'font-semibold text-blue-600' : 'hover:text-blue-600'}
 		>
 			{link.label}
 		</a>
