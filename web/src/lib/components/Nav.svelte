@@ -6,12 +6,14 @@
 	export let vertical = false;
 
 	// Build nav links from catalog, sorted by homeorder
-	const navLinks = Object.entries(catalog)
+	const catalogLinks = Object.entries(catalog)
 		.sort(([, a], [, b]) => (a.homeorder ?? 999) - (b.homeorder ?? 999))
 		.map(([slug, sec]) => ({
 			href: sec.route,
 			label: sec.navlabel
 		}));
+
+	const navLinks = [{ href: '/about', label: 'About' }, ...catalogLinks];
 
 	const dispatch = createEventDispatcher();
 
