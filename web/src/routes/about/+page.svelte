@@ -23,12 +23,12 @@
 	];
 
 	const clients = [
-		'Adobe',
+		'Duke Energy',
 		'Microsoft',
-		'State Street',
-		'PMO Strategies',
-		'Community Brands',
-		'ProjectHosts'
+		'Red Hat',
+		'Moen',
+		'Office Depot',
+		'Blue Cross Blue Shield'
 	];
 </script>
 
