@@ -135,6 +135,36 @@
 		</div>
 	</section>
 
+	{#if program.sessions?.length}
+		<section class="rounded-2xl border border-blue-100 bg-white p-5 shadow">
+			<h2 class="text-2xl font-semibold text-gray-900">Upcoming dates</h2>
+			<div class="mt-3.5 grid gap-3 md:grid-cols-2">
+				{#each program.sessions as session ((session.registerUrl ?? '') + session.name + session.date)}
+					<div class="flex h-full flex-col justify-between rounded-xl border border-gray-100 bg-gray-50 p-3.5">
+						<div>
+							<p class="text-sm font-semibold text-gray-900">{session.name}</p>
+							<p class="mt-0.5 text-sm text-gray-700">{session.date}</p>
+							{#if session.time}
+								<p class="text-xs text-gray-500">{session.time}</p>
+							{/if}
+							{#if session.location}
+								<p class="text-xs text-gray-500">{session.location}</p>
+							{/if}
+						</div>
+						{#if session.registerUrl}
+							<a
+								href={session.registerUrl}
+								class="mt-3 inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-1.5 text-sm font-semibold text-white transition hover:bg-blue-700"
+							>
+								{session.registerUrl === '/contact' ? 'Book your spot' : 'Register'}
+							</a>
+						{/if}
+					</div>
+				{/each}
+			</div>
+		</section>
+	{/if}
+
 	{#if program.reviews?.length}
 		<section class="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
 			{#each program.reviews as review}
