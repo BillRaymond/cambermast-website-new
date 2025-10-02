@@ -40,10 +40,11 @@
 
 <form class="max-w-xl space-y-3.5" on:submit|preventDefault={submitForm}>
 	<div>
-		<label class="block text-sm font-medium text-gray-700">Name</label>
+		<label class="block text-sm font-medium text-gray-700" for="contact-name">Name</label>
 		<input
 			class="mt-1 w-full rounded-md border px-3 py-1.5 outline-none focus:ring-2 focus:ring-blue-500"
 			bind:value={name}
+			id="contact-name"
 			name="name"
 			type="text"
 			required
@@ -51,10 +52,11 @@
 	</div>
 
 	<div>
-		<label class="block text-sm font-medium text-gray-700">Email</label>
+		<label class="block text-sm font-medium text-gray-700" for="contact-email">Email</label>
 		<input
 			class="mt-1 w-full rounded-md border px-3 py-1.5 outline-none focus:ring-2 focus:ring-blue-500"
 			bind:value={email}
+			id="contact-email"
 			name="email"
 			type="email"
 			required
@@ -62,14 +64,15 @@
 	</div>
 
 	<div>
-		<label class="block text-sm font-medium text-gray-700">Message</label>
+		<label class="block text-sm font-medium text-gray-700" for="contact-message">Message</label>
 		<textarea
 			class="mt-1 w-full rounded-md border px-3 py-1.5 outline-none focus:ring-2 focus:ring-blue-500"
 			bind:value={message}
+			id="contact-message"
 			name="message"
 			rows="5"
 			required
-		/>
+		></textarea>
 	</div>
 
 	<button

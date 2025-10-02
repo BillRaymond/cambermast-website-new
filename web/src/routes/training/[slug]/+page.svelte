@@ -1,5 +1,6 @@
 <script lang="ts">
 	import ProgramPage from '$lib/components/training/ProgramPage.svelte';
+	import { browser } from '$app/environment';
 	import { page } from '$app/stores';
 
 	import type { PageData } from './$types';
@@ -10,7 +11,7 @@
 	let backLink = defaultBackLink;
 
 	$: backLink =
-		$page.url.searchParams.get('via') === 'agents'
+		browser && $page.url.searchParams.get('via') === 'agents'
 			? { href: '/agents', label: 'Back to AI Agents & Automation' }
 			: defaultBackLink;
 </script>
