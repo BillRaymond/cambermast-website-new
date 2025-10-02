@@ -76,7 +76,7 @@
 				<h2 class="text-xl font-semibold">{item.title}</h2>
 				{#if item.summary}<p class="mt-1.5 text-gray-600">{item.summary}</p>{/if}
 				{#if item.bullets?.length}
-					<ul class="mt-3 list-disc space-y-1.5 pl-5 text-left text-gray-700 marker:text-blue-500">
+					<ul class="bullet-list mt-3 space-y-1.5 text-left text-gray-700">
 						{#each item.bullets as bullet}
 							<li>{bullet}</li>
 						{/each}

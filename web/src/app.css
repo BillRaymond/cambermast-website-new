@@ -19,3 +19,28 @@
 		line-height: 1.45;
 	}
 }
+
+
+@layer components {
+	.bullet-list {
+		@apply list-none;
+		padding-left: 0;
+		margin: 0;
+	}
+
+	.bullet-list > li {
+		display: flex;
+		align-items: flex-start;
+		gap: 0.75rem;
+	}
+
+	.bullet-list > li::before {
+		content: '';
+		flex-shrink: 0;
+		width: 0.5rem;
+		height: 0.5rem;
+		margin-top: 0.42em;
+		border-radius: 9999px;
+		background-color: theme('colors.blue.500');
+	}
+}

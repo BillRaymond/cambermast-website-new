@@ -148,7 +148,7 @@
 			{#if program.audience?.length}
 				<div class="rounded-2xl bg-white p-5 shadow">
 					<h2 class="text-2xl font-semibold text-gray-900">Who it's for</h2>
-					<ul class="mt-3.5 list-disc space-y-2.5 pl-5 text-gray-700 marker:text-blue-600">
+					<ul class="bullet-list mt-3.5 space-y-2.5 text-gray-700">
 						{#each program.audience as group}
 							<li>{group}</li>
 						{/each}
@@ -158,7 +158,7 @@
 			{#if program.audienceExamples?.length}
 				<div class="rounded-2xl border border-blue-100 bg-white p-5 shadow">
 					<h2 class="text-2xl font-semibold text-gray-900">Designed for people like you</h2>
-					<ul class="mt-3.5 list-disc space-y-2.5 pl-5 text-gray-700 marker:text-blue-600">
+					<ul class="bullet-list mt-3.5 space-y-2.5 text-gray-700">
 						{#each program.audienceExamples as example}
 							<li>{example}</li>
 						{/each}
@@ -173,7 +173,7 @@
 			{#if program.objectives?.length}
 				<div class="rounded-2xl border border-blue-100 bg-blue-50 p-5">
 					<h2 class="text-2xl font-semibold text-gray-900">Learning objectives</h2>
-					<ul class="mt-3.5 list-disc space-y-2.5 pl-5 text-gray-800 marker:text-blue-600">
+					<ul class="bullet-list mt-3.5 space-y-2.5 text-gray-800">
 						{#each program.objectives as objective}
 							<li>{objective}</li>
 						{/each}
@@ -183,7 +183,7 @@
 			{#if program.prerequisites?.length}
 				<div class="rounded-2xl border border-gray-200 bg-white p-5 shadow">
 					<h2 class="text-2xl font-semibold text-gray-900">Prerequisites</h2>
-					<ul class="mt-3.5 list-disc space-y-2.5 pl-5 text-gray-700 marker:text-blue-600">
+					<ul class="bullet-list mt-3.5 space-y-2.5 text-gray-700">
 						{#each program.prerequisites as prerequisite}
 							<li>{prerequisite}</li>
 						{/each}
@@ -198,7 +198,7 @@
 			{#if program.takeaways?.length}
 				<div class="rounded-2xl border border-blue-100 bg-white p-5 shadow">
 					<h2 class="text-2xl font-semibold text-gray-900">Results you can use</h2>
-					<ul class="mt-3.5 list-disc space-y-2.5 pl-5 text-gray-700 marker:text-blue-600">
+					<ul class="bullet-list mt-3.5 space-y-2.5 text-gray-700">
 						{#each program.takeaways as takeaway}
 							<li>{takeaway}</li>
 						{/each}
@@ -254,7 +254,7 @@
 				{#each program.agenda as block}
 					<div class="rounded-2xl border border-blue-100 p-4">
 						<h3 class="text-lg font-semibold text-blue-700">{block.title}</h3>
-						<ul class="mt-2.5 list-disc space-y-1.5 pl-5 text-sm text-gray-700 marker:text-blue-600">
+						<ul class="bullet-list mt-2.5 space-y-1.5 text-sm text-gray-700">
 							{#each block.details as item}
 								<li>{item}</li>
 							{/each}
@@ -286,7 +286,7 @@
 			{#if program.resources?.length}
 				<div class="rounded-2xl border border-blue-100 bg-blue-50 p-5">
 					<h2 class="text-2xl font-semibold text-gray-900">Included in the workshop</h2>
-					<ul class="mt-3.5 list-disc space-y-2.5 pl-5 text-gray-700 marker:text-blue-600">
+					<ul class="bullet-list mt-3.5 space-y-2.5 text-gray-700">
 						{#each program.resources as resource}
 							<li>{resource}</li>
 						{/each}
@@ -331,7 +331,7 @@
 					</div>
 				</div>
 				{#if program.aboutTrainer.highlights?.length}
-					<ul class="w-full list-disc space-y-2.5 rounded-2xl border border-blue-100 bg-blue-50 p-5 pl-5 text-gray-800 marker:text-blue-600 lg:max-w-sm lg:flex-shrink-0">
+					<ul class="bullet-list w-full space-y-2.5 rounded-2xl border border-blue-100 bg-blue-50 p-5 text-gray-800 lg:max-w-sm lg:flex-shrink-0">
 						{#each program.aboutTrainer.highlights as highlight}
 							<li>{highlight}</li>
 						{/each}
