@@ -13,6 +13,23 @@
 		.map(([slug, sec]) => ({ slug, ...sec }));
 </script>
 
+<svelte:head>
+	<!-- Favicon -->
+	<link rel="icon" href="/images/cambermast-favicon.ico" />
+
+	<!-- Apple Touch Icons -->
+	<link rel="apple-touch-icon" sizes="57x57" href="/images/cambermast-apple-touch-icon-57x57.png" />
+	<link rel="apple-touch-icon" sizes="60x60" href="/images/cambermast-apple-touch-icon-60x60.png" />
+	<link rel="apple-touch-icon" sizes="72x72" href="/images/cambermast-apple-touch-icon-72x72.png" />
+	<link rel="apple-touch-icon" sizes="76x76" href="/images/cambermast-apple-touch-icon-76x76.png" />
+	<link rel="apple-touch-icon" sizes="114x114" href="/images/cambermast-apple-touch-icon-114x114.png" />
+	<link rel="apple-touch-icon" sizes="120x120" href="/images/cambermast-apple-touch-icon-120x120.png" />
+	<link rel="apple-touch-icon" sizes="144x144" href="/images/cambermast-apple-touch-icon-144x144.png" />
+	<link rel="apple-touch-icon" sizes="152x152" href="/images/cambermast-apple-touch-icon-152x152.png" />
+	<link rel="apple-touch-icon" sizes="167x167" href="/images/cambermast-apple-touch-icon-167x167.png" />
+	<link rel="apple-touch-icon" sizes="180x180" href="/images/cambermast-apple-touch-icon-180x180.png" />
+</svelte:head>
+
 <!-- Full-bleed hero -->
 <section class="relative left-1/2 right-1/2 -mx-[50vw] w-screen overflow-hidden bg-blue-50">
 	<!-- Removed gradient background, replaced with a subtle blue tint using bg-blue-50 -->
@@ -121,8 +138,8 @@
 		<p class="mb-5 max-w-xl text-center text-gray-700">
 			Did you know that Bill Raymond wrote the book on Microsoft Project Server? Microsoft stopped
 			supporting it, but you may still be using this beloved product. Cambermast partners with
-			<a class="inline-link" href="https://projecthosts.com">ProjectHosts</a> to provide hosting and support for Microsoft
-			Project Server.
+			<a class="inline-link" href="https://projecthosts.com">ProjectHosts</a> to provide hosting and
+			support for Microsoft Project Server.
 		</p>
 
 		<!-- svelte-ignore a11y_consider_explicit_label -->
@@ -137,7 +154,6 @@
 		</p>
 	</div>
 </section>
-
 
 <style>
 	.inline-link {
