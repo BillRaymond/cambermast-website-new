@@ -1,6 +1,5 @@
 <script>
 	import '../app.css';
-	import { page } from '$app/stores';
 	import Nav from '$lib/components/Nav.svelte';
 
 	let navOpen = false;
@@ -25,7 +24,7 @@
 		</button>
 		<!-- Nav: horizontal on sm+, vertical dropdown on mobile when open -->
 		<div class={`w-full sm:w-auto ${navOpen ? '' : 'hidden'} sm:flex`}>
-			<Nav vertical={navOpen} on:navigate={() => (navOpen = false)} />
+			<Nav vertical={navOpen} onNavigate={() => (navOpen = false)} />
 		</div>
 	</div>
 </header>

@@ -1,9 +1,13 @@
-<script>
-	import { page } from '$app/stores';
-	import { createEventDispatcher } from 'svelte';
+<svelte:options runes={true} />
+
+<script lang="ts">
+	import { page } from '$app/state';
 	import catalog from '$lib/data/catalog.json';
 
-	export let vertical = false;
+	const { vertical = false, onNavigate } = $props<{
+		vertical?: boolean;
+		onNavigate?: () => void;
+	}>();
 
 	// Build nav links from catalog, sorted by homeorder
 	const catalogLinks = Object.entries(catalog)
@@ -15,13 +19,13 @@
 
 	const navLinks = [{ href: '/about', label: 'About' }, ...catalogLinks];
 
-	const dispatch = createEventDispatcher();
+	const pathname = $derived(page.url.pathname);
 
-	const handleNavClick = (event) => {
+	const handleNavClick = (event: MouseEvent) => {
 		if (event.defaultPrevented) return;
 		if (event.button !== 0) return;
 		if (event.metaKey || event.altKey || event.ctrlKey || event.shiftKey) return;
-		dispatch('navigate');
+		onNavigate?.();
 	};
 </script>
 
@@ -34,16 +38,16 @@
 >
 	<a
 		href="/"
-		on:click={handleNavClick}
-		class={$page.url.pathname === '/' ? 'font-semibold text-blue-600' : 'hover:text-blue-600'}
+		onclick={handleNavClick}
+		class={pathname === '/' ? 'font-semibold text-blue-600' : 'hover:text-blue-600'}
 	>
 		Home
 	</a>
 	{#each navLinks as link}
 		<a
 			href={link.href}
-			on:click={handleNavClick}
-			class={$page.url.pathname.startsWith(link.href)
+			onclick={handleNavClick}
+			class={pathname.startsWith(link.href)
 				? 'font-semibold text-blue-600'
 				: 'hover:text-blue-600'}
 		>
