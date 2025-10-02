@@ -20,30 +20,30 @@
 		.map((item) => ({ ...item, duration: getDurationForRoute(item.route) }));
 </script>
 
-<h1 class="mb-6 text-3xl font-bold">{section.label}</h1>
-<p class="mb-10 text-gray-700">{section.headline}</p>
+<h1 class="mb-5 text-3xl font-bold">{section.label}</h1>
+<p class="mb-8 text-gray-700">{section.headline}</p>
 
 <section class="mb-12">
-		<div class="grid gap-6 md:grid-cols-3">
+		<div class="grid gap-5 md:grid-cols-3">
 			{#each items as i}
-				<article class="flex h-full flex-col rounded-2xl border bg-white p-6 text-center shadow-sm">
+				<article class="flex h-full flex-col rounded-2xl border bg-white p-5 text-center shadow-sm">
 					{#if i.image}
 						<img
 							src={i.image}
 							alt={i.imageAlt ?? i.title}
-							class="mb-4 w-full rounded-xl object-cover"
+							class="mb-3 w-full rounded-xl object-cover"
 							loading="lazy"
 						/>
 					{/if}
 					<h2 class="text-xl font-semibold">{i.title}</h2>
-					{#if i.summary}<p class="mt-2 text-gray-600">{i.summary}</p>{/if}
+					{#if i.summary}<p class="mt-1.5 text-gray-600">{i.summary}</p>{/if}
 					{#if i.bullets?.length}
-						<ul class="mt-4 space-y-1 text-left text-gray-700">
+						<ul class="mt-3 space-y-1.5 text-left text-gray-700">
 							{#each i.bullets as b}<li class="flex items-start gap-2"><span class="mt-1 h-1 w-1 rounded-full bg-blue-500"></span><span>{b}</span></li>{/each}
 						</ul>
 					{/if}
 						{#if i.route}
-							<div class="mt-auto flex flex-col items-center gap-2 pt-6">
+							<div class="mt-auto flex flex-col items-center gap-2 pt-5">
 							{#if i.duration}
 								<p class="text-sm font-semibold text-gray-700">Duration: {i.duration}</p>
 							{/if}
@@ -60,12 +60,12 @@
 		</div>
 	</section>
 
-<section class="rounded-2xl border bg-gray-50 p-6">
+<section class="rounded-2xl border bg-gray-50 p-5">
 	<h3 class="text-lg font-semibold">Not sure where to start?</h3>
-	<p class="mt-2 text-gray-700">
+	<p class="mt-1.5 text-gray-700">
 		Tell us your team’s goals and constraints—we’ll recommend a path that gets results quickly.
 	</p>
-	<a href="/contact" class="mt-4 inline-block rounded-lg border px-4 py-2 hover:bg-gray-100"
+	<a href="/contact" class="mt-3 inline-block rounded-lg border px-4 py-2 hover:bg-gray-100"
 		>Contact us</a
 	>
 </section>

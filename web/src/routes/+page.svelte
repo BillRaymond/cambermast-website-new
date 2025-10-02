@@ -18,7 +18,7 @@
 	<!-- Removed gradient background, replaced with a subtle blue tint using bg-blue-50 -->
 
 	<div
-		class="relative mx-auto flex max-w-4xl items-center justify-between px-6"
+		class="relative mx-auto flex max-w-5xl items-center justify-between px-5"
 		style="height:100px"
 	>
 		<!-- Left: headline only -->
@@ -31,7 +31,7 @@
 			<img
 				src="/images/bill.jpg"
 				alt="Bill Raymond"
-				class="h-16 w-16 rounded-2xl border border-gray-200 object-cover shadow-2xl"
+				class="h-16 w-16 rounded-2xl border border-gray-200 object-cover shadow-xl"
 			/>
 			<span class="mt-2 text-xs font-medium text-gray-500">
 				Bill Raymond, Founder, Cambermast LLC
@@ -41,12 +41,12 @@
 </section>
 
 <!-- Add podcast and newsletter buttons -->
-<div class="mt-8 flex justify-center gap-4">
+<div class="mt-6 flex justify-center gap-3.5">
 	<a
 		href="https://billtalksai.com/"
 		target="_blank"
 		rel="noopener"
-		class="rounded-lg bg-blue-600 px-5 py-3 font-semibold text-white shadow transition hover:bg-blue-700"
+		class="rounded-lg bg-blue-600 px-5 py-2.5 font-semibold text-white shadow transition hover:bg-blue-700"
 	>
 		📰 The Bill Talks AI Newsletter
 	</a>
@@ -54,7 +54,7 @@
 		href="https://agileinaction.com/"
 		target="_blank"
 		rel="noopener"
-		class="rounded-lg bg-gray-900 px-5 py-3 font-semibold text-white shadow transition hover:bg-gray-800"
+		class="rounded-lg bg-gray-900 px-5 py-2.5 font-semibold text-white shadow transition hover:bg-gray-800"
 	>
 		🎙️ The Agile in Action Podcast
 	</a>
@@ -62,14 +62,14 @@
 		href="https://youtube.com/@bill-raymond"
 		target="_blank"
 		rel="noopener"
-		class="rounded-lg bg-red-600 px-5 py-3 font-semibold text-white shadow transition hover:bg-red-700"
+		class="rounded-lg bg-red-600 px-5 py-2.5 font-semibold text-white shadow transition hover:bg-red-700"
 	>
 		▶️ Bill on YouTube
 	</a>
 </div>
 
 <!-- Cards rendered from JSON (label + headline only) -->
-<section class="mt-12 grid gap-6 md:grid-cols-3">
+<section class="mt-9 grid gap-5 md:grid-cols-3">
 	{#each sections as s}
 		<Card
 			icon={s.icon}
@@ -82,27 +82,27 @@
 	{/each}
 </section>
 <!-- Add a section break line -->
-<hr class="my-12 border-gray-300" />
+<hr class="my-10 border-gray-300" />
 <!-- Upcoming events embed -->
-<section class="mt-12 flex flex-col items-center px-4">
-	<h2 class="mb-4 text-center text-2xl font-bold text-gray-900">
+<section class="mt-10 flex flex-col items-center px-3.5">
+	<h2 class="mb-3 text-center text-2xl font-bold text-gray-900">
 		Bill's Upcoming Training and Speaking Events
 	</h2>
-	<div class="mb-6 flex justify-center">
+	<div class="mb-5 flex justify-center">
 		<a
 			href="https://luma.com/BillTalksAI?k=c"
 			target="_blank"
 			rel="noopener"
-			class="rounded-lg bg-blue-600 px-5 py-3 font-semibold text-white shadow transition hover:bg-blue-700"
+			class="rounded-lg bg-blue-600 px-5 py-2.5 font-semibold text-white shadow transition hover:bg-blue-700"
 		>
 			View Events on Lu.ma
 		</a>
 	</div>
-	<div class="w-full max-w-4xl overflow-hidden rounded-lg shadow-sm">
+	<div class="w-full max-w-5xl overflow-hidden rounded-lg shadow-sm">
 		<iframe
 			title="Bill Talks AI upcoming events calendar"
 			src="https://luma.com/embed/calendar/cal-WiCb89B8ouz3ZFH/events"
-			class="h-[600px] w-full"
+			class="h-[560px] w-full"
 			loading="lazy"
 			frameborder="0"
 			style="border: 1px solid #bfcbda88; border-radius: 4px;"
@@ -111,14 +111,14 @@
 	</div>
 </section>
 <!-- Add a section break line -->
-<hr class="my-12 border-gray-300" />
+<hr class="my-10 border-gray-300" />
 <!-- Microsoft Project Server Service-->
 <section>
-	<div class="mt-12 flex flex-col items-center">
-		<h2 class="text-1xl mb-4 font-bold text-gray-900">
+	<div class="mt-10 flex flex-col items-center">
+		<h2 class="text-1xl mb-3 font-bold text-gray-900">
 			Are you a Microsoft Project Server customer?
 		</h2>
-		<p class="mb-6 max-w-xl text-center text-gray-700">
+		<p class="mb-5 max-w-xl text-center text-gray-700">
 			Did you know that Bill Raymond wrote the book on Microsoft Project Server? Microsoft stopped
 			supporting it, but you may still be using this beloved product. Cambermast partners with
 			<a class="inline-link" href="https://projecthosts.com">ProjectHosts</a> to provide hosting and support for Microsoft
@@ -131,14 +131,14 @@
 				href="https://cambermast.com/services/microsoft-project-server/"
 				target="_blank"
 				rel="noopener"
-				class="text-1xl rounded-lg bg-green-600 px-5 py-3 font-semibold text-white shadow transition hover:bg-green-700"
+				class="text-1xl rounded-lg bg-green-600 px-5 py-2.5 font-semibold text-white shadow transition hover:bg-green-700"
 				>Learn More ></a
 			>
 		</p>
 	</div>
 </section>
 
-<footer class="py-10">
+<footer class="py-8">
 	<div class="text-center text-sm text-gray-500">
 		© {year} Cambermast LLC ·
 		<a class="underline" href="mailto:hello@cambermast.com">hello@cambermast.com</a>

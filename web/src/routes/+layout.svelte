@@ -6,7 +6,7 @@
 	let navOpen = false;
 </script>
 
-<header class="flex flex-col items-center border-b bg-white px-6 py-4">
+<header class="flex flex-col items-center border-b bg-white px-5 py-3">
 	<a href="/" class="mb-2 block" style="width:160px;min-width:160px;">
 		<img
 			src="/images/cambermast-logo-full.png"
@@ -31,12 +31,12 @@
 </header>
 
 <!-- Default container for every page -->
-<main class="text-fluid mx-auto max-w-7xl px-6 pb-20">
+<main class="text-fluid mx-auto max-w-6xl px-4 pb-16">
 	<slot />
 </main>
 
 <footer class="border-t">
-	<div class="mx-auto max-w-7xl px-6 py-8 text-center text-sm text-gray-500">
+	<div class="mx-auto max-w-6xl px-4 py-6 text-center text-sm text-gray-500">
 		© {new Date().getFullYear()} Cambermast LLC ·
 		<a class="underline" href="mailto:hello@cambermast.com">hello@cambermast.com</a>
 	</div>

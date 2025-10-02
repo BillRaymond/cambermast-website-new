@@ -36,13 +36,13 @@
 	}
 </script>
 
-<h1 class="mb-6 text-3xl font-bold">Contact</h1>
+<h1 class="mb-5 text-3xl font-bold">Contact</h1>
 
-<form class="max-w-xl space-y-4" on:submit|preventDefault={submitForm}>
+<form class="max-w-xl space-y-3.5" on:submit|preventDefault={submitForm}>
 	<div>
 		<label class="block text-sm font-medium text-gray-700">Name</label>
 		<input
-			class="mt-1 w-full rounded-md border px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500"
+			class="mt-1 w-full rounded-md border px-3 py-1.5 outline-none focus:ring-2 focus:ring-blue-500"
 			bind:value={name}
 			name="name"
 			type="text"
@@ -53,7 +53,7 @@
 	<div>
 		<label class="block text-sm font-medium text-gray-700">Email</label>
 		<input
-			class="mt-1 w-full rounded-md border px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500"
+			class="mt-1 w-full rounded-md border px-3 py-1.5 outline-none focus:ring-2 focus:ring-blue-500"
 			bind:value={email}
 			name="email"
 			type="email"
@@ -64,7 +64,7 @@
 	<div>
 		<label class="block text-sm font-medium text-gray-700">Message</label>
 		<textarea
-			class="mt-1 w-full rounded-md border px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500"
+			class="mt-1 w-full rounded-md border px-3 py-1.5 outline-none focus:ring-2 focus:ring-blue-500"
 			bind:value={message}
 			name="message"
 			rows="5"
@@ -73,7 +73,7 @@
 	</div>
 
 	<button
-		class="rounded-lg bg-blue-600 px-5 py-2.5 font-medium text-white hover:bg-blue-700 disabled:opacity-60"
+		class="rounded-lg bg-blue-600 px-5 py-2 font-medium text-white hover:bg-blue-700 disabled:opacity-60"
 		disabled={status === 'sending'}
 		type="submit"
 	>
@@ -87,7 +87,7 @@
 	{/if}
 </form>
 
-<p class="mt-8 text-sm text-gray-600">
+<p class="mt-6 text-sm text-gray-600">
 	Or email us directly at
 	<a class="text-blue-600 underline" href="mailto:hello@cambermast.com">hello@cambermast.com</a>.
 </p>

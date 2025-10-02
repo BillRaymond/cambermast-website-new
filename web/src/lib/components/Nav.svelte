@@ -24,9 +24,9 @@
 </script>
 
 <nav
-	class={`flex gap-8 ${
+	class={`flex gap-6 ${
 		vertical
-			? 'flex-col items-start py-2 sm:flex-row sm:items-center sm:py-0'
+			? 'flex-col items-start py-1.5 sm:flex-row sm:items-center sm:py-0'
 			: 'flex-row items-center'
 	}`}
 >

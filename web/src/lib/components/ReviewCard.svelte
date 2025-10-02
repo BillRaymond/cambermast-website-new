@@ -4,7 +4,7 @@
 	export let role: string = '';
 </script>
 
-<figure class="flex h-full flex-col justify-between rounded-2xl border border-blue-100 bg-white p-6 shadow-sm">
+<figure class="flex h-full flex-col justify-between rounded-2xl border border-blue-100 bg-white p-5 shadow-sm">
 	<div>
 		<div class="flex items-center gap-1 text-yellow-500" aria-label="Rated five out of five stars">
 			{#each Array(5) as _, index}
@@ -18,9 +18,9 @@
 				</svg>
 			{/each}
 		</div>
-		<blockquote class="mt-4 text-base text-gray-800">“{quote}”</blockquote>
+		<blockquote class="mt-3.5 text-base text-gray-800">“{quote}”</blockquote>
 	</div>
-	<figcaption class="mt-6 text-sm font-semibold text-gray-700">
+	<figcaption class="mt-4 text-sm font-semibold text-gray-700">
 		{author}
 		{#if role}
 			<span class="block font-normal text-gray-500">{role}</span>
