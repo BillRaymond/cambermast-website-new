@@ -5,8 +5,7 @@
 	let status: 'idle' | 'sending' | 'sent' | 'error' = 'idle';
 	let errorMsg = '';
 
-	// Optional: set PUBLIC_N8N_WEBHOOK in your repo secrets or .env
-	const webhook = import.meta.env.PUBLIC_N8N_WEBHOOK;
+	const webhook = 'https://n8n.cambermast.com/webhook-test/0095b76c-c32c-49ce-a59d-de6435af2b3e';
 
 	async function submitForm(e: Event) {
 		e.preventDefault();
@@ -14,13 +13,6 @@
 		errorMsg = '';
 
 		try {
-			if (!webhook) {
-				// No webhook set yet—simulate success for local testing
-				await new Promise((r) => setTimeout(r, 600));
-				status = 'sent';
-				return;
-			}
-
 			const res = await fetch(webhook, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
