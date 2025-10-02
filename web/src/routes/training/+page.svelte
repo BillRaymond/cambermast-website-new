@@ -43,15 +43,17 @@
 						</ul>
 					{/if}
 						{#if i.route}
+							<div class="mt-auto flex flex-col items-center gap-2 pt-6">
 							{#if i.duration}
-								<p class="mt-6 text-sm font-semibold text-gray-700">Duration: {i.duration}</p>
+								<p class="text-sm font-semibold text-gray-700">Duration: {i.duration}</p>
 							{/if}
 							<a
 								href={i.route}
-								class={`inline-flex justify-center rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white shadow transition hover:bg-blue-700 ${i.duration ? 'mt-2' : 'mt-6'}`}
+								class="inline-flex justify-center rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white shadow transition hover:bg-blue-700"
 							>
 								Learn more
 							</a>
+						</div>
 						{/if}
 				</article>
 			{/each}
