@@ -4,6 +4,7 @@
 	import type { TrainingProgram, TrainingSession } from '$lib/data/training/types';
 
 	const section = catalog.training;
+	const pageHeading = section.catalogLabel ?? section.label;
 	const scheduleLabel = 'Schedule your team';
 
 	const getProgramForRoute = (route?: string): TrainingProgram | undefined => {
@@ -38,7 +39,7 @@
 		});
 </script>
 
-<h1 class="mb-5 text-3xl font-bold">{section.label}</h1>
+<h1 class="mb-5 text-3xl font-bold">{pageHeading}</h1>
 <p class="mb-8 text-gray-700">{section.headline}</p>
 
 <section class="mb-12">
