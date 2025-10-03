@@ -8,9 +8,16 @@
 		.sort((a, b) => a.title.localeCompare(b.title))
 		.map((program) => ({ slug: program.slug, title: program.title }));
 
-	const trainingOptions = [
+	const serviceTopics = [
+		{ slug: 'ai-agents', title: 'AI Agents' },
+		{ slug: 'ai-advisory-services', title: 'AI Advisory Services' },
+		{ slug: 'project-management', title: 'Project Management' }
+	];
+
+	const contactOptions = [
 		...trainingPrograms,
-		{ slug: 'other', title: 'General question / other topic' }
+		...serviceTopics,
+		{ slug: 'other', title: 'Something else' }
 	];
 
 	let name = '';
@@ -23,7 +30,7 @@
 	const webhook = 'https://n8n.cambermast.com/webhook/0095b76c-c32c-49ce-a59d-de6435af2b3e';
 
 	const getProgramTitle = (slug: string): string =>
-		trainingOptions.find((option) => option.slug === slug)?.title ??
+		contactOptions.find((option) => option.slug === slug)?.title ??
 		'General question / other topic';
 
 	async function submitForm(e: Event) {
@@ -116,8 +123,9 @@
 <section class="mb-8 max-w-3xl space-y-3">
 	<h1 class="text-3xl font-bold">Plan your team's training or get in touch</h1>
 	<p class="text-gray-700">
-		Tell me what you are looking for. Whether that is booking a cohort, designing a private
-		workshop, or starting a new collaboration. I will follow up quickly with the next steps.
+		You can contact Bill and his team about any topic that interests you, including booking AI
+		training, designing a private workshop, building AI agents, planning advisory services, managing
+		projects, or starting a new collaboration.
 	</p>
 </section>
 
@@ -160,22 +168,22 @@
 
 		<div>
 			<label class="block text-sm font-medium text-gray-700" for="contact-program"
-				>Which training are you interested in?
+				>What would you like to talk about?
 				<span class="text-red-500" aria-hidden="true">*</span>
 				<span class="sr-only"> required</span></label
 			>
-		<select
-			class="mt-1 w-full rounded-md border bg-white px-3 py-1.5 text-sm outline-none focus:ring-2 focus:ring-blue-500"
-			bind:value={selectedProgram}
-			id="contact-program"
-			name="training"
-			required
-		>
-			<option value="" disabled selected={!selectedProgram}>-- Pick a topic --</option>
-			{#each trainingOptions as option}
-				<option value={option.slug}>{option.title}</option>
-			{/each}
-		</select>
+			<select
+				class="mt-1 w-full rounded-md border bg-white px-3 py-1.5 text-sm outline-none focus:ring-2 focus:ring-blue-500"
+				bind:value={selectedProgram}
+				id="contact-program"
+				name="training"
+				required
+			>
+				<option value="" disabled selected={!selectedProgram}>-- Pick a topic --</option>
+				{#each contactOptions as option}
+					<option value={option.slug}>{option.title}</option>
+				{/each}
+			</select>
 		</div>
 
 		<div>
