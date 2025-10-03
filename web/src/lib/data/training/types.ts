@@ -11,6 +11,8 @@ export type TrainingStat = {
 export type TrainingSession = {
 	name: string;
 	date: string;
+	startDate?: string;
+	endDate?: string;
 	time: string;
 	location: string;
 	spots: string;

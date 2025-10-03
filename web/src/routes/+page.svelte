@@ -3,6 +3,7 @@
 	import catalog from '$lib/data/catalog.json';
 	// import ServiceCard from '$lib/components/ServiceCard.svelte';
 	import Card from '$lib/components/ServiceCard.svelte';
+	import { listTrainingPrograms } from '$lib/data/training';
 	// This is for the footer copyright year
 	const year = new Date().getFullYear();
 
@@ -11,6 +12,24 @@
 	const sections = Object.entries(catalog)
 		.filter(([slug, sec]) => slug !== 'home' && sec?.label && sec?.headline)
 		.map(([slug, sec]) => ({ slug, ...sec }));
+
+	const isExternalUrl = (url) => /^https?:\/\//i.test(url ?? '');
+
+	const today = new Date();
+	today.setHours(0, 0, 0, 0);
+
+	const upcomingSessions = listTrainingPrograms()
+		.flatMap((program) => (program.sessions ?? []).map((session) => ({ program, session })))
+		.filter(({ session }) => isExternalUrl(session.registerUrl))
+		.filter(({ session }) => {
+			if (!session.startDate) return false;
+			const parsedStart = new Date(session.startDate);
+			if (Number.isNaN(parsedStart.valueOf())) return false;
+			const parsedEnd = session.endDate ? new Date(session.endDate) : parsedStart;
+			if (Number.isNaN(parsedEnd.valueOf())) return parsedStart >= today;
+			return parsedEnd >= today;
+		})
+		.sort((a, b) => new Date(a.session.startDate) - new Date(b.session.startDate));
 </script>
 
 <svelte:head>
@@ -138,6 +157,46 @@
 		▶️ Bill on YouTube
 	</a>
 </div>
+
+{#if upcomingSessions.length}
+	<section class="mx-auto mt-6 w-full px-4">
+		<div
+			class="mx-auto max-w-5xl rounded-2xl border border-blue-100 bg-blue-50 px-4 py-4 shadow-sm"
+		>
+			<p class="text-xs font-semibold uppercase tracking-wide text-blue-600">
+				Upcoming sessions and events
+			</p>
+			<div class="mt-3 overflow-x-auto">
+				<div class="flex gap-3 pb-2 pr-1">
+					{#each upcomingSessions as upcoming (upcoming.program.slug + upcoming.session.startDate)}
+						<a
+							href={upcoming.session.registerUrl}
+							target="_blank"
+							rel="noopener"
+							class="group min-w-[16rem] rounded-lg border border-blue-100 bg-white px-4 py-3 text-left transition hover:border-blue-300 hover:bg-blue-100/60"
+						>
+							<p
+								class="text-xs font-semibold uppercase tracking-wide text-blue-500 group-hover:text-blue-700"
+							>
+								{upcoming.program.title}
+							</p>
+							<p class="mt-1 text-sm font-semibold text-gray-900 group-hover:text-blue-900">
+								{upcoming.session.name}
+							</p>
+							<p class="text-xs text-gray-600">{upcoming.session.date}</p>
+							{#if upcoming.session.time}
+								<p class="text-xs text-gray-500">{upcoming.session.time}</p>
+							{/if}
+							<p class="mt-2 text-xs font-semibold text-blue-600 group-hover:text-blue-800">
+								Register →
+							</p>
+						</a>
+					{/each}
+				</div>
+			</div>
+		</div>
+	</section>
+{/if}
 
 <!-- Cards rendered from JSON (label + headline only) -->
 <section class="mt-9 grid gap-5 md:grid-cols-3">

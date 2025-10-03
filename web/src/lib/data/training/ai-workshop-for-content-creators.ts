@@ -57,6 +57,8 @@ export const aiWorkshopForContentCreators = {
 		{
 			name: 'Winter 2025 Open Enrollment',
 			date: 'Nov 4 - Dec 30, 2025 (Tuesdays)',
+			startDate: '2025-11-04',
+			endDate: '2025-12-30',
 			time: '10:00 am-12:00 pm PT / 1:00-3:00 pm ET',
 			location: 'Live on Zoom',
 			spots: 'Open enrollment',
@@ -65,6 +67,8 @@ export const aiWorkshopForContentCreators = {
 		{
 			name: 'Spring 2026 Open Enrollment',
 			date: 'Jan 27 - Mar 10, 2026 (Tuesdays)',
+			startDate: '2026-01-27',
+			endDate: '2026-03-10',
 			time: '10:00 am-12:00 pm PT / 1:00-3:00 pm ET',
 			location: 'Live on Zoom',
 			spots: 'Open enrollment',
