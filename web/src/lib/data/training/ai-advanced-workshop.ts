@@ -13,8 +13,8 @@ export const aiAdvancedWorkshop: TrainingProgram = {
 	secondaryDescription:
 		'Each week blends strategic discussions with hands-on practice so your team can automate routine work, improve decision quality, and collaborate with AI responsibly.',
 	primaryCta: {
-		label: 'Book your spot',
-		url: 'https://lu.ma/BillTalksAI?tag=ai%20workshop%20for%20teams'
+		label: 'Schedule your team',
+		url: '/contact'
 	},
 	secondaryCta: {
 		label: 'Talk with Bill',

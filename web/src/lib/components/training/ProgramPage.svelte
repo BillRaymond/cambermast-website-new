@@ -156,7 +156,7 @@
 								href={session.registerUrl}
 								class="mt-3 inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-1.5 text-sm font-semibold text-white transition hover:bg-blue-700"
 							>
-								{session.registerUrl === '/contact' ? 'Book your spot' : 'Register'}
+								{session.registerUrl === '/contact' ? 'Schedule your team' : 'Register'}
 							</a>
 						{/if}
 					</div>

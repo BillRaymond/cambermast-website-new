@@ -4,7 +4,7 @@
 	import type { TrainingProgram, TrainingSession } from '$lib/data/training/types';
 
 	const section = catalog.training;
-	const scheduleLabel = 'Schedule for your team';
+	const scheduleLabel = 'Schedule your team';
 
 	const getProgramForRoute = (route?: string): TrainingProgram | undefined => {
 		if (!route) return undefined;
