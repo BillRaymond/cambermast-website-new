@@ -187,6 +187,11 @@
 							{#if upcoming.session.time}
 								<p class="text-xs text-gray-500">{upcoming.session.time}</p>
 							{/if}
+							{#if upcoming.session.partner}
+								<p class="mt-1 text-xs text-gray-500">
+									<em>{upcoming.session.partner}</em>
+								</p>
+							{/if}
 							<p class="mt-2 text-xs font-semibold text-blue-600 group-hover:text-blue-800">
 								Register →
 							</p>

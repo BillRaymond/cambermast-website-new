@@ -4,8 +4,7 @@ export const aiWorkshopForContentCreators = {
 	slug: 'ai-workshop-for-content-creators',
 	title: 'AI Workshop for Content Creators',
 	nickname: 'Seven-week cohort for technical communicators',
-	tagline:
-		'AI-enhanced content workflows that deliver measurable impact in seven weeks.',
+	tagline: 'AI-enhanced content workflows that deliver measurable impact in seven weeks.',
 	heroImage: '/images/ai-workshop-for-content-creators.jpeg',
 	heroImageAlt: 'AI Workshop for Content Creators illustration',
 	description:
@@ -57,22 +56,24 @@ export const aiWorkshopForContentCreators = {
 		{
 			name: 'Winter 2025 Open Enrollment',
 			date: 'Nov 4 - Dec 30, 2025 (Tuesdays)',
+			time: '10:00 am-12:00 pm PT / 1:00-3:00 pm ET',
+			partner: 'In partnership with The Content Wrangler',
 			startDate: '2025-11-04',
 			endDate: '2025-12-30',
-			time: '10:00 am-12:00 pm PT / 1:00-3:00 pm ET',
 			location: 'Live on Zoom',
 			spots: 'Open enrollment',
-			registerUrl: 'https://lu.ma/BillTalksAI?tag=ai%20workshop%20for%20content%20creators'
+			registerUrl: 'https://luma.com/zw3izjni'
 		},
 		{
 			name: 'Spring 2026 Open Enrollment',
 			date: 'Jan 27 - Mar 10, 2026 (Tuesdays)',
+			time: '10:00 am-12:00 pm PT / 1:00-3:00 pm ET',
+			partner: 'In partnership with The Content Wrangler',
 			startDate: '2026-01-27',
 			endDate: '2026-03-10',
-			time: '10:00 am-12:00 pm PT / 1:00-3:00 pm ET',
 			location: 'Live on Zoom',
 			spots: 'Open enrollment',
-			registerUrl: 'https://lu.ma/BillTalksAI?tag=ai%20workshop%20for%20content%20creators'
+			registerUrl: 'https://luma.com/nvd9y1wn'
 		}
 	],
 	agenda: [
@@ -174,9 +175,7 @@ export const aiWorkshopForContentCreators = {
 		},
 		{
 			question: 'Are the meetings virtual or in-person?',
-			answers: [
-				'All cohort sessions are hosted live on Zoom.'
-			]
+			answers: ['All cohort sessions are hosted live on Zoom.']
 		},
 		{
 			question: 'How can I ask questions about the course?',
@@ -199,7 +198,7 @@ export const aiWorkshopForContentCreators = {
 		{
 			question: "I can't take this course. Are there others?",
 			answers: [
-				'Follow Bill\'s training calendar at https://lu.ma/BillTalksAI and subscribe to the Bill Talks AI newsletter for upcoming offerings.'
+				"Follow Bill's training calendar at https://lu.ma/BillTalksAI and subscribe to the Bill Talks AI newsletter for upcoming offerings."
 			]
 		},
 		{
