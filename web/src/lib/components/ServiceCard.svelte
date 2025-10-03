@@ -5,6 +5,9 @@
 	export let testimonial;
 	export let author;
 	export let route;
+	export let testimonialCta;
+
+	const DEFAULT_TESTIMONIAL_CTA_LABEL = 'Book for your team';
 </script>
 
 <article
@@ -31,5 +34,14 @@
 			“{testimonial}”
 			<div class="mt-1.5 text-right font-medium text-gray-500">{author}</div>
 		</div>
+		{#if testimonialCta?.href}
+				<a
+					href={testimonialCta.href}
+					class="mt-3 inline-flex items-center justify-center rounded-lg border border-blue-200 bg-white px-4 py-2 font-semibold text-blue-700 transition hover:border-blue-500 hover:bg-blue-50 hover:text-blue-900"
+					aria-label={testimonialCta?.ariaLabel ?? `Book ${label} for your team`}
+				>
+					{testimonialCta?.label ?? DEFAULT_TESTIMONIAL_CTA_LABEL}
+				</a>
+		{/if}
 	{/if}
 </article>

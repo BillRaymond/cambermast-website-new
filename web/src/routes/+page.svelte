@@ -149,6 +149,7 @@
 			testimonial={s.testimonial}
 			author={s.author}
 			route={s.route}
+			testimonialCta={s.testimonialCta}
 		/>
 	{/each}
 </section>

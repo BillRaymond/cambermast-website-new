@@ -7,6 +7,10 @@
 		"icon": "\ud83d\udee0\ufe0f",
 		"route": "/training",
 		"headline": "Hands-on workshops to build practical skills that your team can apply immediately.",
+		"testimonialCta": {
+			"href": "/contact",
+			"label": "Book for your team"
+		},
 		"homeorder": 0,
 		"items": [
 			{
@@ -94,6 +98,10 @@
 		"icon": "\ud83e\udd16",
 		"route": "/agents",
 		"headline": "Practical automations using n8n and APIs\u2014focused on real outcomes.",
+		"testimonialCta": {
+			"href": "/contact",
+			"label": "Book for your team"
+		},
 		"homeorder": 1,
 		"items": [
 			{
@@ -115,6 +123,10 @@
 		"icon": "\ud83c\udfaf",
 		"route": "/strategy",
 		"headline": "Strategic guidance and execution support\u2014so pilots turn into repeatable wins.",
+		"testimonialCta": {
+			"href": "/contact",
+			"label": "Book for your team"
+		},
 		"homeorder": 2,
 		"items": [
 			{
