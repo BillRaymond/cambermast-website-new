@@ -4,6 +4,9 @@
 	import type { TrainingProgram } from '$lib/data/training/types';
 
 	const section = catalog.agents;
+	const scheduleTeamLabel = 'schedule your team';
+	const normalizeLabel = (label?: string): string | undefined => label?.toLowerCase().trim();
+	const isScheduleTeamLabel = (label?: string): boolean => normalizeLabel(label) === scheduleTeamLabel;
 
 	type CatalogItem = {
 		title: string;
@@ -51,7 +54,7 @@
 				duration: durationStat?.value,
 				linkHref: withSourceQuery(item.route),
 				bookUrl: program?.primaryCta?.url,
-				bookLabel: program?.primaryCta?.label ?? 'Book your spot'
+				bookLabel: program?.primaryCta?.label ?? 'Schedule your team'
 			};
 		});
 
@@ -91,8 +94,9 @@
 							<a
 								href={item.bookUrl}
 								class="inline-flex justify-center rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white shadow transition hover:bg-blue-700"
+								class:schedule-team-button={isScheduleTeamLabel(item.bookLabel)}
 							>
-								{item.bookLabel ?? 'Book your spot'}
+								{item.bookLabel ?? 'Schedule your team'}
 							</a>
 						{/if}
 						<a
@@ -123,8 +127,9 @@
 		<a
 			href={primaryBooking.bookUrl}
 			class="pointer-events-auto flex items-center justify-center rounded-full bg-blue-600 px-6 py-3 font-semibold text-white shadow-lg shadow-blue-500/30 transition hover:bg-blue-700"
+			class:schedule-team-button={isScheduleTeamLabel(primaryBooking?.bookLabel)}
 		>
-			{primaryBooking.bookLabel ?? 'Book your spot'}
+			{primaryBooking.bookLabel ?? 'Schedule your team'}
 		</a>
 	</div>
 {/if}

@@ -86,12 +86,13 @@
 								</ul>
 							</div>
 						{:else}
-							<a
-								href={i.scheduleUrl}
-								class="inline-flex w-full justify-center rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white shadow transition hover:bg-blue-700"
-							>
-								{i.scheduleLabel}
-							</a>
+						<a
+							href={i.scheduleUrl}
+							class="inline-flex w-full justify-center rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white shadow transition hover:bg-blue-700"
+							class:schedule-team-button={i.scheduleLabel === scheduleLabel}
+						>
+							{i.scheduleLabel}
+						</a>
 						{/if}
 						<a
 							href={i.route}

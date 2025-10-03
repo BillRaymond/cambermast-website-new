@@ -43,4 +43,13 @@
 		border-radius: 9999px;
 		background-color: theme('colors.blue.500');
 	}
+
+	.schedule-team-button {
+		@apply text-center;
+	}
+
+	.schedule-team-button.flex,
+	.schedule-team-button.inline-flex {
+		@apply items-center justify-center;
+	}
 }

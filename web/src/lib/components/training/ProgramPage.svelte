@@ -18,6 +18,8 @@
 	let ctaInsertIndex = -1;
 
 	const normalizeLabel = (label?: string): string | undefined => label?.toLowerCase().trim();
+	const scheduleTeamLabel = 'schedule your team';
+	const isScheduleTeamLabel = (label?: string): boolean => normalizeLabel(label) === scheduleTeamLabel;
 
 	$: {
 		const stats = program?.stats ?? [];
@@ -67,6 +69,7 @@
 					<a
 						href={program.primaryCta.url}
 						class="inline-flex items-center justify-center rounded-xl bg-blue-600 px-5 py-2.5 text-base font-semibold text-white shadow transition hover:bg-blue-700"
+						class:schedule-team-button={isScheduleTeamLabel(program.primaryCta?.label)}
 					>
 						{program.primaryCta.label}
 					</a>
@@ -84,6 +87,7 @@
 				<a
 					href={program.primaryCta.url}
 					class="inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700"
+					class:schedule-team-button={isScheduleTeamLabel(program.primaryCta?.label)}
 				>
 					{program.primaryCta.label}
 				</a>
@@ -108,6 +112,7 @@
 				<a
 					href={program.primaryCta.url}
 					class="inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700"
+					class:schedule-team-button={isScheduleTeamLabel(program.primaryCta?.label)}
 				>
 					{program.primaryCta.label}
 				</a>
@@ -152,11 +157,12 @@
 							{/if}
 						</div>
 						{#if session.registerUrl}
-							<a
-								href={session.registerUrl}
-								class="mt-3 inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-1.5 text-sm font-semibold text-white transition hover:bg-blue-700"
-							>
-								{session.registerUrl === '/contact' ? 'Schedule your team' : 'Register'}
+								<a
+									href={session.registerUrl}
+									class="mt-3 inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-1.5 text-sm font-semibold text-white transition hover:bg-blue-700"
+									class:schedule-team-button={session.registerUrl === '/contact'}
+								>
+									{session.registerUrl === '/contact' ? 'Schedule your team' : 'Register'}
 							</a>
 						{/if}
 					</div>
@@ -249,8 +255,9 @@
 								<a
 									href={session.registerUrl}
 									class="mt-2.5 inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700"
+									class:schedule-team-button={session.registerUrl === '/contact'}
 								>
-									Book your spot
+									{session.registerUrl === '/contact' ? 'Schedule your team' : 'Register'}
 								</a>
 							</li>
 						{/each}
@@ -271,6 +278,7 @@
 			<a
 				href={program.primaryCta.url}
 				class="mt-3 inline-flex items-center justify-center rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-700 md:mt-0"
+				class:schedule-team-button={isScheduleTeamLabel(program.primaryCta?.label)}
 			>
 				{program.primaryCta.label}
 			</a>
@@ -301,12 +309,13 @@
 						Secure your spot now and get the playbook delivered to your team.
 					</p>
 				</div>
-				<a
-					href={program.primaryCta.url}
-					class="inline-flex items-center justify-center rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-700"
-				>
-					{program.primaryCta.label}
-				</a>
+			<a
+				href={program.primaryCta.url}
+				class="inline-flex items-center justify-center rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-700"
+				class:schedule-team-button={isScheduleTeamLabel(program.primaryCta?.label)}
+			>
+				{program.primaryCta.label}
+			</a>
 			</div>
 		{/if}
 	{/if}
@@ -331,6 +340,7 @@
 						<a
 							href={program.primaryCta.url}
 							class="mt-1.5 inline-flex items-center justify-center self-start rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700"
+							class:schedule-team-button={isScheduleTeamLabel(program.primaryCta?.label)}
 						>
 							{program.primaryCta.label}
 						</a>
@@ -400,13 +410,14 @@
 		<div class="md:max-w-xl">
 			<h2 class="text-3xl font-bold">Ready to bring AI clarity to your team?</h2>
 			<p class="mt-3 text-lg text-blue-100">
-				Book your spot or schedule a call with Bill to customize the training for your organization.
+				Schedule your team or talk with Bill to customize the training for your organization.
 			</p>
 		</div>
 		<div class="mt-5 flex flex-col gap-3 md:mt-0">
 			<a
 				href={program.primaryCta.url}
 				class="inline-flex items-center justify-center whitespace-nowrap rounded-xl bg-white px-6 py-3 text-base font-semibold text-blue-700 shadow transition hover:bg-blue-50"
+				class:schedule-team-button={isScheduleTeamLabel(program.primaryCta?.label)}
 			>
 				{program.primaryCta.label}
 			</a>
