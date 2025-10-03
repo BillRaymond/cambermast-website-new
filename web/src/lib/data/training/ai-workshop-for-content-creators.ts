@@ -7,6 +7,8 @@ export const aiWorkshopForContentCreators = {
 	tagline: 'AI-enhanced content workflows that deliver measurable impact in seven weeks.',
 	heroImage: '/images/ai-workshop-for-content-creators.jpeg',
 	heroImageAlt: 'AI Workshop for Content Creators illustration',
+	ogImage: '/images/cambermast-content-5-ai-workshop-for-content-creators-og.jpeg',
+	ogImageAlt: 'Open graph image for the AI Workshop for Content Creators training program',
 	description:
 		'The AI Workshop for Content Creators is a live, seven-week cohort that helps technical communicators and content teams weave generative AI into their daily production workflows.',
 	secondaryDescription:

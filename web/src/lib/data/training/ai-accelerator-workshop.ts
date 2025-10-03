@@ -8,6 +8,8 @@ export const aiAcceleratorWorkshop = {
 		'Bundle AI Power Prompting with advanced build labs so your team launches repeatable AI workflows that run the business better.',
 	heroImage: '/images/ai-accelerator.jpeg',
 	heroImageAlt: 'AI Accelerator Workshop illustration',
+	ogImage: '/images/cambermast-content-2-ai-accelerator-workshop-og.jpeg',
+	ogImageAlt: 'Open graph image for the AI Accelerator Workshop training program',
 	description:
 		'The AI Accelerator Workshop includes the AI Power Prompting course and layers on professional AI features so you can run your business more efficiently. You will leave with hands-on practice using custom GPTs, AI projects, and research frameworks tailored to your workflows across four focused weeks.',
 	secondaryDescription:

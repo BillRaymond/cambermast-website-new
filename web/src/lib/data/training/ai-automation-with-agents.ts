@@ -8,6 +8,8 @@ export const aiAutomationWithAgents = {
 		'Automate internal processes with AI agents that act like team members—while keeping humans in the loop where it counts.',
 	heroImage: '/images/ai-automation.jpg',
 	heroImageAlt: 'AI Automation with Agents Workshop illustration',
+	ogImage: '/images/cambermast-content-4-ai-automation-with-agents-workshop-og.jpeg',
+	ogImageAlt: 'Open graph image for the AI Automation with Agents workshop training program',
 	description:
 		'The AI Automation with Agents Workshop is a primer on automating internal processes using the latest AI agents. We tackle real-world scenarios where an agent behaves like a teammate, coordinating steps and escalating to people when necessary.',
 	secondaryDescription:

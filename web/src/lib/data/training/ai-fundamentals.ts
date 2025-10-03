@@ -8,6 +8,8 @@ export const aiFundamentals = {
 	// Match the top-of-page hero copy so the landing page and email promo stay in sync.
 	heroImage: '/images/ai-fundamentals.jpeg',
 	heroImageAlt: 'AI Power Prompting training workshop illustration',
+	ogImage: '/images/cambermast-content-1-ai-fundamentals-ai-power-prompting-og.jpeg',
+	ogImageAlt: 'Open graph image for the AI Power Prompting training program',
 	description:
 		'AI Power Prompting is a four-hour crash course that explains how modern AI systems work and shows you how to craft prompts that consistently deliver results.',
 	// Mention the tool mix here whenever we shift platforms so expectations stay current.

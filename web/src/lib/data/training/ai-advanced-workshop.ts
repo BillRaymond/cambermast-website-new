@@ -8,6 +8,8 @@ export const aiAdvancedWorkshop: TrainingProgram = {
 		'AI-enhanced team workflows that deliver measurable results in seven weeks.',
 	heroImage: '/images/ai-advanced.jpeg',
 	heroImageAlt: 'AI Workshop for Modern Teams illustration',
+	ogImage: '/images/cambermast-content-3-ai-workshop-for-modern-teams-og.jpeg',
+	ogImageAlt: 'Open graph image for the AI Workshop for Modern Teams training program',
 	description:
 		'The AI Workshop for Modern Teams is a live, seven-week cohort that helps cross-functional teams weave generative AI into everyday planning, delivery, and reporting workflows.',
 	secondaryDescription:
