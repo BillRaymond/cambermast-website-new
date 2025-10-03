@@ -33,10 +33,27 @@
 </script>
 
 <h1 class="mb-6 text-3xl font-bold">About Cambermast</h1>
-<p class="mb-10 max-w-3xl text-gray-700">
+<p class="mb-6 max-w-3xl text-gray-700">
 	Cambermast helps organizations adopt AI with confidence. We pair hands-on experimentation with
 	practical governance so teams learn quickly, prove value, and scale responsibly.
 </p>
+
+<div class="mb-10 flex flex-wrap justify-center gap-3">
+	<a
+		href="/contact"
+		class="inline-flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-5 py-2.5 font-semibold text-white shadow transition hover:bg-blue-700"
+	>
+		🎓 Book training for your team
+	</a>
+	<a
+		href="https://cal.com/billraymond/15min"
+		target="_blank"
+		rel="noopener"
+		class="inline-flex items-center justify-center gap-2 rounded-lg bg-gray-900 px-5 py-2.5 font-semibold text-white shadow transition hover:bg-gray-800"
+	>
+		📅 Schedule a call with Bill
+	</a>
+</div>
 
 <section class="mb-12 grid gap-6 md:grid-cols-2">
 	<article class="flex flex-col gap-5 rounded-2xl border bg-white p-6 shadow-sm">
