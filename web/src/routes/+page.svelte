@@ -131,14 +131,15 @@
 </section>
 
 <!-- Add podcast and newsletter buttons -->
-<div class="mt-6 flex justify-center gap-3.5">
+<div class="mt-6 flex flex-wrap justify-center gap-3.5">
 	<a
 		href="https://billtalksai.com/"
 		target="_blank"
 		rel="noopener"
 		class="rounded-lg bg-blue-600 px-5 py-2.5 font-semibold text-white shadow transition hover:bg-blue-700"
 	>
-		📰 The Bill Talks AI Newsletter
+		<span class="md:hidden">📰 Newsletter</span>
+		<span class="hidden md:inline">📰 The Bill Talks AI Newsletter</span>
 	</a>
 	<a
 		href="https://agileinaction.com/"
@@ -146,7 +147,8 @@
 		rel="noopener"
 		class="rounded-lg bg-gray-900 px-5 py-2.5 font-semibold text-white shadow transition hover:bg-gray-800"
 	>
-		🎙️ The Agile in Action Podcast
+		<span class="md:hidden">🎙️ Podcast</span>
+		<span class="hidden md:inline">🎙️ The Agile in Action Podcast</span>
 	</a>
 	<a
 		href="https://youtube.com/@bill-raymond"
@@ -154,7 +156,24 @@
 		rel="noopener"
 		class="rounded-lg bg-red-600 px-5 py-2.5 font-semibold text-white shadow transition hover:bg-red-700"
 	>
-		▶️ Bill on YouTube
+		<span class="md:hidden">▶️ YouTube</span>
+		<span class="hidden md:inline">▶️ Bill on YouTube</span>
+	</a>
+	<a
+		href="/contact"
+		class="rounded-lg bg-emerald-600 px-5 py-2.5 font-semibold text-white shadow transition hover:bg-emerald-700"
+	>
+		<span class="md:hidden">✉️ Contact</span>
+		<span class="hidden md:inline">✉️ Contact Bill</span>
+	</a>
+	<a
+		href="https://www.linkedin.com/in/williamraymond/"
+		target="_blank"
+		rel="noopener"
+		class="rounded-lg bg-sky-600 px-5 py-2.5 font-semibold text-white shadow transition hover:bg-sky-700"
+	>
+		<span class="md:hidden">💼 LinkedIn</span>
+		<span class="hidden md:inline">💼 Bill on LinkedIn</span>
 	</a>
 </div>
 
