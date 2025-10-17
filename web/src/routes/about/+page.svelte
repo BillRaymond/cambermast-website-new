@@ -5,7 +5,7 @@
 			role: 'AI and Change Leadership',
 			description:
 				'Jennifer Hufnagel is an AI educator and consultant with over 20 years of experience helping organizations transform through training, digital innovation, and community-driven leadership.',
-			link: 'https://www.linkedin.com/in/jhufnagel/',
+			link: 'https://www.linkedin.com/in/jennifer-hufnagel/',
 			image: '/images/jennifer-hufnagel-headshot.jpg',
 			imageAlt: 'Jennifer Hufnagel headshot',
 			imageFit: 'cover'
