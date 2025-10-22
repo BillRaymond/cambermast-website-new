@@ -8,6 +8,8 @@ import { listTrainingPrograms } from '$lib/data/training';
  * Static JSON endpoint that mirrors the catalog/training data used by the site.
  * The handler is prerendered so it deploys as a flat file; downstream automations
  * (like n8n workflows) can fetch `/catalog.json` and receive production-ready links.
+ *
+ * Site origin is configured in `$lib/config/site.ts`.
  */
 
 /**
