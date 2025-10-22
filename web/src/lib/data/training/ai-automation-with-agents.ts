@@ -25,8 +25,8 @@ export const aiAutomationWithAgents = {
 	},
 	stats: [
 		{ label: 'Duration', value: 'Two-day live workshop + follow-up support' },
-		{ label: 'Format', value: ['🔴 Live online', '🏫 In-person option available'] },
-		{ label: 'Cost', value: '$1,749 per participant (Zoom delivery)' },
+		{ label: 'Format', value: ['🔴 Live online', '🏫 In-person available'] },
+		{ label: 'Cost', value: '$1,749 per person (virtual cohort)' },
 		{ label: 'Environment', value: '💙 Learn in a supportive, judgment-free environment' },
 		{ label: 'In-person', value: 'Custom fees for SF Bay Area or on-site sessions' },
 		{ label: 'Done-for-you option', value: 'Request a quote if you prefer us to build the agents for you' },

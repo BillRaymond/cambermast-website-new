@@ -27,7 +27,7 @@ export const aiFundamentals = {
 	// Keep pricing + duration aligned with the sales one-pager before publishing updates.
 	stats: [
 		{ label: 'Duration', value: '4-hours' },
-		{ label: 'Format', value: ['🔴 Live online', '🏫 In-person option available'] },
+		{ label: 'Format', value: ['🔴 Live online', '🏫 In-person available'] },
 		{ label: 'Cost', value: '$349 per person (virtual cohort)' },
 		{ label: 'Environment', value: '💙 Learn in a supportive, judgment-free environment' },
 		{ label: 'In-person', value: 'Custom pricing for private teams' }
