@@ -2,10 +2,7 @@
 	import catalog from '$lib/data/catalog.json';
 	import Card from '$lib/components/ServiceCard.svelte';
 	import { listTrainingPrograms } from '$lib/data/training';
-	import type {
-		TrainingProgram,
-		TrainingSession
-	} from '$lib/data/training/types';
+	import type { TrainingProgram, TrainingSession } from '$lib/data/training/types';
 
 	const year = new Date().getFullYear();
 
@@ -22,16 +19,10 @@
 	const catalogSections = catalog as Record<string, Partial<CatalogSection>>;
 
 	const sections = Object.entries(catalogSections)
-		.filter(
-			([slug, sec]) =>
-				slug !== 'home' && Boolean(sec?.label) && Boolean(sec?.headline)
-		)
-		.map(([slug, sec]) => ({ slug, ...sec })) as Array<
-		{ slug: string } & CatalogSection
-	>;
+		.filter(([slug, sec]) => slug !== 'home' && Boolean(sec?.label) && Boolean(sec?.headline))
+		.map(([slug, sec]) => ({ slug, ...sec })) as Array<{ slug: string } & CatalogSection>;
 
-	const isExternalUrl = (url: string | undefined): boolean =>
-		/^https?:\/\//i.test(url ?? '');
+	const isExternalUrl = (url: string | undefined): boolean => /^https?:\/\//i.test(url ?? '');
 
 	const today = new Date();
 	today.setHours(0, 0, 0, 0);
