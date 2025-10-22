@@ -54,6 +54,7 @@ export type TrainingReview = {
 
 export type TrainingProgram = {
 	slug: string;
+	route: string;
 	sku?: string;
 	title: string;
 	nickname?: string;

@@ -2,6 +2,7 @@ import type { TrainingProgram } from './types';
 
 export const aiAutomationWithAgents = {
 	slug: 'ai-automation-with-agents',
+	route: '/training/ai-automation-with-agents',
 	sku: 'CM-TR-004',
 	title: 'AI Automation with Agents Workshop',
 	nickname: 'Hands-on agent building with n8n + APIs',
