@@ -12,7 +12,7 @@ export type TrainingSession = {
 	name: string;
 	date: string;
 	time: string;
-	partner: string;
+	partner?: string;
 	startDate?: string;
 	endDate?: string;
 	location: string;
@@ -54,6 +54,7 @@ export type TrainingReview = {
 
 export type TrainingProgram = {
 	slug: string;
+	sku?: string;
 	title: string;
 	nickname?: string;
 	tagline: string;

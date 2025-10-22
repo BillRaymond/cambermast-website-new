@@ -1,35 +1,69 @@
-<script>
-	// Note: catalog is imported here to ensure it's included in the build
+<script lang="ts">
 	import catalog from '$lib/data/catalog.json';
-	// import ServiceCard from '$lib/components/ServiceCard.svelte';
 	import Card from '$lib/components/ServiceCard.svelte';
 	import { listTrainingPrograms } from '$lib/data/training';
-	// This is for the footer copyright year
+	import type {
+		TrainingProgram,
+		TrainingSession
+	} from '$lib/data/training/types';
+
 	const year = new Date().getFullYear();
 
-	// Build the list of sections purely from { label, headline }
-	// Skip any non-section keys like "home" if you add one.
-	const sections = Object.entries(catalog)
-		.filter(([slug, sec]) => slug !== 'home' && sec?.label && sec?.headline)
-		.map(([slug, sec]) => ({ slug, ...sec }));
+	type CatalogSection = {
+		label: string;
+		headline: string;
+		route?: string;
+		icon?: string;
+		testimonial?: string;
+		testimonialCta?: { href: string; label: string };
+		author?: string;
+	};
 
-	const isExternalUrl = (url) => /^https?:\/\//i.test(url ?? '');
+	const catalogSections = catalog as Record<string, Partial<CatalogSection>>;
+
+	const sections = Object.entries(catalogSections)
+		.filter(
+			([slug, sec]) =>
+				slug !== 'home' && Boolean(sec?.label) && Boolean(sec?.headline)
+		)
+		.map(([slug, sec]) => ({ slug, ...sec })) as Array<
+		{ slug: string } & CatalogSection
+	>;
+
+	const isExternalUrl = (url: string | undefined): boolean =>
+		/^https?:\/\//i.test(url ?? '');
 
 	const today = new Date();
 	today.setHours(0, 0, 0, 0);
 
 	const upcomingSessions = listTrainingPrograms()
-		.flatMap((program) => (program.sessions ?? []).map((session) => ({ program, session })))
+		.flatMap((program: TrainingProgram) =>
+			(program.sessions ?? []).map((session) => ({ program, session }))
+		)
 		.filter(({ session }) => isExternalUrl(session.registerUrl))
 		.filter(({ session }) => {
-			if (!session.startDate) return false;
-			const parsedStart = new Date(session.startDate);
+			const startValue = session.startDate;
+			if (!startValue) return false;
+			const parsedStart = new Date(startValue);
 			if (Number.isNaN(parsedStart.valueOf())) return false;
+
 			const parsedEnd = session.endDate ? new Date(session.endDate) : parsedStart;
 			if (Number.isNaN(parsedEnd.valueOf())) return parsedStart >= today;
+
 			return parsedEnd >= today;
 		})
-		.sort((a, b) => new Date(a.session.startDate) - new Date(b.session.startDate));
+		.sort((a, b) => {
+			const startA = a.session.startDate
+				? new Date(a.session.startDate).getTime()
+				: Number.POSITIVE_INFINITY;
+			const startB = b.session.startDate
+				? new Date(b.session.startDate).getTime()
+				: Number.POSITIVE_INFINITY;
+			return startA - startB;
+		}) satisfies Array<{
+		program: TrainingProgram;
+		session: TrainingSession;
+	}>;
 </script>
 
 <svelte:head>
@@ -187,7 +221,7 @@
 			</p>
 			<div class="mt-3 overflow-x-auto">
 				<div class="flex gap-3 pb-2 pr-1">
-					{#each upcomingSessions as upcoming (upcoming.program.slug + upcoming.session.startDate)}
+					{#each upcomingSessions as upcoming (upcoming.program.slug + (upcoming.session.startDate ?? ''))}
 						<a
 							href={upcoming.session.registerUrl}
 							target="_blank"

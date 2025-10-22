@@ -48,6 +48,11 @@
 		<div class="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
 			<div class="md:max-w-2xl">
 				<p class="text-sm font-semibold uppercase tracking-wide text-blue-600">Training Program</p>
+				{#if program.sku}
+					<p class="mt-1 text-xs font-semibold uppercase tracking-wide text-gray-500">
+						({program.sku})
+					</p>
+				{/if}
 				{#if program.heroImage}
 					<img
 						src={program.heroImage}

@@ -2,6 +2,7 @@ import type { TrainingProgram } from './types';
 
 export const aiWorkshopForContentCreators = {
 	slug: 'ai-workshop-for-content-creators',
+	sku: 'CM-TR-005',
 	title: 'AI Workshop for Content Creators',
 	nickname: 'Seven-week cohort for technical communicators',
 	tagline: 'AI-enhanced content workflows that deliver measurable impact in seven weeks.',

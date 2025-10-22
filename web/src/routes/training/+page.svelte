@@ -31,6 +31,7 @@
 
 			return {
 				...item,
+				sku: program?.sku,
 				duration: durationStat?.value,
 				upcomingSessions,
 				scheduleUrl: getScheduleUrl(program),
@@ -41,6 +42,15 @@
 
 <h1 class="mb-5 text-3xl font-bold">{pageHeading}</h1>
 <p class="mb-8 text-gray-700">{section.headline}</p>
+<div class="mb-8 text-sm text-gray-600">
+	Prefer a quick reference?{' '}
+	<a
+		href="/training/table"
+		class="font-semibold text-blue-600 underline decoration-blue-300 underline-offset-4 transition hover:text-blue-700"
+	>
+		View the table layout
+	</a>.
+</div>
 
 <section class="mb-12">
 		<div class="grid gap-5 md:grid-cols-3">
@@ -55,6 +65,11 @@
 						/>
 					{/if}
 					<h2 class="text-xl font-semibold">{i.title}</h2>
+					{#if i.sku}
+						<p class="mt-1 text-xs font-semibold uppercase tracking-wide text-gray-500">
+							({i.sku})
+						</p>
+					{/if}
 					{#if i.summary}<p class="mt-1.5 text-gray-600">{i.summary}</p>{/if}
 					{#if i.bullets?.length}
 						<ul class="bullet-list mt-3 space-y-1.5 text-left text-gray-700">

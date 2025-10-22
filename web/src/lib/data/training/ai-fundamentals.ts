@@ -2,6 +2,7 @@ import type { TrainingProgram } from './types';
 
 export const aiFundamentals = {
 	slug: 'ai-fundamentals',
+	sku: 'CM-TR-001',
 	title: 'AI Power Prompting',
 	nickname: 'Your AI fundamentals • From prompting to productivity',
 	tagline: 'A live primer on prompting: learn how AI works and how to prompt successfully.',

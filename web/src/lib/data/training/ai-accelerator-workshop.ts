@@ -2,6 +2,7 @@ import type { TrainingProgram } from './types';
 
 export const aiAcceleratorWorkshop = {
 	slug: 'ai-accelerator-workshop',
+	sku: 'CM-TR-002',
 	title: 'AI Accelerator Workshop',
 	nickname: 'From core prompting to professional AI systems',
 	tagline:
