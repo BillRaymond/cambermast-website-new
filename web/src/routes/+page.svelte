@@ -1,4 +1,3 @@
-<!-- Test github ai agent-->
 <script lang="ts">
 	import catalog from '$lib/data/catalog.json';
 	import Card from '$lib/components/ServiceCard.svelte';
