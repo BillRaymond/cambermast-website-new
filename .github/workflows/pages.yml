@@ -63,7 +63,7 @@ jobs:
         run: |
           set -euo pipefail
 
-          webhook_url="https://n8n.cambermast.com/webhook-test/b5b9f3aa-20e7-419a-9106-178e0b109fff"
+          webhook_url="https://n8n.cambermast.com/webhook/b5b9f3aa-20e7-419a-9106-178e0b109fff"
 
           expected_sha="${GITHUB_SHA}"
           page_url="${{ steps.deployment.outputs.page_url }}"
