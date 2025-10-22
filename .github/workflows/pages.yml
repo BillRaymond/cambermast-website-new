@@ -20,20 +20,29 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      # Fetch repository contents
       - uses: actions/checkout@v4
 
+      # Prepare Node.js and npm cache
       - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
           cache-dependency-path: web/package-lock.json
 
+      # Install dependencies and build static site
       - run: npm ci
         working-directory: web
 
       - run: npm run build
         working-directory: web
 
+      # Write the commit SHA into the artifact so production can be verified
+      - name: Stamp build with commit SHA
+        run: echo "$GITHUB_SHA" > build/deploy-sha.txt
+        working-directory: web
+
+      # Upload the generated site for the deploy job
       - uses: actions/upload-pages-artifact@v3
         with:
           path: web/build
@@ -45,5 +54,62 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      # Publish the artifact to GitHub Pages
       - id: deployment
         uses: actions/deploy-pages@v4
+
+      # Poll the live site for the new SHA and report success/failure via webhook
+      - name: Verify published site and notify webhook
+        run: |
+          set -euo pipefail
+
+          webhook_url="https://n8n.cambermast.com/webhook-test/b5b9f3aa-20e7-419a-9106-178e0b109fff"
+
+          expected_sha="${GITHUB_SHA}"
+          page_url="${{ steps.deployment.outputs.page_url }}"
+          page_url="${page_url%/}"
+          marker_url="${page_url}/deploy-sha.txt"
+
+          echo "Waiting for ${marker_url} to report ${expected_sha}"
+          max_attempts=20
+          sleep_seconds=15
+          success=0
+
+          for attempt in $(seq 1 "${max_attempts}"); do
+            response=$(curl -fsS --max-time 10 "${marker_url}" || true)
+            if [[ "${response}" == "${expected_sha}" ]]; then
+              echo "Deployment verified on attempt ${attempt}"
+              success=1
+              break
+            fi
+            echo "Attempt ${attempt} did not find expected SHA, retrying in ${sleep_seconds}s"
+            sleep "${sleep_seconds}"
+          done
+
+          if [[ "${success}" -eq 1 ]]; then
+            status="success"
+            message="Deployment confirmed with SHA ${expected_sha}"
+          else
+            status="failure"
+            message="Timed out waiting for deployed SHA ${expected_sha}"
+          fi
+
+          export STATUS="${status}"
+          export MESSAGE="${message}"
+          export EXPECTED_SHA="${expected_sha}"
+          export PAGE_URL="${page_url}"
+
+          payload=$(python3 -c 'import json, os; print(json.dumps({"status": os.environ["STATUS"], "message": os.environ["MESSAGE"], "sha": os.environ["EXPECTED_SHA"], "page_url": os.environ["PAGE_URL"]}))')
+
+          echo "Sending deployment ${status} notification"
+          echo "Webhook will report deployment ${status^^}: ${message}"
+          # Failure to reach the webhook is non-fatal, but we surface it as a warning
+          if ! curl -fsS -X POST -H 'Content-Type: application/json' -d "${payload}" "${webhook_url}"; then
+            echo "::warning::Unable to reach deployment webhook at ${webhook_url}"
+          fi
+
+          if [[ "${success}" -ne 1 ]]; then
+            # Stop the workflow if the site never served the new SHA
+            echo "::error::Deployment did not serve the expected SHA"
+            exit 1
+          fi
