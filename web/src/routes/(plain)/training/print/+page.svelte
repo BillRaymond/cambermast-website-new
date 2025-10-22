@@ -7,15 +7,25 @@
 	const pageTitle = 'Cambermast Training Programs';
 
 	const normalizeLabel = (label?: string): string | undefined => label?.toLowerCase().trim();
-	const findStat = (program: TrainingProgram | undefined, match: string): TrainingStat | undefined =>
+	const findStat = (
+		program: TrainingProgram | undefined,
+		match: string
+	): TrainingStat | undefined =>
 		program?.stats?.find((stat) => normalizeLabel(stat.label) === normalizeLabel(match));
 
-	const formatStatValue = (stat?: TrainingStat): string =>
+	const statToString = (stat?: TrainingStat): string =>
 		!stat
 			? ''
 			: Array.isArray(stat.value)
 				? stat.value.join(', ')
 				: stat.value;
+
+	const statToArray = (stat?: TrainingStat): string[] =>
+		!stat
+			? []
+			: Array.isArray(stat.value)
+				? stat.value
+				: [stat.value];
 
 	const items = (section.items ?? [])
 		.filter((item) => item.published ?? true)
@@ -28,16 +38,16 @@
 					.pop() ?? '';
 			const program: TrainingProgram | undefined = slug ? getTrainingProgram(slug) : undefined;
 
-			const duration = formatStatValue(findStat(program, 'duration'));
-			const format = formatStatValue(findStat(program, 'format'));
-			const cost = formatStatValue(findStat(program, 'cost'));
+			const duration = statToString(findStat(program, 'duration'));
+			const formatLines = statToArray(findStat(program, 'format'));
+			const cost = statToString(findStat(program, 'cost'));
 
 			return {
 				title: item.title ?? program?.title ?? '',
 				route: item.route ?? (program ? `/training/${program.slug}` : ''),
 				sku: program?.sku ?? '',
 				duration,
-				format,
+				formatLines,
 				cost,
 				summary: item.summary ?? program?.tagline ?? ''
 			};
@@ -97,7 +107,15 @@
 						{/if}
 					</td>
 					<td class="px-4 py-3">{program.duration || '—'}</td>
-					<td class="px-4 py-3">{program.format || '—'}</td>
+					<td class="px-4 py-3">
+						{#if program.formatLines.length}
+							{#each program.formatLines as line}
+								<div>{line}</div>
+							{/each}
+						{:else}
+							—
+						{/if}
+					</td>
 					<td class="px-4 py-3">{program.cost || '—'}</td>
 				</tr>
 			{/each}
