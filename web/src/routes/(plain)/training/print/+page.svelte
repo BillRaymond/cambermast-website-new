@@ -14,28 +14,16 @@
 		program?.stats?.find((stat) => normalizeLabel(stat.label) === normalizeLabel(match));
 
 	const statToString = (stat?: TrainingStat): string =>
-		!stat
-			? ''
-			: Array.isArray(stat.value)
-				? stat.value.join(', ')
-				: stat.value;
+		!stat ? '' : Array.isArray(stat.value) ? stat.value.join(', ') : stat.value;
 
 	const statToArray = (stat?: TrainingStat): string[] =>
-		!stat
-			? []
-			: Array.isArray(stat.value)
-				? stat.value
-				: [stat.value];
+		!stat ? [] : Array.isArray(stat.value) ? stat.value : [stat.value];
 
 	const items = (section.items ?? [])
 		.filter((item) => item.published ?? true)
 		.sort((a, b) => (a.order ?? 999) - (b.order ?? 999))
 		.map((item) => {
-			const slug =
-				item.route
-					?.split('/')
-					.filter(Boolean)
-					.pop() ?? '';
+			const slug = item.route?.split('/').filter(Boolean).pop() ?? '';
 			const program: TrainingProgram | undefined = slug ? getTrainingProgram(slug) : undefined;
 
 			const duration = statToString(findStat(program, 'duration'));
@@ -74,18 +62,16 @@
 <main class="mx-auto max-w-5xl px-6 py-10 text-gray-900">
 	<header class="mb-8 flex flex-col items-center gap-4 text-center">
 		<a href="/training/table" class="inline-flex items-center justify-center">
-			<img
-				src="/images/cambermast-logo-full.png"
-				alt="Cambermast logo"
-				class="h-16 w-auto"
-			/>
+			<img src="/images/cambermast-logo-full.png" alt="Cambermast logo" class="h-16 w-auto" />
 		</a>
 		<h1 class="text-3xl font-bold uppercase tracking-wide">{pageTitle}</h1>
 	</header>
 
 	<table class="w-full border-collapse text-left text-sm leading-relaxed">
 		<thead>
-			<tr class="border-y border-gray-300 bg-gray-100 text-xs font-semibold uppercase tracking-wide">
+			<tr
+				class="border-y border-gray-300 bg-gray-100 text-xs font-semibold uppercase tracking-wide"
+			>
 				<th class="px-4 py-3">Program</th>
 				<th class="px-4 py-3">Duration</th>
 				<th class="px-4 py-3">Format</th>
@@ -123,6 +109,6 @@
 	</table>
 
 	<footer class="mt-12 text-center text-xs text-gray-500">
-		<p>© {copyrightYear} Cambermast LLC. All rights reserved.</p>
+		<p>© {copyrightYear} Cambermast LLC. · AI Agility in Action™️ · All rights reserved.</p>
 	</footer>
 </main>
