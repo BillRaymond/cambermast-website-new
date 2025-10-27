@@ -19,6 +19,11 @@
 		items: Array<{ entry: ProgramSession; index: number }>;
 	};
 
+	type ProgramImage = {
+		src: string;
+		alt: string;
+	};
+
 	const today = normalizeToday();
 
 	const MILLISECONDS_IN_HOUR = 1000 * 60 * 60;
@@ -118,6 +123,26 @@
 	};
 
 	const defaultLocationLabel = 'Live online';
+
+	const getProgramImage = (program: TrainingProgram): { desktop: ProgramImage | null; mobile: ProgramImage | null } => {
+		const heroImage = program.heroImage
+			? {
+					src: program.heroImage,
+					alt: program.heroImageAlt ?? program.title
+				}
+			: null;
+		const ogImage = program.ogImage
+			? {
+					src: program.ogImage,
+					alt: program.ogImageAlt ?? program.title
+				}
+			: null;
+
+		return {
+			desktop: heroImage ?? ogImage,
+			mobile: ogImage ?? heroImage
+		};
+	};
 </script>
 
 <svelte:head>
@@ -174,6 +199,7 @@
 									{@const { entry, index } = item}
 									{@const cardId = `session-${entry.program.slug}-${index}`}
 									{@const isTodaySession = index === firstTodayIndex}
+									{@const programImage = getProgramImage(entry.program)}
 									<li
 										id={cardId}
 										tabindex="-1"
@@ -182,37 +208,55 @@
 										}`}
 									>
 										<div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-											<div class="flex-1">
-												<p class="text-xs font-semibold uppercase tracking-wide text-blue-600">
-													{formatDate(entry)}
-												</p>
-												<p class="mt-1 text-sm font-semibold text-gray-900">
-													{entry.program.title}
-												</p>
-												<p class="text-sm text-gray-700">{entry.session.name}</p>
-												<p class="text-xs text-gray-600">
-													{#if formatTime(entry)}
-														{formatTime(entry)}
-													{/if}
-													{#if entry.session.location || !formatTime(entry)}
-														· {entry.session.location ?? defaultLocationLabel}
-													{/if}
-													{#if entry.session.spots}
-														· {entry.session.spots}
-													{/if}
-												</p>
-												{#if isTodaySession}
-													<span class="mt-1 inline-flex items-center rounded-full bg-emerald-600/10 px-2 py-0.5 text-[0.65rem] font-semibold uppercase tracking-wide text-emerald-700">
-														Today
-													</span>
+											<div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:gap-5 flex-1">
+												{#if programImage.mobile || programImage.desktop}
+													<div class="w-full overflow-hidden rounded-xl border border-blue-100 bg-white shadow-sm sm:w-36">
+														<img
+															src={programImage.mobile?.src ?? programImage.desktop?.src}
+															alt={programImage.mobile?.alt ?? programImage.desktop?.alt ?? entry.program.title}
+															class="h-40 w-full object-cover sm:hidden"
+															loading="lazy"
+														/>
+														<img
+															src={programImage.desktop?.src ?? programImage.mobile?.src}
+															alt={programImage.desktop?.alt ?? programImage.mobile?.alt ?? entry.program.title}
+															class="hidden h-28 w-full object-cover sm:block"
+															loading="lazy"
+														/>
+													</div>
 												{/if}
-												{#if entry.startTimestamp}
-													{#if getUrgencyLabel(entry.startTimestamp)}
-														<p class="mt-1 inline-flex items-center rounded-full bg-blue-600/10 px-2 py-0.5 text-[0.65rem] font-semibold uppercase tracking-wide text-blue-700">
-															{getUrgencyLabel(entry.startTimestamp)}
-														</p>
+												<div class="flex-1">
+													<p class="text-xs font-semibold uppercase tracking-wide text-blue-600">
+														{formatDate(entry)}
+													</p>
+													<p class="mt-1 text-sm font-semibold text-gray-900">
+														{entry.program.title}
+													</p>
+													<p class="text-sm text-gray-700">{entry.session.name}</p>
+													<p class="text-xs text-gray-600">
+														{#if formatTime(entry)}
+															{formatTime(entry)}
+														{/if}
+														{#if entry.session.location || !formatTime(entry)}
+															· {entry.session.location ?? defaultLocationLabel}
+														{/if}
+														{#if entry.session.spots}
+															· {entry.session.spots}
+														{/if}
+													</p>
+													{#if isTodaySession}
+														<span class="mt-1 inline-flex items-center rounded-full bg-emerald-600/10 px-2 py-0.5 text-[0.65rem] font-semibold uppercase tracking-wide text-emerald-700">
+															Today
+														</span>
 													{/if}
-												{/if}
+													{#if entry.startTimestamp}
+														{#if getUrgencyLabel(entry.startTimestamp)}
+															<p class="mt-1 inline-flex items-center rounded-full bg-blue-600/10 px-2 py-0.5 text-[0.65rem] font-semibold uppercase tracking-wide text-blue-700">
+																{getUrgencyLabel(entry.startTimestamp)}
+															</p>
+														{/if}
+													{/if}
+												</div>
 											</div>
 											<div class="flex flex-col gap-2 sm:w-40">
 												<a
