@@ -284,7 +284,7 @@
 									class="register-cta shrink-0 self-end md:self-auto"
 								>
 									Register
-									<span aria-hidden="true">→</span>
+									<span aria-hidden="true">↗</span>
 								</a>
 							{/if}
 						</div>
@@ -360,7 +360,7 @@
 									</span>
 								{/if}
 								<span class="session-pill__cta">
-									Register
+									Register ↗
 								</span>
 							</div>
 						</a>
@@ -635,8 +635,8 @@
 		color: #1e40af;
 		font-size: 0.75rem;
 		font-weight: 700;
-		text-transform: uppercase;
-		letter-spacing: 0.08em;
+		text-transform: none;
+		letter-spacing: 0.02em;
 		transition:
 			background 0.2s ease,
 			color 0.2s ease,
