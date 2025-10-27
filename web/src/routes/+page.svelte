@@ -275,20 +275,18 @@
 
 {#if upcomingCards.length}
 	<section class="mx-auto mt-6 w-full px-4">
-		<div
-			class="mx-auto max-w-5xl rounded-2xl border border-blue-100 bg-blue-50 px-4 py-4 shadow-sm"
-		>
+		<div class="sessions-strip mx-auto max-w-5xl px-4 py-4">
 			<p class="text-xs font-semibold uppercase tracking-wide text-blue-600">
 				Upcoming sessions and events
 			</p>
-			<div class="mt-3 overflow-x-auto">
-				<div class="flex gap-4 pb-2 pr-1">
+			<div class="mt-3 overflow-x-auto overflow-y-visible">
+				<div class="flex gap-4 pb-6 pr-1">
 					{#each upcomingCards as upcoming (upcoming.program.slug + (upcoming.session.startDate ?? ''))}
 						<a
 							href={upcoming.session.registerUrl}
 							target="_blank"
 							rel="noopener"
-							class="group session-pill flex min-w-[18rem] max-w-xs flex-col gap-3 rounded-[26px] border border-blue-100 bg-white/80 px-5 py-4 text-left transition hover:-translate-y-1.5 hover:border-blue-200 hover:bg-white/95"
+							class="group session-pill flex min-w-[18rem] max-w-xs flex-col gap-3 rounded-[26px] border border-blue-100 bg-white/80 px-5 py-4 text-left transition hover:border-blue-200 hover:bg-white/95"
 						>
 							{#if upcoming.showProgramTitle}
 								<span class="session-pill__program">{upcoming.program.title}</span>
@@ -323,7 +321,6 @@
 								{/if}
 								<span class="session-pill__cta">
 									Register
-									<span class="register-arrow" aria-hidden="true">→</span>
 								</span>
 							</div>
 						</a>
@@ -429,6 +426,16 @@
 		backdrop-filter: blur(12px);
 	}
 
+	.sessions-strip {
+		position: relative;
+		overflow: visible;
+		border-radius: 30px;
+		padding: 1.5rem 1.25rem;
+		border: 1px solid rgba(148, 197, 253, 0.45);
+		background: rgba(226, 237, 255, 0.55);
+		box-shadow: 0 22px 44px -40px rgba(30, 64, 175, 0.45);
+	}
+
 	.next-pill {
 		position: relative;
 		display: inline-flex;
@@ -489,30 +496,22 @@
 
 	.session-pill {
 		position: relative;
-		overflow: hidden;
-		background-image: linear-gradient(
-			135deg,
-			rgba(219, 234, 254, 0.6),
-			#ffffff 45%,
-			rgba(191, 219, 254, 0.4)
-		);
-		background-size: 180% 180%;
-		box-shadow: 0 16px 32px rgba(37, 99, 235, 0.12);
-		backdrop-filter: blur(12px);
-		animation: cardGlow 18s ease-in-out infinite;
+		background: rgba(255, 255, 255, 0.97);
+		box-shadow: 0 10px 24px -20px rgba(15, 23, 42, 0.35);
+		backdrop-filter: blur(8px);
 		transition:
-			transform 0.25s ease,
-			box-shadow 0.25s ease,
-			border-color 0.25s ease,
-			background-position 1.4s ease;
+			box-shadow 0.16s ease,
+			border-color 0.16s ease,
+			background-color 0.16s ease;
+		border-radius: 26px;
 	}
 
 	.session-pill:hover {
-		box-shadow: 0 20px 44px rgba(37, 99, 235, 0.22);
-		background-position: 100% 50%;
+		box-shadow: 0 12px 24px -20px rgba(15, 23, 42, 0.38);
+		background-color: rgba(255, 255, 255, 0.99);
 	}
 
-	.session-pill__program {
+		.session-pill__program {
 		font-size: 0.7rem;
 		font-weight: 700;
 		text-transform: uppercase;
@@ -603,16 +602,6 @@
 		transform: translateX(2px);
 	}
 
-	.register-arrow {
-		display: inline-block;
-		animation: arrowNudge 2.4s ease-in-out infinite;
-	}
-
-	.group:hover .register-arrow {
-		transform: translateX(4px);
-		animation-play-state: paused;
-	}
-
 	@keyframes pillGlow {
 		0%,
 		100% {
@@ -650,27 +639,15 @@
 		}
 	}
 
-	@keyframes cardGlow {
-		0%,
-		100% {
-			background-position: 0% 50%;
-		}
-		50% {
-			background-position: 100% 50%;
-		}
-	}
-
 	@media (prefers-reduced-motion: reduce) {
 		.next-pill,
 		.next-pill::before,
 		.register-cta span,
-		.register-arrow,
 		.session-pill,
 		.session-pill__urgency::before {
 			animation: none !important;
 		}
 		.register-cta:hover span,
-		.group:hover .register-arrow,
 		.group:hover .session-pill__cta {
 			transform: none;
 		}
