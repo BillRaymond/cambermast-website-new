@@ -11,7 +11,7 @@ export type TrainingStat = {
 export type TrainingSession = {
 	name: string;
 	date: string;
-	time: string;
+	time?: string | string[];
 	partner?: string;
 	startDate?: string;
 	endDate?: string;

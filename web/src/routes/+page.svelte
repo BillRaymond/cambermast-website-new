@@ -444,7 +444,13 @@
 								{/if}
 								<p class="session-pill__meta">{upcoming.session.date}</p>
 								{#if upcoming.session.time}
-									<p class="session-pill__meta">{upcoming.session.time}</p>
+									{#if Array.isArray(upcoming.session.time)}
+										{#each upcoming.session.time as timeEntry}
+											<p class="session-pill__meta">{timeEntry}</p>
+										{/each}
+									{:else}
+										<p class="session-pill__meta">{upcoming.session.time}</p>
+									{/if}
 								{/if}
 								{#if upcoming.session.location}
 									<p class="session-pill__meta">{upcoming.session.location}</p>

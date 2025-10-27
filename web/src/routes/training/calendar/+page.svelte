@@ -126,8 +126,9 @@
 	};
 
 	const formatTime = (entry: ProgramSession): string | null => {
-		if (!entry.session.time) return null;
-		return entry.session.time;
+		const { time } = entry.session;
+		if (!time) return null;
+		return Array.isArray(time) ? time.join(' / ') : time;
 	};
 
 	const defaultLocationLabel = 'Live online';

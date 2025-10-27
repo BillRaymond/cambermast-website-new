@@ -93,7 +93,15 @@
 								<p class="text-sm font-semibold text-gray-900">{session.name}</p>
 								<p class="text-xs text-gray-600">{session.date}</p>
 								{#if session.time}
-									<p class="text-xs text-gray-600">{session.time}</p>
+									{#if Array.isArray(session.time)}
+										<div class="space-y-1 text-xs text-gray-600">
+											{#each session.time as timeEntry}
+												<p>{timeEntry}</p>
+											{/each}
+										</div>
+									{:else}
+										<p class="text-xs text-gray-600">{session.time}</p>
+									{/if}
 								{/if}
 								<a
 									href={session.registerUrl}

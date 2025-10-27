@@ -168,7 +168,15 @@
 							<p class="text-sm font-semibold text-gray-900">{session.name}</p>
 							<p class="mt-0.5 text-sm text-gray-700">{session.date}</p>
 							{#if session.time}
-								<p class="text-xs text-gray-500">{session.time}</p>
+								{#if Array.isArray(session.time)}
+									<div class="mt-0.5 space-y-1 text-xs text-gray-500">
+										{#each session.time as timeEntry}
+											<p>{timeEntry}</p>
+										{/each}
+									</div>
+								{:else}
+									<p class="text-xs text-gray-500">{session.time}</p>
+								{/if}
 							{/if}
 							{#if session.location}
 								<p class="text-xs text-gray-500">{session.location}</p>
@@ -267,7 +275,17 @@
 							<li class="rounded-xl border border-blue-100 p-3.5">
 								<p class="text-sm font-semibold text-gray-900">{session.name}</p>
 								<p class="mt-1 text-sm text-gray-600">{session.date}</p>
-								<p class="text-sm text-gray-600">{session.time}</p>
+								{#if session.time}
+									{#if Array.isArray(session.time)}
+										<div class="mt-0.5 space-y-1 text-sm text-gray-600">
+											{#each session.time as timeEntry}
+												<p>{timeEntry}</p>
+											{/each}
+										</div>
+									{:else}
+										<p class="text-sm text-gray-600">{session.time}</p>
+									{/if}
+								{/if}
 								<p class="mt-1 text-sm text-gray-600">{session.location}</p>
 								<p class="mt-1 text-xs uppercase tracking-wide text-blue-600">{session.spots}</p>
 								<a

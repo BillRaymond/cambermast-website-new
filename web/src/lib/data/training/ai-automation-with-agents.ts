@@ -63,7 +63,7 @@ export const aiAutomationWithAgents = {
 		{
 			name: 'Winter 2025-2026 Open Enrollment',
 			date: 'Dec 4, 2025 - Jan 22, 2026 (Wednesdays)',
-			time: '10:00 am-12:00 pm PT / 1:00-3:00 pm ET',
+			time: ['10:00 am-12:00 pm PT', '1:00-3:00 pm ET'],
 			startDate: '2025-12-04',
 			endDate: '2026-01-22',
 			location: 'Live on Zoom',
