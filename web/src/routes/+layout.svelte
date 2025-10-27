@@ -1,12 +1,20 @@
-<script>
+<script lang="ts">
 	import '../app.css';
 	import Nav from '$lib/components/Nav.svelte';
 	import { page } from '$app/stores';
+	import { defaultSeo } from '$lib/seo';
 
 	let navOpen = false;
 
 	$: hideChrome = $page.url.pathname.startsWith('/training/print');
 </script>
+
+<svelte:head>
+	<title>{defaultSeo.title}</title>
+	{#if defaultSeo.description}
+		<meta name="description" content={defaultSeo.description} />
+	{/if}
+</svelte:head>
 
 {#if hideChrome}
 	<slot />

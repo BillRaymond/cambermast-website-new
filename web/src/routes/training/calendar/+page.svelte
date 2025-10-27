@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { listTrainingPrograms } from '$lib/data/training';
 	import type { TrainingProgram, TrainingSession } from '$lib/data/training/types';
+	import { getSeo } from '$lib/seo';
 	import {
 		getSessionStartTimestamp,
 		hasExternalRegistration,
@@ -143,14 +144,15 @@
 			mobile: ogImage ?? heroImage
 		};
 	};
+
+	const pageMeta = getSeo('/training/calendar');
 </script>
 
 <svelte:head>
-	<title>Training Calendar | Cambermast</title>
-	<meta
-		name="description"
-		content="Explore upcoming AI training sessions, workshops, and cohort start dates. Register for a public cohort or request custom dates for your team."
-	/>
+	<title>{pageMeta.title}</title>
+	{#if pageMeta.description}
+		<meta name="description" content={pageMeta.description} />
+	{/if}
 </svelte:head>
 
 <section class="bg-gradient-to-b from-blue-50/60 to-white">

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { listTrainingPrograms } from '$lib/data/training';
+	import { getSeo } from '$lib/seo';
 
 	type FormStatus = 'idle' | 'sending' | 'sent' | 'error';
 
@@ -32,6 +33,8 @@
 	const getProgramTitle = (slug: string): string =>
 		contactOptions.find((option) => option.slug === slug)?.title ??
 		'General question / other topic';
+
+	const pageMeta = getSeo('/contact');
 
 	async function submitForm(e: Event) {
 		e.preventDefault();
@@ -75,6 +78,10 @@
 </script>
 
 <svelte:head>
+	<title>{pageMeta.title}</title>
+	{#if pageMeta.description}
+		<meta name="description" content={pageMeta.description} />
+	{/if}
 	<script type="text/javascript">
 		(function (C, A, L) {
 			let p = function (a, ar) {

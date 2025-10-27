@@ -3,6 +3,7 @@
 	import Card from '$lib/components/ServiceCard.svelte';
 	import { listTrainingPrograms } from '$lib/data/training';
 	import type { TrainingProgram, TrainingSession } from '$lib/data/training/types';
+	import { getSeo } from '$lib/seo';
 	import {
 		getSessionStartTimestamp,
 		hasExternalRegistration,
@@ -125,9 +126,16 @@
 			urgency: getUrgencyLabel(startTimestamp)
 		};
 	});
+
+	const pageMeta = getSeo('/');
 </script>
 
 <svelte:head>
+	<title>{pageMeta.title}</title>
+	{#if pageMeta.description}
+		<meta name="description" content={pageMeta.description} />
+	{/if}
+
 	<!-- Favicon -->
 	<link rel="icon" href="/images/cambermast-favicon.ico" />
 

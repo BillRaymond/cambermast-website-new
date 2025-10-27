@@ -2,6 +2,7 @@
 	import catalog from '$lib/data/catalog.json';
 	import { getTrainingProgram } from '$lib/data/training';
 	import type { TrainingProgram, TrainingStat } from '$lib/data/training/types';
+	import { getSeo } from '$lib/seo';
 
 	const section = catalog.training;
 	const pageTitle = 'Cambermast Training Programs';
@@ -42,10 +43,14 @@
 		});
 
 	const copyrightYear = new Date().getFullYear();
+	const pageMeta = getSeo('/training/print');
 </script>
 
 <svelte:head>
-	<title>{pageTitle}</title>
+	<title>{pageMeta.title}</title>
+	{#if pageMeta.description}
+		<meta name="description" content={pageMeta.description} />
+	{/if}
 	<style>
 		@media print {
 			body {

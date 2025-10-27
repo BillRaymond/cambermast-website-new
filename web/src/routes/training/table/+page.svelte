@@ -2,6 +2,7 @@
 	import catalog from '$lib/data/catalog.json';
 	import { getTrainingProgram } from '$lib/data/training';
 	import type { TrainingProgram, TrainingStat } from '$lib/data/training/types';
+	import { getSeo } from '$lib/seo';
 
 	const section = catalog.training;
 	const pageHeading = `${section.catalogLabel ?? section.label} — Table View`;
@@ -58,10 +59,15 @@
 				summary: item.summary ?? program?.tagline ?? ''
 			};
 		});
+
+	const pageMeta = getSeo('/training/table');
 </script>
 
 <svelte:head>
-	<title>{pageHeading}</title>
+	<title>{pageMeta.title}</title>
+	{#if pageMeta.description}
+		<meta name="description" content={pageMeta.description} />
+	{/if}
 </svelte:head>
 
 <h1 class="mb-2 text-3xl font-bold">{pageHeading}</h1>

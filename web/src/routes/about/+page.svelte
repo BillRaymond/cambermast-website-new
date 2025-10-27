@@ -1,4 +1,6 @@
-<script>
+<script lang="ts">
+	import { getSeo } from '$lib/seo';
+
 	const partners = [
 		{
 			name: 'Jennifer Hufnagel',
@@ -30,7 +32,16 @@
 		'Office Depot',
 		'Blue Cross Blue Shield'
 	];
+
+	const pageMeta = getSeo('/about');
 </script>
+
+<svelte:head>
+	<title>{pageMeta.title}</title>
+	{#if pageMeta.description}
+		<meta name="description" content={pageMeta.description} />
+	{/if}
+</svelte:head>
 
 <h1 class="mb-6 text-3xl font-bold">About Cambermast</h1>
 <p class="mb-6 max-w-3xl text-gray-700">
