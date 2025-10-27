@@ -217,7 +217,7 @@
 							href={upcoming.session.registerUrl}
 							target="_blank"
 							rel="noopener"
-							class="group min-w-[16rem] rounded-lg border border-blue-100 bg-white px-4 py-3 text-left transition hover:border-blue-300 hover:bg-blue-100/60"
+							class="group flex min-w-[16rem] flex-col rounded-lg border border-blue-100 bg-white px-4 py-3 text-left transition hover:border-blue-300 hover:bg-blue-100/60"
 						>
 							<p
 								class="text-xs font-semibold uppercase tracking-wide text-blue-500 group-hover:text-blue-700"
@@ -236,7 +236,7 @@
 									<em>{upcoming.session.partner}</em>
 								</p>
 							{/if}
-							<p class="mt-2 text-xs font-semibold text-blue-600 group-hover:text-blue-800">
+							<p class="mt-auto pt-2 text-xs font-semibold text-blue-600 group-hover:text-blue-800">
 								Register →
 							</p>
 						</a>

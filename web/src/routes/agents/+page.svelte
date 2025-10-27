@@ -1,12 +1,15 @@
 <script lang="ts">
 	import catalog from '$lib/data/catalog.json';
 	import { getTrainingProgram } from '$lib/data/training';
-	import type { TrainingProgram } from '$lib/data/training/types';
+	import type { TrainingProgram, TrainingSession } from '$lib/data/training/types';
+	import CatalogCard from '$lib/components/training/CatalogCard.svelte';
+	import type { CatalogCardData } from '$lib/components/training/catalog-card-data';
 
 	const section = catalog.agents;
-	const scheduleTeamLabel = 'schedule your team';
+	const scheduleTeamLabel = 'Schedule your team';
 	const normalizeLabel = (label?: string): string | undefined => label?.toLowerCase().trim();
-	const isScheduleTeamLabel = (label?: string): boolean => normalizeLabel(label) === scheduleTeamLabel;
+	const isScheduleTeamLabel = (label?: string): boolean =>
+		normalizeLabel(label) === normalizeLabel(scheduleTeamLabel);
 
 	type CatalogItem = {
 		title: string;
@@ -19,18 +22,15 @@
 		imageAlt?: string;
 	};
 
-	type EnrichedItem = CatalogItem & {
-		duration?: string | string[];
-		linkHref?: string;
-		bookUrl?: string;
-		bookLabel?: string;
-	};
-
 	const getProgram = (route?: string): TrainingProgram | undefined => {
 		if (!route) return undefined;
 		const slug = route.split('/').filter(Boolean).pop();
 		return slug ? getTrainingProgram(slug) : undefined;
 	};
+
+	const isExternalUrl = (url?: string): boolean => /^https?:\/\//i.test(url ?? '');
+	const gatherUpcomingSessions = (program?: TrainingProgram): TrainingSession[] =>
+		(program?.sessions ?? []).filter((session) => isExternalUrl(session.registerUrl));
 
 	const withSourceQuery = (route?: string): string | undefined => {
 		if (!route) return undefined;
@@ -38,7 +38,10 @@
 		return `${route}${separator}via=agents`;
 	};
 
-	const items: EnrichedItem[] = ((section.items ?? []) as CatalogItem[])
+	const items: (CatalogCardData & {
+		primaryCtaUrl?: string;
+		primaryCtaLabel?: string;
+	})[] = ((section.items ?? []) as CatalogItem[])
 		.filter((item) => item.published ?? true)
 		.sort((a, b) => (a.order ?? 999) - (b.order ?? 999))
 		.map((item) => {
@@ -46,19 +49,24 @@
 			const durationStat = program?.stats?.find(
 				(stat) => stat.label?.toLowerCase() === 'duration'
 			);
+			const upcomingSessions = gatherUpcomingSessions(program);
 
 			return {
 				...item,
 				image: item.image ?? program?.heroImage,
 				imageAlt: item.imageAlt ?? program?.heroImageAlt ?? item.title,
 				duration: durationStat?.value,
-				linkHref: withSourceQuery(item.route),
-				bookUrl: program?.primaryCta?.url,
-				bookLabel: program?.primaryCta?.label ?? 'Schedule your team'
+				route: withSourceQuery(item.route) ?? item.route,
+				sku: program?.sku,
+				upcomingSessions,
+				scheduleUrl: program?.secondaryCta?.url ?? '/contact',
+				scheduleLabel: scheduleTeamLabel,
+				primaryCtaUrl: program?.primaryCta?.url,
+				primaryCtaLabel: program?.primaryCta?.label
 			};
 		});
 
-	const primaryBooking = items.find((item) => item.bookUrl);
+	const primaryBooking = items.find((item) => item.primaryCtaUrl);
 </script>
 
 <h1 class="mb-5 text-3xl font-bold">{section.label}</h1>
@@ -66,48 +74,8 @@
 
 <section class="mb-12">
 	<div class="grid gap-5 md:grid-cols-3">
-		{#each items as item}
-			<article class="flex h-full flex-col rounded-2xl border bg-white p-5 text-center shadow-sm">
-				{#if item.image}
-					<img
-						src={item.image}
-						alt={item.imageAlt ?? item.title}
-						class="mb-3 w-full rounded-xl object-cover"
-						loading="lazy"
-					/>
-				{/if}
-				<h2 class="text-xl font-semibold">{item.title}</h2>
-				{#if item.summary}<p class="mt-1.5 text-gray-600">{item.summary}</p>{/if}
-				{#if item.bullets?.length}
-					<ul class="bullet-list mt-3 space-y-1.5 text-left text-gray-700">
-						{#each item.bullets as bullet}
-							<li>{bullet}</li>
-						{/each}
-					</ul>
-				{/if}
-				{#if item.route}
-					{#if item.duration}
-						<p class="mt-4 text-sm font-semibold text-gray-700">Duration: {item.duration}</p>
-					{/if}
-					<div class="mt-auto flex flex-col gap-2 pt-5">
-						{#if item.bookUrl}
-							<a
-								href={item.bookUrl}
-								class="inline-flex justify-center rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white shadow transition hover:bg-blue-700"
-								class:schedule-team-button={isScheduleTeamLabel(item.bookLabel)}
-							>
-								{item.bookLabel ?? 'Schedule your team'}
-							</a>
-						{/if}
-						<a
-							href={item.linkHref ?? item.route}
-							class="inline-flex justify-center rounded-lg border border-blue-200 px-4 py-2 font-semibold text-blue-700 transition hover:border-blue-500 hover:text-blue-900"
-						>
-							Learn more
-						</a>
-					</div>
-				{/if}
-			</article>
+		{#each items as item (item.route ?? item.title)}
+			<CatalogCard item={item} scheduleTeamLabel={scheduleTeamLabel} />
 		{/each}
 	</div>
 </section>
@@ -122,14 +90,14 @@
 	>
 </section>
 
-{#if primaryBooking?.bookUrl}
+{#if primaryBooking?.primaryCtaUrl}
 	<div class="pointer-events-none fixed inset-x-0 bottom-4 z-30 px-4 md:hidden">
 		<a
-			href={primaryBooking.bookUrl}
+			href={primaryBooking.primaryCtaUrl}
 			class="pointer-events-auto flex items-center justify-center rounded-full bg-blue-600 px-6 py-3 font-semibold text-white shadow-lg shadow-blue-500/30 transition hover:bg-blue-700"
-			class:schedule-team-button={isScheduleTeamLabel(primaryBooking?.bookLabel)}
+			class:schedule-team-button={isScheduleTeamLabel(primaryBooking?.primaryCtaLabel)}
 		>
-			{primaryBooking.bookLabel ?? 'Schedule your team'}
+			{primaryBooking.primaryCtaLabel ?? scheduleTeamLabel}
 		</a>
 	</div>
 {/if}
