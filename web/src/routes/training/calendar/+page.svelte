@@ -155,26 +155,14 @@
 
 <section class="bg-gradient-to-b from-blue-50/60 to-white">
 	<div class="mx-auto flex max-w-6xl flex-col gap-8 px-4 py-12">
-		<header class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-			<div>
-				<p class="text-sm font-semibold uppercase tracking-wide text-blue-600">Training calendar</p>
-				<h1 class="mt-1 text-3xl font-bold text-gray-900">
-					Upcoming AI training availability
-				</h1>
-				<p class="mt-2 max-w-2xl text-sm text-gray-600">
-					Here’s what’s scheduled next for public cohorts, workshops, and private team availability. Pick the
-					session that fits your timeline, or reach out to lock in a custom start date for your team.
-				</p>
-			</div>
-			<div class="flex items-center gap-3">
-				<button
-					type="button"
-					class="inline-flex items-center justify-center rounded-full border border-blue-300 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-wide text-blue-700 transition hover:border-blue-400 hover:text-blue-900"
-					on:click={scrollToToday}
-				>
-					Jump to today
-				</button>
-			</div>
+		<header class="flex flex-col gap-4">
+			<p class="text-sm font-semibold uppercase tracking-wide text-blue-600">Upcoming training & events</p>
+			<h1 class="text-3xl font-bold text-gray-900">
+				New AI workshops and cohorts you can join
+			</h1>
+			<p class="max-w-2xl text-sm text-gray-600">
+				We keep this list refreshed whenever new cohorts open or public workshops go live. Grab a spot, or <a href="/contact" class="inline-flex items-center gap-1 text-blue-700 underline underline-offset-2 hover:text-blue-900">contact us</a> if you want to run a private session on your schedule.
+			</p>
 		</header>
 
 		<div class="rounded-2xl border border-blue-100 bg-white p-5 shadow-sm">
