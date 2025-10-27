@@ -3,6 +3,12 @@
 	import Card from '$lib/components/ServiceCard.svelte';
 	import { listTrainingPrograms } from '$lib/data/training';
 	import type { TrainingProgram, TrainingSession } from '$lib/data/training/types';
+	import {
+		getSessionStartTimestamp,
+		hasExternalRegistration,
+		isSessionUpcoming,
+		normalizeToday
+	} from '$lib/data/training/session-utils';
 
 	const year = new Date().getFullYear();
 
@@ -22,34 +28,17 @@
 		.filter(([slug, sec]) => slug !== 'home' && Boolean(sec?.label) && Boolean(sec?.headline))
 		.map(([slug, sec]) => ({ slug, ...sec })) as Array<{ slug: string } & CatalogSection>;
 
-	const isExternalUrl = (url: string | undefined): boolean => /^https?:\/\//i.test(url ?? '');
-
-	const today = new Date();
-	today.setHours(0, 0, 0, 0);
+	const today = normalizeToday();
 
 	const upcomingSessions = listTrainingPrograms()
 		.flatMap((program: TrainingProgram) =>
 			(program.sessions ?? []).map((session) => ({ program, session }))
 		)
-		.filter(({ session }) => isExternalUrl(session.registerUrl))
-		.filter(({ session }) => {
-			const startValue = session.startDate;
-			if (!startValue) return false;
-			const parsedStart = new Date(startValue);
-			if (Number.isNaN(parsedStart.valueOf())) return false;
-
-			const parsedEnd = session.endDate ? new Date(session.endDate) : parsedStart;
-			if (Number.isNaN(parsedEnd.valueOf())) return parsedStart >= today;
-
-			return parsedEnd >= today;
-		})
+		.filter(({ session }) => hasExternalRegistration(session))
+		.filter(({ session }) => isSessionUpcoming(session, today))
 		.sort((a, b) => {
-			const startA = a.session.startDate
-				? new Date(a.session.startDate).getTime()
-				: Number.POSITIVE_INFINITY;
-			const startB = b.session.startDate
-				? new Date(b.session.startDate).getTime()
-				: Number.POSITIVE_INFINITY;
+			const startA = getSessionStartTimestamp(a.session);
+			const startB = getSessionStartTimestamp(b.session);
 			return startA - startB;
 		}) satisfies Array<{
 		program: TrainingProgram;

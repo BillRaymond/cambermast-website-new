@@ -1,6 +1,12 @@
 <script lang="ts">
 	import ReviewCard from '$lib/components/ReviewCard.svelte';
-	import type { TrainingFaq, TrainingProgram, TrainingStat } from '$lib/data/training/types';
+	import type {
+		TrainingFaq,
+		TrainingProgram,
+		TrainingSession,
+		TrainingStat
+	} from '$lib/data/training/types';
+	import { isSessionUpcoming, normalizeToday } from '$lib/data/training/session-utils';
 
 	type BackLink = {
 		href: string;
@@ -16,6 +22,8 @@
 	let statsBeforeCta: TrainingStat[] = [];
 	let statsAfterCta: TrainingStat[] = [];
 	let ctaInsertIndex = -1;
+	const today = normalizeToday();
+	let visibleSessions: TrainingSession[] = [];
 
 	const normalizeLabel = (label?: string): string | undefined => label?.toLowerCase().trim();
 	const scheduleTeamLabel = 'schedule your team';
@@ -29,6 +37,11 @@
 		statsBeforeCta = ctaInsertIndex >= 0 ? stats.slice(0, ctaInsertIndex + 1) : stats;
 		statsAfterCta = ctaInsertIndex >= 0 ? stats.slice(ctaInsertIndex + 1) : [];
 	}
+
+	$: visibleSessions =
+		program?.sessions?.filter((session) =>
+			session.startDate ? isSessionUpcoming(session, today) : true
+		) ?? [];
 </script>
 
 {#if backLink}
@@ -145,11 +158,11 @@
 		</div>
 	</section>
 
-	{#if program.sessions?.length}
+	{#if visibleSessions.length}
 		<section class="rounded-2xl border border-blue-100 bg-white p-5 shadow">
 			<h2 class="text-2xl font-semibold text-gray-900">Upcoming dates</h2>
 			<div class="mt-3.5 grid gap-3 md:grid-cols-2">
-				{#each program.sessions as session ((session.registerUrl ?? '') + session.name + session.date)}
+				{#each visibleSessions as session ((session.registerUrl ?? '') + session.name + session.date)}
 					<div class="flex h-full flex-col justify-between rounded-xl border border-gray-100 bg-gray-50 p-3.5">
 						<div>
 							<p class="text-sm font-semibold text-gray-900">{session.name}</p>

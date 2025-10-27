@@ -4,6 +4,11 @@
 	import type { TrainingProgram, TrainingSession } from '$lib/data/training/types';
 	import CatalogCard from '$lib/components/training/CatalogCard.svelte';
 	import type { CatalogCardData } from '$lib/components/training/catalog-card-data';
+	import {
+		filterUpcomingSessions,
+		hasExternalRegistration,
+		normalizeToday
+	} from '$lib/data/training/session-utils';
 
 	const section = catalog.agents;
 	const scheduleTeamLabel = 'Schedule your team';
@@ -28,9 +33,12 @@
 		return slug ? getTrainingProgram(slug) : undefined;
 	};
 
-	const isExternalUrl = (url?: string): boolean => /^https?:\/\//i.test(url ?? '');
+	const today = normalizeToday();
 	const gatherUpcomingSessions = (program?: TrainingProgram): TrainingSession[] =>
-		(program?.sessions ?? []).filter((session) => isExternalUrl(session.registerUrl));
+		filterUpcomingSessions(
+			(program?.sessions ?? []).filter((session) => hasExternalRegistration(session)),
+			today
+		);
 
 	const withSourceQuery = (route?: string): string | undefined => {
 		if (!route) return undefined;
