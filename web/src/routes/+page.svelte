@@ -44,6 +44,59 @@
 		program: TrainingProgram;
 		session: TrainingSession;
 	}>;
+
+	const MILLISECONDS_IN_HOUR = 1000 * 60 * 60;
+	const MILLISECONDS_IN_DAY = 24 * MILLISECONDS_IN_HOUR;
+
+	const getUrgencyLabel = (startTimestamp: number | null): string | null => {
+		if (startTimestamp === null || !Number.isFinite(startTimestamp)) return null;
+		const diffMs = startTimestamp - Date.now();
+		if (diffMs <= 0) return 'Happening now';
+		if (diffMs < MILLISECONDS_IN_HOUR) return 'Starting soon';
+		if (diffMs < 2 * MILLISECONDS_IN_HOUR) return 'Starts in about an hour';
+		if (diffMs < MILLISECONDS_IN_DAY) {
+			const hours = Math.floor(diffMs / MILLISECONDS_IN_HOUR);
+			return `Starts in ${hours} hours`;
+		}
+		const diffDays = Math.ceil(diffMs / MILLISECONDS_IN_DAY);
+		if (diffDays === 1) return 'Starts tomorrow';
+		return `Starts in ${diffDays} days`;
+	};
+
+	const getSessionMeta = (program: TrainingProgram, session: TrainingSession) => {
+		const trimmedName = session.name?.trim();
+		const displayName = trimmedName && trimmedName.length > 0 ? trimmedName : program.title;
+		const showProgramTitle = Boolean(trimmedName) && trimmedName !== program.title;
+		return { displayName, showProgramTitle };
+	};
+
+	const featuredUpcoming = upcomingSessions[0];
+
+	const featuredMeta = featuredUpcoming
+		? getSessionMeta(featuredUpcoming.program, featuredUpcoming.session)
+		: null;
+
+	const featuredDisplayName =
+		featuredMeta?.displayName ?? featuredUpcoming?.program.title ?? '';
+	const showFeaturedProgramTitle = featuredMeta?.showProgramTitle ?? false;
+
+	const featuredStartTimestamp = featuredUpcoming
+		? getSessionStartTimestamp(featuredUpcoming.session)
+		: null;
+
+	const featuredUrgency = getUrgencyLabel(featuredStartTimestamp);
+
+	const upcomingCards = upcomingSessions.map((entry) => {
+		const meta = getSessionMeta(entry.program, entry.session);
+		const startTimestamp = getSessionStartTimestamp(entry.session);
+		return {
+			...entry,
+			displayName: meta.displayName,
+			showProgramTitle: meta.showProgramTitle,
+			startTimestamp,
+			urgency: getUrgencyLabel(startTimestamp)
+		};
+	});
 </script>
 
 <svelte:head>
@@ -121,14 +174,42 @@
 <section class="relative left-1/2 right-1/2 -mx-[50vw] w-screen overflow-hidden bg-blue-50">
 	<!-- Removed gradient background, replaced with a subtle blue tint using bg-blue-50 -->
 
-	<div
-		class="relative mx-auto flex max-w-5xl items-center justify-between px-5"
-		style="height:100px"
-	>
+	<div class="relative mx-auto flex max-w-5xl items-center justify-between px-5 py-6">
 		<!-- Left: headline only -->
-		<h1 class="text-1xl font-extrabold tracking-tight text-gray-900">
-			Applying AI leadership skills.<br />
-		</h1>
+		<div class="flex max-w-md flex-col gap-3">
+			{#if featuredUpcoming}
+				<div class="flex flex-wrap items-center gap-3 rounded-2xl bg-white/70 p-3 shadow-hero">
+					<span class="next-pill">Next up</span>
+					<div class="min-w-0 flex-1">
+						{#if showFeaturedProgramTitle}
+							<p class="text-[0.7rem] font-semibold uppercase tracking-wide text-blue-500">
+								{featuredUpcoming.program.title}
+							</p>
+						{/if}
+						<p class="text-sm font-semibold leading-snug text-gray-900">{featuredDisplayName}</p>
+						<p class="text-xs text-gray-600">{featuredUpcoming.session.date}</p>
+						{#if featuredUrgency}
+							<p class="text-xs font-semibold text-blue-600">{featuredUrgency}</p>
+						{/if}
+					</div>
+					{#if featuredUpcoming.session.registerUrl}
+						<a
+							href={featuredUpcoming.session.registerUrl}
+							target="_blank"
+							rel="noopener"
+							class="register-cta"
+						>
+							Register
+							<span aria-hidden="true">→</span>
+						</a>
+					{/if}
+				</div>
+			{:else}
+				<h1 class="text-1xl font-extrabold tracking-tight text-gray-900">
+					Applying AI leadership skills.<br />
+				</h1>
+			{/if}
+		</div>
 
 		<!-- Right: portrait with name below -->
 		<div class="flex flex-shrink-0 flex-col items-center">
@@ -137,9 +218,10 @@
 				alt="Bill Raymond"
 				class="h-16 w-16 rounded-2xl border border-gray-200 object-cover shadow-xl"
 			/>
-			<span class="mt-2 text-xs font-medium text-gray-500">
-				Bill Raymond, Founder, Cambermast LLC
-			</span>
+			<div class="mt-2 text-center leading-tight">
+				<span class="block text-xs font-semibold text-gray-900">Bill Raymond</span>
+				<span class="block text-[0.68rem] font-medium text-gray-500">Founder, Cambermast LLC</span>
+			</div>
 		</div>
 	</div>
 </section>
@@ -191,7 +273,7 @@
 	</a>
 </div>
 
-{#if upcomingSessions.length}
+{#if upcomingCards.length}
 	<section class="mx-auto mt-6 w-full px-4">
 		<div
 			class="mx-auto max-w-5xl rounded-2xl border border-blue-100 bg-blue-50 px-4 py-4 shadow-sm"
@@ -200,34 +282,50 @@
 				Upcoming sessions and events
 			</p>
 			<div class="mt-3 overflow-x-auto">
-				<div class="flex gap-3 pb-2 pr-1">
-					{#each upcomingSessions as upcoming (upcoming.program.slug + (upcoming.session.startDate ?? ''))}
+				<div class="flex gap-4 pb-2 pr-1">
+					{#each upcomingCards as upcoming (upcoming.program.slug + (upcoming.session.startDate ?? ''))}
 						<a
 							href={upcoming.session.registerUrl}
 							target="_blank"
 							rel="noopener"
-							class="group flex min-w-[16rem] flex-col rounded-lg border border-blue-100 bg-white px-4 py-3 text-left transition hover:border-blue-300 hover:bg-blue-100/60"
+							class="group session-pill flex min-w-[18rem] max-w-xs flex-col gap-3 rounded-[26px] border border-blue-100 bg-white/80 px-5 py-4 text-left transition hover:-translate-y-1.5 hover:border-blue-200 hover:bg-white/95"
 						>
-							<p
-								class="text-xs font-semibold uppercase tracking-wide text-blue-500 group-hover:text-blue-700"
-							>
-								{upcoming.program.title}
-							</p>
-							<p class="mt-1 text-sm font-semibold text-gray-900 group-hover:text-blue-900">
-								{upcoming.session.name}
-							</p>
-							<p class="text-xs text-gray-600">{upcoming.session.date}</p>
-							{#if upcoming.session.time}
-								<p class="text-xs text-gray-500">{upcoming.session.time}</p>
+							{#if upcoming.showProgramTitle}
+								<span class="session-pill__program">{upcoming.program.title}</span>
 							{/if}
-							{#if upcoming.session.partner}
-								<p class="mt-1 text-xs text-gray-500">
-									<em>{upcoming.session.partner}</em>
-								</p>
-							{/if}
-							<p class="mt-auto pt-2 text-xs font-semibold text-blue-600 group-hover:text-blue-800">
-								Register →
-							</p>
+							<div class="flex flex-col gap-1">
+								<p class="session-pill__name">{upcoming.displayName}</p>
+								<p class="session-pill__meta">{upcoming.session.date}</p>
+								{#if upcoming.session.time}
+									<p class="session-pill__meta">{upcoming.session.time}</p>
+								{/if}
+								{#if upcoming.session.location}
+									<p class="session-pill__meta">{upcoming.session.location}</p>
+								{/if}
+								{#if upcoming.session.partner}
+									<p class="session-pill__partner">{upcoming.session.partner}</p>
+								{/if}
+								{#if upcoming.session.spots}
+									<p class="session-pill__spots">{upcoming.session.spots}</p>
+								{/if}
+							</div>
+							<div class="mt-auto flex items-center justify-between gap-3 pt-2">
+								{#if upcoming.urgency}
+									<span class="session-pill__urgency">{upcoming.urgency}</span>
+								{:else if upcoming.session.spots}
+									<span class="session-pill__urgency session-pill__urgency--muted">
+										{upcoming.session.spots}
+									</span>
+								{:else}
+									<span class="session-pill__urgency session-pill__urgency--muted">
+										Open for registration
+									</span>
+								{/if}
+								<span class="session-pill__cta">
+									Register
+									<span class="register-arrow" aria-hidden="true">→</span>
+								</span>
+							</div>
 						</a>
 					{/each}
 				</div>
@@ -324,5 +422,257 @@
 	.inline-link:focus-visible {
 		outline: 2px solid #1d4ed8;
 		outline-offset: 2px;
+	}
+
+	.shadow-hero {
+		box-shadow: 0 18px 45px rgba(37, 99, 235, 0.18);
+		backdrop-filter: blur(12px);
+	}
+
+	.next-pill {
+		position: relative;
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.35rem 0.85rem;
+		border-radius: 999px;
+		background: rgba(37, 99, 235, 0.1);
+		color: #1d4ed8;
+		font-size: 0.7rem;
+		font-weight: 700;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		animation: pillGlow 8s ease-in-out infinite;
+	}
+
+	.next-pill::before {
+		content: '';
+		display: inline-block;
+		height: 0.55rem;
+		width: 0.55rem;
+		border-radius: 999px;
+		background: #2563eb;
+		box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.35);
+		animation: pulseDot 2.6s ease-out infinite;
+	}
+
+	.register-cta {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.45rem;
+		padding: 0.45rem 1rem;
+		border-radius: 999px;
+		background: #2563eb;
+		color: #fff;
+		font-size: 0.75rem;
+		font-weight: 700;
+		text-decoration: none;
+		box-shadow: 0 16px 30px rgba(37, 99, 235, 0.28);
+		transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+	}
+
+	.register-cta span {
+		display: inline-block;
+		animation: arrowNudge 2s ease-in-out infinite;
+	}
+
+	.register-cta:hover {
+		background: #1e40af;
+		transform: translateY(-3px);
+		box-shadow: 0 20px 35px rgba(30, 64, 175, 0.35);
+	}
+
+	.register-cta:hover span {
+		transform: translateX(5px);
+		animation-play-state: paused;
+	}
+
+	.session-pill {
+		position: relative;
+		overflow: hidden;
+		background-image: linear-gradient(
+			135deg,
+			rgba(219, 234, 254, 0.6),
+			#ffffff 45%,
+			rgba(191, 219, 254, 0.4)
+		);
+		background-size: 180% 180%;
+		box-shadow: 0 16px 32px rgba(37, 99, 235, 0.12);
+		backdrop-filter: blur(12px);
+		animation: cardGlow 18s ease-in-out infinite;
+		transition:
+			transform 0.25s ease,
+			box-shadow 0.25s ease,
+			border-color 0.25s ease,
+			background-position 1.4s ease;
+	}
+
+	.session-pill:hover {
+		box-shadow: 0 20px 44px rgba(37, 99, 235, 0.22);
+		background-position: 100% 50%;
+	}
+
+	.session-pill__program {
+		font-size: 0.7rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.06em;
+		color: #1e3a8a;
+		background: rgba(191, 219, 254, 0.35);
+		border-radius: 999px;
+		padding: 0.2rem 0.6rem;
+	}
+
+	.session-pill__name {
+		font-size: 1rem;
+		font-weight: 700;
+		color: #111827;
+		line-height: 1.3;
+	}
+
+	.session-pill__meta {
+		font-size: 0.8rem;
+		color: #4b5563;
+	}
+
+	.session-pill__partner {
+		font-size: 0.75rem;
+		color: #374151;
+		font-style: italic;
+	}
+
+	.session-pill__spots {
+		font-size: 0.75rem;
+		color: #1f2937;
+		font-weight: 600;
+	}
+
+	.session-pill__urgency {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.35rem;
+		padding: 0.35rem 0.75rem;
+		border-radius: 999px;
+		background: rgba(37, 99, 235, 0.12);
+		color: #1d4ed8;
+		font-size: 0.75rem;
+		font-weight: 600;
+		letter-spacing: 0.01em;
+	}
+
+	.session-pill__urgency::before {
+		content: '';
+		height: 0.4rem;
+		width: 0.4rem;
+		border-radius: 999px;
+		background: #1d4ed8;
+		box-shadow: 0 0 0 0 rgba(29, 78, 216, 0.4);
+		animation: pulseDot 2.8s ease-out infinite;
+	}
+
+	.session-pill__urgency--muted {
+		background: rgba(191, 219, 254, 0.32);
+		color: #1f2937;
+	}
+
+	.session-pill__urgency--muted::before {
+		display: none;
+	}
+
+	.session-pill__cta {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4rem;
+		padding: 0.4rem 0.9rem;
+		border-radius: 999px;
+		background: rgba(37, 99, 235, 0.18);
+		color: #1e40af;
+		font-size: 0.75rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		transition:
+			background 0.2s ease,
+			color 0.2s ease,
+			transform 0.2s ease;
+	}
+
+	.group:hover .session-pill__cta {
+		background: #2563eb;
+		color: #fff;
+		transform: translateX(2px);
+	}
+
+	.register-arrow {
+		display: inline-block;
+		animation: arrowNudge 2.4s ease-in-out infinite;
+	}
+
+	.group:hover .register-arrow {
+		transform: translateX(4px);
+		animation-play-state: paused;
+	}
+
+	@keyframes pillGlow {
+		0%,
+		100% {
+			box-shadow: 0 0 0 0 rgba(37, 99, 235, 0);
+			background: rgba(37, 99, 235, 0.11);
+		}
+		50% {
+			box-shadow: 0 0 30px 8px rgba(180, 198, 252, 0.55);
+			background: rgba(37, 99, 235, 0.16);
+		}
+	}
+
+	@keyframes pulseDot {
+		0% {
+			transform: scale(1);
+			box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.35);
+		}
+		70% {
+			transform: scale(1.05);
+			box-shadow: 0 0 0 10px rgba(37, 99, 235, 0);
+		}
+		100% {
+			transform: scale(1);
+			box-shadow: 0 0 0 0 rgba(37, 99, 235, 0);
+		}
+	}
+
+	@keyframes arrowNudge {
+		0%,
+		100% {
+			transform: translateX(0);
+		}
+		50% {
+			transform: translateX(4px);
+		}
+	}
+
+	@keyframes cardGlow {
+		0%,
+		100% {
+			background-position: 0% 50%;
+		}
+		50% {
+			background-position: 100% 50%;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.next-pill,
+		.next-pill::before,
+		.register-cta span,
+		.register-arrow,
+		.session-pill,
+		.session-pill__urgency::before {
+			animation: none !important;
+		}
+		.register-cta:hover span,
+		.group:hover .register-arrow,
+		.group:hover .session-pill__cta {
+			transform: none;
+		}
 	}
 </style>
