@@ -281,7 +281,7 @@
 									href={featuredUpcoming.session.registerUrl}
 									target="_blank"
 									rel="noopener"
-									class="register-cta shrink-0"
+									class="register-cta shrink-0 self-end md:self-auto"
 								>
 									Register
 									<span aria-hidden="true">→</span>
