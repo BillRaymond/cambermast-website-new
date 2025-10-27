@@ -174,104 +174,105 @@
 <section class="relative left-1/2 right-1/2 -mx-[50vw] w-screen overflow-hidden bg-blue-50">
 	<!-- Removed gradient background, replaced with a subtle blue tint using bg-blue-50 -->
 
-	<div class="relative mx-auto flex max-w-5xl items-center justify-between px-5 py-6">
-		<!-- Left: headline only -->
-		<div class="flex max-w-md flex-col gap-3">
-			{#if featuredUpcoming}
-				<div class="flex flex-wrap items-center gap-3 rounded-2xl bg-white/70 p-3 shadow-hero">
-					<span class="next-pill">Next up</span>
-					<div class="min-w-0 flex-1">
-						{#if showFeaturedProgramTitle}
-							<p class="text-[0.7rem] font-semibold uppercase tracking-wide text-blue-500">
-								{featuredUpcoming.program.title}
-							</p>
-						{/if}
-						<p class="text-sm font-semibold leading-snug text-gray-900">{featuredDisplayName}</p>
-						<p class="text-xs text-gray-600">{featuredUpcoming.session.date}</p>
-						{#if featuredUrgency}
-							<p class="text-xs font-semibold text-blue-600">{featuredUrgency}</p>
-						{/if}
-					</div>
-					{#if featuredUpcoming.session.registerUrl}
-						<a
-							href={featuredUpcoming.session.registerUrl}
-							target="_blank"
-							rel="noopener"
-							class="register-cta"
-						>
-							Register
-							<span aria-hidden="true">→</span>
-						</a>
-					{/if}
-				</div>
-			{:else}
-				<h1 class="text-1xl font-extrabold tracking-tight text-gray-900">
-					Applying AI leadership skills.<br />
-				</h1>
-			{/if}
+	<div class="relative mx-auto flex max-w-5xl flex-col gap-5 px-5 py-6">
+		<div class="flex w-full flex-wrap justify-center gap-3.5 md:justify-end">
+			<a
+				href="https://billtalksai.com/"
+				target="_blank"
+				rel="noopener"
+				class="rounded-lg bg-blue-600 px-5 py-2.5 font-semibold text-white shadow transition hover:bg-blue-700"
+			>
+				<span class="md:hidden">📰 Newsletter</span>
+				<span class="hidden md:inline">📰 The Bill Talks AI Newsletter</span>
+			</a>
+			<a
+				href="https://agileinaction.com/"
+				target="_blank"
+				rel="noopener"
+				class="rounded-lg bg-gray-900 px-5 py-2.5 font-semibold text-white shadow transition hover:bg-gray-800"
+			>
+				<span class="md:hidden">🎙️ Podcast</span>
+				<span class="hidden md:inline">🎙️ The Agile in Action Podcast</span>
+			</a>
+			<a
+				href="https://youtube.com/@bill-raymond"
+				target="_blank"
+				rel="noopener"
+				class="rounded-lg bg-red-600 px-5 py-2.5 font-semibold text-white shadow transition hover:bg-red-700"
+			>
+				<span class="md:hidden">▶️ YouTube</span>
+				<span class="hidden md:inline">▶️ Bill on YouTube</span>
+			</a>
+			<a
+				href="/contact"
+				class="rounded-lg bg-emerald-600 px-5 py-2.5 font-semibold text-white shadow transition hover:bg-emerald-700"
+			>
+				<span class="md:hidden">✉️ Contact</span>
+				<span class="hidden md:inline">✉️ Contact Bill</span>
+			</a>
+			<a
+				href="https://www.linkedin.com/in/williamraymond/"
+				target="_blank"
+				rel="noopener"
+				class="rounded-lg bg-sky-600 px-5 py-2.5 font-semibold text-white shadow transition hover:bg-sky-700"
+			>
+				<span class="md:hidden">💼 LinkedIn</span>
+				<span class="hidden md:inline">💼 Bill on LinkedIn</span>
+			</a>
 		</div>
 
-		<!-- Right: portrait with name below -->
-		<div class="flex flex-shrink-0 flex-col items-center">
-			<img
-				src="/images/bill.jpg"
-				alt="Bill Raymond"
-				class="h-16 w-16 rounded-2xl border border-gray-200 object-cover shadow-xl"
-			/>
-			<div class="mt-2 text-center leading-tight">
-				<span class="block text-xs font-semibold text-gray-900">Bill Raymond</span>
-				<span class="block text-[0.68rem] font-medium text-gray-500">Founder, Cambermast LLC</span>
+		<div class="flex flex-col items-center gap-6 md:flex-row md:items-center md:justify-between">
+			<!-- Left: headline only -->
+			<div class="flex max-w-md flex-col gap-3">
+				{#if featuredUpcoming}
+					<div class="flex flex-wrap items-center gap-3 rounded-2xl bg-white/70 p-3 shadow-hero">
+						<span class="next-pill">Next up</span>
+						<div class="min-w-0 flex-1">
+							{#if showFeaturedProgramTitle}
+								<p class="text-[0.7rem] font-semibold uppercase tracking-wide text-blue-500">
+									{featuredUpcoming.program.title}
+								</p>
+							{/if}
+							<p class="text-sm font-semibold leading-snug text-gray-900">{featuredDisplayName}</p>
+							<p class="text-xs text-gray-600">{featuredUpcoming.session.date}</p>
+							{#if featuredUrgency}
+								<p class="text-xs font-semibold text-blue-600">{featuredUrgency}</p>
+							{/if}
+						</div>
+						{#if featuredUpcoming.session.registerUrl}
+							<a
+								href={featuredUpcoming.session.registerUrl}
+								target="_blank"
+								rel="noopener"
+								class="register-cta"
+							>
+								Register
+								<span aria-hidden="true">→</span>
+							</a>
+						{/if}
+					</div>
+				{:else}
+					<h1 class="text-1xl font-extrabold tracking-tight text-gray-900">
+						Applying AI leadership skills.<br />
+					</h1>
+				{/if}
+			</div>
+
+			<!-- Right: portrait with name below -->
+			<div class="flex flex-shrink-0 flex-col items-center">
+				<img
+					src="/images/bill.jpg"
+					alt="Bill Raymond"
+					class="h-16 w-16 rounded-2xl border border-gray-200 object-cover shadow-xl"
+				/>
+				<div class="mt-2 text-center leading-tight">
+					<span class="block text-xs font-semibold text-gray-900">Bill Raymond</span>
+					<span class="block text-[0.68rem] font-medium text-gray-500">Founder, Cambermast LLC</span>
+				</div>
 			</div>
 		</div>
 	</div>
 </section>
-
-<!-- Add podcast and newsletter buttons -->
-<div class="mt-6 flex flex-wrap justify-center gap-3.5">
-	<a
-		href="https://billtalksai.com/"
-		target="_blank"
-		rel="noopener"
-		class="rounded-lg bg-blue-600 px-5 py-2.5 font-semibold text-white shadow transition hover:bg-blue-700"
-	>
-		<span class="md:hidden">📰 Newsletter</span>
-		<span class="hidden md:inline">📰 The Bill Talks AI Newsletter</span>
-	</a>
-	<a
-		href="https://agileinaction.com/"
-		target="_blank"
-		rel="noopener"
-		class="rounded-lg bg-gray-900 px-5 py-2.5 font-semibold text-white shadow transition hover:bg-gray-800"
-	>
-		<span class="md:hidden">🎙️ Podcast</span>
-		<span class="hidden md:inline">🎙️ The Agile in Action Podcast</span>
-	</a>
-	<a
-		href="https://youtube.com/@bill-raymond"
-		target="_blank"
-		rel="noopener"
-		class="rounded-lg bg-red-600 px-5 py-2.5 font-semibold text-white shadow transition hover:bg-red-700"
-	>
-		<span class="md:hidden">▶️ YouTube</span>
-		<span class="hidden md:inline">▶️ Bill on YouTube</span>
-	</a>
-	<a
-		href="/contact"
-		class="rounded-lg bg-emerald-600 px-5 py-2.5 font-semibold text-white shadow transition hover:bg-emerald-700"
-	>
-		<span class="md:hidden">✉️ Contact</span>
-		<span class="hidden md:inline">✉️ Contact Bill</span>
-	</a>
-	<a
-		href="https://www.linkedin.com/in/williamraymond/"
-		target="_blank"
-		rel="noopener"
-		class="rounded-lg bg-sky-600 px-5 py-2.5 font-semibold text-white shadow transition hover:bg-sky-700"
-	>
-		<span class="md:hidden">💼 LinkedIn</span>
-		<span class="hidden md:inline">💼 Bill on LinkedIn</span>
-	</a>
-</div>
 
 {#if upcomingCards.length}
 	<section class="mx-auto mt-6 w-full px-4">
@@ -281,12 +282,13 @@
 			</p>
 			<div class="mt-3 overflow-x-auto overflow-y-visible">
 				<div class="flex gap-4 pb-6 pr-1">
-					{#each upcomingCards as upcoming (upcoming.program.slug + (upcoming.session.startDate ?? ''))}
+					{#each upcomingCards as upcoming, index (upcoming.program.slug + (upcoming.session.startDate ?? ''))}
 						<a
 							href={upcoming.session.registerUrl}
 							target="_blank"
 							rel="noopener"
 							class="group session-pill flex min-w-[18rem] max-w-xs flex-col gap-3 rounded-[26px] border border-blue-100 bg-white/80 px-5 py-4 text-left transition hover:border-blue-200 hover:bg-white/95"
+							style={`--session-stagger: ${index * 90}ms;`}
 						>
 							{#if upcoming.showProgramTitle}
 								<span class="session-pill__program">{upcoming.program.title}</span>
@@ -504,6 +506,10 @@
 			border-color 0.16s ease,
 			background-color 0.16s ease;
 		border-radius: 26px;
+		opacity: 0;
+		transform: translateY(20px);
+		animation: sessionPillFade 0.45s ease-out forwards;
+		animation-delay: var(--session-stagger, 0ms);
 	}
 
 	.session-pill:hover {
@@ -511,7 +517,7 @@
 		background-color: rgba(255, 255, 255, 0.99);
 	}
 
-		.session-pill__program {
+	.session-pill__program {
 		font-size: 0.7rem;
 		font-weight: 700;
 		text-transform: uppercase;
@@ -520,6 +526,8 @@
 		background: rgba(191, 219, 254, 0.35);
 		border-radius: 999px;
 		padding: 0.2rem 0.6rem;
+		display: block;
+		text-align: center;
 	}
 
 	.session-pill__name {
@@ -602,6 +610,17 @@
 		transform: translateX(2px);
 	}
 
+	@keyframes sessionPillFade {
+		from {
+			opacity: 0;
+			transform: translateY(20px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
 	@keyframes pillGlow {
 		0%,
 		100% {
@@ -643,9 +662,13 @@
 		.next-pill,
 		.next-pill::before,
 		.register-cta span,
-		.session-pill,
 		.session-pill__urgency::before {
 			animation: none !important;
+		}
+		.session-pill {
+			animation: none !important;
+			opacity: 1 !important;
+			transform: none !important;
 		}
 		.register-cta:hover span,
 		.group:hover .session-pill__cta {

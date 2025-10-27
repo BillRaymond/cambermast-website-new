@@ -76,10 +76,10 @@
 			},
 			{
 				"id": "training-ai-workshop-content-creators",
-				"title": "AI Workshop for Content Creators",
+				"title": "AI Workshop for Tech Writers and Content Creators",
 				"summary": "Seven-week cohort that helps content and documentation teams layer AI into their workflows.",
 				"image": "/images/ai-workshop-for-content-creators.jpeg",
-				"imageAlt": "AI Workshop for Content Creators illustration",
+				"imageAlt": "AI Workshop for Tech Writers and Content Creators illustration",
 				"bullets": [
 					"Automate repetitive content production tasks with AI",
 					"Preserve brand voice with reusable prompts and guardrails",

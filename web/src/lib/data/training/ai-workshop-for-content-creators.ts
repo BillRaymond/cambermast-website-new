@@ -4,15 +4,16 @@ export const aiWorkshopForContentCreators = {
 	slug: 'ai-workshop-for-content-creators',
 	route: '/training/ai-workshop-for-content-creators',
 	sku: 'CM-TR-005',
-	title: 'AI Workshop for Content Creators',
+	title: 'AI Workshop for Tech Writers and Content Creators',
 	nickname: 'Seven-week cohort for technical communicators',
 	tagline: 'AI-enhanced content workflows that deliver measurable impact in seven weeks.',
 	heroImage: '/images/ai-workshop-for-content-creators.jpeg',
-	heroImageAlt: 'AI Workshop for Content Creators illustration',
+	heroImageAlt: 'AI Workshop for Tech Writers and Content Creators illustration',
 	ogImage: '/images/cambermast-content-5-ai-workshop-for-content-creators-og.jpeg',
-	ogImageAlt: 'Open graph image for the AI Workshop for Content Creators training program',
+	ogImageAlt:
+		'Open graph image for the AI Workshop for Tech Writers and Content Creators training program',
 	description:
-		'The AI Workshop for Content Creators is a live, seven-week cohort that helps technical communicators and content teams weave generative AI into their daily production workflows.',
+		'The AI Workshop for Tech Writers and Content Creators is a live, seven-week cohort that helps technical communicators and content teams weave generative AI into their daily production workflows.',
 	secondaryDescription:
 		'Across weekly 2-hour sessions, participants combine strategy discussions with hands-on practice to automate repetitive tasks, preserve brand voice, and publish higher-impact content faster.',
 	primaryCta: {
