@@ -261,31 +261,33 @@
 			<!-- Left: headline only -->
 			<div class="flex max-w-md flex-col gap-3">
 				{#if featuredUpcoming}
-					<div class="flex flex-wrap items-center gap-3 rounded-2xl bg-white/70 p-3 shadow-hero">
-						<span class="next-pill">Next up</span>
-						<div class="min-w-0 flex-1">
-							{#if showFeaturedProgramTitle}
-								<p class="text-[0.7rem] font-semibold uppercase tracking-wide text-blue-500">
-									{featuredUpcoming.program.title}
-								</p>
-							{/if}
-							<p class="text-sm font-semibold leading-snug text-gray-900">{featuredDisplayName}</p>
-							<p class="text-xs text-gray-600">{featuredUpcoming.session.date}</p>
-							{#if featuredUrgency}
-								<p class="text-xs font-semibold text-blue-600">{featuredUrgency}</p>
+					<div class="flex flex-col gap-3 rounded-2xl bg-white/70 p-3 shadow-hero">
+						<span class="next-pill self-start">Next up</span>
+						<div class="flex flex-col items-start gap-3 md:flex-row md:items-center md:gap-6">
+							<div class="min-w-0 flex-1">
+								{#if showFeaturedProgramTitle}
+									<p class="text-[0.7rem] font-semibold uppercase tracking-wide text-blue-500">
+										{featuredUpcoming.program.title}
+									</p>
+								{/if}
+								<p class="text-sm font-semibold leading-snug text-gray-900">{featuredDisplayName}</p>
+								<p class="text-xs text-gray-600">{featuredUpcoming.session.date}</p>
+								{#if featuredUrgency}
+									<p class="text-xs font-semibold text-blue-600">{featuredUrgency}</p>
+								{/if}
+							</div>
+							{#if featuredUpcoming.session.registerUrl}
+								<a
+									href={featuredUpcoming.session.registerUrl}
+									target="_blank"
+									rel="noopener"
+									class="register-cta shrink-0"
+								>
+									Register
+									<span aria-hidden="true">→</span>
+								</a>
 							{/if}
 						</div>
-						{#if featuredUpcoming.session.registerUrl}
-							<a
-								href={featuredUpcoming.session.registerUrl}
-								target="_blank"
-								rel="noopener"
-								class="register-cta"
-							>
-								Register
-								<span aria-hidden="true">→</span>
-							</a>
-						{/if}
 					</div>
 				{:else}
 					<h1 class="text-1xl font-extrabold tracking-tight text-gray-900">
