@@ -17,7 +17,11 @@
 			label: sec.navlabel
 		}));
 
-	const navLinks = [...catalogLinks, { href: '/about', label: 'About' }];
+	const navLinks = [
+		...catalogLinks,
+		{ href: '/training/calendar', label: 'Calendar' },
+		{ href: '/about', label: 'About' }
+	];
 
 	const pathname = $derived(page.url.pathname);
 

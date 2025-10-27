@@ -6,6 +6,7 @@
 	export let author;
 	export let route;
 	export let testimonialCta;
+	export let hasUpcomingSessions = false;
 
 	const DEFAULT_TESTIMONIAL_CTA_LABEL = 'Schedule for your team';
 </script>
@@ -21,13 +22,21 @@
 		<p class="mt-2 text-gray-600">{headline}</p>
 	</div>
 	{#if route}
-		<a
-			href={route}
-			class="mt-4 inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white shadow transition hover:bg-blue-700"
-			aria-label={`Learn more about ${label}`}
-		>
-			Learn more
-		</a>
+		<div class="mt-4 flex flex-col items-center gap-2">
+			{#if hasUpcomingSessions}
+				<span class="inline-flex items-center gap-2 rounded-full bg-blue-600/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-blue-700">
+					<span class="h-2 w-2 rounded-full bg-blue-500"></span>
+					Upcoming dates available
+				</span>
+			{/if}
+			<a
+				href={route}
+				class="inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white shadow transition hover:bg-blue-700"
+				aria-label={`Learn more about ${label}`}
+			>
+				Learn more
+			</a>
+		</div>
 	{/if}
 	{#if testimonial}
 		<div class="mt-4 w-full rounded-lg bg-gray-50 p-2.5 text-sm text-gray-700">

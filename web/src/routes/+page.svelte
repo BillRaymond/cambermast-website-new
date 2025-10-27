@@ -12,6 +12,11 @@
 
 	const year = new Date().getFullYear();
 
+	type CatalogItem = {
+		id?: string;
+		route?: string;
+	};
+
 	type CatalogSection = {
 		label: string;
 		headline: string;
@@ -20,6 +25,12 @@
 		testimonial?: string;
 		testimonialCta?: { href: string; label: string };
 		author?: string;
+		homeorder?: number;
+		items?: CatalogItem[];
+	};
+
+	type SectionWithUpcoming = { slug: string } & CatalogSection & {
+		hasUpcomingSessions: boolean;
 	};
 
 	const catalogSections = catalog as Record<string, Partial<CatalogSection>>;
@@ -44,6 +55,23 @@
 		program: TrainingProgram;
 		session: TrainingSession;
 	}>;
+
+	const programRoutesWithUpcoming = new Set(
+		upcomingSessions.map(({ program }) => program.route)
+	);
+
+	const sectionsWithUpcoming: SectionWithUpcoming[] = sections.map((section) => {
+		const itemRoutes = (section.items ?? [])
+			.map((item) => item.route)
+			.filter((route): route is string => Boolean(route));
+		const hasUpcomingSessions =
+			itemRoutes.some((route) => programRoutesWithUpcoming.has(route)) ||
+			(section.slug === 'training' && programRoutesWithUpcoming.size > 0);
+		return {
+			...section,
+			hasUpcomingSessions
+		};
+	});
 
 	const MILLISECONDS_IN_HOUR = 1000 * 60 * 60;
 	const MILLISECONDS_IN_DAY = 24 * MILLISECONDS_IN_HOUR;
@@ -335,7 +363,7 @@
 
 <!-- Cards rendered from JSON (label + headline only) -->
 <section class="mt-9 grid gap-5 md:grid-cols-3">
-	{#each sections as s}
+	{#each sectionsWithUpcoming as s}
 		<Card
 			icon={s.icon}
 			label={s.label}
@@ -344,6 +372,7 @@
 			author={s.author}
 			route={s.route}
 			testimonialCta={s.testimonialCta}
+			hasUpcomingSessions={s.hasUpcomingSessions}
 		/>
 	{/each}
 </section>
