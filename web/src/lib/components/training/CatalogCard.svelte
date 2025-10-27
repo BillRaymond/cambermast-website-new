@@ -98,7 +98,7 @@
 									href={session.registerUrl}
 									class="mt-2 inline-flex items-center justify-center rounded-lg bg-blue-600 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-blue-700"
 								>
-									Register
+									Register ↗
 								</a>
 							</li>
 						{/each}

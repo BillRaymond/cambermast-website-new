@@ -13,6 +13,7 @@
 		program: TrainingProgram;
 		session: TrainingSession;
 		startTimestamp: number | null;
+		sessionLabel: string | null;
 	};
 
 	type GroupedSessions = {
@@ -29,6 +30,11 @@
 
 	const MILLISECONDS_IN_HOUR = 1000 * 60 * 60;
 	const MILLISECONDS_IN_DAY = 24 * MILLISECONDS_IN_HOUR;
+
+	const getSessionLabel = (program: TrainingProgram, session: TrainingSession): string | null => {
+		const trimmed = session.name?.trim();
+		return trimmed && trimmed.length > 0 && trimmed !== program.title ? trimmed : null;
+	};
 
 	const getUrgencyLabel = (startTimestamp: number | null): string | null => {
 		if (startTimestamp === null || !Number.isFinite(startTimestamp)) return null;
@@ -50,7 +56,8 @@
 			(program.sessions ?? []).map((session) => ({
 				program,
 				session,
-				startTimestamp: getSessionStartTimestamp(session)
+				startTimestamp: getSessionStartTimestamp(session),
+				sessionLabel: getSessionLabel(program, session)
 			}))
 		)
 		.filter(({ session }) => hasExternalRegistration(session))
@@ -222,7 +229,9 @@
 													<p class="mt-1 text-sm font-semibold text-gray-900">
 														{entry.program.title}
 													</p>
-													<p class="text-sm text-gray-700">{entry.session.name}</p>
+													{#if entry.sessionLabel}
+														<p class="text-sm text-gray-700">{entry.sessionLabel}</p>
+													{/if}
 													<p class="text-xs text-gray-600">
 														{#if formatTime(entry)}
 															{formatTime(entry)}
@@ -253,7 +262,7 @@
 													href={entry.session.registerUrl}
 													class="inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-1.5 text-sm font-semibold text-white transition hover:bg-blue-700"
 												>
-													Register
+													Register ↗
 												</a>
 												<a
 													href={entry.program.route}

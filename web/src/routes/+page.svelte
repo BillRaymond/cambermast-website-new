@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import catalog from '$lib/data/catalog.json';
 	import Card from '$lib/components/ServiceCard.svelte';
 	import { listTrainingPrograms } from '$lib/data/training';
@@ -31,8 +32,8 @@
 	};
 
 	type SectionWithUpcoming = { slug: string } & CatalogSection & {
-		hasUpcomingSessions: boolean;
-	};
+			hasUpcomingSessions: boolean;
+		};
 
 	const catalogSections = catalog as Record<string, Partial<CatalogSection>>;
 
@@ -57,9 +58,7 @@
 		session: TrainingSession;
 	}>;
 
-	const programRoutesWithUpcoming = new Set(
-		upcomingSessions.map(({ program }) => program.route)
-	);
+	const programRoutesWithUpcoming = new Set(upcomingSessions.map(({ program }) => program.route));
 
 	const sectionsWithUpcoming: SectionWithUpcoming[] = sections.map((section) => {
 		const itemRoutes = (section.items ?? [])
@@ -94,9 +93,12 @@
 
 	const getSessionMeta = (program: TrainingProgram, session: TrainingSession) => {
 		const trimmedName = session.name?.trim();
-		const displayName = trimmedName && trimmedName.length > 0 ? trimmedName : program.title;
-		const showProgramTitle = Boolean(trimmedName) && trimmedName !== program.title;
-		return { displayName, showProgramTitle };
+		const sessionLabel =
+			trimmedName && trimmedName.length > 0 && trimmedName !== program.title ? trimmedName : null;
+		return {
+			primaryTitle: program.title,
+			sessionLabel
+		};
 	};
 
 	const featuredUpcoming = upcomingSessions[0];
@@ -105,9 +107,8 @@
 		? getSessionMeta(featuredUpcoming.program, featuredUpcoming.session)
 		: null;
 
-	const featuredDisplayName =
-		featuredMeta?.displayName ?? featuredUpcoming?.program.title ?? '';
-	const showFeaturedProgramTitle = featuredMeta?.showProgramTitle ?? false;
+	const featuredDisplayName = featuredMeta?.primaryTitle ?? featuredUpcoming?.program.title ?? '';
+	const featuredSessionLabel = featuredMeta?.sessionLabel ?? null;
 
 	const featuredStartTimestamp = featuredUpcoming
 		? getSessionStartTimestamp(featuredUpcoming.session)
@@ -120,14 +121,88 @@
 		const startTimestamp = getSessionStartTimestamp(entry.session);
 		return {
 			...entry,
-			displayName: meta.displayName,
-			showProgramTitle: meta.showProgramTitle,
+			sessionLabel: meta.sessionLabel,
 			startTimestamp,
 			urgency: getUrgencyLabel(startTimestamp)
 		};
 	});
 
 	const pageMeta = getSeo('/');
+
+	type ConnectLink = {
+		icon: string;
+		label: string;
+		description: string;
+		href: string;
+		highlight?: boolean;
+	};
+
+	const connectLinks: ConnectLink[] = [
+		{
+			icon: '📰',
+			label: 'The Bill Talks AI Newsletter',
+			description: 'Weekly insights for AI leaders and practitioners.',
+			href: 'https://billtalksai.com/',
+			highlight: true
+		},
+		{
+			icon: '🎙️',
+			label: 'The Agile in Action Podcast',
+			description: 'Listen to expert conversations on modern leadership.',
+			href: 'https://agileinaction.com/'
+		},
+		{
+			icon: '▶️',
+			label: 'Bill on YouTube',
+			description: 'Video walkthroughs and sessions on AI adoption.',
+			href: 'https://youtube.com/@bill-raymond'
+		},
+		{
+			icon: '✉️',
+			label: 'Contact Bill',
+			description: 'Start a conversation about training or advisory work.',
+			href: '/contact'
+		},
+		{
+			icon: '💼',
+			label: 'Bill on LinkedIn',
+			description: "Follow Bill's updates and professional news.",
+			href: 'https://www.linkedin.com/in/williamraymond/'
+		}
+	];
+
+	let connectMenuOpen = false;
+	let connectMenuContainer: HTMLDivElement | null = null;
+
+	const closeConnectMenu = () => {
+		connectMenuOpen = false;
+	};
+
+	const toggleConnectMenu = () => {
+		connectMenuOpen = !connectMenuOpen;
+	};
+
+	const handleDocumentClick = (event: MouseEvent) => {
+		if (!connectMenuOpen || !connectMenuContainer) return;
+		const target = event.target as Node | null;
+		if (target && connectMenuContainer.contains(target)) return;
+		closeConnectMenu();
+	};
+
+	const handleKeydown = (event: KeyboardEvent) => {
+		if (event.key === 'Escape') {
+			closeConnectMenu();
+		}
+	};
+
+	onMount(() => {
+		document.addEventListener('click', handleDocumentClick);
+		document.addEventListener('keydown', handleKeydown);
+		return () => {
+			document.removeEventListener('click', handleDocumentClick);
+			document.removeEventListener('keydown', handleKeydown);
+		};
+	});
 </script>
 
 <svelte:head>
@@ -207,70 +282,26 @@
 </svelte:head>
 
 <!-- Full-bleed hero -->
-<section class="relative left-1/2 right-1/2 -mx-[50vw] w-screen overflow-hidden bg-blue-50">
+<section class="relative left-1/2 right-1/2 z-10 -mx-[50vw] w-screen overflow-visible bg-blue-50">
 	<!-- Removed gradient background, replaced with a subtle blue tint using bg-blue-50 -->
 
 	<div class="relative mx-auto flex max-w-5xl flex-col gap-5 px-5 py-6">
-		<div class="flex w-full flex-wrap justify-center gap-3.5">
-			<a
-				href="https://billtalksai.com/"
-				target="_blank"
-				rel="noopener"
-				class="rounded-lg bg-blue-600 px-5 py-2.5 font-semibold text-white shadow transition hover:bg-blue-700"
-			>
-				<span class="md:hidden">📰 Newsletter</span>
-				<span class="hidden md:inline">📰 The Bill Talks AI Newsletter</span>
-			</a>
-			<a
-				href="https://agileinaction.com/"
-				target="_blank"
-				rel="noopener"
-				class="rounded-lg bg-gray-900 px-5 py-2.5 font-semibold text-white shadow transition hover:bg-gray-800"
-			>
-				<span class="md:hidden">🎙️ Podcast</span>
-				<span class="hidden md:inline">🎙️ The Agile in Action Podcast</span>
-			</a>
-			<a
-				href="https://youtube.com/@bill-raymond"
-				target="_blank"
-				rel="noopener"
-				class="rounded-lg bg-red-600 px-5 py-2.5 font-semibold text-white shadow transition hover:bg-red-700"
-			>
-				<span class="md:hidden">▶️ YouTube</span>
-				<span class="hidden md:inline">▶️ Bill on YouTube</span>
-			</a>
-			<a
-				href="/contact"
-				class="rounded-lg bg-emerald-600 px-5 py-2.5 font-semibold text-white shadow transition hover:bg-emerald-700"
-			>
-				<span class="md:hidden">✉️ Contact</span>
-				<span class="hidden md:inline">✉️ Contact Bill</span>
-			</a>
-			<a
-				href="https://www.linkedin.com/in/williamraymond/"
-				target="_blank"
-				rel="noopener"
-				class="rounded-lg bg-sky-600 px-5 py-2.5 font-semibold text-white shadow transition hover:bg-sky-700"
-			>
-				<span class="md:hidden">💼 LinkedIn</span>
-				<span class="hidden md:inline">💼 Bill on LinkedIn</span>
-			</a>
-		</div>
-
-		<div class="flex flex-col items-center gap-6 md:flex-row md:items-center md:justify-between">
+		<div
+			class="flex flex-col items-center gap-5 md:flex-row md:items-stretch md:justify-center md:gap-6"
+		>
 			<!-- Left: headline only -->
-			<div class="flex max-w-md flex-col gap-3">
+			<div class="flex w-full flex-col gap-3 md:w-[27.5rem] md:flex-none md:self-stretch">
 				{#if featuredUpcoming}
-					<div class="flex flex-col gap-3 rounded-2xl bg-white/70 p-3 shadow-hero">
+					<div class="shadow-hero flex h-full flex-col gap-3 rounded-2xl bg-white/70 p-3">
 						<span class="next-pill self-start">Next up</span>
 						<div class="flex flex-col items-start gap-3 md:flex-row md:items-center md:gap-6">
 							<div class="min-w-0 flex-1">
-								{#if showFeaturedProgramTitle}
-									<p class="text-[0.7rem] font-semibold uppercase tracking-wide text-blue-500">
-										{featuredUpcoming.program.title}
-									</p>
+								<p class="text-sm font-semibold leading-snug text-gray-900">
+									{featuredDisplayName}
+								</p>
+								{#if featuredSessionLabel}
+									<p class="text-xs font-medium text-blue-600">{featuredSessionLabel}</p>
 								{/if}
-								<p class="text-sm font-semibold leading-snug text-gray-900">{featuredDisplayName}</p>
 								<p class="text-xs text-gray-600">{featuredUpcoming.session.date}</p>
 								{#if featuredUrgency}
 									<p class="text-xs font-semibold text-blue-600">{featuredUrgency}</p>
@@ -296,16 +327,88 @@
 				{/if}
 			</div>
 
-			<!-- Right: portrait with name below -->
-			<div class="flex flex-shrink-0 flex-col items-center">
-				<img
-					src="/images/bill.jpg"
-					alt="Bill Raymond"
-					class="h-16 w-16 rounded-2xl border border-gray-200 object-cover shadow-xl"
-				/>
-				<div class="mt-2 text-center leading-tight">
-					<span class="block text-xs font-semibold text-gray-900">Bill Raymond</span>
-					<span class="block text-[0.68rem] font-medium text-gray-500">Founder, Cambermast LLC</span>
+			<!-- Right: portrait with name below in a matching card -->
+			<div
+				class="flex flex-shrink-0 flex-col items-center md:w-[27.5rem] md:flex-none md:items-stretch"
+			>
+				<div
+					class="shadow-hero grid h-full w-full gap-4 rounded-2xl bg-white/70 px-5 py-4 text-left md:grid-cols-[minmax(0,1fr)_auto] md:items-start md:gap-5"
+				>
+					<div class="flex flex-col gap-2.5 md:pr-2">
+						<h2 class="text-sm font-semibold uppercase tracking-wide text-blue-500">
+							AI leadership in action
+						</h2>
+						<p class="text-xs text-gray-600">
+							Helping you adopt AI responsibly through project management, training, and advisory
+							services.
+						</p>
+						<div class="flex w-full justify-start">
+							<div class="relative w-full" bind:this={connectMenuContainer}>
+								<button
+									type="button"
+									class="flex w-full items-center justify-center gap-1.5 rounded-full border border-blue-200 bg-white px-3 py-2 text-[0.9rem] font-semibold text-blue-900 shadow-sm transition hover:border-blue-300 hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-offset-2 md:w-max md:px-4"
+									on:click={toggleConnectMenu}
+									aria-haspopup="true"
+									aria-expanded={connectMenuOpen}
+								>
+									<span class="text-base leading-none">🤝</span>
+									<span>Connect with Bill</span>
+									<svg
+										class="h-4 w-4 text-blue-700 transition-transform"
+										class:rotate-180={connectMenuOpen}
+										xmlns="http://www.w3.org/2000/svg"
+										viewBox="0 0 20 20"
+										fill="currentColor"
+										aria-hidden="true"
+									>
+										<path
+											fill-rule="evenodd"
+											d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.7a.75.75 0 1 1 1.06 1.06l-4.24 4.24a.75.75 0 0 1-1.06 0L5.21 8.29a.75.75 0 0 1 .02-1.08Z"
+											clip-rule="evenodd"
+										/>
+									</svg>
+								</button>
+								{#if connectMenuOpen}
+									<div
+										class="absolute left-1/2 z-30 mt-3 w-[min(18rem,80vw)] -translate-x-1/2 overflow-hidden rounded-3xl border border-blue-100 bg-white/95 p-2 shadow-2xl backdrop-blur md:left-0 md:translate-x-0"
+										role="menu"
+										aria-label="Connect with Bill"
+									>
+										{#each connectLinks as link}
+											<a
+												href={link.href}
+												target={link.href.startsWith('http') ? '_blank' : undefined}
+												rel={link.href.startsWith('http') ? 'noopener' : undefined}
+												class="flex items-start gap-3 rounded-2xl px-4 py-3 text-left transition hover:bg-blue-50 focus:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-200"
+												role="menuitem"
+												on:click={closeConnectMenu}
+												class:bg-blue-50={link.highlight}
+											>
+												<span class="text-xl leading-none">{link.icon}</span>
+												<span class="flex flex-col gap-1">
+													<span class="text-sm font-semibold text-gray-900">{link.label}</span>
+													<span class="text-xs text-gray-600">{link.description}</span>
+												</span>
+											</a>
+										{/each}
+									</div>
+								{/if}
+							</div>
+						</div>
+					</div>
+					<div class="flex flex-col items-center gap-2 text-center">
+						<img
+							src="/images/bill.jpg"
+							alt="Bill Raymond"
+							class="h-16 w-16 rounded-2xl border border-gray-200 object-cover shadow-xl"
+						/>
+						<div class="leading-tight">
+							<span class="block text-xs font-semibold text-gray-900">Bill Raymond</span>
+							<span class="block text-[0.68rem] font-medium text-gray-500"
+								>Founder, Cambermast LLC</span
+							>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -315,9 +418,15 @@
 {#if upcomingCards.length}
 	<section class="mx-auto mt-6 w-full px-4">
 		<div class="sessions-strip mx-auto max-w-5xl px-4 py-4">
-			<p class="text-xs font-semibold uppercase tracking-wide text-blue-600">
-				Upcoming sessions and events
-			</p>
+			<div class="flex flex-wrap items-center gap-2 text-xs font-semibold tracking-wide text-blue-600">
+				<span class="uppercase">Upcoming sessions and events</span>
+				<a
+					href="/training/calendar"
+					class="rounded-full border border-blue-200 bg-white px-2.5 py-1 text-[0.65rem] font-semibold text-blue-600 normal-case transition hover:border-blue-300 hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-200"
+				>
+					View calendar →
+				</a>
+			</div>
 			<div class="mt-3 overflow-x-auto overflow-y-visible">
 				<div class="flex gap-4 pb-6 pr-1">
 					{#each upcomingCards as upcoming, index (upcoming.program.slug + (upcoming.session.startDate ?? ''))}
@@ -325,14 +434,14 @@
 							href={upcoming.session.registerUrl}
 							target="_blank"
 							rel="noopener"
-							class="group session-pill flex min-w-[18rem] max-w-xs flex-col gap-3 rounded-[26px] border border-blue-100 bg-white/80 px-5 py-4 text-left transition hover:border-blue-200 hover:bg-white/95"
+							class="session-pill group flex min-w-[18rem] max-w-xs flex-col gap-3 rounded-[26px] border border-blue-100 bg-white/80 px-5 py-4 text-left transition hover:border-blue-200 hover:bg-white/95"
 							style={`--session-stagger: ${index * 90}ms;`}
 						>
-							{#if upcoming.showProgramTitle}
-								<span class="session-pill__program">{upcoming.program.title}</span>
-							{/if}
 							<div class="flex flex-col gap-1">
-								<p class="session-pill__name">{upcoming.displayName}</p>
+								<p class="session-pill__name">{upcoming.program.title}</p>
+								{#if upcoming.sessionLabel}
+									<p class="session-pill__tag">{upcoming.sessionLabel}</p>
+								{/if}
 								<p class="session-pill__meta">{upcoming.session.date}</p>
 								{#if upcoming.session.time}
 									<p class="session-pill__meta">{upcoming.session.time}</p>
@@ -359,9 +468,7 @@
 										Open for registration
 									</span>
 								{/if}
-								<span class="session-pill__cta">
-									Register ↗
-								</span>
+								<span class="session-pill__cta"> Register ↗ </span>
 							</div>
 						</a>
 					{/each}
@@ -516,7 +623,10 @@
 		font-weight: 700;
 		text-decoration: none;
 		box-shadow: 0 16px 30px rgba(37, 99, 235, 0.28);
-		transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+		transition:
+			transform 0.2s ease,
+			box-shadow 0.2s ease,
+			background 0.2s ease;
 	}
 
 	.register-cta span {
@@ -556,24 +666,24 @@
 		background-color: rgba(255, 255, 255, 0.99);
 	}
 
-	.session-pill__program {
-		font-size: 0.7rem;
-		font-weight: 700;
-		text-transform: uppercase;
-		letter-spacing: 0.06em;
-		color: #1e3a8a;
-		background: rgba(191, 219, 254, 0.35);
-		border-radius: 999px;
-		padding: 0.2rem 0.6rem;
-		display: block;
-		text-align: center;
-	}
-
 	.session-pill__name {
 		font-size: 1rem;
 		font-weight: 700;
 		color: #111827;
 		line-height: 1.3;
+	}
+
+	.session-pill__tag {
+		font-size: 0.75rem;
+		font-weight: 600;
+		color: #1d4ed8;
+		background: rgba(191, 219, 254, 0.35);
+		border-radius: 999px;
+		padding: 0.25rem 0.6rem;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		letter-spacing: 0.01em;
 	}
 
 	.session-pill__meta {

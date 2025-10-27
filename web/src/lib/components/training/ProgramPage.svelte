@@ -180,7 +180,7 @@
 									class="mt-3 inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-1.5 text-sm font-semibold text-white transition hover:bg-blue-700"
 									class:schedule-team-button={session.registerUrl === '/contact'}
 								>
-									{session.registerUrl === '/contact' ? 'Schedule your team' : 'Register'}
+									{session.registerUrl === '/contact' ? 'Schedule your team' : 'Register ↗'}
 							</a>
 						{/if}
 					</div>
@@ -275,7 +275,7 @@
 									class="mt-2.5 inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700"
 									class:schedule-team-button={session.registerUrl === '/contact'}
 								>
-									{session.registerUrl === '/contact' ? 'Schedule your team' : 'Register'}
+									{session.registerUrl === '/contact' ? 'Schedule your team' : 'Register ↗'}
 								</a>
 							</li>
 						{/each}
