@@ -5,17 +5,17 @@ export const aiAutomationWithAgents = {
 	route: '/training/ai-automation-with-agents',
 	sku: 'CM-TR-004',
 	title: 'AI Automation with Agents Workshop',
-	nickname: 'Hands-on agent building with n8n + APIs',
+	nickname: 'Six-week cohort for applied agent builders',
 	tagline:
-		'Automate internal processes with AI agents that act like team members—while keeping humans in the loop where it counts.',
+		'Automate internal processes with AI agents that act like team members—across six weeks of guided practice.',
 	heroImage: '/images/ai-automation.jpg',
 	heroImageAlt: 'AI Automation with Agents Workshop illustration',
 	ogImage: '/images/cambermast-content-4-ai-automation-with-agents-workshop-og.jpeg',
 	ogImageAlt: 'Open graph image for the AI Automation with Agents workshop training program',
 	description:
-		'The AI Automation with Agents Workshop is a primer on automating internal processes using the latest AI agents. We tackle real-world scenarios where an agent behaves like a teammate, coordinating steps and escalating to people when necessary.',
+		'The AI Automation with Agents Workshop is a live, six-week cohort on automating internal processes with reliable AI agents. We tackle real-world scenarios where an agent behaves like a teammate, coordinating steps and escalating to people when necessary.',
 	secondaryDescription:
-		'Across guided labs you will design, build, and optimize agents using tools like n8n, OpenAI, and best-practice API integrations—so your team leaves with something running.',
+		'Across weekly 2-hour sessions you will design, build, and optimize agents using tools like n8n, OpenAI, and best-practice API integrations—so your team leaves with something running.',
 	primaryCta: {
 		label: 'Schedule your team',
 		url: '/contact'
@@ -25,7 +25,7 @@ export const aiAutomationWithAgents = {
 		url: '/agents'
 	},
 	stats: [
-		{ label: 'Duration', value: 'Two-day live workshop + follow-up support' },
+		{ label: 'Duration', value: 'Six weeks, 2-hour commitment per week' },
 		{ label: 'Format', value: ['🔴 Live online', '🏫 In-person available'] },
 		{ label: 'Cost', value: '$1,749 per person (virtual cohort)' },
 		{ label: 'Environment', value: '💙 Learn in a supportive, judgment-free environment' },
@@ -61,25 +61,27 @@ export const aiAutomationWithAgents = {
 	],
 	sessions: [
 		{
-			name: 'Virtual Cohort',
-			date: 'Next dates announced monthly',
-			time: 'Two half-day sessions',
+			name: 'Winter 2025-2026 Open Enrollment',
+			date: 'Dec 4, 2025 - Jan 22, 2026 (Wednesdays)',
+			time: '10:00 am-12:00 pm PT / 1:00-3:00 pm ET',
+			startDate: '2025-12-04',
+			endDate: '2026-01-22',
 			location: 'Live on Zoom',
-			spots: '20 seats',
-			registerUrl: '/contact'
+			spots: 'Open enrollment',
+			registerUrl: 'https://cambermast.com/contact'
 		},
 		{
-			name: 'Private Team Sprint',
-			date: 'Schedule on your timeline',
-			time: 'Two consecutive days or four shorter blocks',
-			location: 'On-site (SF Bay Area) or virtual',
+			name: 'Private Team Cohorts',
+			date: 'Schedule a start date that fits your team',
+			time: 'Six weekly 2-hour sessions or compressed on-site blocks',
+			location: 'Zoom or on-site (SF Bay Area)',
 			spots: 'Up to 15 participants',
 			registerUrl: '/contact'
 		}
 	],
 	agenda: [
 		{
-			title: '1. Agent Foundations',
+			title: 'Week 1: Agent Foundations',
 			details: [
 				'Define what AI agents are, how they orchestrate tools, and where they excel.',
 				'Map a target process, decision points, and human checkpoints.',
@@ -87,23 +89,39 @@ export const aiAutomationWithAgents = {
 			]
 		},
 		{
-			title: '2. Build Your First Agent',
+			title: 'Week 2: Opportunity Mapping & Scoping',
+			details: [
+				'Prioritize candidate workloads based on impact, complexity, and data access.',
+				'Design human-in-the-loop checkpoints that keep people informed.',
+				'Draft success metrics and reliability thresholds for your agent.'
+			]
+		},
+		{
+			title: 'Week 3: Build Core Agent Loops',
 			details: [
 				'Assemble n8n workflows that call AI models, parse responses, and trigger APIs.',
 				'Frame prompts and instructions that make the agent trustworthy.',
-				'Add event logging, audit trails, and fallbacks for human review.'
+				'Prototype audit trails and safe fallbacks before production.'
 			]
 		},
 		{
-			title: '3. Iterate & Optimize',
+			title: 'Week 4: Guardrails and Human Handoffs',
+			details: [
+				'Implement routing logic that escalates decisions to the right humans.',
+				'Add validation steps, retries, and structured outputs to reduce errors.',
+				'Document standard operating procedures for exception handling.'
+			]
+		},
+		{
+			title: 'Week 5: Observability & Optimization',
 			details: [
 				'Run evaluation loops to monitor accuracy, latency, and cost.',
-				'Tune prompts, retries, and caching strategies.',
-				'Instrument alerts so humans can step in when something looks off.'
+				'Tune prompts, memory strategies, and caching for efficiency.',
+				'Instrument alerts and dashboards so issues surface fast.'
 			]
 		},
 		{
-			title: '4. Launch & Scale',
+			title: 'Week 6: Launch & Scale Roadmap',
 			details: [
 				'Define rollout plans, SLAs, and documentation for your team.',
 				'Plan additional agent use cases and integrations.',
