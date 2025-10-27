@@ -5,7 +5,7 @@
 	import { getSeo } from '$lib/seo';
 
 	const section = catalog.training;
-	const pageHeading = `${section.catalogLabel ?? section.label} — Table View`;
+	const pageHeading = `${section.catalogLabel ?? section.label}`;
 
 	const normalizeLabel = (label?: string): string | undefined => label?.toLowerCase().trim();
 	const findStat = (
@@ -15,30 +15,17 @@
 		program?.stats?.find((stat) => normalizeLabel(stat.label) === normalizeLabel(match));
 
 	const statToString = (stat?: TrainingStat): string =>
-		!stat
-			? ''
-			: Array.isArray(stat.value)
-				? stat.value.join(', ')
-				: stat.value;
+		!stat ? '' : Array.isArray(stat.value) ? stat.value.join(', ') : stat.value;
 
 	const statToArray = (stat?: TrainingStat): string[] =>
-		!stat
-			? []
-			: Array.isArray(stat.value)
-				? stat.value
-				: [stat.value];
+		!stat ? [] : Array.isArray(stat.value) ? stat.value : [stat.value];
 
 	const items = (section.items ?? [])
 		.filter((item) => item.published ?? true)
 		.sort((a, b) => (a.order ?? 999) - (b.order ?? 999))
 		.map((item) => {
 			const program: TrainingProgram | undefined = item.route
-				? getTrainingProgram(
-						item.route
-							.split('/')
-							.filter(Boolean)
-							.pop() ?? ''
-					)
+				? getTrainingProgram(item.route.split('/').filter(Boolean).pop() ?? '')
 				: undefined;
 
 			const duration = statToString(findStat(program, 'duration'));
@@ -134,7 +121,7 @@
 						{/if}
 					</td>
 					<td class="border-t px-4 py-3">{program.cost || '—'}</td>
-					<td class="border-t px-4 py-3 max-w-xs">{program.summary || '—'}</td>
+					<td class="max-w-xs border-t px-4 py-3">{program.summary || '—'}</td>
 					<td class="border-t px-4 py-3">
 						<div class="flex flex-col gap-2">
 							<a

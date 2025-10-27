@@ -28,11 +28,12 @@
 </script>
 
 <article
-	class="flex h-full flex-col rounded-2xl border bg-white p-5 text-center shadow-sm transition"
+	class="relative flex h-full flex-col rounded-2xl border bg-white p-5 text-center shadow-sm transition"
 	class:border-blue-300={hasUpcomingSessions}
 	class:shadow-md={hasUpcomingSessions}
 	class:ring-1={hasUpcomingSessions}
 	class:ring-blue-200={hasUpcomingSessions}
+	class:catalog-card--glow={hasUpcomingSessions}
 >
 	{#if item.image}
 		<img
@@ -122,3 +123,50 @@
 		</div>
 	{/if}
 </article>
+
+<style>
+	.catalog-card--glow {
+		border-color: rgba(147, 197, 253, 0.85);
+		box-shadow: 0 18px 38px -18px rgba(59, 130, 246, 0.35);
+		z-index: 0;
+	}
+
+	.catalog-card--glow::after {
+		content: '';
+		position: absolute;
+		inset: -6px;
+		border-radius: inherit;
+		box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.35);
+		opacity: 0.75;
+		transform: scale(1);
+		animation: catalogCardPulse 3.6s ease-out infinite;
+		pointer-events: none;
+		z-index: -1;
+	}
+
+	@keyframes catalogCardPulse {
+		0% {
+			opacity: 0.7;
+			transform: scale(1);
+			box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.35);
+		}
+		55% {
+			opacity: 0.15;
+			transform: scale(1.04);
+			box-shadow: 0 0 0 22px rgba(118, 169, 250, 0);
+		}
+		100% {
+			opacity: 0;
+			transform: scale(1.05);
+			box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.catalog-card--glow::after {
+			animation: none;
+			opacity: 0;
+			box-shadow: none;
+		}
+	}
+</style>
