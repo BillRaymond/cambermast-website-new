@@ -203,7 +203,7 @@
 	<!-- Removed gradient background, replaced with a subtle blue tint using bg-blue-50 -->
 
 	<div class="relative mx-auto flex max-w-5xl flex-col gap-5 px-5 py-6">
-		<div class="flex w-full flex-wrap justify-center gap-3.5 md:justify-end">
+		<div class="flex w-full flex-wrap justify-center gap-3.5">
 			<a
 				href="https://billtalksai.com/"
 				target="_blank"
