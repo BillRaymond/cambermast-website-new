@@ -7,9 +7,33 @@
 		Boolean(scheduleUrl) && (!item.upcomingSessions || item.upcomingSessions.length === 0);
 	const isScheduleTeamButton = (label?: string): boolean =>
 		(label ?? '').toLowerCase().trim() === scheduleTeamLabel.toLowerCase();
+
+	let rawTitle: string;
+	let titleSlug: string;
+	let upcomingSectionId: string;
+
+	$: hasUpcomingSessions = Boolean(item.upcomingSessions?.length);
+	$: rawTitle = item.title ?? '';
+	$: titleSlug = rawTitle
+		.toLowerCase()
+		.replace(/[^a-z0-9]+/g, '-')
+		.replace(/(^-+|-+$)/g, '');
+	$: upcomingSectionId = `${titleSlug || 'training'}-upcoming`;
+
+	const scrollToUpcomingSessions = (): void => {
+		if (typeof document === 'undefined') return;
+		const el = document.getElementById(upcomingSectionId);
+		el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+	};
 </script>
 
-<article class="flex h-full flex-col rounded-2xl border bg-white p-5 text-center shadow-sm">
+<article
+	class="flex h-full flex-col rounded-2xl border bg-white p-5 text-center shadow-sm transition"
+	class:border-blue-300={hasUpcomingSessions}
+	class:shadow-md={hasUpcomingSessions}
+	class:ring-1={hasUpcomingSessions}
+	class:ring-blue-200={hasUpcomingSessions}
+>
 	{#if item.image}
 		<img
 			src={item.image}
@@ -23,6 +47,16 @@
 		<p class="mt-1 text-xs font-semibold uppercase tracking-wide text-gray-500">
 			({item.sku})
 		</p>
+	{/if}
+	{#if hasUpcomingSessions}
+		<button
+			type="button"
+			class="mt-3 inline-flex items-center justify-center gap-2 self-center rounded-full bg-blue-600/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-blue-700 transition hover:bg-blue-600/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+			on:click={scrollToUpcomingSessions}
+		>
+			<span class="h-2 w-2 rounded-full bg-blue-500"></span>
+			New dates added
+		</button>
 	{/if}
 	{#if item.summary}<p class="mt-1.5 text-gray-600">{item.summary}</p>{/if}
 	{#if item.bullets?.length}
@@ -45,7 +79,10 @@
 				</p>
 			{/if}
 			{#if item.upcomingSessions?.length}
-				<div class="w-full rounded-2xl border border-blue-100 bg-blue-50 p-4 text-left">
+				<div
+					id={upcomingSectionId}
+					class="w-full rounded-2xl border border-blue-100 bg-blue-50 p-4 text-left"
+				>
 					<p class="text-xs font-semibold uppercase tracking-wide text-blue-600">
 						Upcoming sessions
 					</p>
