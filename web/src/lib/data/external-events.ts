@@ -12,6 +12,7 @@ export type ExternalEvent = {
 	registerUrl: string;
 	image?: string;
 	imageAlt?: string;
+	imageAspect?: 'wide' | 'square';
 	startAt: string;
 	endAt?: string;
 };
@@ -28,6 +29,7 @@ const externalEvents: ExternalEvent[] = [
 		registerUrl: 'https://luma.com/xhe620ie',
 		image: 'https://images.lumacdn.com/event-covers/7h/eaed03b4-ebf3-40de-bc19-79444c1d671e.png',
 		imageAlt: 'Introducing ChatGPT Atlas webinar cover art',
+		imageAspect: 'square',
 		startAt: '2025-10-29T20:00:00.000Z',
 		endAt: '2025-10-29T21:00:00.000Z'
 	},
@@ -43,6 +45,7 @@ const externalEvents: ExternalEvent[] = [
 		registerUrl: 'https://luma.com/1u9yp7wj',
 		image: 'https://images.lumacdn.com/event-covers/1q/b4ebc9c1-045b-4224-b1b8-deb4efcf542e.webp',
 		imageAlt: 'AI Automations workshop cover art',
+		imageAspect: 'square',
 		startAt: '2025-11-21T17:00:00.000Z',
 		endAt: '2025-11-21T20:00:00.000Z'
 	}

@@ -273,37 +273,29 @@
 									>
 										<div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
 											<div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:gap-5 flex-1">
-												{#if entryImage?.mobile || entryImage?.desktop}
-													{@const isSquare = entryImage.aspect === 'square'}
-													{@const aspectClass = isSquare ? 'aspect-square' : 'aspect-video'}
-													{@const desktopWidthClass = isSquare ? 'sm:w-36' : 'sm:w-48'}
-													<div
-														class={`w-full overflow-hidden rounded-xl border border-blue-100 bg-white shadow-sm ${desktopWidthClass}`}
-													>
-														<div class={`relative w-full ${aspectClass}`}>
-															<picture class="absolute inset-0">
+													{#if entryImage?.mobile || entryImage?.desktop}
+														{@const isSquare = entryImage.aspect === 'square'}
+														{@const desktopWidthClass = 'sm:w-48'}
+														{@const imageFitClass = isSquare ? 'object-contain' : 'object-cover'}
+														<div
+															class={`relative h-44 w-full overflow-hidden rounded-xl border border-blue-100 bg-white shadow-sm ${desktopWidthClass} sm:h-36`}
+														>
+															<picture class="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-blue-100">
 																{#if entryImage.desktop?.src}
-																	<source
-																		media="(min-width: 640px)"
-																		srcset={entryImage.desktop.src}
-																	/>
+																	<source media="(min-width: 640px)" srcset={entryImage.desktop.src} />
 																{/if}
 																{#if entryImage.mobile?.src}
-																	<source
-																		media="(max-width: 639px)"
-																		srcset={entryImage.mobile.src}
-																	/>
+																	<source media="(max-width: 639px)" srcset={entryImage.mobile.src} />
 																{/if}
 																<img
 																	src={entryImage.desktop?.src ?? entryImage.mobile?.src}
 																	alt={entryImage.desktop?.alt ?? entryImage.mobile?.alt ?? entry.title}
-																	class="h-full w-full object-cover"
+																	class={`h-full w-full ${imageFitClass}`}
 																	loading="lazy"
 																/>
 															</picture>
 														</div>
-													</div>
-												{/if}
+													{/if}
 												<div class="flex-1">
 													<p class="text-xs font-semibold uppercase tracking-wide text-blue-600">
 														{entry.dateText}

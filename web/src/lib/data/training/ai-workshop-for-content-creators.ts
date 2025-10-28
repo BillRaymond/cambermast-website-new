@@ -59,7 +59,7 @@ export const aiWorkshopForContentCreators = {
 	],
 	sessions: [
 		{
-			name: 'Winter 2025 Open Enrollment',
+			name: '❄️ Winter 2025 Open Enrollment',
 			date: 'Nov 4 - Dec 30, 2025 (Tuesdays)',
 			time: ['10:00 am-12:00 pm PT', '1:00-3:00 pm ET'],
 			partner: 'In partnership with The Content Wrangler',
@@ -70,7 +70,7 @@ export const aiWorkshopForContentCreators = {
 			registerUrl: 'https://luma.com/zw3izjni'
 		},
 		{
-			name: 'Spring 2026 Open Enrollment',
+			name: '🌷 Spring 2026 Open Enrollment',
 			date: 'Jan 27 - Mar 10, 2026 (Tuesdays)',
 			time: ['10:00 am-12:00 pm PT', '1:00-3:00 pm ET'],
 			partner: 'In partnership with The Content Wrangler',
