@@ -155,13 +155,13 @@
 						class="flex w-full shrink-0 basis-full flex-col gap-4 p-3 md:flex-row md:items-stretch md:gap-4 md:p-5"
 					>
 						<div
-							class="flex w-full items-center justify-center rounded-2xl bg-white p-3 md:w-auto md:flex-none md:p-4"
+							class="flex w-full items-center justify-center rounded-2xl bg-white p-3 md:basis-[40%] md:max-w-[340px] md:flex-shrink-0 md:p-4"
 						>
 							{#if slide.image}
 								<img
 									src={slide.image}
 									alt={slide.imageAlt ?? slide.programTitle}
-									class="max-h-56 w-full max-w-full rounded-xl object-contain md:w-auto"
+									class="max-h-56 w-full max-w-full rounded-xl object-contain"
 									loading="lazy"
 								/>
 							{:else}
@@ -169,7 +169,7 @@
 							{/if}
 						</div>
 						<div
-							class="flex w-full flex-1 flex-col justify-between gap-3 rounded-2xl bg-white/70 p-3 md:w-1/2 md:flex-[0_0_50%] md:p-4"
+							class="flex w-full min-w-0 flex-1 flex-col justify-between gap-3 rounded-2xl bg-white/70 p-3 md:basis-[60%] md:p-4"
 						>
 							<header class="space-y-1">
 								<p class="text-[0.65rem] font-semibold uppercase tracking-wide text-blue-600">
