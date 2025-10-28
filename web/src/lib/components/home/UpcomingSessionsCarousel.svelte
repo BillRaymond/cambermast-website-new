@@ -155,17 +155,15 @@
 						class="flex w-full shrink-0 basis-full flex-col gap-4 p-4 md:flex-row md:items-stretch md:gap-4 md:p-6"
 					>
 						<div
-							class="flex w-full flex-1 items-center justify-center rounded-2xl bg-blue-100/65 p-3 md:w-1/2 md:flex-[0_0_50%] md:p-4"
+							class="flex w-full items-center justify-center rounded-2xl bg-white p-3 md:w-auto md:flex-none md:p-4"
 						>
 							{#if slide.image}
-								<div class="aspect-[16/9] w-full">
-									<img
-										src={slide.image}
-										alt={slide.imageAlt ?? slide.programTitle}
-										class="h-full w-full rounded-xl object-contain"
-										loading="lazy"
-									/>
-								</div>
+								<img
+									src={slide.image}
+									alt={slide.imageAlt ?? slide.programTitle}
+									class="max-h-56 w-full max-w-full rounded-xl object-contain md:w-auto"
+									loading="lazy"
+								/>
 							{:else}
 								<span class="text-sm font-semibold text-blue-500">Upcoming session</span>
 							{/if}
