@@ -144,7 +144,7 @@
 		</span>
 
 		<div
-			class="overflow-hidden rounded-3xl border border-blue-100 bg-white/90 shadow-md shadow-blue-100/60"
+			class="mx-4 overflow-hidden rounded-3xl border border-blue-100 bg-white/90 shadow-md shadow-blue-100/60 sm:mx-5 md:mx-10"
 		>
 			<div
 				class="flex transition-transform duration-500 ease-out"
@@ -152,7 +152,7 @@
 			>
 				{#each slides as slide (slide.id)}
 					<article
-						class="flex w-full shrink-0 basis-full flex-col gap-4 p-4 md:flex-row md:items-stretch md:gap-4 md:p-6"
+						class="flex w-full shrink-0 basis-full flex-col gap-4 p-3 md:flex-row md:items-stretch md:gap-4 md:p-5"
 					>
 						<div
 							class="flex w-full items-center justify-center rounded-2xl bg-white p-3 md:w-auto md:flex-none md:p-4"
@@ -226,7 +226,7 @@
 		{#if totalSlides > 1}
 			<button
 				type="button"
-				class="absolute left-2 top-1/2 inline-flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border border-blue-200 bg-white/95 text-base font-semibold text-blue-700 shadow-sm transition hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+				class="absolute left-2 top-1/2 inline-flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border border-blue-200 bg-white/95 text-base font-semibold text-blue-700 shadow-sm transition hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white sm:left-3 md:left-4"
 				on:click={() => goPrevious(true)}
 				aria-label="Show previous session"
 			>
@@ -234,7 +234,7 @@
 			</button>
 			<button
 				type="button"
-				class="absolute right-2 top-1/2 inline-flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border border-blue-200 bg-white/95 text-base font-semibold text-blue-700 shadow-sm transition hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+				class="absolute right-2 top-1/2 inline-flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border border-blue-200 bg-white/95 text-base font-semibold text-blue-700 shadow-sm transition hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white sm:right-3 md:right-4"
 				on:click={() => goNext(true)}
 				aria-label="Show next session"
 			>
