@@ -23,6 +23,7 @@
 	type EntryImage = {
 		desktop: ProgramImage | null;
 		mobile: ProgramImage | null;
+		aspect: 'wide' | 'square';
 	};
 
 	type UpcomingEntry = {
@@ -117,7 +118,8 @@
 
 		return {
 			desktop: heroImage ?? ogImage,
-			mobile: ogImage ?? heroImage
+			mobile: ogImage ?? heroImage,
+			aspect: 'wide'
 		};
 	};
 
@@ -130,7 +132,8 @@
 			: null;
 		return {
 			desktop: image,
-			mobile: image
+			mobile: image,
+			aspect: event.imageAspect ?? 'wide'
 		};
 	};
 
@@ -271,19 +274,34 @@
 										<div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
 											<div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:gap-5 flex-1">
 												{#if entryImage?.mobile || entryImage?.desktop}
-													<div class="w-full overflow-hidden rounded-xl border border-blue-100 bg-white shadow-sm sm:w-36">
-														<img
-															src={entryImage.mobile?.src ?? entryImage.desktop?.src}
-															alt={entryImage.mobile?.alt ?? entryImage.desktop?.alt ?? entry.title}
-															class="h-40 w-full object-cover sm:hidden"
-															loading="lazy"
-														/>
-														<img
-															src={entryImage.desktop?.src ?? entryImage.mobile?.src}
-															alt={entryImage.desktop?.alt ?? entryImage.mobile?.alt ?? entry.title}
-															class="hidden h-28 w-full object-cover sm:block"
-															loading="lazy"
-														/>
+													{@const isSquare = entryImage.aspect === 'square'}
+													{@const aspectClass = isSquare ? 'aspect-square' : 'aspect-video'}
+													{@const desktopWidthClass = isSquare ? 'sm:w-36' : 'sm:w-48'}
+													<div
+														class={`w-full overflow-hidden rounded-xl border border-blue-100 bg-white shadow-sm ${desktopWidthClass}`}
+													>
+														<div class={`relative w-full ${aspectClass}`}>
+															<picture class="absolute inset-0">
+																{#if entryImage.desktop?.src}
+																	<source
+																		media="(min-width: 640px)"
+																		srcset={entryImage.desktop.src}
+																	/>
+																{/if}
+																{#if entryImage.mobile?.src}
+																	<source
+																		media="(max-width: 639px)"
+																		srcset={entryImage.mobile.src}
+																	/>
+																{/if}
+																<img
+																	src={entryImage.desktop?.src ?? entryImage.mobile?.src}
+																	alt={entryImage.desktop?.alt ?? entryImage.mobile?.alt ?? entry.title}
+																	class="h-full w-full object-cover"
+																	loading="lazy"
+																/>
+															</picture>
+														</div>
 													</div>
 												{/if}
 												<div class="flex-1">
