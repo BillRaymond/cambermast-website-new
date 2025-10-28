@@ -158,13 +158,14 @@
 							class="flex w-full flex-1 items-center justify-center rounded-2xl bg-blue-100/65 p-3 md:w-1/2 md:flex-[0_0_50%] md:p-4"
 						>
 							{#if slide.image}
-								<img
-									src={slide.image}
-									alt={slide.imageAlt ?? slide.programTitle}
-									class="w-full max-w-full rounded-xl object-contain"
-									style="height: auto;"
-									loading="lazy"
-								/>
+								<div class="aspect-[16/9] w-full">
+									<img
+										src={slide.image}
+										alt={slide.imageAlt ?? slide.programTitle}
+										class="h-full w-full rounded-xl object-contain"
+										loading="lazy"
+									/>
+								</div>
 							{:else}
 								<span class="text-sm font-semibold text-blue-500">Upcoming session</span>
 							{/if}
