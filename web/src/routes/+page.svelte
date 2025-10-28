@@ -406,9 +406,9 @@
 				class="flex flex-shrink-0 flex-col items-center md:w-[27.5rem] md:flex-none md:items-stretch"
 			>
 				<div
-					class="shadow-hero grid h-full w-full gap-4 rounded-2xl bg-white/70 px-5 py-4 text-left md:grid-cols-[minmax(0,1fr)_auto] md:items-start md:gap-5"
+					class="shadow-hero grid h-full w-full gap-4 rounded-2xl bg-white/70 px-5 py-4 text-left md:grid-cols-[minmax(0,1fr)_auto] md:grid-rows-[auto_auto] md:items-start md:gap-5"
 				>
-					<div class="flex flex-col gap-2.5 md:pr-2">
+					<div class="flex flex-col gap-2.5 md:col-start-1 md:row-start-1 md:pr-2">
 						<h2 class="text-sm font-semibold uppercase tracking-wide text-blue-500">
 							AI leadership in action
 						</h2>
@@ -416,61 +416,8 @@
 							Helping you adopt AI responsibly through project management, training, and advisory
 							services.
 						</p>
-						<div class="flex w-full justify-start">
-							<div class="relative w-full" bind:this={connectMenuContainer}>
-								<button
-									type="button"
-									class="flex w-full items-center justify-center gap-1.5 rounded-full border border-blue-200 bg-white px-3 py-2 text-[0.9rem] font-semibold text-blue-900 shadow-sm transition hover:border-blue-300 hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-offset-2 md:w-max md:px-4"
-									on:click={toggleConnectMenu}
-									aria-haspopup="true"
-									aria-expanded={connectMenuOpen}
-								>
-									<span class="text-base leading-none">🤝</span>
-									<span>Connect with Bill</span>
-									<svg
-										class="h-4 w-4 text-blue-700 transition-transform"
-										class:rotate-180={connectMenuOpen}
-										xmlns="http://www.w3.org/2000/svg"
-										viewBox="0 0 20 20"
-										fill="currentColor"
-										aria-hidden="true"
-									>
-										<path
-											fill-rule="evenodd"
-											d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.7a.75.75 0 1 1 1.06 1.06l-4.24 4.24a.75.75 0 0 1-1.06 0L5.21 8.29a.75.75 0 0 1 .02-1.08Z"
-											clip-rule="evenodd"
-										/>
-									</svg>
-								</button>
-								{#if connectMenuOpen}
-									<div
-										class="absolute left-1/2 z-30 mt-3 w-[min(18rem,80vw)] -translate-x-1/2 overflow-hidden rounded-3xl border border-blue-100 bg-white/95 p-2 shadow-2xl backdrop-blur md:left-0 md:translate-x-0"
-										role="menu"
-										aria-label="Connect with Bill"
-									>
-										{#each connectLinks as link}
-											<a
-												href={link.href}
-												target={link.href.startsWith('http') ? '_blank' : undefined}
-												rel={link.href.startsWith('http') ? 'noopener' : undefined}
-												class="flex items-start gap-3 rounded-2xl px-4 py-3 text-left transition hover:bg-blue-50 focus:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-200"
-												role="menuitem"
-												on:click={closeConnectMenu}
-												class:bg-blue-50={link.highlight}
-											>
-												<span class="text-xl leading-none">{link.icon}</span>
-												<span class="flex flex-col gap-1">
-													<span class="text-sm font-semibold text-gray-900">{link.label}</span>
-													<span class="text-xs text-gray-600">{link.description}</span>
-												</span>
-											</a>
-										{/each}
-									</div>
-								{/if}
-							</div>
-						</div>
 					</div>
-					<div class="flex flex-col items-center gap-2 text-center">
+					<div class="flex flex-col items-center gap-2 text-center md:col-start-2 md:row-span-2">
 						<img
 							src="/images/bill.jpg"
 							alt="Bill Raymond"
@@ -481,6 +428,61 @@
 							<span class="block text-[0.68rem] font-medium text-gray-500"
 								>Founder, Cambermast LLC</span
 							>
+						</div>
+					</div>
+					<div
+						class="flex w-full justify-center md:col-start-1 md:row-start-2 md:justify-start"
+					>
+						<div class="relative w-full md:w-max" bind:this={connectMenuContainer}>
+							<button
+								type="button"
+								class="flex w-full items-center justify-center gap-1.5 rounded-full border border-blue-200 bg-white px-3 py-2 text-[0.9rem] font-semibold text-blue-900 shadow-sm transition hover:border-blue-300 hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-offset-2 md:w-max md:px-4"
+								on:click={toggleConnectMenu}
+								aria-haspopup="true"
+								aria-expanded={connectMenuOpen}
+							>
+								<span class="text-base leading-none">🤝</span>
+								<span>Connect with Bill</span>
+								<svg
+									class="h-4 w-4 text-blue-700 transition-transform"
+									class:rotate-180={connectMenuOpen}
+									xmlns="http://www.w3.org/2000/svg"
+									viewBox="0 0 20 20"
+									fill="currentColor"
+									aria-hidden="true"
+								>
+									<path
+										fill-rule="evenodd"
+										d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.7a.75.75 0 1 1 1.06 1.06l-4.24 4.24a.75.75 0 0 1-1.06 0L5.21 8.29a.75.75 0 0 1 .02-1.08Z"
+										clip-rule="evenodd"
+									/>
+								</svg>
+							</button>
+							{#if connectMenuOpen}
+								<div
+									class="z-30 mt-3 w-full overflow-hidden rounded-3xl border border-blue-100 bg-white/95 p-2 shadow-2xl backdrop-blur md:absolute md:left-1/2 md:top-full md:mt-2 md:w-[min(18rem,80vw)] md:-translate-x-1/2"
+									role="menu"
+									aria-label="Connect with Bill"
+								>
+									{#each connectLinks as link}
+										<a
+											href={link.href}
+											target={link.href.startsWith('http') ? '_blank' : undefined}
+											rel={link.href.startsWith('http') ? 'noopener' : undefined}
+											class="flex items-start gap-3 rounded-2xl px-4 py-3 text-left transition hover:bg-blue-50 focus:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-200"
+											role="menuitem"
+											on:click={closeConnectMenu}
+											class:bg-blue-50={link.highlight}
+										>
+											<span class="text-xl leading-none">{link.icon}</span>
+											<span class="flex flex-col gap-1">
+												<span class="text-sm font-semibold text-gray-900">{link.label}</span>
+												<span class="text-xs text-gray-600">{link.description}</span>
+											</span>
+										</a>
+									{/each}
+								</div>
+							{/if}
 						</div>
 					</div>
 				</div>
