@@ -18,6 +18,7 @@ export type TrainingSession = {
 	location: string;
 	spots: string;
 	registerUrl: string;
+	draft?: boolean;
 };
 
 export type TrainingAgendaBlock = {
@@ -74,6 +75,7 @@ export type TrainingProgram = {
 	prerequisites?: string[];
 	takeaways?: string[];
 	sessions?: TrainingSession[];
+	draft?: boolean;
 	agenda?: TrainingAgendaBlock[];
 	resources?: string[];
 	reviews?: TrainingReview[];

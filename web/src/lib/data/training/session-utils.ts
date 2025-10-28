@@ -1,5 +1,7 @@
 import type { TrainingSession } from './types';
 
+export const isSessionDraft = (session: TrainingSession): boolean => Boolean(session.draft);
+
 const toNormalizedTimestamp = (value?: string): number | undefined => {
 	if (!value) return undefined;
 	const parsed = new Date(value);
@@ -31,6 +33,7 @@ export const isSessionUpcoming = (
 	session: TrainingSession,
 	today: Date = normalizeToday()
 ): boolean => {
+	if (isSessionDraft(session)) return false;
 	const todayValue = today.getTime();
 	const startValue = toNormalizedTimestamp(session.startDate);
 	if (startValue === undefined) return false;

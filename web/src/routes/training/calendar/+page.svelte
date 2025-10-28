@@ -100,6 +100,28 @@
 		return Array.isArray(value) ? value.join(' / ') : value;
 	};
 
+	const openRegisterUrl = (url: string): void => {
+		if (!url || typeof window === 'undefined') return;
+		window.open(url, '_blank', 'noopener,noreferrer');
+	};
+
+	const isEventInsideInteractive = (target: EventTarget | null): boolean => {
+		return target instanceof HTMLElement ? Boolean(target.closest('a, button')) : false;
+	};
+
+	const handleCardClick = (event: MouseEvent, url: string): void => {
+		if (isEventInsideInteractive(event.target)) return;
+		openRegisterUrl(url);
+	};
+
+	const handleCardKeydown = (event: KeyboardEvent, url: string): void => {
+		const key = event.key;
+		if (key !== 'Enter' && key !== ' ' && key !== 'Spacebar') return;
+		if (isEventInsideInteractive(event.target)) return;
+		event.preventDefault();
+		openRegisterUrl(url);
+	};
+
 	const defaultLocationLabel = 'Live online';
 
 	const getProgramImage = (program: TrainingProgram): EntryImage => {
@@ -194,9 +216,10 @@
 			};
 		});
 
-	const upcomingEntries: UpcomingEntry[] = [...upcomingTrainingEntries, ...upcomingExternalEntries].sort(
-		(a, b) => (a.startTimestamp ?? Infinity) - (b.startTimestamp ?? Infinity)
-	);
+	const upcomingEntries: UpcomingEntry[] = [
+		...upcomingTrainingEntries,
+		...upcomingExternalEntries
+	].sort((a, b) => (a.startTimestamp ?? Infinity) - (b.startTimestamp ?? Infinity));
 
 	const getMonthLabel = (entry: UpcomingEntry): string => {
 		if (entry.startTimestamp) {
@@ -231,14 +254,40 @@
 
 <section class="bg-gradient-to-b from-blue-50/60 to-white">
 	<div class="mx-auto flex max-w-6xl flex-col gap-8 px-4 py-12">
-		<header class="flex flex-col gap-4">
-			<p class="text-sm font-semibold uppercase tracking-wide text-blue-600">Upcoming training & events</p>
-			<h1 class="text-3xl font-bold text-gray-900">
-				New AI workshops and cohorts you can join
-			</h1>
-			<p class="max-w-2xl text-sm text-gray-600">
-				We keep this list refreshed whenever new cohorts open or public workshops go live. Grab a spot, or <a href="/contact" class="inline-flex items-center gap-1 text-blue-700 underline underline-offset-2 hover:text-blue-900">contact us</a> if you want to run a private session on your schedule.
+		<header class="flex flex-col gap-5">
+			<p class="text-sm font-semibold uppercase tracking-wide text-blue-600">
+				Upcoming training & events
 			</p>
+			<h1 class="text-3xl font-bold text-gray-900">New AI workshops and cohorts you can join</h1>
+			<p class="max-w-2xl text-base text-gray-700">
+				Browse the full schedule on
+				<a
+					href="https://luma.com/BillTalksAI?k=c"
+					target="_blank"
+					rel="noopener"
+					class="inline-flex items-center gap-1 text-blue-700 underline underline-offset-2 hover:text-blue-900"
+					>Lu.ma ↗</a
+				>
+				and grab a seat while spots are still open.
+			</p>
+			<div
+				class="flex flex-col gap-3 rounded-2xl border border-blue-200 bg-blue-600/5 p-5 shadow-sm sm:flex-row sm:items-center sm:justify-between"
+			>
+				<div class="flex flex-col gap-1">
+					<p class="text-sm font-semibold uppercase tracking-wide text-blue-700">
+						Design a private workshop
+					</p>
+					<p class="text-sm text-gray-700">
+						Tailor a cohort to your team’s goals, tooling, and delivery timeline with Bill Raymond.
+					</p>
+				</div>
+				<a
+					href="/contact"
+					class="inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700"
+				>
+					Start a plan ↗
+				</a>
+			</div>
 		</header>
 
 		<div class="rounded-2xl border border-blue-100 bg-white p-5 shadow-sm">
@@ -266,36 +315,49 @@
 									{@const entryImage = entry.image}
 									<li
 										id={cardId}
-										tabindex="-1"
-										class={`rounded-xl border border-blue-100 bg-blue-50/60 p-4 shadow-sm ${
+										tabindex="0"
+										role="link"
+										aria-label={`Register for ${entry.title}${
+											entry.subtitle ? ` - ${entry.subtitle}` : ''
+										}`}
+										on:click={(event) => handleCardClick(event, entry.registerUrl)}
+										on:keydown={(event) => handleCardKeydown(event, entry.registerUrl)}
+										class={`rounded-xl border border-blue-100 bg-blue-50/60 p-4 shadow-sm cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 ${
 											isTodaySession ? 'ring-2 ring-blue-400' : ''
 										}`}
 									>
 										<div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-											<div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:gap-5 flex-1">
-													{#if entryImage?.mobile || entryImage?.desktop}
-														{@const isSquare = entryImage.aspect === 'square'}
-														{@const desktopWidthClass = 'sm:w-48'}
-														{@const imageFitClass = isSquare ? 'object-contain' : 'object-cover'}
-														<div
-															class={`relative h-44 w-full overflow-hidden rounded-xl border border-blue-100 bg-white shadow-sm ${desktopWidthClass} sm:h-36`}
+											<div class="flex flex-1 flex-col gap-4 sm:flex-row sm:items-start sm:gap-5">
+												{#if entryImage?.mobile || entryImage?.desktop}
+													{@const isSquare = entryImage.aspect === 'square'}
+													{@const desktopWidthClass = 'sm:w-48'}
+													{@const imageFitClass = isSquare ? 'object-contain' : 'object-cover'}
+													<div
+														class={`relative h-44 w-full overflow-hidden rounded-xl border border-blue-100 bg-white shadow-sm ${desktopWidthClass} sm:h-36`}
+													>
+														<picture
+															class="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-blue-100"
 														>
-															<picture class="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-blue-100">
-																{#if entryImage.desktop?.src}
-																	<source media="(min-width: 640px)" srcset={entryImage.desktop.src} />
-																{/if}
-																{#if entryImage.mobile?.src}
-																	<source media="(max-width: 639px)" srcset={entryImage.mobile.src} />
-																{/if}
-																<img
-																	src={entryImage.desktop?.src ?? entryImage.mobile?.src}
-																	alt={entryImage.desktop?.alt ?? entryImage.mobile?.alt ?? entry.title}
-																	class={`h-full w-full ${imageFitClass}`}
-																	loading="lazy"
+															{#if entryImage.desktop?.src}
+																<source
+																	media="(min-width: 640px)"
+																	srcset={entryImage.desktop.src}
 																/>
-															</picture>
-														</div>
-													{/if}
+															{/if}
+															{#if entryImage.mobile?.src}
+																<source media="(max-width: 639px)" srcset={entryImage.mobile.src} />
+															{/if}
+															<img
+																src={entryImage.desktop?.src ?? entryImage.mobile?.src}
+																alt={entryImage.desktop?.alt ??
+																	entryImage.mobile?.alt ??
+																	entry.title}
+																class={`h-full w-full ${imageFitClass}`}
+																loading="lazy"
+															/>
+														</picture>
+													</div>
+												{/if}
 												<div class="flex-1">
 													<p class="text-xs font-semibold uppercase tracking-wide text-blue-600">
 														{entry.dateText}
@@ -310,13 +372,17 @@
 														<p class="text-xs text-gray-600">{entry.metaDetails.join(' · ')}</p>
 													{/if}
 													{#if isTodaySession}
-														<span class="mt-1 inline-flex items-center rounded-full bg-emerald-600/10 px-2 py-0.5 text-[0.65rem] font-semibold uppercase tracking-wide text-emerald-700">
+														<span
+															class="mt-1 inline-flex items-center rounded-full bg-emerald-600/10 px-2 py-0.5 text-[0.65rem] font-semibold uppercase tracking-wide text-emerald-700"
+														>
 															Today
 														</span>
 													{/if}
 													{#if entry.startTimestamp}
 														{#if getUrgencyLabel(entry.startTimestamp)}
-															<p class="mt-1 inline-flex items-center rounded-full bg-blue-600/10 px-2 py-0.5 text-[0.65rem] font-semibold uppercase tracking-wide text-blue-700">
+															<p
+																class="mt-1 inline-flex items-center rounded-full bg-blue-600/10 px-2 py-0.5 text-[0.65rem] font-semibold uppercase tracking-wide text-blue-700"
+															>
 																{getUrgencyLabel(entry.startTimestamp)}
 															</p>
 														{/if}
@@ -355,8 +421,8 @@
 				</div>
 			{:else}
 				<div class="mt-6 rounded-xl border border-blue-100 bg-blue-50/60 p-5 text-sm text-gray-600">
-					New public cohorts are being scheduled. Follow the Bill Talks AI newsletter or contact us to
-					reserve custom training dates for your team.
+					New public cohorts are being scheduled. Follow the Bill Talks AI newsletter or contact us
+					to reserve custom training dates for your team.
 				</div>
 			{/if}
 		</div>
@@ -364,8 +430,8 @@
 		<div class="rounded-2xl border border-blue-200 bg-blue-50/60 p-5 shadow-sm">
 			<h2 class="text-lg font-semibold text-gray-900">Need a custom session?</h2>
 			<p class="mt-1 text-sm text-gray-600">
-				Most engagements start within 2–4 weeks. We’ll tailor the format, delivery, and examples to your
-				workflows—virtual or on-site.
+				Most engagements start within 2–4 weeks. We’ll tailor the format, delivery, and examples to
+				your workflows—virtual or on-site.
 			</p>
 			<div class="mt-4 flex flex-wrap gap-3">
 				<a

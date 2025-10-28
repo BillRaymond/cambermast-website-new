@@ -15,6 +15,7 @@ export type ExternalEvent = {
 	imageAspect?: 'wide' | 'square';
 	startAt: string;
 	endAt?: string;
+	draft?: boolean;
 };
 
 const externalEvents: ExternalEvent[] = [
@@ -61,10 +62,13 @@ const toNormalizedTimestamp = (value: string): number => {
 
 export const listExternalEvents = (): ExternalEvent[] => externalEvents;
 
+export const isExternalEventDraft = (event: ExternalEvent): boolean => Boolean(event.draft);
+
 export const isExternalEventUpcoming = (
 	event: ExternalEvent,
 	today: Date = normalizeToday()
 ): boolean => {
+	if (isExternalEventDraft(event)) return false;
 	const start = toNormalizedTimestamp(event.startAt);
 	if (Number.isNaN(start)) return false;
 	const end = event.endAt ? toNormalizedTimestamp(event.endAt) : start;

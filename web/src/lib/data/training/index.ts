@@ -14,6 +14,8 @@ const allPrograms: TrainingProgram[] = [
 	aiWorkshopForContentCreators
 ];
 
+const publishedPrograms: TrainingProgram[] = allPrograms.filter((program) => !program.draft);
+
 export const trainingPrograms: Record<string, TrainingProgram> = allPrograms.reduce(
 	(acc, program) => {
 		acc[program.slug] = program;
@@ -22,7 +24,16 @@ export const trainingPrograms: Record<string, TrainingProgram> = allPrograms.red
 	{} as Record<string, TrainingProgram>
 );
 
-export const listTrainingPrograms = (): TrainingProgram[] => [...allPrograms];
+type ListTrainingProgramsOptions = {
+	includeDrafts?: boolean;
+};
+
+export const listTrainingPrograms = (
+	options: ListTrainingProgramsOptions = {}
+): TrainingProgram[] => {
+	const { includeDrafts = false } = options;
+	return includeDrafts ? [...allPrograms] : [...publishedPrograms];
+};
 
 export const getTrainingProgram = (slug: string): TrainingProgram | undefined =>
 	trainingPrograms[slug];

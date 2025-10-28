@@ -6,7 +6,11 @@
 		TrainingSession,
 		TrainingStat
 	} from '$lib/data/training/types';
-	import { isSessionUpcoming, normalizeToday } from '$lib/data/training/session-utils';
+	import {
+		isSessionDraft,
+		isSessionUpcoming,
+		normalizeToday
+	} from '$lib/data/training/session-utils';
 
 	type BackLink = {
 		href: string;
@@ -39,9 +43,10 @@
 	}
 
 	$: visibleSessions =
-		program?.sessions?.filter((session) =>
-			session.startDate ? isSessionUpcoming(session, today) : true
-		) ?? [];
+		program?.sessions?.filter((session) => {
+			if (isSessionDraft(session)) return false;
+			return session.startDate ? isSessionUpcoming(session, today) : true;
+		}) ?? [];
 </script>
 
 {#if backLink}

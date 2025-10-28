@@ -68,7 +68,8 @@ export const aiAutomationWithAgents = {
 			endDate: '2026-01-22',
 			location: 'Live on Zoom',
 			spots: 'Open enrollment',
-			registerUrl: 'https://cambermast.com/contact'
+			registerUrl: 'https://cambermast.com/contact',
+			draft: true
 		},
 		{
 			name: 'Private Team Cohorts',
