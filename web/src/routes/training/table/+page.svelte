@@ -3,6 +3,7 @@
 	import { getTrainingProgram } from '$lib/data/training';
 	import type { TrainingProgram, TrainingStat } from '$lib/data/training/types';
 	import { getSeo } from '$lib/seo';
+	import SeoHead from '$lib/components/SeoHead.svelte';
 
 	const section = catalog.training;
 	const pageHeading = `${section.catalogLabel ?? section.label}`;
@@ -50,12 +51,7 @@
 	const pageMeta = getSeo('/training/table');
 </script>
 
-<svelte:head>
-	<title>{pageMeta.title}</title>
-	{#if pageMeta.description}
-		<meta name="description" content={pageMeta.description} />
-	{/if}
-</svelte:head>
+<SeoHead title={pageMeta.title} description={pageMeta.description} path="/training/table" />
 
 <h1 class="mb-2 text-3xl font-bold">{pageHeading}</h1>
 <p class="mb-6 text-gray-700">

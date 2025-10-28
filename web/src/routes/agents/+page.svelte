@@ -5,6 +5,7 @@
 	import CatalogCard from '$lib/components/training/CatalogCard.svelte';
 	import type { CatalogCardData } from '$lib/components/training/catalog-card-data';
 	import { getSeo } from '$lib/seo';
+	import SeoHead from '$lib/components/SeoHead.svelte';
 	import {
 		filterUpcomingSessions,
 		hasExternalRegistration,
@@ -80,12 +81,7 @@
 	const pageMeta = getSeo('/agents');
 </script>
 
-<svelte:head>
-	<title>{pageMeta.title}</title>
-	{#if pageMeta.description}
-		<meta name="description" content={pageMeta.description} />
-	{/if}
-</svelte:head>
+<SeoHead title={pageMeta.title} description={pageMeta.description} path="/agents" />
 
 <h1 class="mb-5 text-3xl font-bold">{section.label}</h1>
 <p class="mb-8 text-gray-700">{section.headline}</p>

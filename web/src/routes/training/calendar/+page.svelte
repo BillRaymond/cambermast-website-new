@@ -8,6 +8,7 @@
 	import { listTrainingPrograms } from '$lib/data/training';
 	import type { TrainingProgram, TrainingSession } from '$lib/data/training/types';
 	import { getSeo } from '$lib/seo';
+	import SeoHead from '$lib/components/SeoHead.svelte';
 	import {
 		getSessionStartTimestamp,
 		hasExternalRegistration,
@@ -245,12 +246,7 @@
 	const pageMeta = getSeo('/training/calendar');
 </script>
 
-<svelte:head>
-	<title>{pageMeta.title}</title>
-	{#if pageMeta.description}
-		<meta name="description" content={pageMeta.description} />
-	{/if}
-</svelte:head>
+<SeoHead title={pageMeta.title} description={pageMeta.description} path="/training/calendar" />
 
 <section class="bg-gradient-to-b from-blue-50/60 to-white">
 	<div class="mx-auto flex max-w-6xl flex-col gap-8 px-4 py-12">
@@ -312,21 +308,21 @@
 									{@const { entry, index } = item}
 									{@const cardId = entry.id}
 									{@const isTodaySession = index === firstTodayIndex}
-									{@const entryImage = entry.image}
-									<li
-										id={cardId}
-										tabindex="0"
-										role="link"
-										aria-label={`Register for ${entry.title}${
-											entry.subtitle ? ` - ${entry.subtitle}` : ''
-										}`}
-										on:click={(event) => handleCardClick(event, entry.registerUrl)}
-										on:keydown={(event) => handleCardKeydown(event, entry.registerUrl)}
-										class={`rounded-xl border border-blue-100 bg-blue-50/60 p-4 shadow-sm cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 ${
-											isTodaySession ? 'ring-2 ring-blue-400' : ''
-										}`}
-									>
-										<div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+						{@const entryImage = entry.image}
+						<li id={cardId}>
+							<div
+								tabindex="0"
+								role="link"
+								aria-label={`Register for ${entry.title}${
+									entry.subtitle ? ` - ${entry.subtitle}` : ''
+								}`}
+								on:click={(event) => handleCardClick(event, entry.registerUrl)}
+								on:keydown={(event) => handleCardKeydown(event, entry.registerUrl)}
+								class={`rounded-xl border border-blue-100 bg-blue-50/60 p-4 shadow-sm cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 ${
+									isTodaySession ? 'ring-2 ring-blue-400' : ''
+								}`}
+							>
+							<div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
 											<div class="flex flex-1 flex-col gap-4 sm:flex-row sm:items-start sm:gap-5">
 												{#if entryImage?.mobile || entryImage?.desktop}
 													{@const isSquare = entryImage.aspect === 'square'}
@@ -413,7 +409,8 @@
 												{/if}
 											</div>
 										</div>
-									</li>
+							</div>
+						</li>
 								{/each}
 							</ul>
 						</section>

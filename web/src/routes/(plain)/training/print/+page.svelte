@@ -3,6 +3,7 @@
 	import { getTrainingProgram } from '$lib/data/training';
 	import type { TrainingProgram, TrainingStat } from '$lib/data/training/types';
 	import { getSeo } from '$lib/seo';
+	import SeoHead from '$lib/components/SeoHead.svelte';
 
 	const section = catalog.training;
 	const pageTitle = 'Cambermast Training Programs';
@@ -46,11 +47,9 @@
 	const pageMeta = getSeo('/training/print');
 </script>
 
+<SeoHead title={pageMeta.title} description={pageMeta.description} path="/training/print" />
+
 <svelte:head>
-	<title>{pageMeta.title}</title>
-	{#if pageMeta.description}
-		<meta name="description" content={pageMeta.description} />
-	{/if}
 	<style>
 		@media print {
 			body {

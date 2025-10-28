@@ -1,19 +1,34 @@
 <script lang="ts">
 	import '../app.css';
 	import Nav from '$lib/components/Nav.svelte';
+	import SeoHead from '$lib/components/SeoHead.svelte';
 	import { page } from '$app/stores';
 	import { defaultSeo } from '$lib/seo';
+	import { SITE_ORIGIN } from '$lib/config/site';
 
 	let navOpen = false;
+
+	const organizationJsonLd = JSON.stringify({
+		'@context': 'https://schema.org',
+		'@type': 'Organization',
+		name: 'Cambermast',
+		url: SITE_ORIGIN,
+		logo: `${SITE_ORIGIN.replace(/\/$/, '')}/images/cambermast-logo-full.png`
+	});
 
 	$: hideChrome = $page.url.pathname.startsWith('/training/print');
 </script>
 
+<SeoHead
+	title={defaultSeo.title}
+	description={defaultSeo.description}
+	path={$page.url.pathname}
+/>
+
 <svelte:head>
-	<title>{defaultSeo.title}</title>
-	{#if defaultSeo.description}
-		<meta name="description" content={defaultSeo.description} />
-	{/if}
+	<script type="application/ld+json">
+		{@html organizationJsonLd}
+	</script>
 </svelte:head>
 
 {#if hideChrome}

@@ -8,6 +8,7 @@
 	import { listTrainingPrograms } from '$lib/data/training';
 	import type { TrainingProgram, TrainingSession } from '$lib/data/training/types';
 	import { getSeo } from '$lib/seo';
+	import SeoHead from '$lib/components/SeoHead.svelte';
 	import {
 		getSessionStartTimestamp,
 		hasExternalRegistration,
@@ -279,12 +280,10 @@
 	});
 </script>
 
-<svelte:head>
-	<title>{pageMeta.title}</title>
-	{#if pageMeta.description}
-		<meta name="description" content={pageMeta.description} />
-	{/if}
+<SeoHead title={pageMeta.title} description={pageMeta.description} path="/" />
 
+
+<svelte:head>
 	<!-- Favicon -->
 	<link rel="icon" href="/images/cambermast-favicon.ico" />
 

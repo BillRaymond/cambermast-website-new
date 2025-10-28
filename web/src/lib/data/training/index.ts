@@ -5,13 +5,15 @@ import { aiAcceleratorWorkshop } from './ai-accelerator-workshop';
 import { aiAdvancedWorkshop } from './ai-advanced-workshop';
 import { aiAutomationWithAgents } from './ai-automation-with-agents';
 import { aiWorkshopForContentCreators } from './ai-workshop-for-content-creators';
+import { aiPowerPromptingDraft } from './ai-power-prompting-draft';
 
 const allPrograms: TrainingProgram[] = [
 	aiFundamentals,
 	aiAcceleratorWorkshop,
 	aiAdvancedWorkshop,
 	aiAutomationWithAgents,
-	aiWorkshopForContentCreators
+	aiWorkshopForContentCreators,
+	aiPowerPromptingDraft
 ];
 
 const publishedPrograms: TrainingProgram[] = allPrograms.filter((program) => !program.draft);

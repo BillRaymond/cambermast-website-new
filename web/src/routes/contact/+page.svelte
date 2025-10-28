@@ -1,8 +1,15 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import { listTrainingPrograms } from '$lib/data/training';
 	import { getSeo } from '$lib/seo';
+	import SeoHead from '$lib/components/SeoHead.svelte';
 
 	type FormStatus = 'idle' | 'sending' | 'sent' | 'error';
+
+	type CalApi = {
+		(...args: unknown[]): void;
+		ns?: Record<string, (...args: unknown[]) => void>;
+	};
 
 	const trainingPrograms = listTrainingPrograms()
 		.slice()
@@ -35,6 +42,53 @@
 		'General question / other topic';
 
 	const pageMeta = getSeo('/contact');
+
+	const getCalApi = (): CalApi | undefined => {
+		if (typeof window === 'undefined') return undefined;
+		const cal = (window as typeof window & { Cal?: CalApi }).Cal;
+		return typeof cal === 'function' ? cal : undefined;
+	};
+
+	const initCal = () => {
+		const cal = getCalApi();
+		if (!cal) return;
+		cal('init', '15min', { origin: 'https://app.cal.com' });
+		const namespace = cal.ns?.['15min'];
+		if (!namespace) return;
+		namespace('ui', {
+			cssVarsPerTheme: {
+				light: { 'cal-brand': '#2f70ff' },
+				dark: { 'cal-brand': '#fafafa' }
+			},
+			hideEventTypeDetails: false,
+			layout: 'month_view'
+		});
+	};
+
+	const loadCalEmbed = () => {
+		if (typeof window === 'undefined') return;
+		if (getCalApi()) {
+			initCal();
+			return;
+		}
+
+		const existing = document.querySelector('script[data-cal-embed="true"]');
+		if (existing) {
+			existing.addEventListener('load', initCal, { once: true });
+			return;
+		}
+
+		const script = document.createElement('script');
+		script.src = 'https://app.cal.com/embed/embed.js';
+		script.async = true;
+		script.dataset.calEmbed = 'true';
+		script.addEventListener('load', initCal, { once: true });
+		document.head.appendChild(script);
+	};
+
+	onMount(() => {
+		loadCalEmbed();
+	});
 
 	async function submitForm(e: Event) {
 		e.preventDefault();
@@ -75,57 +129,10 @@
 			errorMsg = err?.message ?? 'Something went wrong.';
 		}
 	}
+
 </script>
 
-<svelte:head>
-	<title>{pageMeta.title}</title>
-	{#if pageMeta.description}
-		<meta name="description" content={pageMeta.description} />
-	{/if}
-	<script type="text/javascript">
-		(function (C, A, L) {
-			let p = function (a, ar) {
-				a.q.push(ar);
-			};
-			let d = C.document;
-			C.Cal =
-				C.Cal ||
-				function () {
-					let cal = C.Cal;
-					let ar = arguments;
-					if (!cal.loaded) {
-						cal.ns = {};
-						cal.q = cal.q || [];
-						d.head.appendChild(d.createElement('script')).src = A;
-						cal.loaded = true;
-					}
-					if (ar[0] === L) {
-						const api = function () {
-							p(api, arguments);
-						};
-						const namespace = ar[1];
-						api.q = api.q || [];
-						if (typeof namespace === 'string') {
-							cal.ns[namespace] = cal.ns[namespace] || api;
-							p(cal.ns[namespace], ar);
-							p(cal, ['initNamespace', namespace]);
-						} else p(cal, ar);
-						return;
-					}
-					p(cal, ar);
-				};
-		})(window, 'https://app.cal.com/embed/embed.js', 'init');
-		Cal('init', '15min', { origin: 'https://app.cal.com' });
-		Cal.ns['15min']('ui', {
-			cssVarsPerTheme: {
-				light: { 'cal-brand': '#2f70ff' },
-				dark: { 'cal-brand': '#fafafa' }
-			},
-			hideEventTypeDetails: false,
-			layout: 'month_view'
-		});
-	</script>
-</svelte:head>
+<SeoHead title={pageMeta.title} description={pageMeta.description} path="/contact" />
 
 <section class="mb-8 max-w-3xl space-y-3">
 	<h1 class="text-3xl font-bold">Plan your team's training or get in touch</h1>

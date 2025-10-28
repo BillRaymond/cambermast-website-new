@@ -1,6 +1,7 @@
 <script lang="ts">
 	import catalog from '$lib/data/catalog.json';
 	import { getSeo } from '$lib/seo';
+	import SeoHead from '$lib/components/SeoHead.svelte';
 	const section = catalog.strategy;
 
 	// Title for the page and services we offer from JSON
@@ -11,12 +12,7 @@
 	const pageMeta = getSeo('/strategy');
 </script>
 
-<svelte:head>
-	<title>{pageMeta.title}</title>
-	{#if pageMeta.description}
-		<meta name="description" content={pageMeta.description} />
-	{/if}
-</svelte:head>
+<SeoHead title={pageMeta.title} description={pageMeta.description} path="/strategy" />
 
 <h1 class="mb-5 text-3xl font-bold">{section.label}</h1>
 <p class="mb-8 text-gray-700">{section.headline}</p>
