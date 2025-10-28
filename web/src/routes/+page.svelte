@@ -3,6 +3,8 @@
 	import catalog from '$lib/data/catalog.json';
 	import Card from '$lib/components/ServiceCard.svelte';
 	import UpcomingSessionsCarousel from '$lib/components/home/UpcomingSessionsCarousel.svelte';
+	import { listExternalEvents, getExternalEventStartTimestamp, isExternalEventUpcoming } from '$lib/data/external-events';
+	import type { ExternalEvent } from '$lib/data/external-events';
 	import { listTrainingPrograms } from '$lib/data/training';
 	import type { TrainingProgram, TrainingSession } from '$lib/data/training/types';
 	import { getSeo } from '$lib/seo';
@@ -44,22 +46,52 @@
 
 	const today = normalizeToday();
 
-	const upcomingSessions = listTrainingPrograms()
+	type UpcomingTrainingEntry = {
+		type: 'training';
+		program: TrainingProgram;
+		session: TrainingSession;
+		startTimestamp: number;
+	};
+
+	type UpcomingExternalEntry = {
+		type: 'external';
+		event: ExternalEvent;
+		startTimestamp: number;
+	};
+
+	type UpcomingEntry = UpcomingTrainingEntry | UpcomingExternalEntry;
+
+	const toTimeLines = (value?: string | string[]): string[] =>
+		Array.isArray(value) ? value : value ? [value] : [];
+
+	const upcomingTrainingEntries: UpcomingTrainingEntry[] = listTrainingPrograms()
 		.flatMap((program: TrainingProgram) =>
 			(program.sessions ?? []).map((session) => ({ program, session }))
 		)
 		.filter(({ session }) => hasExternalRegistration(session))
 		.filter(({ session }) => isSessionUpcoming(session, today))
-		.sort((a, b) => {
-			const startA = getSessionStartTimestamp(a.session);
-			const startB = getSessionStartTimestamp(b.session);
-			return startA - startB;
-		}) satisfies Array<{
-		program: TrainingProgram;
-		session: TrainingSession;
-	}>;
+		.map(({ program, session }) => ({
+			type: 'training' as const,
+			program,
+			session,
+			startTimestamp: getSessionStartTimestamp(session)
+		}));
 
-	const programRoutesWithUpcoming = new Set(upcomingSessions.map(({ program }) => program.route));
+	const upcomingExternalEntries: UpcomingExternalEntry[] = listExternalEvents()
+		.filter((event) => isExternalEventUpcoming(event, today))
+		.map((event) => ({
+			type: 'external' as const,
+			event,
+			startTimestamp: getExternalEventStartTimestamp(event)
+		}));
+
+	const upcomingItems: UpcomingEntry[] = [...upcomingTrainingEntries, ...upcomingExternalEntries].sort(
+		(a, b) => a.startTimestamp - b.startTimestamp
+	);
+
+	const programRoutesWithUpcoming = new Set(
+		upcomingTrainingEntries.map(({ program }) => program.route)
+	);
 
 	const sectionsWithUpcoming: SectionWithUpcoming[] = sections.map((section) => {
 		const itemRoutes = (section.items ?? [])
@@ -102,44 +134,70 @@
 		};
 	};
 
-	const featuredUpcoming = upcomingSessions[0];
+	const featuredUpcoming = upcomingItems[0];
 
-	const featuredMeta = featuredUpcoming
-		? getSessionMeta(featuredUpcoming.program, featuredUpcoming.session)
-		: null;
+	const featuredMeta =
+		featuredUpcoming && featuredUpcoming.type === 'training'
+			? getSessionMeta(featuredUpcoming.program, featuredUpcoming.session)
+			: null;
 
-	const featuredDisplayName = featuredMeta?.primaryTitle ?? featuredUpcoming?.program.title ?? '';
-	const featuredSessionLabel = featuredMeta?.sessionLabel ?? null;
+	const featuredDisplayName =
+		featuredUpcoming?.type === 'training'
+			? featuredMeta?.primaryTitle ?? featuredUpcoming.program.title
+			: featuredUpcoming?.event.title ?? '';
 
-	const featuredStartTimestamp = featuredUpcoming
-		? getSessionStartTimestamp(featuredUpcoming.session)
-		: null;
+	const featuredSessionLabel =
+		featuredUpcoming?.type === 'training'
+			? featuredMeta?.sessionLabel ?? null
+			: featuredUpcoming?.event.sessionLabel ?? null;
 
-	const featuredUrgency = getUrgencyLabel(featuredStartTimestamp);
+	const featuredDateLabel =
+		featuredUpcoming?.type === 'training'
+			? featuredUpcoming.session.date
+			: featuredUpcoming?.event.date ?? '';
 
-	const upcomingSlides = upcomingSessions.map((entry, index) => {
-		const meta = getSessionMeta(entry.program, entry.session);
-		const startTimestamp = getSessionStartTimestamp(entry.session);
+	const featuredRegisterUrl =
+		featuredUpcoming?.type === 'training'
+			? featuredUpcoming.session.registerUrl
+			: featuredUpcoming?.event.registerUrl ?? null;
+
+	const featuredUrgency = getUrgencyLabel(featuredUpcoming?.startTimestamp ?? null);
+
+	const upcomingSlides = upcomingItems.map((entry, index) => {
+		if (entry.type === 'training') {
+			const meta = getSessionMeta(entry.program, entry.session);
+			return {
+				id:
+					entry.program.slug +
+					'-' +
+					(entry.session.startDate ?? entry.session.date ?? index.toString(10)),
+				programTitle: entry.program.title,
+				sessionLabel: meta.sessionLabel,
+				date: entry.session.date,
+				timeLines: toTimeLines(entry.session.time),
+				location: entry.session.location,
+				partner: entry.session.partner,
+				spots: entry.session.spots,
+				urgency: getUrgencyLabel(entry.startTimestamp),
+				registerUrl: entry.session.registerUrl,
+				image: entry.program.ogImage ?? entry.program.heroImage,
+				imageAlt: entry.program.ogImageAlt ?? entry.program.heroImageAlt ?? entry.program.title
+			};
+		}
+
 		return {
-			id:
-				entry.program.slug +
-				'-' +
-				(entry.session.startDate ?? entry.session.date ?? index.toString(10)),
-			programTitle: entry.program.title,
-			sessionLabel: meta.sessionLabel,
-			date: entry.session.date,
-			timeLines: Array.isArray(entry.session.time)
-				? entry.session.time
-				: entry.session.time
-				? [entry.session.time]
-				: [],
-			location: entry.session.location,
-			partner: entry.session.partner,
-			spots: entry.session.spots,
-			urgency: getUrgencyLabel(startTimestamp),
-			registerUrl: entry.session.registerUrl,
-			image: entry.program.ogImage ?? entry.program.heroImage,
-			imageAlt: entry.program.ogImageAlt ?? entry.program.heroImageAlt ?? entry.program.title
+			id: entry.event.id,
+			programTitle: entry.event.title,
+			sessionLabel: entry.event.sessionLabel,
+			date: entry.event.date,
+			timeLines: entry.event.timeLines,
+			location: entry.event.location,
+			partner: entry.event.partner,
+			spots: entry.event.spots,
+			urgency: getUrgencyLabel(entry.startTimestamp),
+			registerUrl: entry.event.registerUrl,
+			image: entry.event.image,
+			imageAlt: entry.event.imageAlt ?? entry.event.title
 		};
 	});
 
@@ -318,14 +376,14 @@
 								{#if featuredSessionLabel}
 									<p class="text-xs font-medium text-blue-600">{featuredSessionLabel}</p>
 								{/if}
-								<p class="text-xs text-gray-600">{featuredUpcoming.session.date}</p>
+								<p class="text-xs text-gray-600">{featuredDateLabel}</p>
 								{#if featuredUrgency}
 									<p class="text-xs font-semibold text-blue-600">{featuredUrgency}</p>
 								{/if}
 							</div>
-							{#if featuredUpcoming.session.registerUrl}
+							{#if featuredRegisterUrl}
 								<a
-									href={featuredUpcoming.session.registerUrl}
+									href={featuredRegisterUrl}
 									target="_blank"
 									rel="noopener"
 									class="register-cta shrink-0 self-end md:self-auto"
