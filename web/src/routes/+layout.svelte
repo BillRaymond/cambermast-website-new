@@ -34,7 +34,7 @@
 {#if hideChrome}
 	<slot />
 {:else}
-	<header class="flex flex-col items-center border-b bg-white px-5 py-3">
+	<header class="flex flex-col items-center bg-white px-5 py-3">
 		<a href="/" class="mb-2 block" style="width:160px;min-width:160px;">
 			<img
 				src="/images/cambermast-logo-full.png"
