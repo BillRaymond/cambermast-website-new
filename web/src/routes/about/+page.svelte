@@ -60,6 +60,22 @@
 	>
 		📅 Schedule a call with Bill
 	</a>
+	<a
+		href="https://cal.com/billraymond/30minconsult"
+		target="_blank"
+		rel="noopener"
+		class="inline-flex items-center justify-center gap-2 rounded-lg border border-blue-200 bg-white px-5 py-2.5 font-semibold text-blue-700 shadow transition hover:border-blue-300 hover:bg-blue-50"
+	>
+		🕒 US $100
+	</a>
+	<a
+		href="https://cal.com/billraymond/60minconsult"
+		target="_blank"
+		rel="noopener"
+		class="inline-flex items-center justify-center gap-2 rounded-lg border border-blue-200 bg-white px-5 py-2.5 font-semibold text-blue-700 shadow transition hover:border-blue-300 hover:bg-blue-50"
+	>
+		🕘 US $200
+	</a>
 </div>
 
 <section class="mb-12 grid gap-6 md:grid-cols-2">

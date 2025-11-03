@@ -214,6 +214,18 @@
 
 	const connectLinks: ConnectLink[] = [
 		{
+			icon: '🕒',
+			label: '30-minute Consultation',
+			description: 'Focused one-on-one session to define priorities with Bill ($100).',
+			href: 'https://cal.com/billraymond/30minconsult'
+		},
+		{
+			icon: '🕘',
+			label: '60-minute Consultation',
+			description: 'Extended strategy consult to dive deep on your AI goals ($200).',
+			href: 'https://cal.com/billraymond/60minconsult'
+		},
+		{
 			icon: '📰',
 			label: 'The Bill Talks AI Newsletter',
 			description: 'Weekly insights for AI leaders and practitioners.',
