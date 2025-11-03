@@ -129,7 +129,6 @@
 			errorMsg = err?.message ?? 'Something went wrong.';
 		}
 	}
-
 </script>
 
 <SeoHead title={pageMeta.title} description={pageMeta.description} path="/contact" />
@@ -144,17 +143,16 @@
 </section>
 
 <section class="mb-8 max-w-3xl rounded-2xl border bg-blue-50 p-6 text-blue-900 shadow">
-	<h2 class="text-xl font-semibold">Need time with Bill?</h2>
+	<h2 class="text-xl font-semibold">Don't forget to check the calendar</h2>
 	<p class="mt-1 text-sm">
-		Check the scheduling calendar first to grab an available slot before you fill out the form.
+		Check the scheduling calendar first in case there is an upcoming webinar, training course, or
+		workshop.
 	</p>
 	<a
 		class="mt-4 inline-flex items-center justify-center rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow transition hover:bg-blue-700"
-		href="https://cal.com/billraymond/15min"
-		target="_blank"
-		rel="noopener noreferrer"
+		href="/training/calendar"
 	>
-		View the calendar
+		🗓️ View the calendar
 	</a>
 </section>
 
