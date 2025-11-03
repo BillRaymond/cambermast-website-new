@@ -3,7 +3,11 @@
 	import catalog from '$lib/data/catalog.json';
 	import Card from '$lib/components/ServiceCard.svelte';
 	import UpcomingSessionsCarousel from '$lib/components/home/UpcomingSessionsCarousel.svelte';
-	import { listExternalEvents, getExternalEventStartTimestamp, isExternalEventUpcoming } from '$lib/data/external-events';
+	import {
+		listExternalEvents,
+		getExternalEventStartTimestamp,
+		isExternalEventUpcoming
+	} from '$lib/data/external-events';
 	import type { ExternalEvent } from '$lib/data/external-events';
 	import { listTrainingPrograms } from '$lib/data/training';
 	import type { TrainingProgram, TrainingSession } from '$lib/data/training/types';
@@ -86,9 +90,10 @@
 			startTimestamp: getExternalEventStartTimestamp(event)
 		}));
 
-	const upcomingItems: UpcomingEntry[] = [...upcomingTrainingEntries, ...upcomingExternalEntries].sort(
-		(a, b) => a.startTimestamp - b.startTimestamp
-	);
+	const upcomingItems: UpcomingEntry[] = [
+		...upcomingTrainingEntries,
+		...upcomingExternalEntries
+	].sort((a, b) => a.startTimestamp - b.startTimestamp);
 
 	const programRoutesWithUpcoming = new Set(
 		upcomingTrainingEntries.map(({ program }) => program.route)
@@ -144,23 +149,23 @@
 
 	const featuredDisplayName =
 		featuredUpcoming?.type === 'training'
-			? featuredMeta?.primaryTitle ?? featuredUpcoming.program.title
-			: featuredUpcoming?.event.title ?? '';
+			? (featuredMeta?.primaryTitle ?? featuredUpcoming.program.title)
+			: (featuredUpcoming?.event.title ?? '');
 
 	const featuredSessionLabel =
 		featuredUpcoming?.type === 'training'
-			? featuredMeta?.sessionLabel ?? null
-			: featuredUpcoming?.event.sessionLabel ?? null;
+			? (featuredMeta?.sessionLabel ?? null)
+			: (featuredUpcoming?.event.sessionLabel ?? null);
 
 	const featuredDateLabel =
 		featuredUpcoming?.type === 'training'
 			? featuredUpcoming.session.date
-			: featuredUpcoming?.event.date ?? '';
+			: (featuredUpcoming?.event.date ?? '');
 
 	const featuredRegisterUrl =
 		featuredUpcoming?.type === 'training'
 			? featuredUpcoming.session.registerUrl
-			: featuredUpcoming?.event.registerUrl ?? null;
+			: (featuredUpcoming?.event.registerUrl ?? null);
 
 	const featuredUrgency = getUrgencyLabel(featuredUpcoming?.startTimestamp ?? null);
 
@@ -216,13 +221,13 @@
 		{
 			icon: '🕒',
 			label: '30-minute Consultation',
-			description: 'Focused one-on-one session to define priorities with Bill ($100).',
+			description: 'You define the topic for 30 minutes with Bill ($100).',
 			href: 'https://cal.com/billraymond/30minconsult'
 		},
 		{
 			icon: '🕘',
 			label: '60-minute Consultation',
-			description: 'Extended strategy consult to dive deep on your AI goals ($200).',
+			description: 'You define the topic for 60 minutes with Bill ($200).',
 			href: 'https://cal.com/billraymond/60minconsult'
 		},
 		{
@@ -293,7 +298,6 @@
 </script>
 
 <SeoHead title={pageMeta.title} description={pageMeta.description} path="/" />
-
 
 <svelte:head>
 	<!-- Favicon -->
@@ -441,9 +445,7 @@
 							>
 						</div>
 					</div>
-					<div
-						class="flex w-full justify-center md:col-start-1 md:row-start-2 md:justify-start"
-					>
+					<div class="flex w-full justify-center md:col-start-1 md:row-start-2 md:justify-start">
 						<div class="relative w-full md:w-max" bind:this={connectMenuContainer}>
 							<button
 								type="button"
@@ -505,11 +507,13 @@
 {#if upcomingSlides.length}
 	<section class="mx-auto mt-6 w-full px-4">
 		<div class="sessions-strip mx-auto max-w-5xl px-4 py-4">
-			<div class="flex flex-wrap items-center gap-2 text-xs font-semibold tracking-wide text-blue-600">
+			<div
+				class="flex flex-wrap items-center gap-2 text-xs font-semibold tracking-wide text-blue-600"
+			>
 				<span class="uppercase">Upcoming sessions and events</span>
 				<a
 					href="/training/calendar"
-					class="rounded-full border border-blue-200 bg-white px-2.5 py-1 text-[0.65rem] font-semibold text-blue-600 normal-case transition hover:border-blue-300 hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-200"
+					class="rounded-full border border-blue-200 bg-white px-2.5 py-1 text-[0.65rem] font-semibold normal-case text-blue-600 transition hover:border-blue-300 hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-200"
 				>
 					View calendar →
 				</a>
