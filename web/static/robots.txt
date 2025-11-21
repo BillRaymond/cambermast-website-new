@@ -1,4 +1,3 @@
-# allow crawling everything by default
+# Temporarily block indexing while the site is in preview
 User-agent: *
-Disallow:
-Sitemap: https://www.cambermast.com/sitemap.xml
+Disallow: /

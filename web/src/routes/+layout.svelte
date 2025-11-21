@@ -26,6 +26,7 @@
 />
 
 <svelte:head>
+	<meta name="robots" content="noindex, nofollow" />
 	<script type="application/ld+json">
 		{@html organizationJsonLd}
 	</script>
