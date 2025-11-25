@@ -1,20 +1,18 @@
-import type { TrainingProgram } from './types';
+import type { TechlabProgram } from './types';
 
-export const aiFundamentals = {
+export const techlabAiFundamentals = {
 	slug: 'ai-fundamentals',
-	route: '/training/ai-fundamentals',
+	route: '/techlab/ai-fundamentals',
 	sku: 'CM-TR-001',
 	title: 'AI Power Prompting',
 	nickname: 'Your AI fundamentals • From prompting to productivity',
 	tagline: 'A live primer on prompting: learn how AI works and how to prompt successfully.',
-	// Match the top-of-page hero copy so the landing page and email promo stay in sync.
 	heroImage: '/images/ai-fundamentals.jpeg',
 	heroImageAlt: 'AI Power Prompting training workshop illustration',
 	ogImage: '/images/cambermast-content-1-ai-fundamentals-ai-power-prompting-og.jpeg',
 	ogImageAlt: 'Open graph image for the AI Power Prompting training program',
 	description:
 		'AI Power Prompting is a four-hour crash course that explains how modern AI systems work and shows you how to craft prompts that consistently deliver results.',
-	// Mention the tool mix here whenever we shift platforms so expectations stay current.
 	secondaryDescription:
 		'Build confidence through guided demos and exercises with ChatGPT, Copilot, Claude, and Gemini so you know when to reach for each tool and how to collaborate with it.',
 	primaryCta: {
@@ -25,7 +23,6 @@ export const aiFundamentals = {
 		label: 'Talk with Bill',
 		url: '/contact'
 	},
-	// Keep pricing + duration aligned with the sales one-pager before publishing updates.
 	stats: [
 		{ label: 'Duration', value: '4-hours' },
 		{ label: 'Format', value: ['🔴 Live online', '🏫 In-person available'] },
@@ -33,13 +30,11 @@ export const aiFundamentals = {
 		{ label: 'Environment', value: '💙 Learn in a supportive, judgment-free environment' },
 		{ label: 'In-person', value: 'Custom pricing for private teams' }
 	],
-	// Reflect the entry-level-yet-professional voice that threads through the rest of the catalog.
 	audience: [
 		'People just starting with AI who want a solid foundation.',
 		'Professionals who want to feel more confident using AI in daily work.',
 		'Curious learners ready to apply AI in practical, hands-on ways.'
 	],
-	// Personas skew toward tech writers and content pros based on cohort feedback surveys.
 	audienceExamples: [
 		'Team leads helping non-technical staff adopt AI safely.',
 		'Knowledge workers in operations, HR, finance, or customer support.',
@@ -73,7 +68,6 @@ export const aiFundamentals = {
 			registerUrl: '/contact'
 		}
 	],
-	// Agenda follows the "understand → practice → apply → extend" arc used in other programs.
 	agenda: [
 		{
 			title: '1. AI Fundamentals',
@@ -127,13 +121,11 @@ export const aiFundamentals = {
 			]
 		}
 	],
-	// Promise only deliverables we can automate from the LMS; loop in ops before adding more.
 	resources: [
 		'Course workbook with prompt templates and examples.',
 		'Earn a certificate you can showcase with pride.',
 		'A free one-hour follow-up two weeks after the training.'
 	],
-	// Leave these placeholder names until we get legal sign-off from real clients.
 	reviews: [
 		{
 			quote:
@@ -201,6 +193,6 @@ export const aiFundamentals = {
 			]
 		}
 	]
-} satisfies TrainingProgram;
+} satisfies TechlabProgram;
 
-export default aiFundamentals;
+export default techlabAiFundamentals;

@@ -16,7 +16,8 @@
 		logo: `${SITE_ORIGIN.replace(/\/$/, '')}/images/cambermast-logo-full.png`
 	});
 
-	$: hideChrome = $page.url.pathname.startsWith('/training/print');
+	$: hideChrome =
+		$page.url.pathname.startsWith('/training/print') || $page.url.pathname.startsWith('/techlab');
 </script>
 
 <SeoHead

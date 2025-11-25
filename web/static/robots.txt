@@ -1,3 +1,6 @@
-# Temporarily block indexing while the site is in preview
+# Block TechLAB preview content from indexing
 User-agent: *
+Disallow: /techlab
+
+# Temporarily block indexing while the site is in preview (remove this line to launch)
 Disallow: /
