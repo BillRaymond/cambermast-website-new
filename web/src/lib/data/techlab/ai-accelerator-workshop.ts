@@ -46,7 +46,8 @@ export const techlabAiAcceleratorWorkshop = {
 		'Master the fundamentals of AI prompting and responsible use.',
 		'Configure custom GPTs that reflect your brand voice and processes.',
 		'Launch AI projects that organize prompts, files, and context for ongoing work.',
-		'Practice deep research techniques to inform strategy, competitor intel, and planning.'
+		'Practice deep research techniques to inform strategy, competitor intel, and planning.',
+		'Ship investor collateral faster—pitch decks, VC updates, and market briefings built with AI assistance.'
 	],
 	prerequisites: [
 		'A ChatGPT Plus, Enterprise, or comparable account with access to custom GPTs and projects.',
@@ -57,7 +58,8 @@ export const techlabAiAcceleratorWorkshop = {
 		'Ready-to-use prompt templates covering core and advanced use cases.',
 		'Custom GPTs configured around your business scenarios.',
 		'Project spaces that keep prompts, files, and context organized for future work.',
-		'Research frameworks that turn AI findings into confident decisions.'
+		'Research frameworks that turn AI findings into confident decisions.',
+		'Founder deliverable kit with deck outlines, diligence trackers, and investor update scaffolds.'
 	],
 	sessions: [
 		{
@@ -100,6 +102,7 @@ export const techlabAiAcceleratorWorkshop = {
 				'Use advanced AI research strategies for competitor analysis and market planning.',
 				'Combine AI insights with curated human sources to maintain accuracy.',
 				'Package your offering for GPT marketplace listings and discovery.',
+				'Build or refine pitch decks, investor updates, and customer traction stories using program playbooks.',
 				'Plan follow-up experiments that keep your automations relevant.'
 			]
 		}

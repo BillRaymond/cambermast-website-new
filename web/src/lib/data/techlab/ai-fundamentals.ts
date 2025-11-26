@@ -45,7 +45,8 @@ export const techlabAiFundamentals = {
 	objectives: [
 		'Understand how modern AI systems process inputs and generate responses.',
 		'Learn the four core prompt types to improve every AI interaction.',
-		'Collaborate with AI to brainstorm ideas and move work forward faster.'
+		'Collaborate with AI to brainstorm ideas and move work forward faster.',
+		'Translate startup deliverables—pitch decks, market tear-downs, and VC updates—into reusable prompt patterns.'
 	],
 	prerequisites: [
 		'Access to an AI chatbot (ChatGPT recommended; Claude, Gemini, or Copilot also work).',
@@ -56,7 +57,8 @@ export const techlabAiFundamentals = {
 		'Explain AI clearly to colleagues and clients.',
 		'Apply four proven prompt techniques with ready-made templates.',
 		'Save hours drafting content and documents.',
-		'Jump-start projects with AI-generated plans and ideas.'
+		'Jump-start projects with AI-generated plans and ideas.',
+		'Founder-ready template pack covering investor memos, pitch deck outlines, and competitive brief starters.'
 	],
 	sessions: [
 		{
@@ -92,7 +94,7 @@ export const techlabAiFundamentals = {
 			details: [
 				'Draft emails, posts, and documents with AI as your writing partner.',
 				'Build project plans with tasks, owners, and deadlines in minutes.',
-				'Accelerate research and brainstorming for new initiatives.',
+				'Accelerate research and brainstorming for new initiatives, including market scans and investor FAQs.',
 				'Analyze data by asking questions and exporting structured results.'
 			]
 		},
@@ -101,7 +103,7 @@ export const techlabAiFundamentals = {
 			details: [
 				'Beat creative blocks with ideation sprints and story prompts.',
 				'Co-develop ideas through conversational refinement.',
-				'Personalize tone and style to fit different audiences.'
+				'Personalize tone and style to fit different audiences—including VC outreach and stakeholder updates.'
 			]
 		},
 		{

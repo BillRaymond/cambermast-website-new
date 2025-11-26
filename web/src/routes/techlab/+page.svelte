@@ -23,7 +23,8 @@
 	const valueProps = [
 		'Launch practical AI workflows without hype.',
 		'Keep teams aligned on safety, clarity, and measurable results.',
-		'Ship prompts, playbooks, and automations your team can maintain.'
+		'Ship prompts, playbooks, and automations your team can maintain.',
+		'Co-build investor-ready artifacts like pitch decks, competitive briefs, and VC updates.'
 	];
 
 	const supportGroups = [
@@ -38,6 +39,21 @@
 		{
 			title: 'Content & GTM teams',
 			copy: 'Scale storytelling, docs, and customer comms without losing brand control.'
+		}
+	];
+
+	const founderDeliverables = [
+		{
+			title: 'Pitch deck storyboards',
+			copy: 'Use structured prompts to shape story arcs, traction slides, and founder narratives that stay consistent across talk tracks.'
+		},
+		{
+			title: 'Market intel briefs',
+			copy: 'Spin up AI-assisted battle cards and competitive tear-downs with citations, so diligence and positioning stay fresh.'
+		},
+		{
+			title: 'VC communications',
+			copy: 'Draft investor updates, outreach sequences, and follow-up notes that adapt to each fund’s focus while staying on-brand.'
 		}
 	];
 
@@ -277,6 +293,27 @@
 						<div class="support-card">
 							<p class="support-title">{group.title}</p>
 							<p class="support-copy">{group.copy}</p>
+						</div>
+					{/each}
+				</div>
+			</div>
+		</section>
+
+		<section class="panel panel--founder">
+			<div class="panel__content">
+				<p class="eyebrow eyebrow--small">Founder-ready workflows</p>
+				<h2>Work on real startup deliverables in each session</h2>
+				<p>
+					Every TechLAB program bakes in lab time for the material founders need to fundraise,
+					validate markets, and keep investors confident.
+				</p>
+			</div>
+			<div class="panel__content">
+				<div class="founder-grid">
+					{#each founderDeliverables as deliverable}
+						<div class="founder-card">
+							<h3>{deliverable.title}</h3>
+							<p>{deliverable.copy}</p>
 						</div>
 					{/each}
 				</div>
@@ -642,6 +679,11 @@
 		grid-template-columns: 1fr 1fr;
 	}
 
+	.panel--founder {
+		grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+		gap: 1.5rem;
+	}
+
 	.bullet {
 		list-style: disc;
 		margin: 0.5rem 0 0;
@@ -679,6 +721,33 @@
 	.support-copy {
 		margin: 0;
 		color: #23364a;
+		font-size: 0.95rem;
+	}
+
+	.founder-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+		gap: 1rem;
+	}
+
+	.founder-card {
+		background: rgba(255, 255, 255, 0.86);
+		border: 1px solid #e4ecf5;
+		border-radius: 16px;
+		padding: 1rem;
+		box-shadow: 0 12px 32px -28px rgba(13, 26, 43, 0.55);
+	}
+
+	.founder-card h3 {
+		margin: 0 0 0.4rem;
+		font-size: 1.1rem;
+		color: #0b6fbf;
+	}
+
+	.founder-card p {
+		margin: 0;
+		color: #1e2c3d;
+		line-height: 1.5;
 		font-size: 0.95rem;
 	}
 
