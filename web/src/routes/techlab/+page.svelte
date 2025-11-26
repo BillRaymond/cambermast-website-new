@@ -891,7 +891,7 @@
 		gap: 1rem;
 		min-width: max-content;
 		padding-right: 1rem;
-		animation: scheduleScroll 26s linear infinite;
+		animation: scheduleScroll 80s linear infinite;
 	}
 
 	.schedule-marquee:hover .schedule-track,
