@@ -160,6 +160,7 @@
 	<form
 		class="space-y-4 rounded-2xl border bg-white p-6 shadow"
 		on:submit|preventDefault={submitForm}
+		aria-busy={status === 'sending'}
 	>
 		<div>
 			<label class="block text-sm font-medium text-gray-700" for="contact-name"
@@ -241,15 +242,19 @@
 			Fields marked <span class="text-red-500" aria-hidden="true">*</span> are required.
 		</p>
 
-		{#if status === 'sent'}
-			<p class="text-sm text-green-600">Thanks! We’ll get back to you soon.</p>
-		{:else if status === 'error'}
-			<p class="text-sm text-red-600">
-				I am sorry. There was a problem with the form. Try contacting Bill directly at <a
-					href="mailto:Bill.Raymond@Cambermast.com">Bill.Raymond@Cambermast.com</a
-				>. Error message: {errorMsg}.
-			</p>
-		{/if}
+		<div aria-live="polite">
+			{#if status === 'sent'}
+				<p class="text-sm text-green-600" role="status">Thanks! We’ll get back to you soon.</p>
+			{:else if status === 'error'}
+				<p class="text-sm text-red-600" role="alert">
+					I am sorry. There was a problem with the form. Try contacting Bill directly at <a
+						href="mailto:Bill.Raymond@Cambermast.com">Bill.Raymond@Cambermast.com</a
+					>. Error message: {errorMsg}.
+				</p>
+			{:else if status === 'sending'}
+				<p class="text-sm text-gray-600" role="status">Sending your message…</p>
+			{/if}
+		</div>
 	</form>
 
 	<div class="space-y-5">

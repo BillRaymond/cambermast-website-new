@@ -7,6 +7,7 @@
 	import { SITE_ORIGIN } from '$lib/config/site';
 
 	let navOpen = false;
+	const navId = 'site-primary-navigation';
 
 	const organizationJsonLd = JSON.stringify({
 		'@context': 'https://schema.org',
@@ -36,6 +37,7 @@
 {#if hideChrome}
 	<slot />
 {:else}
+	<a class="skip-link" href="#main-content">Skip to main content</a>
 	<header class="flex flex-col items-center bg-white px-5 py-3">
 		<a href="/" class="mb-2 block" style="width:160px;min-width:160px;">
 			<img
@@ -49,19 +51,26 @@
 			<button
 				class="mr-2 flex items-center rounded border border-gray-400 px-3 py-2 text-gray-700 sm:hidden"
 				aria-label="Toggle navigation"
+				aria-expanded={navOpen}
+				aria-controls={navId}
 				on:click={() => (navOpen = !navOpen)}
 			>
 				<span class="mr-2 text-xl">☰</span> Navigation
 			</button>
 			<!-- Nav: horizontal on sm+, vertical dropdown on mobile when open -->
 			<div class={`w-full sm:w-auto ${navOpen ? '' : 'hidden'} sm:flex`}>
-				<Nav vertical={navOpen} onNavigate={() => (navOpen = false)} />
+				<Nav
+					id={navId}
+					ariaLabel="Primary navigation"
+					vertical={navOpen}
+					onNavigate={() => (navOpen = false)}
+				/>
 			</div>
 		</div>
 	</header>
 
 	<!-- Default container for every page -->
-	<main class="text-fluid mx-auto max-w-6xl px-4 pb-16">
+	<main id="main-content" tabindex="-1" class="text-fluid mx-auto max-w-6xl px-4 pb-16">
 		<slot />
 	</main>
 

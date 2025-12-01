@@ -217,52 +217,69 @@
 		highlight?: boolean;
 	};
 
-	const connectLinks: ConnectLink[] = [
+	type ConnectGroup = {
+		title: string;
+		links: ConnectLink[];
+	};
+
+	const connectGroups: ConnectGroup[] = [
 		{
-			icon: '🕒',
-			label: '30-minute Consultation',
-			description: 'You define the topic for 30 minutes with Bill ($100).',
-			href: 'https://cal.com/billraymond/30minconsult'
+			title: 'Talk with Bill',
+			links: [
+				{
+					icon: '🕒',
+					label: '30-minute Consultation',
+					description: 'You define the topic for 30 minutes with Bill ($100).',
+					href: 'https://cal.com/billraymond/30minconsult'
+				},
+				{
+					icon: '🕘',
+					label: '60-minute Consultation',
+					description: 'You define the topic for 60 minutes with Bill ($200).',
+					href: 'https://cal.com/billraymond/60minconsult'
+				},
+				{
+					icon: '✉️',
+					label: 'Contact Bill',
+					description: 'Start a conversation about training or advisory work.',
+					href: '/contact'
+				}
+			]
 		},
 		{
-			icon: '🕘',
-			label: '60-minute Consultation',
-			description: 'You define the topic for 60 minutes with Bill ($200).',
-			href: 'https://cal.com/billraymond/60minconsult'
-		},
-		{
-			icon: '📰',
-			label: 'The Bill Talks AI Newsletter',
-			description: 'Weekly insights for AI leaders and practitioners.',
-			href: 'https://billtalksai.com/',
-			highlight: true
-		},
-		{
-			icon: '🎙️',
-			label: 'The Agile in Action Podcast',
-			description: 'Listen to expert conversations on modern leadership.',
-			href: 'https://agileinaction.com/'
-		},
-		{
-			icon: '▶️',
-			label: 'Bill on YouTube',
-			description: 'Video walkthroughs and sessions on AI adoption.',
-			href: 'https://youtube.com/@bill-raymond'
-		},
-		{
-			icon: '✉️',
-			label: 'Contact Bill',
-			description: 'Start a conversation about training or advisory work.',
-			href: '/contact'
-		},
-		{
-			icon: '💼',
-			label: 'Bill on LinkedIn',
-			description: "Follow Bill's updates and professional news.",
-			href: 'https://www.linkedin.com/in/williamraymond/'
+			title: 'Follow Bill',
+			links: [
+				{
+					icon: '📰',
+					label: 'The Bill Talks AI Newsletter',
+					description: 'Weekly insights for AI leaders and practitioners.',
+					href: 'https://billtalksai.com/',
+					highlight: true
+				},
+				{
+					icon: '🎙️',
+					label: 'The Agile in Action Podcast',
+					description: 'Listen to expert conversations on modern leadership.',
+					href: 'https://agileinaction.com/'
+				},
+				{
+					icon: '▶️',
+					label: 'Bill on YouTube',
+					description: 'Video walkthroughs and sessions on AI adoption.',
+					href: 'https://youtube.com/@bill-raymond'
+				},
+				{
+					icon: '💼',
+					label: 'Bill on LinkedIn',
+					description: "Follow Bill's updates and professional news.",
+					href: 'https://www.linkedin.com/in/williamraymond/'
+				}
+			]
 		}
 	];
 
+	const connectMenuButtonId = 'connect-menu-button';
+	const connectMenuId = 'connect-menu-panel';
 	let connectMenuOpen = false;
 	let connectMenuContainer: HTMLDivElement | null = null;
 
@@ -449,10 +466,11 @@
 						<div class="relative w-full md:w-max" bind:this={connectMenuContainer}>
 							<button
 								type="button"
+								id={connectMenuButtonId}
 								class="flex w-full items-center justify-center gap-1.5 rounded-full border border-blue-200 bg-white px-3 py-2 text-[0.9rem] font-semibold text-blue-900 shadow-sm transition hover:border-blue-300 hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-offset-2 md:w-max md:px-4"
 								on:click={toggleConnectMenu}
-								aria-haspopup="true"
 								aria-expanded={connectMenuOpen}
+								aria-controls={connectMenuId}
 							>
 								<span class="text-base leading-none">🤝</span>
 								<span>Connect with Bill</span>
@@ -473,27 +491,42 @@
 							</button>
 							{#if connectMenuOpen}
 								<div
-									class="z-30 mt-3 w-full overflow-hidden rounded-3xl border border-blue-100 bg-white/95 p-2 shadow-2xl backdrop-blur md:absolute md:left-1/2 md:top-full md:mt-2 md:w-[min(18rem,80vw)] md:-translate-x-1/2"
-									role="menu"
-									aria-label="Connect with Bill"
+									id={connectMenuId}
+									class="z-30 mt-3 w-full overflow-hidden rounded-3xl border border-blue-100 bg-white/95 p-3 shadow-2xl backdrop-blur md:absolute md:left-1/2 md:top-full md:mt-2 md:w-[min(26rem,90vw)] md:-translate-x-1/2"
+									aria-labelledby={connectMenuButtonId}
 								>
-									{#each connectLinks as link}
-										<a
-											href={link.href}
-											target={link.href.startsWith('http') ? '_blank' : undefined}
-											rel={link.href.startsWith('http') ? 'noopener' : undefined}
-											class="flex items-start gap-3 rounded-2xl px-4 py-3 text-left transition hover:bg-blue-50 focus:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-200"
-											role="menuitem"
-											on:click={closeConnectMenu}
-											class:bg-blue-50={link.highlight}
-										>
-											<span class="text-xl leading-none">{link.icon}</span>
-											<span class="flex flex-col gap-1">
-												<span class="text-sm font-semibold text-gray-900">{link.label}</span>
-												<span class="text-xs text-gray-600">{link.description}</span>
-											</span>
-										</a>
-									{/each}
+									<div class="grid gap-3 sm:grid-cols-2">
+										{#each connectGroups as group}
+											<div class="rounded-2xl border border-blue-50/70 bg-blue-50/40 p-2.5">
+												<p class="text-[0.65rem] font-semibold uppercase tracking-wide text-blue-700">
+													{group.title}
+												</p>
+												<ul class="mt-1.5 space-y-1">
+													{#each group.links as link}
+														<li>
+															<a
+																href={link.href}
+																target={link.href.startsWith('http') ? '_blank' : undefined}
+																rel={link.href.startsWith('http') ? 'noopener' : undefined}
+																class={`flex items-start gap-2.5 rounded-2xl px-3 py-2 text-left text-[0.92rem] transition hover:bg-blue-100/60 focus:bg-blue-100/60 focus:outline-none focus:ring-2 focus:ring-blue-200 ${link.highlight ? 'bg-blue-100/60' : ''}`}
+																on:click={closeConnectMenu}
+															>
+																<span class="text-lg leading-none">{link.icon}</span>
+																<span class="flex flex-col gap-1">
+																	<span class="text-[0.82rem] font-semibold text-gray-900"
+																		>{link.label}</span
+																	>
+																	<span class="text-[0.7rem] text-gray-600"
+																		>{link.description}</span
+																	>
+																</span>
+															</a>
+														</li>
+													{/each}
+												</ul>
+											</div>
+										{/each}
+									</div>
 								</div>
 							{/if}
 						</div>

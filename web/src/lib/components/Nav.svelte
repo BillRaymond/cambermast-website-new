@@ -13,9 +13,11 @@
 		)
 	);
 
-	const { vertical = false, onNavigate } = $props<{
+	const { vertical = false, onNavigate, id, ariaLabel = 'Primary navigation' } = $props<{
 		vertical?: boolean;
 		onNavigate?: () => void;
+		id?: string;
+		ariaLabel?: string;
 	}>();
 
 	// Build nav links from catalog, sorted by homeorder
@@ -43,6 +45,8 @@
 </script>
 
 <nav
+	id={id}
+	aria-label={ariaLabel}
 	class={`flex gap-6 ${
 		vertical
 			? 'flex-col items-start py-1.5 sm:flex-row sm:items-center sm:py-0'
@@ -53,16 +57,19 @@
 		href="/"
 		onclick={handleNavClick}
 		class={pathname === '/' ? 'font-semibold text-blue-600' : 'hover:text-blue-600'}
+		aria-current={pathname === '/' ? 'page' : undefined}
 	>
 		Home
 	</a>
 	{#each navLinks as link}
+		{@const isActive = pathname === link.href || pathname.startsWith(`${link.href}/`)}
 		<a
 			href={link.href}
 			onclick={handleNavClick}
 			class={`flex items-center gap-2 ${
-				pathname.startsWith(link.href) ? 'font-semibold text-blue-600' : 'hover:text-blue-600'
+				isActive ? 'font-semibold text-blue-600' : 'hover:text-blue-600'
 			}`}
+			aria-current={isActive ? 'page' : undefined}
 		>
 			{#if link.href === '/training/calendar' && upcomingExists}
 				<span class="relative flex h-2.5 w-2.5">

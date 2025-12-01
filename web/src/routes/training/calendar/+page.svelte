@@ -101,28 +101,6 @@
 		return Array.isArray(value) ? value.join(' / ') : value;
 	};
 
-	const openRegisterUrl = (url: string): void => {
-		if (!url || typeof window === 'undefined') return;
-		window.open(url, '_blank', 'noopener,noreferrer');
-	};
-
-	const isEventInsideInteractive = (target: EventTarget | null): boolean => {
-		return target instanceof HTMLElement ? Boolean(target.closest('a, button')) : false;
-	};
-
-	const handleCardClick = (event: MouseEvent, url: string): void => {
-		if (isEventInsideInteractive(event.target)) return;
-		openRegisterUrl(url);
-	};
-
-	const handleCardKeydown = (event: KeyboardEvent, url: string): void => {
-		const key = event.key;
-		if (key !== 'Enter' && key !== ' ' && key !== 'Spacebar') return;
-		if (isEventInsideInteractive(event.target)) return;
-		event.preventDefault();
-		openRegisterUrl(url);
-	};
-
 	const defaultLocationLabel = 'Live online';
 
 	const getProgramImage = (program: TrainingProgram): EntryImage => {
@@ -310,17 +288,11 @@
 									{@const isTodaySession = index === firstTodayIndex}
 						{@const entryImage = entry.image}
 						<li id={cardId}>
-							<div
-								tabindex="0"
-								role="link"
-								aria-label={`Register for ${entry.title}${
-									entry.subtitle ? ` - ${entry.subtitle}` : ''
-								}`}
-								on:click={(event) => handleCardClick(event, entry.registerUrl)}
-								on:keydown={(event) => handleCardKeydown(event, entry.registerUrl)}
-								class={`rounded-xl border border-blue-100 bg-blue-50/60 p-4 shadow-sm cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 ${
+							<article
+								class={`rounded-xl border border-blue-100 bg-blue-50/60 p-4 shadow-sm focus-within:ring-2 focus-within:ring-blue-400 ${
 									isTodaySession ? 'ring-2 ring-blue-400' : ''
 								}`}
+								aria-labelledby={`${cardId}-title`}
 							>
 							<div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
 											<div class="flex flex-1 flex-col gap-4 sm:flex-row sm:items-start sm:gap-5">
@@ -354,7 +326,7 @@
 														</picture>
 													</div>
 												{/if}
-												<div class="flex-1">
+												<div class="flex-1" id={`${cardId}-title`}>
 													<p class="text-xs font-semibold uppercase tracking-wide text-blue-600">
 														{entry.dateText}
 													</p>
@@ -408,8 +380,8 @@
 													</a>
 												{/if}
 											</div>
-										</div>
 							</div>
+							</article>
 						</li>
 								{/each}
 							</ul>
