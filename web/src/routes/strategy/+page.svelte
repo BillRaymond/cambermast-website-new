@@ -24,7 +24,7 @@
 			id: 'value',
 			label: 'Value lens',
 			title: 'Anchor the engagement to outcomes, not hours',
-			blurb: 'Reframe the conversation around time saved, quality improved, and revenue generated.',
+			blurb: 'Frame the conversation around time saved, quality improved, and revenue generated.',
 				detail:
 					'Before we talk tooling or price, we align on the transformation you expect. That narrative drives every downstream decision, from ROI math to how we communicate the investment internally.',
 			questions: [
@@ -39,12 +39,13 @@
 			title: 'Map the manual workflow from trigger to completion',
 			blurb: 'We document the existing process live with your team so nothing gets lost.',
 			detail:
-				'Discovery covers frequency, triggers, tools, human touchpoints, and hidden exceptions. We pair interviews with screen shares so we can see the process exactly how it happens today.',
+				'Discovery covers frequency, triggers, tools already in use, human touchpoints, current data policies, and hidden exceptions. We pair interviews with screen shares so we can see the process exactly how it happens today—including how new tools or datasets get approved.',
 			questions: [
 				'How often does the workflow run and what starts it?',
-				'What does it cost each time in people, software, and attention?'
+				'What does it cost each time in people, software, and attention?',
+				'Which systems and datasets are approved today, and who signs off on adding new ones?'
 			],
-			outputs: ['Process storyboard & RACI', 'Tooling/data inventory']
+			outputs: ['Process storyboard & RACI', 'Tooling/data inventory + approval path']
 		},
 		{
 			id: 'roi',
@@ -122,7 +123,7 @@
 		stats: [
 			{ label: 'Manual time removed', value: '10 hrs/week' },
 			{ label: 'Blended hourly cost', value: '$75 per hour' },
-			{ label: 'Payback period', value: 'Covered inside first quarter' }
+			{ label: 'Annual savings unlocked', value: '$39K+ projected' }
 		],
 		narrative:
 			'The team was burning 10 hours per week chasing policy updates at $75/hour. Once we mapped the workflow, we automated content checks, approvals, and deployments while keeping a human sign-off. That freed 520 hours annually that now go toward new campaigns.'
@@ -142,6 +143,10 @@
 		{
 			label: 'Manual effort today',
 			value: '10 hours of coordination and QA per week at a $75/hour blended rate.'
+		},
+		{
+			label: 'Tooling + data guardrails',
+			value: 'Approved systems, datasets, and anything off-limits so we know the boundaries from day one.'
 		},
 		{
 			label: 'Desired outcome',
