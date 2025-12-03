@@ -7,7 +7,7 @@ export const aiAutomationWithAgents = {
 	title: 'AI Automation with Agents Workshop',
 	nickname: 'Six-week cohort for applied agent builders',
 	tagline:
-		'Automate internal processes with AI agents that act like team members—across six weeks of guided practice.',
+		'Automate internal processes with AI agents that act like team members, across six weeks of guided practice.',
 	heroImage: '/images/ai-automation.jpg',
 	heroImageAlt: 'AI Automation with Agents Workshop illustration',
 	ogImage: '/images/cambermast-content-4-ai-automation-with-agents-workshop-og.jpeg',
@@ -15,7 +15,7 @@ export const aiAutomationWithAgents = {
 	description:
 		'The AI Automation with Agents Workshop is a live, six-week cohort on automating internal processes with reliable AI agents. We tackle real-world scenarios where an agent behaves like a teammate, coordinating steps and escalating to people when necessary.',
 	secondaryDescription:
-		'Across weekly 2-hour sessions you will design, build, and optimize agents using tools like n8n, OpenAI, and best-practice API integrations—so your team leaves with something running.',
+		'Across weekly 2-hour sessions you will design, build, and optimize agents using tools like n8n, OpenAI, and best-practice API integrations. That way your team leaves with something running.',
 	primaryCta: {
 		label: 'Schedule your team',
 		url: '/contact'
@@ -46,7 +46,7 @@ export const aiAutomationWithAgents = {
 	objectives: [
 		'Understand what an AI agent is, how it works, and when to keep humans in the loop.',
 		'Build production-ready n8n automations that orchestrate AI models, APIs, and business rules.',
-		'Optimize agents for cost, latency, and reliability—with monitoring plans to match.'
+		'Optimize agents for cost, latency, and reliability, with monitoring plans to match.'
 	],
 	prerequisites: [
 		'Comfort working with APIs, webhooks, or automation tools like Zapier and n8n.',
@@ -160,7 +160,7 @@ export const aiAutomationWithAgents = {
 		photo: '/images/bill.jpg',
 		photoAlt: 'Bill Raymond',
 		summary:
-			'Bill has delivered AI automations and agent pilots for startups and enterprises—helping teams balance speed with responsible deployment.',
+			'Bill has delivered AI automations and agent pilots for startups and enterprises, helping teams balance speed with responsible deployment.',
 		highlights: [
 			'Author of the Bill Talks AI newsletter.',
 			'Founding member of the AI Collective.',

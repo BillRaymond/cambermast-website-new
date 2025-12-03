@@ -126,7 +126,7 @@ export const aiAcceleratorWorkshop = {
 	],
 	testimonial: {
 		quote:
-			'Our small business now has reusable AI assets that save hours each week—we no longer start from scratch.',
+			'Our small business now has reusable AI assets that save hours each week, and we no longer start from scratch.',
 		author: 'Nia F., Founder'
 	},
 	aboutTrainer: {

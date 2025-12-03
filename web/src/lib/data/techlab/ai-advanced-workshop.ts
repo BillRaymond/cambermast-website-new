@@ -6,7 +6,7 @@ export const techlabAiAdvancedWorkshop: TechlabProgram = {
 	sku: 'CM-TR-003',
 	title: 'AI Workshop for Modern Teams',
 	nickname: 'Seven-week cohort for founder-led teams',
-	tagline: 'Kick-start AI adoption for startup founders and their teams—with measurable results in seven weeks.',
+tagline: 'Kick-start AI adoption for startup founders and their teams, with measurable results in seven weeks.',
 	heroImage: '/images/ai-advanced.jpeg',
 	heroImageAlt: 'AI Workshop for Modern Teams illustration',
 	ogImage: '/images/cambermast-content-3-ai-workshop-for-modern-teams-og.jpeg',
@@ -46,7 +46,7 @@ export const techlabAiAdvancedWorkshop: TechlabProgram = {
 		'Automate repetitive tasks so teams can focus on strategic, human-centered work.',
 		'Co-create prompts, templates, and workflows that reflect your quality standards and guardrails.',
 		'Connect AI experiments to measurable outcomes, dashboards, and handoffs starting from a founder-led baseline.',
-		'Turn founder deliverables—pitch decks, VC communications, and market briefings—into shared playbooks.'
+		'Turn founder deliverables such as pitch decks, VC communications, and market briefings into shared playbooks.'
 	],
 	prerequisites: [
 		'Access to a paid account for a foundational LLM such as ChatGPT, Claude, Gemini, or Copilot.',
@@ -106,7 +106,7 @@ export const techlabAiAdvancedWorkshop: TechlabProgram = {
 		{
 			title: 'Week 5: Deep Insights and Research',
 			details: [
-				'Use AI to surface gaps, opportunities, and research angles—including competitor tear-downs.',
+				'Use AI to surface gaps, opportunities, and research angles, including competitor tear-downs.',
 				'Co-develop outlines and drafts for upcoming deliverables like pitch decks and market updates.',
 				'Define the project you will carry through Weeks 6 and 7.'
 			]
@@ -122,7 +122,7 @@ export const techlabAiAdvancedWorkshop: TechlabProgram = {
 		{
 			title: 'Week 7: Operationalizing Your Roadmap',
 			details: [
-				'Present final projects—often investor-ready narratives or GTM plans—and capture stakeholder feedback.',
+				'Present final projects, often investor-ready narratives or GTM plans, and capture stakeholder feedback.',
 				'Codify a long-term roadmap for AI-enabled operations.',
 				'Celebrate wins and finalize support plans for sustained adoption.'
 			]

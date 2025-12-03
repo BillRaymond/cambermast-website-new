@@ -47,7 +47,7 @@ export const techlabAiAcceleratorWorkshop = {
 		'Configure custom GPTs that reflect your brand voice and processes.',
 		'Launch AI projects that organize prompts, files, and context for ongoing work.',
 		'Practice deep research techniques to inform strategy, competitor intel, and planning.',
-		'Ship investor collateral faster—pitch decks, VC updates, and market briefings built with AI assistance.'
+		'Ship investor collateral faster, including pitch decks, VC updates, and market briefings built with AI assistance.'
 	],
 	prerequisites: [
 		'A ChatGPT Plus, Enterprise, or comparable account with access to custom GPTs and projects.',
@@ -129,7 +129,7 @@ export const techlabAiAcceleratorWorkshop = {
 	],
 	testimonial: {
 		quote:
-			'Our small business now has reusable AI assets that save hours each week—we no longer start from scratch.',
+			'Our small business now has reusable AI assets that save hours each week, and we no longer start from scratch.',
 		author: 'Nia F., Founder'
 	},
 	aboutTrainer: {

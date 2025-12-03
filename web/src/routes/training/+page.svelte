@@ -79,7 +79,7 @@
 <section class="rounded-2xl border bg-gray-50 p-5">
 	<h3 class="text-lg font-semibold">Not sure where to start?</h3>
 	<p class="mt-1.5 text-gray-700">
-		Tell us your team’s goals and constraints—we’ll recommend a path that gets results quickly.
+		Tell us your team’s goals and constraints, and we’ll recommend a path that gets results quickly.
 	</p>
 	<a href="/contact" class="mt-3 inline-block rounded-lg border px-4 py-2 hover:bg-gray-100"
 		>Contact us</a

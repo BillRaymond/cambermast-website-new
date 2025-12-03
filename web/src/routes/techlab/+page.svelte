@@ -60,7 +60,7 @@
 	const whyTechlab = [
 		'Built with the TechLAB team for Silicon Valley pace and polish.',
 		'Grounded in Cambermast delivery experience across training, advisory, and automation.',
-		'Hands-on sessions, clear templates, and real examples—not theory.'
+		'Hands-on sessions, clear templates, and real examples, not theory.'
 	];
 
 	type ScheduleEntry = {
@@ -168,7 +168,7 @@
 			<p class="eyebrow">Official AI Education Partner</p>
 			<h1>TechLAB × Cambermast</h1>
 			<p class="lead">
-				AI training and automation programs led by Bill Raymond—built for founders, operators,
+				AI training and automation programs led by Bill Raymond, built for founders, operators,
 				and technical teams who want clarity, control, and momentum.
 			</p>
 			<div class="hero__cta">
@@ -259,7 +259,7 @@
 				<p>
 					TechLAB and Cambermast partnered to give founders and operators a dedicated home for AI
 					training, automations, and applied practice. Every program is led by Bill Raymond with
-					content tuned for TechLAB’s community—fast-moving, pragmatic, and ready to launch.
+					content tuned for TechLAB’s community, which is fast-moving, pragmatic, and ready to launch.
 				</p>
 				<div class="pill-row">
 					<span class="techlab-pill">AI training</span>

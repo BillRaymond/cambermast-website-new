@@ -106,18 +106,18 @@
 							{/if}
 						</div>
 					</td>
-					<td class="border-t px-4 py-3">{program.duration || '—'}</td>
+					<td class="border-t px-4 py-3">{program.duration || '-'}</td>
 					<td class="border-t px-4 py-3">
 						{#if program.formatLines.length}
 							{#each program.formatLines as line}
 								<div>{line}</div>
 							{/each}
 						{:else}
-							—
+							-
 						{/if}
 					</td>
-					<td class="border-t px-4 py-3">{program.cost || '—'}</td>
-					<td class="max-w-xs border-t px-4 py-3">{program.summary || '—'}</td>
+					<td class="border-t px-4 py-3">{program.cost || '-'}</td>
+					<td class="max-w-xs border-t px-4 py-3">{program.summary || '-'}</td>
 					<td class="border-t px-4 py-3">
 						<div class="flex flex-col gap-2">
 							<a

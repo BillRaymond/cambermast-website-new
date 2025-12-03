@@ -400,7 +400,7 @@
 			<h2 class="text-lg font-semibold text-gray-900">Need a custom session?</h2>
 			<p class="mt-1 text-sm text-gray-600">
 				Most engagements start within 2–4 weeks. We’ll tailor the format, delivery, and examples to
-				your workflows—virtual or on-site.
+				your workflows, whether virtual or on-site.
 			</p>
 			<div class="mt-4 flex flex-wrap gap-3">
 				<a

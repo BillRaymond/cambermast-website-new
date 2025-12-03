@@ -46,7 +46,7 @@ export const techlabAiFundamentals = {
 		'Understand how modern AI systems process inputs and generate responses.',
 		'Learn the four core prompt types to improve every AI interaction.',
 		'Collaborate with AI to brainstorm ideas and move work forward faster.',
-		'Translate startup deliverables—pitch decks, market tear-downs, and VC updates—into reusable prompt patterns.'
+		'Translate startup deliverables such as pitch decks, market tear-downs, and VC updates into reusable prompt patterns.'
 	],
 	prerequisites: [
 		'Access to an AI chatbot (ChatGPT recommended; Claude, Gemini, or Copilot also work).',
@@ -84,7 +84,7 @@ export const techlabAiFundamentals = {
 			title: '2. Prompting Basics',
 			details: [
 				'Break down the anatomy of an effective prompt for clarity and context.',
-				'Practice the four core prompt types—zero-shot, few-shot, chain-of-thought, and chat.',
+				'Practice the four core prompt types: zero-shot, few-shot, chain-of-thought, and chat.',
 				'Rewrite weak prompts and articulate what changed.',
 				'Identify and troubleshoot hallucinations.'
 			]
@@ -103,7 +103,7 @@ export const techlabAiFundamentals = {
 			details: [
 				'Beat creative blocks with ideation sprints and story prompts.',
 				'Co-develop ideas through conversational refinement.',
-				'Personalize tone and style to fit different audiences—including VC outreach and stakeholder updates.'
+				'Personalize tone and style to fit different audiences, including VC outreach and stakeholder updates.'
 			]
 		},
 		{

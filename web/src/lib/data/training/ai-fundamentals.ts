@@ -88,7 +88,7 @@ export const aiFundamentals = {
 			title: '2. Prompting Basics',
 			details: [
 				'Break down the anatomy of an effective prompt for clarity and context.',
-				'Practice the four core prompt types—zero-shot, few-shot, chain-of-thought, and chat.',
+				'Practice the four core prompt types: zero-shot, few-shot, chain-of-thought, and chat.',
 				'Rewrite weak prompts and articulate what changed.',
 				'Identify and troubleshoot hallucinations.'
 			]

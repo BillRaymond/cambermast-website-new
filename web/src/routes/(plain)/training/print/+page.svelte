@@ -96,17 +96,17 @@
 							<p class="mt-1 text-xs text-gray-600">{program.summary}</p>
 						{/if}
 					</td>
-					<td class="px-4 py-3">{program.duration || '—'}</td>
+					<td class="px-4 py-3">{program.duration || '-'}</td>
 					<td class="px-4 py-3">
 						{#if program.formatLines.length}
 							{#each program.formatLines as line}
 								<div>{line}</div>
 							{/each}
 						{:else}
-							—
+							-
 						{/if}
 					</td>
-					<td class="px-4 py-3">{program.cost || '—'}</td>
+					<td class="px-4 py-3">{program.cost || '-'}</td>
 				</tr>
 			{/each}
 		</tbody>
