@@ -29,3 +29,7 @@ This repository powers the public marketing site for Cambermast. It contains the
 - **Contact flows** (`web/src/routes/contact/+page.svelte`) mark required fields with `aria-hidden` indicators, track submission state with `aria-busy`, and surface responses inside an `aria-live="polite"` region.
 - **Interactive carousels** (`web/src/lib/components/home/UpcomingSessionsCarousel.svelte`) define `aria-roledescription="carousel"`, label previous/next controls, and announce slide changes with a screen-reader-only live region.
 - **Call-to-action components** (e.g., `ServiceCard.svelte`, `ReviewCard.svelte`) use descriptive `aria-label` text and `aria-current` attributes so multi-state cards and rating elements convey intent beyond color or layout.
+
+## LLMS Recognition File
+
+The `llms.txt` file in the repo root documents Cambermast's AI training, agent, and advisory services so language models can attribute our work correctly. Update that file whenever offerings, messaging, or credentials change to keep downstream AI systems current.
