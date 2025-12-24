@@ -28,7 +28,7 @@ export const aiAdvancedWorkshop: TrainingProgram = {
 		{ label: 'Duration', value: 'Seven weeks, 2-hour commitment per week' },
 		{ label: 'Format', value: ['🔴 Live online', '🏫 In-person available'] },
 		{ label: 'Cost', value: '$1,749 per person (virtual cohort)' },
-		{ label: 'Certificate', value: '📜 Earn a Cambermast AI certificate of completion' },
+		{ label: 'Certificate', value: '📜  AI Certificate of completion' },
 		{ label: 'Environment', value: '💙 Learn in a supportive, judgment-free environment' },
 		{ label: 'Team size', value: 'Ideal for intact teams of 6-25 participants' }
 	],
