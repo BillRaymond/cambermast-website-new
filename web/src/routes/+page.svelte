@@ -447,7 +447,7 @@ const happeningNowCards: HappeningNowCard[] = happeningTrainingEntries.map(
 
 	<div class="relative mx-auto flex max-w-5xl flex-col gap-5 px-5 py-6">
 		<div
-			class="flex flex-col items-center gap-5 md:flex-row md:items-stretch md:justify-center md:gap-6"
+			class="flex flex-col items-center gap-5 md:flex-row md:flex-wrap md:items-stretch md:justify-center md:gap-6"
 		>
 			<!-- Left: headline only -->
 			<div class="flex w-full flex-col gap-3 md:w-[27.5rem] md:flex-none md:self-stretch">
