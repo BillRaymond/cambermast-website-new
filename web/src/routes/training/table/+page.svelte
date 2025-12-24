@@ -1,10 +1,17 @@
 <script lang="ts">
 	import catalog from '$lib/data/catalog.json';
 	import { getTrainingProgram } from '$lib/data/training';
-	import type { TrainingProgram, TrainingStat } from '$lib/data/training/types';
+	import type { TrainingProgram, TrainingSession, TrainingStat } from '$lib/data/training/types';
 	import { getSeo } from '$lib/seo';
 	import SeoHead from '$lib/components/SeoHead.svelte';
 	import { getProgramCertificateText } from '$lib/data/training/program-meta';
+	import {
+		hasExternalRegistration,
+		isSessionDraft,
+		isSessionHappeningNow,
+		isSessionUpcoming,
+		normalizeToday
+	} from '$lib/data/training/session-utils';
 
 	const section = catalog.training;
 	const pageHeading = `${section.catalogLabel ?? section.label}`;
@@ -22,6 +29,20 @@
 	const statToArray = (stat?: TrainingStat): string[] =>
 		!stat ? [] : Array.isArray(stat.value) ? stat.value : [stat.value];
 
+	const today = normalizeToday();
+
+	const getVisibleSessions = (program?: TrainingProgram): TrainingSession[] =>
+		(program?.sessions ?? []).filter((session) => !isSessionDraft(session));
+
+	const getUpcomingRegisterableSession = (program?: TrainingProgram): TrainingSession | undefined =>
+		getVisibleSessions(program).find(
+			(session) =>
+				session.startDate &&
+				hasExternalRegistration(session) &&
+				isSessionUpcoming(session, today) &&
+				!isSessionHappeningNow(session, today)
+		);
+
 	const items = (section.items ?? [])
 		.filter((item) => item.published ?? true)
 		.sort((a, b) => (a.order ?? 999) - (b.order ?? 999))
@@ -31,7 +52,12 @@
 				: undefined;
 
 			const duration = statToString(findStat(program, 'duration'));
-			const formatLines = statToArray(findStat(program, 'format'));
+			const certificateText = getProgramCertificateText(program);
+			const registerableSession = getUpcomingRegisterableSession(program);
+			const formatLines = [
+				...statToArray(findStat(program, 'format')),
+				...(certificateText ? [certificateText] : [])
+			];
 			const cost = statToString(findStat(program, 'cost'));
 
 			return {
@@ -41,12 +67,12 @@
 				duration,
 				formatLines,
 				cost,
-				certificateText: getProgramCertificateText(program),
+				certificateText,
 				videoUrl: program?.videoUrl,
 				scheduleLabel: program?.primaryCta?.label ?? 'Schedule your team',
 				scheduleUrl: program?.primaryCta?.url ?? '/contact',
-				contactUrl: program?.secondaryCta?.url ?? '/contact',
-				contactLabel: program?.secondaryCta?.label ?? 'Talk with Bill',
+				registerUrl: registerableSession?.registerUrl,
+				registerLabel: registerableSession ? 'Register ↗' : undefined,
 				summary: item.summary ?? program?.tagline ?? ''
 			};
 		});
@@ -141,17 +167,25 @@
 					<td class="max-w-xs border-t px-4 py-3">{program.summary || '-'}</td>
 					<td class="border-t px-4 py-3">
 						<div class="flex flex-col gap-2">
+							{#if program.registerUrl}
+								<a
+									href={program.registerUrl}
+									class="inline-flex items-center justify-center gap-2 rounded-full bg-blue-600 px-4 py-1.5 text-xs font-semibold text-white shadow transition hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white text-center"
+									target="_blank"
+									rel="noopener noreferrer"
+								>
+									<span
+										class="h-2 w-2 rounded-full bg-blue-200 shadow-[0_0_10px_rgba(147,197,253,0.85)]"
+										aria-hidden="true"
+									></span>
+									{program.registerLabel}
+								</a>
+							{/if}
 							<a
 								href={program.scheduleUrl}
-								class="inline-flex items-center justify-center rounded-md bg-blue-600 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-blue-700"
+								class="inline-flex items-center justify-center rounded-md bg-blue-600 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-blue-700 text-center"
 							>
 								{program.scheduleLabel}
-							</a>
-							<a
-								href={program.contactUrl}
-								class="inline-flex items-center justify-center rounded-md border border-blue-200 px-3 py-1.5 text-xs font-semibold text-blue-700 transition hover:border-blue-500 hover:text-blue-900"
-							>
-								{program.contactLabel}
 							</a>
 						</div>
 					</td>

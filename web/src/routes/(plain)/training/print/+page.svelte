@@ -30,7 +30,11 @@
 			const program: TrainingProgram | undefined = slug ? getTrainingProgram(slug) : undefined;
 
 			const duration = statToString(findStat(program, 'duration'));
-			const formatLines = statToArray(findStat(program, 'format'));
+			const certificateText = getProgramCertificateText(program);
+			const formatLines = [
+				...statToArray(findStat(program, 'format')),
+				...(certificateText ? [certificateText] : [])
+			];
 			const cost = statToString(findStat(program, 'cost'));
 
 			return {
@@ -41,7 +45,7 @@
 				formatLines,
 				cost,
 				summary: item.summary ?? program?.tagline ?? '',
-				certificateText: getProgramCertificateText(program),
+				certificateText,
 				videoUrl: program?.videoUrl
 			};
 		});
