@@ -10,12 +10,13 @@ import type { TrainingProgram, TrainingSession } from '$lib/data/training/types'
 import { getProgramCertificateText } from '$lib/data/training/program-meta';
 	import { getSeo } from '$lib/seo';
 	import SeoHead from '$lib/components/SeoHead.svelte';
-	import {
-		getSessionStartTimestamp,
-		hasExternalRegistration,
-		isSessionUpcoming,
-		normalizeToday
-	} from '$lib/data/training/session-utils';
+import {
+	getSessionStartTimestamp,
+	hasExternalRegistration,
+	isSessionUpcoming,
+	isSessionHappeningNow,
+	normalizeToday
+} from '$lib/data/training/session-utils';
 
 	type ProgramImage = {
 		src: string;
@@ -42,6 +43,8 @@ import { getProgramCertificateText } from '$lib/data/training/program-meta';
 		image: EntryImage | null;
 		certificateText?: string;
 		videoUrl?: string;
+		isHappening?: boolean;
+		happeningEndLabel?: string;
 	};
 
 	type GroupedEntries = {
@@ -55,12 +58,18 @@ import { getProgramCertificateText } from '$lib/data/training/program-meta';
 	const MILLISECONDS_IN_DAY = 24 * MILLISECONDS_IN_HOUR;
 
 	const monthFormatter = new Intl.DateTimeFormat('en-US', { month: 'long', year: 'numeric' });
-	const dateFormatter = new Intl.DateTimeFormat('en-US', {
-		weekday: 'long',
-		month: 'long',
-		day: 'numeric',
-		year: 'numeric'
-	});
+const dateFormatter = new Intl.DateTimeFormat('en-US', {
+	weekday: 'long',
+	month: 'long',
+	day: 'numeric',
+	year: 'numeric'
+});
+
+const endDateFormatter = new Intl.DateTimeFormat('en-US', {
+	month: 'long',
+	day: 'numeric',
+	year: 'numeric'
+});
 
 	const getSessionLabel = (program: TrainingProgram, session: TrainingSession): string | null => {
 		const trimmed = session.name?.trim();
@@ -99,12 +108,19 @@ import { getProgramCertificateText } from '$lib/data/training/program-meta';
 		return fallback;
 	};
 
-	const formatTimeLabel = (value?: string | string[]): string | null => {
-		if (!value) return null;
-		return Array.isArray(value) ? value.join(' / ') : value;
-	};
+const formatTimeLabel = (value?: string | string[]): string | null => {
+	if (!value) return null;
+	return Array.isArray(value) ? value.join(' / ') : value;
+};
 
-	const defaultLocationLabel = 'Live online';
+const formatEndLabel = (value?: string): string => {
+	if (!value) return 'soon';
+	const parsed = new Date(value);
+	if (Number.isNaN(parsed.valueOf())) return value;
+	return endDateFormatter.format(parsed);
+};
+
+const defaultLocationLabel = 'Live online';
 
 	const getProgramImage = (program: TrainingProgram): EntryImage => {
 		const heroImage = program.heroImage
@@ -127,57 +143,85 @@ import { getProgramCertificateText } from '$lib/data/training/program-meta';
 		};
 	};
 
-	const getEventImage = (event: ExternalEvent): EntryImage => {
-		const image = event.image
-			? {
-					src: event.image,
-					alt: event.imageAlt ?? event.title
+const getEventImage = (event: ExternalEvent): EntryImage => {
+	const image = event.image
+		? {
+				src: event.image,
+				alt: event.imageAlt ?? event.title
 				}
 			: null;
 		return {
 			desktop: image,
 			mobile: image,
-			aspect: event.imageAspect ?? 'wide'
-		};
+		aspect: event.imageAspect ?? 'wide'
+	};
+};
+
+const createTrainingEntry = (
+	program: TrainingProgram,
+	session: TrainingSession,
+	index: number,
+	overrides: Partial<UpcomingEntry> = {}
+): UpcomingEntry => {
+	const startTimestamp = toFiniteTimestamp(getSessionStartTimestamp(session));
+	const sessionLabel = getSessionLabel(program, session);
+	const timeLabel = formatTimeLabel(session.time);
+	const locationLabel = session.location ?? defaultLocationLabel;
+	const metaDetails: string[] = [];
+	if (timeLabel) metaDetails.push(timeLabel);
+	if (locationLabel) metaDetails.push(locationLabel);
+	if (session.spots) metaDetails.push(session.spots);
+
+	const { isHappening = false, ...rest } = overrides;
+
+	const entry: UpcomingEntry = {
+		id:
+			rest.id ??
+			`training-${program.slug}-${isHappening ? 'happening' : 'upcoming'}-${index}`,
+		type: 'training',
+		title: program.title,
+		subtitle: sessionLabel,
+		startTimestamp,
+		dateText: formatDateLabel(startTimestamp, session.date),
+		metaDetails,
+		partnerText: session.partner ?? null,
+		registerUrl: session.registerUrl,
+		learnMoreUrl: program.route,
+		image: getProgramImage(program),
+		certificateText: getProgramCertificateText(program),
+		videoUrl: program.videoUrl,
+		isHappening,
+		...rest
 	};
 
-	const toFiniteTimestamp = (value: number): number | null =>
-		Number.isFinite(value) ? value : null;
+	return entry;
+};
 
-	const upcomingTrainingEntries: UpcomingEntry[] = listTrainingPrograms()
-		.flatMap((program) => (program.sessions ?? []).map((session) => ({ program, session })))
+const toFiniteTimestamp = (value: number): number | null =>
+	Number.isFinite(value) ? value : null;
+
+const upcomingTrainingEntries: UpcomingEntry[] = listTrainingPrograms()
+	.flatMap((program) => (program.sessions ?? []).map((session) => ({ program, session })))
 		.filter(({ session }) => hasExternalRegistration(session))
-		.filter(({ session }) => isSessionUpcoming(session, today))
-		.map(({ program, session }, index) => {
-			const startTimestamp = toFiniteTimestamp(getSessionStartTimestamp(session));
-			const sessionLabel = getSessionLabel(program, session);
-			const timeLabel = formatTimeLabel(session.time);
-			const locationLabel = session.location ?? defaultLocationLabel;
-			const metaDetails: string[] = [];
-			if (timeLabel) metaDetails.push(timeLabel);
-			if (locationLabel) metaDetails.push(locationLabel);
-			if (session.spots) metaDetails.push(session.spots);
+		.filter(
+			({ session }) =>
+				isSessionUpcoming(session, today) && !isSessionHappeningNow(session, today)
+		)
+	.map(({ program, session }, index) => createTrainingEntry(program, session, index));
 
-			return {
-				id: `training-${program.slug}-${index}`,
-				type: 'training' as const,
-				title: program.title,
-				subtitle: sessionLabel,
-				startTimestamp,
-				dateText: formatDateLabel(startTimestamp, session.date),
-				metaDetails,
-				partnerText: session.partner ?? null,
-				registerUrl: session.registerUrl,
-				learnMoreUrl: program.route,
-				image: getProgramImage(program),
-				certificateText: getProgramCertificateText(program),
-				videoUrl: program.videoUrl
-			};
-		});
+const happeningTrainingEntries: UpcomingEntry[] = listTrainingPrograms()
+	.flatMap((program) => (program.sessions ?? []).map((session) => ({ program, session })))
+	.filter(({ session }) => session.startDate && isSessionHappeningNow(session, today))
+	.map(({ program, session }, index) =>
+		createTrainingEntry(program, session, index, {
+			isHappening: true,
+			happeningEndLabel: formatEndLabel(session.endDate ?? session.date)
+		})
+	);
 
-	const upcomingExternalEntries: UpcomingEntry[] = listExternalEvents()
-		.filter((event) => isExternalEventUpcoming(event, today))
-		.map((event, index) => {
+const upcomingExternalEntries: UpcomingEntry[] = listExternalEvents()
+	.filter((event) => isExternalEventUpcoming(event, today))
+	.map((event, index) => {
 			const startTimestamp = toFiniteTimestamp(getExternalEventStartTimestamp(event));
 			const timeLabel = formatTimeLabel(event.timeLines);
 			const locationLabel = event.location ?? defaultLocationLabel;
@@ -200,10 +244,14 @@ import { getProgramCertificateText } from '$lib/data/training/program-meta';
 			};
 		});
 
-	const upcomingEntries: UpcomingEntry[] = [
-		...upcomingTrainingEntries,
-		...upcomingExternalEntries
-	].sort((a, b) => (a.startTimestamp ?? Infinity) - (b.startTimestamp ?? Infinity));
+const upcomingEntries: UpcomingEntry[] = [
+	...upcomingTrainingEntries,
+	...upcomingExternalEntries
+].sort((a, b) => (a.startTimestamp ?? Infinity) - (b.startTimestamp ?? Infinity));
+
+const happeningEntries: UpcomingEntry[] = [...happeningTrainingEntries].sort(
+	(a, b) => (a.startTimestamp ?? Infinity) - (b.startTimestamp ?? Infinity)
+);
 
 	const getMonthLabel = (entry: UpcomingEntry): string => {
 		if (entry.startTimestamp) {
@@ -275,7 +323,12 @@ import { getProgramCertificateText } from '$lib/data/training/program-meta';
 					Upcoming sessions ({upcomingEntries.length})
 				</h2>
 				<p class="text-xs text-gray-500">
-					List sorted chronologically. Additional cohorts may be scheduled privately.
+					List sorted chronologically. Additional cohorts may be scheduled privately —{' '}
+					<a
+						href="/contact"
+						class="font-semibold text-blue-700 underline decoration-blue-200 underline-offset-4 transition hover:text-blue-900"
+						>contact us</a
+					>.
 				</p>
 			</div>
 
@@ -418,6 +471,124 @@ import { getProgramCertificateText } from '$lib/data/training/program-meta';
 				</div>
 			{/if}
 		</div>
+
+		{#if happeningEntries.length}
+			<div class="rounded-2xl border border-amber-200 bg-amber-50/70 p-5 shadow-sm">
+				<div class="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+						<h2 class="text-lg font-semibold text-amber-900">Happening now</h2>
+						<p class="text-xs text-amber-700">
+							These cohorts are running now. Bookmark this calendar to get the next dates as soon as
+							they open.
+							<a
+								href="/training/calendar"
+								class="ml-1 inline-flex items-center gap-1 rounded-full border border-amber-300 px-2 py-0.5 font-semibold text-amber-800 transition hover:bg-amber-100"
+							>
+								Bookmark this page ↗
+							</a>
+						</p>
+					</div>
+				<ul class="mt-4 space-y-4">
+					{#each happeningEntries as entry}
+						<li>
+							<article class="rounded-xl border border-amber-200 bg-white p-4 shadow-sm">
+								<div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+									<div class="flex flex-1 flex-col gap-4 sm:flex-row sm:items-start sm:gap-5">
+										{#if entry.image?.mobile || entry.image?.desktop}
+											{@const isSquare = entry.image.aspect === 'square'}
+											{@const desktopWidthClass = 'sm:w-48'}
+											{@const imageFitClass = isSquare ? 'object-contain' : 'object-cover'}
+											<div
+												class={`relative h-44 w-full overflow-hidden rounded-xl border border-amber-100 bg-white shadow-sm ${desktopWidthClass} sm:h-36`}
+											>
+												<picture
+													class="absolute inset-0 bg-gradient-to-br from-amber-50 via-white to-amber-100"
+												>
+													{#if entry.image.desktop?.src}
+														<source media="(min-width: 640px)" srcset={entry.image.desktop.src} />
+													{/if}
+													{#if entry.image.mobile?.src}
+														<source media="(max-width: 639px)" srcset={entry.image.mobile.src} />
+													{/if}
+													<img
+														src={entry.image.desktop?.src ?? entry.image.mobile?.src}
+														alt={entry.image.desktop?.alt ??
+															entry.image.mobile?.alt ??
+															entry.title}
+														class={`h-full w-full ${imageFitClass}`}
+														loading="lazy"
+													/>
+												</picture>
+											</div>
+										{/if}
+										<div class="flex-1">
+											<p class="text-xs font-semibold uppercase tracking-wide text-amber-700">
+												{entry.dateText}
+											</p>
+											<p class="mt-1 text-sm font-semibold text-gray-900">{entry.title}</p>
+											{#if entry.subtitle}
+												<p class="text-sm text-gray-700">{entry.subtitle}</p>
+											{/if}
+											{#if entry.metaDetails.length}
+												<p class="text-xs text-gray-600">{entry.metaDetails.join(' · ')}</p>
+											{/if}
+											<p
+												class="mt-2 inline-flex items-center rounded-full bg-amber-100 px-2 py-0.5 text-[0.65rem] font-semibold uppercase tracking-wide text-amber-800"
+											>
+												Enrollment closed — runs through {entry.happeningEndLabel ?? 'soon'}
+											</p>
+											{#if entry.certificateText || entry.videoUrl}
+												<div class="mt-2 flex flex-col gap-1 text-xs font-semibold text-blue-700">
+													{#if entry.certificateText}
+														<p>{entry.certificateText}</p>
+													{/if}
+													{#if entry.videoUrl}
+														<a
+															href={entry.videoUrl}
+															target="_blank"
+															rel="noopener noreferrer"
+															class="inline-flex items-center gap-1 underline decoration-blue-200 underline-offset-4 transition hover:text-blue-800"
+														>
+															Watch the trailer
+															<span aria-hidden="true">↗</span>
+														</a>
+													{/if}
+												</div>
+											{/if}
+											{#if entry.partnerText}
+												<p class="mt-2 text-[0.65rem] uppercase tracking-wide text-gray-500">
+													In partnership with {entry.partnerText}
+												</p>
+											{/if}
+										</div>
+									</div>
+									<div class="flex flex-col gap-2 sm:w-40">
+										{#if entry.registerUrl}
+											<a
+												href={entry.registerUrl}
+												target="_blank"
+												rel="noopener"
+												aria-disabled="true"
+												class="inline-flex items-center justify-center rounded-lg bg-gray-200 px-4 py-1.5 text-sm font-semibold text-gray-600 shadow-sm"
+											>
+												Enrollment closed
+											</a>
+										{/if}
+										{#if entry.learnMoreUrl}
+											<a
+												href={entry.learnMoreUrl}
+												class="inline-flex items-center justify-center rounded-lg border border-blue-200 px-4 py-1.5 text-sm font-semibold text-blue-700 transition hover:border-blue-400 hover:text-blue-900"
+											>
+												Learn more
+											</a>
+										{/if}
+									</div>
+								</div>
+							</article>
+						</li>
+					{/each}
+				</ul>
+			</div>
+		{/if}
 
 		<div class="rounded-2xl border border-blue-200 bg-blue-50/60 p-5 shadow-sm">
 			<h2 class="text-lg font-semibold text-gray-900">Need a custom session?</h2>
