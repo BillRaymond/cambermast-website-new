@@ -3,10 +3,7 @@
 	export let item: CatalogCardData;
 	export let scheduleTeamLabel: string;
 
-	const hasScheduleButton = (scheduleUrl?: string): boolean =>
-		Boolean(scheduleUrl) &&
-		(!item.upcomingSessions || item.upcomingSessions.length === 0) &&
-		(!item.happeningSessions || item.happeningSessions.length === 0);
+	const hasScheduleButton = (scheduleUrl?: string): boolean => Boolean(scheduleUrl);
 	const isScheduleTeamButton = (label?: string): boolean =>
 		(label ?? '').toLowerCase().trim() === scheduleTeamLabel.toLowerCase();
 
@@ -165,7 +162,8 @@ const scrollToSessionsSection = (): void => {
 						{/each}
 					</ul>
 				</div>
-			{:else if hasScheduleButton(item.scheduleUrl)}
+			{/if}
+			{#if hasScheduleButton(item.scheduleUrl)}
 				<a
 					href={item.scheduleUrl}
 					class="inline-flex w-full justify-center rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white shadow transition hover:bg-blue-700"
