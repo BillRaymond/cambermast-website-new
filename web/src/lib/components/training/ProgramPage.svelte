@@ -7,6 +7,8 @@
 		TrainingStat
 	} from '$lib/data/training/types';
 	import {
+		getSessionStartTimestamp,
+		hasExternalRegistration,
 		isSessionDraft,
 		isSessionUpcoming,
 		normalizeToday
@@ -28,6 +30,8 @@
 	let ctaInsertIndex = -1;
 	const today = normalizeToday();
 	let visibleSessions: TrainingSession[] = [];
+	let registerableSessions: TrainingSession[] = [];
+	let featuredRegistrationSession: TrainingSession | undefined;
 
 	const normalizeLabel = (label?: string): string | undefined => label?.toLowerCase().trim();
 	const scheduleTeamLabel = 'schedule your team';
@@ -47,6 +51,21 @@
 			if (isSessionDraft(session)) return false;
 			return session.startDate ? isSessionUpcoming(session, today) : true;
 		}) ?? [];
+
+	$: registerableSessions = visibleSessions.filter((session) =>
+		hasExternalRegistration(session)
+	);
+
+	$: {
+		if (!registerableSessions.length) {
+			featuredRegistrationSession = undefined;
+		} else {
+			const sorted = [...registerableSessions].sort(
+				(a, b) => getSessionStartTimestamp(a) - getSessionStartTimestamp(b)
+			);
+			featuredRegistrationSession = sorted[0];
+		}
+	}
 </script>
 
 {#if backLink}
@@ -78,6 +97,21 @@
 						class="mt-5 w-full rounded-2xl border border-blue-100 object-cover"
 						loading="lazy"
 					/>
+				{/if}
+				{#if featuredRegistrationSession}
+					<a
+						href={featuredRegistrationSession.registerUrl}
+						class="register-pill mt-4 inline-flex items-center gap-3 rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow transition hover:bg-blue-700"
+					>
+						<span class="register-pill__pulse" aria-hidden="true"></span>
+						<span class="flex flex-col leading-tight text-left">
+							<span class="text-xs font-medium uppercase tracking-wide text-blue-100"
+								>Next public cohort</span
+							>
+							<span class="text-sm font-semibold text-white">{featuredRegistrationSession.date}</span>
+						</span>
+						<span class="text-sm font-semibold text-white">Register now ↗</span>
+					</a>
 				{/if}
 				<h1 class="mt-1.5 text-4xl font-bold text-gray-900">{program.title}</h1>
 				{#if program.nickname}
@@ -129,6 +163,14 @@
 							<p class="mt-1.5 text-sm font-medium text-gray-900">{stat.value}</p>
 						{/if}
 					</li>
+					{#if featuredRegistrationSession && normalizeLabel(stat.label) === 'cost'}
+						<a
+							href={featuredRegistrationSession.registerUrl}
+							class="register-cta mt-1 block rounded-lg bg-blue-600 px-4 py-2 text-center text-sm font-semibold text-white transition hover:bg-blue-700"
+						>
+							Register now ↗
+						</a>
+					{/if}
 				{/each}
 			</ul>
 			{#if program.primaryCta && ctaInsertIndex >= 0}
@@ -471,3 +513,36 @@
 		</div>
 	</section>
 </main>
+
+<style>
+	.register-pill {
+		position: relative;
+	}
+
+	.register-pill__pulse {
+		position: relative;
+		display: inline-flex;
+		height: 0.85rem;
+		width: 0.85rem;
+		border-radius: 9999px;
+		background-color: rgba(255, 255, 255, 0.9);
+		box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.6);
+		animation: pulse-ring 1.5s infinite;
+	}
+
+	@keyframes pulse-ring {
+		0% {
+			box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.6);
+		}
+		70% {
+			box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
+		}
+		100% {
+			box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+		}
+	}
+
+	.register-cta {
+		box-shadow: 0 8px 22px rgba(30, 64, 175, 0.18);
+	}
+</style>
