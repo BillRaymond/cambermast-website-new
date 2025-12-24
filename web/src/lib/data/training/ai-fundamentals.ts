@@ -30,6 +30,7 @@ export const aiFundamentals = {
 		{ label: 'Duration', value: '4-hours' },
 		{ label: 'Format', value: ['🔴 Live online', '🏫 In-person available'] },
 		{ label: 'Cost', value: '$349 per person (virtual cohort)' },
+		{ label: 'Certificate', value: '📜 Earn a Cambermast AI certificate of completion' },
 		{ label: 'Environment', value: '💙 Learn in a supportive, judgment-free environment' },
 		{ label: 'In-person', value: 'Custom pricing for private teams' }
 	],
@@ -64,6 +65,16 @@ export const aiFundamentals = {
 		'Jump-start projects with AI-generated plans and ideas.'
 	],
 	sessions: [
+		{
+			name: '🌐 February 3, 2026 Public Cohort',
+			date: 'Tuesday, Feb 3, 2026',
+			time: ['9:00 am-1:00 pm PT', '12:00-4:00 pm ET'],
+			startDate: '2026-02-03',
+			endDate: '2026-02-03',
+			location: 'Live on Zoom',
+			spots: 'Open enrollment',
+			registerUrl: 'https://luma.com/rzqd4jj4'
+		},
 		{
 			name: 'Private Team Workshop',
 			date: 'You pick the date',

@@ -437,18 +437,18 @@
 			<div
 				class="flex flex-shrink-0 flex-col items-center md:w-[27.5rem] md:flex-none md:items-stretch"
 			>
-				<div
-					class="shadow-hero grid h-full w-full gap-4 rounded-2xl bg-white/70 px-5 py-4 text-left md:grid-cols-[minmax(0,1fr)_auto] md:grid-rows-[auto_auto] md:items-start md:gap-5"
-				>
-					<div class="flex flex-col gap-2.5 md:col-start-1 md:row-start-1 md:pr-2">
-						<h2 class="text-sm font-semibold uppercase tracking-wide text-blue-500">
-							AI leadership in action
-						</h2>
-						<p class="text-xs text-gray-600">
-							Helping you adopt AI responsibly through project management, training, and advisory
-							services.
-						</p>
-					</div>
+		<div
+			class="shadow-hero grid h-full w-full gap-4 rounded-2xl bg-white/70 px-5 py-4 text-left md:grid-cols-[minmax(0,1fr)_auto] md:grid-rows-[auto_auto] md:items-start md:gap-5"
+		>
+			<div class="flex flex-col gap-2.5 md:col-start-1 md:row-start-1 md:pr-2">
+				<h2 class="text-sm font-semibold uppercase tracking-wide text-blue-500">
+					TechLAB for founders
+				</h2>
+				<p class="text-xs text-gray-600">
+					TechLAB and Cambermast partnered to provide AI training, agentic AI automations, and
+					hands-on practice for founders and operators.
+				</p>
+			</div>
 					<div class="flex flex-col items-center gap-2 text-center md:col-start-2 md:row-span-2">
 						<img
 							src="/images/bill.jpg"
@@ -533,6 +533,24 @@
 					</div>
 				</div>
 			</div>
+		</div>
+	</div>
+</section>
+
+<section class="techlab-callout-wrapper">
+	<div class="techlab-callout">
+		<div class="techlab-callout__text">
+			<p class="techlab-callout__eyebrow">TechLAB × Cambermast</p>
+			<h2>Hands-on AI for founders & operators</h2>
+			<p>
+				TechLAB and Cambermast partnered to provide AI training, agentic AI automations, and
+				hands-on practice for founders and operators who need investor-ready proof. Bill Raymond
+				leads every engagement so your team leaves with real workflows, templates, and pilots.
+			</p>
+		</div>
+		<div class="techlab-callout__actions">
+			<a class="techlab-callout__btn techlab-callout__btn--primary" href="/techlab">Explore TechLAB</a>
+			<a class="techlab-callout__btn techlab-callout__btn--ghost" href="/contact">Talk with Bill</a>
 		</div>
 	</div>
 </section>
@@ -647,6 +665,100 @@
 	.inline-link:focus-visible {
 		outline: 2px solid #1d4ed8;
 		outline-offset: 2px;
+	}
+
+	.techlab-callout-wrapper {
+		margin: 1.5rem auto 0;
+		max-width: 64rem;
+		padding: 0 1.25rem;
+	}
+
+	.techlab-callout {
+		background: linear-gradient(120deg, #0d1a2b 0%, #1d4ed8 70%, #38bdf8 100%);
+		border-radius: 1.5rem;
+		padding: 1.5rem;
+		color: #f8fbff;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1rem;
+		align-items: center;
+		justify-content: space-between;
+		box-shadow: 0 24px 60px -32px rgba(15, 23, 42, 0.45);
+	}
+
+	.techlab-callout__text {
+		flex: 1 1 18rem;
+		min-width: 16rem;
+	}
+
+	.techlab-callout__eyebrow {
+		font-size: 0.75rem;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		font-weight: 700;
+		color: #c1ddff;
+		margin-bottom: 0.35rem;
+	}
+
+	.techlab-callout__text h2 {
+		margin: 0 0 0.35rem;
+		font-size: 1.5rem;
+		line-height: 1.25;
+	}
+
+	.techlab-callout__text p {
+		margin: 0;
+		color: #e3f2ff;
+		font-weight: 500;
+	}
+
+	.techlab-callout__actions {
+		display: flex;
+		flex: 0 0 auto;
+		gap: 0.65rem;
+		flex-wrap: wrap;
+	}
+
+	.techlab-callout__btn {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 999px;
+		padding: 0.6rem 1.4rem;
+		font-weight: 700;
+		font-size: 0.92rem;
+		text-decoration: none;
+		transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+	}
+
+	.techlab-callout__btn--primary {
+		background: #fefce8;
+		color: #0f172a;
+		box-shadow: 0 10px 25px -12px rgba(255, 255, 255, 0.6);
+	}
+
+	.techlab-callout__btn--primary:hover {
+		transform: translateY(-2px);
+	}
+
+	.techlab-callout__btn--ghost {
+		border: 1px solid rgba(255, 255, 255, 0.6);
+		color: #f8fbff;
+	}
+
+	@media (max-width: 640px) {
+		.techlab-callout {
+			flex-direction: column;
+			align-items: flex-start;
+		}
+
+		.techlab-callout__actions {
+			width: 100%;
+		}
+
+		.techlab-callout__btn {
+			width: 100%;
+		}
 	}
 
 	.shadow-hero {

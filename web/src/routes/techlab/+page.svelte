@@ -7,61 +7,65 @@
 	const programs: TechlabProgram[] = listTechlabPrograms();
 
 	const pageTitle = 'TechLAB × Cambermast | AI Training & Automation with Bill Raymond';
-	const pageDescription =
-		'Official TechLAB landing with Cambermast for AI training and automation programs led by Bill Raymond. Explore the catalog built for founders, operators, and technical teams.';
+const pageDescription =
+	'TechLAB and Cambermast partnered to provide AI training, agentic AI automations, and hands-on practice for founders and operators, guided by Bill Raymond for TechLAB teams.';
 
 	const ctaPrimary = { label: 'Schedule with the team', url: '/contact' };
 	const ctaSecondary = { label: 'Talk with Bill', url: '/contact' };
 
-	const statBlocks = [
-		{ label: 'Focus', value: 'AI literacy, automation, and applied workflows' },
-		{ label: 'Audience', value: 'Founders, operators, product, and technical teams' },
-		{ label: 'Formats', value: 'Live online, in-person, private cohorts' },
-		{ label: 'Partner', value: 'Delivered with TechLAB + Cambermast' }
-	];
+const statBlocks = [
+	{ label: 'Focus', value: 'Founder-first AI literacy, agentic automations, fieldwork' },
+	{ label: 'Audience', value: 'Founders, operators, GTM, product, and technical teams' },
+	{ label: 'Formats', value: 'Live labs, private cohorts, automation pilots' },
+	{ label: 'Partner', value: 'Delivered with TechLAB + Cambermast' }
+];
 
-	const valueProps = [
-		'Launch practical AI workflows without hype.',
-		'Keep teams aligned on safety, clarity, and measurable results.',
-		'Ship prompts, playbooks, and automations your team can maintain.',
-		'Co-build investor-ready artifacts like pitch decks, competitive briefs, and VC updates.'
-	];
+const valueProps = [
+	'Give founders investor-ready AI workflows, storylines, and proof points.',
+	'Design agentic automations with human-in-the-loop guardrails TechLAB trusts.',
+	'Equip operators with prompts, playbooks, and governance checklists they can run tomorrow.',
+	'Pair every sprint with hands-on lab time so teams leave with measurable wins.'
+];
 
-	const supportGroups = [
-		{
-			title: 'Founders & operators',
-			copy: 'Structure AI initiatives, keep guardrails in place, and measure progress.'
-		},
-		{
-			title: 'Product & engineering',
-			copy: 'Design agents, custom GPTs, and research loops that stay reliable in production.'
-		},
-		{
-			title: 'Content & GTM teams',
-			copy: 'Scale storytelling, docs, and customer comms without losing brand control.'
-		}
-	];
+const supportGroups = [
+	{
+		title: 'Founders & operators',
+		copy: 'Frame the AI vision, keep investor messaging sharp, and prove traction with shipped workflows.'
+	},
+	{
+		title: 'Product & engineering',
+		copy: 'Design agentic loops, custom GPTs, and research systems that stay reliable in production.'
+	},
+	{
+		title: 'Content & GTM teams',
+		copy: 'Scale storytelling, docs, and customer comms while protecting brand and approvals.'
+	}
+];
 
-	const founderDeliverables = [
-		{
-			title: 'Pitch deck storyboards',
-			copy: 'Use structured prompts to shape story arcs, traction slides, and founder narratives that stay consistent across talk tracks.'
-		},
-		{
-			title: 'Market intel briefs',
-			copy: 'Spin up AI-assisted battle cards and competitive tear-downs with citations, so diligence and positioning stay fresh.'
-		},
-		{
-			title: 'VC communications',
-			copy: 'Draft investor updates, outreach sequences, and follow-up notes that adapt to each fund’s focus while staying on-brand.'
-		}
-	];
+const founderDeliverables = [
+	{
+		title: 'Agentic automation briefs',
+		copy: 'Define the trigger logic, human checkpoints, and KPIs for agent-powered workflows founders can explain to investors.'
+	},
+	{
+		title: 'Pitch deck storyboards',
+		copy: 'Use structured prompts to shape story arcs, traction slides, and founder narratives that stay consistent across talk tracks.'
+	},
+	{
+		title: 'Market intel briefs',
+		copy: 'Spin up AI-assisted battle cards and competitive tear-downs with citations, so diligence and positioning stay fresh.'
+	},
+	{
+		title: 'VC communications',
+		copy: 'Draft investor updates, outreach sequences, and follow-up notes that adapt to each fund’s focus while staying on-brand.'
+	}
+];
 
-	const whyTechlab = [
-		'Built with the TechLAB team for Silicon Valley pace and polish.',
-		'Grounded in Cambermast delivery experience across training, advisory, and automation.',
-		'Hands-on sessions, clear templates, and real examples, not theory.'
-	];
+const whyTechlab = [
+	'Joint TechLAB × Cambermast curriculum tailored for founders and operators.',
+	'Agentic automation labs built on Cambermast’s delivery playbooks and TechLAB diligence.',
+	'Hands-on sessions, clear templates, and real TechLAB build examples—not theory.'
+];
 
 	type ScheduleEntry = {
 		programTitle: string;
@@ -168,8 +172,9 @@
 			<p class="eyebrow">Official AI Education Partner</p>
 			<h1>TechLAB × Cambermast</h1>
 			<p class="lead">
-				AI training and automation programs led by Bill Raymond, built for founders, operators,
-				and technical teams who want clarity, control, and momentum.
+				TechLAB and Cambermast partnered to provide AI training, agentic AI automations, and
+				hands-on practice for founders and operators. Bill Raymond leads every session with
+				TechLAB’s builders, operators, and technical teams.
 			</p>
 			<div class="hero__cta">
 				<a class="btn btn--primary" href={ctaPrimary.url}>{ctaPrimary.label}</a>
@@ -184,9 +189,9 @@
 		<div class="hero__card">
 			<h3>Built for fast-moving teams</h3>
 			<ul>
-				<li>TechLAB is a technology-driven environment focused on results and sustainable growth.</li>
-				<li>Cambermast brings hands-on AI delivery with concise sessions, templates, and launch checklists.</li>
-				<li>Tap TechLAB’s mentor network and ecosystem alongside Cambermast training to move fast with confidence.</li>
+				<li>Founders leave each week with investor-ready narratives, prompts, and proof points.</li>
+				<li>Operators co-build agentic automations with Cambermast guardrails to stay reliable.</li>
+				<li>Tap TechLAB’s mentor network plus Cambermast delivery experience to move fast with confidence.</li>
 			</ul>
 		</div>
 	</section>
@@ -253,20 +258,20 @@
 			{/each}
 		</section>
 
-		<section class="panel">
-			<div class="panel__content">
-				<h2>About the collaboration</h2>
-				<p>
-					TechLAB and Cambermast partnered to give founders and operators a dedicated home for AI
-					training, automations, and applied practice. Every program is led by Bill Raymond with
-					content tuned for TechLAB’s community, which is fast-moving, pragmatic, and ready to launch.
-				</p>
-				<div class="pill-row">
-					<span class="techlab-pill">AI training</span>
-					<span class="techlab-pill">Automation design</span>
-					<span class="techlab-pill">Private cohorts</span>
-				</div>
+	<section class="panel">
+		<div class="panel__content">
+			<h2>About the collaboration</h2>
+			<p>
+				TechLAB and Cambermast partnered to provide AI training, agentic AI automations, and
+				hands-on practice for founders and operators. Every program is led by Bill Raymond with
+				content tuned for TechLAB’s community, which is fast-moving, pragmatic, and ready to launch.
+			</p>
+			<div class="pill-row">
+				<span class="techlab-pill">AI training</span>
+				<span class="techlab-pill">Agentic automations</span>
+				<span class="techlab-pill">Hands-on founder labs</span>
 			</div>
+		</div>
 			<div class="panel__content panel__content--alt">
 				<h3>Why it works</h3>
 				<ul class="bullet">
