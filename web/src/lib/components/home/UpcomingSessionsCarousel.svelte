@@ -14,6 +14,8 @@
 		registerUrl: string;
 		image?: string;
 		imageAlt?: string;
+		certificateText?: string;
+		videoUrl?: string;
 	};
 
 	export let slides: UpcomingSessionSlide[] = [];
@@ -200,6 +202,24 @@
 									</p>
 								{/if}
 							</div>
+							{#if slide.certificateText || slide.videoUrl}
+								<div class="flex flex-col gap-1 text-[0.7rem] font-semibold text-blue-700 md:text-xs">
+									{#if slide.certificateText}
+										<p>{slide.certificateText}</p>
+									{/if}
+									{#if slide.videoUrl}
+										<a
+											href={slide.videoUrl}
+											target="_blank"
+											rel="noopener noreferrer"
+											class="inline-flex items-center gap-1 underline decoration-blue-200 underline-offset-4 transition hover:text-blue-800"
+										>
+											Watch the trailer
+											<span aria-hidden="true">↗</span>
+										</a>
+									{/if}
+								</div>
+							{/if}
 							<div
 								class="mt-auto flex flex-wrap items-center justify-between gap-2 pt-1 text-[0.7rem] md:text-xs"
 							>

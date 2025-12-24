@@ -36,6 +36,7 @@
 	let registerableSessions: TrainingSession[] = [];
 	let featuredRegistrationSession: TrainingSession | undefined;
 	let videoEmbedUrl: string | undefined;
+	let certificateText: string | undefined;
 
 	const normalizeLabel = (label?: string): string | undefined => label?.toLowerCase().trim();
 	const scheduleTeamLabel = 'schedule your team';
@@ -70,6 +71,14 @@
 		}
 		return value;
 	};
+
+	const getStatByLabel = (
+		stats: TrainingStat[] | undefined,
+		targetLabel: string
+	): TrainingStat | undefined => stats?.find((stat) => normalizeLabel(stat.label) === targetLabel);
+
+	const toStatText = (value?: string | string[]): string | undefined =>
+		Array.isArray(value) ? value.join(', ') : value;
 
 	$: {
 		const stats = program?.stats ?? [];
@@ -112,6 +121,7 @@
 
 	$: registerableSessions = upcomingSessions.filter((session) => hasExternalRegistration(session));
 	$: videoEmbedUrl = getVideoEmbedUrl(program?.videoUrl);
+	$: certificateText = toStatText(getStatByLabel(program?.stats, 'certificate')?.value);
 
 	$: {
 		if (!registerableSessions.length) {
@@ -179,31 +189,42 @@
 				{#if program.secondaryDescription}
 					<p class="mt-2.5 text-base text-gray-600">{program.secondaryDescription}</p>
 				{/if}
-				{#if program.videoUrl}
+				{#if program.videoUrl || certificateText}
 					<div class="mt-4 space-y-2">
-						<div
-							class="w-full overflow-hidden rounded-2xl border border-blue-100 bg-black shadow"
-							style="aspect-ratio: 16 / 9;"
-						>
-							<iframe
-								src={videoEmbedUrl}
-								title={`Watch ${program.title} overview`}
-								class="h-full w-full"
-								loading="lazy"
-								referrerpolicy="strict-origin-when-cross-origin"
-								allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-								allowfullscreen
-							></iframe>
+						{#if program.videoUrl}
+							<div
+								class="w-full overflow-hidden rounded-2xl border border-blue-100 bg-black shadow"
+								style="aspect-ratio: 16 / 9;"
+							>
+								<iframe
+									src={videoEmbedUrl}
+									title={`Watch ${program.title} overview`}
+									class="h-full w-full"
+									loading="lazy"
+									referrerpolicy="strict-origin-when-cross-origin"
+									allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+									allowfullscreen
+								></iframe>
+							</div>
+						{/if}
+						<div class="flex flex-col gap-1.5 text-sm font-semibold text-blue-700">
+							{#if certificateText}
+								<p class="flex items-center gap-2 text-blue-700">
+									{certificateText}
+								</p>
+							{/if}
+							{#if program.videoUrl}
+								<a
+									href={program.videoUrl}
+									target="_blank"
+									rel="noopener noreferrer"
+									class="inline-flex items-center gap-2 text-blue-700 underline decoration-blue-200 underline-offset-4 transition hover:text-blue-800"
+								>
+									Watch the trailer
+									<span aria-hidden="true">↗</span>
+								</a>
+							{/if}
 						</div>
-						<a
-							href={program.videoUrl}
-							target="_blank"
-							rel="noopener noreferrer"
-							class="inline-flex items-center gap-2 text-sm font-semibold text-blue-600 underline decoration-blue-200 underline-offset-4 transition hover:text-blue-700"
-						>
-							Watch the program overview video
-							<span aria-hidden="true">↗</span>
-						</a>
 					</div>
 				{/if}
 				<div class="mt-6 flex flex-wrap gap-2.5">

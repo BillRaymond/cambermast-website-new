@@ -4,6 +4,7 @@
 	import type { TrainingProgram, TrainingStat } from '$lib/data/training/types';
 	import { getSeo } from '$lib/seo';
 	import SeoHead from '$lib/components/SeoHead.svelte';
+	import { getProgramCertificateText } from '$lib/data/training/program-meta';
 
 	const section = catalog.training;
 	const pageTitle = 'Cambermast Training Programs';
@@ -39,7 +40,9 @@
 				duration,
 				formatLines,
 				cost,
-				summary: item.summary ?? program?.tagline ?? ''
+				summary: item.summary ?? program?.tagline ?? '',
+				certificateText: getProgramCertificateText(program),
+				videoUrl: program?.videoUrl
 			};
 		});
 
@@ -94,6 +97,24 @@
 						{/if}
 						{#if program.summary}
 							<p class="mt-1 text-xs text-gray-600">{program.summary}</p>
+						{/if}
+						{#if program.certificateText || program.videoUrl}
+							<div class="mt-1 flex flex-col gap-1 text-xs font-semibold text-blue-700">
+								{#if program.certificateText}
+									<p>{program.certificateText}</p>
+								{/if}
+									{#if program.videoUrl}
+										<a
+											href={program.videoUrl}
+											target="_blank"
+											rel="noopener noreferrer"
+											class="inline-flex items-center gap-1 underline decoration-blue-200 underline-offset-4"
+										>
+											Watch the trailer
+											<span aria-hidden="true">↗</span>
+										</a>
+									{/if}
+							</div>
 						{/if}
 					</td>
 					<td class="px-4 py-3">{program.duration || '-'}</td>

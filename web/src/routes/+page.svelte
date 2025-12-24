@@ -21,6 +21,7 @@ import {
 	isSessionUpcoming,
 	normalizeToday
 } from '$lib/data/training/session-utils';
+import { getProgramCertificateText } from '$lib/data/training/program-meta';
 
 	const year = new Date().getFullYear();
 
@@ -70,6 +71,8 @@ type UpcomingTrainingEntry = {
 	program: TrainingProgram;
 	session: TrainingSession;
 	startTimestamp: number;
+	certificateText?: string;
+	videoUrl?: string;
 };
 
 type UpcomingExternalEntry = {
@@ -89,6 +92,8 @@ type HappeningNowCard = {
 	location?: string;
 	endLabel: string;
 	programRoute?: string;
+	certificateText?: string;
+	videoUrl?: string;
 };
 
 const toTimeLines = (value?: string | string[]): string[] =>
@@ -122,7 +127,9 @@ const upcomingTrainingEntries: UpcomingTrainingEntry[] = trainingSessionEntries
 		type: 'training' as const,
 		program,
 		session,
-		startTimestamp: getSessionStartTimestamp(session)
+		startTimestamp: getSessionStartTimestamp(session),
+		certificateText: getProgramCertificateText(program),
+		videoUrl: program.videoUrl
 	}));
 
 const happeningTrainingEntries = trainingSessionEntries.filter(({ session }) =>
@@ -154,7 +161,9 @@ const happeningNowCards: HappeningNowCard[] = happeningTrainingEntries.map(
 			timeLines: toTimeLines(session.time),
 			location: session.location,
 			endLabel: formatEndLabel(session.endDate),
-			programRoute: program.route
+			programRoute: program.route,
+			certificateText: getProgramCertificateText(program),
+			videoUrl: program.videoUrl
 		};
 	}
 );
@@ -201,7 +210,7 @@ const happeningNowCards: HappeningNowCard[] = happeningTrainingEntries.map(
 			? getSessionMeta(featuredUpcoming.program, featuredUpcoming.session)
 			: null;
 
-	const featuredDisplayName =
+const featuredDisplayName =
 		featuredUpcoming?.type === 'training'
 			? (featuredMeta?.primaryTitle ?? featuredUpcoming.program.title)
 			: (featuredUpcoming?.event.title ?? '');
@@ -221,7 +230,12 @@ const happeningNowCards: HappeningNowCard[] = happeningTrainingEntries.map(
 			? featuredUpcoming.session.registerUrl
 			: (featuredUpcoming?.event.registerUrl ?? null);
 
-	const featuredUrgency = getUrgencyLabel(featuredUpcoming?.startTimestamp ?? null);
+const featuredUrgency = getUrgencyLabel(featuredUpcoming?.startTimestamp ?? null);
+
+const featuredCertificateText =
+	featuredUpcoming?.type === 'training' ? featuredUpcoming.certificateText : undefined;
+const featuredVideoUrl =
+	featuredUpcoming?.type === 'training' ? featuredUpcoming.videoUrl : undefined;
 
 	const upcomingSlides = upcomingItems.map((entry, index) => {
 		if (entry.type === 'training') {
@@ -241,7 +255,9 @@ const happeningNowCards: HappeningNowCard[] = happeningTrainingEntries.map(
 				urgency: getUrgencyLabel(entry.startTimestamp),
 				registerUrl: entry.session.registerUrl,
 				image: entry.program.ogImage ?? entry.program.heroImage,
-				imageAlt: entry.program.ogImageAlt ?? entry.program.heroImageAlt ?? entry.program.title
+				imageAlt: entry.program.ogImageAlt ?? entry.program.heroImageAlt ?? entry.program.title,
+				certificateText: entry.certificateText,
+				videoUrl: entry.videoUrl
 			};
 		}
 
@@ -466,6 +482,24 @@ const happeningNowCards: HappeningNowCard[] = happeningTrainingEntries.map(
 								{#if featuredUrgency}
 									<p class="text-xs font-semibold text-blue-600">{featuredUrgency}</p>
 								{/if}
+								{#if featuredCertificateText || featuredVideoUrl}
+									<div class="mt-1 flex flex-col gap-1 text-[0.7rem] font-semibold text-blue-700">
+										{#if featuredCertificateText}
+											<p>{featuredCertificateText}</p>
+										{/if}
+											{#if featuredVideoUrl}
+												<a
+													href={featuredVideoUrl}
+													target="_blank"
+													rel="noopener noreferrer"
+													class="inline-flex items-center gap-1 underline decoration-blue-200 underline-offset-4 transition hover:text-blue-800"
+												>
+													Watch the trailer
+													<span aria-hidden="true">↗</span>
+												</a>
+											{/if}
+									</div>
+								{/if}
 							</div>
 							{#if featuredRegisterUrl}
 								<a
@@ -633,6 +667,24 @@ const happeningNowCards: HappeningNowCard[] = happeningTrainingEntries.map(
 						{/if}
 						{#if card.location}
 							<p class="text-xs text-gray-500">{card.location}</p>
+						{/if}
+						{#if card.certificateText || card.videoUrl}
+							<div class="mt-2 flex flex-col gap-1 text-[0.65rem] font-semibold text-blue-700">
+								{#if card.certificateText}
+									<p>{card.certificateText}</p>
+								{/if}
+								{#if card.videoUrl}
+									<a
+										href={card.videoUrl}
+										target="_blank"
+										rel="noopener noreferrer"
+										class="inline-flex items-center gap-1 underline decoration-blue-200 underline-offset-4 transition hover:text-blue-800"
+									>
+										Watch the trailer
+										<span aria-hidden="true">↗</span>
+									</a>
+								{/if}
+							</div>
 						{/if}
 						<div class="mt-3 rounded-lg border border-amber-100 bg-amber-50 px-3 py-2 text-xs font-semibold text-amber-700">
 							Enrollment closed — runs through {card.endLabel}

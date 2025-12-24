@@ -5,8 +5,9 @@
 		isExternalEventUpcoming
 	} from '$lib/data/external-events';
 	import type { ExternalEvent } from '$lib/data/external-events';
-	import { listTrainingPrograms } from '$lib/data/training';
-	import type { TrainingProgram, TrainingSession } from '$lib/data/training/types';
+import { listTrainingPrograms } from '$lib/data/training';
+import type { TrainingProgram, TrainingSession } from '$lib/data/training/types';
+import { getProgramCertificateText } from '$lib/data/training/program-meta';
 	import { getSeo } from '$lib/seo';
 	import SeoHead from '$lib/components/SeoHead.svelte';
 	import {
@@ -39,6 +40,8 @@
 		registerUrl: string;
 		learnMoreUrl?: string;
 		image: EntryImage | null;
+		certificateText?: string;
+		videoUrl?: string;
 	};
 
 	type GroupedEntries = {
@@ -166,7 +169,9 @@
 				partnerText: session.partner ?? null,
 				registerUrl: session.registerUrl,
 				learnMoreUrl: program.route,
-				image: getProgramImage(program)
+				image: getProgramImage(program),
+				certificateText: getProgramCertificateText(program),
+				videoUrl: program.videoUrl
 			};
 		});
 
@@ -354,6 +359,24 @@
 																{getUrgencyLabel(entry.startTimestamp)}
 															</p>
 														{/if}
+													{/if}
+													{#if entry.certificateText || entry.videoUrl}
+														<div class="mt-2 flex flex-col gap-1 text-xs font-semibold text-blue-700">
+															{#if entry.certificateText}
+																<p>{entry.certificateText}</p>
+															{/if}
+															{#if entry.videoUrl}
+																<a
+																	href={entry.videoUrl}
+																	target="_blank"
+																	rel="noopener noreferrer"
+																	class="inline-flex items-center gap-1 underline decoration-blue-200 underline-offset-4 transition hover:text-blue-800"
+																>
+																	Watch the trailer
+																	<span aria-hidden="true">↗</span>
+																</a>
+															{/if}
+														</div>
 													{/if}
 													{#if entry.partnerText}
 														<p class="mt-2 text-[0.65rem] uppercase tracking-wide text-gray-500">

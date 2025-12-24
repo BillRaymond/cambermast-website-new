@@ -62,18 +62,18 @@ const scrollToSessionsSection = (): void => {
 			{hasUpcomingSessions ? 'New dates added' : 'Cohort in progress'}
 		</button>
 	{/if}
-	{#if item.summary}<p class="mt-1.5 text-gray-600">{item.summary}</p>{/if}
 	{#if item.videoUrl}
 		<a
 			href={item.videoUrl}
 			target="_blank"
 			rel="noopener noreferrer"
-			class="mt-2 inline-flex items-center justify-center gap-2 text-sm font-semibold text-blue-600 underline decoration-blue-200 underline-offset-4 transition hover:text-blue-700"
+			class="mt-2 inline-flex items-center justify-center gap-2 text-sm font-semibold text-blue-700 underline decoration-blue-200 underline-offset-4 transition hover:text-blue-800"
 		>
-			Watch the program overview
+			Watch the trailer
 			<span aria-hidden="true">↗</span>
 		</a>
 	{/if}
+	{#if item.summary}<p class="mt-1.5 text-gray-600">{item.summary}</p>{/if}
 	{#if item.bullets?.length}
 		<ul class="bullet-list mt-3 space-y-1.5 text-left text-gray-700">
 			{#each item.bullets as bullet}
@@ -83,16 +83,23 @@ const scrollToSessionsSection = (): void => {
 	{/if}
 	{#if item.route}
 		<div class="mt-auto flex w-full flex-col items-center gap-3 pt-5">
-			{#if item.duration}
-				<p class="text-sm font-semibold text-gray-700">
-					Duration:
-					{#if Array.isArray(item.duration)}
-						{item.duration.join(', ')}
-					{:else}
-						{item.duration}
-					{/if}
-				</p>
-			{/if}
+				{#if item.duration}
+					<p class="text-sm font-semibold text-gray-700">
+						Duration:
+						{#if Array.isArray(item.duration)}
+							{item.duration.join(', ')}
+						{:else}
+							{item.duration}
+						{/if}
+					</p>
+				{/if}
+				{#if item.certificateText}
+					<div class="text-sm font-semibold text-blue-700">
+						{#if item.certificateText}
+							<p>{item.certificateText}</p>
+						{/if}
+					</div>
+				{/if}
 			{#if item.upcomingSessions?.length}
 				<div
 					id={sessionsSectionId}

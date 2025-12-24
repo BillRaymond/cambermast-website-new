@@ -10,6 +10,7 @@ export type CatalogCardData = {
 	sku?: string;
 	duration?: string | string[];
 	videoUrl?: string;
+	certificateText?: string;
 	upcomingSessions?: TrainingSession[];
 	happeningSessions?: TrainingSession[];
 	scheduleUrl?: string;

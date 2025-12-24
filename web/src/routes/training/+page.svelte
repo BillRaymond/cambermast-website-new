@@ -6,6 +6,7 @@
 	import type { CatalogCardData } from '$lib/components/training/catalog-card-data';
 	import { getSeo } from '$lib/seo';
 	import SeoHead from '$lib/components/SeoHead.svelte';
+	import { getProgramCertificateText } from '$lib/data/training/program-meta';
 import {
 	hasExternalRegistration,
 	isSessionDraft,
@@ -55,16 +56,17 @@ const gatherHappeningSessions = (program?: TrainingProgram): TrainingSession[] =
 			const upcomingSessions = gatherUpcomingSessions(program);
 			const happeningSessions = gatherHappeningSessions(program);
 
-			return {
-				...item,
-				sku: program?.sku,
-				duration: durationStat?.value,
-				videoUrl: program?.videoUrl,
-				upcomingSessions,
-				happeningSessions,
-				scheduleUrl: getScheduleUrl(program),
-				scheduleLabel
-			};
+				return {
+					...item,
+					sku: program?.sku,
+					duration: durationStat?.value,
+					videoUrl: program?.videoUrl,
+					certificateText: getProgramCertificateText(program),
+					upcomingSessions,
+					happeningSessions,
+					scheduleUrl: getScheduleUrl(program),
+					scheduleLabel
+				};
 		});
 
 	const pageMeta = getSeo('/training');
