@@ -59,6 +59,7 @@ const gatherHappeningSessions = (program?: TrainingProgram): TrainingSession[] =
 				...item,
 				sku: program?.sku,
 				duration: durationStat?.value,
+				videoUrl: program?.videoUrl,
 				upcomingSessions,
 				happeningSessions,
 				scheduleUrl: getScheduleUrl(program),

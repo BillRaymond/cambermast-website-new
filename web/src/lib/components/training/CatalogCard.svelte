@@ -63,6 +63,17 @@ const scrollToSessionsSection = (): void => {
 		</button>
 	{/if}
 	{#if item.summary}<p class="mt-1.5 text-gray-600">{item.summary}</p>{/if}
+	{#if item.videoUrl}
+		<a
+			href={item.videoUrl}
+			target="_blank"
+			rel="noopener noreferrer"
+			class="mt-2 inline-flex items-center justify-center gap-2 text-sm font-semibold text-blue-600 underline decoration-blue-200 underline-offset-4 transition hover:text-blue-700"
+		>
+			Watch the program overview
+			<span aria-hidden="true">↗</span>
+		</a>
+	{/if}
 	{#if item.bullets?.length}
 		<ul class="bullet-list mt-3 space-y-1.5 text-left text-gray-700">
 			{#each item.bullets as bullet}

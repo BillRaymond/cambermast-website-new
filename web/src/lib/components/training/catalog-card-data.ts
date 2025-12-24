@@ -9,6 +9,7 @@ export type CatalogCardData = {
 	route?: string;
 	sku?: string;
 	duration?: string | string[];
+	videoUrl?: string;
 	upcomingSessions?: TrainingSession[];
 	happeningSessions?: TrainingSession[];
 	scheduleUrl?: string;

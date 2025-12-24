@@ -35,10 +35,41 @@
 	let happeningSessions: TrainingSession[] = [];
 	let registerableSessions: TrainingSession[] = [];
 	let featuredRegistrationSession: TrainingSession | undefined;
+	let videoEmbedUrl: string | undefined;
 
 	const normalizeLabel = (label?: string): string | undefined => label?.toLowerCase().trim();
 	const scheduleTeamLabel = 'schedule your team';
 	const isScheduleTeamLabel = (label?: string): boolean => normalizeLabel(label) === scheduleTeamLabel;
+	const getYouTubeVideoId = (value?: string): string | undefined => {
+		if (!value) return undefined;
+		try {
+			const parsed = new URL(value);
+			const host = parsed.hostname.toLowerCase();
+			if (host.includes('youtube') || host.includes('youtu.be')) {
+				if (host === 'youtu.be') {
+					return parsed.pathname.replace('/', '') || undefined;
+				}
+				if (parsed.pathname.startsWith('/embed/')) {
+					return parsed.pathname.split('/')[2];
+				}
+				if (parsed.pathname === '/watch') {
+					return parsed.searchParams.get('v') ?? undefined;
+				}
+			}
+		} catch {
+			return undefined;
+		}
+		return undefined;
+	};
+
+	const getVideoEmbedUrl = (value?: string): string | undefined => {
+		if (!value) return undefined;
+		const youtubeId = getYouTubeVideoId(value);
+		if (youtubeId) {
+			return `https://www.youtube.com/embed/${youtubeId}`;
+		}
+		return value;
+	};
 
 	$: {
 		const stats = program?.stats ?? [];
@@ -80,6 +111,7 @@
 	);
 
 	$: registerableSessions = upcomingSessions.filter((session) => hasExternalRegistration(session));
+	$: videoEmbedUrl = getVideoEmbedUrl(program?.videoUrl);
 
 	$: {
 		if (!registerableSessions.length) {
@@ -146,6 +178,33 @@
 				<p class="mt-2.5 text-base text-gray-600">{program.description}</p>
 				{#if program.secondaryDescription}
 					<p class="mt-2.5 text-base text-gray-600">{program.secondaryDescription}</p>
+				{/if}
+				{#if program.videoUrl}
+					<div class="mt-4 space-y-2">
+						<div
+							class="w-full overflow-hidden rounded-2xl border border-blue-100 bg-black shadow"
+							style="aspect-ratio: 16 / 9;"
+						>
+							<iframe
+								src={videoEmbedUrl}
+								title={`Watch ${program.title} overview`}
+								class="h-full w-full"
+								loading="lazy"
+								referrerpolicy="strict-origin-when-cross-origin"
+								allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+								allowfullscreen
+							></iframe>
+						</div>
+						<a
+							href={program.videoUrl}
+							target="_blank"
+							rel="noopener noreferrer"
+							class="inline-flex items-center gap-2 text-sm font-semibold text-blue-600 underline decoration-blue-200 underline-offset-4 transition hover:text-blue-700"
+						>
+							Watch the program overview video
+							<span aria-hidden="true">↗</span>
+						</a>
+					</div>
 				{/if}
 				<div class="mt-6 flex flex-wrap gap-2.5">
 					<a

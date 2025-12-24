@@ -64,6 +64,7 @@ export type TrainingProgram = {
 	heroImageAlt?: string;
 	ogImage?: string;
 	ogImageAlt?: string;
+	videoUrl?: string;
 	description: string;
 	secondaryDescription?: string;
 	primaryCta: TrainingCta;

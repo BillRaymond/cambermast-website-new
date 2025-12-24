@@ -12,6 +12,7 @@ export const aiWorkshopForContentCreators = {
 	ogImage: '/images/cambermast-content-5-ai-workshop-for-content-creators-og.jpeg',
 	ogImageAlt:
 		'Open graph image for the AI Workshop for Tech Writers and Content Creators training program',
+	videoUrl: 'https://www.youtube.com/watch?v=pDMU-xyu8GA',
 	description:
 		'The AI Workshop for Tech Writers and Content Creators is a live, seven-week cohort that helps technical communicators and content teams weave generative AI into their daily production workflows.',
 	secondaryDescription:
