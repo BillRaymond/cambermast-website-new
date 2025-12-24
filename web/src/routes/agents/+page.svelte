@@ -6,11 +6,13 @@
 	import type { CatalogCardData } from '$lib/components/training/catalog-card-data';
 	import { getSeo } from '$lib/seo';
 	import SeoHead from '$lib/components/SeoHead.svelte';
-	import {
-		filterUpcomingSessions,
-		hasExternalRegistration,
-		normalizeToday
-	} from '$lib/data/training/session-utils';
+import {
+	hasExternalRegistration,
+	isSessionDraft,
+	isSessionHappeningNow,
+	isSessionUpcoming,
+	normalizeToday
+} from '$lib/data/training/session-utils';
 
 	const section = catalog.agents;
 	const scheduleTeamLabel = 'Schedule your team';
@@ -35,12 +37,21 @@
 		return slug ? getTrainingProgram(slug) : undefined;
 	};
 
-	const today = normalizeToday();
-	const gatherUpcomingSessions = (program?: TrainingProgram): TrainingSession[] =>
-		filterUpcomingSessions(
-			(program?.sessions ?? []).filter((session) => hasExternalRegistration(session)),
-			today
-		);
+const today = normalizeToday();
+const getVisibleSessions = (program?: TrainingProgram): TrainingSession[] =>
+	(program?.sessions ?? []).filter((session) => !isSessionDraft(session));
+const gatherUpcomingSessions = (program?: TrainingProgram): TrainingSession[] =>
+	getVisibleSessions(program).filter(
+		(session) =>
+			session.startDate &&
+			hasExternalRegistration(session) &&
+			isSessionUpcoming(session, today) &&
+			!isSessionHappeningNow(session, today)
+	);
+const gatherHappeningSessions = (program?: TrainingProgram): TrainingSession[] =>
+	getVisibleSessions(program).filter((session) =>
+		session.startDate ? isSessionHappeningNow(session, today) : false
+	);
 
 	const withSourceQuery = (route?: string): string | undefined => {
 		if (!route) return undefined;
@@ -60,6 +71,7 @@
 				(stat) => stat.label?.toLowerCase() === 'duration'
 			);
 			const upcomingSessions = gatherUpcomingSessions(program);
+			const happeningSessions = gatherHappeningSessions(program);
 
 			return {
 				...item,
@@ -69,6 +81,7 @@
 				route: withSourceQuery(item.route) ?? item.route,
 				sku: program?.sku,
 				upcomingSessions,
+				happeningSessions,
 				scheduleUrl: program?.secondaryCta?.url ?? '/contact',
 				scheduleLabel: scheduleTeamLabel,
 				primaryCtaUrl: program?.primaryCta?.url,

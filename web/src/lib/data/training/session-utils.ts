@@ -41,6 +41,19 @@ export const isSessionUpcoming = (
 	return endValue >= todayValue;
 };
 
+export const isSessionHappeningNow = (
+	session: TrainingSession,
+	today: Date = normalizeToday()
+): boolean => {
+	if (isSessionDraft(session)) return false;
+	const todayValue = today.getTime();
+	const startValue = toNormalizedTimestamp(session.startDate);
+	if (startValue === undefined) return false;
+	if (startValue > todayValue) return false;
+	const endValue = toNormalizedTimestamp(session.endDate) ?? startValue;
+	return endValue >= todayValue;
+};
+
 export const filterUpcomingSessions = (
 	sessions: TrainingSession[],
 	today: Date = normalizeToday()

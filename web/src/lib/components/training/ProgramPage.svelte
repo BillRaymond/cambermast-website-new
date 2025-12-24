@@ -10,6 +10,7 @@
 		getSessionStartTimestamp,
 		hasExternalRegistration,
 		isSessionDraft,
+		isSessionHappeningNow,
 		isSessionUpcoming,
 		normalizeToday
 	} from '$lib/data/training/session-utils';
@@ -29,7 +30,9 @@
 	let statsAfterCta: TrainingStat[] = [];
 	let ctaInsertIndex = -1;
 	const today = normalizeToday();
-	let visibleSessions: TrainingSession[] = [];
+	let nonDraftSessions: TrainingSession[] = [];
+	let upcomingSessions: TrainingSession[] = [];
+	let happeningSessions: TrainingSession[] = [];
 	let registerableSessions: TrainingSession[] = [];
 	let featuredRegistrationSession: TrainingSession | undefined;
 
@@ -46,15 +49,37 @@
 		statsAfterCta = ctaInsertIndex >= 0 ? stats.slice(ctaInsertIndex + 1) : [];
 	}
 
-	$: visibleSessions =
-		program?.sessions?.filter((session) => {
-			if (isSessionDraft(session)) return false;
-			return session.startDate ? isSessionUpcoming(session, today) : true;
-		}) ?? [];
+	$: nonDraftSessions =
+		program?.sessions?.filter((session) => !isSessionDraft(session)) ?? [];
 
-	$: registerableSessions = visibleSessions.filter((session) =>
-		hasExternalRegistration(session)
+	const formatSessionDate = (value?: string): string | undefined => {
+		if (!value) return undefined;
+		const parsed = new Date(value);
+		if (Number.isNaN(parsed.valueOf())) return undefined;
+		return new Intl.DateTimeFormat('en-US', {
+			month: 'short',
+			day: 'numeric',
+			year: 'numeric'
+		}).format(parsed);
+	};
+
+	const getHappeningLabel = (session: TrainingSession): string => {
+		const end = formatSessionDate(session.endDate);
+		return end ? `Enrollment closed — runs through ${end}` : 'Enrollment closed — in progress';
+	};
+
+	const isUpcomingSession = (session: TrainingSession): boolean => {
+		if (!session.startDate) return true;
+		return !isSessionHappeningNow(session, today) && isSessionUpcoming(session, today);
+	};
+
+	$: upcomingSessions = nonDraftSessions.filter((session) => isUpcomingSession(session));
+
+	$: happeningSessions = nonDraftSessions.filter((session) =>
+		session.startDate ? isSessionHappeningNow(session, today) : false
 	);
+
+	$: registerableSessions = upcomingSessions.filter((session) => hasExternalRegistration(session));
 
 	$: {
 		if (!registerableSessions.length) {
@@ -205,11 +230,11 @@
 		</div>
 	</section>
 
-	{#if visibleSessions.length}
+	{#if upcomingSessions.length}
 		<section class="rounded-2xl border border-blue-100 bg-white p-5 shadow">
 			<h2 class="text-2xl font-semibold text-gray-900">Upcoming dates</h2>
 			<div class="mt-3.5 grid gap-3 md:grid-cols-2">
-				{#each visibleSessions as session ((session.registerUrl ?? '') + session.name + session.date)}
+				{#each upcomingSessions as session ((session.registerUrl ?? '') + session.name + session.date)}
 					<div class="flex h-full flex-col justify-between rounded-xl border border-gray-100 bg-gray-50 p-3.5">
 						<div>
 							<p class="text-sm font-semibold text-gray-900">{session.name}</p>
@@ -238,6 +263,39 @@
 									{session.registerUrl === '/contact' ? 'Schedule your team' : 'Register ↗'}
 							</a>
 						{/if}
+					</div>
+				{/each}
+			</div>
+		</section>
+	{/if}
+
+	{#if happeningSessions.length}
+		<section class="rounded-2xl border border-blue-200 bg-white p-5 shadow">
+			<h2 class="text-2xl font-semibold text-gray-900">Happening now</h2>
+			<div class="mt-3.5 grid gap-3 md:grid-cols-2">
+				{#each happeningSessions as session ((session.registerUrl ?? '') + session.name + session.date)}
+					<div class="flex h-full flex-col justify-between rounded-xl border border-amber-100 bg-amber-50/60 p-3.5">
+						<div>
+							<p class="text-sm font-semibold text-gray-900">{session.name}</p>
+							<p class="mt-0.5 text-sm text-gray-700">{session.date}</p>
+							{#if session.time}
+								{#if Array.isArray(session.time)}
+									<div class="mt-0.5 space-y-1 text-xs text-gray-500">
+										{#each session.time as timeEntry}
+											<p>{timeEntry}</p>
+										{/each}
+									</div>
+								{:else}
+									<p class="text-xs text-gray-500">{session.time}</p>
+								{/if}
+							{/if}
+							{#if session.location}
+								<p class="text-xs text-gray-500">{session.location}</p>
+							{/if}
+						</div>
+						<div class="mt-3 rounded-lg border border-amber-200 bg-white px-3 py-2 text-center text-sm font-semibold text-amber-700">
+							{getHappeningLabel(session)}
+						</div>
 					</div>
 				{/each}
 			</div>

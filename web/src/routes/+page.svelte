@@ -13,12 +13,14 @@
 	import type { TrainingProgram, TrainingSession } from '$lib/data/training/types';
 	import { getSeo } from '$lib/seo';
 	import SeoHead from '$lib/components/SeoHead.svelte';
-	import {
-		getSessionStartTimestamp,
-		hasExternalRegistration,
-		isSessionUpcoming,
-		normalizeToday
-	} from '$lib/data/training/session-utils';
+import {
+	getSessionStartTimestamp,
+	hasExternalRegistration,
+	isSessionDraft,
+	isSessionHappeningNow,
+	isSessionUpcoming,
+	normalizeToday
+} from '$lib/data/training/session-utils';
 
 	const year = new Date().getFullYear();
 
@@ -49,38 +51,83 @@
 		.filter(([slug, sec]) => slug !== 'home' && Boolean(sec?.label) && Boolean(sec?.headline))
 		.map(([slug, sec]) => ({ slug, ...sec })) as Array<{ slug: string } & CatalogSection>;
 
-	const today = normalizeToday();
+const today = normalizeToday();
+const endDateFormatter = new Intl.DateTimeFormat('en-US', {
+	month: 'short',
+	day: 'numeric',
+	year: 'numeric'
+});
 
-	type UpcomingTrainingEntry = {
-		type: 'training';
-		program: TrainingProgram;
-		session: TrainingSession;
-		startTimestamp: number;
+const formatEndLabel = (value?: string): string => {
+	if (!value) return 'current cohort';
+	const parsed = new Date(value);
+	if (Number.isNaN(parsed.valueOf())) return value;
+	return endDateFormatter.format(parsed);
+};
+
+type UpcomingTrainingEntry = {
+	type: 'training';
+	program: TrainingProgram;
+	session: TrainingSession;
+	startTimestamp: number;
+};
+
+type UpcomingExternalEntry = {
+	type: 'external';
+	event: ExternalEvent;
+	startTimestamp: number;
+};
+
+type UpcomingEntry = UpcomingTrainingEntry | UpcomingExternalEntry;
+
+type HappeningNowCard = {
+	id: string;
+	programTitle: string;
+	sessionLabel: string;
+	date: string;
+	timeLines: string[];
+	location?: string;
+	endLabel: string;
+	programRoute?: string;
+};
+
+const toTimeLines = (value?: string | string[]): string[] =>
+	Array.isArray(value) ? value : value ? [value] : [];
+
+const getSessionMeta = (program: TrainingProgram, session: TrainingSession) => {
+	const trimmedName = session.name?.trim();
+	const sessionLabel =
+		trimmedName && trimmedName.length > 0 && trimmedName !== program.title ? trimmedName : null;
+	return {
+		primaryTitle: program.title,
+		sessionLabel
 	};
+};
 
-	type UpcomingExternalEntry = {
-		type: 'external';
-		event: ExternalEvent;
-		startTimestamp: number;
-	};
+const trainingSessionEntries = listTrainingPrograms()
+	.flatMap((program: TrainingProgram) =>
+		(program.sessions ?? []).map((session) => ({ program, session }))
+	)
+	.filter(({ session }) => !isSessionDraft(session));
 
-	type UpcomingEntry = UpcomingTrainingEntry | UpcomingExternalEntry;
+const upcomingTrainingEntries: UpcomingTrainingEntry[] = trainingSessionEntries
+	.filter(
+		({ session }) =>
+			session.startDate &&
+			hasExternalRegistration(session) &&
+			isSessionUpcoming(session, today) &&
+			!isSessionHappeningNow(session, today)
+	)
+	.map(({ program, session }) => ({
+		type: 'training' as const,
+		program,
+		session,
+		startTimestamp: getSessionStartTimestamp(session)
+	}));
 
-	const toTimeLines = (value?: string | string[]): string[] =>
-		Array.isArray(value) ? value : value ? [value] : [];
-
-	const upcomingTrainingEntries: UpcomingTrainingEntry[] = listTrainingPrograms()
-		.flatMap((program: TrainingProgram) =>
-			(program.sessions ?? []).map((session) => ({ program, session }))
-		)
-		.filter(({ session }) => hasExternalRegistration(session))
-		.filter(({ session }) => isSessionUpcoming(session, today))
-		.map(({ program, session }) => ({
-			type: 'training' as const,
-			program,
-			session,
-			startTimestamp: getSessionStartTimestamp(session)
-		}));
+const happeningTrainingEntries = trainingSessionEntries.filter(({ session }) =>
+	session.startDate ? isSessionHappeningNow(session, today) : false
+);
 
 	const upcomingExternalEntries: UpcomingExternalEntry[] = listExternalEvents()
 		.filter((event) => isExternalEventUpcoming(event, today))
@@ -90,10 +137,27 @@
 			startTimestamp: getExternalEventStartTimestamp(event)
 		}));
 
-	const upcomingItems: UpcomingEntry[] = [
-		...upcomingTrainingEntries,
-		...upcomingExternalEntries
-	].sort((a, b) => a.startTimestamp - b.startTimestamp);
+const upcomingItems: UpcomingEntry[] = [
+	...upcomingTrainingEntries,
+	...upcomingExternalEntries
+].sort((a, b) => a.startTimestamp - b.startTimestamp);
+
+const happeningNowCards: HappeningNowCard[] = happeningTrainingEntries.map(
+	({ program, session }, index) => {
+		const meta = getSessionMeta(program, session);
+		const sessionLabel = meta.sessionLabel ?? session.name ?? program.title;
+		return {
+			id: `happening-${program.slug}-${session.startDate ?? session.endDate ?? index}`,
+			programTitle: program.title,
+			sessionLabel,
+			date: session.date,
+			timeLines: toTimeLines(session.time),
+			location: session.location,
+			endLabel: formatEndLabel(session.endDate),
+			programRoute: program.route
+		};
+	}
+);
 
 	const programRoutesWithUpcoming = new Set(
 		upcomingTrainingEntries.map(({ program }) => program.route)
@@ -128,16 +192,6 @@
 		const diffDays = Math.ceil(diffMs / MILLISECONDS_IN_DAY);
 		if (diffDays === 1) return 'Starts tomorrow';
 		return `Starts in ${diffDays} days`;
-	};
-
-	const getSessionMeta = (program: TrainingProgram, session: TrainingSession) => {
-		const trimmedName = session.name?.trim();
-		const sessionLabel =
-			trimmedName && trimmedName.length > 0 && trimmedName !== program.title ? trimmedName : null;
-		return {
-			primaryTitle: program.title,
-			sessionLabel
-		};
 	};
 
 	const featuredUpcoming = upcomingItems[0];
@@ -576,6 +630,47 @@
 	</section>
 {/if}
 
+{#if happeningNowCards.length}
+	<section class="mx-auto mt-6 w-full px-4">
+		<div class="happening-strip mx-auto max-w-5xl px-4 py-4">
+			<div class="flex flex-col gap-0.5 text-xs font-semibold uppercase tracking-wide text-amber-700">
+				<span>Happening now</span>
+				<span class="text-[0.7rem] font-normal normal-case text-amber-600">
+					These cohorts are currently running; enrollment will open again soon.
+				</span>
+			</div>
+			<div class="mt-4 grid gap-3 md:grid-cols-2">
+				{#each happeningNowCards as card (card.id)}
+					<article class="rounded-2xl border border-amber-200 bg-white/95 p-4 shadow-sm">
+						<p class="text-xs font-semibold uppercase tracking-wide text-blue-600">
+							{card.programTitle}
+						</p>
+						<p class="mt-0.5 text-sm font-semibold text-gray-900">{card.sessionLabel}</p>
+						<p class="text-xs text-gray-600">{card.date}</p>
+						{#if card.timeLines.length}
+							<p class="text-xs text-gray-500">{card.timeLines.join(' • ')}</p>
+						{/if}
+						{#if card.location}
+							<p class="text-xs text-gray-500">{card.location}</p>
+						{/if}
+						<div class="mt-3 rounded-lg border border-amber-100 bg-amber-50 px-3 py-2 text-xs font-semibold text-amber-700">
+							Enrollment closed — runs through {card.endLabel}
+						</div>
+						{#if card.programRoute}
+							<a
+								href={card.programRoute}
+								class="mt-3 inline-flex items-center justify-center rounded-lg border border-blue-200 px-4 py-1.5 text-xs font-semibold text-blue-700 transition hover:border-blue-400 hover:text-blue-900"
+							>
+								View program
+							</a>
+						{/if}
+					</article>
+				{/each}
+			</div>
+		</div>
+	</section>
+{/if}
+
 <!-- Cards rendered from JSON (label + headline only) -->
 <section class="mt-9 grid gap-5 md:grid-cols-3">
 	{#each sectionsWithUpcoming as s}
@@ -774,6 +869,16 @@
 		border: 1px solid rgba(148, 197, 253, 0.45);
 		background: rgba(226, 237, 255, 0.55);
 		box-shadow: 0 22px 44px -40px rgba(30, 64, 175, 0.45);
+	}
+
+	.happening-strip {
+		position: relative;
+		overflow: visible;
+		border-radius: 30px;
+		padding: 1.5rem 1.25rem;
+		border: 1px solid rgba(251, 191, 36, 0.45);
+		background: rgba(255, 251, 235, 0.7);
+		box-shadow: 0 18px 40px -32px rgba(180, 83, 9, 0.35);
 	}
 
 	.next-pill {

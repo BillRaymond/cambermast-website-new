@@ -4,27 +4,30 @@
 	export let scheduleTeamLabel: string;
 
 	const hasScheduleButton = (scheduleUrl?: string): boolean =>
-		Boolean(scheduleUrl) && (!item.upcomingSessions || item.upcomingSessions.length === 0);
+		Boolean(scheduleUrl) &&
+		(!item.upcomingSessions || item.upcomingSessions.length === 0) &&
+		(!item.happeningSessions || item.happeningSessions.length === 0);
 	const isScheduleTeamButton = (label?: string): boolean =>
 		(label ?? '').toLowerCase().trim() === scheduleTeamLabel.toLowerCase();
 
-	let rawTitle: string;
-	let titleSlug: string;
-	let upcomingSectionId: string;
+let rawTitle: string;
+let titleSlug: string;
+let sessionsSectionId: string;
 
-	$: hasUpcomingSessions = Boolean(item.upcomingSessions?.length);
-	$: rawTitle = item.title ?? '';
-	$: titleSlug = rawTitle
-		.toLowerCase()
-		.replace(/[^a-z0-9]+/g, '-')
-		.replace(/(^-+|-+$)/g, '');
-	$: upcomingSectionId = `${titleSlug || 'training'}-upcoming`;
+$: hasUpcomingSessions = Boolean(item.upcomingSessions?.length);
+$: hasHappeningSessions = Boolean(item.happeningSessions?.length);
+$: rawTitle = item.title ?? '';
+$: titleSlug = rawTitle
+	.toLowerCase()
+	.replace(/[^a-z0-9]+/g, '-')
+	.replace(/(^-+|-+$)/g, '');
+$: sessionsSectionId = `${titleSlug || 'training'}-sessions`;
 
-	const scrollToUpcomingSessions = (): void => {
-		if (typeof document === 'undefined') return;
-		const el = document.getElementById(upcomingSectionId);
-		el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-	};
+const scrollToSessionsSection = (): void => {
+	if (typeof document === 'undefined') return;
+	const el = document.getElementById(sessionsSectionId);
+	el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+};
 </script>
 
 <article
@@ -49,14 +52,14 @@
 			({item.sku})
 		</p>
 	{/if}
-	{#if hasUpcomingSessions}
+{#if hasUpcomingSessions || hasHappeningSessions}
 		<button
 			type="button"
 			class="mt-3 inline-flex items-center justify-center gap-2 self-center rounded-full bg-blue-600/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-blue-700 transition hover:bg-blue-600/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
-			on:click={scrollToUpcomingSessions}
+			on:click={scrollToSessionsSection}
 		>
 			<span class="h-2 w-2 rounded-full bg-blue-500"></span>
-			New dates added
+			{hasUpcomingSessions ? 'New dates added' : 'Cohort in progress'}
 		</button>
 	{/if}
 	{#if item.summary}<p class="mt-1.5 text-gray-600">{item.summary}</p>{/if}
@@ -81,7 +84,7 @@
 			{/if}
 			{#if item.upcomingSessions?.length}
 				<div
-					id={upcomingSectionId}
+					id={sessionsSectionId}
 					class="w-full rounded-2xl border border-blue-100 bg-blue-50 p-4 text-left"
 				>
 					<p class="text-xs font-semibold uppercase tracking-wide text-blue-600">
@@ -109,6 +112,37 @@
 								>
 									Register ↗
 								</a>
+							</li>
+						{/each}
+					</ul>
+				</div>
+			{:else if item.happeningSessions?.length}
+				<div
+					id={sessionsSectionId}
+					class="w-full rounded-2xl border border-amber-200 bg-amber-50/70 p-4 text-left"
+				>
+					<p class="text-xs font-semibold uppercase tracking-wide text-amber-700">
+						Happening now
+					</p>
+					<ul class="mt-3 space-y-3">
+						{#each item.happeningSessions as session (session.name + (session.startDate ?? session.date))}
+							<li class="rounded-lg border border-white/60 bg-white/90 p-3">
+								<p class="text-sm font-semibold text-gray-900">{session.name}</p>
+								<p class="text-xs text-gray-600">{session.date}</p>
+								{#if session.time}
+									{#if Array.isArray(session.time)}
+										<div class="space-y-1 text-xs text-gray-600">
+											{#each session.time as timeEntry}
+												<p>{timeEntry}</p>
+											{/each}
+										</div>
+									{:else}
+										<p class="text-xs text-gray-600">{session.time}</p>
+									{/if}
+								{/if}
+								<p class="mt-2 text-xs font-semibold uppercase tracking-wide text-amber-600">
+									Enrollment closed — ends {session.endDate ?? 'soon'}
+								</p>
 							</li>
 						{/each}
 					</ul>

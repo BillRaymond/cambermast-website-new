@@ -6,11 +6,13 @@
 	import type { CatalogCardData } from '$lib/components/training/catalog-card-data';
 	import { getSeo } from '$lib/seo';
 	import SeoHead from '$lib/components/SeoHead.svelte';
-	import {
-		filterUpcomingSessions,
-		hasExternalRegistration,
-		normalizeToday
-	} from '$lib/data/training/session-utils';
+import {
+	hasExternalRegistration,
+	isSessionDraft,
+	isSessionHappeningNow,
+	isSessionUpcoming,
+	normalizeToday
+} from '$lib/data/training/session-utils';
 
 	const section = catalog.training;
 	const pageHeading = section.catalogLabel ?? section.label;
@@ -24,13 +26,24 @@
 
 	const getScheduleUrl = (program?: TrainingProgram): string => program?.secondaryCta?.url ?? '/contact';
 
-	const today = normalizeToday();
+const today = normalizeToday();
 
-	const gatherUpcomingSessions = (program?: TrainingProgram): TrainingSession[] =>
-		filterUpcomingSessions(
-			(program?.sessions ?? []).filter((session) => hasExternalRegistration(session)),
-			today
-		);
+const getVisibleSessions = (program?: TrainingProgram): TrainingSession[] =>
+	(program?.sessions ?? []).filter((session) => !isSessionDraft(session));
+
+const gatherUpcomingSessions = (program?: TrainingProgram): TrainingSession[] =>
+	getVisibleSessions(program).filter(
+		(session) =>
+			session.startDate &&
+			hasExternalRegistration(session) &&
+			isSessionUpcoming(session, today) &&
+			!isSessionHappeningNow(session, today)
+	);
+
+const gatherHappeningSessions = (program?: TrainingProgram): TrainingSession[] =>
+	getVisibleSessions(program).filter((session) =>
+		session.startDate ? isSessionHappeningNow(session, today) : false
+	);
 
 	// Title for the page and services we offer from JSON
 	const items: CatalogCardData[] = (section.items ?? [])
@@ -38,14 +51,16 @@
 		.sort((a, b) => (a.order ?? 999) - (b.order ?? 999))
 		.map((item) => {
 			const program = getProgramForRoute(item.route);
-			const durationStat = program?.stats?.find((stat) => stat.label.toLowerCase() === 'duration');
+			const durationStat = program?.stats?.find((stat) => stat.label?.toLowerCase() === 'duration');
 			const upcomingSessions = gatherUpcomingSessions(program);
+			const happeningSessions = gatherHappeningSessions(program);
 
 			return {
 				...item,
 				sku: program?.sku,
 				duration: durationStat?.value,
 				upcomingSessions,
+				happeningSessions,
 				scheduleUrl: getScheduleUrl(program),
 				scheduleLabel
 			};
