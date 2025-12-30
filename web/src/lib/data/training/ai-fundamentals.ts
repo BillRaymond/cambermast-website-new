@@ -144,26 +144,6 @@ export const aiFundamentals = {
 		'Earn a certificate you can showcase with pride.',
 		'A free one-hour follow-up two weeks after the training.'
 	],
-	// Leave these placeholder names until we get legal sign-off from real clients.
-	reviews: [
-		{
-			quote:
-				'Our marketing squad left the session with a shared language for AI and a repeatable prompting playbook we now use daily.',
-			author: 'Jasmine R.',
-			role: 'Director of Demand Gen'
-		},
-		{
-			quote:
-				'Bill connects strategy to hands-on practice better than any other AI workshop we have brought in.',
-			author: 'Miguel A.',
-			role: 'VP, Product Operations'
-		},
-		{
-			quote: 'I was able to immediately apply what I learned and saved hours in my first week.',
-			author: 'Priya D.',
-			role: 'Agency Managing Partner'
-		}
-	],
 	testimonial: {
 		quote:
 			"Bill guided our leadership team through what's possible with AI while keeping us realistic about the risks.",

@@ -1,19 +1,24 @@
 <script lang="ts">
-	import ReviewCard from '$lib/components/ReviewCard.svelte';
-	import type {
-		TrainingFaq,
-		TrainingProgram,
-		TrainingSession,
-		TrainingStat
-	} from '$lib/data/training/types';
-	import {
-		getSessionStartTimestamp,
-		hasExternalRegistration,
-		isSessionDraft,
-		isSessionHappeningNow,
-		isSessionUpcoming,
-		normalizeToday
-	} from '$lib/data/training/session-utils';
+import ReviewCard from '$lib/components/ReviewCard.svelte';
+import type {
+	TrainingFaq,
+	TrainingProgram,
+	TrainingSession,
+	TrainingStat
+} from '$lib/data/training/types';
+import {
+	getSessionStartTimestamp,
+	hasExternalRegistration,
+	isSessionDraft,
+	isSessionHappeningNow,
+	isSessionUpcoming,
+	normalizeToday
+} from '$lib/data/training/session-utils';
+import {
+	listTestimonialsForSku,
+	listTestimonialsForSlug,
+	type Testimonial
+} from '$lib/data/testimonials';
 
 	type BackLink = {
 		href: string;
@@ -34,9 +39,10 @@
 	let upcomingSessions: TrainingSession[] = [];
 	let happeningSessions: TrainingSession[] = [];
 	let registerableSessions: TrainingSession[] = [];
-	let featuredRegistrationSession: TrainingSession | undefined;
-	let videoEmbedUrl: string | undefined;
-	let certificateText: string | undefined;
+let featuredRegistrationSession: TrainingSession | undefined;
+let videoEmbedUrl: string | undefined;
+let certificateText: string | undefined;
+let programTestimonials: Testimonial[] = [];
 
 	const normalizeLabel = (label?: string): string | undefined => label?.toLowerCase().trim();
 	const scheduleTeamLabel = 'schedule your team';
@@ -77,8 +83,15 @@
 		targetLabel: string
 	): TrainingStat | undefined => stats?.find((stat) => normalizeLabel(stat.label) === targetLabel);
 
-	const toStatText = (value?: string | string[]): string | undefined =>
-		Array.isArray(value) ? value.join(', ') : value;
+const toStatText = (value?: string | string[]): string | undefined =>
+	Array.isArray(value) ? value.join(', ') : value;
+
+const formatTestimonialRole = (testimonial: Testimonial): string => {
+	if (testimonial.jobTitle && testimonial.company) {
+		return `${testimonial.jobTitle}, ${testimonial.company}`;
+	}
+	return testimonial.jobTitle ?? testimonial.company ?? '';
+};
 
 	$: {
 		const stats = program?.stats ?? [];
@@ -131,6 +144,16 @@
 				(a, b) => getSessionStartTimestamp(a) - getSessionStartTimestamp(b)
 			);
 			featuredRegistrationSession = sorted[0];
+		}
+	}
+
+	$: {
+		if (!program) {
+			programTestimonials = [];
+		} else if (program.sku) {
+			programTestimonials = listTestimonialsForSku(program.sku);
+		} else {
+			programTestimonials = listTestimonialsForSlug(program.slug);
 		}
 	}
 </script>
@@ -382,10 +405,14 @@
 		</section>
 	{/if}
 
-	{#if program.reviews?.length}
+	{#if programTestimonials.length}
 		<section class="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-			{#each program.reviews as review}
-				<ReviewCard quote={review.quote} author={review.author} role={review.role} />
+			{#each programTestimonials as testimonial}
+				<ReviewCard
+					quote={testimonial.quote}
+					author={testimonial.displayName}
+					role={formatTestimonialRole(testimonial)}
+				/>
 			{/each}
 		</section>
 	{/if}

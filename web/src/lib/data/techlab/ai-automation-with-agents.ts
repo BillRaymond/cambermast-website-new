@@ -135,20 +135,6 @@ export const techlabAiAutomationWithAgents = {
 		'Configuration checklists and runbooks for on-call responders.',
 		'30-day support channel to review logs and iterate on automations.'
 	],
-	reviews: [
-		{
-			quote:
-				'We launched an intake bot that now triages 80% of partner requests before a human touches them.',
-			author: 'Alex G.',
-			role: 'Director of Automation'
-		},
-		{
-			quote:
-				'The workshop demystified n8n for our engineers and gave us the guardrails we needed to ship safely.',
-			author: 'Morgan T.',
-			role: 'Lead Solutions Engineer'
-		}
-	],
 	testimonial: {
 		quote: 'The team left with a production-ready agent plus the knowledge to keep improving it.',
 		author: 'Samira H., COO'

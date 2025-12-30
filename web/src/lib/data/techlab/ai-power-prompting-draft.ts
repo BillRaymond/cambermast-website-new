@@ -58,12 +58,6 @@ export const techlabAiPowerPromptingDraft = {
 		}
 	],
 	resources: ['Draft workbook (placeholder link).', 'Feedback template for reviewers.'],
-	reviews: [
-		{
-			quote: 'Placeholder: replace with real testimonial before launch.',
-			author: 'Cambermast Reviewer'
-		}
-	],
 	aboutTrainer: {
 		title: 'About your facilitator',
 		name: 'Bill Raymond',

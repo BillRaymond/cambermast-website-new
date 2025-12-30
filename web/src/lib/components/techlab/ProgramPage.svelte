@@ -7,6 +7,11 @@ import {
 	} from '$lib/data/training/session-utils';
 import ReviewCard from '$lib/components/ReviewCard.svelte';
 import type { TechlabProgram } from '$lib/data/techlab/types';
+import {
+	listTestimonialsForSku,
+	listTestimonialsForSlug,
+	type Testimonial
+} from '$lib/data/testimonials';
 
 	export let program: TechlabProgram;
 	export let backLink: { href: string; label: string } | undefined = undefined;
@@ -14,15 +19,23 @@ import type { TechlabProgram } from '$lib/data/techlab/types';
 	const getFaqAnswers = (faq: TrainingFaq): string[] =>
 		faq.answers ?? (faq.answer ? [faq.answer] : []);
 
-	let statsBeforeCta: TrainingStat[] = [];
-	let statsAfterCta: TrainingStat[] = [];
-	let ctaInsertIndex = -1;
-	const today = normalizeToday();
-	let visibleSessions: TrainingSession[] = [];
+let statsBeforeCta: TrainingStat[] = [];
+let statsAfterCta: TrainingStat[] = [];
+let ctaInsertIndex = -1;
+const today = normalizeToday();
+let visibleSessions: TrainingSession[] = [];
+let programTestimonials: Testimonial[] = [];
 
-	const normalizeLabel = (label?: string): string | undefined => label?.toLowerCase().trim();
-	const scheduleTeamLabel = 'schedule your team';
-	const isScheduleTeamLabel = (label?: string): boolean => normalizeLabel(label) === scheduleTeamLabel;
+const normalizeLabel = (label?: string): string | undefined => label?.toLowerCase().trim();
+const scheduleTeamLabel = 'schedule your team';
+const isScheduleTeamLabel = (label?: string): boolean => normalizeLabel(label) === scheduleTeamLabel;
+
+const formatTestimonialRole = (testimonial: Testimonial): string => {
+	if (testimonial.jobTitle && testimonial.company) {
+		return `${testimonial.jobTitle}, ${testimonial.company}`;
+	}
+	return testimonial.jobTitle ?? testimonial.company ?? '';
+};
 
 	$: {
 		const stats = program?.stats ?? [];
@@ -36,6 +49,16 @@ import type { TechlabProgram } from '$lib/data/techlab/types';
 			if (isSessionDraft(session)) return false;
 			return session.startDate ? isSessionUpcoming(session, today) : true;
 		}) ?? [];
+
+	$: {
+		if (!program) {
+			programTestimonials = [];
+		} else if (program.sku) {
+			programTestimonials = listTestimonialsForSku(program.sku);
+		} else {
+			programTestimonials = listTestimonialsForSlug(program.slug);
+		}
+	}
 </script>
 
 {#if backLink}
@@ -263,12 +286,16 @@ import type { TechlabProgram } from '$lib/data/techlab/types';
 		</section>
 	{/if}
 
-	{#if program.reviews?.length}
+	{#if programTestimonials.length}
 		<section class="tlp-panel">
 			<h2 class="tlp-section-title">What learners are saying</h2>
 			<div class="tlp-review-grid">
-				{#each program.reviews as review}
-					<ReviewCard quote={review.quote} author={review.author} role={review.role} />
+				{#each programTestimonials as testimonial}
+					<ReviewCard
+						quote={testimonial.quote}
+						author={testimonial.displayName}
+						role={formatTestimonialRole(testimonial)}
+					/>
 				{/each}
 			</div>
 		</section>

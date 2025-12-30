@@ -113,20 +113,6 @@ export const techlabAiAcceleratorWorkshop = {
 		'Research brief template that transforms findings into presentations.',
 		'Post-workshop office hours to refine GPTs and projects.'
 	],
-	reviews: [
-		{
-			quote:
-				'We ramped new team members on AI in a single week and now ship campaigns faster than ever.',
-			author: 'Leslie K.',
-			role: 'Director of Marketing'
-		},
-		{
-			quote:
-				'The accelerator gave us the systems to keep AI projects organized and compliant.',
-			author: 'Jordan H.',
-			role: 'Head of Customer Operations'
-		}
-	],
 	testimonial: {
 		quote:
 			'Our small business now has reusable AI assets that save hours each week, and we no longer start from scratch.',
