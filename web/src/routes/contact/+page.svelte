@@ -4,12 +4,34 @@
 	import { getSeo } from '$lib/seo';
 	import SeoHead from '$lib/components/SeoHead.svelte';
 
-	type FormStatus = 'idle' | 'sending' | 'sent' | 'error';
+type FormStatus = 'idle' | 'sending' | 'sent' | 'error';
 
-	type CalApi = {
-		(...args: unknown[]): void;
-		ns?: Record<string, (...args: unknown[]) => void>;
-	};
+type CalApi = {
+	(...args: unknown[]): void;
+	ns?: Record<string, (...args: unknown[]) => void>;
+};
+
+type TurnstileRenderOptions = {
+	sitekey: string;
+	callback?: (token: string) => void;
+	'expired-callback'?: () => void;
+	'error-callback'?: () => void;
+	'timeout-callback'?: () => void;
+	'refresh-expired'?: 'auto' | 'never';
+	theme?: 'auto' | 'light' | 'dark';
+	size?: 'auto' | 'compact' | 'normal';
+};
+
+type TurnstileApi = {
+	render: (container: string | HTMLElement, options: TurnstileRenderOptions) => string | undefined;
+	reset: (widget?: string | HTMLElement) => void;
+	remove?: (widget?: string | HTMLElement) => void;
+};
+
+type TurnstileWindow = Window & {
+	onTurnstileLoad?: () => void;
+	turnstile?: TurnstileApi;
+};
 
 	const trainingPrograms = listTrainingPrograms()
 		.slice()
@@ -22,20 +44,50 @@
 		{ slug: 'project-management', title: 'Project Management' }
 	];
 
-	const contactOptions = [
-		...trainingPrograms,
-		...serviceTopics,
-		{ slug: 'other', title: 'Something else' }
-	];
+const contactOptions = [
+	...trainingPrograms,
+	...serviceTopics,
+	{ slug: 'other', title: 'Something else' }
+];
 
-	let name = '';
-	let email = '';
-	let message = '';
-	let selectedProgram = '';
-	let status: FormStatus = 'idle';
-	let errorMsg = '';
+const productionTurnstileSiteKey = '0x4AAAAAACJwz83T0R7vFAHk';
+const developmentTurnstileSiteKey = '1x00000000000000000000AA';
+const productionBaseDomains = ['cambermast.com'];
 
-	const webhook = 'https://n8n.cambermast.com/webhook/0095b76c-c32c-49ce-a59d-de6435af2b3e';
+let name = '';
+let email = '';
+let message = '';
+let selectedProgram = '';
+let status: FormStatus = 'idle';
+let errorMsg = '';
+let turnstileToken = '';
+let turnstileContainer: HTMLDivElement | null = null;
+let turnstileWidgetId: string | undefined;
+
+const getTurnstileTarget = (): string | HTMLElement | undefined =>
+	turnstileWidgetId ?? (turnstileContainer ?? undefined);
+
+const resetTurnstile = () => {
+	const turnstileWindow = getTurnstileWindow();
+	turnstileWindow?.turnstile?.reset(getTurnstileTarget());
+};
+
+const getTurnstileWindow = (): TurnstileWindow | undefined => {
+	if (typeof window === 'undefined') return undefined;
+	return window as TurnstileWindow;
+};
+
+const isProductionHost = (host: string): boolean =>
+	productionBaseDomains.some((domain) => host === domain || host.endsWith(`.${domain}`));
+
+const getTurnstileSiteKey = () => {
+	const turnstileWindow = getTurnstileWindow();
+	const host = turnstileWindow?.location.hostname;
+	if (!host) return productionTurnstileSiteKey;
+	return isProductionHost(host) ? productionTurnstileSiteKey : developmentTurnstileSiteKey;
+};
+
+const webhook = 'https://n8n.cambermast.com/webhook/0095b76c-c32c-49ce-a59d-de6435af2b3e';
 
 	const getProgramTitle = (slug: string): string =>
 		contactOptions.find((option) => option.slug === slug)?.title ??
@@ -65,11 +117,11 @@
 		});
 	};
 
-	const loadCalEmbed = () => {
-		if (typeof window === 'undefined') return;
-		if (getCalApi()) {
-			initCal();
-			return;
+const loadCalEmbed = () => {
+	if (typeof window === 'undefined') return;
+	if (getCalApi()) {
+		initCal();
+		return;
 		}
 
 		const existing = document.querySelector('script[data-cal-embed="true"]');
@@ -82,33 +134,106 @@
 		script.src = 'https://app.cal.com/embed/embed.js';
 		script.async = true;
 		script.dataset.calEmbed = 'true';
-		script.addEventListener('load', initCal, { once: true });
-		document.head.appendChild(script);
-	};
+	script.addEventListener('load', initCal, { once: true });
+	document.head.appendChild(script);
+};
 
-	onMount(() => {
-		loadCalEmbed();
+const initTurnstile = () => {
+	const turnstileWindow = getTurnstileWindow();
+	if (!turnstileWindow || !turnstileContainer) return;
+	const { turnstile } = turnstileWindow;
+	if (!turnstile) return;
+
+	if (turnstileWidgetId) {
+		turnstile.remove?.(turnstileWidgetId);
+		turnstileWidgetId = undefined;
+	}
+
+	turnstileContainer.innerHTML = '';
+	turnstileToken = '';
+
+		turnstileWidgetId = turnstile.render(turnstileContainer, {
+			sitekey: getTurnstileSiteKey(),
+		theme: 'light',
+		'refresh-expired': 'auto',
+		callback: (token: string) => {
+			turnstileToken = token;
+			if (status === 'error' && errorMsg.includes('verification')) {
+				status = 'idle';
+				errorMsg = '';
+			}
+		},
+		'expired-callback': () => {
+			turnstileToken = '';
+		}
 	});
+};
+
+const loadTurnstile = () => {
+	const turnstileWindow = getTurnstileWindow();
+	if (!turnstileWindow) return;
+	if (turnstileWindow.turnstile) {
+		initTurnstile();
+		return;
+	}
+
+	const existing = document.getElementById('turnstile-script');
+	if (existing) {
+		existing.addEventListener('load', initTurnstile, { once: true });
+		return;
+	}
+
+	turnstileWindow.onTurnstileLoad = () => initTurnstile();
+
+	const script = document.createElement('script');
+	script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onTurnstileLoad';
+	script.async = true;
+	script.defer = true;
+	script.id = 'turnstile-script';
+	document.head.appendChild(script);
+};
+
+onMount(() => {
+	loadCalEmbed();
+	loadTurnstile();
+
+	return () => {
+		const turnstileWindow = getTurnstileWindow();
+		if (!turnstileWindow) return;
+		if (turnstileWidgetId) {
+			turnstileWindow.turnstile?.remove?.(turnstileWidgetId);
+			turnstileWidgetId = undefined;
+		}
+		turnstileWindow.onTurnstileLoad = undefined;
+	};
+});
 
 	async function submitForm(e: Event) {
 		e.preventDefault();
 		status = 'sending';
 		errorMsg = '';
 
-		try {
-			const res = await fetch(webhook, {
-				method: 'POST',
-				mode: 'cors',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({
+	try {
+		if (!turnstileToken) {
+			status = 'error';
+			errorMsg = 'Please complete the verification challenge.';
+			return;
+		}
+
+		const res = await fetch(webhook, {
+			method: 'POST',
+			mode: 'cors',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({
 					name,
 					email,
 					message,
 					programSlug: selectedProgram,
 					programTitle: getProgramTitle(selectedProgram),
-					source: 'cambermast.com'
-				})
-			});
+				source: 'cambermast.com',
+				turnstileToken
+			})
+		});
 
 			if (!res.ok) {
 				let description = '';
@@ -124,10 +249,14 @@
 				throw new Error(description || `Webhook error: ${res.status}`);
 			}
 			status = 'sent';
-		} catch (err: any) {
-			status = 'error';
-			errorMsg = err?.message ?? 'Something went wrong.';
-		}
+		turnstileToken = '';
+		resetTurnstile();
+	} catch (err: any) {
+		status = 'error';
+		errorMsg = err?.message ?? 'Something went wrong.';
+		resetTurnstile();
+		turnstileToken = '';
+	}
 	}
 </script>
 
@@ -228,6 +357,21 @@
 				rows="5"
 				required
 			></textarea>
+		</div>
+
+		<div>
+			<span class="block text-sm font-medium text-gray-700"
+				>Verification
+				<span class="text-red-500" aria-hidden="true">*</span>
+				<span class="sr-only"> required</span></span
+			>
+			<div
+				class="mt-1 rounded-md border bg-white px-3 py-2"
+				bind:this={turnstileContainer}
+				aria-live="polite"
+			>
+				<noscript>Enable JavaScript to complete the verification step.</noscript>
+			</div>
 		</div>
 
 		<button
