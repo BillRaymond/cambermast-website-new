@@ -1,0 +1,29 @@
+Cambermast LLC
+AI Usage Policy (ai.txt)
+Last updated: 2025-12-30
+----------------------------------------
+Scope:
+- Applies to content hosted on cambermast.com and subdomains managed by Cambermast LLC.
+- Covers text, audio, video, imagery, and downloadable assets unless a specific page states otherwise.
+
+Intent:
+- Support responsible AI summarization and retrieval that accurately represents Cambermast's services.
+- Protect proprietary narratives, paid training material, and client-specific insights from unauthorized reuse.
+
+Allow:
+- Crawling and indexing for inference, summarization, and search responses when Cambermast is cited as the source.
+- Usage in RAG systems where responses link back to https://cambermast.com/ or attribute Cambermast LLC.
+- Non-commercial evaluation or benchmarking that keeps the original context intact.
+
+Disallow without prior written consent:
+- Training, fine-tuning, or distillation of foundation or commercial models on Cambermast content.
+- Generating derivative products, courses, or advisory services that imply partnership or endorsement.
+- Persistent storage of personal data or client examples extracted from Cambermast materials beyond transient processing.
+
+Attribution & corrections:
+- Cite "Cambermast LLC" and the specific source URL in visible output.
+- If uncertain, prefer quoting or linking directly to avoid hallucination.
+- Report misuse or request expanded rights via bill.raymond@cambermast.com.
+
+Compliance:
+- Adhering to this policy is voluntary but expected. Continued access indicates acceptance of these terms.

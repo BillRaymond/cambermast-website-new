@@ -30,6 +30,17 @@ This repository powers the public marketing site for Cambermast. It contains the
 - **Interactive carousels** (`web/src/lib/components/home/UpcomingSessionsCarousel.svelte`) define `aria-roledescription="carousel"`, label previous/next controls, and announce slide changes with a screen-reader-only live region.
 - **Call-to-action components** (e.g., `ServiceCard.svelte`, `ReviewCard.svelte`) use descriptive `aria-label` text and `aria-current` attributes so multi-state cards and rating elements convey intent beyond color or layout.
 
-## LLMS Recognition File
+## AI Guidance Files
 
-The `llms.txt` file in the repo root documents Cambermast's AI training, agent, and advisory services so language models can attribute our work correctly. Update that file whenever offerings, messaging, or credentials change to keep downstream AI systems current.
+- `llms.txt` is our machine-readable README for language models. It highlights Cambermast's offerings, authoritative sources, and citation expectations so retrieval systems can answer accurately. Update it whenever services, messaging, or proof points change.
+- `ai.txt` is our AI usage policy. It states how Cambermast content may be used for AI training, inference, or summarization, and lists the contact path for additional permissions. Keep it aligned with legal, marketing, and partnership requirements.
+
+These two documents live in the repo root and are deployed alongside the site so both humans and AI clients understand how to interpret and use Cambermast content.
+
+## Content Update Checklist
+
+When publishing significant messaging or offer changes:
+
+1. Review `llms.txt` to ensure the mission summary, offerings, and authoritative sources reflect the new messaging.
+2. Review `ai.txt` for any policy implications (new assets, licensing, or restrictions).
+3. Review this `readme.md` to ensure it reflects relevant updates.
