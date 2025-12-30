@@ -63,6 +63,8 @@ let errorMsg = '';
 let turnstileToken = '';
 let turnstileContainer: HTMLDivElement | null = null;
 let turnstileWidgetId: string | undefined;
+let turnstileSiteKeyInUse = productionTurnstileSiteKey;
+let turnstileIsDevelopmentSiteKey = false;
 
 const getTurnstileTarget = (): string | HTMLElement | undefined =>
 	turnstileWidgetId ?? (turnstileContainer ?? undefined);
@@ -151,9 +153,11 @@ const initTurnstile = () => {
 
 	turnstileContainer.innerHTML = '';
 	turnstileToken = '';
+	turnstileSiteKeyInUse = getTurnstileSiteKey();
+	turnstileIsDevelopmentSiteKey = turnstileSiteKeyInUse === developmentTurnstileSiteKey;
 
-		turnstileWidgetId = turnstile.render(turnstileContainer, {
-			sitekey: getTurnstileSiteKey(),
+	turnstileWidgetId = turnstile.render(turnstileContainer, {
+		sitekey: turnstileSiteKeyInUse,
 		theme: 'light',
 		'refresh-expired': 'auto',
 		callback: (token: string) => {
@@ -228,10 +232,12 @@ onMount(() => {
 					name,
 					email,
 					message,
-					programSlug: selectedProgram,
-					programTitle: getProgramTitle(selectedProgram),
+				programSlug: selectedProgram,
+				programTitle: getProgramTitle(selectedProgram),
 				source: 'cambermast.com',
-				turnstileToken
+				turnstileToken,
+				turnstileSiteKey: turnstileSiteKeyInUse,
+				turnstileIsDevelopmentSiteKey
 			})
 		});
 
@@ -374,18 +380,6 @@ onMount(() => {
 			</div>
 		</div>
 
-		<button
-			class="rounded-lg bg-blue-600 px-5 py-2 font-medium text-white hover:bg-blue-700 disabled:opacity-60"
-			disabled={status === 'sending'}
-			type="submit"
-		>
-			{status === 'sending' ? 'Sending…' : 'Send message'}
-		</button>
-
-		<p class="text-xs font-medium uppercase tracking-wide text-gray-500">
-			Fields marked <span class="text-red-500" aria-hidden="true">*</span> are required.
-		</p>
-
 		<div aria-live="polite">
 			{#if status === 'sent'}
 				<p class="text-sm text-green-600" role="status">Thanks! We’ll get back to you soon.</p>
@@ -399,6 +393,18 @@ onMount(() => {
 				<p class="text-sm text-gray-600" role="status">Sending your message…</p>
 			{/if}
 		</div>
+
+		<button
+			class="rounded-lg bg-blue-600 px-5 py-2 font-medium text-white hover:bg-blue-700 disabled:opacity-60"
+			disabled={status === 'sending'}
+			type="submit"
+		>
+			{status === 'sending' ? 'Sending…' : 'Send message'}
+		</button>
+
+		<p class="text-xs font-medium uppercase tracking-wide text-gray-500">
+			Fields marked <span class="text-red-500" aria-hidden="true">*</span> are required.
+		</p>
 	</form>
 
 	<div class="space-y-5">
