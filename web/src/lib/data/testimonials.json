@@ -101,5 +101,17 @@
     "allowPublicUse": true,
     "source": "training-testimonial",
     "createdAt": "2026-01-05T15:30:45.000Z"
+  },
+  {
+    "id": "tm-cm-tr-005-001",
+    "programSku": "CM-TR-005",
+    "programSlug": "ai-workshop-for-content-creators",
+    "programRoute": "/training/ai-workshop-for-content-creators",
+    "displayName": "Bill R.",
+    "jobTitle": "Content Analyst",
+    "rating": 5,
+    "quote": "This course may have just saved my career. I’m so grateful for the amazing training and all the people I met!",
+    "source": "training-testimonial",
+    "createdAt": "2025-12-31T23:32:46.558Z"
   }
 ]
