@@ -48,6 +48,8 @@
         { value: '4', label: 'Great session' },
         { value: '5', label: 'Exceptional session' }
     ];
+    const ratingPulseDurationSeconds = 2.6;
+    const ratingPulseDelayIncrement = 0.18;
 
     const productionTurnstileSiteKey = '0x4AAAAAACJwz83T0R7vFAHk';
     const developmentTurnstileSiteKey = '1x00000000000000000000AA';
@@ -57,7 +59,7 @@
 
     const defaultProgramSlug = trainingPrograms[0]?.slug ?? '';
     let selectedProgram = defaultProgramSlug;
-    let rating = '5';
+    let rating = '';
     let quote = '';
     let displayName = '';
     let email = '';
@@ -422,7 +424,7 @@
             >
             <p class="mt-1 text-xs text-gray-500">5 stars means the session was exceptional.</p>
             <div class="mt-3 flex items-center gap-1">
-                {#each ratingOptions as option}
+                {#each ratingOptions as option, index}
                     {@const numericValue = Number(option.value)}
                     {@const isActive = Number(rating) >= numericValue}
                     <label class="cursor-pointer" aria-label={`${option.value} star${option.value === '1' ? '' : 's'} - ${option.label}`}>
@@ -435,10 +437,11 @@
                             required={option.value === '1'}
                         />
                         <svg
-                            class={`h-8 w-8 ${isActive ? 'text-yellow-400' : 'text-gray-300'}`}
+                            class={`h-8 w-8 transition-colors duration-200 ${isActive ? 'text-yellow-400' : 'text-gray-300'} ${rating ? '' : 'rating-star--pulse'}`}
                             viewBox="0 0 24 24"
                             fill="currentColor"
                             aria-hidden="true"
+                            style={!rating ? `animation-delay: ${index * ratingPulseDelayIncrement}s; animation-duration: ${ratingPulseDurationSeconds}s;` : undefined}
                         >
                             <path
                                 d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
@@ -647,3 +650,32 @@
         </p>
     </form>
 </section>
+
+<style>
+	:global(.rating-star--pulse) {
+		animation-name: ratingStarPulse;
+		animation-timing-function: ease-in-out;
+		animation-iteration-count: infinite;
+	}
+
+	@keyframes ratingStarPulse {
+		0% {
+			color: #d1d5db;
+		}
+		35% {
+			color: #fbbf24;
+		}
+		65% {
+			color: #fbbf24;
+		}
+		100% {
+			color: #d1d5db;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		:global(.rating-star--pulse) {
+			animation: none;
+		}
+	}
+</style>
