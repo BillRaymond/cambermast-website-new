@@ -31,7 +31,7 @@
     "programSlug": "ai-fundamentals",
     "programRoute": "/training/ai-fundamentals",
     "displayName": "Priya D.",
-    "jobTitle": "Agency Managing Partner",
+    "jobTitle": "Agency Manager Partner",
     "rating": 5,
     "quote": "I was able to immediately apply what I learned and saved hours in my first week.",
     "allowPublicUse": true,
@@ -88,8 +88,7 @@
     "rating": 5,
     "quote": "The accelerator gave our go-to-market team a shared AI language and weekly labs that translated straight into reusable workflows. We left with templates that saved us hours the following sprint.",
     "allowPublicUse": true,
-    "featured": false,
-    "source": "",
+    "source": "manual",
     "createdAt": "2025-12-31T16:53:04.725Z"
   }
 ]
