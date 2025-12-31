@@ -59,11 +59,11 @@
     let selectedProgram = defaultProgramSlug;
     let rating = '5';
     let quote =
-        'Finally, a training course that made working with AI feel practical and enjoyable. This is a sample submission while we test the form.';
-    let displayName = 'Test Student';
+        'The accelerator gave our go-to-market team a shared AI language and weekly labs that translated straight into reusable workflows. We left with templates that saved us hours the following sprint.';
+    let displayName = 'Bill R.';
     let email = 'bill.raymond@cambermast.com';
-    let jobTitle = 'Program Manager';
-    let company = 'Sample Industry';
+    let jobTitle = 'Director of Enablement';
+    let company = 'Northwind Robotics';
     let customProgramTitle = '';
     let allowPublicUse = true;
     let status: FormStatus = 'idle';
