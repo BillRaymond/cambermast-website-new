@@ -50,18 +50,5 @@
 		"allowPublicUse": true,
 		"source": "manual",
 		"createdAt": "2024-02-10"
-	},
-	{
-		"id": "tm-cm-tr-002-002",
-		"programSku": "CM-TR-002",
-		"programSlug": "ai-accelerator-workshop",
-		"programRoute": "/training/ai-accelerator-workshop",
-		"displayName": "Bill R.",
-		"jobTitle": "Director of Enablement",
-		"rating": 5,
-		"quote": "The accelerator gave our go-to-market team a shared AI language and weekly labs that translated straight into reusable workflows. We left with templates that saved us hours the following sprint.",
-		"allowPublicUse": true,
-		"source": "manual",
-		"createdAt": "2025-12-31T20:10:07.461Z"
 	}
 ]
