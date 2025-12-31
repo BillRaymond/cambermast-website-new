@@ -418,8 +418,8 @@
 
         <div>
             <span class="block text-sm font-semibold uppercase tracking-wide text-gray-600"
-                >How many stars would you give it?
-                <span class="text-red-500" aria-hidden="true">*</span>
+                >How many stars would you give this training?
+                <span class="text-red-500" aria-hidden="true">&nbsp;*</span>
                 <span class="sr-only"> required</span></span
             >
             <p class="mt-1 text-xs text-gray-500">5 stars means the session was exceptional.</p>
