@@ -110,7 +110,7 @@
     "programSku": "CM-TR-004",
     "programSlug": "ai-automation-with-agents",
     "programRoute": "/training/ai-automation-with-agents",
-    "displayName": "Morgan T.",
+    "displayName": "Morgan U.",
     "jobTitle": "Lead Solutions Engineer",
     "rating": 5,
     "quote": "The workshop demystified n8n for our engineers and gave us the guardrails we needed to ship safely.",
@@ -129,5 +129,19 @@
     "allowPublicUse": false,
     "source": "manual",
     "createdAt": "2024-04-01"
+  },
+  {
+    "id": "tm-cm-tr-002-005",
+    "programSku": "CM-TR-002",
+    "programSlug": "ai-accelerator-workshop",
+    "programRoute": "/training/ai-accelerator-workshop",
+    "displayName": "Bill R.",
+    "jobTitle": "Director of Enablement",
+    "company": "Northwind Robotics",
+    "rating": 5,
+    "quote": "The accelerator gave our go-to-market team a shared AI language and weekly labs that translated straight into reusable workflows. We left with templates that saved us hours the following sprint.",
+    "allowPublicUse": true,
+    "source": "import",
+    "createdAt": "2025-12-31T16:05:54.849Z"
   }
 ]
