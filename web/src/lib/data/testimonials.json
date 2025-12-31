@@ -60,7 +60,7 @@
     "jobTitle": "Director of Enablement",
     "company": "Northwind Robotics",
     "rating": 5,
-    "quote": "The accelerator gave our go-to-market team a shared AI language and weekly labs that translated straight into reusable workflows. We left with templates that saved us hours the following sprint.",
+    "quote": "The accelerator gave our go-to-to-market team a shared AI language and weekly labs that translated straight into reusable workflows. We left with templates that saved us hours the following sprint.",
     "allowPublicUse": true,
     "createdAt": "2025-12-31T16:36:26.303Z"
   },
@@ -73,8 +73,21 @@
     "jobTitle": "Director of Enablement",
     "company": "Northwind Robotics",
     "rating": 5,
-    "quote": "The accelerator gave our go-to-market team a shared AI language and weekly labs that translated straight into reusable workflows. We left with templates that saved us hours the following sprint.",
+    "quote": "The accelerator gave our go-to-to-market team a shared AI language and weekly labs that translated straight into reusable workflows. We left with templates that saved us hours the following sprint.",
     "allowPublicUse": true,
     "createdAt": "2025-12-31T16:48:40.589Z"
+  },
+  {
+    "id": "tm-cm-tr-002-003",
+    "programSku": "CM-TR-002",
+    "programSlug": "ai-accelerator-workshop",
+    "programRoute": "/training/ai-accelerator-workshop",
+    "displayName": "Bill R.",
+    "jobTitle": "Director of Enablement",
+    "company": "Northwind Robotics",
+    "rating": 5,
+    "quote": "The accelerator gave our go-to-market team a shared AI language and weekly labs that translated straight into reusable workflows. We left with templates that saved us hours the following sprint.",
+    "allowPublicUse": true,
+    "createdAt": "2025-12-31T16:53:04.725Z"
   }
 ]
