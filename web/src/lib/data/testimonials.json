@@ -1,5 +1,5 @@
 [
-  {
+{
     "id": "tm-cm-tr-001-001",
     "programSku": "CM-TR-001",
     "programSlug": "ai-fundamentals",
@@ -11,8 +11,8 @@
     "allowPublicUse": true,
     "source": "manual",
     "createdAt": "2024-01-05"
-  },
-  {
+},
+{
     "id": "tm-cm-tr-001-002",
     "programSku": "CM-TR-001",
     "programSlug": "ai-fundamentals",
@@ -24,8 +24,8 @@
     "allowPublicUse": true,
     "source": "manual",
     "createdAt": "2024-01-18"
-  },
-  {
+},
+{
     "id": "tm-cm-tr-001-003",
     "programSku": "CM-TR-001",
     "programSlug": "ai-fundamentals",
@@ -37,8 +37,8 @@
     "allowPublicUse": true,
     "source": "manual",
     "createdAt": "2024-01-25"
-  },
-  {
+},
+{
     "id": "tm-cm-tr-002-001",
     "programSku": "CM-TR-002",
     "programSlug": "ai-accelerator-workshop",
@@ -50,8 +50,8 @@
     "allowPublicUse": true,
     "source": "manual",
     "createdAt": "2024-02-10"
-  },
-  {
+},
+{
     "id": "tm-cm-tr-002-002",
     "programSku": "CM-TR-002",
     "programSlug": "ai-accelerator-workshop",
@@ -63,8 +63,8 @@
     "allowPublicUse": true,
     "source": "manual",
     "createdAt": "2024-02-18"
-  },
-  {
+},
+{
     "id": "tm-cm-tr-004-001",
     "programSku": "CM-TR-004",
     "programSlug": "ai-automation-with-agents",
@@ -72,12 +72,12 @@
     "displayName": "Alex G.",
     "jobTitle": "Director of Automation",
     "rating": 5,
-    "quote": "We launched an intake bot that now triages 80% of partner requests before a human touches them.",
+    "quote": "We launched an intake bot that now triage 80% of partner requests before a human touches them.",
     "allowPublicUse": true,
     "source": "manual",
     "createdAt": "2024-03-04"
-  },
-  {
+},
+{
     "id": "tm-cm-tr-004-002",
     "programSku": "CM-TR-004",
     "programSlug": "ai-automation-with-agents",
@@ -89,8 +89,8 @@
     "allowPublicUse": true,
     "source": "manual",
     "createdAt": "2024-03-12"
-  },
-  {
+},
+{
     "id": "tm-cm-tr-draft-001-001",
     "programSku": "CM-TR-DRAFT-001",
     "programSlug": "ai-power-prompting-draft",
@@ -101,5 +101,19 @@
     "allowPublicUse": false,
     "source": "manual",
     "createdAt": "2024-04-01"
-  }
+},
+{
+  "id": "tm-cm-tr-002-003",
+  "programSku": "CM-TR-002",
+  "programSlug": "ai-accelerator-workshop",
+  "programRoute": "/training/ai-accelerator-workshop",
+  "displayName": "Bill R.",
+  "company": "Northwind Robotics",
+  "jobTitle": "Director of Enablement",
+  "rating": 5,
+  "quote": "The accelerator gave our go-to-market team a shared AI language and weekly labs that translated straight into reusable workflows. We left with templates that saved us hours the following sprint.",
+  "allowPublicUse": true,
+  "source": "manual",
+  "createdAt": "2025-12-31T16:20:26.612Z"
+}
 ]
