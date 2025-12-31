@@ -1,13 +1,35 @@
-{
-  "id": "tm-cm-tr-002-005",
-  "programSku": "CM-TR-002",
-  "programSlug": "ai-accelerator-workshop",
-  "programRoute": "/programs/ai-accelerator-workshop",
-  "displayName": "Bill R.",
-  "jobTitle": "Director of Enablement",
-  "company": "Northwind Robotics",
-  "rating": 5,
-  "quote": "The accelerator gave our go-to-market team a shared AI language and weekly labs that translated straight into reusable workflows. We left with templates that saved us hours the following sprint.",
-  "allowPublicUse": true,
-  "createdAt": "2025-12-31T02:52:52.227Z"
-}
+/**
+ * Central testimonial registry.
+ *
+ * Workflows (like n8n) can regenerate this module when approved testimonials arrive.
+ * Each entry ties back to a training SKU so both the public training pages and
+ * TechLAB pages can render the same quotes without hitting an API.
+ */
+
+import testimonialsJson from './testimonials.json';
+
+export type Testimonial = {
+	id: string;
+	programSku: string;
+	programSlug: string;
+	programRoute: string;
+	displayName: string;
+	jobTitle?: string;
+	company?: string;
+	rating: number;
+	quote: string;
+	allowPublicUse: boolean;
+	featured?: boolean;
+	source?: 'form' | 'manual' | 'import';
+	createdAt: string;
+};
+
+export const testimonials: Testimonial[] = testimonialsJson as Testimonial[];
+
+export const listTestimonials = (): Testimonial[] => [...testimonials];
+
+export const listTestimonialsForSku = (sku?: string): Testimonial[] =>
+	sku ? testimonials.filter((testimonial) => testimonial.programSku === sku) : [];
+
+export const listTestimonialsForSlug = (slug?: string): Testimonial[] =>
+	slug ? testimonials.filter((testimonial) => testimonial.programSlug === slug) : [];
