@@ -386,11 +386,10 @@
         aria-busy={status === 'sending'}
     >
         <div>
-            <label class="block text-sm font-semibold uppercase tracking-wide text-gray-600" for="testimonial-program"
-                >Which training did you complete?
-                <span class="text-red-500" aria-hidden="true">&nbsp;*</span>
-                <span class="sr-only"> required</span></label
-            >
+            <label class="block text-sm font-semibold uppercase tracking-wide text-gray-600" for="testimonial-program">
+                <span class="required-label">Which training did you complete?</span>
+                <span class="sr-only"> required</span>
+            </label>
             <select
                 class="mt-2 w-full rounded-lg border bg-white px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500"
                 bind:value={selectedProgram}
@@ -417,11 +416,10 @@
         </div>
 
         <div>
-            <span class="block text-sm font-semibold uppercase tracking-wide text-gray-600"
-                >How many stars would you give this training?
-                <span class="text-red-500" aria-hidden="true">&nbsp;*</span>
-                <span class="sr-only"> required</span></span
-            >
+            <span class="block text-sm font-semibold uppercase tracking-wide text-gray-600">
+                <span class="required-label">How many stars would you give this training?</span>
+                <span class="sr-only"> required</span>
+            </span>
             <p class="mt-1 text-xs text-gray-500">5 stars means the session was exceptional.</p>
             <div class="mt-3 flex items-center gap-1">
                 {#each ratingOptions as option, index}
@@ -458,11 +456,10 @@
         </div>
 
         <div>
-            <label class="block text-sm font-semibold uppercase tracking-wide text-gray-600" for="testimonial-quote"
-                >What made this training valuable for you?
-                <span class="text-red-500" aria-hidden="true">&nbsp;*</span>
-                <span class="sr-only"> required</span></label
-            >
+            <label class="block text-sm font-semibold uppercase tracking-wide text-gray-600" for="testimonial-quote">
+                <span class="required-label">What made this training valuable for you?</span>
+                <span class="sr-only"> required</span>
+            </label>
             <textarea
                 class="mt-2 w-full rounded-lg border px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500"
                 bind:value={quote}
@@ -488,11 +485,10 @@
         </div>
 
         <div>
-            <label class="block text-sm font-medium text-gray-700" for="testimonial-name"
-                >Name to display
-                <span class="text-red-500" aria-hidden="true">&nbsp;*</span>
-                <span class="sr-only"> required</span></label
-            >
+            <label class="block text-sm font-medium text-gray-700" for="testimonial-name">
+                <span class="required-label">Name to display</span>
+                <span class="sr-only"> required</span>
+            </label>
             <input
                 class="mt-1 w-full rounded-md border px-3 py-1.5 outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-400"
                 bind:value={displayName}
@@ -646,7 +642,7 @@
         </button>
 
         <p class="text-xs font-medium uppercase tracking-wide text-gray-500">
-            Fields marked <span class="text-red-500" aria-hidden="true">*</span> are required.
+            Fields marked<span class="required-label required-label--inline" aria-hidden="true"></span> are required.
         </p>
     </form>
 </section>
@@ -677,5 +673,15 @@
 		:global(.rating-star--pulse) {
 			animation: none;
 		}
+	}
+
+	:global(.required-label)::after {
+		content: '\00a0*';
+		color: #ef4444;
+		font-weight: 600;
+	}
+
+	:global(.required-label--inline)::after {
+		content: '*';
 	}
 </style>
