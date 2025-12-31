@@ -65,55 +65,30 @@
     "createdAt": "2024-02-18"
 },
 {
-    "id": "tm-cm-tr-004-001",
-    "programSku": "CM-TR-004",
-    "programSlug": "ai-automation-with-agents",
-    "programRoute": "/training/ai-automation-with-agents",
-    "displayName": "Alex G.",
-    "jobTitle": "Director of Automation",
+    "id": "tm-cm-tr-002-003",
+    "programSku": "CM-TR-002",
+    "programSlug": "ai-accelerator-workshop",
+    "programRoute": "/training/ai-accelerator-workshop",
+    "displayName": "Bill R.",
+    "company": "Northwind Robotics",
+    "jobTitle": "Director of Enablement",
     "rating": 5,
-    "quote": "We launched an intake bot that now triage 80% of partner requests before a human touches them.",
+    "quote": "The accelerator gave our go-to-market team a shared AI language and weekly labs that translated straight into reusable workflows. We left with templates that saved us hours the following sprint.",
     "allowPublicUse": true,
     "source": "manual",
-    "createdAt": "2024-03-04"
+    "createdAt": "2025-12-31T16:20:26.612Z"
 },
 {
-    "id": "tm-cm-tr-004-002",
-    "programSku": "CM-TR-004",
-    "programSlug": "ai-automation-with-agents",
-    "programRoute": "/training/ai-automation-with-agents",
-    "displayName": "Morgan U.",
-    "jobTitle": "Lead Solutions Engineer",
+    "id": "tm-cm-tr-002-004",
+    "programSku": "CM-TR-002",
+    "programSlug": "ai-accelerator-workshop",
+    "programRoute": "/training/ai-accelerator-workshop",
+    "displayName": "Bill R.",
+    "jobTitle": "Director of Enablement",
+    "company": "Northwind Robotics",
     "rating": 5,
-    "quote": "The workshop demystified n8n for our engineers and gave us the guardrails we needed to ship safely.",
+    "quote": "The accelerator gave our go-to-market team a shared AI language and weekly labs that translated straight into reusable workflows. We left with templates that saved us hours the following sprint.",
     "allowPublicUse": true,
-    "source": "manual",
-    "createdAt": "2024-03-12"
-},
-{
-    "id": "tm-cm-tr-draft-001-001",
-    "programSku": "CM-TR-DRAFT-001",
-    "programSlug": "ai-power-prompting-draft",
-    "programRoute": "/training/ai-power-prompting-draft",
-    "displayName": "Cambermast Reviewer",
-    "rating": 5,
-    "quote": "Placeholder: replace with real testimonial before launch.",
-    "allowPublicUse": false,
-    "source": "manual",
-    "createdAt": "2024-04-01"
-},
-{
-  "id": "tm-cm-tr-002-003",
-  "programSku": "CM-TR-002",
-  "programSlug": "ai-accelerator-workshop",
-  "programRoute": "/training/ai-accelerator-workshop",
-  "displayName": "Bill R.",
-  "company": "Northwind Robotics",
-  "jobTitle": "Director of Enablement",
-  "rating": 5,
-  "quote": "The accelerator gave our go-to-market team a shared AI language and weekly labs that translated straight into reusable workflows. We left with templates that saved us hours the following sprint.",
-  "allowPublicUse": true,
-  "source": "manual",
-  "createdAt": "2025-12-31T16:20:26.612Z"
+    "createdAt": "2025-12-31T16:31:28.903Z"
 }
 ]
