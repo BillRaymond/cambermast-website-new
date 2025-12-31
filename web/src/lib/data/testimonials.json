@@ -63,5 +63,17 @@
     "allowPublicUse": true,
     "source": "training-testimonial",
     "createdAt": "2025-12-31T21:52:10.326Z"
+  },
+  {
+    "id": "tm-cm-tr-002-004",
+    "programSku": "CM-TR-002",
+    "programSlug": "ai-accelerator-workshop",
+    "programRoute": "/training/ai-accelerator-workshop",
+    "displayName": "Michael C.",
+    "jobTitle": "Product consultant",
+    "rating": 5,
+    "quote": "This was amazing!",
+    "source": "training-testimonial",
+    "createdAt": "2025-12-31T22:09:39.574Z"
   }
 ]
