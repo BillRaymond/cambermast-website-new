@@ -386,9 +386,10 @@
         aria-busy={status === 'sending'}
     >
         <div>
-            <label class="block text-sm font-semibold uppercase tracking-wide text-gray-600" for="testimonial-program"
+            <label
+                class="required-label block text-sm font-semibold uppercase tracking-wide text-gray-600"
+                for="testimonial-program"
                 >Which training did you complete?
-                <span class="text-red-500 required-indicator" aria-hidden="true">*</span>
                 <span class="sr-only"> required</span></label
             >
             <select
@@ -417,9 +418,8 @@
         </div>
 
         <div>
-            <span class="block text-sm font-semibold uppercase tracking-wide text-gray-600"
+            <span class="required-label block text-sm font-semibold uppercase tracking-wide text-gray-600"
                 >How many stars would you give this training?
-                <span class="text-red-500 required-indicator" aria-hidden="true">*</span>
                 <span class="sr-only"> required</span></span
             >
             <p class="mt-1 text-xs text-gray-500">5 stars means the session was exceptional.</p>
@@ -458,9 +458,10 @@
         </div>
 
         <div>
-            <label class="block text-sm font-semibold uppercase tracking-wide text-gray-600" for="testimonial-quote"
+            <label
+                class="required-label block text-sm font-semibold uppercase tracking-wide text-gray-600"
+                for="testimonial-quote"
                 >What made this training valuable for you?
-                <span class="text-red-500 required-indicator" aria-hidden="true">*</span>
                 <span class="sr-only"> required</span></label
             >
             <textarea
@@ -488,9 +489,10 @@
         </div>
 
         <div>
-            <label class="block text-sm font-medium text-gray-700" for="testimonial-name"
+            <label
+                class="required-label block text-sm font-medium text-gray-700"
+                for="testimonial-name"
                 >Name to display
-                <span class="text-red-500 required-indicator" aria-hidden="true">*</span>
                 <span class="sr-only"> required</span></label
             >
             <input
@@ -646,7 +648,7 @@
         </button>
 
         <p class="text-xs font-medium uppercase tracking-wide text-gray-500">
-            Fields marked <span class="text-red-500 required-indicator" aria-hidden="true">*</span> are required.
+            Fields marked<span class="required-marker text-red-500" aria-hidden="true"></span> are required.
         </p>
     </form>
 </section>
@@ -679,9 +681,13 @@
 		}
 	}
 
-	:global(.required-indicator) {
-		white-space: nowrap;
-		display: inline-flex;
-		margin-left: 0.1rem;
+	:global(.required-label)::after {
+		content: '*';
+		color: #ef4444;
+		font-weight: inherit;
+	}
+
+	:global(.required-marker)::before {
+		content: '*';
 	}
 </style>
