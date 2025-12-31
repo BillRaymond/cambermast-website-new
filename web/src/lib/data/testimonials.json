@@ -75,5 +75,17 @@
     "quote": "This was amazing!",
     "source": "training-testimonial",
     "createdAt": "2025-12-31T22:09:39.574Z"
+  },
+  {
+    "id": "tm-cm-tr-005-001",
+    "programSku": "CM-TR-005",
+    "programSlug": "ai-workshop-for-content-creators",
+    "programRoute": "/training/ai-workshop-for-content-creators",
+    "displayName": "Bill R.",
+    "jobTitle": "Director of Training",
+    "rating": 5,
+    "quote": "This workshop gave me what I need to start my career at the top of the new year.",
+    "source": "training-testimonial",
+    "createdAt": "2025-12-31T22:15:16.582Z"
   }
 ]
