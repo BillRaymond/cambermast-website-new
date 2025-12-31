@@ -65,34 +65,6 @@
     "createdAt": "2024-02-18"
   },
   {
-    "id": "tm-cm-tr-002-003",
-    "programSku": "CM-TR-002",
-    "programSlug": "ai-accelerator-workshop",
-    "programRoute": "/training/ai-accelerator-workshop",
-    "displayName": "Bill R.",
-    "jobTitle": "Director of Enablement",
-    "company": "Northwind Robotics",
-    "rating": 5,
-    "quote": "The accelerator gave our go-to-market team a shared AI language and weekly labs that translated straight into reusable workflows. We left with templates that saved us hours the following sprint.",
-    "allowPublicUse": true,
-    "source": "import",
-    "createdAt": "2025-12-31T00:40:59.882Z"
-  },
-  {
-    "id": "tm-cm-tr-002-004",
-    "programSku": "CM-TR-002",
-    "programSlug": "ai-accelerator-workshop",
-    "programRoute": "/training/ai-accelerator-workshop",
-    "displayName": "Bill R.",
-    "jobTitle": "Director of Enablement",
-    "company": "Northwind Robotics",
-    "rating": 5,
-    "quote": "The accelerator gave our go-to-market team a shared AI language and weekly labs that translated straight into reusable workflows. We left with templates that saved us hours the following sprint.",
-    "allowPublicUse": true,
-    "source": "import",
-    "createdAt": "2025-12-31T01:20:35.910Z"
-  },
-  {
     "id": "tm-cm-tr-004-001",
     "programSku": "CM-TR-004",
     "programSlug": "ai-automation-with-agents",
@@ -129,19 +101,5 @@
     "allowPublicUse": false,
     "source": "manual",
     "createdAt": "2024-04-01"
-  },
-  {
-    "id": "tm-cm-tr-002-005",
-    "programSku": "CM-TR-002",
-    "programSlug": "ai-accelerator-workshop",
-    "programRoute": "/training/ai-accelerator-workshop",
-    "displayName": "Bill R.",
-    "jobTitle": "Director of Enablement",
-    "company": "Northwind Robotics",
-    "rating": 5,
-    "quote": "The accelerator gave our go-to-market team a shared AI language and weekly labs that translated straight into reusable workflows. We left with templates that saved us hours the following sprint.",
-    "allowPublicUse": true,
-    "source": "import",
-    "createdAt": "2025-12-31T16:05:54.849Z"
   }
 ]
