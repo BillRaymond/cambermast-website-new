@@ -289,6 +289,7 @@
             const trimmedCustomProgram = customProgramTitle.trim();
             const programData = selectedProgram === 'other' ? undefined : getTrainingProgram(selectedProgram);
             const programSku = programData?.sku;
+            const programRoute = programData?.route;
             const generatedId = programSku ? getNextTestimonialId(programSku) : undefined;
             const res = await fetch(getWebhookUrl(), {
                 method: 'POST',
@@ -304,6 +305,7 @@
                     programTitle: getProgramTitle(selectedProgram),
                     customProgramTitle: selectedProgram === 'other' ? trimmedCustomProgram || undefined : undefined,
                     programSku,
+                    programRoute,
                     rating: numericRating,
                     quote,
                     allowPublicUse,
