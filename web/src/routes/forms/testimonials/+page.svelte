@@ -1,7 +1,8 @@
 <script lang="ts">
     import { onMount } from 'svelte';
     import SeoHead from '$lib/components/SeoHead.svelte';
-    import { listTrainingPrograms } from '$lib/data/training';
+    import { listTestimonials } from '$lib/data/testimonials';
+    import { getTrainingProgram, listTrainingPrograms } from '$lib/data/training';
 
     type FormStatus = 'idle' | 'sending' | 'sent' | 'error';
 
@@ -51,8 +52,8 @@
     const productionTurnstileSiteKey = '0x4AAAAAACJwz83T0R7vFAHk';
     const developmentTurnstileSiteKey = '1x00000000000000000000AA';
     const productionBaseDomains = ['cambermast.com'];
-
-    const webhook = 'https://n8n.cambermast.com/webhook/2e4d3bc6-d83c-492f-8912-6e95dbc10d33';
+    const productionWebhookUrl = 'https://n8n.cambermast.com/webhook/2e4d3bc6-d83c-492f-8912-6e95dbc10d33';
+    const developmentWebhookUrl = 'https://n8n.cambermast.com/webhook-test/2e4d3bc6-d83c-492f-8912-6e95dbc10d33';
 
     const defaultProgramSlug = trainingPrograms[0]?.slug ?? '';
     let selectedProgram = defaultProgramSlug;
@@ -60,7 +61,7 @@
     let quote =
         'Finally, a training course that made working with AI feel practical and enjoyable. This is a sample submission while we test the form.';
     let displayName = 'Test Student';
-    let email = 'test@example.com';
+    let email = 'bill.raymond@cambermast.com';
     let jobTitle = 'Program Manager';
     let company = 'Sample Industry';
     let customProgramTitle = '';
@@ -102,16 +103,85 @@
     const isProductionHost = (host: string): boolean =>
         productionBaseDomains.some((domain) => host === domain || host.endsWith(`.${domain}`));
 
-    const getTurnstileSiteKey = () => {
+    const getTurnstileEnvironment = () => {
         const turnstileWindow = getTurnstileWindow();
         const host = turnstileWindow?.location.hostname;
-        if (!host) return productionTurnstileSiteKey;
-        return isProductionHost(host) ? productionTurnstileSiteKey : developmentTurnstileSiteKey;
+        const isProdHost = host ? isProductionHost(host) : true;
+        return isProdHost
+            ? { siteKey: productionTurnstileSiteKey, isDevelopment: false }
+            : { siteKey: developmentTurnstileSiteKey, isDevelopment: true };
+    };
+
+    const testimonialsBySku = listTestimonials().reduce((acc, testimonial) => {
+        const idMatch = testimonial.id.match(/(\d+)$/);
+        const sequence = idMatch ? Number(idMatch[1]) : 0;
+        acc[testimonial.programSku] = Math.max(acc[testimonial.programSku] ?? 0, sequence);
+        return acc;
+    }, {} as Record<string, number>);
+
+    const getNextTestimonialId = (sku: string): string => {
+        const nextSequence = (testimonialsBySku[sku] ?? 0) + 1;
+        testimonialsBySku[sku] = nextSequence;
+        const normalizedSku = sku.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+        return `tm-${normalizedSku}-${String(nextSequence).padStart(3, '0')}`;
     };
 
     const getProgramTitle = (slug: string): string => {
         if (slug === 'other') return customProgramTitle.trim() || 'Other or not listed';
         return trainingPrograms.find((program) => program.slug === slug)?.title ?? 'Training program';
+    };
+
+    const getWebhookUrl = () => {
+        const turnstileWindow = getTurnstileWindow();
+        const host = turnstileWindow?.location.hostname;
+        if (!host) return productionWebhookUrl;
+        return isProductionHost(host) ? productionWebhookUrl : developmentWebhookUrl;
+    };
+
+    type TurnstileErrorEntry = {
+        'error-codes'?: unknown;
+        messages?: unknown;
+        message?: unknown;
+        error?: unknown;
+    };
+
+    const formatTurnstileError = (codes: string[], isDevEnvironment: boolean): string => {
+        if (codes.includes('invalid-input-response')) {
+            return isDevEnvironment
+                ? 'Cloudflare Turnstile is in development mode, so tokens from this host are not accepted. Use cambermast.com to submit real testimonials.'
+                : 'Cloudflare could not verify your response. Please refresh the verification widget and try again.';
+        }
+        return `Cloudflare could not verify the challenge (${codes.join(', ')}). Please try again.`;
+    };
+
+    const extractWebhookErrorMessage = (payload: unknown, isDevEnvironment: boolean): string => {
+        if (!payload) return '';
+        if (typeof payload === 'string') return payload;
+        if (Array.isArray(payload)) {
+            for (const entry of payload) {
+                if (!entry || typeof entry !== 'object') continue;
+                const record = entry as TurnstileErrorEntry;
+                const codes = Array.isArray(record['error-codes'])
+                    ? record['error-codes'].filter((code): code is string => typeof code === 'string')
+                    : [];
+                if (codes.length) return formatTurnstileError(codes, isDevEnvironment);
+                const messages = Array.isArray(record.messages)
+                    ? record.messages.filter((msg): msg is string => typeof msg === 'string')
+                    : [];
+                if (messages.length) return messages.join(' ');
+            }
+            return '';
+        }
+        if (typeof payload === 'object') {
+            const record = payload as TurnstileErrorEntry;
+            if (typeof record.message === 'string') return record.message;
+            if (typeof record.error === 'string') return record.error;
+            const codes = Array.isArray(record['error-codes'])
+                ? record['error-codes'].filter((code): code is string => typeof code === 'string')
+                : [];
+            if (codes.length) return formatTurnstileError(codes, isDevEnvironment);
+        }
+        return '';
     };
 
     const resetTurnstile = () => {
@@ -132,8 +202,9 @@
 
         turnstileContainer.innerHTML = '';
         turnstileToken = '';
-        turnstileSiteKeyInUse = getTurnstileSiteKey();
-        turnstileIsDevelopmentSiteKey = turnstileSiteKeyInUse === developmentTurnstileSiteKey;
+        const { siteKey, isDevelopment } = getTurnstileEnvironment();
+        turnstileSiteKeyInUse = siteKey;
+        turnstileIsDevelopmentSiteKey = isDevelopment;
 
         turnstileWidgetId = turnstile.render(turnstileContainer, {
             sitekey: turnstileSiteKeyInUse,
@@ -216,11 +287,15 @@
 
         try {
             const trimmedCustomProgram = customProgramTitle.trim();
-            const res = await fetch(webhook, {
+            const programData = selectedProgram === 'other' ? undefined : getTrainingProgram(selectedProgram);
+            const programSku = programData?.sku;
+            const generatedId = programSku ? getNextTestimonialId(programSku) : undefined;
+            const res = await fetch(getWebhookUrl(), {
                 method: 'POST',
                 mode: 'cors',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
+                    id: generatedId,
                     displayName,
                     email,
                     company: company || undefined,
@@ -228,10 +303,12 @@
                     programSlug: selectedProgram === 'other' ? undefined : selectedProgram,
                     programTitle: getProgramTitle(selectedProgram),
                     customProgramTitle: selectedProgram === 'other' ? trimmedCustomProgram || undefined : undefined,
+                    programSku,
                     rating: numericRating,
                     quote,
                     allowPublicUse,
                     source: 'training-testimonial',
+                    createdAt: new Date().toISOString(),
                     turnstileToken,
                     turnstileSiteKey: turnstileSiteKeyInUse,
                     turnstileIsDevelopmentSiteKey
@@ -242,10 +319,7 @@
                 let description = '';
                 try {
                     const data = await res.json();
-                    description =
-                        (data as { message?: string; error?: string })?.message ??
-                        (data as { message?: string; error?: string })?.error ??
-                        '';
+                    description = extractWebhookErrorMessage(data, turnstileIsDevelopmentSiteKey);
                 } catch (err) {
                     // ignore json parse failures here
                 }

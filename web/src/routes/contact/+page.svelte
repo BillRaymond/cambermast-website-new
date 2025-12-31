@@ -82,11 +82,13 @@ const getTurnstileWindow = (): TurnstileWindow | undefined => {
 const isProductionHost = (host: string): boolean =>
 	productionBaseDomains.some((domain) => host === domain || host.endsWith(`.${domain}`));
 
-const getTurnstileSiteKey = () => {
+const getTurnstileEnvironment = () => {
 	const turnstileWindow = getTurnstileWindow();
 	const host = turnstileWindow?.location.hostname;
-	if (!host) return productionTurnstileSiteKey;
-	return isProductionHost(host) ? productionTurnstileSiteKey : developmentTurnstileSiteKey;
+	const isProdHost = host ? isProductionHost(host) : true;
+	return isProdHost
+		? { siteKey: productionTurnstileSiteKey, isDevelopment: false }
+		: { siteKey: developmentTurnstileSiteKey, isDevelopment: true };
 };
 
 const webhook = 'https://n8n.cambermast.com/webhook/0095b76c-c32c-49ce-a59d-de6435af2b3e';
@@ -153,8 +155,9 @@ const initTurnstile = () => {
 
 	turnstileContainer.innerHTML = '';
 	turnstileToken = '';
-	turnstileSiteKeyInUse = getTurnstileSiteKey();
-	turnstileIsDevelopmentSiteKey = turnstileSiteKeyInUse === developmentTurnstileSiteKey;
+	const { siteKey, isDevelopment } = getTurnstileEnvironment();
+	turnstileSiteKeyInUse = siteKey;
+	turnstileIsDevelopmentSiteKey = isDevelopment;
 
 	turnstileWidgetId = turnstile.render(turnstileContainer, {
 		sitekey: turnstileSiteKeyInUse,
