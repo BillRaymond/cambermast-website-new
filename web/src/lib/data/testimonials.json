@@ -77,15 +77,29 @@
     "createdAt": "2025-12-31T22:09:39.574Z"
   },
   {
-    "id": "tm-cm-tr-005-001",
-    "programSku": "CM-TR-005",
-    "programSlug": "ai-workshop-for-content-creators",
-    "programRoute": "/training/ai-workshop-for-content-creators",
-    "displayName": "Bill R.",
-    "jobTitle": "Director of Training",
+    "id": "tm-cm-tr-003-001",
+    "programSku": "CM-TR-003",
+    "programSlug": "ai-advanced-workshop",
+    "programRoute": "/training/ai-advanced-workshop",
+    "displayName": "Kara M.",
+    "jobTitle": "VP, Program Management",
     "rating": 5,
-    "quote": "This workshop gave me what I need to start my career at the top of the new year.",
+    "quote": "Every week layered strategy with hands-on labs, so our cross-functional team left with actual workflows and the confidence to scale them.",
+    "allowPublicUse": true,
     "source": "training-testimonial",
-    "createdAt": "2025-12-31T22:15:16.582Z"
+    "createdAt": "2026-01-04T18:12:00.000Z"
+  },
+  {
+    "id": "tm-cm-tr-004-001",
+    "programSku": "CM-TR-004",
+    "programSlug": "ai-automation-with-agents",
+    "programRoute": "/training/ai-automation-with-agents",
+    "displayName": "Andre L.",
+    "jobTitle": "Director of Business Operations",
+    "rating": 5,
+    "quote": "We shipped a working n8n agent that now triages customer requests overnight. The coaching around guardrails and monitoring was priceless.",
+    "allowPublicUse": true,
+    "source": "training-testimonial",
+    "createdAt": "2026-01-05T15:30:45.000Z"
   }
 ]
