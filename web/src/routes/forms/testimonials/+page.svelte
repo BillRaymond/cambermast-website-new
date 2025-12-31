@@ -58,12 +58,11 @@
     const defaultProgramSlug = trainingPrograms[0]?.slug ?? '';
     let selectedProgram = defaultProgramSlug;
     let rating = '5';
-    let quote =
-        'The accelerator gave our go-to-market team a shared AI language and weekly labs that translated straight into reusable workflows. We left with templates that saved us hours the following sprint.';
-    let displayName = 'Bill R.';
-    let email = 'bill.raymond@cambermast.com';
-    let jobTitle = 'Director of Enablement';
-    let company = 'Northwind Robotics';
+    let quote = '';
+    let displayName = '';
+    let email = '';
+    let jobTitle = '';
+    let company = '';
     let customProgramTitle = '';
     let allowPublicUse = true;
     let status: FormStatus = 'idle';
