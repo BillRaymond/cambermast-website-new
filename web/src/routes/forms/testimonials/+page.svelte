@@ -381,7 +381,7 @@
     </div>
 
     <form
-        class="space-y-6 rounded-3xl border border-blue-100 bg-white p-8 shadow-lg shadow-blue-100/80"
+        class="space-y-6 rounded-3xl border border-blue-100 bg-white px-4 py-6 sm:p-8 shadow-lg shadow-blue-100/80"
         on:submit|preventDefault={submitForm}
         aria-busy={status === 'sending'}
     >
