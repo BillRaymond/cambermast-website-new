@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { dev } from '$app/environment';
     import { onMount } from 'svelte';
     import SeoHead from '$lib/components/SeoHead.svelte';
     import { listTestimonials } from '$lib/data/testimonials';
@@ -57,16 +58,30 @@
     const productionWebhookUrl = 'https://n8n.cambermast.com/webhook/2e4d3bc6-d83c-492f-8912-6e95dbc10d33';
     const developmentWebhookUrl = 'https://n8n.cambermast.com/webhook-test/2e4d3bc6-d83c-492f-8912-6e95dbc10d33';
 
-    const defaultProgramSlug = trainingPrograms[0]?.slug ?? '';
-    let selectedProgram = defaultProgramSlug;
-    let rating = '';
-    let quote = '';
-    let displayName = '';
-    let email = '';
-    let jobTitle = '';
-    let company = '';
+    const devTestimonialPrefill = dev
+        ? {
+                selectedProgram: 'ai-workshop-for-content-creators',
+                rating: '5',
+                quote:
+                    'The AI workshop for tech writers gave our documentation team reusable prompt frameworks, review rails, and partner checkpoints. We now publish API updates faster without sacrificing accuracy or voice.',
+                displayName: 'Leah Patel',
+                email: 'Bill.Raymond@Cambermast.com',
+                jobTitle: 'Lead Technical Writer',
+                company: 'VectorPulse Systems',
+                allowPublicUse: true
+            }
+        : undefined;
+
+    const defaultProgramSlug = devTestimonialPrefill?.selectedProgram ?? trainingPrograms[0]?.slug ?? '';
+    let selectedProgram = devTestimonialPrefill?.selectedProgram ?? defaultProgramSlug;
+    let rating = devTestimonialPrefill?.rating ?? '';
+    let quote = devTestimonialPrefill?.quote ?? '';
+    let displayName = devTestimonialPrefill?.displayName ?? '';
+    let email = devTestimonialPrefill?.email ?? '';
+    let jobTitle = devTestimonialPrefill?.jobTitle ?? '';
+    let company = devTestimonialPrefill?.company ?? '';
     let customProgramTitle = '';
-    let allowPublicUse = true;
+    let allowPublicUse = devTestimonialPrefill?.allowPublicUse ?? true;
     let status: FormStatus = 'idle';
     let errorMsg = '';
     let turnstileToken = '';
@@ -286,6 +301,13 @@
             return;
         }
 
+        const sanitizedDisplayName = displayName.trim();
+        if (!sanitizedDisplayName) {
+            status = 'error';
+            errorMsg = 'Add the name we can show with your testimonial.';
+            return;
+        }
+
         try {
             const trimmedCustomProgram = customProgramTitle.trim();
             const programData = selectedProgram === 'other' ? undefined : getTrainingProgram(selectedProgram);
@@ -298,7 +320,7 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     id: generatedId,
-                    displayName,
+                    displayName: sanitizedDisplayName,
                     email,
                     company: company || undefined,
                     jobTitle: jobTitle || undefined,
@@ -576,6 +598,7 @@
                     id="testimonial-consent"
                     name="allowPublicUse"
                     bind:checked={allowPublicUse}
+                    required
                 />
                 <span>
                     I'm comfortable with Cambermast sharing my star rating and testimonial quote publicly (ex website, decks, newsletters, and other publications).
