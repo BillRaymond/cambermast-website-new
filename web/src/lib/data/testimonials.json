@@ -52,19 +52,6 @@
     "createdAt": "2024-02-10"
   },
   {
-    "id": "tm-cm-tr-002-002",
-    "programSku": "CM-TR-002",
-    "programSlug": "ai-accelerator-workshop",
-    "programRoute": "/training/ai-accelerator-workshop",
-    "displayName": "Bill R.",
-    "jobTitle": "Director of Enablement",
-    "rating": 5,
-    "quote": "The accelerator gave our go-to-market team a shared AI language and weekly labs that translated straight into reusable workflows. We left with templates that saved us hours the following sprint.",
-    "allowPublicUse": true,
-    "source": "training-testimonial",
-    "createdAt": "2025-12-31T21:52:10.326Z"
-  },
-  {
     "id": "tm-cm-tr-002-004",
     "programSku": "CM-TR-002",
     "programSlug": "ai-accelerator-workshop",
@@ -101,18 +88,6 @@
     "allowPublicUse": true,
     "source": "training-testimonial",
     "createdAt": "2026-01-05T15:30:45.000Z"
-  },
-  {
-    "id": "tm-cm-tr-005-001",
-    "programSku": "CM-TR-005",
-    "programSlug": "ai-workshop-for-content-creators",
-    "programRoute": "/training/ai-workshop-for-content-creators",
-    "displayName": "Bill R",
-    "jobTitle": "Product manager",
-    "rating": 5,
-    "quote": "It was a great class, and Bill is a fantastic teacher.",
-    "source": "training-testimonial",
-    "createdAt": "2026-01-06T18:33:31.203Z"
   },
   {
     "id": "tm-cm-tr-005-001",
