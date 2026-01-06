@@ -113,5 +113,17 @@
     "quote": "This course may have just saved my career. I’m so grateful for the amazing training and all the people I met!",
     "source": "training-testimonial",
     "createdAt": "2025-12-31T23:32:46.558Z"
+  },
+  {
+    "id": "tm-cm-tr-005-002",
+    "programSku": "CM-TR-005",
+    "programSlug": "ai-workshop-for-content-creators",
+    "programRoute": "/training/ai-workshop-for-content-creators",
+    "displayName": "Bill Raymond",
+    "jobTitle": "Founder",
+    "rating": 5,
+    "quote": "This course really helped me build my career and I am super excited to see how I can use AI for my work.",
+    "source": "training-testimonial",
+    "createdAt": "2026-01-06T16:59:08.693Z"
   }
 ]
