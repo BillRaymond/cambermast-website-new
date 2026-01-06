@@ -47,6 +47,11 @@ export const pageSeo: SeoOverrides = {
 		description:
 			'Print a one-page summary of Cambermast AI training offerings to share with stakeholders and decision makers.'
 	},
+	'/testimonials': {
+		title: 'AI Training Testimonials | Cambermast',
+		description:
+			'Browse testimonials from Cambermast training cohorts and workshops, grouped by program.'
+	},
 	'/agents': {
 		title: 'AI Agents & Automation Services | Cambermast',
 		description:
