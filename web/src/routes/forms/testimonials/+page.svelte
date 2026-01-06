@@ -670,9 +670,9 @@
 					required
 				/>
 				<span>
-					I am comfortable with Cambermast LLC sharing my star rating and testimonial quote publicly
-					(ex website, decks, newsletters, and other publications) and request to have it removed if
-					I change my mind.
+					I am comfortable with Cambermast LLC sharing my star rating and testimonial publicly
+					(e.g., websites, decks, newsletters, and other publications). I also understand that I can
+					contact Cambermast at any time to have my testimonial removed or modified.
 				</span>
 			</label>
 		</div>
