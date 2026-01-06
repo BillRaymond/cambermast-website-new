@@ -32,7 +32,8 @@
 		turnstile?: TurnstileApi;
 	};
 
-	const trainingPrograms = listTrainingPrograms()
+	const trainingProgramData = listTrainingPrograms();
+	const trainingPrograms = trainingProgramData
 		.slice()
 		.sort((a, b) => a.title.localeCompare(b.title))
 		.map((program) => ({
@@ -106,6 +107,28 @@
 		'“I finally felt like AI made sense for my work. The ideas were practical, easy to follow, and something I could actually use right away.”'
 	];
 	let sampleIndex = 0;
+
+	const getProgramSlugFromParam = (param: string | null): string | undefined => {
+		if (!param) return undefined;
+		const normalized = param.trim().toLowerCase();
+		if (!normalized) return undefined;
+		const matchedProgram = trainingProgramData.find((program) => {
+			const slugMatch = program.slug.toLowerCase() === normalized;
+			const skuMatch = program.sku?.toLowerCase() === normalized;
+			return slugMatch || skuMatch;
+		});
+		return matchedProgram?.slug;
+	};
+
+	const applyProgramSelectionFromUrl = () => {
+		const turnstileWindow = getTurnstileWindow();
+		if (!turnstileWindow) return;
+		const url = new URL(turnstileWindow.location.href);
+		const slugFromParam = getProgramSlugFromParam(url.searchParams.get('program'));
+		if (slugFromParam) {
+			selectedProgram = slugFromParam;
+		}
+	};
 
 	const getTurnstileTarget = (): string | HTMLElement | undefined =>
 		turnstileWidgetId ?? turnstileContainer ?? undefined;
@@ -274,6 +297,7 @@
 	};
 
 	onMount(() => {
+		applyProgramSelectionFromUrl();
 		loadTurnstile();
 		const interval = setInterval(() => {
 			sampleIndex = (sampleIndex + 1) % sampleTestimonials.length;
@@ -646,15 +670,16 @@
 					required
 				/>
 				<span>
-					I'm comfortable with Cambermast sharing my star rating and testimonial quote publicly (ex
-					website, decks, newsletters, and other publications).
+					I am comfortable with Cambermast LLC sharing my star rating and testimonial quote publicly
+					(ex website, decks, newsletters, and other publications) and request to have it removed if
+					I change my mind.
 				</span>
 			</label>
 		</div>
 
 		<div>
 			<label class="block text-sm font-medium text-gray-700" for="testimonial-email"
-				>Email (never shared)
+				>Email (never shared publicly)
 				<span class="text-red-500" aria-hidden="true">*</span>
 				<span class="sr-only"> required</span></label
 			>
@@ -667,7 +692,8 @@
 				required
 			/>
 			<p class="mt-1 text-xs text-gray-500">
-				We’ll only use this if we need to follow up. It will never be published.
+				We will only use your email for follow up and to keep you informed about our services. It
+				will never be published.
 			</p>
 		</div>
 
@@ -689,7 +715,7 @@
 		<div aria-live="polite">
 			{#if status === 'sent'}
 				<p class="text-sm text-green-600" role="status">
-					Incredible - thank you for sharing! Keep an eye out for your quote on upcoming pages.
+					Incredible - thank you for sharing! Keep an eye out for a follow up email.
 				</p>
 			{:else if status === 'error'}
 				<p class="text-sm text-red-600" role="alert">
@@ -712,7 +738,7 @@
 		</button>
 
 		<p class="text-xs font-medium uppercase tracking-wide text-gray-500">
-			Fields marked<span class="required-label required-label--inline" aria-hidden="true"></span> are
+			Fields marked <span class="required-label required-label--inline" aria-hidden="true"></span> are
 			required.
 		</p>
 	</form>
