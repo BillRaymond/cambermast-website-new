@@ -16,6 +16,7 @@ export type Testimonial = {
 	displayName: string;
 	jobTitle?: string;
 	company?: string;
+	photoUrl?: string | null;
 	rating: number;
 	quote: string;
 	allowPublicUse: boolean;

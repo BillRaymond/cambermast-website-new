@@ -127,6 +127,7 @@ const programCount = groupedTestimonials.length;
 							quote={testimonial.quote}
 							author={testimonial.displayName}
 							role={formatRole(testimonial)}
+							photoUrl={testimonial.photoUrl}
 						/>
 					{/each}
 				</div>

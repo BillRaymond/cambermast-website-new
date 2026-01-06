@@ -2,6 +2,7 @@
 	export let quote: string;
 	export let author: string;
 	export let role: string = '';
+	export let photoUrl: string | null | undefined = undefined;
 </script>
 
 <figure class="flex h-full flex-col justify-between rounded-2xl border border-blue-100 bg-white p-5 shadow-sm">
@@ -20,10 +21,21 @@
 		</div>
 		<blockquote class="mt-3.5 text-base text-gray-800">“{quote}”</blockquote>
 	</div>
-	<figcaption class="mt-4 text-sm font-semibold text-gray-700">
-		{author}
-		{#if role}
-			<span class="block font-normal text-gray-500">{role}</span>
+	<figcaption class="mt-4 flex items-center gap-3 text-sm text-gray-700">
+		{#if photoUrl}
+			<img
+				src={photoUrl}
+				alt={`${author} headshot`}
+				class="h-12 w-12 flex-shrink-0 rounded-full border border-blue-100 object-cover"
+				loading="lazy"
+				decoding="async"
+			/>
 		{/if}
+		<div class="font-semibold">
+			{author}
+			{#if role}
+				<span class="block font-normal text-gray-500">{role}</span>
+			{/if}
+		</div>
 	</figcaption>
 </figure>

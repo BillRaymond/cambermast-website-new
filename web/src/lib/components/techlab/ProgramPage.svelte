@@ -295,6 +295,7 @@ const formatTestimonialRole = (testimonial: Testimonial): string => {
 						quote={testimonial.quote}
 						author={testimonial.displayName}
 						role={formatTestimonialRole(testimonial)}
+						photoUrl={testimonial.photoUrl}
 					/>
 				{/each}
 			</div>

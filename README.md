@@ -45,3 +45,10 @@ When publishing significant messaging or offer changes:
 2. Review `ai.txt` for any policy implications (new assets, licensing, or restrictions).
 3. Review this `readme.md` to ensure it reflects relevant updates.
 4. Ensure the training [worksheet](https://docs.google.com/spreadsheets/d/1KmPBGD2_6RVGvnvK9d26zuvbxCfkbBCx9Fs816z7YhA/edit?gid=0#gid=0) updates.
+
+## Testimonial Photos
+
+- Store approved headshots under `web/static/images/testimonials/`.
+- Crop uploads to a square (1:1) at roughly **300×300px** so they render crisply inside the circular avatar treatment.
+- Save as optimized `.jpg` or `.png` (WebP is fine too) and keep files under ~150 KB to avoid bloating static pages.
+- Update `photoUrl` in `web/src/lib/data/testimonials.json` to point at `/images/testimonials/<filename>` whenever you add or replace a photo.
