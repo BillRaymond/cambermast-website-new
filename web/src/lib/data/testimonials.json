@@ -113,5 +113,17 @@
     "quote": "My job requires me to stay on top of new technology, and I feel that this course has helped me kickstart my AI learning journey. I am so excited!",
     "source": "training-testimonial",
     "createdAt": "2026-01-06T17:32:38.184Z"
+  },
+  {
+    "id": "tm-cm-tr-005-003",
+    "programSku": "CM-TR-005",
+    "programSlug": "ai-workshop-for-content-creators",
+    "programRoute": "/training/ai-workshop-for-content-creators",
+    "displayName": "Leah Patel",
+    "jobTitle": "Lead Technical Writer",
+    "rating": 5,
+    "quote": "The AI workshop for tech writers gave our documentation team reusable prompt frameworks, review rails, and partner checkpoints. We now publish API updates faster without sacrificing accuracy or voice.",
+    "source": "training-testimonial",
+    "createdAt": "2026-01-06T18:12:06.120Z"
   }
 ]
