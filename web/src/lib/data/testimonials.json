@@ -120,5 +120,17 @@
     "quote": "I came in experienced but unsure how to use AI without losing rigor. This workshop taught a disciplined way to embed AI into real content systems. I now build persona-led workflows where AI speeds drafting while accuracy, structure, and judgment stay human.",
     "source": "training-testimonial",
     "createdAt": "2026-01-07T13:58:28.634Z"
+  },
+  {
+    "id": "tm-cm-tr-005-003",
+    "programSku": "CM-TR-005",
+    "programSlug": "ai-workshop-for-content-creators",
+    "programRoute": "/training/ai-workshop-for-content-creators",
+    "displayName": "Melanie Shears",
+    "jobTitle": "Documentation Manager",
+    "rating": 5,
+    "quote": "Even as someone who’s been using AI tools for a couple of years, this course helped me level up fast. Bill went beyond “better prompts” and showed me advanced ways to research topics, structure real projects, and build custom GPT instructions that fit technical writing workflows. ",
+    "source": "training-testimonial",
+    "createdAt": "2026-01-07T14:41:48.351Z"
   }
 ]
