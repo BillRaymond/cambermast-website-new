@@ -411,6 +411,10 @@
 		<p class="text-xs font-medium uppercase tracking-wide text-gray-500">
 			Fields marked <span class="text-red-500" aria-hidden="true">*</span> are required.
 		</p>
+		<p class="text-xs text-gray-500">
+			We use your details only to respond to this inquiry and plan services you request. Learn more in
+			our <a class="font-semibold text-blue-600 underline" href="/gdpr">GDPR & privacy overview</a>.
+		</p>
 	</form>
 
 	<div class="space-y-5">

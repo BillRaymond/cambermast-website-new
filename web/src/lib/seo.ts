@@ -61,6 +61,11 @@ export const pageSeo: SeoOverrides = {
 		title: 'AI Advisory & Project Management | Cambermast',
 		description:
 			'Partner with Cambermast for AI advisory sprints, governance, and project leadership that turn pilots into repeatable wins.'
+	},
+	'/gdpr': {
+		title: 'GDPR & Privacy at Cambermast',
+		description:
+			'See how Cambermast handles contact and testimonial submissions, which third parties we use, and how to exercise your GDPR rights.'
 	}
 };
 

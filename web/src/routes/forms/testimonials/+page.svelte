@@ -741,6 +741,11 @@
 			Fields marked <span class="required-label required-label--inline" aria-hidden="true"></span> are
 			required.
 		</p>
+		<p class="text-xs text-gray-500">
+			We keep your testimonial details so we can publish, attribute, and manage any updates you
+			request. You can ask us to edit or delete your story at any time. Full details live in our
+			<a class="font-semibold text-blue-600 underline" href="/gdpr">GDPR & privacy overview</a>.
+		</p>
 	</form>
 </section>
 
