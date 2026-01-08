@@ -6,11 +6,6 @@
 
 	type FormStatus = 'idle' | 'sending' | 'sent' | 'error';
 
-	type CalApi = {
-		(...args: unknown[]): void;
-		ns?: Record<string, (...args: unknown[]) => void>;
-	};
-
 	type TurnstileRenderOptions = {
 		sitekey: string;
 		callback?: (token: string) => void;
@@ -68,6 +63,7 @@
 	let turnstileWidgetId: string | undefined;
 	let turnstileSiteKeyInUse = productionTurnstileSiteKey;
 	let turnstileIsDevelopmentSiteKey = false;
+	let skipNextCalClick = false;
 
 	const getTurnstileTarget = (): string | HTMLElement | undefined =>
 		turnstileWidgetId ?? turnstileContainer ?? undefined;
@@ -95,55 +91,13 @@
 	};
 
 	const webhook = 'https://n8n.cambermast.com/webhook/0095b76c-c32c-49ce-a59d-de6435af2b3e';
+	const calBookingUrl = 'https://cal.com/billraymond/15min';
 
 	const getProgramTitle = (slug: string): string =>
 		contactOptions.find((option) => option.slug === slug)?.title ??
 		'General question / other topic';
 
 	const pageMeta = getSeo('/contact');
-
-	const getCalApi = (): CalApi | undefined => {
-		if (typeof window === 'undefined') return undefined;
-		const cal = (window as typeof window & { Cal?: CalApi }).Cal;
-		return typeof cal === 'function' ? cal : undefined;
-	};
-
-	const initCal = () => {
-		const cal = getCalApi();
-		if (!cal) return;
-		cal('init', '15min', { origin: 'https://app.cal.com' });
-		const namespace = cal.ns?.['15min'];
-		if (!namespace) return;
-		namespace('ui', {
-			cssVarsPerTheme: {
-				light: { 'cal-brand': '#2f70ff' },
-				dark: { 'cal-brand': '#fafafa' }
-			},
-			hideEventTypeDetails: false,
-			layout: 'month_view'
-		});
-	};
-
-	const loadCalEmbed = () => {
-		if (typeof window === 'undefined') return;
-		if (getCalApi()) {
-			initCal();
-			return;
-		}
-
-		const existing = document.querySelector('script[data-cal-embed="true"]');
-		if (existing) {
-			existing.addEventListener('load', initCal, { once: true });
-			return;
-		}
-
-		const script = document.createElement('script');
-		script.src = 'https://app.cal.com/embed/embed.js';
-		script.async = true;
-		script.dataset.calEmbed = 'true';
-		script.addEventListener('load', initCal, { once: true });
-		document.head.appendChild(script);
-	};
 
 	const initTurnstile = () => {
 		const turnstileWindow = getTurnstileWindow();
@@ -204,7 +158,6 @@
 	};
 
 	onMount(() => {
-		loadCalEmbed();
 		loadTurnstile();
 
 		return () => {
@@ -270,6 +223,8 @@
 			turnstileToken = '';
 		}
 	}
+
+	// Cal.com bookings now open in a new tab, so no additional JS needed.
 </script>
 
 <SeoHead title={pageMeta.title} description={pageMeta.description} path="/contact" />
@@ -424,15 +379,14 @@
 				Pick a time that works for you. Bring your questions about AI training, private team
 				workshops, or custom AI enablement plans.
 			</p>
-			<button
-				type="button"
+			<a
 				class="mt-4 inline-flex w-full items-center justify-center rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow transition hover:bg-blue-700"
-				data-cal-link="billraymond/15min"
-				data-cal-namespace="15min"
-				data-cal-config={JSON.stringify({ layout: 'month_view' })}
+				href={calBookingUrl}
+				target="_blank"
+				rel="noreferrer"
 			>
 				Book a 15-minute call
-			</button>
+			</a>
 		</section>
 
 		<section class="rounded-2xl border bg-white p-5 text-sm text-gray-700 shadow">

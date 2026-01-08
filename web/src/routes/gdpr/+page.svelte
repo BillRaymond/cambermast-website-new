@@ -6,7 +6,7 @@
 
 	const controllerInfo = {
 		name: 'Cambermast LLC',
-		address: 'Portland, Maine, USA',
+		address: 'San Francisco, California, USA',
 		email: 'bill.raymond@cambermast.com'
 	};
 
@@ -66,7 +66,7 @@
 		{
 			name: 'Google Analytics',
 			description:
-				'Helps us understand anonymized site usage patterns so we can improve navigation and content.'
+				'Optional analytics that load only if you allow cookies in the on-site banner. IP addresses are anonymized, Google signals and ads personalization are disabled, and we retain aggregated reports to improve navigation.'
 		},
 		{
 			name: 'Cloudflare Turnstile',
@@ -175,6 +175,44 @@
 			</li>
 		{/each}
 	</ul>
+</section>
+
+<section id="cookies" class="mb-10 rounded-2xl border border-gray-200 bg-white p-6 text-sm shadow-sm">
+	<h2 class="text-xl font-semibold text-gray-900">Cookies, consent, and analytics</h2>
+	<p class="mt-2 text-gray-700">
+		Cambermast only sets two types of browser storage: essential security tokens that protect our
+		forms, and optional analytics cookies that measure site performance. Nothing loads until you see
+		the consent banner the first time you visit.
+	</p>
+	<ul class="mt-4 space-y-3 text-gray-700">
+		<li class="rounded-xl border border-gray-100 bg-gray-50 p-4">
+			<p class="font-semibold text-gray-900">Functional protection</p>
+			<p class="mt-1">
+				Cloudflare Turnstile may set a short-lived verification cookie only while you submit a form
+				so we can block spam and automated attacks. It expires quickly and is required to deliver
+				your message.
+			</p>
+		</li>
+		<li class="rounded-xl border border-gray-100 bg-gray-50 p-4">
+			<p class="font-semibold text-gray-900">Optional analytics (requires consent)</p>
+			<p class="mt-1">
+				If you select “Allow analytics,” we load Google Analytics 4 and it may create the
+				<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">_ga</code> and
+				<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">_ga_&lt;container&gt;</code> cookies for up to 13
+				months. We anonymize IP addresses, disable Google signals and ad personalization, and rely on
+				the data only to understand which pages help visitors most.
+			</p>
+		</li>
+	</ul>
+	<p class="mt-4 text-gray-700">
+		Your consent choice is saved locally as
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">cambermast-consent-v1</code> so we remember it until
+		you change it. You can reopen the banner through the “Cookie preferences” link in the site footer,
+		from this page, or by emailing
+		<a class="font-semibold text-blue-600 underline" href="mailto:bill.raymond@cambermast.com"
+			>bill.raymond@cambermast.com</a
+		>.
+	</p>
 </section>
 
 <section class="mb-10 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">

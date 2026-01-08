@@ -3,11 +3,24 @@
 	import Nav from '$lib/components/Nav.svelte';
 	import SeoHead from '$lib/components/SeoHead.svelte';
 	import { page } from '$app/stores';
+	import { browser } from '$app/environment';
+	import { onMount, tick } from 'svelte';
 	import { defaultSeo } from '$lib/seo';
-	import { SITE_ORIGIN } from '$lib/config/site';
+	import { GA_MEASUREMENT_ID, SITE_ORIGIN } from '$lib/config/site';
+	import {
+		consentState,
+		initConsent,
+		persistAnalyticsConsent,
+		type ConsentChoice
+	} from '$lib/stores/consent';
 
 	let navOpen = false;
 	const navId = 'site-primary-navigation';
+	let analyticsPreference: ConsentChoice = 'unknown';
+	let showConsentPanel = false;
+	let manageConsentOpen = false;
+	let hasLoadedAnalytics = false;
+	let consentResolved = false;
 
 	const organizationJsonLd = JSON.stringify({
 		'@context': 'https://schema.org',
@@ -19,6 +32,85 @@
 
 	$: hideChrome =
 		$page.url.pathname.startsWith('/training/print') || $page.url.pathname.startsWith('/techlab');
+
+	onMount(async () => {
+		initConsent();
+		await tick();
+		consentResolved = true;
+	});
+
+	$: analyticsPreference = $consentState.analytics;
+	$: showConsentPanel = manageConsentOpen || (consentResolved && analyticsPreference === 'unknown');
+	$: if (browser && analyticsPreference === 'granted') {
+		loadAnalytics();
+	}
+	$: if (browser && analyticsPreference === 'denied' && hasLoadedAnalytics) {
+		updateAnalyticsConsent('denied');
+	}
+
+	function handleAnalyticsConsent(choice: Exclude<ConsentChoice, 'unknown'>) {
+		persistAnalyticsConsent(choice);
+		manageConsentOpen = false;
+		if (choice === 'granted') {
+			loadAnalytics();
+		} else {
+			updateAnalyticsConsent('denied');
+		}
+	}
+
+	function openConsentPreferences() {
+		manageConsentOpen = true;
+	}
+
+	function closeConsentPreferences() {
+		manageConsentOpen = false;
+	}
+
+	function ensureGtag() {
+		if (!browser) return;
+		window.dataLayer = window.dataLayer || [];
+		if (typeof window.gtag === 'function') {
+			return;
+		}
+
+		window.gtag = function gtag() {
+			window.dataLayer?.push(arguments);
+		};
+		window.gtag('consent', 'default', {
+			ad_storage: 'denied',
+			analytics_storage: 'denied'
+		});
+	}
+
+	function loadAnalytics() {
+		if (!browser) return;
+		ensureGtag();
+
+		if (!hasLoadedAnalytics) {
+			const script = document.createElement('script');
+			script.async = true;
+			script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
+			document.head?.appendChild(script);
+			hasLoadedAnalytics = true;
+		}
+
+		window.gtag?.('js', new Date());
+		window.gtag?.('config', GA_MEASUREMENT_ID, {
+			anonymize_ip: true,
+			allow_google_signals: false,
+			allow_ad_personalization_signals: false
+		});
+		updateAnalyticsConsent('granted');
+	}
+
+	function updateAnalyticsConsent(mode: 'granted' | 'denied') {
+		if (!browser) return;
+		ensureGtag();
+		window.gtag?.('consent', 'update', {
+			ad_storage: 'denied',
+			analytics_storage: mode
+		});
+	}
 </script>
 
 <SeoHead
@@ -31,16 +123,6 @@
 	<meta name="robots" content="noindex, nofollow" />
 	<script type="application/ld+json">
 		{@html organizationJsonLd}
-	</script>
-	<!-- Google tag (gtag.js) -->
-	<script async src="https://www.googletagmanager.com/gtag/js?id=G-1YXKR8MNR3"></script>
-	<script>
-		window.dataLayer = window.dataLayer || [];
-		function gtag() {
-			dataLayer.push(arguments);
-		}
-		gtag('js', new Date());
-		gtag('config', 'G-1YXKR8MNR3');
 	</script>
 </svelte:head>
 
@@ -88,7 +170,68 @@
 		<div class="mx-auto max-w-6xl px-4 py-6 text-center text-sm text-gray-500">
 			© {new Date().getFullYear()} Cambermast LLC · AI Agility in Action™️ ·
 			<a class="underline" href="/contact">Contact</a> ·
-			<a class="underline" href="/gdpr">GDPR & privacy</a>
+			<a class="underline" href="/gdpr">GDPR & privacy</a> ·
+			<button
+				class="underline transition hover:text-gray-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+				type="button"
+				on:click={openConsentPreferences}
+			>
+				Cookie preferences
+			</button>
 		</div>
 	</footer>
+{/if}
+
+{#if showConsentPanel}
+	<div
+		class="fixed inset-x-0 bottom-0 z-40 border-t border-gray-200 bg-white/95 shadow-xl shadow-black/5 backdrop-blur"
+		role="dialog"
+		aria-live="polite"
+	>
+		<div class="mx-auto flex max-w-4xl flex-col gap-4 px-5 py-5 text-sm text-gray-800 sm:flex-row sm:items-center sm:justify-between">
+			<div class="space-y-2">
+				<p class="text-base font-semibold text-gray-900">
+					{manageConsentOpen ? 'Update your analytics settings' : 'Help us improve cambermast.com'}
+				</p>
+				<p class="text-gray-700">
+					We use Google Analytics to understand which pages help visitors most. Analytics cookies only
+					load if you allow them. Review the details any time on our
+					<a class="font-semibold text-blue-600 underline" href="/gdpr">GDPR & privacy overview</a>.
+				</p>
+				{#if manageConsentOpen && analyticsPreference !== 'unknown'}
+					<p class="text-xs uppercase tracking-wide text-gray-500">
+						Current setting:
+						<span class="font-semibold text-gray-900">
+							{analyticsPreference === 'granted' ? 'Analytics allowed' : 'Analytics disabled'}
+						</span>
+					</p>
+				{/if}
+			</div>
+			<div class="flex flex-col gap-2 sm:flex-row sm:items-center">
+				<button
+					class="rounded border border-gray-300 px-4 py-2 text-sm font-semibold text-gray-700 transition hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+					type="button"
+					on:click={() => handleAnalyticsConsent('denied')}
+				>
+					Decline analytics
+				</button>
+				<button
+					class="rounded bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow transition hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+					type="button"
+					on:click={() => handleAnalyticsConsent('granted')}
+				>
+					Allow analytics
+				</button>
+				{#if manageConsentOpen && analyticsPreference !== 'unknown'}
+					<button
+						class="text-sm font-semibold text-gray-600 underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+						type="button"
+						on:click={closeConsentPreferences}
+					>
+						Done
+					</button>
+				{/if}
+			</div>
+		</div>
+	</div>
 {/if}
