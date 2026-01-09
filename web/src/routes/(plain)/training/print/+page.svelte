@@ -76,6 +76,10 @@
 			<img src="/images/cambermast-logo-full.png" alt="Cambermast logo" class="h-16 w-auto" />
 		</a>
 		<h1 class="text-3xl font-bold uppercase tracking-wide">{pageTitle}</h1>
+		<p class="text-xs text-gray-600">
+			All programs follow Cambermast's
+			<a class="font-semibold text-blue-700 underline" href="/training/terms">Training Terms &amp; Conditions</a>.
+		</p>
 	</header>
 
 	<table class="w-full border-collapse text-left text-sm leading-relaxed">

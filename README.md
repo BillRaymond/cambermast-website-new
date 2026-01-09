@@ -37,6 +37,18 @@ This repository powers the public marketing site for Cambermast. It contains the
 
 These two documents live in the repo root and are deployed alongside the site so both humans and AI clients understand how to interpret and use Cambermast content.
 
+## Privacy, GDPR & Cookies
+
+- `web/src/routes/gdpr/+page.svelte` is the canonical privacy notice for cambermast.com, covering lawful bases, vendor list, and contact options for data requests. Update it whenever we add a new form, vendor, or processing purpose.
+- The same page contains the cookie disclosure: only Cloudflare Turnstile runs by default for security and Google Analytics 4 loads if a visitor accepts analytics cookies. The consent state is stored in `cambermast-consent-v1` and can be reset from the footer link.
+- If privacy messaging or cookie behavior changes, edit the GDPR page first, then note the change in `README.md`, `llms.txt`, and any marketing copy so policy, AI guidance, and UI stay aligned.
+
+## Training Terms & Conditions
+
+- `web/src/routes/training/terms/+page.svelte` is the canonical set of Training Terms (refunds, credits, transfers, conduct, materials, disputes).
+- Include a visible link to `/training/terms` on every registration form, landing page, or program overview so attendees know where to review policy details.
+- When policy language changes, update that file first and then refresh any marketing copy or registration emails that describe the guarantees.
+
 ## Content Update Checklist
 
 When publishing significant messaging or offer changes:

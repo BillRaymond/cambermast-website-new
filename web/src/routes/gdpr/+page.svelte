@@ -70,11 +70,11 @@
 <SeoHead title={pageMeta.title} description={pageMeta.description} path="/gdpr" />
 
 <section class="mb-8 max-w-3xl space-y-4">
-	<p class="text-sm font-semibold uppercase tracking-wide text-blue-600">Privacy & GDPR</p>
+	<p class="text-sm font-semibold uppercase tracking-wide text-blue-600">Privacy & GDPR notice</p>
 	<h1 class="text-3xl font-bold text-gray-900">How Cambermast handles personal data</h1>
 	<p class="text-lg text-gray-700">
 		We only gather the business data needed to respond, deliver training, run experiences, and
-		celebrate client success. This page summarizes how Cambermast stores, secures, and deletes the
+		celebrate client success. This notice summarizes how Cambermast stores, secures, and deletes the
 		information you share with us across email, meetings, and online tools. If we ever need new data
 		points, we will explain the purpose and retention before collecting anything.
 	</p>

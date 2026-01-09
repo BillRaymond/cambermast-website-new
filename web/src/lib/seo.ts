@@ -47,6 +47,11 @@ export const pageSeo: SeoOverrides = {
 		description:
 			'Print a one-page summary of Cambermast AI training offerings to share with stakeholders and decision makers.'
 	},
+	'/training/terms': {
+		title: 'Training Terms & Conditions | Cambermast',
+		description:
+			'Review refund policies, credits, transfers, and conduct requirements for all Cambermast instructor-led trainings.'
+	},
 	'/testimonials': {
 		title: 'AI Training Testimonials | Cambermast',
 		description:

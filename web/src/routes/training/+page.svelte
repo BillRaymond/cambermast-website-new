@@ -75,7 +75,7 @@ const gatherHappeningSessions = (program?: TrainingProgram): TrainingSession[] =
 <SeoHead title={pageMeta.title} description={pageMeta.description} path="/training" />
 
 <h1 class="mb-5 text-3xl font-bold">{pageHeading}</h1>
-<p class="mb-8 text-gray-700">{section.headline}</p>
+<p class="mb-3 text-gray-700">{section.headline}</p>
 <div class="mb-8 text-sm text-gray-600">
 	Prefer a quick reference?{' '}
 	<a

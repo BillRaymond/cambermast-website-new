@@ -31,18 +31,27 @@ import {
 	const getFaqAnswers = (faq: TrainingFaq): string[] =>
 		faq.answers ?? (faq.answer ? [faq.answer] : []);
 
-	let statsBeforeCta: TrainingStat[] = [];
-	let statsAfterCta: TrainingStat[] = [];
-	let ctaInsertIndex = -1;
-	const today = normalizeToday();
-	let nonDraftSessions: TrainingSession[] = [];
-	let upcomingSessions: TrainingSession[] = [];
-	let happeningSessions: TrainingSession[] = [];
-	let registerableSessions: TrainingSession[] = [];
+	type ExtendedFaq = TrainingFaq & { __isTrainingTerms?: boolean };
+
+let statsBeforeCta: TrainingStat[] = [];
+let statsAfterCta: TrainingStat[] = [];
+let ctaInsertIndex = -1;
+const today = normalizeToday();
+let nonDraftSessions: TrainingSession[] = [];
+let upcomingSessions: TrainingSession[] = [];
+let happeningSessions: TrainingSession[] = [];
+let registerableSessions: TrainingSession[] = [];
 let featuredRegistrationSession: TrainingSession | undefined;
 let videoEmbedUrl: string | undefined;
 let certificateText: string | undefined;
 let programTestimonials: Testimonial[] = [];
+let faqsWithTerms: ExtendedFaq[] = [];
+
+const trainingTermsFaq: ExtendedFaq = {
+	question: 'Where can I review the Training Terms & Conditions?',
+	answer: "These answers complement Cambermast's Training Terms & Conditions.",
+	__isTrainingTerms: true
+};
 
 	const normalizeLabel = (label?: string): string | undefined => label?.toLowerCase().trim();
 	const scheduleTeamLabel = 'schedule your team';
@@ -135,6 +144,9 @@ const formatTestimonialRole = (testimonial: Testimonial): string => {
 	$: registerableSessions = upcomingSessions.filter((session) => hasExternalRegistration(session));
 	$: videoEmbedUrl = getVideoEmbedUrl(program?.videoUrl);
 	$: certificateText = toStatText(getStatByLabel(program?.stats, 'certificate')?.value);
+	$: faqsWithTerms = program?.faqs?.length
+		? [...program.faqs, trainingTermsFaq]
+		: [];
 
 	$: {
 		if (!registerableSessions.length) {
@@ -634,21 +646,33 @@ const formatTestimonialRole = (testimonial: Testimonial): string => {
 		<section>
 			<h2 class="text-2xl font-semibold text-gray-900">Frequently asked questions</h2>
 			<div class="mt-5 space-y-4">
-				{#each program.faqs as faq}
+				{#each faqsWithTerms as faq}
 					<details class="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
 						<summary class="cursor-pointer text-lg font-semibold text-gray-900">
 							{faq.question}
 						</summary>
-						{#each getFaqAnswers(faq) as answer, index}
-							<div
-								class="flex items-start gap-2.5 text-gray-700"
-								class:mt-3={index === 0}
-								class:mt-2={index > 0}
-							>
+						{#if faq.__isTrainingTerms}
+							<div class="mt-3 flex items-start gap-2.5 text-gray-700">
 								<span class="mt-0.5 inline-flex h-2 w-2 flex-shrink-0 rounded-full bg-blue-600"></span>
-								<p class="whitespace-pre-line text-gray-700">{answer}</p>
+								<p class="text-gray-700">
+									These answers complement Cambermast's
+									<a class="font-semibold text-blue-600 underline" href="/training/terms"
+										>Training Terms &amp; Conditions</a
+									>.
+								</p>
 							</div>
-						{/each}
+						{:else}
+							{#each getFaqAnswers(faq) as answer, index}
+								<div
+									class="flex items-start gap-2.5 text-gray-700"
+									class:mt-3={index === 0}
+									class:mt-2={index > 0}
+								>
+									<span class="mt-0.5 inline-flex h-2 w-2 flex-shrink-0 rounded-full bg-blue-600"></span>
+									<p class="whitespace-pre-line text-gray-700">{answer}</p>
+								</div>
+							{/each}
+						{/if}
 					</details>
 				{/each}
 			</div>

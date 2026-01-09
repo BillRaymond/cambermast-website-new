@@ -16,8 +16,18 @@ import {
 	export let program: TechlabProgram;
 	export let backLink: { href: string; label: string } | undefined = undefined;
 
-	const getFaqAnswers = (faq: TrainingFaq): string[] =>
-		faq.answers ?? (faq.answer ? [faq.answer] : []);
+const getFaqAnswers = (faq: TrainingFaq): string[] =>
+	faq.answers ?? (faq.answer ? [faq.answer] : []);
+
+type ExtendedFaq = TrainingFaq & { __isTrainingTerms?: boolean };
+
+const trainingTermsFaq: ExtendedFaq = {
+	question: 'Where can I review the Training Terms & Conditions?',
+	answer: "These answers complement Cambermast's Training Terms & Conditions.",
+	__isTrainingTerms: true
+};
+
+let faqsWithTerms: ExtendedFaq[] = [];
 
 let statsBeforeCta: TrainingStat[] = [];
 let statsAfterCta: TrainingStat[] = [];
@@ -59,6 +69,8 @@ const formatTestimonialRole = (testimonial: Testimonial): string => {
 			programTestimonials = listTestimonialsForSlug(program.slug);
 		}
 	}
+
+$: faqsWithTerms = program?.faqs?.length ? [...program.faqs, trainingTermsFaq] : [];
 </script>
 
 {#if backLink}
@@ -335,12 +347,21 @@ const formatTestimonialRole = (testimonial: Testimonial): string => {
 		<section class="tlp-panel">
 			<h2 class="tlp-section-title">Frequently asked questions</h2>
 			<div class="tlp-faqs">
-				{#each program.faqs as faq}
+				{#each faqsWithTerms as faq}
 					<details class="tlp-faq">
 						<summary>{faq.question}</summary>
-						{#each getFaqAnswers(faq) as answer}
-							<p>{answer}</p>
-						{/each}
+						{#if faq.__isTrainingTerms}
+							<p>
+								These answers complement Cambermast's
+								<a class="font-semibold text-blue-600 underline" href="/training/terms"
+									>Training Terms &amp; Conditions</a
+								>.
+							</p>
+						{:else}
+							{#each getFaqAnswers(faq) as answer}
+								<p>{answer}</p>
+							{/each}
+						{/if}
 					</details>
 				{/each}
 			</div>
