@@ -6,8 +6,7 @@
 
 	const controllerInfo = {
 		name: 'Cambermast LLC',
-		address: 'San Francisco, California, USA',
-		email: 'bill.raymond@cambermast.com'
+		address: 'San Francisco, California, USA'
 	};
 
 	const dataPractices = [
@@ -39,39 +38,6 @@
 			basis: 'Consent (GDPR Art. 6(1)(a))',
 			description:
 				'We only publish testimonials, send optional marketing updates, or reuse quotes when you have clearly opted in. You can withdraw consent whenever you like.'
-		}
-	];
-
-	const processors = [
-		{
-			name: 'Google Workspace email & calendar',
-			description:
-				'Used for email, calendars, shared documents, and occasional forms so we can collaborate on training or advisory work.'
-		},
-		{
-			name: 'Cal.com scheduling',
-			description:
-				'Optional booking widget you can open on the contact page to pick a meeting time. Data flows only when you choose to use the scheduler.'
-		},
-		{
-			name: 'Lu.ma events',
-			description:
-				'Used for some training or community events so attendees can receive calendar invites and reminders.'
-		},
-		{
-			name: 'Stripe',
-			description:
-				'Securely processes course registrations and other payments on our behalf. Card numbers are handled by Stripe, not Cambermast.'
-		},
-		{
-			name: 'Google Analytics',
-			description:
-				'Optional analytics that load only if you allow cookies in the on-site banner. IP addresses are anonymized, Google signals and ads personalization are disabled, and we retain aggregated reports to improve navigation.'
-		},
-		{
-			name: 'Cloudflare Turnstile',
-			description:
-				'Protects our forms from spam by issuing a short-lived verification token. It sets a functional cookie only while verifying your submission.'
 		}
 	];
 
@@ -107,10 +73,10 @@
 	<p class="text-sm font-semibold uppercase tracking-wide text-blue-600">Privacy & GDPR</p>
 	<h1 class="text-3xl font-bold text-gray-900">How Cambermast handles personal data</h1>
 	<p class="text-lg text-gray-700">
-		We only collect the details relevant to your request so we can respond, deliver training, run
-		experiences, and celebrate client success. This page summarizes how we handle data submitted
-		through any Cambermast form today or in the future. If a new form requires additional fields, we
-		will describe why we need them before you hit submit.
+		We only gather the business data needed to respond, deliver training, run experiences, and
+		celebrate client success. This page summarizes how Cambermast stores, secures, and deletes the
+		information you share with us across email, meetings, and online tools. If we ever need new data
+		points, we will explain the purpose and retention before collecting anything.
 	</p>
 </section>
 
@@ -118,10 +84,13 @@
 	<h2 class="text-xl font-semibold text-gray-900">Who controls your data</h2>
 	<p class="text-sm text-gray-700">
 		Cambermast LLC is the data controller for submissions on cambermast.com. We are based in
-		{controllerInfo.address}. Reach us at
-		<a class="font-semibold text-blue-600 underline" href={`mailto:${controllerInfo.email}`}
-			>{controllerInfo.email}</a
-		>.
+		{controllerInfo.address}. Reach us any time through the
+		<a class="font-semibold text-blue-600 underline" href="/contact">contact page</a>.
+	</p>
+	<p class="mt-2 text-sm text-gray-700">
+		Cambermast LLC also does business as Bill Talks AI (BillTalksAI.com) and The Occasional Developer
+		(mainly a YouTube property). All data collected under those names is governed by this notice unless a
+		Project-specific agreement states otherwise.
 	</p>
 	<p class="mt-3 text-sm text-gray-700">
 		We review this page whenever we add a new form, vendor, or program so you always know which data
@@ -161,20 +130,81 @@
 </section>
 
 <section class="mb-10 rounded-2xl border bg-blue-50 p-6 text-blue-950 shadow">
-	<h2 class="text-xl font-semibold">Vendors that help us operate</h2>
+	<h2 class="text-xl font-semibold">Tools and partners we use</h2>
 	<p class="mt-2 text-sm">
-		We only work with processors that provide contractual privacy safeguards and limit access to the
-		data needed for their service. We may engage additional trusted vendors over time, and when we do,
-		we will add them to this list before transferring your data.
+		Cambermast relies on a small number of trusted tools and service providers to run our website,
+		communicate with clients, deliver training, and accept payments. These providers only receive the
+		information needed to do their job and are required to protect it under contractual privacy
+		safeguards.
 	</p>
-	<ul class="mt-4 space-y-3">
-		{#each processors as vendor}
-			<li class="rounded-xl border border-blue-100 bg-white/80 p-4 text-sm">
-				<p class="font-semibold text-gray-900">{vendor.name}</p>
-				<p class="text-gray-700">{vendor.description}</p>
-			</li>
-		{/each}
-	</ul>
+	<p class="mt-3 text-sm">
+		The list below covers the main services we use day to day. From time to time, we may use additional
+		tools for a specific project, pilot, or event. When that happens, we apply the same privacy
+		standards described on this page.
+	</p>
+	<div class="mt-4 space-y-3 text-sm text-gray-800">
+		<p>
+			<span class="font-semibold text-gray-900">Google Workspace.</span>
+			Used for business email, calendars, shared documents, and internal collaboration related to
+			training and advisory work.
+		</p>
+		<p>
+			<span class="font-semibold text-gray-900">Google Forms.</span>
+			Used occasionally for surveys, intake forms, or event-related questions. Each form is limited to
+			the information needed for its stated purpose, and responses are stored in Cambermast-managed
+			systems.
+		</p>
+		<p>
+			<span class="font-semibold text-gray-900">Cal.com.</span>
+			Optional scheduling tool you can use to book time with us. Personal data is shared only if you
+			choose to schedule a meeting and is used solely for coordination.
+		</p>
+		<p>
+			<span class="font-semibold text-gray-900">Zoom and Google Meet.</span>
+			Used for workshops, office hours, and project sessions. Names, email addresses, and audio or
+			video streams are used only during the call.
+		</p>
+		<p>
+			<span class="font-semibold text-gray-900">Mailchimp.</span>
+			Used for occasional mailing lists or event follow-ups when you opt in. Email addresses and
+			preferences are stored in Mailchimp solely to send the communications you requested.
+		</p>
+		<p>
+			<span class="font-semibold text-gray-900">Substack.</span>
+			Hosts our newsletter. If you subscribe, Substack stores your email address and analytics about
+			opens/clicks so we can tailor content and honor unsubscribe requests.
+		</p>
+		<p>
+			<span class="font-semibold text-gray-900">Lu.ma.</span>
+			Used for some training or community events so attendees can register, receive reminders, and add
+			calendar invites.
+		</p>
+		<p>
+			<span class="font-semibold text-gray-900">Stripe.</span>
+			Processes payments and course registrations securely. Cambermast does not store or process full
+			payment card details.
+		</p>
+		<p>
+			<span class="font-semibold text-gray-900">Google Analytics.</span>
+			Loaded only if you allow analytics cookies. We use anonymized and aggregated usage data to
+			understand which pages are helpful and to improve site navigation.
+		</p>
+		<p>
+			<span class="font-semibold text-gray-900">Cloudflare Turnstile.</span>
+			Helps protect our forms from spam and automated abuse by issuing a short-lived verification token
+			during submission.
+		</p>
+		<p>
+			<span class="font-semibold text-gray-900">Large language models (LLMs).</span>
+			Used in limited cases to validate, clean, or enrich customer-provided data before or after a
+			project. Inputs are minimized, processed under confidentiality, and retained only as long as
+			required for the task.
+		</p>
+	</div>
+	<p class="mt-4 text-sm">
+		If we introduce a new tool that materially changes how personal data is processed, we will update
+		this page before using it.
+	</p>
 </section>
 
 <section id="cookies" class="mb-10 rounded-2xl border border-gray-200 bg-white p-6 text-sm shadow-sm">
@@ -207,10 +237,9 @@
 	<p class="mt-4 text-gray-700">
 		Your consent choice is saved locally as
 		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">cambermast-consent-v1</code> so we remember it until
-		you change it. You can reopen the banner through the “Cookie preferences” link in the site footer,
-		from this page, or by emailing
-		<a class="font-semibold text-blue-600 underline" href="mailto:bill.raymond@cambermast.com"
-			>bill.raymond@cambermast.com</a
+		you change it. You can reopen the banner through the “Cookie preferences” link in the site footer, from
+		this page, or by contacting us via the <a class="font-semibold text-blue-600 underline" href="/contact"
+			>contact page</a
 		>.
 	</p>
 </section>
@@ -221,6 +250,8 @@
 	<p class="mt-3 text-sm text-gray-700">
 		If we add a new vendor that processes EU, EEA, or UK data outside those regions, we will update this
 		page and the underlying contracts before enabling the integration.
+		We rely on Standard Contractual Clauses and each vendor's participation in the EU-U.S. Data Privacy
+		Framework (where available) to keep cross-border transfers lawful.
 	</p>
 </section>
 
@@ -235,19 +266,22 @@
 		{/each}
 	</div>
 	<p class="mt-4 text-sm text-gray-700">
-		Send any request to
-		<a class="font-semibold text-blue-600 underline" href="mailto:bill.raymond@cambermast.com"
-			>bill.raymond@cambermast.com</a
+		Send any request through the <a class="font-semibold text-blue-600 underline" href="/contact"
+			>contact page</a
 		>
 		and we will acknowledge it within two business days.
 	</p>
 </section>
 
 <section class="max-w-3xl rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
-	<h2 class="text-xl font-semibold text-gray-900">Need something removed?</h2>
+	<h2 class="text-xl font-semibold text-gray-900">Make a data request</h2>
 	<p class="mt-2 text-gray-700">
 		Whether you reached out for help, registered for something, or shared feedback, you're always in
 		control. Tell us what to change or remove and we'll confirm in writing once it's done.
+		Send your request through the
+		<a class="font-semibold text-blue-600 underline" href="/contact">contact page</a> and we will acknowledge it
+		within two business days and complete the response within 30 days unless law requires a faster
+		turnaround.
 	</p>
 	<a
 		class="mt-4 inline-flex items-center justify-center rounded-xl bg-blue-600 px-5 py-2.5 font-semibold text-white shadow transition hover:bg-blue-700"
