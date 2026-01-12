@@ -11,6 +11,7 @@ permissions:
   contents: read
   pages: write
   id-token: write
+  issues: write
 
 concurrency:
   group: "pages"
@@ -74,6 +75,8 @@ jobs:
           max_attempts=20
           sleep_seconds=15
           success=0
+          webhook_failed=0
+          webhook_warning_message=""
 
           for attempt in $(seq 1 "${max_attempts}"); do
             response=$(curl -fsS --max-time 10 "${marker_url}" || true)
@@ -105,11 +108,66 @@ jobs:
           echo "Webhook will report deployment ${status^^}: ${message}"
           # Failure to reach the webhook is non-fatal, but we surface it as a warning
           if ! curl -fsS -X POST -H 'Content-Type: application/json' -d "${payload}" "${webhook_url}"; then
-            echo "::warning::Unable to reach deployment webhook at ${webhook_url}"
+            webhook_failed=1
+            webhook_warning_message="Unable to reach deployment webhook at ${webhook_url}"
+            echo "::warning::${webhook_warning_message}"
           fi
+
+          {
+            echo "WEBHOOK_FAILED=${webhook_failed}"
+            echo "WEBHOOK_WARNING=${webhook_warning_message}"
+            echo "DEPLOYMENT_STATUS=${status}"
+            echo "DEPLOYMENT_PAGE_URL=${page_url}"
+            echo "DEPLOYMENT_SHA=${expected_sha}"
+            echo "WEBHOOK_URL=${webhook_url}"
+          } >> "$GITHUB_ENV"
 
           if [[ "${success}" -ne 1 ]]; then
             # Stop the workflow if the site never served the new SHA
             echo "::error::Deployment did not serve the expected SHA"
             exit 1
           fi
+
+      - name: Notify maintainers about webhook failure
+        if: env.WEBHOOK_FAILED == '1'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const warning = process.env.WEBHOOK_WARNING || 'Deployment webhook failed';
+            const pageUrl = process.env.DEPLOYMENT_PAGE_URL || '(unknown page)';
+            const sha = process.env.DEPLOYMENT_SHA || context.sha;
+            const runUrl = `https://github.com/${owner}/${repo}/actions/runs/${context.runId}`;
+            const issueLabel = 'deployment-webhook';
+            const body = [
+              warning,
+              '',
+              `Run: ${runUrl}`,
+              `Page: ${pageUrl}`,
+              `Commit: ${sha}`
+            ].join('\n');
+
+            const issues = await github.paginate(github.rest.issues.listForRepo, {
+              owner,
+              repo,
+              state: 'open',
+              labels: issueLabel
+            });
+
+            if (issues.length > 0) {
+              const issueNumber = issues[0].number;
+              await github.rest.issues.createComment({
+                owner,
+                repo,
+                issue_number: issueNumber,
+                body
+              });
+            } else {
+              await github.rest.issues.create({
+                owner,
+                repo,
+                title: 'Deployment webhook failed',
+                body,
+                labels: [issueLabel]
+              });
+            }
