@@ -56,7 +56,8 @@ When publishing significant messaging or offer changes:
 1. Review `llms.txt` to ensure the mission summary, offerings, and authoritative sources reflect the new messaging.
 2. Review `ai.txt` for any policy implications (new assets, licensing, or restrictions).
 3. Review this `readme.md` to ensure it reflects relevant updates.
-4. Ensure the training [worksheet](https://docs.google.com/spreadsheets/d/1KmPBGD2_6RVGvnvK9d26zuvbxCfkbBCx9Fs816z7YhA/edit?gid=0#gid=0) updates.
+4. Keep structural metadata current: update `web/static/robots.txt` and `web/src/routes/sitemap.xml/+server.ts` whenever routes, slugs, or canonical URLs change so crawlers pick up the new paths.
+5. Ensure the training [worksheet](https://docs.google.com/spreadsheets/d/1KmPBGD2_6RVGvnvK9d26zuvbxCfkbBCx9Fs816z7YhA/edit?gid=0#gid=0) updates.
 
 ## Testimonial Photos
 
