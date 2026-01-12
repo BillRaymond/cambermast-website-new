@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { SITE_ORIGIN } from '$lib/config/site';
+	import { DEFAULT_OG_IMAGE, DEFAULT_OG_IMAGE_ALT, SITE_ORIGIN } from '$lib/config/site';
 
 	export let title: string;
 	export let description: string | undefined = undefined;
@@ -11,11 +11,14 @@
 
 	const origin = SITE_ORIGIN.replace(/\/$/, '');
 	const canonicalUrl = path ? `${origin}${path}` : undefined;
-	const absoluteImage = image
-		? image.startsWith('http')
-			? image
-			: `${origin}${image}`
+	const resolvedImage = image ?? DEFAULT_OG_IMAGE;
+	const absoluteImage = resolvedImage
+		? resolvedImage.startsWith('http')
+			? resolvedImage
+			: `${origin}${resolvedImage}`
 		: undefined;
+	const resolvedImageAlt =
+		resolvedImage === DEFAULT_OG_IMAGE ? imageAlt ?? DEFAULT_OG_IMAGE_ALT : imageAlt;
 	const twitterCard = absoluteImage ? 'summary_large_image' : 'summary';
 </script>
 
@@ -38,8 +41,8 @@
 	{/if}
 	{#if absoluteImage}
 		<meta property="og:image" content={absoluteImage} />
-		{#if imageAlt}
-			<meta property="og:image:alt" content={imageAlt} />
+		{#if resolvedImageAlt}
+			<meta property="og:image:alt" content={resolvedImageAlt} />
 		{/if}
 	{/if}
 	<meta name="twitter:card" content={twitterCard} />
@@ -49,8 +52,8 @@
 	{/if}
 	{#if absoluteImage}
 		<meta name="twitter:image" content={absoluteImage} />
-		{#if imageAlt}
-			<meta name="twitter:image:alt" content={imageAlt} />
+		{#if resolvedImageAlt}
+			<meta name="twitter:image:alt" content={resolvedImageAlt} />
 		{/if}
 	{/if}
 </svelte:head>
