@@ -766,9 +766,7 @@ const featuredVideoUrl =
 		<!-- svelte-ignore a11y_consider_explicit_label -->
 		<p>
 			<a
-				href="https://cambermast.com/services/microsoft-project-server/"
-				target="_blank"
-				rel="noopener"
+				href="/services/microsoft-project-server"
 				class="text-1xl rounded-lg bg-green-600 px-5 py-2.5 font-semibold text-white shadow transition hover:bg-green-700"
 				>Learn More ></a
 			>

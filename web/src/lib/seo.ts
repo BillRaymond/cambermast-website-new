@@ -71,6 +71,11 @@ export const pageSeo: SeoOverrides = {
 		title: 'GDPR & Privacy at Cambermast',
 		description:
 			'See how Cambermast handles contact and testimonial submissions, which third parties we use, and how to exercise your GDPR rights.'
+	},
+	'/services/microsoft-project-server': {
+		title: 'Microsoft Project Server Migration Support | Cambermast',
+		description:
+			'Move off Microsoft Project Server 2013/2016/2019 with Cambermast and Project Hosts before end-of-support hits July 14, 2026.'
 	}
 };
 

@@ -21,7 +21,8 @@ const staticRoutes = [
 	'/testimonials',
 	'/forms',
 	'/forms/testimonials',
-	'/gdpr'
+	'/gdpr',
+	'/services/microsoft-project-server'
 ];
 
 const getCatalogRoutes = (): string[] =>

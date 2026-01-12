@@ -49,6 +49,12 @@ These two documents live in the repo root and are deployed alongside the site so
 - Include a visible link to `/training/terms` on every registration form, landing page, or program overview so attendees know where to review policy details.
 - When policy language changes, update that file first and then refresh any marketing copy or registration emails that describe the guarantees.
 
+## Microsoft Project Server Migration Support
+
+- `web/src/routes/services/microsoft-project-server/+page.svelte` is the dedicated page explaining how Cambermast and Project Hosts keep Microsoft Project Server online after Microsoft ends direct support.
+- Facts on that page cite Microsoft Lifecycle articles for Project Server 2013/2016/2019 and the official migration guidance. Update those references if Microsoft publishes new dates or tooling.
+- The homepage CTA under “Are you a Microsoft Project Server customer?” now links to this route. Keep the Project Hosts green button styling consistent whenever you adjust copy.
+
 ## Content Update Checklist
 
 When publishing significant messaging or offer changes:
