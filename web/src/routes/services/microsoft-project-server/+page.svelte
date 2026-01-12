@@ -75,6 +75,24 @@
 				"You'll get updated documentation, admin training, and optional AI workshops so PMO teams thrive inside the new hosted environment while planning long-term modernization on your schedule."
 		}
 	];
+
+	const partnerLogos = [
+		{
+			name: 'Cambermast',
+			src: '/images/cambermast-logo-full.png',
+			alt: 'Cambermast logo'
+		},
+		{
+			name: 'Project Hosts',
+			src: '/images/project-hosts-logo.png',
+			alt: 'Project Hosts logo'
+		},
+		{
+			name: 'Microsoft Project Server',
+			src: '/images/microsoft-project-server-logo.svg',
+			alt: 'Microsoft Project Server logo'
+		}
+	];
 </script>
 
 <SeoHead
@@ -132,7 +150,22 @@
 	</section>
 
 	<section class="mt-12 space-y-6">
-		<h2 class="text-2xl font-bold text-gray-900">Facts about Microsoft's Project Server wind-down</h2>
+		<div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+			<div class="flex flex-wrap items-center justify-center gap-6 md:gap-10">
+				{#each partnerLogos as logo}
+					<div class="flex w-full max-w-[220px] items-center justify-center rounded-xl border border-gray-100 bg-gray-50 px-4 py-2 shadow-sm sm:w-auto">
+						<img src={logo.src} alt={logo.alt} loading="lazy" class="h-12 w-auto object-contain" />
+					</div>
+				{/each}
+			</div>
+		</div>
+		<div>
+			<h2 class="text-2xl font-bold text-gray-900">Facts about Microsoft's Project Server wind-down</h2>
+			<p class="mt-3 text-gray-700">
+				Microsoft's lifecycle data shows exactly when support ends. These are the dates your PMO and IT teams
+				need to plan around.
+			</p>
+		</div>
 		<div class="grid gap-5 md:grid-cols-2">
 			{#each facts as fact}
 				<article class="flex h-full flex-col rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
@@ -165,9 +198,9 @@
 	</section>
 
 	<section class="mt-12 rounded-3xl border border-gray-200 bg-gray-50 p-6">
-			<div class="grid gap-6 md:grid-cols-2">
-				<div>
-					<h2 class="text-2xl font-bold text-gray-900">Your migration checklist</h2>
+		<div class="grid gap-6 md:grid-cols-2">
+			<div>
+				<h2 class="text-2xl font-bold text-gray-900">Your migration checklist</h2>
 					<p class="mt-3 text-gray-700">
 						We turn a stressful deadline into a structured program plan. Use this checklist to gauge your
 						readiness, and we'll help you fill the gaps.
