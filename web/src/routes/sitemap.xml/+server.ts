@@ -1,5 +1,6 @@
 import { SITE_ORIGIN } from '$lib/config/site';
 import catalog from '$lib/data/catalog.json';
+import { listNewsPosts } from '$lib/data/news';
 import { listTrainingPrograms } from '$lib/data/training';
 
 const origin = SITE_ORIGIN.replace(/\/$/, '');
@@ -13,7 +14,14 @@ const staticRoutes = [
 	'/training',
 	'/training/calendar',
 	'/training/table',
-	'/training/print'
+	'/training/print',
+	'/training/terms',
+	'/news',
+	'/faq',
+	'/testimonials',
+	'/forms',
+	'/forms/testimonials',
+	'/gdpr'
 ];
 
 const getCatalogRoutes = (): string[] =>
@@ -32,9 +40,16 @@ const getCatalogRoutes = (): string[] =>
 const getTrainingRoutes = (): string[] =>
 	listTrainingPrograms().map((program) => program.route ?? `/training/${program.slug}`);
 
+const getNewsRoutes = (): string[] => listNewsPosts().map((post) => `/news/${post.slug}`);
+
 const uniquePaths = (): string[] => {
 	const paths = new Set<string>();
-	for (const path of [...staticRoutes, ...getCatalogRoutes(), ...getTrainingRoutes()]) {
+	for (const path of [
+		...staticRoutes,
+		...getCatalogRoutes(),
+		...getTrainingRoutes(),
+		...getNewsRoutes()
+	]) {
 		if (!path) continue;
 		const normalized = path.startsWith('/') ? path : `/${path}`;
 		paths.add(normalized);

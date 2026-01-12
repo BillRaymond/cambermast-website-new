@@ -1,3 +1,4 @@
-# Block partner preview content from indexing
 User-agent: *
 Disallow: /techlab
+
+Sitemap: https://www.cambermast.com/sitemap.xml
