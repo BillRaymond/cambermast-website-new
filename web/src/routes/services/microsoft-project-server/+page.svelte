@@ -9,6 +9,15 @@
 		secondarySource?: { label: string; href: string };
 	};
 
+	type CredibilitySignal = {
+		name: string;
+		logo: string;
+		alt: string;
+		headline: string;
+		detail: string;
+		source?: { label: string; href: string };
+	};
+
 	const pageMeta = getSeo('/services/microsoft-project-server');
 
 	const facts: Fact[] = [
@@ -93,6 +102,45 @@
 			alt: 'Microsoft Project Server logo'
 		}
 	];
+
+	const credibilitySignals: CredibilitySignal[] = [
+		{
+			name: 'Project Hosts',
+			logo: '/images/project-hosts-logo.png',
+			alt: 'Project Hosts logo',
+			headline: 'Microsoft Cloud Solution Provider',
+			detail:
+				'Project Hosts is a long-standing Microsoft Cloud Solution Provider (CSP) delivering secure Microsoft Azure environments that meet FedRAMP, DoD IL, GovRAMP, and HITRUST requirements for teams that cannot move overnight.',
+			source: {
+				label: 'Project Hosts + Microsoft Azure',
+				href: 'https://projecthosts.com/partners/microsoft-azure/'
+			}
+		},
+		{
+			name: 'Microsoft + Project Hosts',
+			logo: '/images/microsoft-project-server-logo.svg',
+			alt: 'Microsoft Project Server logo',
+			headline: 'Joint Early Start program',
+			detail:
+				'Microsoft and Project Hosts teamed up on the Early Start program to give ISVs and PMOs a streamlined FedRAMP and DoD IL4/IL5 path—a motion we reuse when migrating Project Server workloads.',
+			source: {
+				label: 'Microsoft & Project Hosts Early Start',
+				href: 'https://projecthosts.com/partners/microsoft-azure/'
+			}
+		},
+		{
+			name: 'Cambermast',
+			logo: '/images/microsoft-mvp-logo.svg',
+			alt: 'Microsoft MVP Program logo',
+			headline: 'Microsoft Project MVP leadership',
+			detail:
+				'Bill Raymond spent more than 14 years as a Microsoft Project MVP and authored Implementing and Administering Microsoft Project Server, so every migration is guided by the person who literally wrote the book.',
+			source: {
+				label: 'Implementing and Administering Microsoft Project Server',
+				href: 'https://www.amazon.com/Implementing-Administering-Microsoft-Project-Server-ebook/dp/B00D39FYVA/'
+			}
+		}
+	];
 </script>
 
 <SeoHead
@@ -159,6 +207,41 @@
 				{/each}
 			</div>
 		</div>
+		<section class="rounded-3xl border border-green-100 bg-white p-6 shadow-sm">
+			<p class="text-sm font-semibold uppercase tracking-wide text-green-700">Execution signals</p>
+			<h2 class="mt-2 text-2xl font-bold text-gray-900">How we lead Microsoft Project Server migrations</h2>
+			<p class="mt-3 text-gray-700">
+				Cambermast brings veteran Microsoft Project leadership, and Project Hosts brings Microsoft-backed
+				hosting capabilities. Together we give PMOs auditable proof that their migration is anchored in the
+				Microsoft ecosystem.
+			</p>
+			<div class="mt-6 grid gap-5 md:grid-cols-2">
+				{#each credibilitySignals as signal}
+					<article class="rounded-2xl border border-gray-200 bg-gray-50 p-5">
+						<div class="flex items-center gap-4">
+							<div class="flex h-16 w-16 items-center justify-center rounded-xl border border-gray-200 bg-white">
+								<img src={signal.logo} alt={signal.alt} class="h-12 w-auto object-contain" loading="lazy" />
+							</div>
+							<div>
+								<p class="text-xs font-semibold uppercase tracking-wide text-green-700">{signal.name}</p>
+								<h3 class="text-lg font-semibold text-gray-900">{signal.headline}</h3>
+							</div>
+						</div>
+						<p class="mt-3 text-gray-700">{signal.detail}</p>
+						{#if signal.source}
+							<a
+								href={signal.source.href}
+								target="_blank"
+								rel="noopener"
+								class="mt-4 inline-flex items-center text-sm font-semibold text-green-700 underline decoration-green-200 underline-offset-4"
+							>
+								{signal.source.label}
+							</a>
+						{/if}
+					</article>
+				{/each}
+			</div>
+		</section>
 		<div>
 			<h2 class="text-2xl font-bold text-gray-900">Facts about Microsoft's Project Server wind-down</h2>
 			<p class="mt-3 text-gray-700">

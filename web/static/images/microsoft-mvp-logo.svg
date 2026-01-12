@@ -1,0 +1,8 @@
+<svg width="360" height="120" viewBox="0 0 360 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Microsoft MVP Program</title>
+  <desc id="desc">Stylized Microsoft MVP badge with a blue diamond and MVP text</desc>
+  <rect width="360" height="120" rx="16" fill="#0078D4"/>
+  <path d="M96 24 L132 60 L96 96 L60 60 Z" fill="#FFFFFF" opacity="0.95"/>
+  <text x="152" y="54" fill="white" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="28" font-weight="600">Microsoft</text>
+  <text x="152" y="86" fill="white" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="36" font-weight="700">MVP</text>
+</svg>
