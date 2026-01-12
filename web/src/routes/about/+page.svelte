@@ -22,6 +22,16 @@
 			image: '/images/the-content-wrangler.jpeg',
 			imageAlt: 'The Content Wrangler logo',
 			imageFit: 'contain'
+		},
+		{
+			name: 'Project Hosts',
+			role: 'Secure Cloud Hosting for Microsoft Project Server',
+			description:
+				"Project Hosts delivers FedRAMP, DoD IL, and HITRUST compliant environments so organizations can keep Microsoft Project Server online while Microsoft winds down native support. They partner with Cambermast to migrate, host, and support regulated PMO workloads.",
+			link: 'https://projecthosts.com',
+			image: '/images/project-hosts-logo.png',
+			imageAlt: 'Project Hosts logo',
+			imageFit: 'contain'
 		}
 	];
 
