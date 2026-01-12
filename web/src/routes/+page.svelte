@@ -297,6 +297,12 @@ const featuredVideoUrl =
 			title: 'Talk with Bill',
 			links: [
 				{
+					icon: '💬',
+					label: 'Free 15-minute Chat',
+					description: 'Kick off the conversation with a no-cost 15-minute chat.',
+					href: 'https://cal.com/billraymond/15min'
+				},
+				{
 					icon: '🕒',
 					label: '30-minute Consultation',
 					description: 'You define the topic for 30 minutes with Bill ($100).',
