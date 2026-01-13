@@ -78,9 +78,9 @@ export const pageSeo: SeoOverrides = {
 			'Estimate role-level AI impact and translate skill gains into measurable outcomes.'
 	},
 	'/tools/ai-automation-skills': {
-		title: 'AI Automation Skills Map | Cambermast Tools',
+		title: 'AI Automation Skills Map & Certification Prep | Cambermast Tools',
 		description:
-			'Identify the AI automation skills, integrations, and workflows needed for job-ready delivery.'
+			'Measure your AI automation skills, find gaps, and get a certification-ready learning plan.'
 	},
 	'/tools/ai-readiness-assessment': {
 		title: 'AI Readiness Assessment | Cambermast Tools',

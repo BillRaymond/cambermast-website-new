@@ -4,6 +4,12 @@
 	import SeoHead from '$lib/components/SeoHead.svelte';
 
 	const pageMeta = getSeo('/tools');
+	const visibleTools = tools.filter((tool) => !tool.hidden);
+	const statusLabel = (status?: string) => (status === 'beta' ? 'Beta' : 'Coming soon');
+	const statusBadgeClass = (status?: string) =>
+		status === 'beta'
+			? 'bg-amber-50 text-amber-700'
+			: 'bg-blue-50 text-blue-700';
 </script>
 
 <SeoHead title={pageMeta.title} description={pageMeta.description} path="/tools" />
@@ -19,12 +25,14 @@
 </header>
 
 <section class="grid gap-6 md:grid-cols-3">
-	{#each tools as tool}
+	{#each visibleTools as tool}
 		<article class="flex h-full flex-col rounded-2xl border bg-white p-5 shadow-sm">
 			<div class="flex items-center justify-between">
 				<span class="text-xs font-semibold uppercase tracking-wide text-blue-600">Tool preview</span>
-				<span class="rounded-full bg-blue-50 px-2.5 py-1 text-xs font-semibold text-blue-700">
-					Coming soon
+				<span
+					class={`rounded-full px-2.5 py-1 text-xs font-semibold ${statusBadgeClass(tool.status)}`}
+				>
+					{statusLabel(tool.status)}
 				</span>
 			</div>
 			<h2 class="mt-3 text-xl font-semibold text-gray-900">{tool.title}</h2>

@@ -7,6 +7,12 @@
 		label: 'View upcoming dates',
 		url: '/training/calendar'
 	};
+
+	const statusLabel = (status?: ToolInfo['status']) => (status === 'beta' ? 'Beta' : 'Coming soon');
+	const statusBadgeClass = (status?: ToolInfo['status']) =>
+		status === 'beta'
+			? 'bg-amber-50 text-amber-700'
+			: 'bg-blue-50 text-blue-700';
 </script>
 
 <header class="mb-10 space-y-4">
@@ -14,8 +20,12 @@
 	<h1 class="text-3xl font-bold text-gray-900">{tool.title}</h1>
 	<p class="max-w-2xl text-gray-700">{tool.summary}</p>
 	<div class="flex flex-wrap items-center gap-3">
-		<span class="rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-blue-700">
-			Coming soon
+		<span
+			class={`rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wide ${statusBadgeClass(
+				tool.status
+			)}`}
+		>
+			{statusLabel(tool.status)}
 		</span>
 		<span class="text-xs font-semibold uppercase tracking-wide text-gray-400">
 			Last updated {tool.lastUpdated}

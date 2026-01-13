@@ -14,7 +14,7 @@
 	path="/tools/ai-readiness-assessment"
 />
 
-{#if tool}
+{#if tool && !tool.hidden}
 	<ToolPage {tool} />
 {:else}
 	<p class="text-gray-700">Tool details are being prepared.</p>
