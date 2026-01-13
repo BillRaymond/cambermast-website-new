@@ -19,10 +19,12 @@ const staticRoutes = [
 	'/news',
 	'/faq',
 	'/testimonials',
-	'/forms',
-	'/forms/testimonials',
 	'/gdpr',
-	'/services/microsoft-project-server'
+	'/services/microsoft-project-server',
+	'/tools',
+	'/tools/ai-roi-calculator',
+	'/tools/ai-readiness-assessment',
+	'/tools/ai-tool-comparison'
 ];
 
 const getCatalogRoutes = (): string[] =>

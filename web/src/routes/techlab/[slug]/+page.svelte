@@ -40,7 +40,7 @@
 />
 
 <svelte:head>
-	<meta name="robots" content="noindex, nofollow" />
+	<meta name="robots" content="noindex" />
 	<link rel="preconnect" href="https://fonts.googleapis.com" />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
 	<link

@@ -1,4 +1,6 @@
 User-agent: *
-Disallow: /techlab
+Disallow: /internal/
+Disallow: /forms/
+Disallow: /techlab/
 
 Sitemap: https://www.cambermast.com/sitemap.xml
