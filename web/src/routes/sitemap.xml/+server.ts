@@ -23,6 +23,7 @@ const staticRoutes = [
 	'/services/microsoft-project-server',
 	'/tools',
 	'/tools/ai-roi-calculator',
+	'/tools/ai-automation-skills',
 	'/tools/ai-readiness-assessment',
 	'/tools/ai-tool-comparison'
 ];

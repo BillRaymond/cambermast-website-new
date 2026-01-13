@@ -67,6 +67,31 @@ export const pageSeo: SeoOverrides = {
 		description:
 			'Partner with Cambermast for AI advisory sprints, governance, and project leadership that turn pilots into repeatable wins.'
 	},
+	'/tools': {
+		title: 'AI Job Readiness Tools | Cambermast',
+		description:
+			'Explore assessments, self-assessments, and AI tools focused on job readiness, skill gaps, and role-fit decisions.'
+	},
+	'/tools/ai-roi-calculator': {
+		title: 'AI Role ROI Calculator | Cambermast Tools',
+		description:
+			'Estimate role-level AI impact and translate skill gains into measurable outcomes.'
+	},
+	'/tools/ai-automation-skills': {
+		title: 'AI Automation Skills Map | Cambermast Tools',
+		description:
+			'Identify the AI automation skills, integrations, and workflows needed for job-ready delivery.'
+	},
+	'/tools/ai-readiness-assessment': {
+		title: 'AI Readiness Assessment | Cambermast Tools',
+		description:
+			'Assess AI readiness across skills, workflows, and governance to guide training decisions.'
+	},
+	'/tools/ai-tool-comparison': {
+		title: 'AI Tool Fit Comparison | Cambermast Tools',
+		description:
+			'Compare AI tools by role fit, learning curve, and workflow readiness.'
+	},
 	'/gdpr': {
 		title: 'GDPR & Privacy at Cambermast',
 		description:

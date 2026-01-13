@@ -110,6 +110,20 @@ const gatherHappeningSessions = (program?: TrainingProgram): TrainingSession[] =
 	</div>
 </section>
 
+<section class="mb-12 rounded-2xl border border-blue-100 bg-blue-50 p-5">
+	<h3 class="text-lg font-semibold text-blue-900">Plan job-ready automation roles</h3>
+	<p class="mt-1.5 text-blue-900">
+		The Tools hub includes job readiness tools to map role impact, skill gaps, and tool fit for
+		agent workflows.
+	</p>
+	<a
+		href="/tools"
+		class="mt-3 inline-flex items-center justify-center rounded-lg bg-white px-4 py-2 text-sm font-semibold text-blue-700 transition hover:bg-blue-100"
+	>
+		Explore Tools
+	</a>
+</section>
+
 <section class="mb-20 rounded-2xl border bg-gray-50 p-5 md:mb-0">
 	<h3 class="text-lg font-semibold">Need help scoping an automation?</h3>
 	<p class="mt-1.5 text-gray-700">

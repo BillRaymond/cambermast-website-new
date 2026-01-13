@@ -116,6 +116,14 @@
 			}
 		]
 	},
+	"tools": {
+		"label": "AI Tools",
+		"navlabel": "Tools",
+		"icon": "\ud83e\uddf0",
+		"route": "/tools",
+		"headline": "Practical calculators and assessments to clarify ROI, readiness, and tool fit.",
+		"homeorder": 2
+	},
 	"strategy": {
 		"label": "AI Advisory & Project Management",
 		"navlabel": "AI Advisory",
@@ -128,7 +136,7 @@
 			"href": "/contact",
 			"label": "Schedule for your team"
 		},
-		"homeorder": 2,
+		"homeorder": 3,
 		"items": [
 			{
 				"id": "strategy-advisory-sprint",
