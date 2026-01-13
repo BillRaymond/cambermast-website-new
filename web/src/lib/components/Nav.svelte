@@ -23,6 +23,7 @@
 	// Build nav links from catalog, sorted by homeorder
 	const catalogLinks = Object.entries(catalog)
 		.sort(([, a], [, b]) => (a.homeorder ?? 999) - (b.homeorder ?? 999))
+		.filter(([slug]) => slug !== 'tools')
 		.map(([slug, sec]) => ({
 			href: sec.route,
 			label: sec.navlabel
