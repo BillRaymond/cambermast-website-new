@@ -1,11 +1,14 @@
 <script lang="ts">
 import type { TrainingFaq, TrainingSession, TrainingStat } from '$lib/data/training/types';
 import {
-		isSessionDraft,
-		isSessionUpcoming,
-		normalizeToday
-	} from '$lib/data/training/session-utils';
-import ReviewCard from '$lib/components/ReviewCard.svelte';
+	hasExternalRegistration,
+	isSessionDraft,
+	isSessionHappeningNow,
+	isSessionUpcoming,
+	normalizeToday
+} from '$lib/data/training/session-utils';
+	import ReviewCard from '$lib/components/ReviewCard.svelte';
+	import SessionCard from '$lib/components/SessionCard.svelte';
 import type { TechlabProgram } from '$lib/data/techlab/types';
 import {
 	listTestimonialsForSku,
@@ -33,7 +36,8 @@ let statsBeforeCta: TrainingStat[] = [];
 let statsAfterCta: TrainingStat[] = [];
 let ctaInsertIndex = -1;
 const today = normalizeToday();
-let visibleSessions: TrainingSession[] = [];
+let registerableSessions: TrainingSession[] = [];
+let happeningSessions: TrainingSession[] = [];
 let programTestimonials: Testimonial[] = [];
 
 const normalizeLabel = (label?: string): string | undefined => label?.toLowerCase().trim();
@@ -54,11 +58,20 @@ const formatTestimonialRole = (testimonial: Testimonial): string => {
 		statsAfterCta = ctaInsertIndex >= 0 ? stats.slice(ctaInsertIndex + 1) : [];
 	}
 
-	$: visibleSessions =
-		program?.sessions?.filter((session) => {
-			if (isSessionDraft(session)) return false;
-			return session.startDate ? isSessionUpcoming(session, today) : true;
-		}) ?? [];
+	$: {
+		const sessions =
+			program?.sessions?.filter((session) => !isSessionDraft(session)) ?? [];
+		registerableSessions = sessions.filter(
+			(session) =>
+				session.startDate &&
+				hasExternalRegistration(session) &&
+				isSessionUpcoming(session, today) &&
+				!isSessionHappeningNow(session, today)
+		);
+		happeningSessions = sessions.filter((session) =>
+			session.startDate ? isSessionHappeningNow(session, today) : false
+		);
+	}
 
 	$: {
 		if (!program) {
@@ -184,40 +197,30 @@ $: faqsWithTerms = program?.faqs?.length ? [...program.faqs, trainingTermsFaq] :
 		</section>
 	{/if}
 
-	{#if visibleSessions.length}
+	{#if registerableSessions.length || happeningSessions.length}
 		<section class="tlp-panel">
 			<h2 class="tlp-section-title">Upcoming dates</h2>
 			<div class="tlp-session-grid">
-				{#each visibleSessions as session ((session.registerUrl ?? '') + session.name + session.date)}
-					<div class="tlp-session">
-						<div>
-							<p class="tlp-session__name">{session.name}</p>
-							<p class="tlp-session__date">{session.date}</p>
-							{#if session.time}
-								{#if Array.isArray(session.time)}
-									<div class="tlp-session__time">
-										{#each session.time as timeEntry}
-											<p>{timeEntry}</p>
-										{/each}
-									</div>
-								{:else}
-									<p class="tlp-session__time">{session.time}</p>
-								{/if}
-							{/if}
-							{#if session.location}
-								<p class="tlp-session__location">{session.location}</p>
-							{/if}
-						</div>
-						{#if session.registerUrl}
-							<a
-								href={session.registerUrl}
-								class="tlp-btn tlp-btn--primary"
-								class:schedule-team-button={session.registerUrl === '/contact'}
-							>
-								{session.registerUrl === '/contact' ? 'Schedule your team' : 'Register ↗'}
-							</a>
-						{/if}
-					</div>
+				{#each registerableSessions as session ((session.registerUrl ?? '') + session.name + session.date)}
+					<SessionCard
+						title={session.name}
+						date={session.date}
+						time={session.time}
+						location={session.location}
+						ctaUrl={session.registerUrl}
+						ctaLabel="Register ↗"
+						tone="upcoming"
+					/>
+				{/each}
+				{#each happeningSessions as session ((session.registerUrl ?? '') + session.name + session.date)}
+					<SessionCard
+						title={session.name}
+						date={session.date}
+						time={session.time}
+						location={session.location}
+						statusLabel="Enrollment closed — in progress"
+						tone="happening"
+					/>
 				{/each}
 			</div>
 		</section>

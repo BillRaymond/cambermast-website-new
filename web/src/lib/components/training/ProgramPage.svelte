@@ -1,5 +1,6 @@
 <script lang="ts">
 import ReviewCard from '$lib/components/ReviewCard.svelte';
+import SessionCard from '$lib/components/SessionCard.svelte';
 import type {
 	TrainingFaq,
 	TrainingProgram,
@@ -345,40 +346,21 @@ const formatTestimonialRole = (testimonial: Testimonial): string => {
 		</div>
 	</section>
 
-	{#if upcomingSessions.length}
+	{#if registerableSessions.length}
 		<section class="rounded-2xl border border-blue-100 bg-white p-5 shadow">
 			<h2 class="text-2xl font-semibold text-gray-900">Upcoming dates</h2>
 			<div class="mt-3.5 grid gap-3 md:grid-cols-2">
-				{#each upcomingSessions as session ((session.registerUrl ?? '') + session.name + session.date)}
-					<div class="flex h-full flex-col justify-between rounded-xl border border-gray-100 bg-gray-50 p-3.5">
-						<div>
-							<p class="text-sm font-semibold text-gray-900">{session.name}</p>
-							<p class="mt-0.5 text-sm text-gray-700">{session.date}</p>
-							{#if session.time}
-								{#if Array.isArray(session.time)}
-									<div class="mt-0.5 space-y-1 text-xs text-gray-500">
-										{#each session.time as timeEntry}
-											<p>{timeEntry}</p>
-										{/each}
-									</div>
-								{:else}
-									<p class="text-xs text-gray-500">{session.time}</p>
-								{/if}
-							{/if}
-							{#if session.location}
-								<p class="text-xs text-gray-500">{session.location}</p>
-							{/if}
-						</div>
-						{#if session.registerUrl}
-								<a
-									href={session.registerUrl}
-									class="mt-3 inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-1.5 text-sm font-semibold text-white transition hover:bg-blue-700"
-									class:schedule-team-button={session.registerUrl === '/contact'}
-								>
-									{session.registerUrl === '/contact' ? 'Schedule your team' : 'Register ↗'}
-							</a>
-						{/if}
-					</div>
+				{#each registerableSessions as session ((session.registerUrl ?? '') + session.name + session.date)}
+					<SessionCard
+						title={session.name}
+						date={session.date}
+						time={session.time}
+						location={session.location}
+						ctaUrl={session.registerUrl}
+						ctaLabel={session.registerUrl === '/contact' ? 'Schedule your team' : 'Register ↗'}
+						scheduleTeam={session.registerUrl === '/contact'}
+						tone="upcoming"
+					/>
 				{/each}
 			</div>
 		</section>
@@ -389,29 +371,14 @@ const formatTestimonialRole = (testimonial: Testimonial): string => {
 			<h2 class="text-2xl font-semibold text-gray-900">Happening now</h2>
 			<div class="mt-3.5 grid gap-3 md:grid-cols-2">
 				{#each happeningSessions as session ((session.registerUrl ?? '') + session.name + session.date)}
-					<div class="flex h-full flex-col justify-between rounded-xl border border-amber-100 bg-amber-50/60 p-3.5">
-						<div>
-							<p class="text-sm font-semibold text-gray-900">{session.name}</p>
-							<p class="mt-0.5 text-sm text-gray-700">{session.date}</p>
-							{#if session.time}
-								{#if Array.isArray(session.time)}
-									<div class="mt-0.5 space-y-1 text-xs text-gray-500">
-										{#each session.time as timeEntry}
-											<p>{timeEntry}</p>
-										{/each}
-									</div>
-								{:else}
-									<p class="text-xs text-gray-500">{session.time}</p>
-								{/if}
-							{/if}
-							{#if session.location}
-								<p class="text-xs text-gray-500">{session.location}</p>
-							{/if}
-						</div>
-						<div class="mt-3 rounded-lg border border-amber-200 bg-white px-3 py-2 text-center text-sm font-semibold text-amber-700">
-							{getHappeningLabel(session)}
-						</div>
-					</div>
+					<SessionCard
+						title={session.name}
+						date={session.date}
+						time={session.time}
+						location={session.location}
+						statusLabel={getHappeningLabel(session)}
+						tone="happening"
+					/>
 				{/each}
 			</div>
 		</section>
@@ -480,7 +447,7 @@ const formatTestimonialRole = (testimonial: Testimonial): string => {
 		</section>
 	{/if}
 
-	{#if program.takeaways?.length || program.sessions?.length}
+	{#if program.takeaways?.length || registerableSessions.length || happeningSessions.length}
 		<section class="grid gap-6 md:grid-cols-2">
 			{#if program.takeaways?.length}
 				<div class="rounded-2xl border border-blue-100 bg-white p-5 shadow">
@@ -492,34 +459,33 @@ const formatTestimonialRole = (testimonial: Testimonial): string => {
 					</ul>
 				</div>
 			{/if}
-			{#if program.sessions?.length}
+			{#if registerableSessions.length || happeningSessions.length}
 				<div class="rounded-2xl bg-white p-5 shadow">
 					<h3 class="text-lg font-semibold text-gray-900">Upcoming & private sessions</h3>
 					<ul class="mt-3.5 space-y-4">
-						{#each program.sessions as session}
-							<li class="rounded-xl border border-blue-100 p-3.5">
-								<p class="text-sm font-semibold text-gray-900">{session.name}</p>
-								<p class="mt-1 text-sm text-gray-600">{session.date}</p>
-								{#if session.time}
-									{#if Array.isArray(session.time)}
-										<div class="mt-0.5 space-y-1 text-sm text-gray-600">
-											{#each session.time as timeEntry}
-												<p>{timeEntry}</p>
-											{/each}
-										</div>
-									{:else}
-										<p class="text-sm text-gray-600">{session.time}</p>
-									{/if}
-								{/if}
-								<p class="mt-1 text-sm text-gray-600">{session.location}</p>
-								<p class="mt-1 text-xs uppercase tracking-wide text-blue-600">{session.spots}</p>
-								<a
-									href={session.registerUrl}
-									class="mt-2.5 inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700"
-									class:schedule-team-button={session.registerUrl === '/contact'}
-								>
-									{session.registerUrl === '/contact' ? 'Schedule your team' : 'Register ↗'}
-								</a>
+						{#each registerableSessions as session (session.registerUrl + session.date)}
+							<li>
+								<SessionCard
+									title={session.name}
+									date={session.date}
+									time={session.time}
+									location={session.location}
+									ctaUrl={session.registerUrl}
+									ctaLabel="Register ↗"
+									tone="upcoming"
+								/>
+							</li>
+						{/each}
+						{#each happeningSessions as session (session.registerUrl + session.date)}
+							<li>
+								<SessionCard
+									title={session.name}
+									date={session.date}
+									time={session.time}
+									location={session.location}
+									statusLabel={getHappeningLabel(session)}
+									tone="happening"
+								/>
 							</li>
 						{/each}
 					</ul>

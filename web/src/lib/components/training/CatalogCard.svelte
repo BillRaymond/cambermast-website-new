@@ -1,4 +1,5 @@
 <script lang="ts">
+	import SessionCard from '$lib/components/SessionCard.svelte';
 	import type { CatalogCardData } from './catalog-card-data';
 	export let item: CatalogCardData;
 	export let scheduleTeamLabel: string;
@@ -107,26 +108,16 @@ const scrollToSessionsSection = (): void => {
 					</p>
 					<ul class="mt-3 space-y-3">
 						{#each item.upcomingSessions as session (session.registerUrl + session.date)}
-							<li class="rounded-lg border border-white/60 bg-white/80 p-3">
-								<p class="text-sm font-semibold text-gray-900">{session.name}</p>
-								<p class="text-xs text-gray-600">{session.date}</p>
-								{#if session.time}
-									{#if Array.isArray(session.time)}
-										<div class="space-y-1 text-xs text-gray-600">
-											{#each session.time as timeEntry}
-												<p>{timeEntry}</p>
-											{/each}
-										</div>
-									{:else}
-										<p class="text-xs text-gray-600">{session.time}</p>
-									{/if}
-								{/if}
-								<a
-									href={session.registerUrl}
-									class="mt-2 inline-flex items-center justify-center rounded-lg bg-blue-600 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-blue-700"
-								>
-									Register ↗
-								</a>
+							<li>
+								<SessionCard
+									title={session.name}
+									date={session.date}
+									time={session.time}
+									location={session.location}
+									ctaUrl={session.registerUrl}
+									ctaLabel="Register ↗"
+									tone="upcoming"
+								/>
 							</li>
 						{/each}
 					</ul>
@@ -141,23 +132,15 @@ const scrollToSessionsSection = (): void => {
 					</p>
 					<ul class="mt-3 space-y-3">
 						{#each item.happeningSessions as session (session.name + (session.startDate ?? session.date))}
-							<li class="rounded-lg border border-white/60 bg-white/90 p-3">
-								<p class="text-sm font-semibold text-gray-900">{session.name}</p>
-								<p class="text-xs text-gray-600">{session.date}</p>
-								{#if session.time}
-									{#if Array.isArray(session.time)}
-										<div class="space-y-1 text-xs text-gray-600">
-											{#each session.time as timeEntry}
-												<p>{timeEntry}</p>
-											{/each}
-										</div>
-									{:else}
-										<p class="text-xs text-gray-600">{session.time}</p>
-									{/if}
-								{/if}
-								<p class="mt-2 text-xs font-semibold uppercase tracking-wide text-amber-600">
-									Enrollment closed — ends {session.endDate ?? 'soon'}
-								</p>
+							<li>
+								<SessionCard
+									title={session.name}
+									date={session.date}
+									time={session.time}
+									location={session.location}
+									statusLabel={`Enrollment closed — ends ${session.endDate ?? 'soon'}`}
+									tone="happening"
+								/>
 							</li>
 						{/each}
 					</ul>

@@ -39,7 +39,8 @@
 	const serviceTopics = [
 		{ slug: 'ai-agents', title: 'AI Agents' },
 		{ slug: 'ai-advisory-services', title: 'AI Advisory Services' },
-		{ slug: 'project-management', title: 'Project Management' }
+		{ slug: 'project-management', title: 'Project Management' },
+		{ slug: 'project-server-migrations', title: 'Project Server migrations' }
 	];
 
 	const contactOptions = [
@@ -230,7 +231,7 @@
 <SeoHead title={pageMeta.title} description={pageMeta.description} path="/contact" />
 
 <section class="mb-8 max-w-3xl space-y-3">
-	<h1 class="text-3xl font-bold">Plan your team's training or get in touch</h1>
+	<h1 class="text-3xl font-bold">Contact us about anything</h1>
 	<p class="text-gray-700">
 		You can contact Bill and his team about any topic that interests you, including booking AI
 		training, designing a private workshop, building AI agents, planning advisory services, managing
@@ -239,10 +240,9 @@
 </section>
 
 <section class="mb-8 max-w-3xl rounded-2xl border bg-blue-50 p-6 text-blue-900 shadow">
-	<h2 class="text-xl font-semibold">Don't forget to check the calendar</h2>
+	<h2 class="text-xl font-semibold">What's happening now</h2>
 	<p class="mt-1 text-sm">
-		Check the scheduling calendar first in case there is an upcoming webinar, training course, or
-		workshop.
+		Review the calendar to see which trainings or events are actively happening right now.
 	</p>
 	<a
 		class="mt-4 inline-flex items-center justify-center rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow transition hover:bg-blue-700"

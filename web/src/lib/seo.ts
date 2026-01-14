@@ -23,9 +23,9 @@ export const pageSeo: SeoOverrides = {
 			'Meet Bill Raymond and the partners who guide organizations through practical AI adoption.'
 	},
 	'/contact': {
-		title: 'Contact Cambermast | Plan AI Training & Advisory',
+		title: 'Contact Cambermast | Get in Touch About Anything',
 		description:
-			'Reach out to schedule AI training, request advisory support, or scope an automation with the Cambermast team.'
+			'Reach out about training, advisory services, automations, or any question you want to discuss with the Cambermast team.'
 	},
 	'/training': {
 		title: 'AI Training Programs | Cambermast',

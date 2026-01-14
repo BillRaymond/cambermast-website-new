@@ -2,7 +2,13 @@
 	import SeoHead from '$lib/components/SeoHead.svelte';
 	import { listTechlabPrograms } from '$lib/data/techlab';
 	import type { TechlabProgram } from '$lib/data/techlab/types';
-	import { isSessionDraft, isSessionUpcoming, normalizeToday } from '$lib/data/training/session-utils';
+import {
+	hasExternalRegistration,
+	isSessionDraft,
+	isSessionHappeningNow,
+	isSessionUpcoming,
+	normalizeToday
+} from '$lib/data/training/session-utils';
 
 	const programs: TechlabProgram[] = listTechlabPrograms();
 
@@ -81,43 +87,35 @@ const whyTechlab = [
 	};
 
 	const today = normalizeToday();
-	const scheduleEntries: ScheduleEntry[] = programs.map((program) => {
-		const sessions =
-			program.sessions?.filter((session) => {
-				if (isSessionDraft(session)) return false;
-				return session.startDate ? isSessionUpcoming(session, today) : true;
-			}) ?? [];
+	const scheduleEntries: ScheduleEntry[] = programs
+		.map((program) => {
+			const session =
+				program.sessions?.find(
+					(entry) =>
+						!isSessionDraft(entry) &&
+						entry.startDate &&
+						hasExternalRegistration(entry) &&
+						isSessionUpcoming(entry, today) &&
+						!isSessionHappeningNow(entry, today)
+				) ?? null;
 
-		const session = sessions[0];
-		const fallback: ScheduleEntry = {
-			programTitle: program.title,
-			route: program.route ?? `/techlab/${program.slug}`,
-			heroImage: program.heroImage,
-			heroImageAlt: program.heroImageAlt ?? program.title,
-			sessionName: 'Private cohort scheduling',
-			date: 'Jun 18, 2026',
-			timeText: 'Virtual or on-site delivery',
-			location: 'Flexible',
-			registerUrl: '/contact',
-			ctaLabel: 'Register'
-		};
+			if (!session) return null;
 
-		if (!session) return fallback;
-
-		const timeText = Array.isArray(session.time) ? session.time.join(' • ') : session.time;
-		return {
-			programTitle: program.title,
-			route: program.route ?? `/techlab/${program.slug}`,
-			heroImage: program.heroImage,
-			heroImageAlt: program.heroImageAlt ?? program.title,
-			sessionName: session.name,
-			date: session.date,
-			timeText,
-			location: session.location,
-			registerUrl: '/contact',
-			ctaLabel: 'Register'
-		};
-	});
+			const timeText = Array.isArray(session.time) ? session.time.join(' • ') : session.time;
+			return {
+				programTitle: program.title,
+				route: program.route ?? `/techlab/${program.slug}`,
+				heroImage: program.heroImage,
+				heroImageAlt: program.heroImageAlt ?? program.title,
+				sessionName: session.name,
+				date: session.date,
+				timeText,
+				location: session.location,
+				registerUrl: session.registerUrl,
+				ctaLabel: 'Register'
+			};
+		})
+		.filter((entry): entry is ScheduleEntry => Boolean(entry));
 	const animatedSchedule = [...scheduleEntries, ...scheduleEntries];
 
 	const formatStat = (program: TechlabProgram): string | undefined =>
@@ -196,6 +194,7 @@ const whyTechlab = [
 		</div>
 	</section>
 
+		{#if scheduleEntries.length}
 		<section class="schedule">
 			<div class="schedule__header">
 				<div>
@@ -248,6 +247,7 @@ const whyTechlab = [
 				</div>
 			</div>
 		</section>
+		{/if}
 
 		<section class="stats">
 			{#each statBlocks as stat}
