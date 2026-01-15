@@ -477,6 +477,7 @@
 				{/each}
 			</select>
 			{#if selectedProgram === 'other'}
+				<label class="sr-only" for="testimonial-program-other">Custom program name</label>
 				<input
 					class="mt-3 w-full rounded-lg border px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500"
 					bind:value={customProgramTitle}
@@ -489,11 +490,11 @@
 			{/if}
 		</div>
 
-		<div>
-			<span class="block text-sm font-semibold uppercase tracking-wide text-gray-600">
+		<fieldset class="border-0 p-0">
+			<legend class="block text-sm font-semibold uppercase tracking-wide text-gray-600">
 				<span class="required-label">How many stars would you give this training?</span>
 				<span class="sr-only"> required</span>
-			</span>
+			</legend>
 			<p class="mt-1 text-xs text-gray-500">5 stars means the session was exceptional.</p>
 			<div class="mt-3 flex items-center gap-1">
 				{#each ratingOptions as option, index}
@@ -534,7 +535,7 @@
 					)?.label}
 				</p>
 			{/if}
-		</div>
+		</fieldset>
 
 		<div>
 			<label

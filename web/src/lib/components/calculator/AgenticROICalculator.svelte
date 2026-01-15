@@ -172,13 +172,13 @@ ${managerPitch}`);
 					<div class="grid grid-cols-2 gap-8">
 						<!-- People Impacted -->
 						<div class="space-y-2">
-							<label class="flex items-center gap-1 text-[10px] font-black uppercase tracking-widest text-slate-800">
-								<svg class="h-3 w-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<label for="people-impacted" class="flex items-center gap-1 text-[10px] font-black uppercase tracking-widest text-slate-800">
+								<svg class="h-3 w-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
 									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
 								</svg>
 								People Impacted
 							</label>
-							<p class="text-[9px] font-medium italic leading-tight text-slate-500">
+							<p id="people-impacted-help" class="text-[9px] font-medium italic leading-tight text-slate-500">
 								The number of colleagues (including you) who will adopt AI workflows.
 							</p>
 							<div class="flex items-center justify-between pt-1">
@@ -186,43 +186,57 @@ ${managerPitch}`);
 							</div>
 							<input
 								type="range"
+								id="people-impacted"
 								bind:value={peopleImpacted}
 								min="1"
 								max="50"
 								step="1"
+								aria-describedby="people-impacted-help"
 								class="w-full accent-blue-600"
 							/>
 						</div>
 
 						<!-- Annual Salary -->
 						<div class="space-y-2">
-							<label class="flex items-center gap-1 text-[10px] font-black uppercase tracking-widest text-slate-800">
-								<svg class="h-3 w-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<label for="annual-salary" class="flex items-center gap-1 text-[10px] font-black uppercase tracking-widest text-slate-800">
+								<svg class="h-3 w-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
 									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
 								</svg>
 								Annual Salary
 							</label>
-							<p class="text-[9px] font-medium italic leading-tight text-slate-500">
+							<p id="annual-salary-help" class="text-[9px] font-medium italic leading-tight text-slate-500">
 								Average salary used to calculate the economic value of reclaimed work.
 							</p>
 							<div class="relative pt-1">
 								<span class="absolute left-2 top-1/2 -translate-y-1/2 text-xs text-slate-400">$</span>
 								<input
 									type="number"
+									id="annual-salary"
 									bind:value={annualSalary}
 									min="30000"
 									max="300000"
 									step="5000"
+									aria-describedby="annual-salary-help"
 									class="h-10 w-full rounded-xl border border-slate-200 bg-slate-50 pl-6 pr-8 font-mono text-sm font-black"
 								/>
 								<div class="absolute right-1 top-1/2 flex -translate-y-1/2 scale-75 flex-col">
-									<button type="button" onclick={() => stepSalary('up')} class="outline-none hover:text-blue-600">
-										<svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<button
+										type="button"
+										aria-label="Increase salary"
+										onclick={() => stepSalary('up')}
+										class="hover:text-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1"
+									>
+										<svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
 											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
 										</svg>
 									</button>
-									<button type="button" onclick={() => stepSalary('down')} class="outline-none hover:text-blue-600">
-										<svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<button
+										type="button"
+										aria-label="Decrease salary"
+										onclick={() => stepSalary('down')}
+										class="hover:text-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-1"
+									>
+										<svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
 											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
 										</svg>
 									</button>
@@ -259,13 +273,14 @@ ${managerPitch}`);
 						<!-- Repetitive Tasks -->
 						<div class="space-y-2">
 							<div class="flex items-center justify-between">
-								<label class="flex items-center gap-1 text-[9px] font-black uppercase text-slate-500">
+								<label for="repetitive-tasks" class="flex items-center gap-1 text-[9px] font-black uppercase text-slate-500">
 									Repetitive Tasks
 								</label>
 								<span class="font-mono text-xs font-black text-red-600">{repetitiveTasks}%</span>
 							</div>
 							<input
 								type="range"
+								id="repetitive-tasks"
 								bind:value={repetitiveTasks}
 								min="0"
 								max="40"
@@ -277,13 +292,14 @@ ${managerPitch}`);
 						<!-- Focus Loss -->
 						<div class="space-y-2">
 							<div class="flex items-center justify-between">
-								<label class="flex items-center gap-1 text-[9px] font-black uppercase text-slate-500">
+								<label for="focus-loss" class="flex items-center gap-1 text-[9px] font-black uppercase text-slate-500">
 									Focus Loss
 								</label>
 								<span class="font-mono text-xs font-black text-red-600">{focusLoss}%</span>
 							</div>
 							<input
 								type="range"
+								id="focus-loss"
 								bind:value={focusLoss}
 								min="0"
 								max="40"
@@ -295,13 +311,14 @@ ${managerPitch}`);
 						<!-- Manual Research -->
 						<div class="space-y-2">
 							<div class="flex items-center justify-between">
-								<label class="flex items-center gap-1 text-[9px] font-black uppercase text-slate-500">
+								<label for="manual-research" class="flex items-center gap-1 text-[9px] font-black uppercase text-slate-500">
 									Manual Research
 								</label>
 								<span class="font-mono text-xs font-black text-red-600">{manualResearch}%</span>
 							</div>
 							<input
 								type="range"
+								id="manual-research"
 								bind:value={manualResearch}
 								min="0"
 								max="40"
@@ -313,13 +330,14 @@ ${managerPitch}`);
 						<!-- Manual Handoffs -->
 						<div class="space-y-2">
 							<div class="flex items-center justify-between">
-								<label class="flex items-center gap-1 text-[9px] font-black uppercase text-slate-500">
+								<label for="manual-handoffs" class="flex items-center gap-1 text-[9px] font-black uppercase text-slate-500">
 									Manual Handoffs
 								</label>
 								<span class="font-mono text-xs font-black text-red-600">{manualHandoffs}%</span>
 							</div>
 							<input
 								type="range"
+								id="manual-handoffs"
 								bind:value={manualHandoffs}
 								min="0"
 								max="40"
