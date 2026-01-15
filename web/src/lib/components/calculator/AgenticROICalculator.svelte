@@ -40,6 +40,12 @@
 			manualHandoffs
 		})
 	);
+	const showCurrentLegend = $derived(results.currentDistribution.overhead <= 15);
+	const showFutureLegend = $derived(
+		results.futureDistribution.remainingOverhead <= 8 || results.futureDistribution.reclaimed <= 8
+	);
+
+	const emailSubject = 'Approval to Enroll in AI Automation with Agents';
 
 	// Generate manager pitch email
 	const managerPitch = $derived(`Hi [Manager Name],
@@ -59,13 +65,20 @@ Can I move forward with the training?
 
 Course details: https://cambermast.com/training/ai-automation-with-agents`);
 
+	const managerPitchWithSubject = $derived(`Subject: ${emailSubject}
+
+${managerPitch}`);
+
+	const managerPitchMailto = $derived(
+		`mailto:?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(managerPitch)}`
+	);
+
 	// Copy email template to clipboard
 	function copyEmailTemplate() {
-		navigator.clipboard.writeText(managerPitch).then(() => {
+		const handleCopied = () => {
 			copied = true;
-			setTimeout(() => copied = false, 2000);
-			
-			// Track copy event
+			setTimeout(() => (copied = false), 2000);
+
 			if (typeof window !== 'undefined' && window.gtag) {
 				window.gtag('event', 'copy_email', {
 					event_category: 'agentic_roi_calculator',
@@ -73,7 +86,28 @@ Course details: https://cambermast.com/training/ai-automation-with-agents`);
 					value: Math.round(results.valueReclaimedAnnual)
 				});
 			}
-		});
+		};
+
+		const fallbackCopy = () => {
+			const textarea = document.createElement('textarea');
+			textarea.value = managerPitchWithSubject;
+			textarea.setAttribute('readonly', 'true');
+			textarea.style.position = 'absolute';
+			textarea.style.left = '-9999px';
+			document.body.appendChild(textarea);
+			textarea.select();
+			textarea.setSelectionRange(0, textarea.value.length);
+			const success = document.execCommand('copy');
+			document.body.removeChild(textarea);
+			if (success) handleCopied();
+		};
+
+		if (typeof navigator !== 'undefined' && navigator.clipboard && window.isSecureContext) {
+			navigator.clipboard.writeText(managerPitchWithSubject).then(handleCopied).catch(fallbackCopy);
+			return;
+		}
+
+		fallbackCopy();
 	}
 
 	// Track CTA click
@@ -91,7 +125,7 @@ Course details: https://cambermast.com/training/ai-automation-with-agents`);
 <div class="calculator-container space-y-6">
 	<!-- Blue Hero Banner -->
 	<div class="overflow-hidden rounded-3xl border-none bg-blue-600 p-5 text-white shadow-lg md:px-8">
-		<div class="flex flex-col items-center gap-6 md:flex-row">
+		<div class="flex items-center gap-4">
 			<div class="shrink-0 rounded-2xl bg-blue-500 p-3 text-amber-400 shadow-inner">
 				<svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
@@ -123,6 +157,18 @@ Course details: https://cambermast.com/training/ai-automation-with-agents`);
 					</p>
 				</div>
 				<div class="space-y-8 p-6">
+					<div class="rounded-2xl border border-dashed border-blue-100 bg-blue-50/50 p-5 text-center">
+						<p class="text-[11px] font-bold leading-snug text-slate-700">
+							Capacity you're paying for: <span class="font-black text-blue-700">~{formatHours(results.totalCapacityHours)} hours/year</span>
+						</p>
+						<p class="mt-1 text-[10px] font-medium italic text-slate-500">
+							Your Manual Tax is the portion consumed by overhead.
+						</p>
+						<p class="mt-1 text-[9px] italic leading-relaxed text-slate-400">
+							Default productive capacity: 1,850 hours per person/year. Benchmark: $80k.
+						</p>
+					</div>
+
 					<div class="grid grid-cols-2 gap-8">
 						<!-- People Impacted -->
 						<div class="space-y-2">
@@ -157,7 +203,7 @@ Course details: https://cambermast.com/training/ai-automation-with-agents`);
 								Annual Salary
 							</label>
 							<p class="text-[9px] font-medium italic leading-tight text-slate-500">
-								Average salary used to calculate the economic value of reclaimed time.
+								Average salary used to calculate the economic value of reclaimed work.
 							</p>
 							<div class="relative pt-1">
 								<span class="absolute left-2 top-1/2 -translate-y-1/2 text-xs text-slate-400">$</span>
@@ -185,17 +231,6 @@ Course details: https://cambermast.com/training/ai-automation-with-agents`);
 						</div>
 					</div>
 
-					<div class="mt-4 rounded-2xl border border-dashed border-blue-100 bg-blue-50/50 p-5 text-center">
-						<p class="text-[11px] font-bold leading-snug text-slate-700">
-							Capacity you're paying for: <span class="font-black text-blue-700">~{formatHours(results.totalCapacityHours)} hours/year</span>
-						</p>
-						<p class="mt-1 text-[10px] font-medium italic text-slate-500">
-							Your Manual Tax is the portion consumed by overhead.
-						</p>
-						<p class="mt-1 text-[9px] italic leading-relaxed text-slate-400">
-							Default productive capacity: 1,850 hours per person/year. Benchmark: $80k.
-						</p>
-					</div>
 				</div>
 			</div>
 
@@ -213,6 +248,13 @@ Course details: https://cambermast.com/training/ai-automation-with-agents`);
 					</p>
 				</div>
 				<div class="space-y-6 p-6">
+					<div class="space-y-2 rounded-2xl border border-red-100 bg-red-50 p-5 text-center">
+						<p class="text-[10px] font-black uppercase tracking-tight text-red-600">Total Manual Tax (rolled up)</p>
+						<p class="text-[11px] font-bold leading-snug text-red-800">
+							That's <span class="font-black text-slate-900">{formatHours(results.hoursPerPersonPerWeek)} hours per person per week</span>, or <span class="font-black text-slate-900">{formatHours(results.totalTeamHoursPerWeek)} total team hours</span>, which you can redirect into higher-value work once agents reduce this overhead.
+						</p>
+					</div>
+
 					<div class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
 						<!-- Repetitive Tasks -->
 						<div class="space-y-2">
@@ -287,12 +329,6 @@ Course details: https://cambermast.com/training/ai-automation-with-agents`);
 						</div>
 					</div>
 
-					<div class="mt-4 space-y-2 rounded-2xl border border-red-100 bg-red-50 p-5 text-center">
-						<p class="text-[10px] font-black uppercase tracking-tight text-red-600">Total Manual Tax (rolled up)</p>
-						<p class="text-[11px] font-bold leading-snug text-red-800">
-							That's <span class="font-black text-slate-900">{formatHours(results.hoursPerPersonPerWeek)} hours per person per week</span>, or <span class="font-black text-slate-900">{formatHours(results.totalTeamHoursPerWeek)} total team hours</span>, which you can redirect into higher-value work once agents reduce this overhead.
-						</p>
-					</div>
 				</div>
 			</div>
 		</div>
@@ -306,11 +342,11 @@ Course details: https://cambermast.com/training/ai-automation-with-agents`);
 							<svg class="h-6 w-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
 							</svg>
-							Your Manual Tax Reclaim Report
+							Your Agentic Impact Scoreboard
 						</h3>
 					</div>
 					<p class="max-w-2xl text-[11px] font-medium leading-snug text-slate-500">
-						See the shift from Manual Tax to high-value capacity once agents reduce overhead. Below are your estimated time reclaimed and the economic impact of that new capacity.
+						AI agents and automation are the lever that cut Manual Tax. Training is how you deploy them safely and fast.
 					</p>
 				</div>
 				<div class="flex-1 space-y-6 px-8 pb-8 pt-2">
@@ -319,22 +355,31 @@ Course details: https://cambermast.com/training/ai-automation-with-agents`);
 						<!-- Current Bar -->
 						<div class="space-y-1">
 							<div class="flex items-end justify-between">
-								<span class="text-[10px] font-black uppercase leading-none tracking-widest text-slate-400">Current Distribution</span>
+								<span class="text-[10px] font-black uppercase leading-none tracking-widest text-slate-400">Today’s Manual Tax</span>
 								<div class="rounded-full bg-red-50 px-2 py-0.5 font-mono text-[10px] font-black uppercase text-red-600">
 									{results.manualTaxPercentage.toFixed(0)}% Overhead
 								</div>
 							</div>
 							<div class="flex h-8 w-full overflow-hidden rounded-xl border border-slate-200 bg-slate-100 shadow-sm">
 								<div
-									class="flex h-full items-center justify-center bg-red-500 text-[9px] font-black text-white"
+									class="flex h-full items-center justify-center bg-red-500"
 									style="width: {results.currentDistribution.overhead}%"
-								>
-									{#if results.currentDistribution.overhead > 15}OVERHEAD{/if}
+								></div>
+								<div class="flex flex-1"></div>
+							</div>
+							<div class="mt-2 flex flex-wrap items-center gap-3 text-[9px] font-semibold uppercase tracking-widest text-slate-400">
+								<div class="flex items-center gap-1.5">
+									<span class="h-2 w-2 rounded-full bg-red-500"></span>
+									Overhead
 								</div>
-								<div class="flex flex-1 items-center justify-center px-1 text-[9px] font-black uppercase leading-none tracking-tighter text-slate-400">
+								<div class="flex items-center gap-1.5">
+									<span class="h-2 w-2 rounded-full bg-slate-300"></span>
 									High-Value Work
 								</div>
 							</div>
+							<p class="text-[9px] italic leading-tight text-slate-400">
+								This is the friction AI agents are built to absorb.
+							</p>
 						</div>
 
 						<div class="flex items-center justify-center gap-3 py-1">
@@ -348,88 +393,100 @@ Course details: https://cambermast.com/training/ai-automation-with-agents`);
 						<!-- Future Bar -->
 						<div class="space-y-2">
 							<div class="flex items-end justify-between">
-								<span class="text-[10px] font-black uppercase leading-none tracking-widest text-slate-900">Future Distribution (with agents)</span>
-								<div class="rounded-full bg-blue-50 px-2 py-0.5 font-mono text-[10px] font-black uppercase text-blue-600">
-									{results.futureDistribution.highValue.toFixed(0)}% High-Value Capacity
+								<span class="text-[10px] font-black uppercase leading-none tracking-widest text-slate-900">With AI Agents in Place</span>
+								<div class="flex items-center gap-1 rounded-full bg-blue-50 px-2 py-0.5 font-mono text-[10px] font-black uppercase text-blue-600">
+									<span>{results.futureDistribution.highValue.toFixed(0)}% High-Value Work</span>
+									<svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+									</svg>
 								</div>
 							</div>
 							<div class="flex h-10 w-full overflow-hidden rounded-xl border-2 border-blue-100 bg-slate-100 p-0.5 shadow-inner">
 								<div
 									class="flex h-full items-center justify-center rounded-l-lg border-r border-white/20 bg-red-200 transition-all duration-500"
 									style="width: {results.futureDistribution.remainingOverhead}%"
-								>
-									{#if results.futureDistribution.remainingOverhead > 8}
-										<span class="text-[8px] font-black uppercase tracking-tighter text-red-800 opacity-70">Overhead</span>
-									{/if}
-								</div>
+								></div>
 								<div
 									class="flex h-full items-center justify-center border-r border-white/20 bg-blue-300 transition-all duration-500"
 									style="width: {results.futureDistribution.reclaimed}%"
-								>
-									{#if results.futureDistribution.reclaimed > 8}
-										<span class="text-[8px] font-black uppercase tracking-tighter text-blue-800">Reclaimed</span>
-									{/if}
+								></div>
+								<div class="flex h-full flex-1 items-center justify-between rounded-r-lg bg-blue-600 px-4 text-white transition-all duration-500"></div>
+							</div>
+							<div class="mt-2 flex flex-wrap items-center gap-3 text-[9px] font-semibold uppercase tracking-widest text-slate-400">
+								<div class="flex items-center gap-1.5">
+									<span class="h-2 w-2 rounded-full bg-red-200"></span>
+									Overhead
 								</div>
-								<div class="flex h-full flex-1 items-center justify-between rounded-r-lg bg-blue-600 px-4 text-white transition-all duration-500">
-									<span class="truncate text-[10px] font-black uppercase tracking-widest">High-Value Capacity</span>
-									<svg class="h-3.5 w-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-									</svg>
+								<div class="flex items-center gap-1.5">
+									<span class="h-2 w-2 rounded-full bg-blue-300"></span>
+									Reclaimed Work
+								</div>
+								<div class="flex items-center gap-1.5">
+									<span class="h-2 w-2 rounded-full bg-blue-600"></span>
+									<span class="flex items-center gap-1">
+										High-Value Work
+										<svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+										</svg>
+									</span>
 								</div>
 							</div>
-							<p class="text-center text-[9px] italic leading-none text-slate-400">Overhead shrinks. Reclaimed time becomes high-value work.</p>
+							<p class="text-left text-[9px] italic leading-none text-slate-400">Overhead shrinks. Capacity returns to real work.</p>
 						</div>
 					</div>
 
 					<!-- Metrics Grid -->
-					<div class="grid grid-cols-1 gap-6 border-t border-slate-50 pt-6 md:grid-cols-3">
-						<div class="space-y-1">
-							<p class="text-[10px] font-black uppercase leading-none tracking-widest text-slate-400">Time Reclaimed</p>
-							<p class="pt-2 font-mono text-3xl font-black leading-none tracking-tight text-slate-900">
+					<div class="grid grid-cols-2 gap-4 border-t border-slate-50 pt-6">
+						<div class="space-y-1 rounded-2xl border border-slate-100 bg-white p-4 shadow-sm">
+							<p class="text-[10px] font-black uppercase leading-none tracking-widest text-slate-400">Capacity Unlocked</p>
+							<p class="pt-2 font-mono text-[clamp(20px,4vw,30px)] font-black leading-none tracking-tight text-slate-900">
 								{Math.round(results.timeReclaimedAnnual).toLocaleString()} <span class="font-sans text-sm font-bold lowercase">hours</span>
 							</p>
-							<p class="mt-1 text-[9px] font-bold uppercase leading-tight tracking-tighter text-slate-500">Hours Reclaimed Per Year</p>
+							<p class="mt-1 text-[9px] font-bold uppercase leading-tight tracking-tighter text-slate-500">Hours of Reclaimed Work Per Year</p>
 							<p class="pt-2 text-[9px] italic leading-tight text-slate-400">
-								Time you can redirect into planning, deep work, and execution once agents reduce overhead.
+								Time your team gets back when agents take the handoffs, retries, and repeat work.
 							</p>
 						</div>
 
-						<div class="space-y-1">
-							<p class="text-[10px] font-black uppercase leading-none tracking-widest text-slate-400">Value of Reclaimed Time</p>
-							<p class="pt-2 font-mono text-3xl font-black leading-none tracking-tight text-slate-900">
+						<div class="space-y-1 rounded-2xl border border-slate-100 bg-white p-4 shadow-sm">
+							<p class="text-[10px] font-black uppercase leading-none tracking-widest text-slate-400">Business Impact</p>
+							<p class="pt-2 font-mono text-[clamp(20px,4vw,30px)] font-black leading-none tracking-tight text-slate-900">
 								{formatCurrency(results.valueReclaimedAnnual)}
 							</p>
-							<p class="mt-1 text-[9px] font-bold uppercase leading-tight tracking-tighter text-slate-500">Estimated Annual Value</p>
+							<p class="mt-1 text-[9px] font-bold uppercase leading-tight tracking-tighter text-slate-500">Conservative Annual Value</p>
 							<p class="mt-1 text-[9px] font-black tracking-tight text-blue-600">
 								≈ {formatCurrency(results.valueReclaimedMonthly)}/month
 							</p>
 							<p class="pt-2 text-[9px] italic leading-tight text-slate-400">
-								Estimated value of reclaimed hours based on your salary benchmark.
-							</p>
-						</div>
-
-						<div class="space-y-1">
-							<p class="text-[10px] font-black uppercase leading-none tracking-widest text-slate-400">Training Payback</p>
-							<p class="pt-2 font-mono text-3xl font-black leading-none tracking-tight text-blue-600">
-								{Math.round(results.paybackDays)} <span class="font-sans text-sm font-bold">Days</span>
-							</p>
-							<p class="mt-1 text-[9px] font-bold uppercase leading-tight tracking-tighter text-blue-500">Days to Break Even</p>
-							<p class="pt-2 text-[9px] italic leading-tight text-slate-400">
-								How quickly the training cost is recovered based on your estimated reclaimed value.
+								Conservative value of reclaimed work hours at your salary benchmark.
 							</p>
 						</div>
 					</div>
 
-					<div class="relative overflow-hidden rounded-3xl border border-slate-100 bg-slate-50 p-6 text-center">
+					<div class="relative overflow-hidden rounded-3xl border border-blue-100 bg-blue-50/60 p-6">
 						<div class="absolute left-0 top-0 h-full w-1.5 bg-blue-500/20"></div>
-						<p class="text-sm font-bold italic leading-relaxed text-slate-800">
-							"Based on your inputs, you can reclaim {Math.round(results.timeReclaimedAnnual).toLocaleString()} hours per year, worth about {formatCurrency(results.valueReclaimedAnnual)}, and break even in {Math.round(results.paybackDays)} days."
-						</p>
+						<div class="flex items-start gap-3">
+							<div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-100 text-blue-700">
+								<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+								</svg>
+							</div>
+							<div class="space-y-1">
+								<p class="text-xs font-black uppercase tracking-widest text-blue-700">First Agent Live in ~10 Business Days</p>
+								<p class="text-xs leading-relaxed text-blue-900/80">
+									After finishing the AI Automation with Agents training, participants have built a working AI agent in the course. Most people go on to design and launch more agents within about 10 business days, using the methods and tools they learned in the course.
+								</p>
+								<p class="text-[10px] font-semibold text-blue-700/80">This timeline reflects real-world application, not experimentation.</p>
+							</div>
+						</div>
 					</div>
 
-					<p class="text-center text-[8px] uppercase tracking-widest text-slate-400 opacity-60">
-						Assumes productive capacity of 1,850 hours per person per year and your selected salary benchmark.
-					</p>
+					<details class="text-center text-[8px] uppercase tracking-widest text-slate-400">
+						<summary class="cursor-pointer text-slate-400 opacity-60">How this is calculated</summary>
+						<p class="mt-2 text-[8px] uppercase tracking-widest text-slate-400 opacity-60">
+							Assumes productive capacity of 1,850 hours per person per year, a 40% agentic efficiency rule, and your selected salary benchmark.
+						</p>
+					</details>
 				</div>
 			</div>
 
@@ -502,12 +559,23 @@ Course details: https://cambermast.com/training/ai-automation-with-agents`);
 								{/if}
 							</button>
 						</div>
+						<div class="flex flex-wrap items-center justify-between gap-2 px-6 pt-2 text-[10px] font-medium text-slate-500">
+							<a
+								href={managerPitchMailto}
+								class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-[9px] font-black uppercase tracking-widest text-slate-600 transition hover:border-blue-300 hover:text-blue-600"
+							>
+								<svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2v-7m18-4V5a2 2 0 00-2-2H5a2 2 0 00-2 2v3m18 0l-9 6-9-6" />
+								</svg>
+								Open Email Draft
+							</a>
+						</div>
 						<p class="mt-1 px-6 text-[10px] font-medium text-slate-500">
 							Use this message to move forward with training.
 						</p>
 						<div class="p-4">
 							<div class="scrollbar-thin h-44 overflow-y-auto whitespace-pre-line rounded-2xl border border-slate-200 bg-white p-4 font-mono text-[10px] leading-relaxed text-slate-500 shadow-inner">
-								{managerPitch}
+								{managerPitchWithSubject}
 							</div>
 						</div>
 					</div>

@@ -6,7 +6,7 @@
 
 	const customTitle = 'AI Tools & Calculators | Cambermast';
 	const customDescription =
-		'Free AI tools and calculators to help you quantify ROI, assess readiness, and make data-driven decisions about AI automation and agentic workflows.';
+		'Free AI tools and calculators to help you learn AI workflows, measure impact, and build confidence with agentic automation.';
 </script>
 
 <SeoHead title={customTitle} description={customDescription} path="/tools" />
@@ -18,8 +18,8 @@
 			AI Tools & Calculators
 		</h1>
 		<p class="mt-4 text-lg text-gray-600">
-			Free, research-backed tools to help you quantify ROI, assess readiness, and build
-			business cases for AI automation.
+			Free, research-backed tools to help you learn AI, understand impact, and build confidence
+			with automation.
 		</p>
 	</div>
 </section>
@@ -100,26 +100,25 @@
 			<h2 class="mb-4 text-2xl font-bold text-gray-900">Why Use These Tools?</h2>
 			<div class="space-y-4 text-gray-700">
 				<p>
-					AI adoption fails when it's treated as a technology experiment rather than a business
-					initiative. These tools help you:
+					AI adoption fails when it's treated as a side project instead of a skill you can build.
+					These tools help you:
 				</p>
 				<ul class="ml-6 list-disc space-y-2">
 					<li>
-						<strong>Quantify the opportunity</strong> with CFO-defensible ROI projections
+						<strong>See the opportunity</strong> with clear, realistic impact signals
 					</li>
 					<li>
-						<strong>Build executive buy-in</strong> using data-driven business cases
+						<strong>Build confidence</strong> with simple, credible outputs you can explain
 					</li>
 					<li>
 						<strong>Identify gaps</strong> in skills, processes, and readiness before you invest
 					</li>
 					<li>
-						<strong>Make faster decisions</strong> with conservative, research-backed assumptions
+						<strong>Make faster decisions</strong> with research-backed assumptions
 					</li>
 				</ul>
 				<p class="font-semibold text-blue-900">
-					All calculations use industry-standard methodologies and conservative defaults to ensure
-					your projections withstand executive scrutiny.
+					All calculations use research-backed defaults so your results feel grounded and usable.
 				</p>
 			</div>
 		</div>

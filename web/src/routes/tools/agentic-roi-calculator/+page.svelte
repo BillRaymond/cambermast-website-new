@@ -2,9 +2,9 @@
 	import AgenticROICalculator from '$lib/components/calculator/AgenticROICalculator.svelte';
 	import SeoHead from '$lib/components/SeoHead.svelte';
 
-	const customTitle = 'Agentic ROI Calculator: Quantify Your Manual Tax & Reclaim Capacity';
+	const customTitle = 'Agentic ROI Calculator: Understand Your Manual Tax & Reclaim Capacity';
 	const customDescription =
-		'Calculate operational overhead and capacity reclaimed by AI agents. Research-backed calculator showing exactly how much time your team loses to repetitive tasks, focus loss, and manual handoffs.';
+		'See the operational overhead you can reduce with AI agents. Research-backed calculator showing how much time gets lost to repetitive tasks, focus loss, and manual handoffs.';
 </script>
 
 <SeoHead title={customTitle} description={customDescription} path="/tools/agentic-roi-calculator" />
@@ -16,7 +16,7 @@
 			"@context": "https://schema.org",
 			"@type": "WebApplication",
 			"name": "Agentic ROI Calculator",
-			"description": "Calculate the operational overhead (Manual Tax) and capacity reclaimed by implementing AI agents",
+			"description": "Calculate the operational overhead (Manual Tax) and reclaimed work capacity by implementing AI agents",
 			"url": "https://cambermast.com/tools/agentic-roi-calculator",
 			"applicationCategory": "BusinessApplication",
 			"operatingSystem": "Any",
@@ -37,6 +37,9 @@
 		</div>
 		<h1 class="text-3xl font-black tracking-tight text-slate-900 md:text-4xl">
 			Stop Paying the <span class="italic text-blue-600">Manual Tax</span>
+			<span class="mt-1 block text-base font-semibold text-slate-600 md:text-lg">
+				Quantify the ROI of AI Agents and Automation.
+			</span>
 		</h1>
 	</div>
 </section>
@@ -53,8 +56,8 @@
 
 		<div class="prose prose-blue max-w-none">
 			<p class="text-lg text-gray-700">
-				Every organization pays an invisible tax: the <strong>operational overhead</strong> that consumes
-				productive capacity without delivering strategic value. We call this the "Manual Tax."
+				Every team pays an invisible tax: the <strong>operational overhead</strong> that consumes
+				productive capacity without delivering real progress. We call this the "Manual Tax."
 			</p>
 
 			<h3 class="mt-8 text-xl font-bold text-gray-900">What is Manual Tax?</h3>
@@ -94,19 +97,19 @@
 			</ul>
 			<p class="text-gray-700">
 				Unlike speculative "100% automation" promises, the 40% rule provides <strong
-					>CFO-defensible projections</strong
+					>realistic projections</strong
 				> based on real-world implementations.
 			</p>
 
 			<h3 class="mt-8 text-xl font-bold text-gray-900">Why Capacity, Not Cost Reduction?</h3>
 			<p class="text-gray-700">
 				This calculator frames results as <strong>capacity expansion</strong>, not headcount reduction.
-				The goal isn't to cut jobs—it's to redirect 40% of your team's "busy work" into high-value activities
-				like strategic thinking, customer relationships, and innovation.
+				The goal isn't to cut jobs—it's to redirect 40% of your team's "busy work" into higher-value
+				activities like strategic thinking, customer work, and innovation.
 			</p>
 			<p class="text-gray-700">
-				Organizations that approach AI automation as a <strong>capacity multiplier</strong> see 3-5x
-				higher adoption rates and employee satisfaction compared to those focused solely on cost cutting.
+				Teams that approach AI automation as a <strong>capacity multiplier</strong> see higher adoption
+				rates and satisfaction compared to those focused solely on cost cutting.
 			</p>
 		</div>
 	</div>
@@ -123,24 +126,20 @@
 			<div class="rounded-lg border border-gray-200 bg-white p-6">
 				<h3 class="text-lg font-bold text-gray-900">How is this different from the other ROI calculator?</h3>
 				<p class="mt-2 text-gray-700">
-					The standard ROI calculator focuses on <strong>team size and hours saved</strong>, using
-					fully loaded costs (1.35x multiplier). This Agentic ROI Calculator focuses on <strong
-						>operational friction percentages</strong
-					>
-					and uses the 40% agentic efficiency rule. Use the standard calculator for team-wide automation
-					initiatives, and this one for diagnosing specific overhead categories.
+					The standard ROI calculator focuses on <strong>team size and hours saved</strong>. This
+					Agentic ROI Calculator focuses on <strong>operational friction percentages</strong> and uses
+					the 40% agentic efficiency rule. Use the standard calculator for broad automation planning,
+					and this one for diagnosing specific overhead categories.
 				</p>
 			</div>
 
 			<div class="rounded-lg border border-gray-200 bg-white p-6">
 				<h3 class="text-lg font-bold text-gray-900">Why 40% efficiency instead of 80% or 100%?</h3>
 				<p class="mt-2 text-gray-700">
-					Conservative assumptions are critical for securing executive buy-in. The 40% efficiency
-					accounts for human review time, edge cases, change management friction, and tasks that
-					genuinely require human judgment. Organizations that overpromise (80-100% automation) lose
-					credibility when reality doesn't match projections. With 40%, you'll likely <strong
-						>exceed expectations</strong
-					>, not fall short.
+					Conservative assumptions are critical for building confidence. The 40% efficiency accounts
+					for human review time, edge cases, change management friction, and tasks that genuinely
+					require human judgment. When teams overpromise (80-100% automation), credibility drops fast.
+					With 40%, you're more likely to <strong>exceed expectations</strong>, not fall short.
 				</p>
 			</div>
 
@@ -156,13 +155,11 @@
 			</div>
 
 			<div class="rounded-lg border border-gray-200 bg-white p-6">
-				<h3 class="text-lg font-bold text-gray-900">How long does it take to see these results?</h3>
+				<h3 class="text-lg font-bold text-gray-900">How long does it take to see progress?</h3>
 				<p class="mt-2 text-gray-700">
-					With structured training, most teams deploy their first production-ready agent in <strong
-						>4-6 weeks</strong
-					>. Full organizational adoption typically takes 3-6 months. The payback period in this
-					calculator assumes you reach steady-state efficiency within 90 days, which is realistic for
-					teams completing professional training like our "AI Automation with Agents" workshop.
+					With structured training, most teams ship their first production-ready agent within a few
+					weeks and then accelerate from there. The goal is steady, practical progress, not a long
+					experiment.
 				</p>
 			</div>
 		</div>

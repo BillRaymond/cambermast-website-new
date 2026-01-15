@@ -53,7 +53,7 @@
 			title: 'Quantify the return using plain math everyone can follow',
 			blurb: 'We translate manual effort into dollars and hours so approvals are easy.',
 			detail:
-				'Using the discovery data, we model scenarios that show reclaimed time, reduced error rates, and additional capacity. The assumptions are documented so finance leaders can challenge or approve them quickly.',
+				'Using the discovery data, we model scenarios that show reclaimed work, reduced error rates, and additional capacity. The assumptions are documented so finance leaders can challenge or approve them quickly.',
 			questions: [
 				'What is the annualized value of the time we are giving back?',
 				'Where could that capacity be redeployed for higher leverage work?'
@@ -354,7 +354,7 @@
 			<li class="flex items-start gap-2">
 				<span aria-hidden="true">•</span>
 				<span>
-					We calculate reclaimed time, reduced spend, or new revenue potential with your data.
+					We calculate reclaimed work, reduced spend, or new revenue potential with your data.
 				</span>
 			</li>
 			<li class="flex items-start gap-2">

@@ -75,7 +75,7 @@ export const pageSeo: SeoOverrides = {
 	'/tools/agentic-roi-calculator': {
 		title: 'Agentic ROI Calculator: Quantify Your Manual Tax & Reclaim Capacity',
 		description:
-			'Calculate operational overhead and capacity reclaimed by AI agents. Research-backed calculator showing exactly how much time your team loses to repetitive tasks, focus loss, and manual handoffs.'
+			'Calculate operational overhead and reclaimed work capacity with AI agents. Research-backed calculator showing exactly how much time your team loses to repetitive tasks, focus loss, and manual handoffs.'
 	},
 	'/tools/ai-readiness-assessment': {
 		title: 'AI Readiness Assessment | Cambermast Tools',
