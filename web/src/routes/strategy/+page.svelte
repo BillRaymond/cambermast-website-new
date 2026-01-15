@@ -324,19 +324,7 @@
 	</div>
 </section>
 
-<section class="mb-12 rounded-2xl border border-blue-100 bg-blue-50 p-6">
-	<h2 class="text-xl font-semibold text-blue-900">Anchor advisory work to job readiness</h2>
-	<p class="mt-2 text-blue-900">
-		Our Tools hub includes role-level ROI modeling, readiness assessments, and tool fit comparisons
-		to keep leadership aligned on the workforce impact.
-	</p>
-	<a
-		href="/tools"
-		class="mt-4 inline-flex items-center justify-center rounded-lg bg-white px-4 py-2 text-sm font-semibold text-blue-700 transition hover:bg-blue-100"
-	>
-		Explore Tools
-	</a>
-</section>
+
 
 <section class="mb-12 grid gap-6 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
 	<article class="rounded-2xl border bg-white p-6 shadow-sm">

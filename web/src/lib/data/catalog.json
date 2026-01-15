@@ -116,14 +116,7 @@
 			}
 		]
 	},
-	"tools": {
-		"label": "AI Tools",
-		"navlabel": "Tools",
-		"icon": "\ud83e\uddf0",
-		"route": "/tools",
-		"headline": "Practical calculators and assessments to clarify ROI, readiness, and tool fit.",
-		"homeorder": 2
-	},
+
 	"strategy": {
 		"label": "AI Advisory & Project Management",
 		"navlabel": "AI Advisory",

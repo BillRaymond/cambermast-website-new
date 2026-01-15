@@ -73,14 +73,9 @@ export const pageSeo: SeoOverrides = {
 			'Explore assessments, self-assessments, and AI tools focused on job readiness, skill gaps, and role-fit decisions.'
 	},
 	'/tools/ai-roi-calculator': {
-		title: 'AI Role ROI Calculator | Cambermast Tools',
+		title: 'AI Automation ROI Calculator | Cambermast Tools',
 		description:
-			'Estimate role-level AI impact and translate skill gains into measurable outcomes.'
-	},
-	'/tools/ai-automation-skills': {
-		title: 'AI Automation Skills Map & Certification Prep | Cambermast Tools',
-		description:
-			'Measure your AI automation skills, find gaps, and get a certification-ready learning plan.'
+			'Calculate the potential return on investment for AI automation by estimating time savings and cost reductions per role.'
 	},
 	'/tools/ai-readiness-assessment': {
 		title: 'AI Readiness Assessment | Cambermast Tools',
