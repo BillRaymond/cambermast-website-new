@@ -1,0 +1,17 @@
+[
+	{
+		"id": "agentic-roi-calculator",
+		"title": "Agentic ROI Calculator",
+		"description": "Quantify your \"Manual Tax\" (operational overhead) and discover how AI agents can reclaim capacity consumed by repetitive tasks, focus loss, manual research, and handoffs.",
+		"route": "/tools/agentic-roi-calculator",
+		"icon": "📊",
+		"category": "ROI & Planning",
+		"status": "active",
+		"features": [
+			"Calculate operational overhead percentages",
+			"Visualize capacity transformation",
+			"Generate manager approval email templates"
+		],
+		"publishedDate": "2026-01-15"
+	}
+]

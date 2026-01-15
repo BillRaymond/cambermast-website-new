@@ -22,7 +22,7 @@ const staticRoutes = [
 	'/gdpr',
 	'/services/microsoft-project-server',
 	'/tools',
-	'/tools/ai-roi-calculator',
+	'/tools/agentic-roi-calculator',
 	'/tools/ai-automation-skills',
 	'/tools/ai-readiness-assessment',
 	'/tools/ai-tool-comparison'
