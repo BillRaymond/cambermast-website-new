@@ -8,10 +8,11 @@
 	export let imageAlt: string | undefined = undefined;
 	export let type: string = 'website';
 	export let siteName: string | undefined = 'Cambermast';
+	export let useDefaultImage: boolean = true;
 
 	const origin = SITE_ORIGIN.replace(/\/$/, '');
 	const canonicalUrl = path ? `${origin}${path}` : undefined;
-	const resolvedImage = image ?? DEFAULT_OG_IMAGE;
+	const resolvedImage = image ?? (useDefaultImage ? DEFAULT_OG_IMAGE : undefined);
 	const absoluteImage = resolvedImage
 		? resolvedImage.startsWith('http')
 			? resolvedImage

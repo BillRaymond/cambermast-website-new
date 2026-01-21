@@ -1,11 +1,9 @@
 <script lang="ts">
 	import '../app.css';
 	import Nav from '$lib/components/Nav.svelte';
-	import SeoHead from '$lib/components/SeoHead.svelte';
 	import { page } from '$app/stores';
 	import { browser } from '$app/environment';
 	import { onMount, tick } from 'svelte';
-	import { defaultSeo } from '$lib/seo';
 	import { GA_MEASUREMENT_ID, SITE_ORIGIN } from '$lib/config/site';
 	import {
 		consentState,
@@ -112,12 +110,6 @@
 		});
 	}
 </script>
-
-<SeoHead
-	title={defaultSeo.title}
-	description={defaultSeo.description}
-	path={$page.url.pathname}
-/>
 
 <svelte:head>
 	<script type="application/ld+json">
