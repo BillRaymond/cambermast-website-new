@@ -12,6 +12,7 @@ import {
 	isSessionDraft,
 	isSessionHappeningNow,
 	isSessionUpcoming,
+	getSessionStartTimestamp,
 	normalizeToday
 } from '$lib/data/training/session-utils';
 
@@ -46,10 +47,19 @@ const gatherHappeningSessions = (program?: TrainingProgram): TrainingSession[] =
 		session.startDate ? isSessionHappeningNow(session, today) : false
 	);
 
+const getNextSessionTimestamp = (item: CatalogCardData): number | undefined => {
+	if (item.upcomingSessions?.length) {
+		return Math.min(...item.upcomingSessions.map(getSessionStartTimestamp));
+	}
+	if (item.happeningSessions?.length) {
+		return today.getTime();
+	}
+	return undefined;
+};
+
 	// Title for the page and services we offer from JSON
 	const items: CatalogCardData[] = (section.items ?? [])
 		.filter((i) => i.published ?? true)
-		.sort((a, b) => (a.order ?? 999) - (b.order ?? 999))
 		.map((item) => {
 			const program = getProgramForRoute(item.route);
 			const durationStat = program?.stats?.find((stat) => stat.label?.toLowerCase() === 'duration');
@@ -67,6 +77,18 @@ const gatherHappeningSessions = (program?: TrainingProgram): TrainingSession[] =
 					scheduleUrl: getScheduleUrl(program),
 					scheduleLabel
 				};
+		})
+		.sort((a, b) => {
+			const aTimestamp = getNextSessionTimestamp(a);
+			const bTimestamp = getNextSessionTimestamp(b);
+			if (aTimestamp !== undefined && bTimestamp !== undefined) {
+				if (aTimestamp !== bTimestamp) return aTimestamp - bTimestamp;
+			} else if (aTimestamp !== undefined) {
+				return -1;
+			} else if (bTimestamp !== undefined) {
+				return 1;
+			}
+			return (a.title ?? '').localeCompare(b.title ?? '', 'en', { sensitivity: 'base' });
 		});
 
 	const pageMeta = getSeo('/training');

@@ -13,19 +13,12 @@ let titleSlug: string;
 let sessionsSectionId: string;
 
 $: hasUpcomingSessions = Boolean(item.upcomingSessions?.length);
-$: hasHappeningSessions = Boolean(item.happeningSessions?.length);
 $: rawTitle = item.title ?? '';
 $: titleSlug = rawTitle
 	.toLowerCase()
 	.replace(/[^a-z0-9]+/g, '-')
 	.replace(/(^-+|-+$)/g, '');
 $: sessionsSectionId = `${titleSlug || 'training'}-sessions`;
-
-const scrollToSessionsSection = (): void => {
-	if (typeof document === 'undefined') return;
-	const el = document.getElementById(sessionsSectionId);
-	el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-};
 </script>
 
 <article
@@ -45,20 +38,34 @@ const scrollToSessionsSection = (): void => {
 		/>
 	{/if}
 	<h2 class="text-xl font-semibold">{item.title}</h2>
-	{#if item.sku}
-		<p class="mt-1 text-xs font-semibold uppercase tracking-wide text-gray-500">
-			({item.sku})
-		</p>
+	{#if item.certificateText}
+		<p class="mt-2 text-sm font-semibold text-blue-700">{item.certificateText}</p>
 	{/if}
-{#if hasUpcomingSessions || hasHappeningSessions}
-		<button
-			type="button"
-			class="mt-3 inline-flex items-center justify-center gap-2 self-center rounded-full bg-blue-600/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-blue-700 transition hover:bg-blue-600/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
-			on:click={scrollToSessionsSection}
+	{#if item.upcomingSessions?.length}
+		<div
+			id={sessionsSectionId}
+			class="mt-3 w-full rounded-2xl border border-blue-100 bg-blue-50 p-4 text-left"
 		>
-			<span class="h-2 w-2 rounded-full bg-blue-500"></span>
-			{hasUpcomingSessions ? 'New dates added' : 'Cohort in progress'}
-		</button>
+			<p class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-blue-600">
+				<span class="h-2 w-2 rounded-full bg-blue-500"></span>
+				Upcoming sessions
+			</p>
+			<ul class="mt-3 space-y-3">
+				{#each item.upcomingSessions as session (session.registerUrl + session.date)}
+					<li>
+						<SessionCard
+							title={session.name}
+							date={session.date}
+							time={session.time}
+							location={session.location}
+							ctaUrl={session.registerUrl}
+							ctaLabel="Register ↗"
+							tone="upcoming"
+						/>
+					</li>
+				{/each}
+			</ul>
+		</div>
 	{/if}
 	{#if item.videoUrl}
 		<a
@@ -91,38 +98,7 @@ const scrollToSessionsSection = (): void => {
 						{/if}
 					</p>
 				{/if}
-				{#if item.certificateText}
-					<div class="text-sm font-semibold text-blue-700">
-						{#if item.certificateText}
-							<p>{item.certificateText}</p>
-						{/if}
-					</div>
-				{/if}
-			{#if item.upcomingSessions?.length}
-				<div
-					id={sessionsSectionId}
-					class="w-full rounded-2xl border border-blue-100 bg-blue-50 p-4 text-left"
-				>
-					<p class="text-xs font-semibold uppercase tracking-wide text-blue-600">
-						Upcoming sessions
-					</p>
-					<ul class="mt-3 space-y-3">
-						{#each item.upcomingSessions as session (session.registerUrl + session.date)}
-							<li>
-								<SessionCard
-									title={session.name}
-									date={session.date}
-									time={session.time}
-									location={session.location}
-									ctaUrl={session.registerUrl}
-									ctaLabel="Register ↗"
-									tone="upcoming"
-								/>
-							</li>
-						{/each}
-					</ul>
-				</div>
-			{:else if item.happeningSessions?.length}
+			{#if item.happeningSessions?.length}
 				<div
 					id={sessionsSectionId}
 					class="w-full rounded-2xl border border-amber-200 bg-amber-50/70 p-4 text-left"
@@ -146,21 +122,25 @@ const scrollToSessionsSection = (): void => {
 					</ul>
 				</div>
 			{/if}
-			{#if hasScheduleButton(item.scheduleUrl)}
-				<a
-					href={item.scheduleUrl}
-					class="inline-flex w-full justify-center rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white shadow transition hover:bg-blue-700"
-					class:schedule-team-button={isScheduleTeamButton(item.scheduleLabel)}
-				>
-					{item.scheduleLabel ?? scheduleTeamLabel}
-				</a>
+			{#if item.route}
+				<div class="flex flex-wrap items-center justify-center gap-3 text-sm font-semibold">
+					{#if hasScheduleButton(item.scheduleUrl)}
+						<a
+							href={item.scheduleUrl}
+							class="text-blue-700 underline decoration-blue-200 underline-offset-4 transition hover:text-blue-900"
+							class:schedule-team-button={isScheduleTeamButton(item.scheduleLabel)}
+						>
+							{item.scheduleLabel ?? scheduleTeamLabel}
+						</a>
+					{/if}
+					<a
+						href={item.route}
+						class="text-blue-700 underline decoration-blue-200 underline-offset-4 transition hover:text-blue-900"
+					>
+						Learn more
+					</a>
+				</div>
 			{/if}
-			<a
-				href={item.route}
-				class="inline-flex w-full justify-center rounded-lg border border-blue-200 px-4 py-2 font-semibold text-blue-700 transition hover:border-blue-500 hover:text-blue-900"
-			>
-				Learn more
-			</a>
 		</div>
 	{/if}
 </article>
