@@ -573,11 +573,22 @@ const featuredVideoUrl =
 				{#if featuredUpcoming}
 					<div class="shadow-hero flex h-full flex-col gap-3 rounded-2xl bg-white/70 p-3">
 						<span class="next-pill self-start">Next up</span>
-						<div class="flex flex-col items-start gap-3 md:flex-row md:items-center md:gap-6">
+						<div class="flex flex-col items-start gap-3 md:flex-row md:items-stretch md:gap-6">
 							<div class="min-w-0 flex-1">
-								<p class="text-sm font-semibold leading-snug text-gray-900">
-									{featuredDisplayName}
-								</p>
+								{#if featuredRegisterUrl}
+									<a
+										href={featuredRegisterUrl}
+										target="_blank"
+										rel="noopener"
+										class="text-sm font-semibold leading-snug text-gray-900 transition hover:text-blue-500"
+									>
+										{featuredDisplayName}
+									</a>
+								{:else}
+									<p class="text-sm font-semibold leading-snug text-gray-900">
+										{featuredDisplayName}
+									</p>
+								{/if}
 								{#if featuredSessionLabel}
 									<p class="text-xs font-medium text-blue-600">{featuredSessionLabel}</p>
 								{/if}
@@ -585,35 +596,35 @@ const featuredVideoUrl =
 								{#if featuredUrgency}
 									<p class="text-xs font-semibold text-blue-600">{featuredUrgency}</p>
 								{/if}
-								{#if featuredCertificateText || featuredVideoUrl}
-									<div class="mt-1 flex flex-col gap-1 text-[0.7rem] font-semibold text-blue-700">
-										{#if featuredCertificateText}
-											<p>{featuredCertificateText}</p>
-										{/if}
-											{#if featuredVideoUrl}
-												<a
-													href={featuredVideoUrl}
-													target="_blank"
-													rel="noopener noreferrer"
-													class="inline-flex items-center gap-1 underline decoration-blue-200 underline-offset-4 transition hover:text-blue-800"
-												>
-													Watch the trailer
-													<span aria-hidden="true">↗</span>
-												</a>
-											{/if}
-									</div>
+								{#if featuredCertificateText}
+									<span
+										class="mt-1 inline-flex items-center rounded-full border border-blue-100 bg-blue-50 px-2.5 py-0.5 text-[0.7rem] font-medium normal-case text-blue-700/80"
+									>
+										{featuredCertificateText}
+									</span>
+								{/if}
+								{#if featuredVideoUrl}
+									<a
+										href={featuredVideoUrl}
+										target="_blank"
+										rel="noopener noreferrer"
+										class="mt-1 inline-flex items-center rounded-full border border-blue-100 bg-blue-50 px-2.5 py-0.5 text-[0.7rem] font-medium normal-case text-blue-700/80 transition hover:border-blue-200 hover:bg-blue-100"
+									>
+										🎬 Watch the trailer
+									</a>
 								{/if}
 							</div>
 							{#if featuredRegisterUrl}
-								<a
-									href={featuredRegisterUrl}
-									target="_blank"
-									rel="noopener"
-									class="register-cta shrink-0 self-end md:self-auto"
-								>
-									Register
-									<span aria-hidden="true">↗</span>
-								</a>
+								<div class="flex w-full justify-end md:w-auto md:flex-col md:justify-end md:items-end">
+									<a
+										href={featuredRegisterUrl}
+										target="_blank"
+										rel="noopener"
+										class="inline-flex items-center justify-center rounded-lg bg-blue-600 px-3 py-2 text-xs font-semibold text-white shadow transition hover:bg-blue-700"
+									>
+										Register now
+									</a>
+								</div>
 							{/if}
 						</div>
 					</div>
@@ -937,7 +948,6 @@ const featuredVideoUrl =
 		font-weight: 700;
 		letter-spacing: 0.08em;
 		text-transform: uppercase;
-		animation: pillGlow 8s ease-in-out infinite;
 	}
 
 	.next-pill::before {
@@ -948,52 +958,8 @@ const featuredVideoUrl =
 		border-radius: 999px;
 		background: #2563eb;
 		box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.35);
-		animation: pulseDot 2.6s ease-out infinite;
 	}
 
-	.register-cta {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.45rem;
-		padding: 0.45rem 1rem;
-		border-radius: 999px;
-		background: #2563eb;
-		color: #fff;
-		font-size: 0.75rem;
-		font-weight: 700;
-		text-decoration: none;
-		box-shadow: 0 16px 30px rgba(37, 99, 235, 0.28);
-		transition:
-			transform 0.2s ease,
-			box-shadow 0.2s ease,
-			background 0.2s ease;
-	}
-
-	.register-cta span {
-		display: inline-block;
-		animation: arrowNudge 2s ease-in-out infinite;
-	}
-
-	.register-cta:hover {
-		background: #1e40af;
-		transform: translateY(-3px);
-		box-shadow: 0 20px 35px rgba(30, 64, 175, 0.35);
-	}
-
-	.register-cta:hover span {
-		transform: translateX(5px);
-		animation-play-state: paused;
-	}
-
-	@keyframes arrowNudge {
-		0%,
-		100% {
-			transform: translateX(0);
-		}
-		50% {
-			transform: translateX(4px);
-		}
-	}
 
 	@media (prefers-reduced-motion: reduce) {
 		.next-pill,

@@ -173,69 +173,69 @@
 						<div
 							class="flex w-full min-w-0 flex-1 flex-col justify-between gap-3 rounded-2xl bg-white/70 p-3 md:basis-[60%] md:p-4"
 						>
-							<header class="space-y-1">
-								<p class="text-[0.65rem] font-semibold uppercase tracking-wide text-blue-600">
-									Upcoming session preview
-								</p>
-								<h3 class="text-base font-semibold text-gray-900 md:text-lg">
-									{slide.programTitle}
-								</h3>
-								{#if slide.sessionLabel}
-									<p
-										class="inline-flex items-center rounded-full bg-blue-100/70 px-2.5 py-1 text-[0.65rem] font-semibold text-blue-700"
+							<div class="w-full">
+								<div class="rounded-lg border border-blue-100 bg-blue-50/70 p-3 text-left">
+									<div class="flex flex-wrap items-center gap-2">
+										<p class="text-[0.6rem] font-semibold uppercase tracking-wide text-blue-600">
+											Upcoming session
+										</p>
+										<span
+											class="inline-flex items-center gap-1.5 rounded-lg bg-white px-2.5 py-1 text-[0.6rem] font-semibold text-blue-700"
+										>
+											{slide.urgency ?? slide.spots ?? 'Open for registration'}
+										</span>
+									</div>
+									<a
+										href={slide.registerUrl}
+										target="_blank"
+										rel="noopener"
+										class="mt-2 inline-flex text-sm font-semibold text-blue-950 transition hover:text-blue-500"
 									>
-										{slide.sessionLabel}
-									</p>
-								{/if}
-							</header>
-							<div class="grid gap-1 text-[0.75rem] text-gray-600 md:text-sm">
-								<p class="font-medium text-gray-800">{slide.date}</p>
-								{#each slide.timeLines.slice(0, 2) as timeLine}
-									<p>{timeLine}</p>
-								{/each}
-								{#if slide.location}
-									<p>{slide.location}</p>
-								{/if}
-								{#if slide.partner}
-									<p class="text-[0.65rem] uppercase tracking-wide text-gray-500">
-										In partnership with {slide.partner}
-									</p>
-								{/if}
-							</div>
-							{#if slide.certificateText || slide.videoUrl}
-								<div class="flex flex-col gap-1 text-[0.7rem] font-semibold text-blue-700 md:text-xs">
+										{slide.programTitle}
+									</a>
+									{#if slide.sessionLabel}
+										<p class="text-xs font-medium text-blue-800">{slide.sessionLabel}</p>
+									{/if}
+									<p class="mt-2 text-sm text-blue-900">{slide.date}</p>
+									{#each slide.timeLines.slice(0, 2) as timeLine}
+										<p class="text-xs text-blue-700">{timeLine}</p>
+									{/each}
+									{#if slide.location}
+										<p class="text-xs text-blue-700">{slide.location}</p>
+									{/if}
 									{#if slide.certificateText}
-										<p>{slide.certificateText}</p>
+										<span
+											class="mt-1 inline-flex items-center rounded-full border border-blue-100 bg-blue-50 px-2.5 py-0.5 text-[0.7rem] font-medium normal-case text-blue-700/80"
+										>
+											{slide.certificateText}
+										</span>
 									{/if}
 									{#if slide.videoUrl}
 										<a
 											href={slide.videoUrl}
 											target="_blank"
 											rel="noopener noreferrer"
-											class="inline-flex items-center gap-1 underline decoration-blue-200 underline-offset-4 transition hover:text-blue-800"
+											class="mt-2 inline-flex items-center rounded-full border border-blue-100 bg-blue-50 px-2.5 py-0.5 text-[0.7rem] font-medium normal-case text-blue-700/80 transition hover:border-blue-200 hover:bg-blue-100"
 										>
-											Watch the trailer
-											<span aria-hidden="true">↗</span>
+											🎬 Watch the trailer
 										</a>
 									{/if}
+									{#if slide.partner}
+										<p class="mt-2 text-[0.6rem] uppercase tracking-wide text-blue-600">
+											In partnership with {slide.partner}
+										</p>
+									{/if}
+									<div class="mt-3 flex justify-end text-[0.65rem]">
+										<a
+											href={slide.registerUrl}
+											target="_blank"
+											rel="noopener"
+											class="inline-flex items-center justify-center rounded-lg bg-blue-600 px-3 py-2 text-[0.65rem] font-semibold text-white transition hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-blue-50"
+										>
+											Register now
+										</a>
+									</div>
 								</div>
-							{/if}
-							<div
-								class="mt-auto flex flex-wrap items-center justify-between gap-2 pt-1 text-[0.7rem] md:text-xs"
-							>
-								<span
-									class="inline-flex items-center gap-1.5 rounded-full bg-blue-100 px-2.5 py-1 font-semibold text-blue-700"
-								>
-									{slide.urgency ?? slide.spots ?? 'Open for registration'}
-								</span>
-								<a
-									href={slide.registerUrl}
-									target="_blank"
-									rel="noopener"
-									class="inline-flex items-center gap-1.5 rounded-full bg-blue-600 px-3 py-1.5 text-[0.7rem] font-semibold text-white shadow-sm transition hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white md:text-xs"
-								>
-									Register ↗
-								</a>
 							</div>
 						</div>
 					</article>

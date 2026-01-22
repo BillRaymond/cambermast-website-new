@@ -64,7 +64,7 @@ $: isRowLayout = layout === 'row';
 					loading="lazy"
 				/>
 			{/if}
-			{#if showBullets && item.bullets?.length}
+			{#if showBullets && item.bullets?.length && hasUpcomingSessions}
 				<ul class="bullet-list hidden space-y-1.5 text-left text-gray-700 md:block">
 					{#each item.bullets as bullet}
 						<li>{bullet}</li>
@@ -114,6 +114,13 @@ $: isRowLayout = layout === 'row';
 					</a>
 				{/if}
 			</div>
+		{/if}
+		{#if showBullets && item.bullets?.length && !hasUpcomingSessions}
+			<ul class="bullet-list mt-2 hidden flex-wrap gap-x-4 gap-y-2 text-left text-gray-700 md:flex">
+				{#each item.bullets as bullet}
+					<li>{bullet}</li>
+				{/each}
+			</ul>
 		{/if}
 		{#if item.upcomingSessions?.length}
 			<div

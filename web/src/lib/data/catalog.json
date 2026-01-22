@@ -36,7 +36,7 @@
 				"image": "/images/ai-accelerator.jpeg",
 				"imageAlt": "AI Accelerator Workshop illustration",
 				"bullets": [
-					"Everything in AI Power Prompting",
+					"Understand how today’s AI models generate answers",
 					"Custom GPTs tuned to your workflows",
 					"Organize prompts, files, and research in AI projects"
 				],
@@ -108,8 +108,14 @@
 			{
 				"id": "agents-ai-automation-with-agents",
 				"title": "AI Automation with Agents Workshop",
-				"summary": "Automate a high-value process with AI agents that know when to involve humans.",
-				"bullets": ["Hands-on build labs", "Human-in-the-loop guardrails", "30-day support"],
+				"summary": "Hands-on agent building with n8n, OpenAI, and your internal APIs.",
+				"image": "/images/ai-automation.jpg",
+				"imageAlt": "AI Automation with Agents Workshop illustration",
+				"bullets": [
+					"Design human-in-the-loop automations",
+					"Build working agents in guided labs",
+					"Optimize for reliability and cost"
+				],
 				"route": "/training/ai-automation-with-agents",
 				"order": 0,
 				"published": true
