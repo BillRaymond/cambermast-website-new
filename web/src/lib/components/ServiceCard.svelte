@@ -24,11 +24,27 @@
 		<div class="flex flex-1 flex-col items-center justify-between text-center">
 			<div class="flex flex-col items-center text-center">
 				{#if icon}
-					<div class="mb-1 text-5xl">{@html icon}</div>
+					{#if route}
+						<a
+							href={route}
+							class="mb-1 cursor-pointer text-5xl"
+							aria-label={`Learn more about ${label}`}
+						>
+							<span class="!select-text">{@html icon}</span>
+						</a>
+					{:else}
+						<div class="mb-1 text-5xl">
+							<span class="!select-text">{@html icon}</span>
+						</div>
+					{/if}
 				{/if}
 				{#if route}
 					<h3 class="mb-0 text-xl font-bold leading-tight">
-						<a href={route} class="hover:underline" aria-label={`Learn more about ${label}`}>
+						<a
+							href={route}
+							class="transition hover:text-blue-700"
+							aria-label={`Learn more about ${label}`}
+						>
 							{label}
 						</a>
 					</h3>
@@ -38,8 +54,8 @@
 				<p class="mt-1 text-gray-600">{headline}</p>
 			</div>
 		{#if route}
-			<div class="mt-4 flex w-full justify-center pt-2">
-				<div class="flex min-h-[6.5rem] flex-col items-center justify-center gap-3 text-center">
+			<div class="mt-2 flex w-full justify-center">
+				<div class="flex min-h-[4.5rem] flex-col items-center justify-center gap-2 text-center">
 					{#if hasUpcomingSessions}
 						<div class="w-full rounded-xl bg-blue-50 p-3 text-left text-sm text-blue-900">
 							<p class="text-xs font-semibold uppercase tracking-wide text-blue-600">
@@ -110,11 +126,10 @@
 	{#if route}
 		<a
 			href={route}
-			class="mt-3 inline-flex items-center gap-2 text-sm font-semibold text-blue-700 underline decoration-blue-200 underline-offset-4 transition hover:text-blue-900 self-end"
+			class="mt-3 text-sm font-semibold text-blue-700 underline decoration-blue-200 underline-offset-4 transition hover:text-blue-900 self-end"
 			aria-label={`Learn more about ${label}`}
 		>
-			Learn more
-			<span aria-hidden="true">→</span>
+			Learn more →
 		</a>
 	{/if}
 </article>
