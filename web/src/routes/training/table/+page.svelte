@@ -72,7 +72,7 @@
 				scheduleLabel: program?.primaryCta?.label ?? 'Schedule your team',
 				scheduleUrl: program?.primaryCta?.url ?? '/contact',
 				registerUrl: registerableSession?.registerUrl,
-				registerLabel: registerableSession ? 'Register ↗' : undefined,
+				registerLabel: registerableSession ? 'Register now' : undefined,
 				summary: item.summary ?? program?.tagline ?? ''
 			};
 		});

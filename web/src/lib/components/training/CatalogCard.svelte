@@ -53,15 +53,15 @@ $: sessionsSectionId = `${titleSlug || 'training'}-sessions`;
 			<ul class="mt-3 space-y-3">
 				{#each item.upcomingSessions as session (session.registerUrl + session.date)}
 					<li>
-						<SessionCard
-							title={session.name}
-							date={session.date}
-							time={session.time}
-							location={session.location}
-							ctaUrl={session.registerUrl}
-							ctaLabel="Register ↗"
-							tone="upcoming"
-						/>
+							<SessionCard
+								title={session.name}
+								date={session.date}
+								time={session.time}
+								location={session.location}
+								ctaUrl={session.registerUrl}
+								ctaLabel="Register now"
+								tone="upcoming"
+							/>
 					</li>
 				{/each}
 			</ul>

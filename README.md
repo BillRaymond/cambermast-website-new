@@ -37,6 +37,10 @@ This repository powers the public marketing site for Cambermast. It contains the
 
 These two documents live in the repo root and are deployed alongside the site so both humans and AI clients understand how to interpret and use Cambermast content.
 
+## URL Aliases & Redirects
+
+- `/training-programs` redirects to `/training` to support legacy or marketing links to the catalog.
+
 ## Privacy, GDPR & Cookies
 
 - `web/src/routes/gdpr/+page.svelte` is the canonical privacy notice for cambermast.com, covering lawful bases, vendor list, and contact options for data requests. Update it whenever we add a new form, vendor, or processing purpose.

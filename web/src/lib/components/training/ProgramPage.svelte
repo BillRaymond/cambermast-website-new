@@ -201,24 +201,33 @@ const formatTestimonialRole = (testimonial: Testimonial): string => {
 						loading="lazy"
 					/>
 				{/if}
-				{#if featuredRegistrationSession}
-					<a
-						href={featuredRegistrationSession.registerUrl}
-						class="register-pill mt-4 inline-flex items-center gap-3 rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow transition hover:bg-blue-700"
-					>
-						<span class="register-pill__pulse" aria-hidden="true"></span>
-						<span class="flex flex-col leading-tight text-left">
-							<span class="text-xs font-medium uppercase tracking-wide text-blue-100"
-								>Next public cohort</span
-							>
-							<span class="text-sm font-semibold text-white">{featuredRegistrationSession.date}</span>
-						</span>
-						<span class="text-sm font-semibold text-white">Register now ↗</span>
-					</a>
-				{/if}
 				<h1 class="mt-1.5 text-4xl font-bold text-gray-900">{program.title}</h1>
 				{#if program.nickname}
 					<p class="mt-1 text-sm font-medium text-blue-600">{program.nickname}</p>
+				{/if}
+				{#if registerableSessions.length}
+					<div class="mt-4 rounded-2xl border border-blue-100 bg-white p-4 shadow-sm">
+						<p
+							class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-blue-600"
+						>
+							<span class="h-2 w-2 rounded-full bg-blue-500"></span>
+							Upcoming dates
+						</p>
+						<div class="mt-3 grid gap-3">
+							{#each registerableSessions as session ((session.registerUrl ?? '') + session.name + session.date)}
+								<SessionCard
+									title={session.name}
+									date={session.date}
+									time={session.time}
+									location={session.location}
+									ctaUrl={session.registerUrl}
+									ctaLabel={session.registerUrl === '/contact' ? 'Schedule your team' : 'Register now'}
+									scheduleTeam={session.registerUrl === '/contact'}
+									tone="upcoming"
+								/>
+							{/each}
+						</div>
+					</div>
 				{/if}
 				<p class="mt-5 text-lg text-gray-700">{program.tagline}</p>
 				<p class="mt-2.5 text-base text-gray-600">{program.description}</p>
@@ -263,17 +272,17 @@ const formatTestimonialRole = (testimonial: Testimonial): string => {
 						</div>
 					</div>
 				{/if}
-				<div class="mt-6 flex flex-wrap gap-2.5">
+				<div class="mt-5 flex flex-wrap items-center gap-4 text-sm font-semibold">
 					<a
 						href={program.primaryCta.url}
-						class="inline-flex items-center justify-center rounded-xl bg-blue-600 px-5 py-2.5 text-base font-semibold text-white shadow transition hover:bg-blue-700"
+						class="text-blue-700 underline decoration-blue-200 underline-offset-4 transition hover:text-blue-900"
 						class:schedule-team-button={isScheduleTeamLabel(program.primaryCta?.label)}
 					>
 						{program.primaryCta.label}
 					</a>
 					<a
 						href={program.secondaryCta.url}
-						class="inline-flex items-center justify-center rounded-xl border border-blue-200 px-5 py-2.5 text-base font-semibold text-blue-700 transition hover:border-blue-500 hover:text-blue-900"
+						class="text-blue-700 underline decoration-blue-200 underline-offset-4 transition hover:text-blue-900"
 					>
 						{program.secondaryCta.label}
 					</a>
@@ -284,7 +293,7 @@ const formatTestimonialRole = (testimonial: Testimonial): string => {
 			{#if program.primaryCta && ctaInsertIndex < 0}
 				<a
 					href={program.primaryCta.url}
-					class="inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700"
+					class="text-center text-sm font-semibold text-blue-700 underline decoration-blue-200 underline-offset-4 transition hover:text-blue-900"
 					class:schedule-team-button={isScheduleTeamLabel(program.primaryCta?.label)}
 				>
 					{program.primaryCta.label}
@@ -309,7 +318,7 @@ const formatTestimonialRole = (testimonial: Testimonial): string => {
 							href={featuredRegistrationSession.registerUrl}
 							class="register-cta mt-1 block rounded-lg bg-blue-600 px-4 py-2 text-center text-sm font-semibold text-white transition hover:bg-blue-700"
 						>
-							Register now ↗
+							Register now
 						</a>
 					{/if}
 				{/each}
@@ -317,7 +326,7 @@ const formatTestimonialRole = (testimonial: Testimonial): string => {
 			{#if program.primaryCta && ctaInsertIndex >= 0}
 				<a
 					href={program.primaryCta.url}
-					class="inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700"
+					class="text-center text-sm font-semibold text-blue-700 underline decoration-blue-200 underline-offset-4 transition hover:text-blue-900"
 					class:schedule-team-button={isScheduleTeamLabel(program.primaryCta?.label)}
 				>
 					{program.primaryCta.label}
@@ -345,26 +354,6 @@ const formatTestimonialRole = (testimonial: Testimonial): string => {
 	{/if}
 		</div>
 	</section>
-
-	{#if registerableSessions.length}
-		<section class="rounded-2xl border border-blue-100 bg-white p-5 shadow">
-			<h2 class="text-2xl font-semibold text-gray-900">Upcoming dates</h2>
-			<div class="mt-3.5 grid gap-3 md:grid-cols-2">
-				{#each registerableSessions as session ((session.registerUrl ?? '') + session.name + session.date)}
-					<SessionCard
-						title={session.name}
-						date={session.date}
-						time={session.time}
-						location={session.location}
-						ctaUrl={session.registerUrl}
-						ctaLabel={session.registerUrl === '/contact' ? 'Schedule your team' : 'Register ↗'}
-						scheduleTeam={session.registerUrl === '/contact'}
-						tone="upcoming"
-					/>
-				{/each}
-			</div>
-		</section>
-	{/if}
 
 	{#if happeningSessions.length}
 		<section class="rounded-2xl border border-blue-200 bg-white p-5 shadow">
@@ -459,9 +448,9 @@ const formatTestimonialRole = (testimonial: Testimonial): string => {
 					</ul>
 				</div>
 			{/if}
-			{#if registerableSessions.length || happeningSessions.length}
+			{#if registerableSessions.length}
 				<div class="rounded-2xl bg-white p-5 shadow">
-					<h3 class="text-lg font-semibold text-gray-900">Upcoming & private sessions</h3>
+					<h3 class="text-lg font-semibold text-gray-900">Upcoming dates</h3>
 					<ul class="mt-3.5 space-y-4">
 						{#each registerableSessions as session (session.registerUrl + session.date)}
 							<li>
@@ -471,20 +460,8 @@ const formatTestimonialRole = (testimonial: Testimonial): string => {
 									time={session.time}
 									location={session.location}
 									ctaUrl={session.registerUrl}
-									ctaLabel="Register ↗"
+									ctaLabel="Register now"
 									tone="upcoming"
-								/>
-							</li>
-						{/each}
-						{#each happeningSessions as session (session.registerUrl + session.date)}
-							<li>
-								<SessionCard
-									title={session.name}
-									date={session.date}
-									time={session.time}
-									location={session.location}
-									statusLabel={getHappeningLabel(session)}
-									tone="happening"
 								/>
 							</li>
 						{/each}
@@ -504,7 +481,7 @@ const formatTestimonialRole = (testimonial: Testimonial): string => {
 			</div>
 			<a
 				href={program.primaryCta.url}
-				class="mt-3 inline-flex items-center justify-center rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-700 md:mt-0"
+				class="mt-3 text-sm font-semibold text-blue-700 underline decoration-blue-200 underline-offset-4 transition hover:text-blue-900 md:mt-0"
 				class:schedule-team-button={isScheduleTeamLabel(program.primaryCta?.label)}
 			>
 				{program.primaryCta.label}
@@ -538,7 +515,7 @@ const formatTestimonialRole = (testimonial: Testimonial): string => {
 				</div>
 			<a
 				href={program.primaryCta.url}
-				class="inline-flex items-center justify-center rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-700"
+				class="text-sm font-semibold text-blue-700 underline decoration-blue-200 underline-offset-4 transition hover:text-blue-900"
 				class:schedule-team-button={isScheduleTeamLabel(program.primaryCta?.label)}
 			>
 				{program.primaryCta.label}
@@ -566,7 +543,7 @@ const formatTestimonialRole = (testimonial: Testimonial): string => {
 					{#if program.primaryCta}
 						<a
 							href={program.primaryCta.url}
-							class="mt-1.5 inline-flex items-center justify-center self-start rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700"
+							class="mt-1.5 inline-flex items-center justify-center self-start text-sm font-semibold text-blue-700 underline decoration-blue-200 underline-offset-4 transition hover:text-blue-900"
 							class:schedule-team-button={isScheduleTeamLabel(program.primaryCta?.label)}
 						>
 							{program.primaryCta.label}
@@ -655,14 +632,14 @@ const formatTestimonialRole = (testimonial: Testimonial): string => {
 		<div class="mt-5 flex flex-col gap-3 md:mt-0">
 			<a
 				href={program.primaryCta.url}
-				class="inline-flex items-center justify-center whitespace-nowrap rounded-xl bg-white px-6 py-3 text-base font-semibold text-blue-700 shadow transition hover:bg-blue-50"
+				class="inline-flex items-center justify-center whitespace-nowrap text-sm font-semibold text-white underline decoration-white/50 underline-offset-4 transition hover:text-blue-100"
 				class:schedule-team-button={isScheduleTeamLabel(program.primaryCta?.label)}
 			>
 				{program.primaryCta.label}
 			</a>
 			<a
 				href={program.secondaryCta.url}
-				class="inline-flex items-center justify-center whitespace-nowrap rounded-xl border border-white/40 px-6 py-3 text-base font-semibold text-white transition hover:bg-white/10"
+				class="inline-flex items-center justify-center whitespace-nowrap text-sm font-semibold text-white underline decoration-white/50 underline-offset-4 transition hover:text-blue-100"
 			>
 				{program.secondaryCta.label}
 			</a>
@@ -671,33 +648,6 @@ const formatTestimonialRole = (testimonial: Testimonial): string => {
 </main>
 
 <style>
-	.register-pill {
-		position: relative;
-	}
-
-	.register-pill__pulse {
-		position: relative;
-		display: inline-flex;
-		height: 0.85rem;
-		width: 0.85rem;
-		border-radius: 9999px;
-		background-color: rgba(255, 255, 255, 0.9);
-		box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.6);
-		animation: pulse-ring 1.5s infinite;
-	}
-
-	@keyframes pulse-ring {
-		0% {
-			box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.6);
-		}
-		70% {
-			box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
-		}
-		100% {
-			box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
-		}
-	}
-
 	.register-cta {
 		box-shadow: 0 8px 22px rgba(30, 64, 175, 0.18);
 	}

@@ -15,6 +15,7 @@ Leadership:
 
 AI training catalog (https://cambermast.com/training):
 - Catalog + layouts: `/training` presents the full catalog; `/training/table` is a comparison table for proposals; `/training/calendar` lists public and private dates; `/training/print` is a one-page summary for handouts.
+- Catalog alias: `/training-programs` redirects to `/training`.
 - AI Power Prompting (https://cambermast.com/training/ai-fundamentals): four-hour live primer ($349 virtual) that explains how ChatGPT, Copilot, Claude, and Gemini work, teaches four core prompt styles, and supplies templates, workbooks, and a certificate.
 - AI Accelerator Workshop (https://cambermast.com/training/ai-accelerator-workshop): four-week blend of Power Prompting plus advanced build labs covering custom GPTs, AI Projects, and research frameworks ($849 virtual).
 - AI Workshop for Modern Teams (https://cambermast.com/training/ai-advanced-workshop): seven-week cohort for intact teams (6–25 people, $1,749 virtual) that maps workflows, co-builds prompt libraries, and delivers a measurable adoption roadmap.
