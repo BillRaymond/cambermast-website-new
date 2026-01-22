@@ -31,6 +31,14 @@
 	$: hideChrome =
 		$page.url.pathname.startsWith('/training/print') || $page.url.pathname.startsWith('/techlab');
 
+	const showAnalyticsDebug = import.meta.env.DEV;
+	$: analyticsDebugLabel =
+		analyticsPreference === 'granted'
+			? 'Granted (cookies)'
+			: analyticsPreference === 'denied'
+				? 'Declined (cookieless)'
+				: 'Pending';
+
 	onMount(async () => {
 		initConsent();
 		await tick();
@@ -39,21 +47,16 @@
 
 	$: analyticsPreference = $consentState.analytics;
 	$: showConsentPanel = manageConsentOpen || (consentResolved && analyticsPreference === 'unknown');
-	$: if (browser && analyticsPreference === 'granted') {
-		loadAnalytics();
-	}
-	$: if (browser && analyticsPreference === 'denied' && hasLoadedAnalytics) {
-		updateAnalyticsConsent('denied');
+	$: if (browser) {
+		const mode = analyticsPreference === 'granted' ? 'granted' : 'denied';
+		loadAnalytics(mode);
 	}
 
 	function handleAnalyticsConsent(choice: Exclude<ConsentChoice, 'unknown'>) {
 		persistAnalyticsConsent(choice);
 		manageConsentOpen = false;
-		if (choice === 'granted') {
-			loadAnalytics();
-		} else {
-			updateAnalyticsConsent('denied');
-		}
+		const mode = choice === 'granted' ? 'granted' : 'denied';
+		loadAnalytics(mode);
 	}
 
 	function openConsentPreferences() {
@@ -80,7 +83,7 @@
 		});
 	}
 
-	function loadAnalytics() {
+	function loadAnalytics(mode: 'granted' | 'denied') {
 		if (!browser) return;
 		ensureGtag();
 
@@ -96,9 +99,10 @@
 		window.gtag?.('config', GA_MEASUREMENT_ID, {
 			anonymize_ip: true,
 			allow_google_signals: false,
-			allow_ad_personalization_signals: false
+			allow_ad_personalization_signals: false,
+			client_storage: mode === 'granted' ? 'auto' : 'none'
 		});
-		updateAnalyticsConsent('granted');
+		updateAnalyticsConsent(mode);
 	}
 
 	function updateAnalyticsConsent(mode: 'granted' | 'denied') {
@@ -120,6 +124,11 @@
 {#if hideChrome}
 	<slot />
 {:else}
+	{#if showAnalyticsDebug}
+		<div class="fixed bottom-4 right-4 z-50 rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold text-white shadow-lg">
+			Analytics: {analyticsDebugLabel}
+		</div>
+	{/if}
 	<a class="skip-link" href="#main-content">Skip to main content</a>
 	<header class="flex flex-col items-center bg-white px-5 py-3">
 		<a href="/" class="mb-2 block" style="width:160px;min-width:160px;">
@@ -194,7 +203,9 @@
 					<p class="text-xs uppercase tracking-wide text-gray-500">
 						Current setting:
 						<span class="font-semibold text-gray-900">
-							{analyticsPreference === 'granted' ? 'Analytics allowed' : 'Analytics disabled'}
+							{analyticsPreference === 'granted'
+								? 'Analytics allowed'
+								: 'Analytics disabled (cookieless)'}
 						</span>
 					</p>
 				{/if}

@@ -89,12 +89,12 @@
 	</p>
 	<p class="mt-2 text-sm text-gray-700">
 		Cambermast LLC also does business as Bill Talks AI (BillTalksAI.com) and The Occasional Developer
-		(mainly a YouTube property). All data collected under those names is governed by this notice unless a
-		Project-specific agreement states otherwise.
+		(mainly a YouTube property). We also run the Agile In Action podcast (AgileInAction.com). All data
+		collected under those names is governed by this notice unless explicitly stated by the respective
+		website's notices.
 	</p>
 	<p class="mt-3 text-sm text-gray-700">
-		We review this page whenever we add a new form, vendor, or program so you always know which data
-		flows we rely on.
+		We update this page whenever we add new vendors or capabilities that may warrant a change.
 	</p>
 </section>
 
@@ -211,8 +211,10 @@
 	<h2 class="text-xl font-semibold text-gray-900">Cookies, consent, and analytics</h2>
 	<p class="mt-2 text-gray-700">
 		Cambermast only sets two types of browser storage: essential security tokens that protect our
-		forms, and optional analytics cookies that measure site performance. Nothing loads until you see
-		the consent banner the first time you visit.
+		forms, and optional analytics cookies that measure site performance. We can send limited,
+		cookieless analytics pings before you opt in, but we only create analytics cookies after you
+		select “Allow analytics.” If you decline analytics, we continue in cookieless mode and do not
+		store analytics identifiers in your browser.
 	</p>
 	<ul class="mt-4 space-y-3 text-gray-700">
 		<li class="rounded-xl border border-gray-100 bg-gray-50 p-4">
@@ -226,7 +228,8 @@
 		<li class="rounded-xl border border-gray-100 bg-gray-50 p-4">
 			<p class="font-semibold text-gray-900">Optional analytics (requires consent)</p>
 			<p class="mt-1">
-				If you select “Allow analytics,” we load Google Analytics 4 and it may create the
+				Before consent, we use Google Analytics 4 in a cookieless mode that avoids storing
+				identifiers in your browser. If you select “Allow analytics,” it may create the
 				<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">_ga</code> and
 				<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">_ga_&lt;container&gt;</code> cookies for up to 13
 				months. We anonymize IP addresses, disable Google signals and ad personalization, and rely on
