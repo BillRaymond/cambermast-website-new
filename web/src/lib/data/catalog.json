@@ -118,13 +118,13 @@
 	},
 
 	"strategy": {
-		"label": "AI Advisory & Project Management",
+		"label": "AI Advisory Services",
 		"navlabel": "AI Advisory",
 		"testimonial": "Bill\u2019s experience helped us develop and execute an AI automation strategy.",
 		"author": "Brian C.",
 		"icon": "\ud83c\udfaf",
 		"route": "/strategy",
-		"headline": "Strategic guidance and execution support, so pilots turn into repeatable wins.",
+		"headline": "Strategic guidance plus project management support, so pilots turn into repeatable wins.",
 		"testimonialCta": {
 			"href": "/contact",
 			"label": "Schedule for your team"

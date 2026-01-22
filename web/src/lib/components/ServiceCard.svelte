@@ -1,38 +1,79 @@
 <script>
+	import ReviewCard from '$lib/components/ReviewCard.svelte';
+
 	export let icon;
 	export let label;
 	export let headline;
 	export let testimonial;
 	export let author;
+	export let testimonialRole;
+	export let testimonialPhotoUrl;
 	export let route;
 	export let testimonialCta;
 	export let hasUpcomingSessions = false;
+	export let upcomingSessions = [];
 
 	const DEFAULT_TESTIMONIAL_CTA_LABEL = 'Schedule for your team';
-	const UPCOMING_BADGE_LABEL = 'Upcoming dates available';
 	const CONTACT_BADGE_LABEL = 'Contact us for availability';
 	const fallbackContactHref = '/contact';
 </script>
 
 <article
-	class="flex h-full flex-col rounded-2xl border-2 border-blue-300 bg-white p-5 text-center shadow-sm transition hover:shadow-md"
+	class="flex flex-col rounded-2xl border-2 border-blue-300 bg-white p-5 text-center shadow-sm transition hover:shadow-md"
 >
-	<div class="flex flex-1 flex-col items-center justify-between text-center">
-		<div class="flex flex-col items-center gap-3 text-center">
-			{#if icon}
-				<div class="text-5xl">{@html icon}</div>
-			{/if}
-			<h3 class="min-h-[3.5rem] text-xl font-bold leading-tight">{label}</h3>
-			<p class="text-gray-600">{headline}</p>
-		</div>
+		<div class="flex flex-1 flex-col items-center justify-between text-center">
+			<div class="flex flex-col items-center text-center">
+				{#if icon}
+					<div class="mb-1 text-5xl">{@html icon}</div>
+				{/if}
+				{#if route}
+					<h3 class="mb-0 text-xl font-bold leading-tight">
+						<a href={route} class="hover:underline" aria-label={`Learn more about ${label}`}>
+							{label}
+						</a>
+					</h3>
+				{:else}
+					<h3 class="mb-0 text-xl font-bold leading-tight">{label}</h3>
+				{/if}
+				<p class="mt-1 text-gray-600">{headline}</p>
+			</div>
 		{#if route}
-			<div class="mt-auto flex w-full justify-center pt-6 md:pt-8 lg:pt-10">
+			<div class="mt-4 flex w-full justify-center pt-2">
 				<div class="flex min-h-[6.5rem] flex-col items-center justify-center gap-3 text-center">
 					{#if hasUpcomingSessions}
-						<span class="inline-flex items-center gap-2 rounded-full bg-blue-600/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-blue-700">
-							<span class="h-2 w-2 rounded-full bg-blue-500"></span>
-							{UPCOMING_BADGE_LABEL}
-						</span>
+						<div class="w-full rounded-xl bg-blue-50 p-3 text-left text-sm text-blue-900">
+							<p class="text-xs font-semibold uppercase tracking-wide text-blue-600">
+								Upcoming sessions
+							</p>
+							<div class="mt-3 space-y-3">
+								{#each upcomingSessions as session}
+									<article class="rounded-lg border border-blue-100 bg-white p-3 shadow-sm">
+										<p class="text-sm font-semibold text-blue-950">{session.programTitle}</p>
+										{#if session.sessionTitle}
+											<p class="text-xs font-medium text-blue-800">{session.sessionTitle}</p>
+										{/if}
+										<p class="mt-1 text-sm text-blue-800">{session.date}</p>
+										{#if session.timeLines?.length}
+											{#each session.timeLines as timeLine}
+												<p class="text-xs text-blue-700">{timeLine}</p>
+											{/each}
+										{/if}
+										{#if session.location}
+											<p class="text-xs text-blue-700">{session.location}</p>
+										{/if}
+										{#if session.registerUrl}
+											<a
+												href={session.registerUrl}
+												class="mt-3 inline-flex w-full items-center justify-center rounded-lg bg-blue-600 px-3 py-2 text-xs font-semibold text-white shadow transition hover:bg-blue-700"
+												aria-label={`Register for ${session.programTitle}`}
+											>
+												Register now
+											</a>
+										{/if}
+									</article>
+								{/each}
+							</div>
+						</div>
 					{:else}
 						<a
 							href={testimonialCta?.href ?? fallbackContactHref}
@@ -43,30 +84,37 @@
 							{CONTACT_BADGE_LABEL}
 						</a>
 					{/if}
-					<a
-						href={route}
-						class="inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white shadow transition hover:bg-blue-700"
-						aria-label={`Learn more about ${label}`}
-					>
-						Learn more
-					</a>
+	{#if testimonial}
+		<div class="w-full">
+			<ReviewCard
+				quote={testimonial}
+				author={author}
+				role={testimonialRole ?? ''}
+				photoUrl={testimonialPhotoUrl ?? undefined}
+			/>
+		</div>
+	{/if}
 				</div>
 			</div>
 		{/if}
 	</div>
-		{#if testimonial}
-			<div class="mt-4 w-full rounded-lg bg-gray-50 p-2.5 text-sm text-gray-700 min-h-[6.5rem] flex flex-col justify-between">
-				<p>“{testimonial}”</p>
-				<div class="mt-1.5 text-right font-medium text-gray-500">{author}</div>
-		</div>
-		{#if testimonialCta?.href}
-			<a
-				href={testimonialCta.href}
-				class="mt-3 inline-flex items-center justify-center rounded-lg border border-blue-200 bg-white px-4 py-2 font-semibold text-blue-700 transition hover:border-blue-500 hover:bg-blue-50 hover:text-blue-900"
-				aria-label={testimonialCta?.ariaLabel ?? `Schedule ${label} for your team`}
-			>
-				{testimonialCta?.label ?? DEFAULT_TESTIMONIAL_CTA_LABEL}
-			</a>
-		{/if}
+	{#if testimonialCta?.href}
+		<a
+			href={testimonialCta.href}
+			class="mt-4 inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white shadow transition hover:bg-blue-700"
+			aria-label={testimonialCta?.ariaLabel ?? `Schedule ${label} for your team`}
+		>
+			{testimonialCta?.label ?? DEFAULT_TESTIMONIAL_CTA_LABEL}
+		</a>
+	{/if}
+	{#if route}
+		<a
+			href={route}
+			class="mt-3 inline-flex items-center gap-2 text-sm font-semibold text-blue-700 underline decoration-blue-200 underline-offset-4 transition hover:text-blue-900 self-end"
+			aria-label={`Learn more about ${label}`}
+		>
+			Learn more
+			<span aria-hidden="true">→</span>
+		</a>
 	{/if}
 </article>

@@ -30,16 +30,48 @@ $: sessionsSectionId = `${titleSlug || 'training'}-sessions`;
 	class:catalog-card--glow={hasUpcomingSessions}
 >
 	{#if item.image}
-		<img
-			src={item.image}
-			alt={item.imageAlt ?? item.title}
-			class="mb-3 w-full rounded-xl object-cover"
-			loading="lazy"
-		/>
+		{#if item.route}
+			<a
+				href={item.route}
+				class="group block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+				aria-label={`View ${item.title}`}
+			>
+				<img
+					src={item.image}
+					alt={item.imageAlt ?? item.title}
+					class="mb-3 w-full rounded-xl object-cover transition group-hover:opacity-95"
+					loading="lazy"
+				/>
+			</a>
+		{:else}
+			<img
+				src={item.image}
+				alt={item.imageAlt ?? item.title}
+				class="mb-3 w-full rounded-xl object-cover"
+				loading="lazy"
+			/>
+		{/if}
 	{/if}
-	<h2 class="text-xl font-semibold">{item.title}</h2>
+	{#if item.route}
+		<h2 class="text-xl font-semibold">
+			<a
+				href={item.route}
+				class="transition hover:text-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+			>
+				{item.title}
+			</a>
+		</h2>
+	{:else}
+		<h2 class="text-xl font-semibold">{item.title}</h2>
+	{/if}
 	{#if item.certificateText}
-		<p class="mt-2 text-sm font-semibold text-blue-700">{item.certificateText}</p>
+		<p class="mt-2">
+			<span
+				class="inline-flex items-center rounded-full border border-blue-100 bg-blue-50 px-2.5 py-0.5 text-[0.7rem] font-medium normal-case text-blue-700/80"
+			>
+				{item.certificateText}
+			</span>
+		</p>
 	{/if}
 	{#if item.upcomingSessions?.length}
 		<div
@@ -123,7 +155,7 @@ $: sessionsSectionId = `${titleSlug || 'training'}-sessions`;
 				</div>
 			{/if}
 			{#if item.route}
-				<div class="flex flex-wrap items-center justify-center gap-3 text-sm font-semibold">
+				<div class="flex w-full items-center justify-between gap-3 text-sm font-semibold">
 					{#if hasScheduleButton(item.scheduleUrl)}
 						<a
 							href={item.scheduleUrl}
@@ -137,7 +169,7 @@ $: sessionsSectionId = `${titleSlug || 'training'}-sessions`;
 						href={item.route}
 						class="text-blue-700 underline decoration-blue-200 underline-offset-4 transition hover:text-blue-900"
 					>
-						Learn more
+						Learn more →
 					</a>
 				</div>
 			{/if}

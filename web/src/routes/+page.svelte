@@ -8,11 +8,12 @@
 		getExternalEventStartTimestamp,
 		isExternalEventUpcoming
 	} from '$lib/data/external-events';
-	import type { ExternalEvent } from '$lib/data/external-events';
-	import { listTrainingPrograms } from '$lib/data/training';
-	import type { TrainingProgram, TrainingSession } from '$lib/data/training/types';
-	import { getSeo } from '$lib/seo';
-	import SeoHead from '$lib/components/SeoHead.svelte';
+import type { ExternalEvent } from '$lib/data/external-events';
+import { listTrainingPrograms } from '$lib/data/training';
+import type { TrainingProgram, TrainingSession } from '$lib/data/training/types';
+import { listTestimonials, type Testimonial } from '$lib/data/testimonials';
+import { getSeo } from '$lib/seo';
+import SeoHead from '$lib/components/SeoHead.svelte';
 import {
 	getSessionStartTimestamp,
 	hasExternalRegistration,
@@ -30,20 +31,40 @@ import { getProgramCertificateText } from '$lib/data/training/program-meta';
 		route?: string;
 	};
 
-	type CatalogSection = {
-		label: string;
-		headline: string;
-		route?: string;
-		icon?: string;
+type CatalogSection = {
+	label: string;
+	headline: string;
+	route?: string;
+	icon?: string;
 		testimonial?: string;
 		testimonialCta?: { href: string; label: string };
 		author?: string;
 		homeorder?: number;
-		items?: CatalogItem[];
+	items?: CatalogItem[];
+};
+
+type SectionTestimonial = {
+	quote: string;
+	author: string;
+	role?: string;
+	photoUrl?: string | null;
+};
+
+	type UpcomingSessionCard = {
+		id: string;
+		programTitle: string;
+		sessionTitle?: string;
+		date: string;
+		timeLines: string[];
+		location?: string;
+		registerUrl?: string;
 	};
 
 	type SectionWithUpcoming = { slug: string } & CatalogSection & {
 			hasUpcomingSessions: boolean;
+			upcomingSessions: UpcomingSessionCard[];
+			testimonialRole?: string;
+			testimonialPhotoUrl?: string | null;
 		};
 
 	const catalogSections = catalog as Record<string, Partial<CatalogSection>>;
@@ -109,6 +130,36 @@ const getSessionMeta = (program: TrainingProgram, session: TrainingSession) => {
 	};
 };
 
+const formatTestimonialRole = (testimonial: Testimonial): string | undefined => {
+	if (testimonial.jobTitle && testimonial.company) {
+		return `${testimonial.jobTitle}, ${testimonial.company}`;
+	}
+	return testimonial.jobTitle ?? testimonial.company ?? undefined;
+};
+
+const sortTestimonials = (a: Testimonial, b: Testimonial): number => {
+	const aHasPhoto = Boolean(a.photoUrl);
+	const bHasPhoto = Boolean(b.photoUrl);
+	if (aHasPhoto !== bHasPhoto) return aHasPhoto ? -1 : 1;
+	const aDate = Date.parse(a.createdAt || '') || 0;
+	const bDate = Date.parse(b.createdAt || '') || 0;
+	return bDate - aDate;
+};
+
+const buildSectionTestimonial = (routes: string[], fallback?: SectionTestimonial) => {
+	if (!routes.length) return fallback;
+	const picked = listTestimonials()
+		.filter((testimonial) => testimonial.allowPublicUse && routes.includes(testimonial.programRoute))
+		.sort(sortTestimonials)[0];
+	if (!picked) return fallback;
+	return {
+		quote: picked.quote,
+		author: picked.displayName,
+		role: formatTestimonialRole(picked),
+		photoUrl: picked.photoUrl ?? undefined
+	};
+};
+
 const trainingSessionEntries = listTrainingPrograms()
 	.flatMap((program: TrainingProgram) =>
 		(program.sessions ?? []).map((session) => ({ program, session }))
@@ -168,22 +219,68 @@ const happeningNowCards: HappeningNowCard[] = happeningTrainingEntries.map(
 	}
 );
 
-	const programRoutesWithUpcoming = new Set(
-		upcomingTrainingEntries.map(({ program }) => program.route)
-	);
+const programRoutesWithUpcoming = new Set(
+	upcomingTrainingEntries.map(({ program }) => program.route)
+);
 
-	const sectionsWithUpcoming: SectionWithUpcoming[] = sections.map((section) => {
-		const itemRoutes = (section.items ?? [])
-			.map((item) => item.route)
-			.filter((route): route is string => Boolean(route));
-		const hasUpcomingSessions =
-			itemRoutes.some((route) => programRoutesWithUpcoming.has(route)) ||
-			(section.slug === 'training' && programRoutesWithUpcoming.size > 0);
-		return {
-			...section,
-			hasUpcomingSessions
-		};
-	});
+const trainingProgramRoutes = listTrainingPrograms()
+	.map((program) => program.route)
+	.filter((route): route is string => Boolean(route));
+
+const upcomingSessionsByRoute = new Map<string, UpcomingSessionCard[]>();
+
+upcomingTrainingEntries.forEach(({ program, session }, index) => {
+	if (!program.route || !session.date) return;
+	const trimmedSessionName = session.name?.trim();
+	const sessionTitle =
+		trimmedSessionName && trimmedSessionName !== program.title ? trimmedSessionName : undefined;
+	const entry: UpcomingSessionCard = {
+		id: `${program.slug}-${session.startDate ?? session.endDate ?? index}`,
+		programTitle: program.title,
+		sessionTitle,
+		date: session.date,
+		timeLines: toTimeLines(session.time),
+		location: session.location,
+		registerUrl: session.registerUrl ?? undefined
+	};
+	const existing = upcomingSessionsByRoute.get(program.route) ?? [];
+	existing.push(entry);
+	upcomingSessionsByRoute.set(program.route, existing);
+});
+
+const allUpcomingSessions = Array.from(upcomingSessionsByRoute.values()).flat();
+
+const sectionsWithUpcoming: SectionWithUpcoming[] = sections.map((section) => {
+	const itemRoutes = (section.items ?? [])
+		.map((item) => item.route)
+		.filter((route): route is string => Boolean(route));
+	const testimonialFallback = section.testimonial
+		? {
+				quote: section.testimonial,
+				author: section.author ?? 'Cambermast client'
+			}
+		: undefined;
+	const testimonialRoutes =
+		section.slug === 'training' ? trainingProgramRoutes : itemRoutes;
+	const testimonial = buildSectionTestimonial(testimonialRoutes, testimonialFallback);
+	const upcomingSessions =
+		section.slug === 'training'
+			? allUpcomingSessions
+			: itemRoutes.flatMap((route) => upcomingSessionsByRoute.get(route) ?? []);
+	const hasUpcomingSessions =
+		upcomingSessions.length > 0 ||
+		itemRoutes.some((route) => programRoutesWithUpcoming.has(route)) ||
+		(section.slug === 'training' && programRoutesWithUpcoming.size > 0);
+	return {
+		...section,
+		hasUpcomingSessions,
+		upcomingSessions,
+		testimonial: testimonial?.quote ?? section.testimonial,
+		author: testimonial?.author ?? section.author,
+		testimonialRole: testimonial?.role,
+		testimonialPhotoUrl: testimonial?.photoUrl
+	};
+});
 
 	const MILLISECONDS_IN_HOUR = 1000 * 60 * 60;
 	const MILLISECONDS_IN_DAY = 24 * MILLISECONDS_IN_HOUR;
@@ -711,7 +808,7 @@ const featuredVideoUrl =
 {/if}
 
 <!-- Cards rendered from JSON (label + headline only) -->
-<section class="mt-9 grid gap-5 md:grid-cols-3">
+<section class="mt-9 grid items-start gap-5 md:grid-cols-3">
 	{#each sectionsWithUpcoming as s}
 		<Card
 			icon={s.icon}
@@ -719,9 +816,12 @@ const featuredVideoUrl =
 			headline={s.headline}
 			testimonial={s.testimonial}
 			author={s.author}
+			testimonialRole={s.testimonialRole}
+			testimonialPhotoUrl={s.testimonialPhotoUrl}
 			route={s.route}
 			testimonialCta={s.testimonialCta}
 			hasUpcomingSessions={s.hasUpcomingSessions}
+			upcomingSessions={s.upcomingSessions}
 		/>
 	{/each}
 </section>

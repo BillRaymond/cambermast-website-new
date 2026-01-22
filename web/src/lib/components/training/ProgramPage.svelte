@@ -537,9 +537,8 @@ const formatTestimonialRole = (testimonial: Testimonial): string => {
 				</div>
 			{/if}
 			{#if program.testimonial}
-				<blockquote class="flex h-full flex-col gap-3.5 rounded-2xl bg-white p-5 shadow">
-					<p class="text-lg font-medium text-gray-800">“{program.testimonial.quote}”</p>
-					<cite class="text-sm font-semibold text-gray-600">{program.testimonial.author}</cite>
+				<div class="flex h-full flex-col gap-3.5">
+					<ReviewCard quote={program.testimonial.quote} author={program.testimonial.author} />
 					{#if program.primaryCta}
 						<a
 							href={program.primaryCta.url}
@@ -549,7 +548,7 @@ const formatTestimonialRole = (testimonial: Testimonial): string => {
 							{program.primaryCta.label}
 						</a>
 					{/if}
-				</blockquote>
+				</div>
 			{/if}
 		</section>
 	{/if}

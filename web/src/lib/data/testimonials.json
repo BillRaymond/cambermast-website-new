@@ -106,6 +106,7 @@
     "photoUrl": "/images/testimonials/daniel-kohn-testimonial-photo.jpg",
     "rating": 5,
     "quote": "Before this course, prompting felt like guesswork. Learning to ask AI to refine my prompts changed everything. I used this to co-edit a book while keeping my voice intact. Now I treat AI not as a toy, but as a reliable creative partner for serious professional work.",
+    "allowPublicUse": true,
     "source": "training-testimonial",
     "createdAt": "2026-01-06T20:15:56.688Z"
   },

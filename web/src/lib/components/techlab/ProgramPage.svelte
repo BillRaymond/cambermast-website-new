@@ -293,10 +293,7 @@ $: faqsWithTerms = program?.faqs?.length ? [...program.faqs, trainingTermsFaq] :
 				</div>
 			{/if}
 			{#if program.testimonial}
-				<blockquote class="tlp-quote">
-					<p>“{program.testimonial.quote}”</p>
-					<cite>{program.testimonial.author}</cite>
-				</blockquote>
+				<ReviewCard quote={program.testimonial.quote} author={program.testimonial.author} />
 			{/if}
 		</section>
 	{/if}
