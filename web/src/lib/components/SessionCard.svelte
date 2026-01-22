@@ -4,6 +4,7 @@
 	export let time: string | string[] | undefined;
 	export let location: string | undefined;
 	export let eyebrow: string | undefined;
+	export let subtitle: string | undefined;
 	export let ctaUrl: string | undefined;
 	export let ctaLabel = 'Register ↗';
 	export let statusLabel: string | undefined;
@@ -31,7 +32,7 @@
 				: 'border-blue-100 bg-blue-50 text-blue-700';
 </script>
 
-<article class={`flex h-full flex-col justify-between gap-3 rounded-xl border p-4 ${toneClasses}`}>
+<article class={`flex w-full flex-col gap-3 rounded-xl border p-4 ${toneClasses}`}>
 	<div class="space-y-1.5">
 		{#if eyebrow}
 			<p class={`text-[0.65rem] font-semibold uppercase tracking-wide ${eyebrowClasses}`}>
@@ -39,6 +40,9 @@
 			</p>
 		{/if}
 		<p class="text-sm font-semibold text-gray-900">{title}</p>
+		{#if subtitle}
+			<p class="text-xs font-medium text-gray-600">{subtitle}</p>
+		{/if}
 		{#if date}
 			<p class="text-sm text-gray-700">{date}</p>
 		{/if}

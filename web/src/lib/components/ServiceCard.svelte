@@ -1,5 +1,6 @@
 <script>
 	import ReviewCard from '$lib/components/ReviewCard.svelte';
+	import SessionCard from '$lib/components/SessionCard.svelte';
 
 	export let icon;
 	export let label;
@@ -63,30 +64,16 @@
 							</p>
 							<div class="mt-3 space-y-3">
 								{#each upcomingSessions as session}
-									<article class="rounded-lg border border-blue-100 bg-white p-3 shadow-sm">
-										<p class="text-sm font-semibold text-blue-950">{session.programTitle}</p>
-										{#if session.sessionTitle}
-											<p class="text-xs font-medium text-blue-800">{session.sessionTitle}</p>
-										{/if}
-										<p class="mt-1 text-sm text-blue-800">{session.date}</p>
-										{#if session.timeLines?.length}
-											{#each session.timeLines as timeLine}
-												<p class="text-xs text-blue-700">{timeLine}</p>
-											{/each}
-										{/if}
-										{#if session.location}
-											<p class="text-xs text-blue-700">{session.location}</p>
-										{/if}
-										{#if session.registerUrl}
-											<a
-												href={session.registerUrl}
-												class="mt-3 inline-flex w-full items-center justify-center rounded-lg bg-blue-600 px-3 py-2 text-xs font-semibold text-white shadow transition hover:bg-blue-700"
-												aria-label={`Register for ${session.programTitle}`}
-											>
-												Register now
-											</a>
-										{/if}
-									</article>
+									<SessionCard
+										title={session.programTitle}
+										subtitle={session.sessionTitle}
+										date={session.date}
+										time={session.timeLines}
+										location={session.location}
+										ctaUrl={session.registerUrl}
+										ctaLabel="Register now"
+										tone="upcoming"
+									/>
 								{/each}
 							</div>
 						</div>
