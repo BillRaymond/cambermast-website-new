@@ -96,22 +96,27 @@ const getNextSessionTimestamp = (item: CatalogCardData): number | undefined => {
 
 <SeoHead title={pageMeta.title} description={pageMeta.description} path="/training" />
 
-<h1 class="mb-5 text-3xl font-bold">{pageHeading}</h1>
-<p class="mb-3 text-gray-700">{section.headline}</p>
-<div class="mb-8 text-sm text-gray-600">
-	Prefer a quick reference?{' '}
+<div class="mb-3 flex flex-wrap items-center justify-between gap-3">
+	<h1 class="text-3xl font-bold">{pageHeading}</h1>
 	<a
 		href="/training/table"
-		class="font-semibold text-blue-600 underline decoration-blue-300 underline-offset-4 transition hover:text-blue-700"
+		class="inline-flex items-center rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-blue-700 transition hover:border-blue-200 hover:bg-blue-100"
 	>
 		View the table layout
-	</a>.
+	</a>
 </div>
+<p class="mb-5 text-gray-700">{section.headline}</p>
 
 <section class="mb-12">
-		<div class="grid gap-5 md:grid-cols-3">
+		<div class="grid gap-5">
 			{#each items as item (item.route ?? item.title)}
-				<CatalogCard item={item} scheduleTeamLabel={scheduleLabel} />
+				<CatalogCard
+					item={item}
+					scheduleTeamLabel={scheduleLabel}
+					showBullets={true}
+					showDuration={false}
+					layout="row"
+				/>
 			{/each}
 		</div>
 </section>

@@ -103,9 +103,15 @@ const gatherHappeningSessions = (program?: TrainingProgram): TrainingSession[] =
 <p class="mb-8 text-gray-700">{section.headline}</p>
 
 <section class="mb-12">
-	<div class="grid gap-5 md:grid-cols-3">
+	<div class="grid gap-5">
 		{#each items as item (item.route ?? item.title)}
-			<CatalogCard item={item} scheduleTeamLabel={scheduleTeamLabel} />
+			<CatalogCard
+				item={item}
+				scheduleTeamLabel={scheduleTeamLabel}
+				showBullets={true}
+				showDuration={false}
+				layout="row"
+			/>
 		{/each}
 	</div>
 </section>

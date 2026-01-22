@@ -19,9 +19,9 @@
 				</svg>
 			{/each}
 		</div>
-		<blockquote class="mt-3.5 text-base text-gray-800">“{quote}”</blockquote>
+		<blockquote class="mt-3.5 text-left text-base text-gray-800">“{quote}”</blockquote>
 	</div>
-	<figcaption class="mt-4 flex items-center gap-3 text-sm text-gray-700">
+	<figcaption class="mt-4 flex items-center gap-3 text-left text-sm text-gray-700">
 		{#if photoUrl}
 			<img
 				src={photoUrl}
