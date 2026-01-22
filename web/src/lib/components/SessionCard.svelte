@@ -39,7 +39,16 @@
 				{eyebrow}
 			</p>
 		{/if}
-		<p class="text-sm font-semibold text-gray-900">{title}</p>
+		{#if ctaUrl}
+			<a
+				href={ctaUrl}
+				class="text-sm font-semibold text-gray-900 transition hover:text-blue-500"
+			>
+				{title}
+			</a>
+		{:else}
+			<p class="text-sm font-semibold text-gray-900">{title}</p>
+		{/if}
 		{#if subtitle}
 			<p class="text-xs font-medium text-gray-600">{subtitle}</p>
 		{/if}

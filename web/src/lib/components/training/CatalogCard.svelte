@@ -135,7 +135,8 @@ $: isRowLayout = layout === 'row';
 					{#each item.upcomingSessions as session (session.registerUrl + session.date)}
 						<li>
 							<SessionCard
-								title={session.name}
+								title={item.title}
+								subtitle={session.name}
 								date={session.date}
 								time={session.time}
 								location={session.location}
