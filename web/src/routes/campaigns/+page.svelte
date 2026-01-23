@@ -61,12 +61,35 @@
 	const qrCampaigns = campaigns.filter((campaign) => campaign.type === 'qr');
 	const otherCampaigns = campaigns.filter((campaign) => campaign.type !== 'qr');
 
+	let copiedKey = '';
+
+	const setCopied = (key: string) => {
+		copiedKey = key;
+		setTimeout(() => {
+			if (copiedKey === key) copiedKey = '';
+		}, 1200);
+	};
+
 	const copyToClipboard = async (value: string) => {
 		if (!browser) return;
 		try {
 			await navigator.clipboard.writeText(value);
+			setCopied('text');
 		} catch (error) {
 			console.warn('Unable to copy value', error);
+		}
+	};
+
+	const copyPngToClipboard = async (dataUrl: string | undefined, key: string) => {
+		if (!browser || !dataUrl) return;
+		try {
+			const response = await fetch(dataUrl);
+			const blob = await response.blob();
+			const item = new ClipboardItem({ [blob.type]: blob });
+			await navigator.clipboard.write([item]);
+			setCopied(key);
+		} catch (error) {
+			console.warn('Unable to copy PNG to clipboard', error);
 		}
 	};
 
@@ -234,7 +257,7 @@
 							</span>
 						</div>
 
-						<div class="mt-5 grid gap-5 lg:grid-cols-[1.2fr_0.8fr]">
+						<div class="mt-5 grid gap-5">
 							<div class="space-y-3">
 								<div class="rounded-xl border border-gray-200 bg-gray-50 px-4 py-3">
 									<p class="text-xs font-semibold uppercase tracking-wide text-gray-500">Primary URLs</p>
@@ -476,14 +499,62 @@
 															Raster image for quick printing, slide decks, and email. Best
 															for fixed-size outputs.
 														</p>
+													<div class="mt-2 grid grid-cols-2 gap-2">
 														<a
-															class="mt-2 inline-flex items-center rounded border border-gray-300 bg-white px-3 py-1.5 text-xs font-semibold text-gray-700 transition hover:border-gray-400 hover:text-gray-900"
+															class="inline-flex min-w-[140px] items-center justify-center rounded border border-gray-300 bg-white px-3 py-1.5 text-xs font-semibold text-gray-700 transition hover:border-gray-400 hover:text-gray-900"
 															download={makeFileName(campaign.id, 'prod', 'png')}
 															href={qrAssets[campaign.id].prod.pngDataUrl}
 														>
 															Download PNG
 														</a>
+														<button
+															type="button"
+															class="inline-flex min-w-[140px] items-center justify-center gap-2 rounded border border-gray-300 bg-white px-3 py-1.5 text-xs font-semibold text-gray-700 transition hover:border-gray-400 hover:text-gray-900"
+															aria-label={`Copy PNG data URL for ${campaign.id}`}
+															on:click={() =>
+																copyPngToClipboard(
+																	qrAssets[campaign.id].prod.pngDataUrl,
+																	`png:prod:${campaign.id}`
+																)
+															}
+														>
+															{#if copiedKey === `png:prod:${campaign.id}`}
+																<span class="inline-flex items-center gap-1">
+																	<svg
+																		aria-hidden="true"
+																		viewBox="0 0 24 24"
+																		class="h-4 w-4"
+																		fill="none"
+																		stroke="currentColor"
+																		stroke-width="2"
+																		stroke-linecap="round"
+																		stroke-linejoin="round"
+																	>
+																		<polyline points="20 6 9 17 4 12" />
+																	</svg>
+																	Copied
+																</span>
+															{:else}
+																<span class="inline-flex items-center gap-1">
+																	<svg
+																		aria-hidden="true"
+																		viewBox="0 0 24 24"
+																		class="h-4 w-4"
+																		fill="none"
+																		stroke="currentColor"
+																		stroke-width="2"
+																		stroke-linecap="round"
+																		stroke-linejoin="round"
+																	>
+																		<rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+																		<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+																	</svg>
+																	Copy PNG
+																</span>
+															{/if}
+														</button>
 													</div>
+												</div>
 													{#if qrAssets[campaign.id]?.prod?.svgDataUrl}
 														<div>
 															<p class="font-semibold text-gray-800">SVG (scalable)</p>
@@ -491,13 +562,16 @@
 																Vector file for large-format print or design tools. Scales
 																cleanly without blurring.
 															</p>
-															<a
-																class="mt-2 inline-flex items-center rounded border border-gray-300 bg-white px-3 py-1.5 text-xs font-semibold text-gray-700 transition hover:border-gray-400 hover:text-gray-900"
-																download={makeFileName(campaign.id, 'prod', 'svg')}
-																href={qrAssets[campaign.id].prod.svgDataUrl}
-															>
-																Download SVG
-															</a>
+															<div class="mt-2 grid grid-cols-2 gap-2">
+																<a
+																	class="inline-flex min-w-[140px] items-center justify-center rounded border border-gray-300 bg-white px-3 py-1.5 text-xs font-semibold text-gray-700 transition hover:border-gray-400 hover:text-gray-900"
+																	download={makeFileName(campaign.id, 'prod', 'svg')}
+																	href={qrAssets[campaign.id].prod.svgDataUrl}
+																>
+																	Download SVG
+																</a>
+																<span class="hidden sm:inline-flex min-w-[140px]" aria-hidden="true"></span>
+															</div>
 														</div>
 													{/if}
 												</div>
@@ -528,14 +602,62 @@
 															Raster image for local testing or drafts. Matches the prod
 															size.
 														</p>
+													<div class="mt-2 grid grid-cols-2 gap-2">
 														<a
-															class="mt-2 inline-flex items-center rounded border border-gray-300 bg-white px-3 py-1.5 text-xs font-semibold text-gray-700 transition hover:border-gray-400 hover:text-gray-900"
+															class="inline-flex min-w-[140px] items-center justify-center rounded border border-gray-300 bg-white px-3 py-1.5 text-xs font-semibold text-gray-700 transition hover:border-gray-400 hover:text-gray-900"
 															download={makeFileName(campaign.id, 'dev', 'png')}
 															href={qrAssets[campaign.id].dev.pngDataUrl}
 														>
 															Download PNG
 														</a>
+														<button
+															type="button"
+															class="inline-flex min-w-[140px] items-center justify-center gap-2 rounded border border-gray-300 bg-white px-3 py-1.5 text-xs font-semibold text-gray-700 transition hover:border-gray-400 hover:text-gray-900"
+															aria-label={`Copy PNG data URL for ${campaign.id} (dev)`}
+															on:click={() =>
+																copyPngToClipboard(
+																	qrAssets[campaign.id].dev.pngDataUrl,
+																	`png:dev:${campaign.id}`
+																)
+															}
+														>
+															{#if copiedKey === `png:dev:${campaign.id}`}
+																<span class="inline-flex items-center gap-1">
+																	<svg
+																		aria-hidden="true"
+																		viewBox="0 0 24 24"
+																		class="h-4 w-4"
+																		fill="none"
+																		stroke="currentColor"
+																		stroke-width="2"
+																		stroke-linecap="round"
+																		stroke-linejoin="round"
+																	>
+																		<polyline points="20 6 9 17 4 12" />
+																	</svg>
+																	Copied
+																</span>
+															{:else}
+																<span class="inline-flex items-center gap-1">
+																	<svg
+																		aria-hidden="true"
+																		viewBox="0 0 24 24"
+																		class="h-4 w-4"
+																		fill="none"
+																		stroke="currentColor"
+																		stroke-width="2"
+																		stroke-linecap="round"
+																		stroke-linejoin="round"
+																	>
+																		<rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+																		<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+																	</svg>
+																	Copy PNG
+																</span>
+															{/if}
+														</button>
 													</div>
+												</div>
 													{#if qrAssets[campaign.id]?.dev?.svgDataUrl}
 														<div>
 															<p class="font-semibold text-gray-800">SVG (scalable)</p>
@@ -543,13 +665,16 @@
 																Vector file for previews and layout checks. Scales without
 																pixelation.
 															</p>
-															<a
-																class="mt-2 inline-flex items-center rounded border border-gray-300 bg-white px-3 py-1.5 text-xs font-semibold text-gray-700 transition hover:border-gray-400 hover:text-gray-900"
-																download={makeFileName(campaign.id, 'dev', 'svg')}
-																href={qrAssets[campaign.id].dev.svgDataUrl}
-															>
-																Download SVG
-															</a>
+															<div class="mt-2 grid grid-cols-2 gap-2">
+																<a
+																	class="inline-flex min-w-[140px] items-center justify-center rounded border border-gray-300 bg-white px-3 py-1.5 text-xs font-semibold text-gray-700 transition hover:border-gray-400 hover:text-gray-900"
+																	download={makeFileName(campaign.id, 'dev', 'svg')}
+																	href={qrAssets[campaign.id].dev.svgDataUrl}
+																>
+																	Download SVG
+																</a>
+																<span class="hidden sm:inline-flex min-w-[140px]" aria-hidden="true"></span>
+															</div>
 														</div>
 													{/if}
 												</div>

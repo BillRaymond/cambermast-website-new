@@ -44,7 +44,7 @@ These two documents live in the repo root and are deployed alongside the site so
 ## Campaign Registry
 
 - `/campaigns` is an internal-only registry that lists QR and other campaigns and provides dev/prod test URLs.
-- Campaign data lives in `web/src/lib/data/qr-campaigns.json` and publishes at `/api/qr-campaigns.json`.
+- Campaign data lives in `web/src/lib/data/qr-campaigns.json`, validated by `web/src/lib/data/qr-campaigns.schema.json`, and publishes at `/api/qr-campaigns.json`.
 - QR images are generated client-side on the `/campaigns` page (PNG + SVG downloads).
 
 ## QR Landing Pages (Offline Campaigns)

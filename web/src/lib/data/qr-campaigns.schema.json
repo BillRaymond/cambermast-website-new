@@ -1,0 +1,72 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://cambermast.com/schemas/qr-campaigns.schema.json",
+	"title": "Cambermast QR Campaign Registry",
+	"type": "object",
+	"additionalProperties": false,
+	"required": ["version", "campaigns"],
+	"properties": {
+		"version": {
+			"type": "integer",
+			"minimum": 1
+		},
+		"campaigns": {
+			"type": "array",
+			"items": { "$ref": "#/$defs/campaign" }
+		}
+	},
+	"$defs": {
+		"campaign": {
+			"type": "object",
+			"additionalProperties": false,
+			"required": ["id", "type", "partner", "landingPath", "description", "createdAt", "params"],
+			"properties": {
+				"id": {
+					"type": "string",
+					"description": "Short, kebab-case campaign identifier.",
+					"pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+				},
+				"type": {
+					"type": "string",
+					"enum": ["qr"]
+				},
+				"partner": {
+					"type": "string",
+					"minLength": 1
+				},
+				"landingPath": {
+					"type": "string",
+					"description": "Site path that receives the traffic.",
+					"pattern": "^/.*"
+				},
+				"description": {
+					"type": "string",
+					"minLength": 1
+				},
+				"createdAt": {
+					"type": "string",
+					"format": "date-time"
+				},
+				"params": {
+					"type": "object",
+					"additionalProperties": {
+						"type": "string"
+					},
+					"required": ["utm_source", "utm_medium", "utm_campaign", "utm_content", "src", "ad"],
+					"properties": {
+						"utm_source": { "type": "string" },
+						"utm_medium": { "type": "string" },
+						"utm_campaign": { "type": "string" },
+						"utm_content": {
+							"type": "string",
+							"description": "Short, kebab-case value that mirrors the campaign intent.",
+							"pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+						},
+						"src": { "type": "string" },
+						"ad": { "type": "string" }
+					}
+				}
+			}
+		}
+	}
+}
