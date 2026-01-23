@@ -5,6 +5,7 @@
 			"id": "techlab-go",
 			"type": "qr",
 			"partner": "techlab",
+			"partnerLabel": "TechLAB",
 			"landingPath": "/techlab",
 			"description": "Standing and portable signage promoting TechLAB and Cambermast that can also be used on the go.",
 			"createdAt": "2026-01-23T00:00:00Z",

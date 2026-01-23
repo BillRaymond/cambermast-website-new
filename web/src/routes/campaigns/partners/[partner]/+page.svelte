@@ -11,6 +11,7 @@
 		id: string;
 		type?: string;
 		partner?: string;
+		partnerLabel?: string;
 		landingPath: string;
 		description?: string;
 		createdAt: string;
@@ -110,10 +111,11 @@
 
 	$: partnerSlug = $page.params.partner ?? '';
 	$: partnerKey = partnerSlug.toLowerCase();
-	$: partnerLabel = partnerSlug ? titleCase(partnerSlug) : 'Partner';
+	$: partnerLabel =
+		campaigns.find((campaign) => campaign.partner?.toLowerCase() === partnerKey)?.partnerLabel ??
+		(partnerSlug ? titleCase(partnerSlug) : 'Partner');
 	$: qrCampaigns = campaigns.filter(
-		(campaign) =>
-			campaign.type === 'qr' && campaign.partner?.toLowerCase() === partnerKey
+		(campaign) => campaign.type === 'qr' && campaign.partner?.toLowerCase() === partnerKey
 	);
 
 	onMount(() => {
@@ -127,7 +129,12 @@
 	$: pageDescription = `Partner-ready QR codes and production URLs for ${partnerLabel}.`;
 </script>
 
-<SeoHead title={pageTitle} description={pageDescription} path={`/campaigns/partners/${partnerSlug}`} useDefaultImage={false} />
+<SeoHead
+	title={pageTitle}
+	description={pageDescription}
+	path={`/campaigns/partners/${partnerSlug}`}
+	useDefaultImage={false}
+/>
 
 <svelte:head>
 	<meta name="robots" content="noindex,nofollow" />
@@ -135,13 +142,11 @@
 
 <section class="mb-10">
 	<div class="mx-auto max-w-4xl text-center">
-		<p class="text-xs font-semibold uppercase tracking-[0.25em] text-blue-700">Partner access</p>
+		<p class="text-xs font-semibold tracking-[0.25em] text-blue-700 uppercase">Partner access</p>
 		<h1 class="mt-3 text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">
 			{partnerLabel} QR codes
 		</h1>
-		<p class="mt-4 text-lg text-gray-600">
-			Share-ready production links and printable QR files.
-		</p>
+		<p class="mt-4 text-lg text-gray-600">Share-ready production links and printable QR files.</p>
 	</div>
 </section>
 
@@ -153,7 +158,7 @@
 					<article class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
 						<div class="flex flex-wrap items-start justify-between gap-4">
 							<div>
-								<p class="text-xs uppercase tracking-wide text-gray-500">Campaign</p>
+								<p class="text-xs tracking-wide text-gray-500 uppercase">Campaign</p>
 								<p class="text-lg font-semibold text-gray-900">{campaign.id}</p>
 								{#if campaign.description}
 									<p class="mt-1 text-sm text-gray-600">{campaign.description}</p>
@@ -167,7 +172,7 @@
 
 						<div class="mt-5 grid gap-5">
 							<div class="rounded-xl border border-gray-200 bg-gray-50 px-4 py-3">
-								<p class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+								<p class="text-xs font-semibold tracking-wide text-gray-500 uppercase">
 									Production link
 								</p>
 								<div class="mt-3 grid items-center gap-3 sm:grid-cols-[140px_minmax(0,1fr)_auto]">
@@ -222,10 +227,10 @@
 							<div class="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
 								<div class="flex flex-wrap items-center justify-between gap-3">
 									<div>
-										<p class="text-xs font-semibold uppercase tracking-wide text-gray-500">QR code</p>
-										<p class="mt-1 text-xs text-gray-600">
-											Printable QR files for this campaign.
+										<p class="text-xs font-semibold tracking-wide text-gray-500 uppercase">
+											QR code
 										</p>
+										<p class="mt-1 text-xs text-gray-600">Printable QR files for this campaign.</p>
 									</div>
 								</div>
 
@@ -262,7 +267,7 @@
 																download={makeFileName(campaign.id, 'svg')}
 																href={qrAssets[campaign.id].svgDataUrl}
 															>
-															Download SVG
+																Download SVG
 															</a>
 														</div>
 													</div>

@@ -9,6 +9,7 @@
 		id: string;
 		type?: string;
 		partner?: string;
+		partnerLabel?: string;
 		landingPath: string;
 		description?: string;
 		createdAt: string;
@@ -21,6 +22,13 @@
 	const devOrigin = browser ? window.location.origin : 'http://localhost:5173';
 
 	const keyOrder = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'src', 'ad'];
+
+	const titleCaseKebab = (value: string) =>
+		value
+			.split('-')
+			.filter(Boolean)
+			.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+			.join(' ');
 
 	const toQueryString = (params: Record<string, string | undefined> | undefined): string => {
 		if (!params) return '';
@@ -152,7 +160,12 @@
 	};
 </script>
 
-<SeoHead title={pageTitle} description={pageDescription} path="/campaigns" useDefaultImage={false} />
+<SeoHead
+	title={pageTitle}
+	description={pageDescription}
+	path="/campaigns"
+	useDefaultImage={false}
+/>
 
 <svelte:head>
 	<meta name="robots" content="noindex,nofollow" />
@@ -171,62 +184,64 @@
 </section>
 
 <section class="mb-12">
-		<div class="mx-auto max-w-5xl rounded-2xl border border-blue-100 bg-blue-50/60 p-6 text-sm text-blue-900">
-			<p class="font-semibold">Testing base URLs</p>
-			<p class="mt-2">
-				Dev:
-				<code class="rounded bg-blue-100/70 px-2 py-0.5 text-xs text-blue-900">
-					{devOrigin}
-				</code>
-				<button
-					type="button"
-					class="ml-2 inline-flex items-center rounded border border-blue-200 bg-white px-2 py-1 text-[11px] font-semibold text-blue-700 transition hover:border-blue-300 hover:text-blue-900"
-					aria-label="Copy dev base URL"
-					on:click={() => copyToClipboard(devOrigin)}
+	<div
+		class="mx-auto max-w-5xl rounded-2xl border border-blue-100 bg-blue-50/60 p-6 text-sm text-blue-900"
+	>
+		<p class="font-semibold">Testing base URLs</p>
+		<p class="mt-2">
+			Dev:
+			<code class="rounded bg-blue-100/70 px-2 py-0.5 text-xs text-blue-900">
+				{devOrigin}
+			</code>
+			<button
+				type="button"
+				class="ml-2 inline-flex items-center rounded border border-blue-200 bg-white px-2 py-1 text-[11px] font-semibold text-blue-700 transition hover:border-blue-300 hover:text-blue-900"
+				aria-label="Copy dev base URL"
+				on:click={() => copyToClipboard(devOrigin)}
+			>
+				<svg
+					aria-hidden="true"
+					viewBox="0 0 24 24"
+					class="h-3.5 w-3.5"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2"
+					stroke-linecap="round"
+					stroke-linejoin="round"
 				>
-					<svg
-						aria-hidden="true"
-						viewBox="0 0 24 24"
-						class="h-3.5 w-3.5"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="2"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-					>
-						<rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
-						<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-					</svg>
-				</button>
-			</p>
-			<p class="mt-1">
-				Prod:
-				<code class="rounded bg-blue-100/70 px-2 py-0.5 text-xs text-blue-900">
-					{prodOrigin}
-				</code>
-				<button
-					type="button"
-					class="ml-2 inline-flex items-center rounded border border-blue-200 bg-white px-2 py-1 text-[11px] font-semibold text-blue-700 transition hover:border-blue-300 hover:text-blue-900"
-					aria-label="Copy production base URL"
-					on:click={() => copyToClipboard(prodOrigin)}
+					<rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+					<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+				</svg>
+			</button>
+		</p>
+		<p class="mt-1">
+			Prod:
+			<code class="rounded bg-blue-100/70 px-2 py-0.5 text-xs text-blue-900">
+				{prodOrigin}
+			</code>
+			<button
+				type="button"
+				class="ml-2 inline-flex items-center rounded border border-blue-200 bg-white px-2 py-1 text-[11px] font-semibold text-blue-700 transition hover:border-blue-300 hover:text-blue-900"
+				aria-label="Copy production base URL"
+				on:click={() => copyToClipboard(prodOrigin)}
+			>
+				<svg
+					aria-hidden="true"
+					viewBox="0 0 24 24"
+					class="h-3.5 w-3.5"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2"
+					stroke-linecap="round"
+					stroke-linejoin="round"
 				>
-					<svg
-						aria-hidden="true"
-						viewBox="0 0 24 24"
-						class="h-3.5 w-3.5"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="2"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-					>
-						<rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
-						<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-					</svg>
-				</button>
-			</p>
-		</div>
-	</section>
+					<rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+					<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+				</svg>
+			</button>
+		</p>
+	</div>
+</section>
 
 <section class="mb-12">
 	<div class="mx-auto max-w-5xl">
@@ -237,8 +252,17 @@
 					<article class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
 						<div class="flex flex-wrap items-start justify-between gap-4">
 							<div>
-								<p class="text-xs uppercase tracking-wide text-gray-500">ID</p>
+								<p class="text-xs tracking-wide text-gray-500 uppercase">ID</p>
 								<p class="text-lg font-semibold text-gray-900">{campaign.id}</p>
+								{#if campaign.partner}
+									<p class="mt-1 text-sm text-gray-700">
+										<span class="font-semibold">Partner</span>:
+										{campaign.partnerLabel ?? campaign.partner}
+										{#if campaign.partnerLabel && campaign.partnerLabel !== campaign.partner}
+											<span class="text-gray-500">({campaign.partner})</span>
+										{/if}
+									</p>
+								{/if}
 								{#if campaign.description}
 									<p class="mt-1 text-sm text-gray-600">{campaign.description}</p>
 								{/if}
@@ -256,7 +280,9 @@
 									<span class="rounded-full bg-gray-100 px-2 py-1">
 										Landing: {campaign.landingPath}
 									</span>
-									<span class="rounded-full bg-gray-100 px-2 py-1">Created: {campaign.createdAt}</span>
+									<span class="rounded-full bg-gray-100 px-2 py-1"
+										>Created: {campaign.createdAt}</span
+									>
 								</div>
 							</div>
 							<span class="rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-700">
@@ -267,7 +293,9 @@
 						<div class="mt-5 grid gap-5">
 							<div class="space-y-3">
 								<div class="rounded-xl border border-gray-200 bg-gray-50 px-4 py-3">
-									<p class="text-xs font-semibold uppercase tracking-wide text-gray-500">Primary URLs</p>
+									<p class="text-xs font-semibold tracking-wide text-gray-500 uppercase">
+										Primary URLs
+									</p>
 									<div class="mt-3 grid gap-2 text-sm text-gray-700">
 										<div class="grid items-center gap-3 sm:grid-cols-[200px_minmax(0,1fr)_auto]">
 											<span class="text-xs font-semibold text-gray-500">Short URL (prod)</span>
@@ -322,7 +350,8 @@
 											</button>
 										</div>
 										<div class="grid items-center gap-3 sm:grid-cols-[200px_minmax(0,1fr)_auto]">
-											<span class="text-xs font-semibold text-gray-500">Encoded URL (QR) – Dev</span>
+											<span class="text-xs font-semibold text-gray-500">Encoded URL (QR) – Dev</span
+											>
 											<code class="truncate rounded bg-white px-2 py-0.5 text-xs text-gray-800">
 												{campaign.shortUrlDev}
 											</code>
@@ -351,7 +380,9 @@
 								</div>
 
 								<details class="rounded-xl border border-gray-200 bg-gray-50 px-4 py-3">
-									<summary class="cursor-pointer text-xs font-semibold uppercase tracking-wide text-gray-500">
+									<summary
+										class="cursor-pointer text-xs font-semibold tracking-wide text-gray-500 uppercase"
+									>
 										Advanced details
 									</summary>
 									<div class="mt-3 grid gap-3 text-xs text-gray-700 md:grid-cols-2">
@@ -361,7 +392,9 @@
 												<div class="space-y-1">
 													<span class="text-[11px] text-gray-500">QR path</span>
 													<div class="flex items-center gap-2">
-														<code class="break-all rounded bg-white px-2 py-1 text-[11px] text-gray-800">
+														<code
+															class="rounded bg-white px-2 py-1 text-[11px] break-all text-gray-800"
+														>
 															{campaign.qrPath}
 														</code>
 														<button
@@ -389,7 +422,9 @@
 												<div class="space-y-1">
 													<span class="text-[11px] text-gray-500">Dev URL</span>
 													<div class="flex items-center gap-2">
-														<code class="break-all rounded bg-white px-2 py-1 text-[11px] text-gray-800">
+														<code
+															class="rounded bg-white px-2 py-1 text-[11px] break-all text-gray-800"
+														>
 															{campaign.qrUrlDev}
 														</code>
 														<button
@@ -417,7 +452,9 @@
 												<div class="space-y-1">
 													<span class="text-[11px] text-gray-500">Prod URL</span>
 													<div class="flex items-center gap-2">
-														<code class="break-all rounded bg-white px-2 py-1 text-[11px] text-gray-800">
+														<code
+															class="rounded bg-white px-2 py-1 text-[11px] break-all text-gray-800"
+														>
 															{campaign.qrUrlProd}
 														</code>
 														<button
@@ -447,7 +484,9 @@
 										<div>
 											<p class="font-semibold text-gray-900">Query params</p>
 											{#if campaign.params}
-												<ul class="mt-2 grid grid-cols-1 gap-1 font-mono text-[11px] text-gray-700 sm:grid-cols-2">
+												<ul
+													class="mt-2 grid grid-cols-1 gap-1 font-mono text-[11px] text-gray-700 sm:grid-cols-2"
+												>
 													{#each Object.entries(campaign.params) as [key, value]}
 														<li class="break-all">{key}={value}</li>
 													{/each}
@@ -463,7 +502,7 @@
 							<div class="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
 								<div class="flex flex-wrap items-center justify-between gap-3">
 									<div>
-										<p class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+										<p class="text-xs font-semibold tracking-wide text-gray-500 uppercase">
 											QR generator
 										</p>
 										<p class="mt-1 text-xs text-gray-600">
@@ -503,71 +542,72 @@
 													<div>
 														<p class="font-semibold text-gray-800">PNG ({qrSize}×{qrSize})</p>
 														<p>
-															Raster image for quick printing, slide decks, and email. Best
-															for fixed-size outputs.
+															Raster image for quick printing, slide decks, and email. Best for
+															fixed-size outputs.
 														</p>
-													<div class="mt-2 grid grid-cols-2 gap-2">
-														<a
-															class="inline-flex min-w-[140px] items-center justify-center rounded border border-gray-300 bg-white px-3 py-1.5 text-xs font-semibold text-gray-700 transition hover:border-gray-400 hover:text-gray-900"
-															download={makeFileName(campaign.id, 'prod', 'png')}
-															href={qrAssets[campaign.id].prod.pngDataUrl}
-														>
-															Download PNG
-														</a>
-														<button
-															type="button"
-															class="inline-flex min-w-[140px] items-center justify-center gap-2 rounded border border-gray-300 bg-white px-3 py-1.5 text-xs font-semibold text-gray-700 transition hover:border-gray-400 hover:text-gray-900"
-															aria-label={`Copy PNG data URL for ${campaign.id}`}
-															on:click={() =>
-																copyPngToClipboard(
-																	qrAssets[campaign.id].prod.pngDataUrl,
-																	`png:prod:${campaign.id}`
-																)
-															}
-														>
-															{#if copiedKey === `png:prod:${campaign.id}`}
-																<span class="inline-flex items-center gap-1">
-																	<svg
-																		aria-hidden="true"
-																		viewBox="0 0 24 24"
-																		class="h-4 w-4"
-																		fill="none"
-																		stroke="currentColor"
-																		stroke-width="2"
-																		stroke-linecap="round"
-																		stroke-linejoin="round"
-																	>
-																		<polyline points="20 6 9 17 4 12" />
-																	</svg>
-																	Copied
-																</span>
-															{:else}
-																<span class="inline-flex items-center gap-1">
-																	<svg
-																		aria-hidden="true"
-																		viewBox="0 0 24 24"
-																		class="h-4 w-4"
-																		fill="none"
-																		stroke="currentColor"
-																		stroke-width="2"
-																		stroke-linecap="round"
-																		stroke-linejoin="round"
-																	>
-																		<rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
-																		<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-																	</svg>
-																	Copy PNG
-																</span>
-															{/if}
-														</button>
+														<div class="mt-2 grid grid-cols-2 gap-2">
+															<a
+																class="inline-flex min-w-[140px] items-center justify-center rounded border border-gray-300 bg-white px-3 py-1.5 text-xs font-semibold text-gray-700 transition hover:border-gray-400 hover:text-gray-900"
+																download={makeFileName(campaign.id, 'prod', 'png')}
+																href={qrAssets[campaign.id].prod.pngDataUrl}
+															>
+																Download PNG
+															</a>
+															<button
+																type="button"
+																class="inline-flex min-w-[140px] items-center justify-center gap-2 rounded border border-gray-300 bg-white px-3 py-1.5 text-xs font-semibold text-gray-700 transition hover:border-gray-400 hover:text-gray-900"
+																aria-label={`Copy PNG data URL for ${campaign.id}`}
+																on:click={() =>
+																	copyPngToClipboard(
+																		qrAssets[campaign.id].prod.pngDataUrl,
+																		`png:prod:${campaign.id}`
+																	)}
+															>
+																{#if copiedKey === `png:prod:${campaign.id}`}
+																	<span class="inline-flex items-center gap-1">
+																		<svg
+																			aria-hidden="true"
+																			viewBox="0 0 24 24"
+																			class="h-4 w-4"
+																			fill="none"
+																			stroke="currentColor"
+																			stroke-width="2"
+																			stroke-linecap="round"
+																			stroke-linejoin="round"
+																		>
+																			<polyline points="20 6 9 17 4 12" />
+																		</svg>
+																		Copied
+																	</span>
+																{:else}
+																	<span class="inline-flex items-center gap-1">
+																		<svg
+																			aria-hidden="true"
+																			viewBox="0 0 24 24"
+																			class="h-4 w-4"
+																			fill="none"
+																			stroke="currentColor"
+																			stroke-width="2"
+																			stroke-linecap="round"
+																			stroke-linejoin="round"
+																		>
+																			<rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+																			<path
+																				d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
+																			/>
+																		</svg>
+																		Copy PNG
+																	</span>
+																{/if}
+															</button>
+														</div>
 													</div>
-												</div>
 													{#if qrAssets[campaign.id]?.prod?.svgDataUrl}
 														<div>
 															<p class="font-semibold text-gray-800">SVG (scalable)</p>
 															<p>
-																Vector file for large-format print or design tools. Scales
-																cleanly without blurring.
+																Vector file for large-format print or design tools. Scales cleanly
+																without blurring.
 															</p>
 															<div class="mt-2 grid grid-cols-2 gap-2">
 																<a
@@ -577,7 +617,8 @@
 																>
 																	Download SVG
 																</a>
-																<span class="hidden sm:inline-flex min-w-[140px]" aria-hidden="true"></span>
+																<span class="hidden min-w-[140px] sm:inline-flex" aria-hidden="true"
+																></span>
 															</div>
 														</div>
 													{/if}
@@ -605,66 +646,64 @@
 												<div class="space-y-3 text-xs text-gray-600">
 													<div>
 														<p class="font-semibold text-gray-800">PNG ({qrSize}×{qrSize})</p>
-														<p>
-															Raster image for local testing or drafts. Matches the prod
-															size.
-														</p>
-													<div class="mt-2 grid grid-cols-2 gap-2">
-														<a
-															class="inline-flex min-w-[140px] items-center justify-center rounded border border-gray-300 bg-white px-3 py-1.5 text-xs font-semibold text-gray-700 transition hover:border-gray-400 hover:text-gray-900"
-															download={makeFileName(campaign.id, 'dev', 'png')}
-															href={qrAssets[campaign.id].dev.pngDataUrl}
-														>
-															Download PNG
-														</a>
-														<button
-															type="button"
-															class="inline-flex min-w-[140px] items-center justify-center gap-2 rounded border border-gray-300 bg-white px-3 py-1.5 text-xs font-semibold text-gray-700 transition hover:border-gray-400 hover:text-gray-900"
-															aria-label={`Copy PNG data URL for ${campaign.id} (dev)`}
-															on:click={() =>
-																copyPngToClipboard(
-																	qrAssets[campaign.id].dev.pngDataUrl,
-																	`png:dev:${campaign.id}`
-																)
-															}
-														>
-															{#if copiedKey === `png:dev:${campaign.id}`}
-																<span class="inline-flex items-center gap-1">
-																	<svg
-																		aria-hidden="true"
-																		viewBox="0 0 24 24"
-																		class="h-4 w-4"
-																		fill="none"
-																		stroke="currentColor"
-																		stroke-width="2"
-																		stroke-linecap="round"
-																		stroke-linejoin="round"
-																	>
-																		<polyline points="20 6 9 17 4 12" />
-																	</svg>
-																	Copied
-																</span>
-															{:else}
-																<span class="inline-flex items-center gap-1">
-																	<svg
-																		aria-hidden="true"
-																		viewBox="0 0 24 24"
-																		class="h-4 w-4"
-																		fill="none"
-																		stroke="currentColor"
-																		stroke-width="2"
-																		stroke-linecap="round"
-																		stroke-linejoin="round"
-																	>
-																		<rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
-																		<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-																	</svg>
-																	Copy PNG
-																</span>
-															{/if}
-														</button>
+														<p>Raster image for local testing or drafts. Matches the prod size.</p>
+														<div class="mt-2 grid grid-cols-2 gap-2">
+															<a
+																class="inline-flex min-w-[140px] items-center justify-center rounded border border-gray-300 bg-white px-3 py-1.5 text-xs font-semibold text-gray-700 transition hover:border-gray-400 hover:text-gray-900"
+																download={makeFileName(campaign.id, 'dev', 'png')}
+																href={qrAssets[campaign.id].dev.pngDataUrl}
+															>
+																Download PNG
+															</a>
+															<button
+																type="button"
+																class="inline-flex min-w-[140px] items-center justify-center gap-2 rounded border border-gray-300 bg-white px-3 py-1.5 text-xs font-semibold text-gray-700 transition hover:border-gray-400 hover:text-gray-900"
+																aria-label={`Copy PNG data URL for ${campaign.id} (dev)`}
+																on:click={() =>
+																	copyPngToClipboard(
+																		qrAssets[campaign.id].dev.pngDataUrl,
+																		`png:dev:${campaign.id}`
+																	)}
+															>
+																{#if copiedKey === `png:dev:${campaign.id}`}
+																	<span class="inline-flex items-center gap-1">
+																		<svg
+																			aria-hidden="true"
+																			viewBox="0 0 24 24"
+																			class="h-4 w-4"
+																			fill="none"
+																			stroke="currentColor"
+																			stroke-width="2"
+																			stroke-linecap="round"
+																			stroke-linejoin="round"
+																		>
+																			<polyline points="20 6 9 17 4 12" />
+																		</svg>
+																		Copied
+																	</span>
+																{:else}
+																	<span class="inline-flex items-center gap-1">
+																		<svg
+																			aria-hidden="true"
+																			viewBox="0 0 24 24"
+																			class="h-4 w-4"
+																			fill="none"
+																			stroke="currentColor"
+																			stroke-width="2"
+																			stroke-linecap="round"
+																			stroke-linejoin="round"
+																		>
+																			<rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+																			<path
+																				d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
+																			/>
+																		</svg>
+																		Copy PNG
+																	</span>
+																{/if}
+															</button>
+														</div>
 													</div>
-												</div>
 													{#if qrAssets[campaign.id]?.dev?.svgDataUrl}
 														<div>
 															<p class="font-semibold text-gray-800">SVG (scalable)</p>
@@ -680,7 +719,8 @@
 																>
 																	Download SVG
 																</a>
-																<span class="hidden sm:inline-flex min-w-[140px]" aria-hidden="true"></span>
+																<span class="hidden min-w-[140px] sm:inline-flex" aria-hidden="true"
+																></span>
 															</div>
 														</div>
 													{/if}
@@ -715,7 +755,7 @@
 			<div class="space-y-6">
 				{#each otherCampaigns as campaign}
 					<div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
-						<p class="text-sm uppercase tracking-wide text-gray-500">ID</p>
+						<p class="text-sm tracking-wide text-gray-500 uppercase">ID</p>
 						<p class="text-lg font-semibold text-gray-900">{campaign.id}</p>
 						<div class="mt-3 text-sm text-gray-700">
 							<p>Type: {campaign.type ?? 'general'}</p>

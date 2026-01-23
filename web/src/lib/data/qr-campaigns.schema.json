@@ -32,6 +32,12 @@
 				},
 				"partner": {
 					"type": "string",
+					"description": "Stable partner identifier used for grouping and partner URL slugs (prefer kebab-case).",
+					"minLength": 1
+				},
+				"partnerLabel": {
+					"type": "string",
+					"description": "Optional display name for the partner (e.g. “TechLAB”).",
 					"minLength": 1
 				},
 				"landingPath": {

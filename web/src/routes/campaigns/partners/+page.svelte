@@ -10,6 +10,7 @@
 		id: string;
 		type?: string;
 		partner?: string;
+		partnerLabel?: string;
 		landingPath: string;
 		description?: string;
 		createdAt: string;
@@ -113,7 +114,12 @@
 	});
 </script>
 
-<SeoHead title={pageTitle} description={pageDescription} path="/campaigns/partners" useDefaultImage={false} />
+<SeoHead
+	title={pageTitle}
+	description={pageDescription}
+	path="/campaigns/partners"
+	useDefaultImage={false}
+/>
 
 <svelte:head>
 	<meta name="robots" content="noindex,nofollow" />
@@ -121,13 +127,11 @@
 
 <section class="mb-10">
 	<div class="mx-auto max-w-4xl text-center">
-		<p class="text-xs font-semibold uppercase tracking-[0.25em] text-blue-700">Partner access</p>
+		<p class="text-xs font-semibold tracking-[0.25em] text-blue-700 uppercase">Partner access</p>
 		<h1 class="mt-3 text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">
 			Campaign QR codes
 		</h1>
-		<p class="mt-4 text-lg text-gray-600">
-			Share-ready production links and printable QR files.
-		</p>
+		<p class="mt-4 text-lg text-gray-600">Share-ready production links and printable QR files.</p>
 	</div>
 </section>
 
@@ -139,9 +143,9 @@
 					<article class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
 						<div class="flex flex-wrap items-start justify-between gap-4">
 							<div>
-		<p class="text-xs uppercase tracking-wide text-gray-500">Campaign</p>
+								<p class="text-xs tracking-wide text-gray-500 uppercase">Campaign</p>
 								<p class="text-lg font-semibold text-gray-900">
-									{campaign.partner ?? 'Partner'} - {campaign.id}
+									{campaign.partnerLabel ?? campaign.partner ?? 'Partner'} - {campaign.id}
 								</p>
 								{#if campaign.description}
 									<p class="mt-1 text-sm text-gray-600">{campaign.description}</p>
@@ -155,7 +159,7 @@
 
 						<div class="mt-5 grid gap-5">
 							<div class="rounded-xl border border-gray-200 bg-gray-50 px-4 py-3">
-								<p class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+								<p class="text-xs font-semibold tracking-wide text-gray-500 uppercase">
 									Production link
 								</p>
 								<div class="mt-3 grid items-center gap-3 sm:grid-cols-[140px_minmax(0,1fr)_auto]">
@@ -210,12 +214,10 @@
 							<div class="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
 								<div class="flex flex-wrap items-center justify-between gap-3">
 									<div>
-										<p class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+										<p class="text-xs font-semibold tracking-wide text-gray-500 uppercase">
 											QR code
 										</p>
-										<p class="mt-1 text-xs text-gray-600">
-											Printable QR files for this campaign.
-										</p>
+										<p class="mt-1 text-xs text-gray-600">Printable QR files for this campaign.</p>
 									</div>
 								</div>
 
@@ -252,7 +254,7 @@
 																download={makeFileName(campaign.id, 'svg')}
 																href={qrAssets[campaign.id].svgDataUrl}
 															>
-															Download SVG
+																Download SVG
 															</a>
 														</div>
 													</div>
@@ -260,11 +262,11 @@
 											</div>
 										</div>
 									{:else if qrAssets[campaign.id]?.loading}
-									<p class="text-xs text-gray-500">Generating QR code...</p>
+										<p class="text-xs text-gray-500">Generating QR code...</p>
 									{:else if qrAssets[campaign.id]?.error}
 										<p class="text-xs text-red-600">{qrAssets[campaign.id].error}</p>
 									{:else}
-									<p class="text-xs text-gray-500">Preparing QR code...</p>
+										<p class="text-xs text-gray-500">Preparing QR code...</p>
 									{/if}
 								</div>
 							</div>
