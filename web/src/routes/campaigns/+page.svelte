@@ -243,9 +243,16 @@
 									<p class="mt-1 text-sm text-gray-600">{campaign.description}</p>
 								{/if}
 								<div class="mt-3 flex flex-wrap gap-2 text-xs text-gray-600">
-									<span class="rounded-full bg-gray-100 px-2 py-1">
-										Partner: {campaign.partner ?? '—'}
-									</span>
+									{#if campaign.partner}
+										<a
+											href={`/campaigns/partners/${campaign.partner}`}
+											class="rounded-full bg-blue-50 px-2 py-1 font-semibold text-blue-700 transition hover:bg-blue-100"
+										>
+											Partner: {campaign.partner}
+										</a>
+									{:else}
+										<span class="rounded-full bg-gray-100 px-2 py-1">Partner: —</span>
+									{/if}
 									<span class="rounded-full bg-gray-100 px-2 py-1">
 										Landing: {campaign.landingPath}
 									</span>
