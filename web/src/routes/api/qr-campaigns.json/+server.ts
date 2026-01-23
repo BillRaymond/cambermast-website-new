@@ -8,6 +8,8 @@ type Campaign = {
 	partner: string;
 	landingPath: string;
 	createdAt: string;
+	description?: string;
+	type?: string;
 	params?: Record<string, string | undefined>;
 };
 
@@ -43,8 +45,10 @@ export const GET = ({ url }: { url: URL }) => {
 			const query = toQueryString(campaign.params);
 			const qrPath = query ? `${campaign.landingPath}?${query}` : campaign.landingPath;
 			const qrUrl = `${origin}${qrPath}`;
+			const shortPath = `/c/${campaign.id}`;
+			const shortUrl = `${origin}${shortPath}`;
 
-			return { ...campaign, qrPath, qrUrl };
+			return { ...campaign, qrPath, qrUrl, shortPath, shortUrl };
 		})
 	};
 
