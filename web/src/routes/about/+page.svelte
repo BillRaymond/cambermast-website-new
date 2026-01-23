@@ -27,7 +27,7 @@
 			name: 'Project Hosts',
 			role: 'Secure Cloud Hosting for Microsoft Project Server',
 			description:
-				"Project Hosts delivers FedRAMP, DoD IL, and HITRUST compliant environments so organizations can keep Microsoft Project Server online while Microsoft winds down native support. They partner with Cambermast to migrate, host, and support regulated PMO workloads.",
+				'Project Hosts delivers FedRAMP, DoD IL, and HITRUST compliant environments so organizations can keep Microsoft Project Server online while Microsoft winds down native support. They partner with Cambermast to migrate, host, and support regulated PMO workloads.',
 			link: 'https://projecthosts.com',
 			image: '/images/project-hosts-logo.png',
 			imageAlt: 'Project Hosts logo',
@@ -53,40 +53,13 @@
 <p class="mb-6 max-w-3xl text-gray-700">
 	Cambermast helps organizations adopt AI with confidence. We pair hands-on experimentation with
 	practical governance so teams learn quickly, prove value, and scale responsibly.
-</p>
-
-<div class="mb-10 flex flex-wrap justify-center gap-3">
 	<a
 		href="/contact"
-		class="inline-flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-5 py-2.5 font-semibold text-white shadow transition hover:bg-blue-700"
+		class="ml-2 inline-flex items-center rounded-full border border-blue-200 bg-blue-50 px-2.5 py-0.5 font-medium text-blue-700 transition hover:border-blue-300 hover:bg-blue-100"
 	>
-		🎓 Book training for your team
+		Contact us →
 	</a>
-	<a
-		href="https://cal.com/billraymond/15min"
-		target="_blank"
-		rel="noopener"
-		class="inline-flex items-center justify-center gap-2 rounded-lg bg-gray-900 px-5 py-2.5 font-semibold text-white shadow transition hover:bg-gray-800"
-	>
-		📅 Schedule a call with Bill
-	</a>
-	<a
-		href="https://cal.com/billraymond/30minconsult"
-		target="_blank"
-		rel="noopener"
-		class="inline-flex items-center justify-center gap-2 rounded-lg border border-blue-200 bg-white px-5 py-2.5 font-semibold text-blue-700 shadow transition hover:border-blue-300 hover:bg-blue-50"
-	>
-		🕒 Book a 30-minute consultation (US $100)
-	</a>
-	<a
-		href="https://cal.com/billraymond/60minconsult"
-		target="_blank"
-		rel="noopener"
-		class="inline-flex items-center justify-center gap-2 rounded-lg border border-blue-200 bg-white px-5 py-2.5 font-semibold text-blue-700 shadow transition hover:border-blue-300 hover:bg-blue-50"
-	>
-		🕒 Book a 60-minute consultation (US $200)
-	</a>
-</div>
+</p>
 
 <section class="mb-12 grid gap-6 md:grid-cols-2">
 	<article class="flex flex-col gap-5 rounded-2xl border bg-white p-6 shadow-sm">
@@ -96,17 +69,32 @@
 				alt="Bill Raymond"
 				class="h-20 w-20 rounded-2xl border border-gray-200 object-cover shadow"
 			/>
-			<div>
-				<h2 class="text-xl font-semibold">Bill Raymond</h2>
-				<p class="text-sm text-gray-500">CEO, AI Trainer, and AI Advisor</p>
+			<div
+				class="flex min-w-0 flex-1 flex-col gap-2 sm:flex-row sm:items-center sm:justify-between"
+			>
+				<div class="min-w-0">
+					<h2 class="text-xl font-semibold">Bill Raymond</h2>
+					<p class="text-sm text-gray-500">CEO, AI Trainer, and AI Advisor</p>
+				</div>
+				<a
+					href="/connect"
+					class="inline-flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow transition hover:bg-blue-700"
+				>
+					📅 Book time with Bill
+				</a>
 			</div>
 		</div>
-		<p class="text-gray-700">
-			Bill helps organizations understand and apply AI in practical ways, from accelerating training
-			programs to streamlining operations and rethinking collaboration. He has led large-scale
-			transformation projects with Microsoft, Duke Energy, Moen, Office Depot, and ExxonMobil,
-			always focusing on clarity, collaboration, and measurable business results.
-		</p>
+		<div class="flex flex-col gap-1">
+			<p class="text-xs font-semibold uppercase tracking-wide text-blue-600">
+				AI leadership in action
+			</p>
+			<p class="text-gray-700">
+				Bill helps organizations understand and apply AI in practical ways, from accelerating
+				training programs to streamlining operations and rethinking collaboration. He has led
+				large-scale transformation projects with Microsoft, Duke Energy, Moen, Office Depot, and
+				ExxonMobil, always focusing on clarity, collaboration, and measurable business results.
+			</p>
+		</div>
 		<ul class="list-disc space-y-2 pl-5 text-gray-700">
 			<li>Certified FutureLab AI Mastermind Trainer</li>
 			<li>Founding member of The GenAI Collective</li>
@@ -134,7 +122,7 @@
 				</a>
 				podcast
 			</li>
-			<li>Keynote speaker on current future advances in AI</li>
+			<li>Keynote speaker on current and future advances in AI</li>
 		</ul>
 	</article>
 

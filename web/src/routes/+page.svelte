@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
 	import catalog from '$lib/data/catalog.json';
 	import Card from '$lib/components/ServiceCard.svelte';
 	import UpcomingSessionsCarousel from '$lib/components/home/UpcomingSessionsCarousel.svelte';
@@ -8,21 +7,21 @@
 		getExternalEventStartTimestamp,
 		isExternalEventUpcoming
 	} from '$lib/data/external-events';
-import type { ExternalEvent } from '$lib/data/external-events';
-import { listTrainingPrograms } from '$lib/data/training';
-import type { TrainingProgram, TrainingSession } from '$lib/data/training/types';
-import { listTestimonials, type Testimonial } from '$lib/data/testimonials';
-import { getSeo } from '$lib/seo';
-import SeoHead from '$lib/components/SeoHead.svelte';
-import {
-	getSessionStartTimestamp,
-	hasExternalRegistration,
-	isSessionDraft,
-	isSessionHappeningNow,
-	isSessionUpcoming,
-	normalizeToday
-} from '$lib/data/training/session-utils';
-import { getProgramCertificateText } from '$lib/data/training/program-meta';
+	import type { ExternalEvent } from '$lib/data/external-events';
+	import { listTrainingPrograms } from '$lib/data/training';
+	import type { TrainingProgram, TrainingSession } from '$lib/data/training/types';
+	import { listTestimonials, type Testimonial } from '$lib/data/testimonials';
+	import { getSeo } from '$lib/seo';
+	import SeoHead from '$lib/components/SeoHead.svelte';
+	import {
+		getSessionStartTimestamp,
+		hasExternalRegistration,
+		isSessionDraft,
+		isSessionHappeningNow,
+		isSessionUpcoming,
+		normalizeToday
+	} from '$lib/data/training/session-utils';
+	import { getProgramCertificateText } from '$lib/data/training/program-meta';
 
 	const year = new Date().getFullYear();
 
@@ -31,24 +30,24 @@ import { getProgramCertificateText } from '$lib/data/training/program-meta';
 		route?: string;
 	};
 
-type CatalogSection = {
-	label: string;
-	headline: string;
-	route?: string;
-	icon?: string;
+	type CatalogSection = {
+		label: string;
+		headline: string;
+		route?: string;
+		icon?: string;
 		testimonial?: string;
 		testimonialCta?: { href: string; label: string };
 		author?: string;
 		homeorder?: number;
-	items?: CatalogItem[];
-};
+		items?: CatalogItem[];
+	};
 
-type SectionTestimonial = {
-	quote: string;
-	author: string;
-	role?: string;
-	photoUrl?: string | null;
-};
+	type SectionTestimonial = {
+		quote: string;
+		author: string;
+		role?: string;
+		photoUrl?: string | null;
+	};
 
 	type UpcomingSessionCard = {
 		id: string;
@@ -73,119 +72,119 @@ type SectionTestimonial = {
 		.filter(([slug, sec]) => slug !== 'home' && Boolean(sec?.label) && Boolean(sec?.headline))
 		.map(([slug, sec]) => ({ slug, ...sec })) as Array<{ slug: string } & CatalogSection>;
 
-const today = normalizeToday();
-const endDateFormatter = new Intl.DateTimeFormat('en-US', {
-	month: 'short',
-	day: 'numeric',
-	year: 'numeric'
-});
+	const today = normalizeToday();
+	const endDateFormatter = new Intl.DateTimeFormat('en-US', {
+		month: 'short',
+		day: 'numeric',
+		year: 'numeric'
+	});
 
-const formatEndLabel = (value?: string): string => {
-	if (!value) return 'current cohort';
-	const parsed = new Date(value);
-	if (Number.isNaN(parsed.valueOf())) return value;
-	return endDateFormatter.format(parsed);
-};
-
-type UpcomingTrainingEntry = {
-	type: 'training';
-	program: TrainingProgram;
-	session: TrainingSession;
-	startTimestamp: number;
-	certificateText?: string;
-	videoUrl?: string;
-};
-
-type UpcomingExternalEntry = {
-	type: 'external';
-	event: ExternalEvent;
-	startTimestamp: number;
-};
-
-type UpcomingEntry = UpcomingTrainingEntry | UpcomingExternalEntry;
-
-type HappeningNowCard = {
-	id: string;
-	programTitle: string;
-	sessionLabel: string;
-	date: string;
-	timeLines: string[];
-	location?: string;
-	endLabel: string;
-	programRoute?: string;
-	certificateText?: string;
-	videoUrl?: string;
-};
-
-const toTimeLines = (value?: string | string[]): string[] =>
-	Array.isArray(value) ? value : value ? [value] : [];
-
-const getSessionMeta = (program: TrainingProgram, session: TrainingSession) => {
-	const trimmedName = session.name?.trim();
-	const sessionLabel =
-		trimmedName && trimmedName.length > 0 && trimmedName !== program.title ? trimmedName : null;
-	return {
-		primaryTitle: program.title,
-		sessionLabel
+	const formatEndLabel = (value?: string): string => {
+		if (!value) return 'current cohort';
+		const parsed = new Date(value);
+		if (Number.isNaN(parsed.valueOf())) return value;
+		return endDateFormatter.format(parsed);
 	};
-};
 
-const formatTestimonialRole = (testimonial: Testimonial): string | undefined => {
-	if (testimonial.jobTitle && testimonial.company) {
-		return `${testimonial.jobTitle}, ${testimonial.company}`;
-	}
-	return testimonial.jobTitle ?? testimonial.company ?? undefined;
-};
-
-const sortTestimonials = (a: Testimonial, b: Testimonial): number => {
-	const aHasPhoto = Boolean(a.photoUrl);
-	const bHasPhoto = Boolean(b.photoUrl);
-	if (aHasPhoto !== bHasPhoto) return aHasPhoto ? -1 : 1;
-	const aDate = Date.parse(a.createdAt || '') || 0;
-	const bDate = Date.parse(b.createdAt || '') || 0;
-	return bDate - aDate;
-};
-
-const buildSectionTestimonial = (routes: string[], fallback?: SectionTestimonial) => {
-	if (!routes.length) return fallback;
-	const picked = listTestimonials()
-		.filter((testimonial) => testimonial.allowPublicUse && routes.includes(testimonial.programRoute))
-		.sort(sortTestimonials)[0];
-	if (!picked) return fallback;
-	return {
-		quote: picked.quote,
-		author: picked.displayName,
-		role: formatTestimonialRole(picked),
-		photoUrl: picked.photoUrl ?? undefined
+	type UpcomingTrainingEntry = {
+		type: 'training';
+		program: TrainingProgram;
+		session: TrainingSession;
+		startTimestamp: number;
+		certificateText?: string;
+		videoUrl?: string;
 	};
-};
 
-const trainingSessionEntries = listTrainingPrograms()
-	.flatMap((program: TrainingProgram) =>
-		(program.sessions ?? []).map((session) => ({ program, session }))
-	)
-	.filter(({ session }) => !isSessionDraft(session));
+	type UpcomingExternalEntry = {
+		type: 'external';
+		event: ExternalEvent;
+		startTimestamp: number;
+	};
 
-const upcomingTrainingEntries: UpcomingTrainingEntry[] = trainingSessionEntries
-	.filter(
-		({ session }) =>
-			session.startDate &&
-			hasExternalRegistration(session) &&
-			isSessionUpcoming(session, today) &&
-			!isSessionHappeningNow(session, today)
-	)
-	.map(({ program, session }) => ({
-		type: 'training' as const,
-		program,
-		session,
-		startTimestamp: getSessionStartTimestamp(session),
-		certificateText: getProgramCertificateText(program),
-		videoUrl: program.videoUrl
-	}));
+	type UpcomingEntry = UpcomingTrainingEntry | UpcomingExternalEntry;
 
-const happeningTrainingEntries = trainingSessionEntries.filter(({ session }) =>
-	session.startDate ? isSessionHappeningNow(session, today) : false
-);
+	type HappeningNowCard = {
+		id: string;
+		programTitle: string;
+		sessionLabel: string;
+		date: string;
+		timeLines: string[];
+		location?: string;
+		endLabel: string;
+		programRoute?: string;
+		certificateText?: string;
+		videoUrl?: string;
+	};
+
+	const toTimeLines = (value?: string | string[]): string[] =>
+		Array.isArray(value) ? value : value ? [value] : [];
+
+	const getSessionMeta = (program: TrainingProgram, session: TrainingSession) => {
+		const trimmedName = session.name?.trim();
+		const sessionLabel =
+			trimmedName && trimmedName.length > 0 && trimmedName !== program.title ? trimmedName : null;
+		return {
+			primaryTitle: program.title,
+			sessionLabel
+		};
+	};
+
+	const formatTestimonialRole = (testimonial: Testimonial): string | undefined => {
+		if (testimonial.jobTitle && testimonial.company) {
+			return `${testimonial.jobTitle}, ${testimonial.company}`;
+		}
+		return testimonial.jobTitle ?? testimonial.company ?? undefined;
+	};
+
+	const sortTestimonials = (a: Testimonial, b: Testimonial): number => {
+		const aHasPhoto = Boolean(a.photoUrl);
+		const bHasPhoto = Boolean(b.photoUrl);
+		if (aHasPhoto !== bHasPhoto) return aHasPhoto ? -1 : 1;
+		const aDate = Date.parse(a.createdAt || '') || 0;
+		const bDate = Date.parse(b.createdAt || '') || 0;
+		return bDate - aDate;
+	};
+
+	const buildSectionTestimonial = (routes: string[], fallback?: SectionTestimonial) => {
+		if (!routes.length) return fallback;
+		const picked = listTestimonials()
+			.filter((testimonial) => testimonial.allowPublicUse && routes.includes(testimonial.programRoute))
+			.sort(sortTestimonials)[0];
+		if (!picked) return fallback;
+		return {
+			quote: picked.quote,
+			author: picked.displayName,
+			role: formatTestimonialRole(picked),
+			photoUrl: picked.photoUrl ?? undefined
+		};
+	};
+
+	const trainingSessionEntries = listTrainingPrograms()
+		.flatMap((program: TrainingProgram) =>
+			(program.sessions ?? []).map((session) => ({ program, session }))
+		)
+		.filter(({ session }) => !isSessionDraft(session));
+
+	const upcomingTrainingEntries: UpcomingTrainingEntry[] = trainingSessionEntries
+		.filter(
+			({ session }) =>
+				session.startDate &&
+				hasExternalRegistration(session) &&
+				isSessionUpcoming(session, today) &&
+				!isSessionHappeningNow(session, today)
+		)
+		.map(({ program, session }) => ({
+			type: 'training' as const,
+			program,
+			session,
+			startTimestamp: getSessionStartTimestamp(session),
+			certificateText: getProgramCertificateText(program),
+			videoUrl: program.videoUrl
+		}));
+
+	const happeningTrainingEntries = trainingSessionEntries.filter(({ session }) =>
+		session.startDate ? isSessionHappeningNow(session, today) : false
+	);
 
 	const upcomingExternalEntries: UpcomingExternalEntry[] = listExternalEvents()
 		.filter((event) => isExternalEventUpcoming(event, today))
@@ -195,92 +194,91 @@ const happeningTrainingEntries = trainingSessionEntries.filter(({ session }) =>
 			startTimestamp: getExternalEventStartTimestamp(event)
 		}));
 
-const upcomingItems: UpcomingEntry[] = [
-	...upcomingTrainingEntries,
-	...upcomingExternalEntries
-].sort((a, b) => a.startTimestamp - b.startTimestamp);
+	const upcomingItems: UpcomingEntry[] = [
+		...upcomingTrainingEntries,
+		...upcomingExternalEntries
+	].sort((a, b) => a.startTimestamp - b.startTimestamp);
 
-const happeningNowCards: HappeningNowCard[] = happeningTrainingEntries.map(
-	({ program, session }, index) => {
-		const meta = getSessionMeta(program, session);
-		const sessionLabel = meta.sessionLabel ?? session.name ?? program.title;
-		return {
-			id: `happening-${program.slug}-${session.startDate ?? session.endDate ?? index}`,
+	const happeningNowCards: HappeningNowCard[] = happeningTrainingEntries.map(
+		({ program, session }, index) => {
+			const meta = getSessionMeta(program, session);
+			const sessionLabel = meta.sessionLabel ?? session.name ?? program.title;
+			return {
+				id: `happening-${program.slug}-${session.startDate ?? session.endDate ?? index}`,
+				programTitle: program.title,
+				sessionLabel,
+				date: session.date,
+				timeLines: toTimeLines(session.time),
+				location: session.location,
+				endLabel: formatEndLabel(session.endDate),
+				programRoute: program.route,
+				certificateText: getProgramCertificateText(program),
+				videoUrl: program.videoUrl
+			};
+		}
+	);
+
+	const programRoutesWithUpcoming = new Set(
+		upcomingTrainingEntries.map(({ program }) => program.route)
+	);
+
+	const trainingProgramRoutes = listTrainingPrograms()
+		.map((program) => program.route)
+		.filter((route): route is string => Boolean(route));
+
+	const upcomingSessionsByRoute = new Map<string, UpcomingSessionCard[]>();
+
+	upcomingTrainingEntries.forEach(({ program, session }, index) => {
+		if (!program.route || !session.date) return;
+		const trimmedSessionName = session.name?.trim();
+		const sessionTitle =
+			trimmedSessionName && trimmedSessionName !== program.title ? trimmedSessionName : undefined;
+		const entry: UpcomingSessionCard = {
+			id: `${program.slug}-${session.startDate ?? session.endDate ?? index}`,
 			programTitle: program.title,
-			sessionLabel,
+			sessionTitle,
 			date: session.date,
 			timeLines: toTimeLines(session.time),
 			location: session.location,
-			endLabel: formatEndLabel(session.endDate),
-			programRoute: program.route,
-			certificateText: getProgramCertificateText(program),
-			videoUrl: program.videoUrl
+			registerUrl: session.registerUrl ?? undefined
 		};
-	}
-);
+		const existing = upcomingSessionsByRoute.get(program.route) ?? [];
+		existing.push(entry);
+		upcomingSessionsByRoute.set(program.route, existing);
+	});
 
-const programRoutesWithUpcoming = new Set(
-	upcomingTrainingEntries.map(({ program }) => program.route)
-);
+	const allUpcomingSessions = Array.from(upcomingSessionsByRoute.values()).flat();
 
-const trainingProgramRoutes = listTrainingPrograms()
-	.map((program) => program.route)
-	.filter((route): route is string => Boolean(route));
-
-const upcomingSessionsByRoute = new Map<string, UpcomingSessionCard[]>();
-
-upcomingTrainingEntries.forEach(({ program, session }, index) => {
-	if (!program.route || !session.date) return;
-	const trimmedSessionName = session.name?.trim();
-	const sessionTitle =
-		trimmedSessionName && trimmedSessionName !== program.title ? trimmedSessionName : undefined;
-	const entry: UpcomingSessionCard = {
-		id: `${program.slug}-${session.startDate ?? session.endDate ?? index}`,
-		programTitle: program.title,
-		sessionTitle,
-		date: session.date,
-		timeLines: toTimeLines(session.time),
-		location: session.location,
-		registerUrl: session.registerUrl ?? undefined
-	};
-	const existing = upcomingSessionsByRoute.get(program.route) ?? [];
-	existing.push(entry);
-	upcomingSessionsByRoute.set(program.route, existing);
-});
-
-const allUpcomingSessions = Array.from(upcomingSessionsByRoute.values()).flat();
-
-const sectionsWithUpcoming: SectionWithUpcoming[] = sections.map((section) => {
-	const itemRoutes = (section.items ?? [])
-		.map((item) => item.route)
-		.filter((route): route is string => Boolean(route));
-	const testimonialFallback = section.testimonial
-		? {
-				quote: section.testimonial,
-				author: section.author ?? 'Cambermast client'
-			}
-		: undefined;
-	const testimonialRoutes =
-		section.slug === 'training' ? trainingProgramRoutes : itemRoutes;
-	const testimonial = buildSectionTestimonial(testimonialRoutes, testimonialFallback);
-	const upcomingSessions =
-		section.slug === 'training'
-			? allUpcomingSessions
-			: itemRoutes.flatMap((route) => upcomingSessionsByRoute.get(route) ?? []);
-	const hasUpcomingSessions =
-		upcomingSessions.length > 0 ||
-		itemRoutes.some((route) => programRoutesWithUpcoming.has(route)) ||
-		(section.slug === 'training' && programRoutesWithUpcoming.size > 0);
-	return {
-		...section,
-		hasUpcomingSessions,
-		upcomingSessions,
-		testimonial: testimonial?.quote ?? section.testimonial,
-		author: testimonial?.author ?? section.author,
-		testimonialRole: testimonial?.role,
-		testimonialPhotoUrl: testimonial?.photoUrl
-	};
-});
+	const sectionsWithUpcoming: SectionWithUpcoming[] = sections.map((section) => {
+		const itemRoutes = (section.items ?? [])
+			.map((item) => item.route)
+			.filter((route): route is string => Boolean(route));
+		const testimonialFallback = section.testimonial
+			? {
+					quote: section.testimonial,
+					author: section.author ?? 'Cambermast client'
+				}
+			: undefined;
+		const testimonialRoutes = section.slug === 'training' ? trainingProgramRoutes : itemRoutes;
+		const testimonial = buildSectionTestimonial(testimonialRoutes, testimonialFallback);
+		const upcomingSessions =
+			section.slug === 'training'
+				? allUpcomingSessions
+				: itemRoutes.flatMap((route) => upcomingSessionsByRoute.get(route) ?? []);
+		const hasUpcomingSessions =
+			upcomingSessions.length > 0 ||
+			itemRoutes.some((route) => programRoutesWithUpcoming.has(route)) ||
+			(section.slug === 'training' && programRoutesWithUpcoming.size > 0);
+		return {
+			...section,
+			hasUpcomingSessions,
+			upcomingSessions,
+			testimonial: testimonial?.quote ?? section.testimonial,
+			author: testimonial?.author ?? section.author,
+			testimonialRole: testimonial?.role,
+			testimonialPhotoUrl: testimonial?.photoUrl
+		};
+	});
 
 	const MILLISECONDS_IN_HOUR = 1000 * 60 * 60;
 	const MILLISECONDS_IN_DAY = 24 * MILLISECONDS_IN_HOUR;
@@ -299,40 +297,6 @@ const sectionsWithUpcoming: SectionWithUpcoming[] = sections.map((section) => {
 		if (diffDays === 1) return 'Starts tomorrow';
 		return `Starts in ${diffDays} days`;
 	};
-
-	const featuredUpcoming = upcomingItems[0];
-
-	const featuredMeta =
-		featuredUpcoming && featuredUpcoming.type === 'training'
-			? getSessionMeta(featuredUpcoming.program, featuredUpcoming.session)
-			: null;
-
-const featuredDisplayName =
-		featuredUpcoming?.type === 'training'
-			? (featuredMeta?.primaryTitle ?? featuredUpcoming.program.title)
-			: (featuredUpcoming?.event.title ?? '');
-
-	const featuredSessionLabel =
-		featuredUpcoming?.type === 'training'
-			? (featuredMeta?.sessionLabel ?? null)
-			: (featuredUpcoming?.event.sessionLabel ?? null);
-
-	const featuredDateLabel =
-		featuredUpcoming?.type === 'training'
-			? featuredUpcoming.session.date
-			: (featuredUpcoming?.event.date ?? '');
-
-	const featuredRegisterUrl =
-		featuredUpcoming?.type === 'training'
-			? featuredUpcoming.session.registerUrl
-			: (featuredUpcoming?.event.registerUrl ?? null);
-
-const featuredUrgency = getUrgencyLabel(featuredUpcoming?.startTimestamp ?? null);
-
-const featuredCertificateText =
-	featuredUpcoming?.type === 'training' ? featuredUpcoming.certificateText : undefined;
-const featuredVideoUrl =
-	featuredUpcoming?.type === 'training' ? featuredUpcoming.videoUrl : undefined;
 
 	const upcomingSlides = upcomingItems.map((entry, index) => {
 		if (entry.type === 'training') {
@@ -375,116 +339,6 @@ const featuredVideoUrl =
 	});
 
 	const pageMeta = getSeo('/');
-
-	type ConnectLink = {
-		icon: string;
-		label: string;
-		description: string;
-		href: string;
-		highlight?: boolean;
-	};
-
-	type ConnectGroup = {
-		title: string;
-		links: ConnectLink[];
-	};
-
-	const connectGroups: ConnectGroup[] = [
-		{
-			title: 'Talk with Bill',
-			links: [
-				{
-					icon: '💬',
-					label: 'Free 15-minute Chat',
-					description: 'Kick off the conversation with a no-cost 15-minute chat.',
-					href: 'https://cal.com/billraymond/15min'
-				},
-				{
-					icon: '🕒',
-					label: '30-minute Consultation',
-					description: 'You define the topic for 30 minutes with Bill ($100).',
-					href: 'https://cal.com/billraymond/30minconsult'
-				},
-				{
-					icon: '🕘',
-					label: '60-minute Consultation',
-					description: 'You define the topic for 60 minutes with Bill ($200).',
-					href: 'https://cal.com/billraymond/60minconsult'
-				},
-				{
-					icon: '✉️',
-					label: 'Contact Bill',
-					description: 'Start a conversation about training or advisory work.',
-					href: '/contact'
-				}
-			]
-		},
-		{
-			title: 'Follow Bill',
-			links: [
-				{
-					icon: '📰',
-					label: 'The Bill Talks AI Newsletter',
-					description: 'Weekly insights for AI leaders and practitioners.',
-					href: 'https://billtalksai.com/',
-					highlight: true
-				},
-				{
-					icon: '🎙️',
-					label: 'The Agile in Action Podcast',
-					description: 'Listen to expert conversations on modern leadership.',
-					href: 'https://agileinaction.com/'
-				},
-				{
-					icon: '▶️',
-					label: 'Bill on YouTube',
-					description: 'Video walkthroughs and sessions on AI adoption.',
-					href: 'https://youtube.com/@bill-raymond'
-				},
-				{
-					icon: '💼',
-					label: 'Bill on LinkedIn',
-					description: "Follow Bill's updates and professional news.",
-					href: 'https://www.linkedin.com/in/williamraymond/'
-				}
-			]
-		}
-	];
-
-	const connectMenuButtonId = 'connect-menu-button';
-	const connectMenuId = 'connect-menu-panel';
-	let connectMenuOpen = false;
-	let connectMenuContainer: HTMLDivElement | null = null;
-
-	const closeConnectMenu = () => {
-		connectMenuOpen = false;
-	};
-
-	const toggleConnectMenu = () => {
-		connectMenuOpen = !connectMenuOpen;
-	};
-
-	const handleDocumentClick = (event: MouseEvent) => {
-		if (!connectMenuOpen || !connectMenuContainer) return;
-		const target = event.target as Node | null;
-		if (target && connectMenuContainer.contains(target)) return;
-		closeConnectMenu();
-	};
-
-	const handleKeydown = (event: KeyboardEvent) => {
-		if (event.key === 'Escape') {
-			closeConnectMenu();
-		}
-	};
-
-	onMount(() => {
-		document.addEventListener('click', handleDocumentClick);
-		document.addEventListener('keydown', handleKeydown);
-		return () => {
-			document.removeEventListener('click', handleDocumentClick);
-			document.removeEventListener('keydown', handleKeydown);
-		};
-	});
 </script>
 
 <SeoHead title={pageMeta.title} description={pageMeta.description} path="/" />
@@ -560,204 +414,65 @@ const featuredVideoUrl =
 	<link rel="manifest" href="/site.webmanifest" />
 </svelte:head>
 
-<!-- Full-bleed hero -->
-<section class="relative left-1/2 right-1/2 z-10 -mx-[50vw] w-screen overflow-visible bg-blue-50">
-	<!-- Removed gradient background, replaced with a subtle blue tint using bg-blue-50 -->
-
-	<div class="relative mx-auto flex max-w-5xl flex-col gap-5 px-5 py-6">
-		<div
-			class="flex flex-col items-center gap-5 md:flex-row md:flex-wrap md:items-stretch md:justify-center md:gap-6"
-		>
-			<!-- Left: headline only -->
-			<div class="flex w-full flex-col gap-3 md:w-[27.5rem] md:flex-none md:self-stretch">
-				{#if featuredUpcoming}
-					<div class="shadow-hero flex h-full flex-col gap-3 rounded-2xl bg-white/70 p-3">
-						<span class="next-pill self-start">Next up</span>
-						<div class="flex flex-col items-start gap-3 md:flex-row md:items-stretch md:gap-6">
-							<div class="min-w-0 flex-1">
-								{#if featuredRegisterUrl}
-									<a
-										href={featuredRegisterUrl}
-										target="_blank"
-										rel="noopener"
-										class="text-sm font-semibold leading-snug text-gray-900 transition hover:text-blue-500"
-									>
-										{featuredDisplayName}
-									</a>
-								{:else}
-									<p class="text-sm font-semibold leading-snug text-gray-900">
-										{featuredDisplayName}
-									</p>
-								{/if}
-								{#if featuredSessionLabel}
-									<p class="text-xs font-medium text-blue-600">{featuredSessionLabel}</p>
-								{/if}
-								<p class="text-xs text-gray-600">{featuredDateLabel}</p>
-								{#if featuredUrgency}
-									<p class="text-xs font-semibold text-blue-600">{featuredUrgency}</p>
-								{/if}
-								{#if featuredCertificateText}
-									<span
-										class="mt-1 inline-flex items-center rounded-full border border-blue-100 bg-blue-50 px-2.5 py-0.5 text-[0.7rem] font-medium normal-case text-blue-700/80"
-									>
-										{featuredCertificateText}
-									</span>
-								{/if}
-								{#if featuredVideoUrl}
-									<a
-										href={featuredVideoUrl}
-										target="_blank"
-										rel="noopener noreferrer"
-										class="mt-1 inline-flex items-center rounded-full border border-blue-100 bg-blue-50 px-2.5 py-0.5 text-[0.7rem] font-medium normal-case text-blue-700/80 transition hover:border-blue-200 hover:bg-blue-100"
-									>
-										🎬 Watch the trailer
-									</a>
-								{/if}
-							</div>
-							{#if featuredRegisterUrl}
-								<div class="flex w-full justify-end md:w-auto md:flex-col md:justify-end md:items-end">
-									<a
-										href={featuredRegisterUrl}
-										target="_blank"
-										rel="noopener"
-										class="inline-flex items-center justify-center rounded-lg bg-blue-600 px-3 py-2 text-xs font-semibold text-white shadow transition hover:bg-blue-700"
-									>
-										Register now
-									</a>
-								</div>
-							{/if}
-						</div>
-					</div>
-				{:else}
-					<h1 class="text-1xl font-extrabold tracking-tight text-gray-900">
-						Applying AI leadership skills.<br />
-					</h1>
-				{/if}
-			</div>
-
-			<!-- Right: portrait with name below in a matching card -->
-			<div
-				class="flex flex-shrink-0 flex-col items-center md:w-[27.5rem] md:flex-none md:items-stretch"
-			>
-		<div
-			class="shadow-hero grid h-full w-full gap-4 rounded-2xl bg-white/70 px-5 py-4 text-left md:grid-cols-[minmax(0,1fr)_auto] md:grid-rows-[auto_auto] md:items-start md:gap-5"
-		>
-			<div class="flex flex-col gap-2.5 md:col-start-1 md:row-start-1 md:pr-2">
-				<h2 class="text-sm font-semibold uppercase tracking-wide text-blue-500">
-					AI leadership in action
-				</h2>
-				<p class="text-xs text-gray-600">
-					Helping you adopt AI responsibly through project management, training, and advisory services.
+<section class="mx-auto mt-6 w-full px-4">
+	<div class="sessions-strip mx-auto max-w-5xl px-4 py-4">
+		<div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+			<div class="flex flex-col gap-1">
+				<h1 class="text-lg font-extrabold tracking-tight text-gray-900 sm:text-xl">
+					Upcoming sessions & events
+				</h1>
+				<p class="text-sm text-gray-700">
+					Register for public cohorts, workshops, and upcoming partner events.
 				</p>
 			</div>
-					<div class="flex flex-col items-center gap-2 text-center md:col-start-2 md:row-span-2">
-						<img
-							src="/images/bill.jpg"
-							alt="Bill Raymond"
-							class="h-16 w-16 rounded-2xl border border-gray-200 object-cover shadow-xl"
-						/>
-						<div class="leading-tight">
-							<span class="block text-xs font-semibold text-gray-900">Bill Raymond</span>
-							<span class="block text-[0.68rem] font-medium text-gray-500"
-								>Founder, Cambermast LLC</span
-							>
-						</div>
-					</div>
-					<div class="flex w-full justify-center md:col-start-1 md:row-start-2 md:justify-start">
-						<div class="relative w-full md:w-max" bind:this={connectMenuContainer}>
-							<button
-								type="button"
-								id={connectMenuButtonId}
-								class="flex w-full items-center justify-center gap-1.5 rounded-full border border-blue-200 bg-white px-3 py-2 text-[0.9rem] font-semibold text-blue-900 shadow-sm transition hover:border-blue-300 hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-offset-2 md:w-max md:px-4"
-								on:click={toggleConnectMenu}
-								aria-expanded={connectMenuOpen}
-								aria-controls={connectMenuId}
-							>
-								<span class="text-base leading-none">🤝</span>
-								<span>Connect with Bill</span>
-								<svg
-									class="h-4 w-4 text-blue-700 transition-transform"
-									class:rotate-180={connectMenuOpen}
-									xmlns="http://www.w3.org/2000/svg"
-									viewBox="0 0 20 20"
-									fill="currentColor"
-									aria-hidden="true"
-								>
-									<path
-										fill-rule="evenodd"
-										d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.7a.75.75 0 1 1 1.06 1.06l-4.24 4.24a.75.75 0 0 1-1.06 0L5.21 8.29a.75.75 0 0 1 .02-1.08Z"
-										clip-rule="evenodd"
-									/>
-								</svg>
-							</button>
-							{#if connectMenuOpen}
-								<div
-									id={connectMenuId}
-									class="z-30 mt-3 w-full overflow-hidden rounded-3xl border border-blue-100 bg-white/95 p-3 shadow-2xl backdrop-blur md:absolute md:left-1/2 md:top-full md:mt-2 md:w-[min(26rem,90vw)] md:-translate-x-1/2"
-									aria-labelledby={connectMenuButtonId}
-								>
-									<div class="grid gap-3 sm:grid-cols-2">
-										{#each connectGroups as group}
-											<div class="rounded-2xl border border-blue-50/70 bg-blue-50/40 p-2.5">
-												<p class="text-[0.65rem] font-semibold uppercase tracking-wide text-blue-700">
-													{group.title}
-												</p>
-												<ul class="mt-1.5 space-y-1">
-													{#each group.links as link}
-														<li>
-															<a
-																href={link.href}
-																target={link.href.startsWith('http') ? '_blank' : undefined}
-																rel={link.href.startsWith('http') ? 'noopener' : undefined}
-																class={`flex items-start gap-2.5 rounded-2xl px-3 py-2 text-left text-[0.92rem] transition hover:bg-blue-100/60 focus:bg-blue-100/60 focus:outline-none focus:ring-2 focus:ring-blue-200 ${link.highlight ? 'bg-blue-100/60' : ''}`}
-																on:click={closeConnectMenu}
-															>
-																<span class="text-lg leading-none">{link.icon}</span>
-																<span class="flex flex-col gap-1">
-																	<span class="text-[0.82rem] font-semibold text-gray-900"
-																		>{link.label}</span
-																	>
-																	<span class="text-[0.7rem] text-gray-600"
-																		>{link.description}</span
-																	>
-																</span>
-															</a>
-														</li>
-													{/each}
-												</ul>
-											</div>
-										{/each}
-									</div>
-								</div>
-							{/if}
-						</div>
-					</div>
+			<a
+				href="/training/calendar"
+				class="inline-flex items-center justify-center rounded-full border border-blue-200 bg-white px-3 py-2 text-xs font-semibold text-blue-700 transition hover:border-blue-300 hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-200"
+			>
+				View calendar →
+			</a>
+		</div>
+
+		{#if upcomingSlides.length}
+			<div class="mt-4">
+				<UpcomingSessionsCarousel slides={upcomingSlides} />
+			</div>
+		{:else}
+			<div class="mt-4 rounded-2xl border border-blue-100 bg-white/70 px-4 py-3 text-sm text-gray-700">
+				No upcoming sessions are listed right now. Check the calendar for the latest updates.
+			</div>
+		{/if}
+	</div>
+</section>
+
+<section class="mx-auto mt-4 w-full px-4">
+	<div class="mx-auto max-w-5xl px-4">
+		<div class="flex flex-col gap-3 rounded-2xl border border-gray-200 bg-white px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
+			<div class="flex items-center gap-3">
+				<img
+					src="/images/bill.jpg"
+					alt="Bill Raymond"
+					class="h-11 w-11 flex-none rounded-2xl border border-gray-200 object-cover"
+				/>
+				<div class="min-w-0">
+					<p class="text-xs font-semibold uppercase tracking-wide text-blue-600">
+						AI leadership in action
+					</p>
+					<p class="text-sm font-semibold text-gray-900">Bill Raymond</p>
 				</div>
+			</div>
+
+			<div class="flex flex-col gap-1 sm:items-end">
+				<a
+					href="/connect"
+					class="inline-flex items-center justify-center rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-200"
+				>
+					Book a consultation
+				</a>
 			</div>
 		</div>
 	</div>
 </section>
-
-{#if upcomingSlides.length}
-	<section class="mx-auto mt-6 w-full px-4">
-		<div class="sessions-strip mx-auto max-w-5xl px-4 py-4">
-			<div
-				class="flex flex-wrap items-center gap-2 text-xs font-semibold tracking-wide text-blue-600"
-			>
-				<span class="uppercase">Upcoming sessions and events</span>
-				<a
-					href="/training/calendar"
-					class="rounded-full border border-blue-200 bg-white px-2.5 py-1 text-[0.65rem] font-semibold normal-case text-blue-600 transition hover:border-blue-300 hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-200"
-				>
-					View calendar →
-				</a>
-			</div>
-			<div class="mt-4">
-				<UpcomingSessionsCarousel slides={upcomingSlides} />
-			</div>
-		</div>
-	</section>
-{/if}
 
 {#if happeningNowCards.length}
 	<section class="mx-auto mt-6 w-full px-4">
@@ -910,11 +625,6 @@ const featuredVideoUrl =
 		outline-offset: 2px;
 	}
 
-	.shadow-hero {
-		box-shadow: 0 18px 45px rgba(37, 99, 235, 0.18);
-		backdrop-filter: blur(12px);
-	}
-
 	.sessions-strip {
 		position: relative;
 		overflow: visible;
@@ -933,42 +643,5 @@ const featuredVideoUrl =
 		border: 1px solid rgba(251, 191, 36, 0.45);
 		background: rgba(255, 251, 235, 0.7);
 		box-shadow: 0 18px 40px -32px rgba(180, 83, 9, 0.35);
-	}
-
-	.next-pill {
-		position: relative;
-		display: inline-flex;
-		align-items: center;
-		gap: 0.5rem;
-		padding: 0.35rem 0.85rem;
-		border-radius: 999px;
-		background: rgba(37, 99, 235, 0.1);
-		color: #1d4ed8;
-		font-size: 0.7rem;
-		font-weight: 700;
-		letter-spacing: 0.08em;
-		text-transform: uppercase;
-	}
-
-	.next-pill::before {
-		content: '';
-		display: inline-block;
-		height: 0.55rem;
-		width: 0.55rem;
-		border-radius: 999px;
-		background: #2563eb;
-		box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.35);
-	}
-
-
-	@media (prefers-reduced-motion: reduce) {
-		.next-pill,
-		.next-pill::before,
-		.register-cta span {
-			animation: none !important;
-		}
-		.register-cta:hover span {
-			transform: none;
-		}
 	}
 </style>

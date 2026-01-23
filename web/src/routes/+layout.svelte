@@ -131,11 +131,19 @@
 	{/if}
 	<a class="skip-link" href="#main-content">Skip to main content</a>
 	<header class="flex flex-col items-center bg-white px-5 py-3">
-		<a href="/" class="mb-2 block" style="width:160px;min-width:160px;">
+		<a
+			href="/about"
+			class="mb-2 inline-flex items-center justify-center gap-3 rounded-3xl border border-gray-200 bg-white px-3 py-2 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+		>
+			<img
+				src="/images/bill.jpg"
+				alt="Bill Raymond"
+				class="h-11 w-11 rounded-2xl border border-gray-200 object-cover"
+			/>
 			<img
 				src="/images/cambermast-logo-full.png"
 				alt="Cambermast logo"
-				style="width:100%;height:auto;"
+				style="width:160px;min-width:160px;height:auto;"
 			/>
 		</a>
 		<div class="relative flex w-full flex-wrap justify-center">
