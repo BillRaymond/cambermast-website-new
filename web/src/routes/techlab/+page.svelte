@@ -1,121 +1,183 @@
 <script lang="ts">
 	import SeoHead from '$lib/components/SeoHead.svelte';
+	import { browser } from '$app/environment';
+	import { page } from '$app/stores';
 	import { listTechlabPrograms } from '$lib/data/techlab';
 	import type { TechlabProgram } from '$lib/data/techlab/types';
-import {
-	hasExternalRegistration,
-	isSessionDraft,
-	isSessionHappeningNow,
-	isSessionUpcoming,
-	normalizeToday
-} from '$lib/data/training/session-utils';
+	import {
+		hasExternalRegistration,
+		isSessionDraft,
+		isSessionHappeningNow,
+		isSessionUpcoming,
+		normalizeToday
+	} from '$lib/data/training/session-utils';
 
 	const programs: TechlabProgram[] = listTechlabPrograms();
 
 	const pageTitle = 'TechLAB × Cambermast | AI Training & Automation with Bill Raymond';
-const pageDescription =
-	'TechLAB and Cambermast partnered to provide AI training, agentic AI automations, and hands-on practice for founders and operators, guided by Bill Raymond for TechLAB teams.';
+	const pageDescription =
+		'TechLAB and Cambermast partnered to provide AI training, agentic AI automations, and hands-on practice for founders and operators, guided by Bill Raymond for TechLAB teams.';
 
 	const ctaPrimary = { label: 'Schedule with the team', url: '/contact' };
 	const ctaSecondary = { label: 'Talk with Bill', url: '/contact' };
 
-const statBlocks = [
-	{ label: 'Focus', value: 'Founder-first AI literacy, agentic automations, fieldwork' },
-	{ label: 'Audience', value: 'Founders, operators, GTM, product, and technical teams' },
-	{ label: 'Formats', value: 'Live labs, private cohorts, automation pilots' },
-	{ label: 'Partner', value: 'Delivered with TechLAB + Cambermast' }
-];
+	type QrLandingContext = {
+		isQr: boolean;
+		trigger?: string;
+		ad?: string;
+		utmSource?: string;
+		utmMedium?: string;
+		utmCampaign?: string;
+		utmContent?: string;
+	};
 
-const valueProps = [
-	'Give founders investor-ready AI workflows, storylines, and proof points.',
-	'Design agentic automations with human-in-the-loop guardrails TechLAB trusts.',
-	'Equip operators with prompts, playbooks, and governance checklists they can run tomorrow.',
-	'Pair every sprint with hands-on lab time so teams leave with measurable wins.'
-];
+	let qrLandingContext: QrLandingContext;
+	let lastTrackedSearch = '';
 
-const supportGroups = [
-	{
-		title: 'Founders & operators',
-		copy: 'Frame the AI vision, keep investor messaging sharp, and prove traction with shipped workflows.'
-	},
-	{
-		title: 'Product & engineering',
-		copy: 'Design agentic loops, custom GPTs, and research systems that stay reliable in production.'
-	},
-	{
-		title: 'Content & GTM teams',
-		copy: 'Scale storytelling, docs, and customer comms while protecting brand and approvals.'
+	$: qrLandingContext = browser
+		? (() => {
+				const params = $page.url.searchParams;
+				const trigger = params.get('src') ?? undefined;
+				const utmSource = params.get('utm_source') ?? undefined;
+				const utmMedium = params.get('utm_medium') ?? undefined;
+				const utmCampaign = params.get('utm_campaign') ?? undefined;
+				const utmContent = params.get('utm_content') ?? undefined;
+				const ad = params.get('ad') ?? undefined;
+				const isQr = trigger === 'qr' || utmSource === 'qr';
+
+				return {
+					isQr,
+					trigger,
+					ad,
+					utmSource,
+					utmMedium,
+					utmCampaign,
+					utmContent
+				} satisfies QrLandingContext;
+			})()
+		: { isQr: false };
+
+	$: if (browser && qrLandingContext.isQr) {
+		const currentSearch = $page.url.search;
+		if (currentSearch !== lastTrackedSearch) {
+			lastTrackedSearch = currentSearch;
+			trackQrLanding(qrLandingContext);
+		}
 	}
-];
 
-const founderDeliverables = [
-	{
-		title: 'Agentic automation briefs',
-		copy: 'Define the trigger logic, human checkpoints, and KPIs for agent-powered workflows founders can explain to investors.'
-	},
-	{
-		title: 'Pitch deck storyboards',
-		copy: 'Use structured prompts to shape story arcs, traction slides, and founder narratives that stay consistent across talk tracks.'
-	},
-	{
-		title: 'Market intel briefs',
-		copy: 'Spin up AI-assisted battle cards and competitive tear-downs with citations, so diligence and positioning stay fresh.'
-	},
-	{
-		title: 'VC communications',
-		copy: 'Draft investor updates, outreach sequences, and follow-up notes that adapt to each fund’s focus while staying on-brand.'
+	function trackQrLanding(context: QrLandingContext) {
+		const gtag = (window as Window & { gtag?: (...args: any[]) => void }).gtag;
+		if (typeof gtag !== 'function') return;
+
+		gtag('event', 'qr_landing', {
+			qr_partner: 'techlab',
+			qr_trigger: context.trigger,
+			qr_ad: context.ad,
+			utm_source: context.utmSource,
+			utm_medium: context.utmMedium,
+			utm_campaign: context.utmCampaign,
+			utm_content: context.utmContent,
+			page_path: '/techlab'
+		});
 	}
-];
 
-const whyTechlab = [
-	'Joint TechLAB × Cambermast curriculum tailored for founders and operators.',
-	'Agentic automation labs built on Cambermast’s delivery playbooks and TechLAB diligence.',
-	'Hands-on sessions, clear templates, and real TechLAB build examples—not theory.'
-];
+	const statBlocks = [
+		{ label: 'Focus', value: 'Founder-first AI literacy, agentic automations, fieldwork' },
+		{ label: 'Audience', value: 'Founders, operators, GTM, product, and technical teams' },
+		{ label: 'Formats', value: 'Live labs, private cohorts, automation pilots' },
+		{ label: 'Partner', value: 'Delivered with TechLAB + Cambermast' }
+	];
+
+	const valueProps = [
+		'Give founders investor-ready AI workflows, storylines, and proof points.',
+		'Design agentic automations with human-in-the-loop guardrails TechLAB trusts.',
+		'Equip operators with prompts, playbooks, and governance checklists they can run tomorrow.',
+		'Pair every sprint with hands-on lab time so teams leave with measurable wins.'
+	];
+
+	const supportGroups = [
+		{
+			title: 'Founders & operators',
+			copy: 'Frame the AI vision, keep investor messaging sharp, and prove traction with shipped workflows.'
+		},
+		{
+			title: 'Product & engineering',
+			copy: 'Design agentic loops, custom GPTs, and research systems that stay reliable in production.'
+		},
+		{
+			title: 'Content & GTM teams',
+			copy: 'Scale storytelling, docs, and customer comms while protecting brand and approvals.'
+		}
+	];
+
+	const founderDeliverables = [
+		{
+			title: 'Agentic automation briefs',
+			copy: 'Define the trigger logic, human checkpoints, and KPIs for agent-powered workflows founders can explain to investors.'
+		},
+		{
+			title: 'Pitch deck storyboards',
+			copy: 'Use structured prompts to shape story arcs, traction slides, and founder narratives that stay consistent across talk tracks.'
+		},
+		{
+			title: 'Market intel briefs',
+			copy: 'Spin up AI-assisted battle cards and competitive tear-downs with citations, so diligence and positioning stay fresh.'
+		},
+		{
+			title: 'VC communications',
+			copy: 'Draft investor updates, outreach sequences, and follow-up notes that adapt to each fund’s focus while staying on-brand.'
+		}
+	];
+
+	const whyTechlab = [
+		'Joint TechLAB × Cambermast curriculum tailored for founders and operators.',
+		'Agentic automation labs built on Cambermast’s delivery playbooks and TechLAB diligence.',
+		'Hands-on sessions, clear templates, and real TechLAB build examples—not theory.'
+	];
 
 	type ScheduleEntry = {
 		programTitle: string;
 		route: string;
-		heroImage?: string;
-		heroImageAlt?: string;
+		heroImage: string | undefined;
+		heroImageAlt: string | undefined;
 		sessionName: string;
 		date: string;
-		timeText?: string;
-		location?: string;
+		timeText: string | undefined;
+		location: string | undefined;
 		registerUrl: string;
 		ctaLabel: string;
 	};
 
 	const today = normalizeToday();
-	const scheduleEntries: ScheduleEntry[] = programs
-		.map((program) => {
-			const session =
-				program.sessions?.find(
-					(entry) =>
-						!isSessionDraft(entry) &&
-						entry.startDate &&
-						hasExternalRegistration(entry) &&
-						isSessionUpcoming(entry, today) &&
-						!isSessionHappeningNow(entry, today)
-				) ?? null;
+	const scheduleEntries: ScheduleEntry[] = programs.flatMap((program) => {
+		const session =
+			program.sessions?.find(
+				(entry) =>
+					!isSessionDraft(entry) &&
+					entry.startDate &&
+					hasExternalRegistration(entry) &&
+					isSessionUpcoming(entry, today) &&
+					!isSessionHappeningNow(entry, today)
+			) ?? null;
 
-			if (!session) return null;
+		if (!session) return [];
 
-			const timeText = Array.isArray(session.time) ? session.time.join(' • ') : session.time;
-			return {
+		const timeText = Array.isArray(session.time) ? session.time.join(' • ') : session.time;
+		return [
+			{
 				programTitle: program.title,
 				route: program.route ?? `/techlab/${program.slug}`,
 				heroImage: program.heroImage,
-				heroImageAlt: program.heroImageAlt ?? program.title,
+				heroImageAlt: program.heroImage ? (program.heroImageAlt ?? program.title) : undefined,
 				sessionName: session.name,
 				date: session.date,
 				timeText,
-				location: session.location,
+				location: session.location ?? undefined,
 				registerUrl: session.registerUrl,
 				ctaLabel: 'Register'
-			};
-		})
-		.filter((entry): entry is ScheduleEntry => Boolean(entry));
+			}
+		];
+	});
 	const animatedSchedule = [...scheduleEntries, ...scheduleEntries];
 
 	const formatStat = (program: TechlabProgram): string | undefined =>

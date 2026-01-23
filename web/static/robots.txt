@@ -3,5 +3,6 @@ Disallow: /internal/
 Disallow: /forms/
 Disallow: /tools/
 Disallow: /techlab/
+Disallow: /campaigns/
 
 Sitemap: https://www.cambermast.com/sitemap.xml
