@@ -2,7 +2,7 @@
 	"version": 1,
 	"campaigns": [
 		{
-			"id": "techlab-portable-standing-signage-sc",
+			"id": "techlab-go",
 			"type": "qr",
 			"partner": "techlab",
 			"landingPath": "/techlab",
