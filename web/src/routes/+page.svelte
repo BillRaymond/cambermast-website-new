@@ -59,6 +59,12 @@
 		registerUrl?: string;
 	};
 
+	type TrustedByOrg = {
+		name: string;
+		logoSrc?: string;
+		logoAlt?: string;
+	};
+
 	type SectionWithUpcoming = { slug: string } & CatalogSection & {
 			hasUpcomingSessions: boolean;
 			upcomingSessions: UpcomingSessionCard[];
@@ -78,6 +84,28 @@
 		day: 'numeric',
 		year: 'numeric'
 	});
+
+	const trustedBy: TrustedByOrg[] = [
+		{ name: 'Duke Energy', logoSrc: '/images/trusted-by/duke-energy.svg' },
+		{ name: 'Microsoft', logoSrc: '/images/trusted-by/microsoft.svg' },
+		{ name: 'NASA', logoSrc: '/images/trusted-by/nasa.svg' },
+		{ name: 'Moen', logoSrc: '/images/trusted-by/moen.svg' },
+		{ name: 'NYCHA', logoSrc: '/images/trusted-by/nycha.svg' },
+		{
+			name: 'AI Collective',
+			logoSrc: '/images/trusted-by/ai-collective.ico',
+			logoAlt: 'The AI Collective logo'
+		},
+		{ name: 'Kaggle', logoSrc: '/images/trusted-by/kaggle.svg' },
+		{ name: 'GoSkills', logoSrc: '/images/trusted-by/goskills.png' },
+		{ name: 'Help Scout', logoSrc: '/images/trusted-by/help-scout.svg' },
+		{ name: 'The Content Wrangler', logoSrc: '/images/trusted-by/the-content-wrangler.png' },
+		{ name: 'Red Hat', logoSrc: '/images/trusted-by/red-hat.svg' },
+		{ name: 'Digital.ai', logoSrc: '/images/trusted-by/digital-ai.png' },
+		{ name: 'DocuSign', logoSrc: '/images/trusted-by/docusign.svg' },
+		{ name: 'Acuity Inc.', logoSrc: '/images/trusted-by/acuityinc.png' },
+		{ name: 'SLB', logoSrc: '/images/trusted-by/slb.svg' }
+	];
 
 	const formatEndLabel = (value?: string): string => {
 		if (!value) return 'current cohort';
@@ -445,6 +473,53 @@
 	</div>
 </section>
 
+<section class="mx-auto mt-6 w-full px-4">
+	<div class="mx-auto max-w-5xl px-4">
+		<div class="rounded-2xl border border-gray-200 bg-white px-4 py-4 shadow-sm">
+			<p class="text-xs font-semibold uppercase tracking-wide text-gray-500">Trusted by</p>
+			<div class="trusted-by-marquee mt-4" aria-label="Trusted by organizations" role="list">
+				<div class="trusted-by-track">
+					{#each trustedBy as org (org.name)}
+						<div class="trusted-by-item" role="listitem">
+							{#if org.logoSrc}
+								<img
+									src={org.logoSrc}
+									alt={org.logoAlt ?? `${org.name} logo`}
+									class="trusted-by-logo"
+									loading="lazy"
+									decoding="async"
+								/>
+							{:else}
+								<span class="rounded-full border border-gray-200 bg-gray-50 px-3 py-1 text-sm font-semibold text-gray-700">
+									{org.name}
+								</span>
+							{/if}
+						</div>
+					{/each}
+
+					{#each trustedBy as org (org.name + '-duplicate')}
+						<div class="trusted-by-item" role="listitem" aria-hidden="true">
+							{#if org.logoSrc}
+								<img
+									src={org.logoSrc}
+									alt=""
+									class="trusted-by-logo"
+									loading="lazy"
+									decoding="async"
+								/>
+							{:else}
+								<span class="rounded-full border border-gray-200 bg-gray-50 px-3 py-1 text-sm font-semibold text-gray-700">
+									{org.name}
+								</span>
+							{/if}
+						</div>
+					{/each}
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
 <section class="mx-auto mt-4 w-full px-4">
 	<div class="mx-auto max-w-5xl px-4">
 		<div class="flex flex-col gap-3 rounded-2xl border border-gray-200 bg-white px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
@@ -643,5 +718,54 @@
 		border: 1px solid rgba(251, 191, 36, 0.45);
 		background: rgba(255, 251, 235, 0.7);
 		box-shadow: 0 18px 40px -32px rgba(180, 83, 9, 0.35);
+	}
+
+	.trusted-by-marquee {
+		overflow: hidden;
+	}
+
+	.trusted-by-track {
+		display: flex;
+		align-items: center;
+		gap: 2.5rem;
+		width: max-content;
+		animation: trusted-by-scroll 110s linear infinite;
+	}
+
+	.trusted-by-item {
+		display: flex;
+		align-items: center;
+		flex: 0 0 auto;
+	}
+
+	.trusted-by-logo {
+		height: 2rem;
+		width: auto;
+		max-width: 180px;
+		object-fit: contain;
+		opacity: 0.8;
+		filter: grayscale(1);
+		transition: opacity 200ms ease, filter 200ms ease;
+	}
+
+	.trusted-by-logo:hover {
+		opacity: 1;
+		filter: grayscale(0);
+	}
+
+	@keyframes trusted-by-scroll {
+		from {
+			transform: translateX(0);
+		}
+		to {
+			transform: translateX(-50%);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.trusted-by-track {
+			animation: none;
+			transform: none;
+		}
 	}
 </style>
