@@ -12,6 +12,12 @@
 		highlight?: boolean;
 	};
 
+	type TrustedByOrg = {
+		name: string;
+		logoSrc?: string;
+		logoAlt?: string;
+	};
+
 	const bookingOptions: BookingOption[] = [
 		{
 			title: '30-minute Consultation',
@@ -34,6 +40,70 @@
 			description:
 				'Quick intro call to see if we’re a fit. If you already know what you want, choose a paid consult above.',
 			href: 'https://cal.com/billraymond/15min'
+		}
+	];
+
+	const trustedBy: TrustedByOrg[] = [
+		{
+			name: 'Duke Energy',
+			logoSrc: '/images/trusted-by/duke-energy.svg'
+		},
+		{
+			name: 'Microsoft',
+			logoSrc: '/images/trusted-by/microsoft.svg'
+		},
+		{
+			name: 'NASA',
+			logoSrc: '/images/trusted-by/nasa.svg'
+		},
+		{
+			name: 'Moen',
+			logoSrc: '/images/trusted-by/moen.svg'
+		},
+		{
+			name: 'NYCHA',
+			logoSrc: '/images/trusted-by/nycha.svg'
+		},
+		{
+			name: 'AI Collective',
+			logoSrc: '/images/trusted-by/ai-collective.ico',
+			logoAlt: 'The AI Collective logo'
+		},
+		{
+			name: 'Kaggle',
+			logoSrc: '/images/trusted-by/kaggle.svg'
+		},
+		{
+			name: 'GoSkills',
+			logoSrc: '/images/trusted-by/goskills.png'
+		},
+		{
+			name: 'Help Scout',
+			logoSrc: '/images/trusted-by/help-scout.svg'
+		},
+		{
+			name: 'The Content Wrangler',
+			logoSrc: '/images/trusted-by/the-content-wrangler.png'
+		},
+		{
+			name: 'Red Hat',
+			logoSrc: '/images/trusted-by/red-hat.svg'
+		},
+		{
+			name: 'Digital.ai',
+			logoSrc: '/images/trusted-by/digital-ai.png'
+		},
+		{
+			name: 'DocuSign',
+			logoSrc: '/images/trusted-by/docusign.svg'
+		},
+		{
+			name: 'Acuity Inc.',
+			logoSrc: '/images/trusted-by/acuityinc.png'
+		},
+		{
+			name: 'SLB',
+			logoSrc: '/images/trusted-by/slb.svg'
 		}
 	];
 </script>
@@ -61,6 +131,34 @@
 			Paid consults are the fastest path to a clear answer. If you just want to say hello, a free chat is
 			available too.
 		</p>
+	</div>
+</section>
+
+<section class="mb-14">
+	<div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+		<p class="text-xs font-semibold uppercase tracking-wide text-gray-500">Trusted by</p>
+		<ul
+			class="mt-6 flex flex-wrap items-center justify-center gap-x-10 gap-y-6"
+			aria-label="Trusted by organizations"
+		>
+			{#each trustedBy as org (org.name)}
+				<li class="flex items-center">
+					{#if org.logoSrc}
+						<img
+							src={org.logoSrc}
+							alt={org.logoAlt ?? `${org.name} logo`}
+							class="h-8 w-auto max-w-[180px] object-contain opacity-80 grayscale transition hover:opacity-100 hover:grayscale-0"
+							loading="lazy"
+							decoding="async"
+						/>
+					{:else}
+						<span class="rounded-full border border-gray-200 bg-gray-50 px-3 py-1 text-sm font-semibold text-gray-700">
+							{org.name}
+						</span>
+					{/if}
+				</li>
+			{/each}
+		</ul>
 	</div>
 </section>
 
