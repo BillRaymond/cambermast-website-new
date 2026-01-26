@@ -20,13 +20,13 @@ const staticRoutes = [
 	'/faq',
 	'/testimonials',
 	'/gdpr',
-	'/services/microsoft-project-server',
-	'/tools',
-	'/tools/agentic-roi-calculator',
-	'/tools/ai-automation-skills',
-	'/tools/ai-readiness-assessment',
-	'/tools/ai-tool-comparison'
+	'/services/microsoft-project-server'
 ];
+
+const excludedPrefixes = ['/internal', '/forms', '/tools', '/campaigns', '/techlab'];
+
+const shouldExclude = (route: string): boolean =>
+	excludedPrefixes.some((prefix) => route === prefix || route.startsWith(`${prefix}/`));
 
 const getCatalogRoutes = (): string[] =>
 	Object.values(catalog)
@@ -56,6 +56,7 @@ const uniquePaths = (): string[] => {
 	]) {
 		if (!path) continue;
 		const normalized = path.startsWith('/') ? path : `/${path}`;
+		if (shouldExclude(normalized)) continue;
 		paths.add(normalized);
 	}
 	return Array.from(paths).sort();

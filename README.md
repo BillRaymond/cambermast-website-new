@@ -35,7 +35,7 @@ This repository powers the public marketing site for Cambermast. It contains the
 - `llms.txt` is our machine-readable README for language models. It highlights Cambermast's offerings, authoritative sources, and citation expectations so retrieval systems can answer accurately. Update it whenever services, messaging, or proof points change.
 - `ai.txt` is our AI usage policy. It states how Cambermast content may be used for AI training, inference, or summarization, and lists the contact path for additional permissions. Keep it aligned with legal, marketing, and partnership requirements.
 
-These two documents live in the repo root and are deployed alongside the site so both humans and AI clients understand how to interpret and use Cambermast content.
+These two documents live in the repo root as the source of truth. The SvelteKit app copies them into `web/static/` during `npm run dev`, `npm run build`, and `npm run preview` so they are published as `/llms.txt` and `/ai.txt` on cambermast.com.
 
 ## URL Aliases & Redirects
 

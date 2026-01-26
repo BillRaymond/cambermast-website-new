@@ -59,11 +59,12 @@
 		registerUrl?: string;
 	};
 
-	type TrustedByOrg = {
-		name: string;
-		logoSrc?: string;
-		logoAlt?: string;
-	};
+		type TrustedByOrg = {
+			name: string;
+			url: string;
+			logoSrc?: string;
+			logoAlt?: string;
+		};
 
 	type SectionWithUpcoming = { slug: string } & CatalogSection & {
 			hasUpcomingSessions: boolean;
@@ -85,27 +86,36 @@
 		year: 'numeric'
 	});
 
-	const trustedBy: TrustedByOrg[] = [
-		{ name: 'Duke Energy', logoSrc: '/images/trusted-by/duke-energy.svg' },
-		{ name: 'Microsoft', logoSrc: '/images/trusted-by/microsoft.svg' },
-		{ name: 'NASA', logoSrc: '/images/trusted-by/nasa.svg' },
-		{ name: 'Moen', logoSrc: '/images/trusted-by/moen.svg' },
-		{ name: 'NYCHA', logoSrc: '/images/trusted-by/nycha.svg' },
-		{
-			name: 'AI Collective',
-			logoSrc: '/images/trusted-by/ai-collective.ico',
-			logoAlt: 'The AI Collective logo'
-		},
-		{ name: 'Kaggle', logoSrc: '/images/trusted-by/kaggle.svg' },
-		{ name: 'GoSkills', logoSrc: '/images/trusted-by/goskills.png' },
-		{ name: 'Help Scout', logoSrc: '/images/trusted-by/help-scout.svg' },
-		{ name: 'The Content Wrangler', logoSrc: '/images/trusted-by/the-content-wrangler.png' },
-		{ name: 'Red Hat', logoSrc: '/images/trusted-by/red-hat.svg' },
-		{ name: 'Digital.ai', logoSrc: '/images/trusted-by/digital-ai.png' },
-		{ name: 'DocuSign', logoSrc: '/images/trusted-by/docusign.svg' },
-		{ name: 'Acuity Inc.', logoSrc: '/images/trusted-by/acuityinc.png' },
-		{ name: 'SLB', logoSrc: '/images/trusted-by/slb.svg' }
-	];
+		const trustedBy: TrustedByOrg[] = [
+			{ name: 'Duke Energy', url: 'https://www.duke-energy.com/', logoSrc: '/images/trusted-by/duke-energy.svg' },
+			{ name: 'Microsoft', url: 'https://www.microsoft.com/', logoSrc: '/images/trusted-by/microsoft.svg' },
+			{ name: 'NASA', url: 'https://www.nasa.gov/', logoSrc: '/images/trusted-by/nasa.svg' },
+			{ name: 'Moen', url: 'https://www.moen.com/', logoSrc: '/images/trusted-by/moen.svg' },
+			{
+				name: 'NYCHA',
+				url: 'https://www.nyc.gov/site/nycha/index.page',
+				logoSrc: '/images/trusted-by/nycha.svg'
+			},
+			{
+				name: 'AI Collective',
+				url: 'https://theaicollective.ai/',
+				logoSrc: '/images/trusted-by/ai-collective.ico',
+				logoAlt: 'The AI Collective logo'
+			},
+			{ name: 'Kaggle', url: 'https://www.kaggle.com/', logoSrc: '/images/trusted-by/kaggle.svg' },
+			{ name: 'GoSkills', url: 'https://www.goskills.com/', logoSrc: '/images/trusted-by/goskills.png' },
+			{ name: 'Help Scout', url: 'https://www.helpscout.com/', logoSrc: '/images/trusted-by/help-scout.svg' },
+			{
+				name: 'The Content Wrangler',
+				url: 'https://thecontentwrangler.com/',
+				logoSrc: '/images/trusted-by/the-content-wrangler.png'
+			},
+			{ name: 'Red Hat', url: 'https://www.redhat.com/', logoSrc: '/images/trusted-by/red-hat.svg' },
+			{ name: 'Digital.ai', url: 'https://digital.ai/', logoSrc: '/images/trusted-by/digital-ai.png' },
+			{ name: 'DocuSign', url: 'https://www.docusign.com/', logoSrc: '/images/trusted-by/docusign.svg' },
+			{ name: 'Acuity Inc.', url: 'https://www.acuityinc.com/', logoSrc: '/images/trusted-by/acuityinc.png' },
+			{ name: 'SLB', url: 'https://www.slb.com/', logoSrc: '/images/trusted-by/slb.svg' }
+		];
 
 	const formatEndLabel = (value?: string): string => {
 		if (!value) return 'current cohort';
@@ -478,44 +488,54 @@
 		<div class="rounded-2xl border border-gray-200 bg-white px-4 py-4 shadow-sm">
 			<p class="text-xs font-semibold uppercase tracking-wide text-gray-500">Trusted by</p>
 			<div class="trusted-by-marquee mt-4" aria-label="Trusted by organizations" role="list">
-				<div class="trusted-by-track">
-					{#each trustedBy as org (org.name)}
-						<div class="trusted-by-item" role="listitem">
-							{#if org.logoSrc}
-								<img
-									src={org.logoSrc}
-									alt={org.logoAlt ?? `${org.name} logo`}
-									class="trusted-by-logo"
-									loading="lazy"
-									decoding="async"
-								/>
-							{:else}
-								<span class="rounded-full border border-gray-200 bg-gray-50 px-3 py-1 text-sm font-semibold text-gray-700">
-									{org.name}
-								</span>
-							{/if}
-						</div>
-					{/each}
+					<div class="trusted-by-track">
+						{#each trustedBy as org (org.name)}
+							<div class="trusted-by-item" role="listitem">
+								<a href={org.url} target="_blank" rel="noopener noreferrer" class="trusted-by-link">
+									{#if org.logoSrc}
+										<img
+											src={org.logoSrc}
+											alt={org.logoAlt ?? `${org.name} logo`}
+											class="trusted-by-logo"
+											loading="lazy"
+											decoding="async"
+										/>
+									{:else}
+										<span class="rounded-full border border-gray-200 bg-gray-50 px-3 py-1 text-sm font-semibold text-gray-700">
+											{org.name}
+										</span>
+									{/if}
+								</a>
+							</div>
+						{/each}
 
-					{#each trustedBy as org (org.name + '-duplicate')}
-						<div class="trusted-by-item" role="listitem" aria-hidden="true">
-							{#if org.logoSrc}
-								<img
-									src={org.logoSrc}
-									alt=""
-									class="trusted-by-logo"
-									loading="lazy"
-									decoding="async"
-								/>
-							{:else}
-								<span class="rounded-full border border-gray-200 bg-gray-50 px-3 py-1 text-sm font-semibold text-gray-700">
-									{org.name}
-								</span>
-							{/if}
-						</div>
-					{/each}
+						{#each trustedBy as org (org.name + '-duplicate')}
+							<div class="trusted-by-item" role="listitem" aria-hidden="true">
+								<a
+									href={org.url}
+									target="_blank"
+									rel="noopener noreferrer"
+									tabindex="-1"
+									class="trusted-by-link"
+								>
+									{#if org.logoSrc}
+										<img
+											src={org.logoSrc}
+											alt=""
+											class="trusted-by-logo"
+											loading="lazy"
+											decoding="async"
+										/>
+									{:else}
+										<span class="rounded-full border border-gray-200 bg-gray-50 px-3 py-1 text-sm font-semibold text-gray-700">
+											{org.name}
+										</span>
+									{/if}
+								</a>
+							</div>
+						{/each}
+					</div>
 				</div>
-			</div>
 		</div>
 	</div>
 </section>
@@ -732,21 +752,33 @@
 		animation: trusted-by-scroll 110s linear infinite;
 	}
 
-	.trusted-by-item {
-		display: flex;
-		align-items: center;
-		flex: 0 0 auto;
-	}
+		.trusted-by-item {
+			display: flex;
+			align-items: center;
+			flex: 0 0 auto;
+		}
 
-	.trusted-by-logo {
-		height: 2rem;
-		width: auto;
-		max-width: 180px;
-		object-fit: contain;
-		opacity: 0.8;
-		filter: grayscale(1);
-		transition: opacity 200ms ease, filter 200ms ease;
-	}
+		.trusted-by-link {
+			display: flex;
+			align-items: center;
+			text-decoration: none;
+		}
+
+		.trusted-by-link:focus-visible {
+			outline: 2px solid rgba(191, 219, 254, 0.9);
+			outline-offset: 6px;
+			border-radius: 9999px;
+		}
+
+		.trusted-by-logo {
+			height: 2rem;
+			width: auto;
+			max-width: 180px;
+			object-fit: contain;
+			opacity: 0.8;
+			filter: grayscale(1);
+			transition: opacity 200ms ease, filter 200ms ease;
+		}
 
 	.trusted-by-logo:hover {
 		opacity: 1;
