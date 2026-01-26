@@ -81,6 +81,25 @@
 			</div>
 
 			<div class="space-y-4">
+				<h3 class="text-sm font-semibold uppercase tracking-wide text-gray-600">Workshop surveys</h3>
+				<div class="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-gray-100 bg-gray-50/60 px-4 py-3">
+					<div>
+						<p class="text-sm font-semibold text-gray-900">
+							AI Workshop for Tech Writers and Content Creators
+						</p>
+						<p class="text-xs text-gray-500">Pre-training survey</p>
+					</div>
+					<a
+						class="inline-flex items-center gap-2 rounded-lg border border-blue-200 px-3 py-1.5 text-sm font-medium text-blue-700 transition hover:border-blue-300 hover:bg-blue-50"
+						href="/forms/ai-workshop-for-content-creators"
+					>
+						Open survey
+						<span aria-hidden="true">→</span>
+					</a>
+				</div>
+			</div>
+
+			<div class="space-y-4">
 				<h3 class="text-sm font-semibold uppercase tracking-wide text-gray-600">Testimonials</h3>
 				<p class="text-xs text-gray-500">
 					Links use the current host: <span class="font-medium text-gray-700"
