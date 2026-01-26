@@ -16,6 +16,7 @@
 		imageAlt?: string;
 		certificateText?: string;
 		videoUrl?: string;
+		isHappeningNow?: boolean;
 	};
 
 	export let slides: UpcomingSessionSlide[] = [];
@@ -154,33 +155,57 @@
 			>
 				{#each slides as slide (slide.id)}
 					<article
-						class="flex w-full shrink-0 basis-full flex-col gap-4 p-3 md:flex-row md:items-stretch md:gap-4 md:p-5"
+						class={`flex w-full shrink-0 basis-full flex-col gap-4 p-3 md:flex-row md:items-center md:gap-4 md:p-5 ${
+							slide.isHappeningNow ? 'bg-amber-50/70' : 'bg-white/0'
+						}`}
 					>
 						<div
-							class="flex w-full items-center justify-center rounded-2xl bg-white p-3 md:basis-[40%] md:max-w-[340px] md:flex-shrink-0 md:p-4"
+							class={`flex w-full items-center justify-center rounded-2xl p-3 md:basis-[40%] md:max-w-[340px] md:flex-shrink-0 md:self-center md:p-4 ${
+								slide.isHappeningNow ? 'bg-transparent' : 'bg-white'
+							}`}
 						>
 							{#if slide.image}
 								<img
 									src={slide.image}
 									alt={slide.imageAlt ?? slide.programTitle}
-									class="max-h-56 w-full max-w-full rounded-xl object-contain"
+									class="h-auto w-full max-w-full rounded-xl object-contain"
 									loading="lazy"
 								/>
 							{:else}
-								<span class="text-sm font-semibold text-blue-500">Upcoming session</span>
+								<span
+									class={`text-sm font-semibold ${
+										slide.isHappeningNow ? 'text-amber-700' : 'text-blue-500'
+									}`}
+								>
+									Upcoming session
+								</span>
 							{/if}
 						</div>
 						<div
-							class="flex w-full min-w-0 flex-1 flex-col justify-between gap-3 rounded-2xl bg-white/70 p-3 md:basis-[60%] md:p-4"
+							class={`flex w-full min-w-0 flex-1 flex-col justify-between gap-3 rounded-2xl p-3 md:basis-[60%] md:p-4 ${
+								slide.isHappeningNow ? 'bg-amber-50/80' : 'bg-white/70'
+							}`}
 						>
 							<div class="w-full">
-								<div class="rounded-lg border border-blue-100 bg-blue-50/70 p-3 text-left">
+								<div
+									class={`rounded-lg border p-3 text-left ${
+										slide.isHappeningNow
+											? 'border-amber-200 bg-amber-50/80'
+											: 'border-blue-100 bg-blue-50/70'
+									}`}
+								>
 									<div class="flex flex-wrap items-center gap-2">
-										<p class="text-[0.6rem] font-semibold uppercase tracking-wide text-blue-600">
-											Upcoming session
+										<p
+											class={`text-[0.6rem] font-semibold uppercase tracking-wide ${
+												slide.isHappeningNow ? 'text-amber-700' : 'text-blue-600'
+											}`}
+										>
+											{slide.isHappeningNow ? 'Happening now' : 'Upcoming session'}
 										</p>
 										<span
-											class="inline-flex items-center gap-1.5 rounded-lg bg-white px-2.5 py-1 text-[0.6rem] font-semibold text-blue-700"
+											class={`inline-flex items-center gap-1.5 rounded-lg bg-white px-2.5 py-1 text-[0.6rem] font-semibold ${
+												slide.isHappeningNow ? 'text-amber-700' : 'text-blue-700'
+											}`}
 										>
 											{slide.urgency ?? slide.spots ?? 'Open for registration'}
 										</span>
@@ -189,28 +214,48 @@
 										href={slide.registerUrl}
 										target="_blank"
 										rel="noopener"
-										class="mt-2 inline-flex text-sm font-semibold text-blue-950 transition hover:text-blue-500"
+										class={`mt-2 inline-flex text-sm font-semibold transition ${
+											slide.isHappeningNow
+												? 'text-amber-950 hover:text-amber-600'
+												: 'text-blue-950 hover:text-blue-500'
+										}`}
 									>
 										{slide.programTitle}
 									</a>
 									{#if slide.sessionLabel}
-										<p class="text-xs font-medium text-blue-800">{slide.sessionLabel}</p>
+										<p
+											class={`text-xs font-medium ${
+												slide.isHappeningNow ? 'text-amber-800' : 'text-blue-800'
+											}`}
+										>
+											{slide.sessionLabel}
+										</p>
 									{/if}
-									<p class="mt-2 text-sm text-blue-900">{slide.date}</p>
+									<p class={`mt-2 text-sm ${slide.isHappeningNow ? 'text-amber-900' : 'text-blue-900'}`}>
+										{slide.date}
+									</p>
 									{#each slide.timeLines.slice(0, 2) as timeLine}
-										<p class="text-xs text-blue-700">{timeLine}</p>
+										<p class={`text-xs ${slide.isHappeningNow ? 'text-amber-700' : 'text-blue-700'}`}>
+											{timeLine}
+										</p>
 									{/each}
 									{#if slide.location}
-										<p class="text-xs text-blue-700">{slide.location}</p>
+										<p class={`text-xs ${slide.isHappeningNow ? 'text-amber-700' : 'text-blue-700'}`}>
+											{slide.location}
+										</p>
 									{/if}
 									{#if slide.certificateText}
 										<span
-											class="mt-1 inline-flex items-center rounded-full border border-blue-100 bg-blue-50 px-2.5 py-0.5 text-[0.7rem] font-medium normal-case text-blue-700/80"
+											class={`mt-1 inline-flex items-center rounded-full border px-2.5 py-0.5 text-[0.7rem] font-medium normal-case ${
+												slide.isHappeningNow
+													? 'border-amber-100 bg-amber-100/70 text-amber-800'
+													: 'border-blue-100 bg-blue-50 text-blue-700/80'
+											}`}
 										>
 											{slide.certificateText}
 										</span>
 									{/if}
-									{#if slide.videoUrl}
+									{#if slide.videoUrl && !slide.isHappeningNow}
 										<a
 											href={slide.videoUrl}
 											target="_blank"
@@ -220,20 +265,28 @@
 											🎬 Watch the trailer
 										</a>
 									{/if}
-									{#if slide.partner}
+									{#if slide.partner && !slide.isHappeningNow}
 										<p class="mt-2 text-[0.6rem] uppercase tracking-wide text-blue-600">
 											In partnership with {slide.partner}
 										</p>
 									{/if}
 									<div class="mt-3 flex justify-end text-[0.65rem]">
-										<a
-											href={slide.registerUrl}
-											target="_blank"
-											rel="noopener"
-											class="inline-flex items-center justify-center rounded-lg bg-blue-600 px-3 py-2 text-[0.65rem] font-semibold text-white transition hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-blue-50"
-										>
-											Register now
-										</a>
+										{#if slide.isHappeningNow}
+											<span
+												class="inline-flex items-center justify-center rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-[0.65rem] font-semibold text-amber-800"
+											>
+												Enrollment closed
+											</span>
+										{:else}
+											<a
+												href={slide.registerUrl}
+												target="_blank"
+												rel="noopener"
+												class="inline-flex items-center justify-center rounded-lg bg-blue-600 px-3 py-2 text-[0.65rem] font-semibold text-white transition hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-blue-50"
+											>
+												Register now
+											</a>
+										{/if}
 									</div>
 								</div>
 							</div>

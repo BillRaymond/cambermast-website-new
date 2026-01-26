@@ -201,6 +201,24 @@ const formatTestimonialRole = (testimonial: Testimonial): string => {
 						loading="lazy"
 					/>
 				{/if}
+				{#if program.slug === 'ai-workshop-for-content-creators'}
+					<div class="mt-2 flex flex-col gap-1 text-sm font-semibold text-blue-700">
+						{#if program.videoUrl}
+							<a
+								href={program.videoUrl}
+								target="_blank"
+								rel="noopener noreferrer"
+								class="inline-flex items-center gap-2 text-blue-700 underline decoration-blue-200 underline-offset-4 transition hover:text-blue-800"
+							>
+								🎬 Watch the trailer
+								<span aria-hidden="true">↗</span>
+							</a>
+						{/if}
+						<p class="text-xs font-semibold uppercase tracking-wide text-amber-700">
+							In partnership with The Content Wrangler
+						</p>
+					</div>
+				{/if}
 				<h1 class="mt-1.5 text-4xl font-bold text-gray-900">{program.title}</h1>
 				{#if program.nickname}
 					<p class="mt-1 text-sm font-medium text-blue-600">{program.nickname}</p>

@@ -133,26 +133,22 @@
 		videoUrl?: string;
 	};
 
+	type HappeningTrainingEntry = {
+		type: 'happening';
+		program: TrainingProgram;
+		session: TrainingSession;
+		startTimestamp: number;
+		certificateText?: string;
+		videoUrl?: string;
+	};
+
 	type UpcomingExternalEntry = {
 		type: 'external';
 		event: ExternalEvent;
 		startTimestamp: number;
 	};
 
-	type UpcomingEntry = UpcomingTrainingEntry | UpcomingExternalEntry;
-
-	type HappeningNowCard = {
-		id: string;
-		programTitle: string;
-		sessionLabel: string;
-		date: string;
-		timeLines: string[];
-		location?: string;
-		endLabel: string;
-		programRoute?: string;
-		certificateText?: string;
-		videoUrl?: string;
-	};
+	type UpcomingEntry = UpcomingTrainingEntry | HappeningTrainingEntry | UpcomingExternalEntry;
 
 	const toTimeLines = (value?: string | string[]): string[] =>
 		Array.isArray(value) ? value : value ? [value] : [];
@@ -232,29 +228,22 @@
 			startTimestamp: getExternalEventStartTimestamp(event)
 		}));
 
+	const happeningItems: HappeningTrainingEntry[] = happeningTrainingEntries.map(
+		({ program, session }) => ({
+			type: 'happening' as const,
+			program,
+			session,
+			startTimestamp: getSessionStartTimestamp(session),
+			certificateText: getProgramCertificateText(program),
+			videoUrl: program.videoUrl
+		})
+	);
+
 	const upcomingItems: UpcomingEntry[] = [
+		...happeningItems,
 		...upcomingTrainingEntries,
 		...upcomingExternalEntries
 	].sort((a, b) => a.startTimestamp - b.startTimestamp);
-
-	const happeningNowCards: HappeningNowCard[] = happeningTrainingEntries.map(
-		({ program, session }, index) => {
-			const meta = getSessionMeta(program, session);
-			const sessionLabel = meta.sessionLabel ?? session.name ?? program.title;
-			return {
-				id: `happening-${program.slug}-${session.startDate ?? session.endDate ?? index}`,
-				programTitle: program.title,
-				sessionLabel,
-				date: session.date,
-				timeLines: toTimeLines(session.time),
-				location: session.location,
-				endLabel: formatEndLabel(session.endDate),
-				programRoute: program.route,
-				certificateText: getProgramCertificateText(program),
-				videoUrl: program.videoUrl
-			};
-		}
-	);
 
 	const programRoutesWithUpcoming = new Set(
 		upcomingTrainingEntries.map(({ program }) => program.route)
@@ -356,7 +345,32 @@
 				image: entry.program.ogImage ?? entry.program.heroImage,
 				imageAlt: entry.program.ogImageAlt ?? entry.program.heroImageAlt ?? entry.program.title,
 				certificateText: entry.certificateText,
-				videoUrl: entry.videoUrl
+				videoUrl: entry.videoUrl,
+				isHappeningNow: false
+			};
+		}
+
+		if (entry.type === 'happening') {
+			const meta = getSessionMeta(entry.program, entry.session);
+			return {
+				id:
+					entry.program.slug +
+					'-happening-' +
+					(entry.session.startDate ?? entry.session.date ?? index.toString(10)),
+				programTitle: entry.program.title,
+				sessionLabel: meta.sessionLabel,
+				date: entry.session.date,
+				timeLines: toTimeLines(entry.session.time),
+				location: entry.session.location,
+				partner: entry.session.partner,
+				spots: entry.session.spots,
+				urgency: 'Enrollment closed',
+				registerUrl: entry.session.registerUrl,
+				image: entry.program.ogImage ?? entry.program.heroImage,
+				imageAlt: entry.program.ogImageAlt ?? entry.program.heroImageAlt ?? entry.program.title,
+				certificateText: entry.certificateText,
+				videoUrl: entry.videoUrl,
+				isHappeningNow: true
 			};
 		}
 
@@ -372,7 +386,8 @@
 			urgency: getUrgencyLabel(entry.startTimestamp),
 			registerUrl: entry.event.registerUrl,
 			image: entry.event.image,
-			imageAlt: entry.event.imageAlt ?? entry.event.title
+			imageAlt: entry.event.imageAlt ?? entry.event.title,
+			isHappeningNow: false
 		};
 	});
 
@@ -568,65 +583,6 @@
 		</div>
 	</div>
 </section>
-
-{#if happeningNowCards.length}
-	<section class="mx-auto mt-6 w-full px-4">
-		<div class="happening-strip mx-auto max-w-5xl px-4 py-4">
-			<div class="flex flex-col gap-0.5 text-xs font-semibold uppercase tracking-wide text-amber-700">
-				<span>Happening now</span>
-				<span class="text-[0.7rem] font-normal normal-case text-amber-600">
-					These cohorts are currently running; enrollment will open again soon.
-				</span>
-			</div>
-			<div class="mt-4 grid gap-3 md:grid-cols-2">
-				{#each happeningNowCards as card (card.id)}
-					<article class="rounded-2xl border border-amber-200 bg-white/95 p-4 shadow-sm">
-						<p class="text-xs font-semibold uppercase tracking-wide text-blue-600">
-							{card.programTitle}
-						</p>
-						<p class="mt-0.5 text-sm font-semibold text-gray-900">{card.sessionLabel}</p>
-						<p class="text-xs text-gray-600">{card.date}</p>
-						{#if card.timeLines.length}
-							<p class="text-xs text-gray-500">{card.timeLines.join(' • ')}</p>
-						{/if}
-						{#if card.location}
-							<p class="text-xs text-gray-500">{card.location}</p>
-						{/if}
-						{#if card.certificateText || card.videoUrl}
-							<div class="mt-2 flex flex-col gap-1 text-[0.65rem] font-semibold text-blue-700">
-								{#if card.certificateText}
-									<p>{card.certificateText}</p>
-								{/if}
-								{#if card.videoUrl}
-									<a
-										href={card.videoUrl}
-										target="_blank"
-										rel="noopener noreferrer"
-										class="inline-flex items-center gap-1 underline decoration-blue-200 underline-offset-4 transition hover:text-blue-800"
-									>
-										Watch the trailer
-										<span aria-hidden="true">↗</span>
-									</a>
-								{/if}
-							</div>
-						{/if}
-						<div class="mt-3 rounded-lg border border-amber-100 bg-amber-50 px-3 py-2 text-xs font-semibold text-amber-700">
-							Enrollment closed — runs through {card.endLabel}
-						</div>
-						{#if card.programRoute}
-							<a
-								href={card.programRoute}
-								class="mt-3 inline-flex items-center justify-center rounded-lg border border-blue-200 px-4 py-1.5 text-xs font-semibold text-blue-700 transition hover:border-blue-400 hover:text-blue-900"
-							>
-								View program
-							</a>
-						{/if}
-					</article>
-				{/each}
-			</div>
-		</div>
-	</section>
-{/if}
 
 <!-- Cards rendered from JSON (label + headline only) -->
 <section class="mt-9 grid items-start gap-5 md:grid-cols-3">
