@@ -41,20 +41,6 @@ These two documents live in the repo root as the source of truth. The SvelteKit 
 
 - `/training-programs` redirects to `/training` to support legacy or marketing links to the catalog.
 
-## Campaign Registry
-
-- `/campaigns` is an internal-only registry that lists QR and other campaigns and provides dev/prod test URLs.
-- Campaign data lives in `web/src/lib/data/qr-campaigns.json`, validated by `web/src/lib/data/qr-campaigns.schema.json`, and publishes at `/api/qr-campaigns.json`.
-- QR images are generated client-side on the `/campaigns` page (PNG + SVG downloads).
-
-## QR Landing Pages (Offline Campaigns)
-
-For printed QR codes, prefer stable, human URLs on `cambermast.com` (e.g. `/techlab`, `/tcw`) so the link remains under our control even if the downstream destination changes later.
-
-- Use standard UTMs on the QR code (recommended): `/techlab?utm_source=qr&utm_medium=offline&utm_campaign=techlab&utm_content=<placement>`
-- Basic trigger support: `/techlab` treats `src=qr` (and `ad=<value>`) as optional parameters and emits a GA4 `qr_landing` event when present.
-- Campaign records live in `web/src/lib/data/qr-campaigns.json` and the site publishes them at `/api/qr-campaigns.json` (the endpoint derives `qrUrl` so you only maintain `landingPath` + `params` once).
-
 ## Privacy, GDPR & Cookies
 
 - `web/src/routes/gdpr/+page.svelte` is the canonical privacy notice for cambermast.com, covering lawful bases, vendor list, and contact options for data requests. Update it whenever we add a new form, vendor, or processing purpose.

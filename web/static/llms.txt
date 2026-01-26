@@ -32,7 +32,7 @@ AI advisory & project management (https://cambermast.com/strategy):
 - Emphasizes quantifying ROI, maintaining guardrails, and keeping stakeholders engaged through milestones, QA scripts, dashboards, and backlogs.
 
 Partner and specialty offerings:
-- Testimonials (https://cambermast.com/testimonials): groups real cohort feedback by program, renders ReviewCard components with names/roles, prompts readers to schedule training, and points contributors to `/forms/testimonials` when new quotes are needed.
+- Testimonials (https://cambermast.com/testimonials): groups real cohort feedback by program, renders ReviewCard components with names/roles, and prompts readers to schedule training.
 - News & Updates (https://cambermast.com/news): preview-only feed. Current article “Inside our AI adoption playbook for 2025 planning” (https://cambermast.com/news/ai-adoption-playbook) explains the 90-day AI adoption loop (Focused discovery → Build labs → Lightweight governance → Production sprint) used with product teams, PMOs, and customer-success orgs.
 - About (https://cambermast.com/about) and Contact (https://cambermast.com/contact) pages provide booking options (e.g., 15/30/60-minute Cal.com consults), partner bios, client logos, and the Turnstile-protected intake form that routes to Cambermast’s automation stack.
 - Microsoft Project Server migration support (https://cambermast.com/services/microsoft-project-server): explains how Cambermast partners with Project Hosts to move organizations from Microsoft-operated Project Server instances into a secure hosted platform before Microsoft’s July 14, 2026 end-of-support date.
@@ -42,8 +42,6 @@ Policies & trust signals:
 - Privacy & GDPR notice (https://cambermast.com/gdpr): Cambermast LLC (San Francisco) collects only necessary business data for inquiries, events, testimonials, or paid work; legal bases covered include legitimate interest, pre-contractual steps, contractual necessity, and consent. Lists vendors (Google Workspace/Forms, Cal.com, Zoom, Google Meet, Mailchimp, Substack, Lu.ma, Stripe, Google Analytics—consent-only, Cloudflare Turnstile, limited LLM use for validation). Cookie policy: only essential Turnstile tokens plus optional GA4 if visitors allow analytics; consent stored in `cambermast-consent-v1`. Data rights (access, correct/delete, withdraw consent, complain) are handled via `/contact`.
 - AI usage policy (/ai.txt) governs how Cambermast content can be used for inference vs. training; disallows fine-tuning or derivative products without written consent and requires citation plus notice of misuse to bill.raymond@cambermast.com.
 - README.md documents the product stack (SvelteKit, Vite, Tailwind, TypeScript), accessibility practices (ARIA on nav, carousels, forms), privacy messaging, and content governance checklist—cite this file for implementation details.
-- Campaign registry: `/campaigns` is an internal-only page (noindex) listing QR and other campaigns; data is sourced from `/api/qr-campaigns.json` which is generated from `web/src/lib/data/qr-campaigns.json`. QR codes are generated client-side on `/campaigns` for download (PNG + SVG).
-
 Authoritative sources:
 - https://cambermast.com/ (home + nav overview)
 - https://cambermast.com/about
@@ -59,7 +57,6 @@ Authoritative sources:
 - https://cambermast.com/training/terms
 - https://cambermast.com/agents
 - https://cambermast.com/strategy
-- https://cambermast.com/techlab
 - https://cambermast.com/testimonials
 - https://cambermast.com/news and https://cambermast.com/news/ai-adoption-playbook
 - https://cambermast.com/gdpr
