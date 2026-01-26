@@ -111,14 +111,19 @@
 		? {
 				email: 'bill.raymond@cambermast.com',
 				name: 'Bill Raymond (he him)',
-				skillLevel: 'power-user',
-				llmFamiliarity: ['chatgpt', 'gemini'],
+				skillLevel: 'other',
+				skillLevelOther: 'Other skill level and interactions',
+				llmFamiliarity: ['chatgpt', 'gemini', 'other'],
+				llmOther: 'more llms',
 				paidAccess: 'yes',
-				roles: ['technical-writer', 'educator'],
-				contentTypes: ['technical-docs', 'knowledge-base'],
+				roles: ['technical-writer', 'educator', 'other'],
+				roleOther: 'More roles',
+				contentTypes: ['technical-docs', 'knowledge-base', 'other'],
+				contentOther: 'More types of content',
 				aiToolsExperience:
 					'I use Copilot in Word for summaries and ChatGPT to draft release notes. I love the speed but need help keeping tone consistent.',
-				communityInterests: ['slack', 'discord'],
+				communityInterests: ['slack', 'discord', 'other'],
+				communityOther: 'Another shared space',
 				syllabusSuggestions: 'I would like more examples of governance guardrails and content QA workflows.',
 				workshopGoal:
 					'When this workshop is complete, I will have a prompt toolkit that matches our style guide.',
@@ -130,17 +135,17 @@
 	let email = devPrefill?.email ?? '';
 	let name = devPrefill?.name ?? '';
 	let skillLevel = devPrefill?.skillLevel ?? '';
-	let skillLevelOther = '';
+	let skillLevelOther = devPrefill?.skillLevelOther ?? '';
 	let llmFamiliarity: string[] = devPrefill?.llmFamiliarity ?? [];
-	let llmOther = '';
+	let llmOther = devPrefill?.llmOther ?? '';
 	let paidAccess = devPrefill?.paidAccess ?? '';
 	let roles: string[] = devPrefill?.roles ?? [];
-	let roleOther = '';
+	let roleOther = devPrefill?.roleOther ?? '';
 	let contentTypes: string[] = devPrefill?.contentTypes ?? [];
-	let contentOther = '';
+	let contentOther = devPrefill?.contentOther ?? '';
 	let aiToolsExperience = devPrefill?.aiToolsExperience ?? '';
 	let communityInterests: string[] = devPrefill?.communityInterests ?? [];
-	let communityOther = '';
+	let communityOther = devPrefill?.communityOther ?? '';
 	let syllabusSuggestions = devPrefill?.syllabusSuggestions ?? '';
 	let workshopGoal = devPrefill?.workshopGoal ?? '';
 	let additionalNotes = devPrefill?.additionalNotes ?? '';
@@ -310,9 +315,24 @@
 		document.head.appendChild(script);
 	};
 
-	const normalizeOptions = (selected: string[], options: { value: string; label: string }[]) => {
+	const formatOtherLabel = (label: string, otherValue: string | undefined) => {
+		const trimmed = otherValue?.trim();
+		return trimmed ? `${label} (${trimmed})` : label;
+	};
+
+	const normalizeOptions = (
+		selected: string[],
+		options: { value: string; label: string }[],
+		otherValue?: string
+	) => {
 		const labelMap = new Map(options.map((option) => [option.value, option.label]));
-		return selected.map((value) => ({ value, label: labelMap.get(value) ?? value }));
+		return selected.map((value) => {
+			const label = labelMap.get(value) ?? value;
+			return {
+				value,
+				label: value === 'other' ? formatOtherLabel(label, otherValue) : label
+			};
+		});
 	};
 
 	const getSkillLevelLabel = () =>
@@ -423,25 +443,26 @@
 					name: sanitizedName,
 					programSlug,
 					programTitle: program?.title,
-					skillLevel,
-					skillLevelLabel: getSkillLevelLabel(),
-					skillLevelOther: skillLevel === 'other' ? skillLevelOther.trim() : undefined,
-					llmFamiliarity,
-					llmFamiliarityLabels: normalizeOptions(llmFamiliarity, llmOptions),
-					llmOther: llmFamiliarity.includes('other') ? llmOther.trim() : undefined,
+					skillLevel:
+						skillLevel === 'other'
+							? formatOtherLabel(getSkillLevelLabel(), skillLevelOther)
+							: getSkillLevelLabel(),
+					llmFamiliarity: normalizeOptions(llmFamiliarity, llmOptions, llmOther).map(
+						(option) => option.label
+					),
 					paidAccess,
 					paidAccessLabel:
 						paidAccessOptions.find((option) => option.value === paidAccess)?.label ?? paidAccess,
-					roles,
-					roleLabels: normalizeOptions(roles, roleOptions),
-					roleOther: roles.includes('other') ? roleOther.trim() : undefined,
-					contentTypes,
-					contentTypeLabels: normalizeOptions(contentTypes, contentOptions),
-					contentOther: contentTypes.includes('other') ? contentOther.trim() : undefined,
+					roles: normalizeOptions(roles, roleOptions, roleOther).map((option) => option.label),
+					contentTypes: normalizeOptions(contentTypes, contentOptions, contentOther).map(
+						(option) => option.label
+					),
 					aiToolsExperience: aiToolsExperience.trim() || undefined,
-					communityInterests,
-					communityLabels: normalizeOptions(communityInterests, communityOptions),
-					communityOther: communityInterests.includes('other') ? communityOther.trim() : undefined,
+					communityInterests: normalizeOptions(
+						communityInterests,
+						communityOptions,
+						communityOther
+					).map((option) => option.label),
 					syllabusSuggestions: syllabusSuggestions.trim() || undefined,
 					workshopGoal: workshopGoal.trim() || undefined,
 					additionalNotes: additionalNotes.trim() || undefined,
