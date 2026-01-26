@@ -18,9 +18,11 @@
 	const defaultOrigin = dev ? 'http://localhost:5173' : 'https://cambermast.com';
 	let shareOrigin = defaultOrigin;
 	$: testimonialsBaseUrl = `${shareOrigin}/forms/testimonials`;
+	$: aiSurveyBaseUrl = `${shareOrigin}/forms/ai-workshop-for-content-creators`;
 	const getProgramShareUrl = (slug: string): string => `${testimonialsBaseUrl}?program=${slug}`;
 
 	let copiedSlug: string | null = null;
+	let copiedForm: string | null = null;
 	let copyError = '';
 
 	const copyShareUrl = async (slug: string) => {
@@ -38,6 +40,25 @@
 			}, 2500);
 		} catch (err: unknown) {
 			copiedSlug = null;
+			copyError = err instanceof Error ? err.message : 'Unable to copy link.';
+		}
+	};
+
+	const copyFormUrl = async (url: string) => {
+		copyError = '';
+		if (typeof navigator === 'undefined' || !navigator?.clipboard) {
+			copyError = 'Clipboard access is unavailable in this browser.';
+			return;
+		}
+
+		try {
+			await navigator.clipboard.writeText(url);
+			copiedForm = url;
+			setTimeout(() => {
+				if (copiedForm === url) copiedForm = null;
+			}, 2500);
+		} catch (err: unknown) {
+			copiedForm = null;
 			copyError = err instanceof Error ? err.message : 'Unable to copy link.';
 		}
 	};
@@ -70,6 +91,50 @@
 		</p>
 		<div class="mt-5 space-y-6">
 			<div class="flex flex-wrap items-center gap-3">
+				<button
+					class="inline-flex items-center gap-2 rounded-xl border border-blue-200 px-4 py-2 text-sm font-semibold text-blue-700 transition hover:border-blue-300 hover:bg-blue-50"
+					type="button"
+					on:click={() => copyFormUrl(aiSurveyBaseUrl)}
+				>
+					<svg
+						class="h-4 w-4 text-blue-600"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+					>
+						<rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+						<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+					</svg>
+					{copiedForm === aiSurveyBaseUrl ? 'Copied!' : 'Copy link'}
+				</button>
+				<a
+					class="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow transition hover:bg-blue-700"
+					href="/forms/ai-workshop-for-content-creators"
+				>
+					Visit the pre-training survey for AI for Content Creators
+					<span aria-hidden="true">→</span>
+				</a>
+			</div>
+
+			<div class="flex flex-wrap items-center gap-3">
+				<button
+					class="inline-flex items-center gap-2 rounded-xl border border-blue-200 px-4 py-2 text-sm font-semibold text-blue-700 transition hover:border-blue-300 hover:bg-blue-50"
+					type="button"
+					on:click={() => copyFormUrl(testimonialsBaseUrl)}
+				>
+					<svg
+						class="h-4 w-4 text-blue-600"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+					>
+						<rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+						<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+					</svg>
+					{copiedForm === testimonialsBaseUrl ? 'Copied!' : 'Copy link'}
+				</button>
 				<a
 					class="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow transition hover:bg-blue-700"
 					href="/forms/testimonials"
@@ -77,71 +142,56 @@
 					Visit the testimonials form
 					<span aria-hidden="true">→</span>
 				</a>
-				<span class="text-sm text-gray-600">Shareable links for each program are below.</span>
 			</div>
 
-			<div class="space-y-4">
-				<h3 class="text-sm font-semibold uppercase tracking-wide text-gray-600">Workshop surveys</h3>
-				<div class="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-gray-100 bg-gray-50/60 px-4 py-3">
-					<div>
-						<p class="text-sm font-semibold text-gray-900">
-							AI Workshop for Tech Writers and Content Creators
-						</p>
-						<p class="text-xs text-gray-500">Pre-training survey</p>
-					</div>
-					<a
-						class="inline-flex items-center gap-2 rounded-lg border border-blue-200 px-3 py-1.5 text-sm font-medium text-blue-700 transition hover:border-blue-300 hover:bg-blue-50"
-						href="/forms/ai-workshop-for-content-creators"
-					>
-						Open survey
-						<span aria-hidden="true">→</span>
-					</a>
-				</div>
-			</div>
-
-			<div class="space-y-4">
-				<h3 class="text-sm font-semibold uppercase tracking-wide text-gray-600">Testimonials</h3>
-				<p class="text-xs text-gray-500">
-					Links use the current host: <span class="font-medium text-gray-700"
-						>{testimonialsBaseUrl}</span
-					>
-				</p>
-				<ul class="space-y-3">
-					{#each testimonialPrograms as program}
-						<li
-							class="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-gray-100 bg-gray-50/60 px-4 py-3"
+			<details class="space-y-4 rounded-2xl border border-gray-100 bg-gray-50/60 p-4">
+				<summary class="cursor-pointer text-sm font-semibold text-gray-700">
+					Show testimonial share links
+				</summary>
+				<div class="space-y-4 pt-2">
+					<h3 class="text-sm font-semibold uppercase tracking-wide text-gray-600">Testimonials</h3>
+					<p class="text-xs text-gray-500">
+						Links use the current host: <span class="font-medium text-gray-700"
+							>{testimonialsBaseUrl}</span
 						>
-							<div class="space-y-1">
-								<p class="text-sm font-semibold text-gray-900">{program.title}</p>
-								<a
-									class="text-xs text-blue-600 underline"
-									href={getProgramShareUrl(program.slug)}
-									rel="noreferrer"
-								>
-									{getProgramShareUrl(program.slug)}
-								</a>
-							</div>
-							<button
-								class="inline-flex items-center gap-2 rounded-lg border border-blue-200 px-3 py-1.5 text-sm font-medium text-blue-700 transition hover:border-blue-300 hover:bg-blue-50"
-								type="button"
-								on:click={() => copyShareUrl(program.slug)}
+					</p>
+					<ul class="space-y-3">
+						{#each testimonialPrograms as program}
+							<li
+								class="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-gray-100 bg-white px-4 py-3"
 							>
-								<svg
-									class="h-4 w-4 text-blue-600"
-									viewBox="0 0 24 24"
-									fill="none"
-									stroke="currentColor"
-									stroke-width="2"
+								<div class="space-y-1">
+									<p class="text-sm font-semibold text-gray-900">{program.title}</p>
+									<a
+										class="text-xs text-blue-600 underline"
+										href={getProgramShareUrl(program.slug)}
+										rel="noreferrer"
+									>
+										{getProgramShareUrl(program.slug)}
+									</a>
+								</div>
+								<button
+									class="inline-flex items-center gap-2 rounded-lg border border-blue-200 px-3 py-1.5 text-sm font-medium text-blue-700 transition hover:border-blue-300 hover:bg-blue-50"
+									type="button"
+									on:click={() => copyShareUrl(program.slug)}
 								>
-									<rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-									<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-								</svg>
-								{copiedSlug === program.slug ? 'Copied!' : 'Copy URL'}
-							</button>
-						</li>
-					{/each}
-				</ul>
-			</div>
+									<svg
+										class="h-4 w-4 text-blue-600"
+										viewBox="0 0 24 24"
+										fill="none"
+										stroke="currentColor"
+										stroke-width="2"
+									>
+										<rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+										<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+									</svg>
+									{copiedSlug === program.slug ? 'Copied!' : 'Copy URL'}
+								</button>
+							</li>
+						{/each}
+					</ul>
+				</div>
+			</details>
 
 			{#if copyError}
 				<p class="text-sm text-red-600" role="alert">{copyError}</p>

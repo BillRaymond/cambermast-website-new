@@ -109,16 +109,16 @@
 
 	const devPrefill = dev
 		? {
-				email: 'alex.writer@example.com',
-				name: 'Alex Kim (she/her)',
-				skillLevel: 'intermediate',
-				llmFamiliarity: ['chatgpt', 'claude'],
+				email: 'bill.raymond@cambermast.com',
+				name: 'Bill Raymond (he him)',
+				skillLevel: 'power-user',
+				llmFamiliarity: ['chatgpt', 'gemini'],
 				paidAccess: 'yes',
-				roles: ['technical-writer'],
+				roles: ['technical-writer', 'educator'],
 				contentTypes: ['technical-docs', 'knowledge-base'],
 				aiToolsExperience:
 					'I use Copilot in Word for summaries and ChatGPT to draft release notes. I love the speed but need help keeping tone consistent.',
-				communityInterests: ['slack'],
+				communityInterests: ['slack', 'discord'],
 				syllabusSuggestions: 'I would like more examples of governance guardrails and content QA workflows.',
 				workshopGoal:
 					'When this workshop is complete, I will have a prompt toolkit that matches our style guide.',
@@ -532,8 +532,14 @@
 			confidential and inform Bill's preparation and refinement of this workshop.
 		</p>
 		<p class="text-sm text-gray-600">
-			Have questions or need to reach me? Email: Bill.Raymond@BillTalksAI.com Phone: +1 (415)
-			305-2595
+			Have questions or need to reach me?
+			<a
+				class="ml-2 inline-flex items-center rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700 transition hover:bg-blue-100"
+				href="/contact"
+			>
+				Contact Bill
+				<span class="ml-1" aria-hidden="true">→</span>
+			</a>
 		</p>
 	</div>
 
@@ -817,7 +823,7 @@
 				Workshop website and syllabus:
 				<a
 					class="font-semibold text-blue-600 underline"
-					href="https://sites.google.com/cambermast.com/ai-workshop-for-content-creato/home"
+					href="/training/ai-workshop-for-content-creators"
 					target="_blank"
 					rel="noreferrer"
 				>
