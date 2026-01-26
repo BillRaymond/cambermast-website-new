@@ -162,9 +162,12 @@
 		title: 'Pre-training Survey for the AI Workshop for Content Creators',
 		description:
 			'Help Bill fine-tune the AI Workshop for Tech Writers and Content Creators by sharing your goals, tools, and expectations.',
-		image: program?.heroImage ?? '/images/ai-workshop-for-content-creators.jpeg',
+		image:
+			program?.ogImage ??
+			'/images/cambermast-content-5-ai-workshop-for-content-creators-og.jpeg',
 		imageAlt:
-			program?.heroImageAlt ?? 'AI Workshop for Tech Writers and Content Creators illustration.'
+			program?.ogImageAlt ??
+			'Open graph image for the AI Workshop for Tech Writers and Content Creators training program'
 	};
 
 	const getTurnstileWindow = (): TurnstileWindow | undefined => {
