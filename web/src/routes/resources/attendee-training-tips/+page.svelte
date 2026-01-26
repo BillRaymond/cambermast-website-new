@@ -3,10 +3,14 @@
 	import TrainingTipsContent from '$lib/components/resources/TrainingTipsContent.svelte';
 	import { getSeo } from '$lib/seo';
 
-	const pageMeta = getSeo('/resources/tips');
+	const pageMeta = getSeo('/resources/attendee-training-tips');
 </script>
 
-<SeoHead title={pageMeta.title} description={pageMeta.description} path="/resources/tips" />
+<SeoHead
+	title={pageMeta.title}
+	description={pageMeta.description}
+	path="/resources/attendee-training-tips"
+/>
 
 <section class="mx-auto mb-8 max-w-3xl space-y-4">
 	<p class="text-sm font-semibold uppercase tracking-wide text-blue-600">Training success</p>

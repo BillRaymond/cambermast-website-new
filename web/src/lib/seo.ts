@@ -57,8 +57,8 @@ export const pageSeo: SeoOverrides = {
 		description:
 			'Review refund policies, credits, transfers, and conduct requirements for all Cambermast instructor-led trainings.'
 	},
-	'/resources/tips': {
-		title: 'Training Tips | Get the Most from Live Sessions | Cambermast',
+	'/resources/attendee-training-tips': {
+		title: 'Attendee Training Tips | Get the Most from Live Sessions | Cambermast',
 		description:
 			'Prepare for live Cambermast training with practical tips on setup, tools, and participation.'
 	},

@@ -15,11 +15,11 @@
 	</p>
 </section>
 
-<section id="training-tips" class="mx-auto mb-16 max-w-4xl space-y-6">
+<section id="attendee-training-tips" class="mx-auto mb-16 max-w-4xl space-y-6">
 	<div class="flex flex-col gap-4 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm sm:flex-row sm:items-start sm:justify-between">
 		<div class="space-y-2">
 			<p class="text-xs font-semibold uppercase tracking-wide text-blue-600">Resource</p>
-			<h2 class="text-2xl font-semibold text-gray-900">Training tips for live sessions</h2>
+			<h2 class="text-2xl font-semibold text-gray-900">Attendee training tips for live sessions</h2>
 			<p class="text-sm text-gray-700">
 				Quick preparation steps that help everyone stay focused and get more from our live
 				workshops.
@@ -27,7 +27,7 @@
 		</div>
 		<a
 			class="inline-flex items-center justify-center rounded-full bg-blue-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-800"
-			href="/resources/tips"
+			href="/resources/attendee-training-tips"
 		>
 			Read more →
 		</a>
