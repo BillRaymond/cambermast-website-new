@@ -1,9 +1,6 @@
 <script lang="ts">
-	import SeoHead from '$lib/components/SeoHead.svelte';
-	import { getSeo } from '$lib/seo';
 	import { listTrainingPrograms } from '$lib/data/training';
 
-	const pageMeta = getSeo('/training/tips');
 	const trainingPrograms = listTrainingPrograms().sort((a, b) => a.title.localeCompare(b.title));
 
 	const coreTips = [
@@ -37,19 +34,8 @@
 	];
 </script>
 
-<SeoHead title={pageMeta.title} description={pageMeta.description} path="/training/tips" />
-
-<section class="mx-auto mb-8 max-w-3xl space-y-4">
-	<p class="text-sm font-semibold uppercase tracking-wide text-blue-600">Training success</p>
-	<h1 class="text-3xl font-bold text-gray-900">Get the most out of your live training</h1>
-	<p class="text-lg text-gray-700">
-		These quick prep steps help you get the most value from Cambermast live training sessions and keep
-		the group moving together.
-	</p>
-</section>
-
-<section class="mx-auto mb-8 max-w-3xl space-y-6 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
-	<h2 class="text-2xl font-semibold text-gray-900">Before we start</h2>
+<section class="space-y-6 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+	<h3 class="text-2xl font-semibold text-gray-900">Before we start</h3>
 	<ul class="list-disc space-y-2 pl-6 text-sm text-gray-700">
 		{#each coreTips as tip}
 			<li>
@@ -81,8 +67,8 @@
 	</ul>
 </section>
 
-<section class="mx-auto mb-16 max-w-3xl space-y-6 rounded-2xl border border-blue-100 bg-blue-50 p-6 text-sm text-blue-950 shadow">
-	<h2 class="text-2xl font-semibold text-blue-950">Bonus tips for smooth sessions</h2>
+<section class="space-y-6 rounded-2xl border border-blue-100 bg-blue-50 p-6 text-sm text-blue-950 shadow">
+	<h3 class="text-2xl font-semibold text-blue-950">Bonus tips for smooth sessions</h3>
 	<ul class="list-disc space-y-2 pl-6">
 		{#each bonusTips as tip}
 			<li>{tip}</li>

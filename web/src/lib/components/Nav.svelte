@@ -31,6 +31,7 @@
 
 	const navLinks = [
 		...catalogLinks,
+		{ href: '/resources', label: 'Resources' },
 		{ href: '/training/calendar', label: 'Calendar' },
 		{ href: '/connect', label: 'Connect' },
 		{ href: '/about', label: 'About' }
