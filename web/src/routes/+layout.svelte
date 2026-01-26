@@ -180,6 +180,7 @@
 			<a class="underline" href="/contact">Contact</a> ·
 			<a class="underline" href="/gdpr">Privacy & GDPR notice</a> ·
 			<a class="underline" href="/training/terms">Training T&amp;Cs</a> ·
+			<a class="underline" href="/training/tips">Training tips</a> ·
 			<button
 				class="underline transition hover:text-gray-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
 				type="button"
