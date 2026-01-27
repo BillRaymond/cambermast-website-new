@@ -57,12 +57,12 @@
 				selectedProgram: trainingPrograms[0]?.slug ?? '',
 				customProgramTitle: '',
 				relevance: '4',
-				confidence: '3',
+				confidence: '4',
 				likelihood: '4',
-				mostHelpful: 'The walkthrough on translating ideas into usable prompts was the highlight.',
-				needsClarification: 'I would like a slower walkthrough of the evaluation checklist.',
-				nextWeekValue: 'More examples and time to practice with feedback.',
-				additionalFeedback: 'Really appreciated the supportive pace and the recap notes.'
+				mostHelpful: 'The prompt examples that showed before/after improvements were most helpful.',
+				needsClarification: 'It would help to have a clearer checklist for when to use each tool.',
+				email: 'bill.raymond@cambermast.com',
+				allowEmailFollowUp: true
 			}
 		: undefined;
 
@@ -74,8 +74,8 @@
 	let likelihood = devPrefill?.likelihood ?? '';
 	let mostHelpful = devPrefill?.mostHelpful ?? '';
 	let needsClarification = devPrefill?.needsClarification ?? '';
-	let nextWeekValue = devPrefill?.nextWeekValue ?? '';
-	let additionalFeedback = devPrefill?.additionalFeedback ?? '';
+	let email = devPrefill?.email ?? '';
+	let allowEmailFollowUp = devPrefill?.allowEmailFollowUp ?? false;
 	let status: FormStatus = 'idle';
 	let errorMsg = '';
 	let turnstileToken = '';
@@ -88,8 +88,8 @@
 		title: 'Post-training Survey',
 		description:
 			'A quick post-training survey to help us improve future sessions and tailor upcoming workshops.',
-		image: '/images/training-recognition.jpg',
-		imageAlt: 'Cambermast training graduates smiling and holding red hearts.'
+		image: '/images/post-training-survey-og.png',
+		imageAlt: 'Post-training survey checklist with title text.'
 	};
 
 	const getTurnstileWindow = (): TurnstileWindow | undefined => {
@@ -212,6 +212,7 @@
 
 		turnstileWidgetId = turnstile.render(turnstileContainer, {
 			sitekey: siteKey,
+			theme: 'light',
 			callback: (token) => {
 				turnstileToken = token;
 			},
@@ -299,23 +300,6 @@
 			return;
 		}
 
-		if (!mostHelpful.trim()) {
-			status = 'error';
-			errorMsg = 'Please share what was most helpful.';
-			return;
-		}
-
-		if (!needsClarification.trim()) {
-			status = 'error';
-			errorMsg = 'Let us know what could use more explanation.';
-			return;
-		}
-
-		if (!nextWeekValue.trim()) {
-			status = 'error';
-			errorMsg = 'Share what would make next week more valuable.';
-			return;
-		}
 
 		try {
 			const res = await fetch(getWebhookUrl(), {
@@ -332,10 +316,10 @@
 					relevance: Number(relevance),
 					confidence: Number(confidence),
 					likelihood: Number(likelihood),
-					mostHelpful: mostHelpful.trim(),
-					needsClarification: needsClarification.trim(),
-					nextWeekValue: nextWeekValue.trim(),
-					additionalFeedback: additionalFeedback.trim() || undefined,
+					mostHelpful: mostHelpful.trim() || undefined,
+					needsClarification: needsClarification.trim() || undefined,
+					email: email.trim() || undefined,
+					allowEmailFollowUp,
 					source: 'post-training-survey',
 					createdAt: new Date().toISOString(),
 					turnstileToken,
@@ -363,8 +347,8 @@
 			likelihood = '';
 			mostHelpful = '';
 			needsClarification = '';
-			nextWeekValue = '';
-			additionalFeedback = '';
+			email = '';
+			allowEmailFollowUp = false;
 			turnstileToken = '';
 			resetTurnstile();
 		} catch (err: any) {
@@ -385,27 +369,41 @@
 />
 
 <section class="mx-auto max-w-3xl space-y-6 py-10">
-	<div class="rounded-3xl border border-slate-200 bg-white p-6 shadow">
-		<p class="text-xs font-semibold uppercase tracking-wide text-amber-600">Cambermast training</p>
-		<h1 class="mt-2 text-4xl font-bold tracking-tight text-gray-900">Post-training Survey</h1>
-		<p class="mt-3 text-gray-700">
-			Help us make each session more valuable by sharing quick feedback. Your responses stay
-			private unless you say otherwise.
-		</p>
-		<p class="mt-4 text-sm text-gray-600">
-			Need to reach us?
-			<a
-				class="ml-2 inline-flex items-center rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700 transition hover:bg-blue-100"
-				href="/contact"
-			>
-				Contact Bill
-				<span class="ml-1" aria-hidden="true">-&gt;</span>
-			</a>
-		</p>
+	<figure
+		class="mx-auto max-w-3xl overflow-hidden rounded-3xl border border-amber-100 bg-white/80 p-2 shadow-lg shadow-amber-100/50"
+	>
+		<img
+			class="h-auto w-full rounded-2xl object-cover"
+			src="/images/post-training-survey.png"
+			alt="Person thinking with checklist icons for the post-training survey."
+			loading="lazy"
+		/>
+	</figure>
+
+	<p class="text-center text-sm font-semibold uppercase tracking-wide text-amber-700">
+		Thank you for sharing your post-training feedback.
+	</p>
+
+	<div class="space-y-6 text-center">
+		<h1 class="text-4xl font-bold tracking-tight text-gray-900">Post-training Survey</h1>
+		<div
+			class="mx-auto flex max-w-2xl items-center gap-4 rounded-2xl border border-amber-100 bg-white/90 p-4 text-left shadow"
+		>
+			<img
+				class="h-16 w-16 rounded-full object-cover"
+				src="/images/bill.jpg"
+				alt="Bill Raymond"
+				loading="lazy"
+			/>
+			<p class="text-base text-gray-700">
+				Help us make each session more valuable by sharing quick feedback. Your responses stay
+				private unless you say otherwise.
+			</p>
+		</div>
 	</div>
 
 	<form
-		class="space-y-5"
+		class="space-y-6 rounded-3xl border border-blue-100 bg-white px-4 py-6 shadow-lg shadow-blue-100/80 sm:p-8"
 		on:submit|preventDefault={submitForm}
 		aria-busy={status === 'sending'}
 	>
@@ -441,14 +439,13 @@
 
 		<fieldset class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
 			<legend class="text-base font-semibold text-gray-900">
-				<span class="required-label">
-					Were this week's materials relevant to your work or current projects?
-				</span>
+				<span class="required-label">How relevant was today’s session to your work?</span>
 				<span class="sr-only"> required</span>
 			</legend>
+			<p class="mt-2 text-sm text-gray-600">Scale: 1 to 5 (1 = Not relevant, 5 = Highly relevant).</p>
 			<div class="mt-4 grid gap-3 sm:grid-cols-[auto_1fr_auto] sm:items-center">
-				<span class="text-sm text-gray-500">Not at all</span>
-				<div class="flex items-center justify-between gap-3">
+				<span class="text-sm text-gray-500">Not relevant</span>
+				<div class="flex flex-col items-center gap-3 sm:flex-row sm:justify-between">
 					{#each scaleOptions as option}
 						<label class="flex flex-col items-center gap-2 text-sm font-semibold text-gray-600">
 							<span>{option}</span>
@@ -463,20 +460,19 @@
 						</label>
 					{/each}
 				</div>
-				<span class="text-sm text-gray-500">Very relevant</span>
+				<span class="text-sm text-gray-500">Highly relevant</span>
 			</div>
 		</fieldset>
 
 		<fieldset class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
 			<legend class="text-base font-semibold text-gray-900">
-				<span class="required-label">
-					How confident do you feel about applying what you learned this week?
-				</span>
+				<span class="required-label">How confident do you feel applying what you learned?</span>
 				<span class="sr-only"> required</span>
 			</legend>
+			<p class="mt-2 text-sm text-gray-600">Scale: 1 to 5 (1 = Not confident, 5 = Very confident).</p>
 			<div class="mt-4 grid gap-3 sm:grid-cols-[auto_1fr_auto] sm:items-center">
-				<span class="text-sm text-gray-500">Not at all confident</span>
-				<div class="flex items-center justify-between gap-3">
+				<span class="text-sm text-gray-500">Not confident</span>
+				<div class="flex flex-col items-center gap-3 sm:flex-row sm:justify-between">
 					{#each scaleOptions as option}
 						<label class="flex flex-col items-center gap-2 text-sm font-semibold text-gray-600">
 							<span>{option}</span>
@@ -497,14 +493,13 @@
 
 		<fieldset class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
 			<legend class="text-base font-semibold text-gray-900">
-				<span class="required-label">
-					How often would you put what you learned this week into your day-to-day work?
-				</span>
+				<span class="required-label">How likely are you to use this in your day-to-day work?</span>
 				<span class="sr-only"> required</span>
 			</legend>
+			<p class="mt-2 text-sm text-gray-600">Scale: 1 to 5 (1 = Not likely, 5 = Very likely).</p>
 			<div class="mt-4 grid gap-3 sm:grid-cols-[auto_1fr_auto] sm:items-center">
 				<span class="text-sm text-gray-500">Not likely</span>
-				<div class="flex items-center justify-between gap-3">
+				<div class="flex flex-col items-center gap-3 sm:flex-row sm:justify-between">
 					{#each scaleOptions as option}
 						<label class="flex flex-col items-center gap-2 text-sm font-semibold text-gray-600">
 							<span>{option}</span>
@@ -525,64 +520,57 @@
 
 		<div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
 			<label class="block text-base font-semibold text-gray-900" for="most-helpful">
-				<span class="required-label">
-					What was the most helpful concept, tool, or technique you learned this week?
-				</span>
-				<span class="sr-only"> required</span>
+				What was your top takeaway from today’s session?
 			</label>
 			<textarea
 				class="mt-3 w-full rounded-lg border px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500"
 				bind:value={mostHelpful}
 				id="most-helpful"
 				name="mostHelpful"
+				placeholder="What helped you most or stood out?"
 				rows="4"
-				required
 			></textarea>
 		</div>
 
 		<div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
 			<label class="block text-base font-semibold text-gray-900" for="needs-clarification">
-				<span class="required-label">
-					Is there anything that confused you, or could you use more explanation?
-				</span>
-				<span class="sr-only"> required</span>
+				How could future events be even more valuable?
 			</label>
 			<textarea
 				class="mt-3 w-full rounded-lg border px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500"
 				bind:value={needsClarification}
 				id="needs-clarification"
 				name="needsClarification"
+				placeholder="Share briefly if anything could be better"
 				rows="4"
-				required
 			></textarea>
 		</div>
 
 		<div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-			<label class="block text-base font-semibold text-gray-900" for="next-week">
-				<span class="required-label">What would make next week more valuable for you?</span>
-				<span class="sr-only"> required</span>
+			<label class="block text-base font-semibold text-gray-900" for="email">
+				Optional: Your email address
 			</label>
-			<textarea
+			<p class="mt-2 text-sm text-gray-600">
+				If you share an email, we’ll send a follow-up response there.
+			</p>
+			<input
 				class="mt-3 w-full rounded-lg border px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500"
-				bind:value={nextWeekValue}
-				id="next-week"
-				name="nextWeekValue"
-				rows="4"
-				required
-			></textarea>
-		</div>
-
-		<div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-			<label class="block text-base font-semibold text-gray-900" for="additional-feedback">
-				Optional: Any feedback or comments you'd like to share?
+				bind:value={email}
+				id="email"
+				name="email"
+				type="email"
+				placeholder="you@company.com"
+				autocomplete="email"
+			/>
+			<label class="mt-3 flex items-center gap-2 text-sm text-gray-700">
+				<input
+					class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+					bind:checked={allowEmailFollowUp}
+					type="checkbox"
+					name="allowEmailFollowUp"
+				/>
+				Share this email address with the Cambermast team for follow-up.
 			</label>
-			<textarea
-				class="mt-3 w-full rounded-lg border px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500"
-				bind:value={additionalFeedback}
-				id="additional-feedback"
-				name="additionalFeedback"
-				rows="4"
-			></textarea>
 		</div>
 
 		<div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
