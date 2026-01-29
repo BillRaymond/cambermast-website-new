@@ -2,20 +2,33 @@ import type { TrainingSession } from './types';
 
 export const isSessionDraft = (session: TrainingSession): boolean => Boolean(session.draft);
 
-const toNormalizedTimestamp = (value?: string): number | undefined => {
+const parseDateValue = (value?: string): Date | undefined => {
 	if (!value) return undefined;
+	const isoDateMatch = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
+	if (isoDateMatch) {
+		const [, year, month, day] = isoDateMatch;
+		const localDate = new Date(
+			Number.parseInt(year, 10),
+			Number.parseInt(month, 10) - 1,
+			Number.parseInt(day, 10)
+		);
+		return Number.isNaN(localDate.valueOf()) ? undefined : localDate;
+	}
 	const parsed = new Date(value);
-	if (Number.isNaN(parsed.valueOf())) return undefined;
+	return Number.isNaN(parsed.valueOf()) ? undefined : parsed;
+};
+
+const toNormalizedTimestamp = (value?: string): number | undefined => {
+	const parsed = parseDateValue(value);
+	if (!parsed) return undefined;
 	const normalized = new Date(parsed);
 	normalized.setHours(0, 0, 0, 0);
 	return normalized.getTime();
 };
 
 const toTimestamp = (value?: string): number | undefined => {
-	if (!value) return undefined;
-	const parsed = new Date(value);
-	if (Number.isNaN(parsed.valueOf())) return undefined;
-	return parsed.getTime();
+	const parsed = parseDateValue(value);
+	return parsed?.getTime();
 };
 
 export const normalizeToday = (reference: Date = new Date()): Date => {
