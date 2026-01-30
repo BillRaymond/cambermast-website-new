@@ -87,34 +87,34 @@
 	});
 
 		const trustedBy: TrustedByOrg[] = [
-			{ name: 'Duke Energy', url: 'https://www.duke-energy.com/', logoSrc: '/images/trusted-by/duke-energy.svg' },
-			{ name: 'Microsoft', url: 'https://www.microsoft.com/', logoSrc: '/images/trusted-by/microsoft.svg' },
-			{ name: 'NASA', url: 'https://www.nasa.gov/', logoSrc: '/images/trusted-by/nasa.svg' },
-			{ name: 'Moen', url: 'https://www.moen.com/', logoSrc: '/images/trusted-by/moen.svg' },
+			{ name: 'Microsoft', url: 'https://www.microsoft.com/', logoSrc: '/images/trusted-by/microsoft.png' },
+			{ name: 'Digital.ai', url: 'https://digital.ai/', logoSrc: '/images/trusted-by/digital-ai.png' },
+			{ name: 'DocuSign', url: 'https://www.docusign.com/', logoSrc: '/images/trusted-by/docusign.png' },
+			{ name: 'Acuity Inc.', url: 'https://www.acuityinc.com/', logoSrc: '/images/trusted-by/acuityinc.png' },
+			{ name: 'SLB', url: 'https://www.slb.com/', logoSrc: '/images/trusted-by/slb.png' },
+			{ name: 'NASA', url: 'https://www.nasa.gov/', logoSrc: '/images/trusted-by/nasa.png' },
+			{ name: 'Duke Energy', url: 'https://www.duke-energy.com/', logoSrc: '/images/trusted-by/duke-energy.png' },
+			{ name: 'Moen', url: 'https://www.moen.com/', logoSrc: '/images/trusted-by/moen.png' },
 			{
 				name: 'NYCHA',
 				url: 'https://www.nyc.gov/site/nycha/index.page',
-				logoSrc: '/images/trusted-by/nycha.svg'
+				logoSrc: '/images/trusted-by/nycha.png'
 			},
 			{
 				name: 'AI Collective',
 				url: 'https://theaicollective.ai/',
-				logoSrc: '/images/trusted-by/ai-collective.ico',
+				logoSrc: '/images/trusted-by/ai-collective.png',
 				logoAlt: 'The AI Collective logo'
 			},
-			{ name: 'Kaggle', url: 'https://www.kaggle.com/', logoSrc: '/images/trusted-by/kaggle.svg' },
+			{ name: 'Kaggle', url: 'https://www.kaggle.com/', logoSrc: '/images/trusted-by/kaggle.png' },
 			{ name: 'GoSkills', url: 'https://www.goskills.com/', logoSrc: '/images/trusted-by/goskills.png' },
-			{ name: 'Help Scout', url: 'https://www.helpscout.com/', logoSrc: '/images/trusted-by/help-scout.svg' },
+			{ name: 'Help Scout', url: 'https://www.helpscout.com/', logoSrc: '/images/trusted-by/help-scout.png' },
 			{
 				name: 'The Content Wrangler',
 				url: 'https://thecontentwrangler.com/',
 				logoSrc: '/images/trusted-by/the-content-wrangler.png'
 			},
-			{ name: 'Red Hat', url: 'https://www.redhat.com/', logoSrc: '/images/trusted-by/red-hat.svg' },
-			{ name: 'Digital.ai', url: 'https://digital.ai/', logoSrc: '/images/trusted-by/digital-ai.png' },
-			{ name: 'DocuSign', url: 'https://www.docusign.com/', logoSrc: '/images/trusted-by/docusign.svg' },
-			{ name: 'Acuity Inc.', url: 'https://www.acuityinc.com/', logoSrc: '/images/trusted-by/acuityinc.png' },
-			{ name: 'SLB', url: 'https://www.slb.com/', logoSrc: '/images/trusted-by/slb.svg' }
+			{ name: 'Red Hat', url: 'https://www.redhat.com/', logoSrc: '/images/trusted-by/red-hat.png' }
 		];
 
 	const formatEndLabel = (value?: string): string => {
@@ -526,6 +526,8 @@
 						{/each}
 					</div>
 
+					<div class="trusted-by-spacer" aria-hidden="true" />
+
 					<div class="trusted-by-group" aria-hidden="true">
 						{#each trustedBy as org (org.name + '-duplicate')}
 							<div class="trusted-by-item" role="listitem">
@@ -720,6 +722,10 @@
 		gap: 2.5rem;
 	}
 
+	.trusted-by-spacer {
+		flex: 0 0 2.5rem;
+	}
+
 		.trusted-by-item {
 			display: flex;
 			align-items: center;
@@ -738,10 +744,10 @@
 			border-radius: 9999px;
 		}
 
-		.trusted-by-logo {
-			height: 2rem;
-			width: auto;
-			max-width: 180px;
+	.trusted-by-logo {
+		height: 2rem;
+		width: auto;
+		max-width: 180px;
 			object-fit: contain;
 			opacity: 0.8;
 			filter: grayscale(1);
@@ -752,6 +758,7 @@
 		opacity: 1;
 		filter: grayscale(0);
 	}
+
 
 	@keyframes trusted-by-scroll {
 		from {
