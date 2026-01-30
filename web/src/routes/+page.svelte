@@ -500,10 +500,11 @@
 
 <section class="mx-auto mt-6 w-full px-4">
 	<div class="mx-auto max-w-5xl px-4">
-		<div class="rounded-2xl border border-gray-200 bg-white px-4 py-4 shadow-sm">
+			<div class="rounded-2xl border border-gray-200 bg-white px-4 py-4 shadow-sm">
 			<p class="text-xs font-semibold uppercase tracking-wide text-gray-500">Trusted by</p>
 			<div class="trusted-by-marquee mt-4" aria-label="Trusted by organizations" role="list">
-					<div class="trusted-by-track">
+				<div class="trusted-by-track">
+					<div class="trusted-by-group">
 						{#each trustedBy as org (org.name)}
 							<div class="trusted-by-item" role="listitem">
 								<a href={org.url} target="_blank" rel="noopener noreferrer" class="trusted-by-link">
@@ -523,9 +524,11 @@
 								</a>
 							</div>
 						{/each}
+					</div>
 
+					<div class="trusted-by-group" aria-hidden="true">
 						{#each trustedBy as org (org.name + '-duplicate')}
-							<div class="trusted-by-item" role="listitem" aria-hidden="true">
+							<div class="trusted-by-item" role="listitem">
 								<a
 									href={org.url}
 									target="_blank"
@@ -550,6 +553,7 @@
 							</div>
 						{/each}
 					</div>
+				</div>
 				</div>
 		</div>
 	</div>
@@ -698,14 +702,22 @@
 
 	.trusted-by-marquee {
 		overflow: hidden;
+		padding: 0.35rem 0;
 	}
 
 	.trusted-by-track {
 		display: flex;
 		align-items: center;
-		gap: 2.5rem;
 		width: max-content;
 		animation: trusted-by-scroll 110s linear infinite;
+		will-change: transform;
+		transform: translate3d(0, 0, 0);
+	}
+
+	.trusted-by-group {
+		display: flex;
+		align-items: center;
+		gap: 2.5rem;
 	}
 
 		.trusted-by-item {
