@@ -526,7 +526,7 @@
 						{/each}
 					</div>
 
-					<div class="trusted-by-spacer" aria-hidden="true" />
+					<div class="trusted-by-spacer" aria-hidden="true"></div>
 
 					<div class="trusted-by-group" aria-hidden="true">
 						{#each trustedBy as org (org.name + '-duplicate')}

@@ -47,14 +47,19 @@ const gatherHappeningSessions = (program?: TrainingProgram): TrainingSession[] =
 		session.startDate ? isSessionHappeningNow(session, today) : false
 	);
 
-const getNextSessionTimestamp = (item: CatalogCardData): number | undefined => {
+const getSessionSortKey = (
+	item: CatalogCardData
+): { priority: number; timestamp?: number } => {
 	if (item.upcomingSessions?.length) {
-		return Math.min(...item.upcomingSessions.map(getSessionStartTimestamp));
+		return {
+			priority: 0,
+			timestamp: Math.min(...item.upcomingSessions.map(getSessionStartTimestamp))
+		};
 	}
 	if (item.happeningSessions?.length) {
-		return today.getTime();
+		return { priority: 1, timestamp: today.getTime() };
 	}
-	return undefined;
+	return { priority: 2 };
 };
 
 	// Title for the page and services we offer from JSON
@@ -79,13 +84,14 @@ const getNextSessionTimestamp = (item: CatalogCardData): number | undefined => {
 				};
 		})
 		.sort((a, b) => {
-			const aTimestamp = getNextSessionTimestamp(a);
-			const bTimestamp = getNextSessionTimestamp(b);
-			if (aTimestamp !== undefined && bTimestamp !== undefined) {
-				if (aTimestamp !== bTimestamp) return aTimestamp - bTimestamp;
-			} else if (aTimestamp !== undefined) {
+			const aKey = getSessionSortKey(a);
+			const bKey = getSessionSortKey(b);
+			if (aKey.priority !== bKey.priority) return aKey.priority - bKey.priority;
+			if (aKey.timestamp !== undefined && bKey.timestamp !== undefined) {
+				if (aKey.timestamp !== bKey.timestamp) return aKey.timestamp - bKey.timestamp;
+			} else if (aKey.timestamp !== undefined) {
 				return -1;
-			} else if (bTimestamp !== undefined) {
+			} else if (bKey.timestamp !== undefined) {
 				return 1;
 			}
 			return (a.title ?? '').localeCompare(b.title ?? '', 'en', { sensitivity: 'base' });

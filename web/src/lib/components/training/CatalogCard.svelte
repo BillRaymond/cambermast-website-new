@@ -15,8 +15,12 @@ let rawTitle: string;
 let titleSlug: string;
 let sessionsSectionId: string;
 let isRowLayout: boolean;
+let hasHappeningSessions: boolean;
+let hasUpcomingOrHappening: boolean;
 
 $: hasUpcomingSessions = Boolean(item.upcomingSessions?.length);
+$: hasHappeningSessions = Boolean(item.happeningSessions?.length);
+$: hasUpcomingOrHappening = hasUpcomingSessions || hasHappeningSessions;
 $: rawTitle = item.title ?? '';
 $: titleSlug = rawTitle
 	.toLowerCase()
@@ -64,7 +68,7 @@ $: isRowLayout = layout === 'row';
 					loading="lazy"
 				/>
 			{/if}
-			{#if showBullets && item.bullets?.length && hasUpcomingSessions}
+			{#if showBullets && item.bullets?.length && hasUpcomingOrHappening}
 				<ul class="bullet-list hidden space-y-1.5 text-left text-gray-700 md:block">
 					{#each item.bullets as bullet}
 						<li>{bullet}</li>
@@ -115,7 +119,7 @@ $: isRowLayout = layout === 'row';
 				{/if}
 			</div>
 		{/if}
-		{#if showBullets && item.bullets?.length && !hasUpcomingSessions}
+		{#if showBullets && item.bullets?.length && !hasUpcomingOrHappening}
 			<ul class="bullet-list mt-2 hidden flex-wrap gap-x-4 gap-y-2 text-left text-gray-700 md:flex">
 				{#each item.bullets as bullet}
 					<li>{bullet}</li>
