@@ -1,5 +1,5 @@
 <script lang="ts">
-	import SeoHead from '$lib/components/SeoHead.svelte';
+	import ResourceHeader from '$lib/components/resources/ResourceHeader.svelte';
 	import { getSeo } from '$lib/seo';
 
 	const pageMeta = getSeo('/resources/ai-personalization');
@@ -37,31 +37,13 @@
 	};
 </script>
 
-<SeoHead
-	title={pageMeta.title}
-	description={pageMeta.description}
+<ResourceHeader
+	title="AI Personalization"
+	description="Personalization helps AI deliver faster, clearer outcomes. It also reduces the risk of vague or overly long responses."
 	path="/resources/ai-personalization"
-	image={heroImage}
+	imageSrc={heroImage}
 	imageAlt={heroImageAlt}
 />
-
-<section class="mx-auto mb-8 max-w-3xl space-y-4">
-	<p class="text-sm font-semibold uppercase tracking-wide text-blue-600">Resource</p>
-	<figure class="mx-auto w-full overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-sm sm:w-1/2">
-		<img
-			class="h-auto w-full object-contain"
-			src={heroImage}
-			alt={heroImageAlt}
-			loading="eager"
-			decoding="async"
-		/>
-	</figure>
-	<h1 class="text-3xl font-bold text-gray-900">AI Personalization</h1>
-	<p class="text-lg text-gray-700">
-		Personalization helps AI deliver faster, clearer outcomes. It also reduces the risk of vague
-		or overly long responses.
-	</p>
-</section>
 
 <section class="mx-auto mb-12 max-w-3xl space-y-4">
 	<h2 class="text-lg font-semibold text-gray-900">Jump points</h2>
@@ -100,7 +82,7 @@
 			class="rounded-full border border-gray-200 bg-white px-3 py-1 text-sm font-semibold text-gray-700 transition hover:border-blue-200 hover:text-blue-700"
 			href="#purpose-summary"
 		>
-			Purpose summary
+			Summary
 		</a>
 	</div>
 </section>
@@ -255,30 +237,6 @@
 		be simple, goal-driven, and grounded in best practices. Complex work should move one step at
 		a time. Opinions should be challenged when it matters.
 	</p>
-	<div class="flex flex-col gap-3 rounded-2xl border border-gray-200 bg-white px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
-		<div class="flex items-center gap-3">
-			<img
-				src="/images/bill.jpg"
-				alt="Bill Raymond"
-				class="h-11 w-11 flex-none rounded-2xl border border-gray-200 object-cover"
-			/>
-			<div class="min-w-0">
-				<p class="text-xs font-semibold uppercase tracking-wide text-blue-600">
-					AI leadership in action
-				</p>
-				<p class="text-sm font-semibold text-gray-900">Bill Raymond</p>
-			</div>
-		</div>
-
-		<div class="flex flex-col gap-1 sm:items-end">
-			<a
-				href="/connect"
-				class="inline-flex items-center justify-center rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-200"
-			>
-				Book a consultation
-			</a>
-		</div>
-	</div>
 </section>
 
 <section id="personalization-settings" class="mx-auto mb-12 max-w-3xl space-y-6">
@@ -317,7 +275,31 @@
 	</div>
 
 	<div id="purpose-summary" class="space-y-3">
-		<h2 class="text-2xl font-semibold text-gray-900">Purpose summary</h2>
+		<div class="flex flex-col gap-3 rounded-2xl border border-gray-200 bg-white px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
+			<div class="flex items-center gap-3">
+				<img
+					src="/images/bill.jpg"
+					alt="Bill Raymond"
+					class="h-11 w-11 flex-none rounded-2xl border border-gray-200 object-cover"
+				/>
+				<div class="min-w-0">
+					<p class="text-xs font-semibold uppercase tracking-wide text-blue-600">
+						AI leadership in action
+					</p>
+					<p class="text-sm font-semibold text-gray-900">Bill Raymond</p>
+				</div>
+			</div>
+
+			<div class="flex flex-col gap-1 sm:items-end">
+				<a
+					href="/connect"
+					class="inline-flex items-center justify-center rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-200"
+				>
+					Book a consultation
+				</a>
+			</div>
+		</div>
+		<h2 class="text-2xl font-semibold text-gray-900">Summary</h2>
 		<p class="text-gray-700">
 			These settings keep responses short, clear, and grounded in evidence. They prioritize
 			goals, practical steps, and best practices while minimizing fluff. They also add lightweight
