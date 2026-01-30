@@ -62,6 +62,11 @@ export const pageSeo: SeoOverrides = {
 		description:
 			'Prepare for live Cambermast training with practical tips on setup, tools, and participation.'
 	},
+	'/resources/ai-personalization': {
+		title: 'AI Personalization | Clearer, Faster AI Responses | Cambermast',
+		description:
+			'Learn when to personalize AI, how to do it well, and the settings I use to keep responses clear and actionable.'
+	},
 	'/testimonials': {
 		title: 'AI Training Testimonials | Cambermast',
 		description:
