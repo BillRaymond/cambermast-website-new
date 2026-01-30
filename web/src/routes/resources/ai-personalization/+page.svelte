@@ -3,6 +3,8 @@
 	import { getSeo } from '$lib/seo';
 
 	const pageMeta = getSeo('/resources/ai-personalization');
+	const heroImage = '/images/cambermast-content-6-ai-personalization-og.jpeg';
+	const heroImageAlt = 'Smiling person holding a tablet with AI Personalization title text.';
 	let copied = false;
 	let copyTimer: ReturnType<typeof setTimeout> | undefined;
 
@@ -39,10 +41,21 @@
 	title={pageMeta.title}
 	description={pageMeta.description}
 	path="/resources/ai-personalization"
+	image={heroImage}
+	imageAlt={heroImageAlt}
 />
 
 <section class="mx-auto mb-8 max-w-3xl space-y-4">
 	<p class="text-sm font-semibold uppercase tracking-wide text-blue-600">Resource</p>
+	<figure class="mx-auto w-full overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-sm sm:w-1/2">
+		<img
+			class="h-auto w-full object-contain"
+			src={heroImage}
+			alt={heroImageAlt}
+			loading="eager"
+			decoding="async"
+		/>
+	</figure>
 	<h1 class="text-3xl font-bold text-gray-900">AI Personalization</h1>
 	<p class="text-lg text-gray-700">
 		Personalization helps AI deliver faster, clearer outcomes. It also reduces the risk of vague
