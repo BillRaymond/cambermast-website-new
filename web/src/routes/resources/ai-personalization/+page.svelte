@@ -79,12 +79,6 @@
 		</a>
 		<a
 			class="rounded-full border border-gray-200 bg-white px-3 py-1 text-sm font-semibold text-gray-700 transition hover:border-blue-200 hover:text-blue-700"
-			href="#principles"
-		>
-			Principles
-		</a>
-		<a
-			class="rounded-full border border-gray-200 bg-white px-3 py-1 text-sm font-semibold text-gray-700 transition hover:border-blue-200 hover:text-blue-700"
 			href="#personalization-settings"
 		>
 			My personalization settings
