@@ -19,6 +19,9 @@ const staticRoutes = [
 	'/news',
 	'/faq',
 	'/testimonials',
+	'/resources',
+	'/resources/ai-personalization',
+	'/resources/attendee-training-tips',
 	'/gdpr',
 	'/services/microsoft-project-server'
 ];

@@ -55,6 +55,9 @@ Authoritative sources:
 - https://cambermast.com/training/ai-automation-with-agents
 - https://cambermast.com/training/ai-workshop-for-content-creators
 - https://cambermast.com/training/terms
+- https://cambermast.com/resources
+- https://cambermast.com/resources/ai-personalization
+- https://cambermast.com/resources/attendee-training-tips
 - https://cambermast.com/agents
 - https://cambermast.com/strategy
 - https://cambermast.com/testimonials
