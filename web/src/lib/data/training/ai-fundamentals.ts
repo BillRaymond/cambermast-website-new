@@ -68,7 +68,7 @@ export const aiFundamentals = {
 		{
 			name: '🌐 February 3, 2026 Public Cohort',
 			date: 'Tuesday, Feb 3, 2026',
-			time: ['9:00 am-1:00 pm PT', '12:00-4:00 pm ET'],
+			time: ['1:00 pm-5:00 pm PT', '4:00-8:00 pm ET'],
 			startDate: '2026-02-03',
 			endDate: '2026-02-03',
 			location: 'Live on Zoom',
