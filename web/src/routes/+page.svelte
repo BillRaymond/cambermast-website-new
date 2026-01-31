@@ -239,11 +239,21 @@
 		})
 	);
 
+	const getUpcomingSortKey = (item: UpcomingEntry): { priority: number; timestamp: number } => {
+		const priority = item.type === 'happening' ? 1 : 0;
+		return { priority, timestamp: item.startTimestamp };
+	};
+
 	const upcomingItems: UpcomingEntry[] = [
-		...happeningItems,
 		...upcomingTrainingEntries,
-		...upcomingExternalEntries
-	].sort((a, b) => a.startTimestamp - b.startTimestamp);
+		...upcomingExternalEntries,
+		...happeningItems
+	].sort((a, b) => {
+		const aKey = getUpcomingSortKey(a);
+		const bKey = getUpcomingSortKey(b);
+		if (aKey.priority !== bKey.priority) return aKey.priority - bKey.priority;
+		return aKey.timestamp - bKey.timestamp;
+	});
 
 	const programRoutesWithUpcoming = new Set(
 		upcomingTrainingEntries.map(({ program }) => program.route)
