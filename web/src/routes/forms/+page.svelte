@@ -18,13 +18,13 @@
 		.sort((a, b) => a.title.localeCompare(b.title))
 		.map((program) => ({ title: program.title, slug: program.slug }));
 
-	const defaultOrigin = dev ? 'http://laptop.tail8a5127.ts.net:5173' : 'https://cambermast.com';
+	const defaultOrigin = dev ? 'http://localhost:5173' : 'https://cambermast.com';
 	let shareOrigin = defaultOrigin;
 	$: testimonialsBaseUrl = `${shareOrigin}/forms/testimonials`;
 	$: aiSurveyBaseUrl = `${shareOrigin}/forms/ai-workshop-for-content-creators`;
 	$: postTrainingSurveyBaseUrl = `${shareOrigin}/forms/post-training-survey`;
 	const prodOrigin = SITE_ORIGIN.replace(/\/$/, '');
-	const devOrigin = defaultOrigin;
+	const devOrigin = browser ? window.location.origin : defaultOrigin;
 	const postTrainingProgramUrls = trainingProgramData
 		.slice()
 		.sort((a, b) => a.title.localeCompare(b.title))

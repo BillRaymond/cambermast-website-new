@@ -19,7 +19,7 @@
 	const pageTitle = 'Campaigns | Cambermast';
 	const pageDescription = 'Internal campaign registry for Cambermast marketing initiatives.';
 	const prodOrigin = SITE_ORIGIN.replace(/\/$/, '');
-	const devOrigin = 'http://laptop.tail8a5127.ts.net:5173';
+	const devOrigin = browser ? window.location.origin : 'http://localhost:5173';
 
 	const keyOrder = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'src', 'ad'];
 
