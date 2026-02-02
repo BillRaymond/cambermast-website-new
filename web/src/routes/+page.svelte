@@ -24,6 +24,7 @@
 	import { getProgramCertificateText } from '$lib/data/training/program-meta';
 
 	const year = new Date().getFullYear();
+	let showLumaEmbed = false;
 
 	type CatalogItem = {
 		id?: string;
@@ -477,20 +478,20 @@
 	<link rel="manifest" href="/site.webmanifest" />
 </svelte:head>
 
-<section class="mx-auto mt-6 w-full px-4">
+<section class="mx-auto mt-4 w-full px-4">
 	<div class="sessions-strip mx-auto max-w-5xl px-4 py-4">
 		<div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
 			<div class="flex flex-col gap-1">
-				<h1 class="text-lg font-extrabold tracking-tight text-gray-900 sm:text-xl">
+				<h1 class="sessions-strip-title text-lg font-extrabold tracking-tight text-gray-900 sm:text-xl">
 					Upcoming sessions & events
 				</h1>
-				<p class="text-sm text-gray-700">
+				<p class="sessions-strip-subtitle text-sm text-gray-700">
 					Register for public cohorts, workshops, and upcoming partner events.
 				</p>
 			</div>
 			<a
 				href="/training/calendar"
-				class="inline-flex items-center justify-center rounded-full border border-blue-200 bg-white px-3 py-2 text-xs font-semibold text-blue-700 transition hover:border-blue-300 hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-200"
+				class="sessions-strip-link inline-flex items-center justify-center rounded-full border border-blue-200 bg-white px-3 py-2 text-xs font-semibold text-blue-700 transition hover:border-blue-300 hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-200"
 			>
 				View calendar →
 			</a>
@@ -510,98 +511,96 @@
 
 <section class="mx-auto mt-6 w-full px-4">
 	<div class="mx-auto max-w-5xl px-4">
-			<div class="rounded-2xl border border-gray-200 bg-white px-4 py-4 shadow-sm">
-			<p class="text-xs font-semibold uppercase tracking-wide text-gray-500">Trusted by</p>
-			<div class="trusted-by-marquee mt-4" aria-label="Trusted by organizations" role="list">
-				<div class="trusted-by-track">
-					<div class="trusted-by-group">
-						{#each trustedBy as org (org.name)}
-							<div class="trusted-by-item" role="listitem">
-								<a href={org.url} target="_blank" rel="noopener noreferrer" class="trusted-by-link">
-									{#if org.logoSrc}
-										<img
-											src={org.logoSrc}
-											alt={org.logoAlt ?? `${org.name} logo`}
-											class="trusted-by-logo"
-											loading="lazy"
-											decoding="async"
-										/>
-									{:else}
-										<span class="rounded-full border border-gray-200 bg-gray-50 px-3 py-1 text-sm font-semibold text-gray-700">
-											{org.name}
-										</span>
-									{/if}
-								</a>
-							</div>
-						{/each}
+		<div class="home-trust-band rounded-2xl border border-gray-200 bg-white px-4 py-4 shadow-sm">
+			<div>
+				<p class="text-xs font-semibold uppercase tracking-wide text-gray-500">Trusted by</p>
+				<div class="trusted-by-marquee mt-4" aria-label="Trusted by organizations" role="list">
+					<div class="trusted-by-track">
+						<div class="trusted-by-group">
+							{#each trustedBy as org (org.name)}
+								<div class="trusted-by-item" role="listitem">
+									<a href={org.url} target="_blank" rel="noopener noreferrer" class="trusted-by-link">
+										{#if org.logoSrc}
+											<img
+												src={org.logoSrc}
+												alt={org.logoAlt ?? `${org.name} logo`}
+												class="trusted-by-logo"
+												loading="lazy"
+												decoding="async"
+											/>
+										{:else}
+											<span class="rounded-full border border-gray-200 bg-gray-50 px-3 py-1 text-sm font-semibold text-gray-700">
+												{org.name}
+											</span>
+										{/if}
+									</a>
+								</div>
+							{/each}
+						</div>
+
+						<div class="trusted-by-spacer" aria-hidden="true"></div>
+
+						<div class="trusted-by-group" aria-hidden="true">
+							{#each trustedBy as org (org.name + '-duplicate')}
+								<div class="trusted-by-item" role="listitem">
+									<a
+										href={org.url}
+										target="_blank"
+										rel="noopener noreferrer"
+										tabindex="-1"
+										class="trusted-by-link"
+									>
+										{#if org.logoSrc}
+											<img
+												src={org.logoSrc}
+												alt=""
+												class="trusted-by-logo"
+												loading="lazy"
+												decoding="async"
+											/>
+										{:else}
+											<span class="rounded-full border border-gray-200 bg-gray-50 px-3 py-1 text-sm font-semibold text-gray-700">
+												{org.name}
+											</span>
+										{/if}
+									</a>
+								</div>
+							{/each}
+						</div>
 					</div>
-
-					<div class="trusted-by-spacer" aria-hidden="true"></div>
-
-					<div class="trusted-by-group" aria-hidden="true">
-						{#each trustedBy as org (org.name + '-duplicate')}
-							<div class="trusted-by-item" role="listitem">
-								<a
-									href={org.url}
-									target="_blank"
-									rel="noopener noreferrer"
-									tabindex="-1"
-									class="trusted-by-link"
-								>
-									{#if org.logoSrc}
-										<img
-											src={org.logoSrc}
-											alt=""
-											class="trusted-by-logo"
-											loading="lazy"
-											decoding="async"
-										/>
-									{:else}
-										<span class="rounded-full border border-gray-200 bg-gray-50 px-3 py-1 text-sm font-semibold text-gray-700">
-											{org.name}
-										</span>
-									{/if}
-								</a>
-							</div>
-						{/each}
-					</div>
-				</div>
-				</div>
-		</div>
-	</div>
-</section>
-
-<section class="mx-auto mt-4 w-full px-4">
-	<div class="mx-auto max-w-5xl px-4">
-		<div class="flex flex-col gap-3 rounded-2xl border border-gray-200 bg-white px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
-			<div class="flex items-center gap-3">
-				<img
-					src="/images/bill.jpg"
-					alt="Bill Raymond"
-					class="h-11 w-11 flex-none rounded-2xl border border-gray-200 object-cover"
-				/>
-				<div class="min-w-0">
-					<p class="text-xs font-semibold uppercase tracking-wide text-blue-600">
-						AI leadership in action
-					</p>
-					<p class="text-sm font-semibold text-gray-900">Bill Raymond</p>
 				</div>
 			</div>
 
-			<div class="flex flex-col gap-1 sm:items-end">
-				<a
-					href="/connect"
-					class="inline-flex items-center justify-center rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-200"
-				>
-					Book a consultation
-				</a>
+			<div class="home-trust-cta flex flex-col gap-3 pt-4 sm:flex-row sm:items-center sm:justify-between">
+				<div class="flex items-center gap-3">
+					<img
+						src="/images/bill.jpg"
+						alt="Bill Raymond"
+						class="home-trust-avatar h-10 w-10 flex-none rounded-2xl border border-gray-200 object-cover"
+					/>
+					<div class="min-w-0">
+						<p class="text-xs font-semibold uppercase tracking-wide text-blue-600">
+							AI leadership in action
+						</p>
+						<p class="text-sm font-semibold text-gray-900">Bill Raymond</p>
+					</div>
+				</div>
+
+				<div class="flex flex-col gap-1 sm:items-end">
+					<a
+						href="/connect"
+						class="inline-flex items-center justify-center rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-200"
+					>
+						Book a consultation
+					</a>
+				</div>
 			</div>
 		</div>
 	</div>
 </section>
 
 <!-- Cards rendered from JSON (label + headline only) -->
-<section class="mt-9 grid items-start gap-5 md:grid-cols-3">
+<section class="mt-7 grid items-start gap-4 md:grid-cols-3">
 	{#each sectionsWithUpcoming as s}
 		<Card
 			icon={s.icon}
@@ -625,7 +624,7 @@
 	<h2 class="mb-3 text-center text-2xl font-bold text-gray-900">
 		Bill's Upcoming Training and Speaking Events
 	</h2>
-	<div class="mb-5 flex justify-center">
+	<div class="mb-4 flex justify-center">
 		<a
 			href="https://luma.com/BillTalksAI?k=c"
 			target="_blank"
@@ -635,16 +634,56 @@
 			View Events on Lu.ma
 		</a>
 	</div>
-	<div class="w-full max-w-5xl overflow-hidden rounded-lg shadow-sm">
-		<iframe
-			title="Bill Talks AI upcoming events calendar"
-			src="https://luma.com/embed/calendar/cal-WiCb89B8ouz3ZFH/events"
-			class="h-[560px] w-full"
-			loading="lazy"
-			frameborder="0"
-			style="border: 1px solid #bfcbda88; border-radius: 4px;"
-			allowfullscreen
-		></iframe>
+	<div class="w-full max-w-5xl">
+		<div class="luma-teaser rounded-2xl border border-gray-200 bg-white px-4 py-4 text-sm text-gray-700 sm:hidden">
+			<p class="font-semibold text-gray-900">Upcoming calendar preview</p>
+			<p class="mt-1">
+				See Bill's upcoming training and speaking schedule. Tap below to load the full calendar.
+			</p>
+			<button
+				type="button"
+				class="mt-3 inline-flex items-center justify-center rounded-full border border-blue-200 bg-white px-3 py-2 text-xs font-semibold text-blue-700 transition hover:border-blue-300 hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-200"
+				aria-expanded={showLumaEmbed}
+				aria-controls="luma-calendar-embed"
+				on:click={() => {
+					showLumaEmbed = !showLumaEmbed;
+				}}
+			>
+				{showLumaEmbed ? 'Hide calendar' : 'Show calendar'}
+			</button>
+		</div>
+
+		{#if showLumaEmbed}
+			<div
+				id="luma-calendar-embed"
+				class="luma-embed mt-3 w-full overflow-hidden rounded-lg shadow-sm sm:hidden"
+			>
+				<iframe
+					title="Bill Talks AI upcoming events calendar"
+					src="https://luma.com/embed/calendar/cal-WiCb89B8ouz3ZFH/events"
+					class="h-[420px] w-full"
+					loading="lazy"
+					frameborder="0"
+					style="border: 1px solid #bfcbda88; border-radius: 4px;"
+					allowfullscreen
+				></iframe>
+			</div>
+		{/if}
+
+		<div
+			id="luma-calendar-embed-desktop"
+			class="luma-embed mt-3 hidden w-full overflow-hidden rounded-lg shadow-sm sm:mt-0 sm:block"
+		>
+			<iframe
+				title="Bill Talks AI upcoming events calendar"
+				src="https://luma.com/embed/calendar/cal-WiCb89B8ouz3ZFH/events"
+				class="h-[560px] w-full"
+				loading="lazy"
+				frameborder="0"
+				style="border: 1px solid #bfcbda88; border-radius: 4px;"
+				allowfullscreen
+			></iframe>
+		</div>
 	</div>
 </section>
 <!-- Add a section break line -->
@@ -702,14 +741,14 @@
 		box-shadow: 0 22px 44px -40px rgba(30, 64, 175, 0.45);
 	}
 
-	.happening-strip {
-		position: relative;
-		overflow: visible;
-		border-radius: 30px;
-		padding: 1.5rem 1.25rem;
-		border: 1px solid rgba(251, 191, 36, 0.45);
-		background: rgba(255, 251, 235, 0.7);
-		box-shadow: 0 18px 40px -32px rgba(180, 83, 9, 0.35);
+	.home-trust-band {
+		display: flex;
+		flex-direction: column;
+		gap: 0.75rem;
+	}
+
+	.home-trust-cta {
+		border-top: 1px solid rgba(226, 232, 240, 0.9);
 	}
 
 	.trusted-by-marquee {
@@ -783,6 +822,39 @@
 		.trusted-by-track {
 			animation: none;
 			transform: none;
+		}
+	}
+
+	@media (max-width: 640px) {
+		.sessions-strip {
+			padding: 1rem;
+			border-radius: 22px;
+		}
+
+		.sessions-strip-title {
+			font-size: 1.05rem;
+		}
+
+		.sessions-strip-subtitle {
+			font-size: 0.85rem;
+		}
+
+		.sessions-strip-link {
+			align-self: flex-start;
+		}
+
+		.home-trust-band {
+			padding: 1rem;
+		}
+
+		.home-trust-avatar {
+			height: 2.25rem;
+			width: 2.25rem;
+			border-radius: 0.75rem;
+		}
+
+		.luma-teaser button[aria-expanded='true'] {
+			background: rgba(219, 234, 254, 0.6);
 		}
 	}
 </style>
