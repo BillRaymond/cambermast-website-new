@@ -3,6 +3,9 @@ FROM node:20
 # Work at /app for copy steps
 WORKDIR /app
 
+# Install Codex CLI globally for the devcontainer
+RUN npm i -g @openai/codex@latest
+
 # Install deps using the web/ package files
 COPY web/package*.json ./web/
 RUN cd web && npm install

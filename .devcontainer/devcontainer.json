@@ -5,11 +5,17 @@
 		"context": ".."
 	},
 	"workspaceFolder": "/workspaces/cambermast-website-new",
+	"runArgs": ["-p", "5173:5173"],
 	"forwardPorts": [5173],
 	"portsAttributes": {
 		"5173": {
 			"label": "Vite dev server",
 			"onAutoForward": "notify"
+		}
+	},
+	"customizations": {
+		"vscode": {
+			"extensions": ["openai.chatgpt"]
 		}
 	}
 }
