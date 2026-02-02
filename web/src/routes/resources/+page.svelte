@@ -9,20 +9,20 @@
 
 	const resources = [
 		{
-			title: 'AI personalization',
-			description:
-				'Practical guidance on when to personalize, how to do it, and the exact preferences I use.',
-			href: '/resources/ai-personalization',
-			imageSrc: '/images/cambermast-content-6-ai-personalization-og.jpeg',
-			imageAlt: 'AI Personalization featured image.'
-		},
-		{
 			title: 'Attendee training tips for live sessions',
 			description:
 				'Quick preparation steps that help everyone stay focused and get more from our live workshops.',
 			href: '/resources/attendee-training-tips',
 			imageSrc: '/images/cambermast-content-7-attendee-training-tips-og.jpeg',
 			imageAlt: 'Attendee training tips featured image.'
+		},
+		{
+			title: 'AI personalization',
+			description:
+				'Practical guidance on when to personalize, how to do it, and the exact preferences I use.',
+			href: '/resources/ai-personalization',
+			imageSrc: '/images/cambermast-content-6-ai-personalization-og.jpeg',
+			imageAlt: 'AI Personalization featured image.'
 		}
 	];
 </script>
