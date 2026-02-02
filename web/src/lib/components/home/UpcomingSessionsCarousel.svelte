@@ -194,99 +194,103 @@
 											: 'border-blue-100 bg-blue-50/70'
 									}`}
 								>
-									<div class="flex flex-wrap items-center gap-2">
-										<p
-											class={`text-[0.6rem] font-semibold uppercase tracking-wide ${
-												slide.isHappeningNow ? 'text-amber-700' : 'text-blue-600'
-											}`}
-										>
-											{slide.isHappeningNow ? 'Happening now' : 'Upcoming session'}
-										</p>
-										<span
-											class={`inline-flex items-center gap-1.5 rounded-lg bg-white px-2.5 py-1 text-[0.6rem] font-semibold ${
-												slide.isHappeningNow ? 'text-amber-700' : 'text-blue-700'
-											}`}
-										>
-											{slide.urgency ?? slide.spots ?? 'Open for registration'}
-										</span>
-									</div>
-									<a
-										href={slide.registerUrl}
-										target="_blank"
-										rel="noopener"
-										class={`mt-2 inline-flex text-sm font-semibold transition ${
-											slide.isHappeningNow
-												? 'text-amber-950 hover:text-amber-600'
-												: 'text-blue-950 hover:text-blue-500'
-										}`}
-									>
-										{slide.programTitle}
-									</a>
-									{#if slide.sessionLabel}
-										<p
-											class={`text-xs font-medium ${
-												slide.isHappeningNow ? 'text-amber-800' : 'text-blue-800'
-											}`}
-										>
-											{slide.sessionLabel}
-										</p>
-									{/if}
-									<p class={`mt-2 text-sm ${slide.isHappeningNow ? 'text-amber-900' : 'text-blue-900'}`}>
-										{slide.date}
-									</p>
-									{#each slide.timeLines.slice(0, 2) as timeLine}
-										<p class={`text-xs ${slide.isHappeningNow ? 'text-amber-700' : 'text-blue-700'}`}>
-											{timeLine}
-										</p>
-									{/each}
-									{#if slide.location}
-										<p class={`text-xs ${slide.isHappeningNow ? 'text-amber-700' : 'text-blue-700'}`}>
-											{slide.location}
-										</p>
-									{/if}
-									{#if slide.certificateText}
-										<span
-											class={`mt-1 inline-flex items-center rounded-full border px-2.5 py-0.5 text-[0.7rem] font-medium normal-case ${
-												slide.isHappeningNow
-													? 'border-amber-100 bg-amber-100/70 text-amber-800'
-													: 'border-blue-100 bg-blue-50 text-blue-700/80'
-											}`}
-										>
-											{slide.certificateText}
-										</span>
-									{/if}
-									{#if slide.videoUrl && !slide.isHappeningNow}
-										<a
-											href={slide.videoUrl}
-											target="_blank"
-											rel="noopener noreferrer"
-											class="mt-2 inline-flex items-center rounded-full border border-blue-100 bg-blue-50 px-2.5 py-0.5 text-[0.7rem] font-medium normal-case text-blue-700/80 transition hover:border-blue-200 hover:bg-blue-100"
-										>
-											🎬 Watch the trailer
-										</a>
-									{/if}
-									{#if slide.partner && !slide.isHappeningNow}
-										<p class="mt-2 text-[0.6rem] uppercase tracking-wide text-blue-600">
-											In partnership with {slide.partner}
-										</p>
-									{/if}
-									<div class="mt-3 flex justify-end text-[0.65rem]">
-										{#if slide.isHappeningNow}
-											<span
-												class="inline-flex items-center justify-center rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-[0.65rem] font-semibold text-amber-800"
-											>
-												Enrollment closed
-											</span>
-										{:else}
+									<div class="flex flex-wrap items-end gap-3">
+										<div class="min-w-[14rem] flex-1">
+											<div class="flex flex-wrap items-center gap-2">
+												<p
+													class={`text-[0.6rem] font-semibold uppercase tracking-wide ${
+														slide.isHappeningNow ? 'text-amber-700' : 'text-blue-600'
+													}`}
+												>
+													{slide.isHappeningNow ? 'Happening now' : 'Upcoming session'}
+												</p>
+												<span
+													class={`inline-flex items-center gap-1.5 rounded-lg bg-white px-2.5 py-1 text-[0.6rem] font-semibold ${
+														slide.isHappeningNow ? 'text-amber-700' : 'text-blue-700'
+													}`}
+												>
+													{slide.urgency ?? slide.spots ?? 'Open for registration'}
+												</span>
+											</div>
 											<a
 												href={slide.registerUrl}
 												target="_blank"
 												rel="noopener"
-												class="inline-flex items-center justify-center rounded-lg bg-blue-600 px-3 py-2 text-[0.65rem] font-semibold text-white transition hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-blue-50"
+												class={`mt-2 inline-flex text-sm font-semibold transition ${
+													slide.isHappeningNow
+														? 'text-amber-950 hover:text-amber-600'
+														: 'text-blue-950 hover:text-blue-500'
+												}`}
 											>
-												Register now
+												{slide.programTitle}
 											</a>
-										{/if}
+											{#if slide.sessionLabel}
+												<p
+													class={`text-xs font-medium ${
+														slide.isHappeningNow ? 'text-amber-800' : 'text-blue-800'
+													}`}
+												>
+													{slide.sessionLabel}
+												</p>
+											{/if}
+											<p class={`mt-2 text-sm ${slide.isHappeningNow ? 'text-amber-900' : 'text-blue-900'}`}>
+												{slide.date}
+											</p>
+											{#each slide.timeLines.slice(0, 2) as timeLine}
+												<p class={`text-xs ${slide.isHappeningNow ? 'text-amber-700' : 'text-blue-700'}`}>
+													{timeLine}
+												</p>
+											{/each}
+											{#if slide.location}
+												<p class={`text-xs ${slide.isHappeningNow ? 'text-amber-700' : 'text-blue-700'}`}>
+													{slide.location}
+												</p>
+											{/if}
+											{#if slide.certificateText}
+												<span
+													class={`mt-1 inline-flex items-center rounded-full border px-2.5 py-0.5 text-[0.7rem] font-medium normal-case ${
+														slide.isHappeningNow
+															? 'border-amber-100 bg-amber-100/70 text-amber-800'
+															: 'border-blue-100 bg-blue-50 text-blue-700/80'
+													}`}
+												>
+													{slide.certificateText}
+												</span>
+											{/if}
+											{#if slide.videoUrl && !slide.isHappeningNow}
+												<a
+													href={slide.videoUrl}
+													target="_blank"
+													rel="noopener noreferrer"
+													class="mt-2 inline-flex items-center rounded-full border border-blue-100 bg-blue-50 px-2.5 py-0.5 text-[0.7rem] font-medium normal-case text-blue-700/80 transition hover:border-blue-200 hover:bg-blue-100"
+												>
+													🎬 Watch the trailer
+												</a>
+											{/if}
+											{#if slide.partner && !slide.isHappeningNow}
+												<p class="mt-2 text-[0.6rem] uppercase tracking-wide text-blue-600">
+													In partnership with {slide.partner}
+												</p>
+											{/if}
+										</div>
+										<div class="ml-auto text-[0.65rem]">
+											{#if slide.isHappeningNow}
+												<span
+													class="inline-flex items-center justify-center rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-[0.65rem] font-semibold text-amber-800"
+												>
+													Enrollment closed
+												</span>
+											{:else}
+												<a
+													href={slide.registerUrl}
+													target="_blank"
+													rel="noopener"
+													class="inline-flex items-center justify-center rounded-lg bg-blue-600 px-3 py-2 text-[0.65rem] font-semibold text-white transition hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-blue-50"
+												>
+													Register now
+												</a>
+											{/if}
+										</div>
 									</div>
 								</div>
 							</div>

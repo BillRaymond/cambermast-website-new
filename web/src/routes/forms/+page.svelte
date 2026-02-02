@@ -21,10 +21,19 @@
 	const defaultOrigin = dev ? 'http://localhost:5173' : 'https://cambermast.com';
 	let shareOrigin = defaultOrigin;
 	$: testimonialsBaseUrl = `${shareOrigin}/forms/testimonials`;
-	$: aiSurveyBaseUrl = `${shareOrigin}/forms/ai-workshop-for-content-creators`;
+	$: preTrainingSurveyBaseUrl = `${shareOrigin}/forms/pre-training-survey`;
 	$: postTrainingSurveyBaseUrl = `${shareOrigin}/forms/post-training-survey`;
 	const prodOrigin = SITE_ORIGIN.replace(/\/$/, '');
 	const devOrigin = browser ? window.location.origin : defaultOrigin;
+	const preTrainingProgramUrls = trainingProgramData
+		.slice()
+		.sort((a, b) => a.title.localeCompare(b.title))
+		.map((program) => ({
+			title: program.title,
+			slug: program.slug,
+			prod: `${prodOrigin}/forms/pre-training-survey?program=${program.slug}`,
+			dev: `${devOrigin}/forms/pre-training-survey?program=${program.slug}`
+		}));
 	const postTrainingProgramUrls = trainingProgramData
 		.slice()
 		.sort((a, b) => a.title.localeCompare(b.title))
@@ -104,6 +113,15 @@
 		});
 	};
 
+	const generatePreTrainingQrs = () => {
+		generateQr('pre-training-main', `${prodOrigin}/forms/pre-training-survey`, 'prod');
+		generateQr('pre-training-main', `${devOrigin}/forms/pre-training-survey`, 'dev');
+		preTrainingProgramUrls.forEach((program) => {
+			generateQr(`pre-training-${program.slug}`, program.prod, 'prod');
+			generateQr(`pre-training-${program.slug}`, program.dev, 'dev');
+		});
+	};
+
 	const copyShareUrl = async (slug: string) => {
 		copyError = '';
 		if (typeof navigator === 'undefined' || !navigator?.clipboard) {
@@ -146,6 +164,7 @@
 		if (typeof window !== 'undefined' && window.location?.origin) {
 			shareOrigin = window.location.origin;
 		}
+		generatePreTrainingQrs();
 		generatePostTrainingQrs();
 	});
 </script>
@@ -185,7 +204,7 @@
 						<button
 							class="inline-flex items-center gap-2 rounded-xl border border-blue-200 px-4 py-2 text-sm font-semibold text-blue-700 transition hover:border-blue-300 hover:bg-blue-50"
 							type="button"
-							on:click={() => copyFormUrl(aiSurveyBaseUrl)}
+							on:click={() => copyFormUrl(preTrainingSurveyBaseUrl)}
 						>
 							<svg
 								class="h-4 w-4 text-blue-600"
@@ -197,16 +216,200 @@
 								<rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
 								<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
 							</svg>
-							{copiedForm === aiSurveyBaseUrl ? 'Copied!' : 'Copy link'}
+							{copiedForm === preTrainingSurveyBaseUrl ? 'Copied!' : 'Copy link'}
 						</button>
 						<a
 							class="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow transition hover:bg-blue-700"
-							href="/forms/ai-workshop-for-content-creators"
+							href="/forms/pre-training-survey"
 						>
-							Visit the pre-training survey for AI for Content Creators
+							Visit the pre-training survey
 							<span aria-hidden="true">→</span>
 						</a>
 					</div>
+					<details class="space-y-4 rounded-2xl border border-gray-100 bg-white/80 p-4">
+						<summary class="cursor-pointer text-sm font-semibold text-gray-700">
+							Show pre-training survey links and QR codes
+						</summary>
+						<div class="space-y-4 pt-2">
+							<div class="space-y-2">
+								<div class="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-gray-100 bg-white px-3 py-2">
+									<p class="text-xs text-gray-500">
+										Prod:
+										<span class="font-medium text-gray-700">
+											{prodOrigin}/forms/pre-training-survey
+										</span>
+									</p>
+									<button
+										class="inline-flex items-center gap-2 rounded-lg border border-blue-200 px-3 py-1.5 text-xs font-medium text-blue-700 transition hover:border-blue-300 hover:bg-blue-50"
+										type="button"
+										on:click={() => copyFormUrl(`${prodOrigin}/forms/pre-training-survey`)}
+									>
+										<svg
+											class="h-3.5 w-3.5 text-blue-600"
+											viewBox="0 0 24 24"
+											fill="none"
+											stroke="currentColor"
+											stroke-width="2"
+										>
+											<rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+											<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+										</svg>
+										{copiedForm === `${prodOrigin}/forms/pre-training-survey` ? 'Copied!' : 'Copy'}
+									</button>
+								</div>
+								<div class="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-gray-100 bg-white px-3 py-2">
+									<p class="text-xs text-gray-500">
+										Dev:
+										<span class="font-medium text-gray-700">
+											{devOrigin}/forms/pre-training-survey
+										</span>
+									</p>
+									<button
+										class="inline-flex items-center gap-2 rounded-lg border border-blue-200 px-3 py-1.5 text-xs font-medium text-blue-700 transition hover:border-blue-300 hover:bg-blue-50"
+										type="button"
+										on:click={() => copyFormUrl(`${devOrigin}/forms/pre-training-survey`)}
+									>
+										<svg
+											class="h-3.5 w-3.5 text-blue-600"
+											viewBox="0 0 24 24"
+											fill="none"
+											stroke="currentColor"
+											stroke-width="2"
+										>
+											<rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+											<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+										</svg>
+										{copiedForm === `${devOrigin}/forms/pre-training-survey` ? 'Copied!' : 'Copy'}
+									</button>
+								</div>
+							</div>
+							<div class="grid gap-4 sm:grid-cols-2">
+								<div class="rounded-xl border bg-white p-3 text-center">
+									<p class="text-xs font-semibold uppercase tracking-wide text-gray-500">Prod</p>
+									{#if qrAssets['pre-training-main']?.prod?.pngDataUrl}
+										<img
+											class="mx-auto mt-2 h-40 w-40"
+											src={qrAssets['pre-training-main'].prod.pngDataUrl}
+											alt="Pre-training survey QR code (prod)"
+										/>
+									{:else}
+										<p class="mt-3 text-xs text-gray-500">
+											{qrAssets['pre-training-main']?.prod?.loading
+												? 'Generating QR code...'
+												: 'Preparing QR code...'}
+										</p>
+									{/if}
+								</div>
+								<div class="rounded-xl border bg-white p-3 text-center">
+									<p class="text-xs font-semibold uppercase tracking-wide text-gray-500">Dev</p>
+									{#if qrAssets['pre-training-main']?.dev?.pngDataUrl}
+										<img
+											class="mx-auto mt-2 h-40 w-40"
+											src={qrAssets['pre-training-main'].dev.pngDataUrl}
+											alt="Pre-training survey QR code (dev)"
+										/>
+									{:else}
+										<p class="mt-3 text-xs text-gray-500">
+											{qrAssets['pre-training-main']?.dev?.loading
+												? 'Generating QR code...'
+												: 'Preparing QR code...'}
+										</p>
+									{/if}
+								</div>
+							</div>
+
+							<div class="space-y-3">
+								<p class="text-xs font-semibold uppercase tracking-wide text-gray-600">
+									Program-specific links
+								</p>
+								{#each preTrainingProgramUrls as program}
+									<div class="rounded-2xl border border-gray-100 bg-white px-4 py-3">
+										<div class="space-y-2">
+											<p class="text-sm font-semibold text-gray-900">{program.title}</p>
+											<div class="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-gray-100 bg-white px-3 py-2">
+												<p class="text-xs text-gray-500">Prod: {program.prod}</p>
+												<button
+													class="inline-flex items-center gap-2 rounded-lg border border-blue-200 px-3 py-1.5 text-xs font-medium text-blue-700 transition hover:border-blue-300 hover:bg-blue-50"
+													type="button"
+													on:click={() => copyFormUrl(program.prod)}
+												>
+													<svg
+														class="h-3.5 w-3.5 text-blue-600"
+														viewBox="0 0 24 24"
+														fill="none"
+														stroke="currentColor"
+														stroke-width="2"
+													>
+														<rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+														<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+													</svg>
+													{copiedForm === program.prod ? 'Copied!' : 'Copy'}
+												</button>
+											</div>
+											<div class="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-gray-100 bg-white px-3 py-2">
+												<p class="text-xs text-gray-500">Dev: {program.dev}</p>
+												<button
+													class="inline-flex items-center gap-2 rounded-lg border border-blue-200 px-3 py-1.5 text-xs font-medium text-blue-700 transition hover:border-blue-300 hover:bg-blue-50"
+													type="button"
+													on:click={() => copyFormUrl(program.dev)}
+												>
+													<svg
+														class="h-3.5 w-3.5 text-blue-600"
+														viewBox="0 0 24 24"
+														fill="none"
+														stroke="currentColor"
+														stroke-width="2"
+													>
+														<rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+														<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+													</svg>
+													{copiedForm === program.dev ? 'Copied!' : 'Copy'}
+												</button>
+											</div>
+										</div>
+										<div class="mt-3 grid gap-4 sm:grid-cols-2">
+											<div class="rounded-xl border bg-white p-3 text-center">
+												<p class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+													Prod
+												</p>
+												{#if qrAssets[`pre-training-${program.slug}`]?.prod?.pngDataUrl}
+													<img
+														class="mx-auto mt-2 h-32 w-32"
+														src={qrAssets[`pre-training-${program.slug}`].prod.pngDataUrl}
+														alt={`Pre-training QR code for ${program.title} (prod)`}
+													/>
+												{:else}
+													<p class="mt-2 text-xs text-gray-500">
+														{qrAssets[`pre-training-${program.slug}`]?.prod?.loading
+															? 'Generating QR code...'
+															: 'Preparing QR code...'}
+													</p>
+												{/if}
+											</div>
+											<div class="rounded-xl border bg-white p-3 text-center">
+												<p class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+													Dev
+												</p>
+												{#if qrAssets[`pre-training-${program.slug}`]?.dev?.pngDataUrl}
+													<img
+														class="mx-auto mt-2 h-32 w-32"
+														src={qrAssets[`pre-training-${program.slug}`].dev.pngDataUrl}
+														alt={`Pre-training QR code for ${program.title} (dev)`}
+													/>
+												{:else}
+													<p class="mt-2 text-xs text-gray-500">
+														{qrAssets[`pre-training-${program.slug}`]?.dev?.loading
+															? 'Generating QR code...'
+															: 'Preparing QR code...'}
+													</p>
+												{/if}
+											</div>
+										</div>
+									</div>
+								{/each}
+							</div>
+						</div>
+					</details>
 				</div>
 			</section>
 
