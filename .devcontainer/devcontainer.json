@@ -15,7 +15,10 @@
 	},
 	"customizations": {
 		"vscode": {
-			"extensions": ["openai.chatgpt"]
+			"extensions": [
+				"openai.chatgpt",
+				"svelte.svelte-vscode"
+			]
 		}
 	}
 }
