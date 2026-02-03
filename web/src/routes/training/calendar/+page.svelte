@@ -293,7 +293,7 @@ const upcomingEventEntries: UpcomingEntry[] = listEvents()
 			metaDetails,
 			partnerText: null,
 			registerUrl: event.registerUrl,
-			learnMoreUrl: relatedProgram?.route,
+			learnMoreUrl: relatedProgram?.route ?? `/events/${event.slug}`,
 			image: getEventCardImage(event)
 		};
 	});
@@ -348,28 +348,10 @@ const happeningEntries: UpcomingEntry[] = [...happeningTrainingEntries].sort(
 					target="_blank"
 					rel="noopener"
 					class="inline-flex items-center gap-1 text-blue-700 underline underline-offset-2 hover:text-blue-900"
-					>Lu.ma ↗</a
+					>Lu.ma</a
 				>
 				and grab a seat while spots are still open.
 			</p>
-			<div
-				class="flex flex-col gap-3 rounded-2xl border border-blue-200 bg-blue-600/5 p-5 shadow-sm sm:flex-row sm:items-center sm:justify-between"
-			>
-				<div class="flex flex-col gap-1">
-					<p class="text-sm font-semibold uppercase tracking-wide text-blue-700">
-						Design a private workshop
-					</p>
-					<p class="text-sm text-gray-700">
-						Tailor a cohort to your team’s goals, tooling, and delivery timeline with Bill Raymond.
-					</p>
-				</div>
-				<a
-					href="/contact"
-					class="inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700"
-				>
-					Start a plan ↗
-				</a>
-			</div>
 		</header>
 
 		<div class="rounded-2xl border border-blue-100 bg-white p-5 shadow-sm">
@@ -392,43 +374,48 @@ const happeningEntries: UpcomingEntry[] = [...happeningTrainingEntries].sort(
 						{@const entryImage = entry.image}
 						<li id={cardId}>
 							<article
-								class={`rounded-xl border border-blue-100 bg-blue-50/60 p-4 shadow-sm focus-within:ring-2 focus-within:ring-blue-400 ${
+								class={`relative rounded-xl border border-blue-100 bg-blue-50/60 p-4 shadow-sm focus-within:ring-2 focus-within:ring-blue-400 sm:pb-10 ${
 									isTodaySession ? 'ring-2 ring-blue-400' : ''
 								}`}
 								aria-labelledby={`${cardId}-title`}
 							>
-							<div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+							<div class="flex flex-col gap-4 sm:flex-row sm:items-stretch sm:justify-between">
 											<div class="flex flex-1 flex-col gap-4 sm:flex-row sm:items-start sm:gap-5">
-												{#if entryImage?.mobile || entryImage?.desktop}
-													{@const isSquare = entryImage.aspect === 'square'}
-													{@const desktopWidthClass = 'sm:w-48'}
-													{@const imageFitClass = 'object-contain'}
-													<div
-														class={`relative h-44 w-full overflow-hidden rounded-xl border border-blue-100 bg-white shadow-sm ${desktopWidthClass} sm:h-36`}
-													>
-														<picture
-															class="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-blue-100"
+												<div class="flex w-full flex-col gap-3 sm:w-48">
+													{#if entryImage?.mobile || entryImage?.desktop}
+														{@const isSquare = entryImage.aspect === 'square'}
+														{@const desktopWidthClass = 'sm:w-48'}
+														{@const imageFitClass = 'object-contain'}
+														<div
+															class={`relative h-44 w-full overflow-hidden rounded-xl border border-blue-100 bg-white shadow-sm ${desktopWidthClass} sm:h-36`}
 														>
-															{#if entryImage.desktop?.src}
-																<source
-																	media="(min-width: 640px)"
-																	srcset={entryImage.desktop.src}
+															<picture
+																class="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-blue-100"
+															>
+																{#if entryImage.desktop?.src}
+																	<source
+																		media="(min-width: 640px)"
+																		srcset={entryImage.desktop.src}
+																	/>
+																{/if}
+																{#if entryImage.mobile?.src}
+																	<source
+																		media="(max-width: 639px)"
+																		srcset={entryImage.mobile.src}
+																	/>
+																{/if}
+																<img
+																	src={entryImage.desktop?.src ?? entryImage.mobile?.src}
+																	alt={entryImage.desktop?.alt ??
+																		entryImage.mobile?.alt ??
+																		entry.title}
+																	class={`h-full w-full ${imageFitClass}`}
+																	loading="lazy"
 																/>
-															{/if}
-															{#if entryImage.mobile?.src}
-																<source media="(max-width: 639px)" srcset={entryImage.mobile.src} />
-															{/if}
-															<img
-																src={entryImage.desktop?.src ?? entryImage.mobile?.src}
-																alt={entryImage.desktop?.alt ??
-																	entryImage.mobile?.alt ??
-																	entry.title}
-																class={`h-full w-full ${imageFitClass}`}
-																loading="lazy"
-															/>
-														</picture>
-													</div>
-												{/if}
+															</picture>
+														</div>
+													{/if}
+												</div>
 												<div class="flex-1" id={`${cardId}-title`}>
 													<div class="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-wide text-blue-600">
 														<span>{entry.dateText}</span>
@@ -495,25 +482,29 @@ const happeningEntries: UpcomingEntry[] = [...happeningTrainingEntries].sort(
 													{/if}
 												</div>
 											</div>
-											<div class="flex flex-col gap-2 sm:w-40">
-												<a
-													href={entry.registerUrl}
-													target="_blank"
-													rel="noopener"
-													class="inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-1.5 text-sm font-semibold text-white transition hover:bg-blue-700"
-												>
-													Register now
-												</a>
-												{#if entry.learnMoreUrl}
-													<a
-														href={entry.learnMoreUrl}
-														class="inline-flex items-center justify-center rounded-lg border border-blue-200 px-4 py-1.5 text-sm font-semibold text-blue-700 transition hover:border-blue-400 hover:text-blue-900"
-													>
-														Learn more
-													</a>
-												{/if}
-											</div>
 							</div>
+							{#if entry.registerUrl || entry.learnMoreUrl}
+								<div class="mt-4 grid gap-3 sm:grid-cols-[12rem_minmax(0,1fr)] sm:items-center">
+									{#if entry.registerUrl}
+										<a
+											href={entry.registerUrl}
+											target="_blank"
+											rel="noopener"
+											class="inline-flex w-full items-center justify-center rounded-lg bg-blue-600 px-4 py-1.5 text-sm font-semibold text-white transition hover:bg-blue-700"
+										>
+											Register now
+										</a>
+									{/if}
+									{#if entry.learnMoreUrl}
+										<a
+											href={entry.learnMoreUrl}
+											class="inline-flex items-center justify-end font-semibold text-blue-700 underline decoration-blue-200 underline-offset-4 transition hover:text-blue-900"
+										>
+											Learn more →
+										</a>
+									{/if}
+								</div>
+							{/if}
 							</article>
 						</li>
 								{/each}
@@ -529,6 +520,27 @@ const happeningEntries: UpcomingEntry[] = [...happeningTrainingEntries].sort(
 			{/if}
 		</div>
 
+		<div class="rounded-2xl border border-blue-200 bg-blue-50/60 p-5 shadow-sm">
+			<h2 class="text-lg font-semibold text-gray-900">Design a private workshop</h2>
+			<p class="mt-1 text-sm text-gray-600">
+				Tailor a cohort to your team’s goals, tooling, and delivery timeline with Bill Raymond.
+			</p>
+			<div class="mt-4 flex flex-wrap gap-3">
+				<a
+					href="/contact"
+					class="inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700"
+				>
+					Talk with Bill
+				</a>
+				<a
+					href="/training"
+					class="inline-flex items-center justify-center rounded-lg border border-blue-300 bg-white px-4 py-2 text-sm font-semibold text-blue-700 transition hover:border-blue-400 hover:text-blue-900"
+				>
+					Browse training catalog
+				</a>
+			</div>
+		</div>
+
 		{#if happeningEntries.length}
 			<div class="rounded-2xl border border-amber-200 bg-amber-50/70 p-5 shadow-sm">
 				<div class="flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-4">
@@ -541,36 +553,44 @@ const happeningEntries: UpcomingEntry[] = [...happeningTrainingEntries].sort(
 				<ul class="mt-4 space-y-4">
 					{#each happeningEntries as entry}
 						<li>
-							<article class="rounded-xl border border-amber-200 bg-white p-4 shadow-sm">
-								<div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+							<article class="relative rounded-xl border border-amber-200 bg-white p-4 shadow-sm sm:pb-10">
+								<div class="flex flex-col gap-4 sm:flex-row sm:items-stretch sm:justify-between">
 									<div class="flex flex-1 flex-col gap-4 sm:flex-row sm:items-start sm:gap-5">
-										{#if entry.image?.mobile || entry.image?.desktop}
-											{@const isSquare = entry.image.aspect === 'square'}
-											{@const desktopWidthClass = 'sm:w-48'}
-											{@const imageFitClass = 'object-contain'}
-											<div
-												class={`relative h-44 w-full overflow-hidden rounded-xl border border-amber-100 bg-white shadow-sm ${desktopWidthClass} sm:h-36`}
-											>
-												<picture
-													class="absolute inset-0 bg-gradient-to-br from-amber-50 via-white to-amber-100"
+										<div class="flex w-full flex-col gap-3 sm:w-48">
+											{#if entry.image?.mobile || entry.image?.desktop}
+												{@const isSquare = entry.image.aspect === 'square'}
+												{@const desktopWidthClass = 'sm:w-48'}
+												{@const imageFitClass = 'object-contain'}
+												<div
+													class={`relative h-44 w-full overflow-hidden rounded-xl border border-amber-100 bg-white shadow-sm ${desktopWidthClass} sm:h-36`}
 												>
-													{#if entry.image.desktop?.src}
-														<source media="(min-width: 640px)" srcset={entry.image.desktop.src} />
-													{/if}
-													{#if entry.image.mobile?.src}
-														<source media="(max-width: 639px)" srcset={entry.image.mobile.src} />
-													{/if}
-													<img
-														src={entry.image.desktop?.src ?? entry.image.mobile?.src}
-														alt={entry.image.desktop?.alt ??
-															entry.image.mobile?.alt ??
-															entry.title}
-														class={`h-full w-full ${imageFitClass}`}
-														loading="lazy"
-													/>
-												</picture>
-											</div>
-										{/if}
+													<picture
+														class="absolute inset-0 bg-gradient-to-br from-amber-50 via-white to-amber-100"
+													>
+														{#if entry.image.desktop?.src}
+															<source
+																media="(min-width: 640px)"
+																srcset={entry.image.desktop.src}
+															/>
+														{/if}
+														{#if entry.image.mobile?.src}
+															<source
+																media="(max-width: 639px)"
+																srcset={entry.image.mobile.src}
+															/>
+														{/if}
+														<img
+															src={entry.image.desktop?.src ?? entry.image.mobile?.src}
+															alt={entry.image.desktop?.alt ??
+																entry.image.mobile?.alt ??
+																entry.title}
+															class={`h-full w-full ${imageFitClass}`}
+															loading="lazy"
+														/>
+													</picture>
+												</div>
+											{/if}
+										</div>
 										<div class="flex-1">
 											<div class="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-wide text-amber-700">
 												<span>{entry.dateText}</span>
@@ -588,7 +608,7 @@ const happeningEntries: UpcomingEntry[] = [...happeningTrainingEntries].sort(
 											<p
 												class="mt-2 inline-flex items-center rounded-full bg-amber-100 px-2 py-0.5 text-[0.65rem] font-semibold uppercase tracking-wide text-amber-800"
 											>
-												Enrollment closed — runs through {entry.happeningEndLabel ?? 'soon'}
+												Enrollment closed, running now
 											</p>
 											{#if entry.certificateText || entry.videoUrl}
 												<div class="mt-2 flex flex-col gap-1 text-xs font-semibold text-blue-700">
@@ -615,27 +635,29 @@ const happeningEntries: UpcomingEntry[] = [...happeningTrainingEntries].sort(
 											{/if}
 										</div>
 									</div>
-									<div class="flex flex-col gap-2 sm:w-40">
-										{#if entry.registerUrl}
-											<a
-												href={entry.registerUrl}
-												target="_blank"
-												rel="noopener"
-												aria-disabled="true"
-												class="inline-flex items-center justify-center rounded-lg bg-gray-200 px-4 py-1.5 text-sm font-semibold text-gray-600 shadow-sm"
-											>
-												Enrollment closed
-											</a>
-										{/if}
-										{#if entry.learnMoreUrl}
-											<a
-												href={entry.learnMoreUrl}
-												class="inline-flex items-center justify-center rounded-lg border border-blue-200 px-4 py-1.5 text-sm font-semibold text-blue-700 transition hover:border-blue-400 hover:text-blue-900"
-											>
-												Learn more
-											</a>
-										{/if}
-									</div>
+									{#if entry.registerUrl || entry.learnMoreUrl}
+										<div class="mt-4 grid gap-3 sm:grid-cols-[12rem_minmax(0,1fr)] sm:items-center">
+											{#if entry.registerUrl}
+												<a
+													href={entry.registerUrl}
+													target="_blank"
+													rel="noopener"
+													aria-disabled="true"
+													class="inline-flex w-full items-center justify-center rounded-lg bg-gray-200 px-4 py-1.5 text-sm font-semibold text-gray-600 shadow-sm"
+												>
+													Enrollment closed, running now
+												</a>
+											{/if}
+											{#if entry.learnMoreUrl}
+												<a
+													href={entry.learnMoreUrl}
+													class="inline-flex items-center justify-end font-semibold text-blue-700 underline decoration-blue-200 underline-offset-4 transition hover:text-blue-900"
+												>
+													Learn more →
+												</a>
+											{/if}
+										</div>
+									{/if}
 								</div>
 							</article>
 						</li>
@@ -643,27 +665,5 @@ const happeningEntries: UpcomingEntry[] = [...happeningTrainingEntries].sort(
 				</ul>
 			</div>
 		{/if}
-
-		<div class="rounded-2xl border border-blue-200 bg-blue-50/60 p-5 shadow-sm">
-			<h2 class="text-lg font-semibold text-gray-900">Need a custom session?</h2>
-			<p class="mt-1 text-sm text-gray-600">
-				Most engagements start within 2–4 weeks. We’ll tailor the format, delivery, and examples to
-				your workflows, whether virtual or on-site.
-			</p>
-			<div class="mt-4 flex flex-wrap gap-3">
-				<a
-					href="/contact"
-					class="inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700"
-				>
-					Talk with Bill
-				</a>
-				<a
-					href="/training"
-					class="inline-flex items-center justify-center rounded-lg border border-blue-300 bg-white px-4 py-2 text-sm font-semibold text-blue-700 transition hover:border-blue-400 hover:text-blue-900"
-				>
-					Browse training catalog
-				</a>
-			</div>
-		</div>
 	</div>
 </section>

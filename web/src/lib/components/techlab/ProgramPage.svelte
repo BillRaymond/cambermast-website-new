@@ -218,7 +218,7 @@ $: faqsWithTerms = program?.faqs?.length ? [...program.faqs, trainingTermsFaq] :
 						date={session.date}
 						time={session.time}
 						location={session.location}
-						statusLabel="Enrollment closed — in progress"
+						statusLabel="Enrollment closed, running now"
 						tone="happening"
 					/>
 				{/each}

@@ -134,7 +134,7 @@ const toTimeLines = (value?: string | string[]): string[] =>
 
 	const getHappeningLabel = (session: TrainingSession): string => {
 		const end = formatSessionDate(session.endDate);
-		return end ? `Enrollment closed — runs through ${end}` : 'Enrollment closed — in progress';
+		return 'Enrollment closed, running now';
 	};
 
 	const isUpcomingSession = (session: TrainingSession): boolean => {

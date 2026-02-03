@@ -185,7 +185,7 @@ $: isRowLayout = layout === 'row';
 										date={session.date}
 										time={session.time}
 										location={session.location}
-										statusLabel={`Enrollment closed — ends ${session.endDate ?? 'soon'}`}
+										statusLabel="Enrollment closed, running now"
 										tone="happening"
 									/>
 								</li>

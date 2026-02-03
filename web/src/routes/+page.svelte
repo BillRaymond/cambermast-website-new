@@ -422,7 +422,7 @@
 				location: entry.session.location,
 				partner: entry.session.partner,
 				spots: entry.session.spots,
-				urgency: 'Enrollment closed',
+				urgency: 'Enrollment closed, running now',
 				registerUrl: entry.session.registerUrl,
 				image: entry.program.ogImage ?? entry.program.heroImage,
 				imageAlt: entry.program.ogImageAlt ?? entry.program.heroImageAlt ?? entry.program.title,
