@@ -40,6 +40,8 @@ import {
 		type: 'training' | 'external' | 'event';
 		title: string;
 		subtitle: string | null;
+		eventType?: string;
+		eventTypeLabel?: string;
 		startTimestamp: number | null;
 		dateText: string;
 		metaDetails: string[];
@@ -58,7 +60,7 @@ type GroupedEntries = {
 	items: Array<{ entry: UpcomingEntry; index: number }>;
 };
 
-	type FilterOption = 'all' | 'training' | 'events';
+	type FilterOption = 'all' | 'training' | 'events' | `event:${string}`;
 
 	const today = normalizeToday();
 	let now = new Date();
@@ -289,11 +291,11 @@ $: upcomingExternalEntries = listExternalEvents()
 		};
 	});
 
-$: upcomingEventEntries = listEvents()
-	.filter((event) => isEventUpcoming(event, today))
-	.map((event, index) => {
-		const startTimestamp = toFiniteTimestamp(getEventStartTimestamp(event));
-		const timeLabel = formatTimeLabel(event.time);
+	$: upcomingEventEntries = listEvents()
+		.filter((event) => isEventUpcoming(event, today))
+		.map((event, index) => {
+			const startTimestamp = toFiniteTimestamp(getEventStartTimestamp(event));
+			const timeLabel = formatTimeLabel(event.time);
 		const locationLabel = event.location ?? defaultLocationLabel;
 		const metaDetails: string[] = [];
 		if (timeLabel) metaDetails.push(timeLabel);
@@ -304,38 +306,65 @@ $: upcomingEventEntries = listEvents()
 			? listTrainingPrograms().find((program) => program.slug === relatedProgramSlug)
 			: undefined;
 
-		const subtitle = `${getEventTypeLabel(event)}${event.draft ? ' · Draft' : ''}`;
+			const eventTypeLabel = getEventTypeLabel(event);
+			const subtitle = `${eventTypeLabel}${event.draft ? ' · Draft' : ''}`;
 
-		return {
-			id: `event-${event.id ?? index}`,
-			type: 'event' as const,
-			title: event.title,
-			subtitle,
-			startTimestamp,
-			dateText: formatDateLabel(startTimestamp, event.date),
-			metaDetails,
-			partnerText: null,
-			registerUrl: event.registerUrl,
+			return {
+				id: `event-${event.id ?? index}`,
+				type: 'event' as const,
+				title: event.title,
+				subtitle,
+				eventType: event.type,
+				eventTypeLabel,
+				startTimestamp,
+				dateText: formatDateLabel(startTimestamp, event.date),
+				metaDetails,
+				partnerText: null,
+				registerUrl: event.registerUrl,
 			learnMoreUrl: relatedProgram?.route ?? '/events',
 			image: getEventCardImage(event)
 		};
 	});
 
-$: upcomingEntries = [
-	...upcomingTrainingEntries,
-	...upcomingExternalEntries,
-	...upcomingEventEntries
-].sort((a, b) => (a.startTimestamp ?? Infinity) - (b.startTimestamp ?? Infinity));
+	$: upcomingEntries = [
+		...upcomingTrainingEntries,
+		...upcomingExternalEntries,
+		...upcomingEventEntries
+	].sort((a, b) => (a.startTimestamp ?? Infinity) - (b.startTimestamp ?? Infinity));
 
-const filteredUpcomingEntries = (entries: UpcomingEntry[], filter: FilterOption): UpcomingEntry[] => {
-	if (filter === 'training') {
-		return entries.filter((entry) => entry.type === 'training');
-	}
-	if (filter === 'events') {
-		return entries.filter((entry) => entry.type !== 'training');
-	}
-	return entries;
-};
+	type EventTypeFilter = {
+		key: string;
+		label: string;
+	};
+
+	let eventTypeFilters: EventTypeFilter[] = [];
+
+	$: eventTypeFilters = Array.from(
+		new Map(
+			upcomingEventEntries
+				.filter((entry) => entry.eventType)
+				.map((entry) => [
+					entry.eventType as string,
+					entry.eventTypeLabel ?? (entry.eventType as string)
+				])
+		).entries()
+	).map(([key, label]) => ({ key, label }));
+
+	const filteredUpcomingEntries = (entries: UpcomingEntry[], filter: FilterOption): UpcomingEntry[] => {
+		if (filter === 'training') {
+			return entries.filter((entry) => entry.type === 'training');
+		}
+		if (filter === 'events') {
+			return entries.filter((entry) => entry.type !== 'training');
+		}
+		if (filter.startsWith('event:')) {
+			const eventType = filter.slice('event:'.length);
+			return entries.filter(
+				(entry) => entry.type === 'event' && entry.eventType === eventType
+			);
+		}
+		return entries;
+	};
 
 let happeningEntries: UpcomingEntry[] = [];
 
@@ -422,22 +451,38 @@ $: happeningEntries = [...happeningTrainingEntries].sort(
 					</svg>
 					Training
 				</button>
-				<button
-					type="button"
-					onclick={() => (activeFilter = 'events')}
-					aria-pressed={activeFilter === 'events'}
-					class={`inline-flex items-center gap-1.5 rounded-full border px-2 py-0.5 text-[0.6rem] font-semibold uppercase tracking-wide transition ${
-						activeFilter === 'events'
-							? 'border-emerald-200 bg-emerald-600/10 text-emerald-700'
-							: 'border-gray-200 bg-white text-gray-500 hover:text-gray-700'
-					}`}
-				>
-					<svg viewBox="0 0 24 24" aria-hidden="true" class="h-3 w-3" fill="currentColor">
-						<path d="M9 3a3 3 0 00-3 3v5a3 3 0 006 0V6a3 3 0 00-3-3zm7 1a1 1 0 011 1v6a5 5 0 01-4 4.9V19h3a1 1 0 110 2H8a1 1 0 110-2h3v-3.1A5 5 0 017 11V5a1 1 0 112 0v6a3 3 0 006 0V5a1 1 0 011-1z" />
-					</svg>
-					Events
-				</button>
-			</div>
+					<button
+						type="button"
+						onclick={() => (activeFilter = 'events')}
+						aria-pressed={activeFilter === 'events'}
+						class={`inline-flex items-center gap-1.5 rounded-full border px-2 py-0.5 text-[0.6rem] font-semibold uppercase tracking-wide transition ${
+							activeFilter === 'events'
+								? 'border-emerald-200 bg-emerald-600/10 text-emerald-700'
+								: 'border-gray-200 bg-white text-gray-500 hover:text-gray-700'
+						}`}
+					>
+						<svg viewBox="0 0 24 24" aria-hidden="true" class="h-3 w-3" fill="currentColor">
+							<path d="M9 3a3 3 0 00-3 3v5a3 3 0 006 0V6a3 3 0 00-3-3zm7 1a1 1 0 011 1v6a5 5 0 01-4 4.9V19h3a1 1 0 110 2H8a1 1 0 110-2h3v-3.1A5 5 0 017 11V5a1 1 0 112 0v6a3 3 0 006 0V5a1 1 0 011-1z" />
+						</svg>
+						Events
+					</button>
+					{#if eventTypeFilters.length}
+						{#each eventTypeFilters as filter}
+							<button
+								type="button"
+								onclick={() => (activeFilter = `event:${filter.key}`)}
+								aria-pressed={activeFilter === `event:${filter.key}`}
+								class={`inline-flex items-center gap-1.5 rounded-full border px-2 py-0.5 text-[0.6rem] font-semibold uppercase tracking-wide transition ${
+									activeFilter === `event:${filter.key}`
+										? 'border-emerald-200 bg-emerald-600/10 text-emerald-700'
+										: 'border-gray-200 bg-white text-gray-500 hover:text-gray-700'
+								}`}
+							>
+								{filter.label}
+							</button>
+						{/each}
+					{/if}
+				</div>
 
 			<div class="rounded-2xl border border-blue-100 bg-white p-5 shadow-sm">
 			{#if groupedEntries.length}
@@ -523,14 +568,14 @@ $: happeningEntries = [...happeningTrainingEntries].sort(
 																		</svg>
 																		Training
 																	</span>
-																{:else}
-																	<span class="inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-600/10 px-2 py-0.5 text-[0.6rem] font-semibold uppercase tracking-wide text-emerald-700">
-																		<svg viewBox="0 0 24 24" aria-hidden="true" class="h-3 w-3" fill="currentColor">
-																			<path d="M9 3a3 3 0 00-3 3v5a3 3 0 006 0V6a3 3 0 00-3-3zm7 1a1 1 0 011 1v6a5 5 0 01-4 4.9V19h3a1 1 0 110 2H8a1 1 0 110-2h3v-3.1A5 5 0 017 11V5a1 1 0 112 0v6a3 3 0 006 0V5a1 1 0 011-1z" />
-																		</svg>
-																		Event
-																	</span>
-																{/if}
+																	{:else}
+																		<span class="inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-600/10 px-2 py-0.5 text-[0.6rem] font-semibold uppercase tracking-wide text-emerald-700">
+																			<svg viewBox="0 0 24 24" aria-hidden="true" class="h-3 w-3" fill="currentColor">
+																				<path d="M9 3a3 3 0 00-3 3v5a3 3 0 006 0V6a3 3 0 00-3-3zm7 1a1 1 0 011 1v6a5 5 0 01-4 4.9V19h3a1 1 0 110 2H8a1 1 0 110-2h3v-3.1A5 5 0 017 11V5a1 1 0 112 0v6a3 3 0 006 0V5a1 1 0 011-1z" />
+																			</svg>
+																			{entry.eventTypeLabel ?? 'Event'}
+																		</span>
+																	{/if}
 															</div>
 														{/if}
 													{/if}

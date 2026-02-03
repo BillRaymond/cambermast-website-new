@@ -1,4 +1,5 @@
-export type EventType =
+export type KnownEventType =
+	| 'event'
 	| 'webinar'
 	| 'talk'
 	| 'workshop'
@@ -6,6 +7,8 @@ export type EventType =
 	| 'roundtable'
 	| 'fireside'
 	| 'other';
+
+export type EventType = KnownEventType | (string & {});
 
 export type EventSpeaker = {
 	name: string;

@@ -39,6 +39,189 @@
 		description:
 			'Browse upcoming Cambermast events, webinars, talks, and workshops. Register for live sessions and related training.'
 	};
+
+	const eventFields = [
+		{
+			field: 'id',
+			required: true,
+			description: 'Unique event identifier (not displayed here).',
+			example: 'evt-spring-summit'
+		},
+		{
+			field: 'slug',
+			required: true,
+			description: 'Stable key for lookup (not displayed here).',
+			example: 'spring-summit-2026'
+		},
+		{
+			field: 'title',
+			required: true,
+			description: 'Main event title shown in the card heading.',
+			example: 'Spring AI Summit'
+		},
+		{
+			field: 'type',
+			required: true,
+			description: 'Base type used for the badge label (default: event).',
+			example: 'event'
+		},
+		{
+			field: 'typeLabel',
+			required: false,
+			description: 'Optional display override for the badge label.',
+			example: 'Webinar'
+		},
+		{
+			field: 'tagline',
+			required: false,
+			description: 'Short supporting line beneath the title.',
+			example: 'Hands-on tactics for AI adoption'
+		},
+		{
+			field: 'summary',
+			required: true,
+			description: 'One-paragraph summary in the card body.',
+			example: 'A live session on scaling AI workflows across teams.'
+		},
+		{
+			field: 'date',
+			required: true,
+			description: 'Human-readable date shown on the card.',
+			example: 'March 12, 2026'
+		},
+		{
+			field: 'time',
+			required: false,
+			description: 'Optional time or list of times shown under the date.',
+			example: '2:00 PM – 3:00 PM PT'
+		},
+		{
+			field: 'startAt',
+			required: true,
+			description: 'ISO date used to sort upcoming vs past events.',
+			example: '2026-03-12T22:00:00.000Z'
+		},
+		{
+			field: 'endAt',
+			required: false,
+			description: 'Optional ISO date for multi-day events.',
+			example: '2026-03-12T23:00:00.000Z'
+		},
+		{
+			field: 'registerUrl',
+			required: true,
+			description: 'CTA link for the “Register” button.',
+			example: 'https://example.com/register'
+		},
+		{
+			field: 'registerLabel',
+			required: false,
+			description: 'Optional button label override (defaults to “Register”).',
+			example: 'Request to Join'
+		},
+		{
+			field: 'draft',
+			required: false,
+			description: 'If true, adds “Draft” to the badge (dev-only listing).',
+			example: 'true'
+		}
+	];
+
+	const markdownTable = `| Field | Required | Description | Example |
+| --- | --- | --- | --- |
+${eventFields
+	.map(
+		(item) =>
+			`| \`${item.field}\` | ${item.required ? 'Yes' : 'No'} | ${item.description} | \`${item.example}\` |`
+	)
+	.join('\n')}`;
+
+	const jsonSample = JSON.stringify(
+		{
+			id: 'evt-spring-summit',
+			slug: 'spring-summit-2026',
+			title: 'Spring AI Summit',
+			type: 'event',
+			typeLabel: 'Webinar',
+			tagline: 'Hands-on tactics for AI adoption',
+			summary: 'A live session on scaling AI workflows across teams.',
+			date: 'March 12, 2026',
+			time: '2:00 PM – 3:00 PM PT',
+			startAt: '2026-03-12T22:00:00.000Z',
+			endAt: '2026-03-12T23:00:00.000Z',
+			registerUrl: 'https://example.com/register',
+			registerLabel: 'Request to Join',
+			draft: false
+		},
+		null,
+		2
+	);
+
+	const jsonSchema = JSON.stringify(
+		{
+			$schema: 'https://json-schema.org/draft/2020-12/schema',
+			title: 'Event',
+			type: 'object',
+			required: ['id', 'slug', 'title', 'type', 'summary', 'date', 'startAt', 'registerUrl'],
+			properties: {
+				id: { type: 'string' },
+				slug: { type: 'string' },
+				title: { type: 'string' },
+				type: { type: 'string' },
+				typeLabel: { type: 'string' },
+				tagline: { type: 'string' },
+				summary: { type: 'string' },
+				date: { type: 'string' },
+				time: { oneOf: [{ type: 'string' }, { type: 'array', items: { type: 'string' } }] },
+				timezone: { type: 'string' },
+				startAt: { type: 'string' },
+				endAt: { type: 'string' },
+				location: { type: 'string' },
+				registerUrl: { type: 'string' },
+				registerLabel: { type: 'string' },
+				image: { type: 'string' },
+				imageAlt: { type: 'string' },
+				speakers: {
+					type: 'array',
+					items: {
+						type: 'object',
+						properties: {
+							name: { type: 'string' },
+							title: { type: 'string' },
+							photo: { type: 'string' },
+							photoAlt: { type: 'string' }
+						},
+						required: ['name', 'title']
+					}
+				},
+				relatedProgramSlugs: { type: 'array', items: { type: 'string' } },
+				draft: { type: 'boolean' }
+			},
+			additionalProperties: false
+		},
+		null,
+		2
+	);
+
+	let copiedTable = false;
+	let copiedJson = false;
+	let copiedSchema = false;
+
+	const copyToClipboard = async (value: string, kind: 'table' | 'json' | 'schema') => {
+		try {
+			await navigator.clipboard.writeText(value);
+			if (kind === 'table') copiedTable = true;
+			if (kind === 'json') copiedJson = true;
+			if (kind === 'schema') copiedSchema = true;
+			setTimeout(() => {
+				if (kind === 'table') copiedTable = false;
+				if (kind === 'json') copiedJson = false;
+				if (kind === 'schema') copiedSchema = false;
+			}, 1200);
+		} catch (error) {
+			console.error('Failed to copy to clipboard', error);
+		}
+	};
 </script>
 
 <SeoHead title={pageMeta.title} description={pageMeta.description} path="/events" />
@@ -54,10 +237,82 @@
 					<p class="font-semibold text-cyan-100">Training images</p>
 					<p>Hero sizes in use: 1920×1080 and 3840×2160.</p>
 					<p>Open graph sizes: 1920×1080.</p>
+					<p>
+						Features and hero images should be located here:
+						<code>/workspaces/cambermast-website-new/web/static/images/</code>.
+						<br />
+						<span>Sample filenames:</span>
+						<br />
+						<code>sample-image-filename.jpg</code> and <code>sample-image-og.jpg</code>.
+					</p>
 				</div>
 				<div>
 					<p class="font-semibold text-cyan-100">Event images</p>
 					<p>Current Lu.ma cover image: 800×800 (square).</p>
+					<p>Event images should also be stored in <code>/workspaces/cambermast-website-new/web/static/images/</code>.</p>
+				</div>
+			</div>
+			<div class="mt-4 rounded-2xl border border-cyan-300/20 bg-slate-950/60 p-4 text-[0.7rem] text-cyan-100/90">
+				<p class="font-semibold text-cyan-100">Events data fields</p>
+				<p>
+					Source:
+					<a class="underline" href="/src/lib/data/events/events.json" target="_blank" rel="noopener">
+						<code>web/src/lib/data/events/events.json</code>
+					</a>
+					.
+				</p>
+				<div class="mt-3 flex flex-wrap gap-2 text-[0.65rem]">
+					<button
+						class={`rounded-full border border-cyan-200/40 px-3 py-1 font-semibold transition ${
+							copiedTable ? 'bg-cyan-300/30 text-white' : 'bg-cyan-400/10 text-cyan-50'
+						}`}
+						type="button"
+						on:click={() => copyToClipboard(markdownTable, 'table')}
+					>
+						{copiedTable ? 'Copied table ✓' : 'Copy table (Markdown)'}
+					</button>
+					<button
+						class={`rounded-full border border-cyan-200/40 px-3 py-1 font-semibold transition ${
+							copiedJson ? 'bg-cyan-300/30 text-white' : 'bg-cyan-400/10 text-cyan-50'
+						}`}
+						type="button"
+						on:click={() => copyToClipboard(jsonSample, 'json')}
+					>
+						{copiedJson ? 'Copied JSON ✓' : 'Copy JSON'}
+					</button>
+					<button
+						class={`rounded-full border border-cyan-200/40 px-3 py-1 font-semibold transition ${
+							copiedSchema ? 'bg-cyan-300/30 text-white' : 'bg-cyan-400/10 text-cyan-50'
+						}`}
+						type="button"
+						on:click={() => copyToClipboard(jsonSchema, 'schema')}
+					>
+						{copiedSchema ? 'Copied schema ✓' : 'Copy JSON schema'}
+					</button>
+				</div>
+				<div class="mt-3 overflow-x-auto">
+					<table class="w-full border-collapse text-left">
+						<thead>
+							<tr class="border-b border-cyan-300/20 text-[0.65rem] uppercase tracking-[0.2em] text-cyan-200">
+								<th class="py-2 pr-3 font-semibold">Field</th>
+								<th class="py-2 pr-3 font-semibold">Required</th>
+								<th class="py-2 font-semibold">Description (used on this page)</th>
+							</tr>
+						</thead>
+						<tbody class="text-cyan-100/90">
+							{#each eventFields as item}
+								<tr class="border-b border-cyan-300/10">
+									<td class="py-2 pr-3"><code>{item.field}</code></td>
+									<td class="py-2 pr-3">{item.required ? 'Yes' : 'No'}</td>
+									<td class="py-2">
+										{item.description}
+										<br />
+										<span class="text-cyan-100/70">Example: <code>{item.example}</code></span>
+									</td>
+								</tr>
+							{/each}
+						</tbody>
+					</table>
 				</div>
 			</div>
 		</div>
