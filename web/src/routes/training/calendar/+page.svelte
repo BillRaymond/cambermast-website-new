@@ -374,7 +374,7 @@ const happeningEntries: UpcomingEntry[] = [...happeningTrainingEntries].sort(
 						{@const entryImage = entry.image}
 						<li id={cardId}>
 							<article
-								class={`relative rounded-xl border border-blue-100 bg-blue-50/60 p-4 shadow-sm focus-within:ring-2 focus-within:ring-blue-400 sm:pb-10 ${
+								class={`relative rounded-xl border border-blue-100 bg-blue-50/60 p-4 pb-3 shadow-sm focus-within:ring-2 focus-within:ring-blue-400 ${
 									isTodaySession ? 'ring-2 ring-blue-400' : ''
 								}`}
 								aria-labelledby={`${cardId}-title`}
@@ -480,31 +480,32 @@ const happeningEntries: UpcomingEntry[] = [...happeningTrainingEntries].sort(
 															In partnership with {entry.partnerText}
 														</p>
 													{/if}
+													{#if entry.registerUrl || entry.learnMoreUrl}
+														<div class="mt-3 grid gap-3 sm:grid-cols-[12rem_minmax(0,1fr)] sm:items-center">
+															{#if entry.registerUrl}
+																<a
+																	href={entry.registerUrl}
+																	target="_blank"
+																	rel="noopener"
+																	class="inline-flex w-full items-center justify-center rounded-lg bg-blue-600 px-4 py-1.5 text-sm font-semibold text-white transition hover:bg-blue-700"
+																>
+																	Register now
+																</a>
+															{/if}
+															{#if entry.learnMoreUrl}
+																<a
+																	href={entry.learnMoreUrl}
+																	class="inline-flex items-center justify-end font-semibold text-blue-700 underline decoration-blue-200 underline-offset-4 transition hover:text-blue-900"
+																>
+																	Learn more →
+																</a>
+															{/if}
+														</div>
+													{/if}
 												</div>
 											</div>
 							</div>
-							{#if entry.registerUrl || entry.learnMoreUrl}
-								<div class="mt-4 grid gap-3 sm:grid-cols-[12rem_minmax(0,1fr)] sm:items-center">
-									{#if entry.registerUrl}
-										<a
-											href={entry.registerUrl}
-											target="_blank"
-											rel="noopener"
-											class="inline-flex w-full items-center justify-center rounded-lg bg-blue-600 px-4 py-1.5 text-sm font-semibold text-white transition hover:bg-blue-700"
-										>
-											Register now
-										</a>
-									{/if}
-									{#if entry.learnMoreUrl}
-										<a
-											href={entry.learnMoreUrl}
-											class="inline-flex items-center justify-end font-semibold text-blue-700 underline decoration-blue-200 underline-offset-4 transition hover:text-blue-900"
-										>
-											Learn more →
-										</a>
-									{/if}
-								</div>
-							{/if}
+							
 							</article>
 						</li>
 								{/each}
@@ -553,7 +554,7 @@ const happeningEntries: UpcomingEntry[] = [...happeningTrainingEntries].sort(
 				<ul class="mt-4 space-y-4">
 					{#each happeningEntries as entry}
 						<li>
-							<article class="relative rounded-xl border border-amber-200 bg-white p-4 shadow-sm sm:pb-10">
+							<article class="relative rounded-xl border border-amber-200 bg-white p-4 pb-3 shadow-sm">
 								<div class="flex flex-col gap-4 sm:flex-row sm:items-stretch sm:justify-between">
 									<div class="flex flex-1 flex-col gap-4 sm:flex-row sm:items-start sm:gap-5">
 										<div class="flex w-full flex-col gap-3 sm:w-48">
@@ -633,31 +634,31 @@ const happeningEntries: UpcomingEntry[] = [...happeningTrainingEntries].sort(
 													In partnership with {entry.partnerText}
 												</p>
 											{/if}
+											{#if entry.registerUrl || entry.learnMoreUrl}
+												<div class="mt-3 grid gap-3 sm:grid-cols-[12rem_minmax(0,1fr)] sm:items-center">
+													{#if entry.registerUrl}
+														<a
+															href={entry.registerUrl}
+															target="_blank"
+															rel="noopener"
+															aria-disabled="true"
+															class="inline-flex w-full items-center justify-center rounded-lg bg-gray-200 px-4 py-1.5 text-sm font-semibold text-gray-600 shadow-sm"
+														>
+															Enrollment closed, running now
+														</a>
+													{/if}
+													{#if entry.learnMoreUrl}
+														<a
+															href={entry.learnMoreUrl}
+															class="inline-flex items-center justify-end font-semibold text-blue-700 underline decoration-blue-200 underline-offset-4 transition hover:text-blue-900"
+														>
+															Learn more →
+														</a>
+													{/if}
+												</div>
+											{/if}
 										</div>
 									</div>
-									{#if entry.registerUrl || entry.learnMoreUrl}
-										<div class="mt-4 grid gap-3 sm:grid-cols-[12rem_minmax(0,1fr)] sm:items-center">
-											{#if entry.registerUrl}
-												<a
-													href={entry.registerUrl}
-													target="_blank"
-													rel="noopener"
-													aria-disabled="true"
-													class="inline-flex w-full items-center justify-center rounded-lg bg-gray-200 px-4 py-1.5 text-sm font-semibold text-gray-600 shadow-sm"
-												>
-													Enrollment closed, running now
-												</a>
-											{/if}
-											{#if entry.learnMoreUrl}
-												<a
-													href={entry.learnMoreUrl}
-													class="inline-flex items-center justify-end font-semibold text-blue-700 underline decoration-blue-200 underline-offset-4 transition hover:text-blue-900"
-												>
-													Learn more →
-												</a>
-											{/if}
-										</div>
-									{/if}
 								</div>
 							</article>
 						</li>
