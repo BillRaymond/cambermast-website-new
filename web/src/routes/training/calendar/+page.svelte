@@ -293,7 +293,7 @@ const upcomingEventEntries: UpcomingEntry[] = listEvents()
 			metaDetails,
 			partnerText: null,
 			registerUrl: event.registerUrl,
-			learnMoreUrl: relatedProgram?.route ?? `/events/${event.slug}`,
+			learnMoreUrl: relatedProgram?.route ?? '/events',
 			image: getEventCardImage(event)
 		};
 	});

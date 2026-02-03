@@ -81,12 +81,6 @@
 							</div>
 							<div class="flex flex-col gap-2 md:items-end">
 								<a
-									href={`/events/${event.slug}`}
-									class="inline-flex items-center justify-center rounded-full border border-white/20 px-4 py-2 text-xs font-semibold text-white/90 transition hover:border-white/50"
-								>
-									Event details
-								</a>
-								<a
 									href={event.registerUrl}
 									target="_blank"
 									rel="noopener"
@@ -119,12 +113,6 @@
 						</p>
 						<p class="mt-2 text-sm font-semibold text-slate-900">{event.title}</p>
 						<p class="text-xs text-slate-600">{event.date}</p>
-						<a
-							href={`/events/${event.slug}`}
-							class="mt-3 inline-flex text-xs font-semibold text-cyan-700 hover:text-cyan-500"
-						>
-							Event details
-						</a>
 					</div>
 				{/each}
 			</div>
