@@ -31,6 +31,19 @@ const toTimestamp = (value?: string): number | undefined => {
 	return parsed?.getTime();
 };
 
+const parseStartTime = (value?: string | string[]): { hours: number; minutes: number } | null => {
+	if (!value) return null;
+	const timeValue = Array.isArray(value) ? value[0] : value;
+	const match = /(\d{1,2})(?::(\d{2}))?\s*(am|pm)?/i.exec(timeValue);
+	if (!match) return null;
+	let hours = Number.parseInt(match[1], 10);
+	const minutes = Number.parseInt(match[2] ?? '0', 10);
+	const meridiem = match[3]?.toLowerCase();
+	if (meridiem === 'pm' && hours < 12) hours += 12;
+	if (meridiem === 'am' && hours === 12) hours = 0;
+	return { hours, minutes };
+};
+
 export const normalizeToday = (reference: Date = new Date()): Date => {
 	const normalized = new Date(reference);
 	normalized.setHours(0, 0, 0, 0);
@@ -72,5 +85,12 @@ export const filterUpcomingSessions = (
 	today: Date = normalizeToday()
 ): TrainingSession[] => sessions.filter((session) => isSessionUpcoming(session, today));
 
-export const getSessionStartTimestamp = (session: TrainingSession): number =>
-	toTimestamp(session.startDate) ?? Number.POSITIVE_INFINITY;
+export const getSessionStartTimestamp = (session: TrainingSession): number => {
+	const parsedDate = parseDateValue(session.startDate);
+	if (!parsedDate) return Number.POSITIVE_INFINITY;
+	const timeParts = parseStartTime(session.time);
+	if (timeParts) {
+		parsedDate.setHours(timeParts.hours, timeParts.minutes, 0, 0);
+	}
+	return parsedDate.getTime();
+};
