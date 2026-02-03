@@ -35,21 +35,12 @@
 	imageAlt={heroImageAlt}
 />
 
-<section class="mx-auto mb-10 max-w-3xl space-y-4">
-	<h1 class="text-3xl font-bold text-gray-900">Resources for AI training and delivery</h1>
-	<p class="text-lg text-gray-700">
+<section class="mx-auto max-w-4xl text-left">
+	<h1 class="mb-5 text-3xl font-bold">Resources for AI training and delivery</h1>
+	<p class="mb-8 text-gray-700">
 		Practical guides and checklists to help you prepare for Cambermast sessions, keep your
 		team aligned, and apply what you learn.
 	</p>
-	<figure class="mx-auto w-full overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-sm sm:w-1/2">
-		<img
-			class="h-auto w-full object-contain"
-			src={heroImage}
-			alt={heroImageAlt}
-			loading="eager"
-			decoding="async"
-		/>
-	</figure>
 </section>
 
 <section id="attendee-training-tips" class="mx-auto mb-16 max-w-4xl space-y-6">

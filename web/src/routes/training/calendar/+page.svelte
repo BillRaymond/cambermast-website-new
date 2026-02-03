@@ -337,21 +337,9 @@ const happeningEntries: UpcomingEntry[] = [...happeningTrainingEntries].sort(
 <section class="bg-gradient-to-b from-blue-50/60 to-white">
 	<div class="mx-auto flex max-w-6xl flex-col gap-8 px-4 py-12">
 		<header class="flex flex-col gap-5">
-			<p class="text-sm font-semibold uppercase tracking-wide text-blue-600">
-				Upcoming training & events
-			</p>
-			<h1 class="text-3xl font-bold text-gray-900">New AI workshops and cohorts you can join</h1>
-			<p class="max-w-2xl text-base text-gray-700">
-				Browse the full schedule on
-				<a
-					href="https://luma.com/BillTalksAI?k=c"
-					target="_blank"
-					rel="noopener"
-					class="inline-flex items-center gap-1 text-blue-700 underline underline-offset-2 hover:text-blue-900"
-					>Lu.ma</a
-				>
-				and grab a seat while spots are still open.
-			</p>
+			<h1 class="text-3xl font-bold text-gray-900">
+				Upcoming AI workshops and cohorts you can join
+			</h1>
 		</header>
 
 		<div class="rounded-2xl border border-blue-100 bg-white p-5 shadow-sm">
@@ -522,23 +510,31 @@ const happeningEntries: UpcomingEntry[] = [...happeningTrainingEntries].sort(
 		</div>
 
 		<div class="rounded-2xl border border-blue-200 bg-blue-50/60 p-5 shadow-sm">
-			<h2 class="text-lg font-semibold text-gray-900">Design a private workshop</h2>
-			<p class="mt-1 text-sm text-gray-600">
-				Tailor a cohort to your team’s goals, tooling, and delivery timeline with Bill Raymond.
-			</p>
-			<div class="mt-4 flex flex-wrap gap-3">
-				<a
-					href="/contact"
-					class="inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700"
-				>
-					Talk with Bill
-				</a>
-				<a
-					href="/training"
-					class="inline-flex items-center justify-center rounded-lg border border-blue-300 bg-white px-4 py-2 text-sm font-semibold text-blue-700 transition hover:border-blue-400 hover:text-blue-900"
-				>
-					Browse training catalog
-				</a>
+			<div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+				<div class="flex items-center gap-3">
+					<img
+						src="/images/bill.jpg"
+						alt="Bill Raymond"
+						class="h-10 w-10 flex-none rounded-2xl border border-blue-100 object-cover"
+						loading="lazy"
+						decoding="async"
+					/>
+					<div class="min-w-0">
+						<p class="text-xs font-semibold uppercase tracking-wide text-blue-600">
+							AI leadership in action
+						</p>
+						<p class="text-sm font-semibold text-gray-900">Design a private workshop</p>
+						<p class="text-sm text-gray-600">Tailor a cohort to meet your team's goals.</p>
+					</div>
+				</div>
+				<div class="flex flex-col gap-1 sm:items-end">
+					<a
+						href="/contact"
+						class="inline-flex items-center justify-center rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-200"
+					>
+						Book a consultation
+					</a>
+				</div>
 			</div>
 		</div>
 
@@ -665,5 +661,17 @@ const happeningEntries: UpcomingEntry[] = [...happeningTrainingEntries].sort(
 				</ul>
 			</div>
 		{/if}
+
+		<p class="text-sm text-gray-600">
+			Browse the full schedule on
+			<a
+				href="https://luma.com/BillTalksAI?k=c"
+				target="_blank"
+				rel="noopener"
+				class="inline-flex items-center gap-1 text-blue-700 underline underline-offset-2 hover:text-blue-900"
+				>Lu.ma</a
+			>
+			and grab a seat while spots are still open.
+		</p>
 	</div>
 </section>

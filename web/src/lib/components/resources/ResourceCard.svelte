@@ -28,7 +28,7 @@
 			Image coming soon
 		</div>
 	{/if}
-	<div class="space-y-2">
+	<div class="space-y-2 text-left">
 		<p class="text-xs font-semibold uppercase tracking-wide text-blue-600">{label}</p>
 		<h2 class="text-2xl font-semibold text-gray-900">{title}</h2>
 		<p class="text-sm text-gray-700">
