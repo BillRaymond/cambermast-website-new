@@ -485,9 +485,9 @@ $: happeningEntries = [...happeningTrainingEntries].sort(
 				</div>
 
 			<div class="rounded-2xl border border-blue-100 bg-white p-5 shadow-sm">
-			{#if groupedEntries.length}
-				<div class="space-y-8">
-					{#each groupedEntries as group}
+				{#if groupedEntries.length}
+					<div class="space-y-8">
+						{#each groupedEntries as group}
 						<section>
 							<h3 class="text-xs font-semibold uppercase tracking-[0.2em] text-blue-600">
 								{group.monthLabel}
@@ -635,12 +635,13 @@ $: happeningEntries = [...happeningTrainingEntries].sort(
 						</section>
 					{/each}
 				</div>
-			{:else}
-				<div class="mt-6 rounded-xl border border-blue-100 bg-blue-50/60 p-5 text-sm text-gray-600">
-					New public cohorts are being scheduled. Follow the Bill Talks AI newsletter or contact us
-					to reserve custom training dates for your team.
-				</div>
-			{/if}
+				{:else}
+					<div class="mt-6 rounded-xl border border-blue-100 bg-blue-50/60 p-5 text-sm text-gray-600">
+						New public cohorts are being scheduled. Follow the Bill Talks AI newsletter or contact us
+						to reserve custom training dates for your team.
+					</div>
+				{/if}
+			</div>
 		</div>
 
 		<div class="my-3 rounded-2xl border border-blue-200 bg-blue-50/60 p-5 shadow-sm">

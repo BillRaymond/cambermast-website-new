@@ -256,7 +256,12 @@ ${eventFields
 				<p class="font-semibold text-cyan-100">Events data fields</p>
 				<p>
 					Source:
-					<a class="underline" href="/src/lib/data/events/events.json" target="_blank" rel="noopener">
+					<a
+						class="underline"
+						href="https://github.com/BillRaymond/cambermast-website-new/blob/main/web/src/lib/data/events/events.json"
+						target="_blank"
+						rel="noopener"
+					>
 						<code>web/src/lib/data/events/events.json</code>
 					</a>
 					.
