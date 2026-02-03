@@ -1,12 +1,15 @@
 import { error } from '@sveltejs/kit';
 
 import { dev } from '$app/environment';
-import { getEvent } from '$lib/data/events';
+import { getEvent, listEvents } from '$lib/data/events';
 import { listTrainingPrograms } from '$lib/data/training';
 
 import type { PageLoad } from './$types';
 
 export const prerender = true;
+
+export const entries = () =>
+	listEvents({ includeDrafts: false }).map((event) => ({ slug: event.slug }));
 
 export const load: PageLoad = ({ params }) => {
 	const event = getEvent(params.slug, { includeDrafts: dev });

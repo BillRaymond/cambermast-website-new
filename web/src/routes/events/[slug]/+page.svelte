@@ -44,9 +44,9 @@
 
 <main class="relative overflow-hidden bg-slate-950 text-white">
 	<div class="absolute inset-0">
-		<div class="absolute -top-40 left-10 h-72 w-72 rounded-full bg-cyan-500/30 blur-3xl" />
-		<div class="absolute top-10 right-0 h-80 w-80 rounded-full bg-indigo-500/30 blur-3xl" />
-		<div class="absolute bottom-0 left-0 h-64 w-64 rounded-full bg-emerald-400/20 blur-3xl" />
+		<div class="absolute -top-40 left-10 h-72 w-72 rounded-full bg-cyan-500/30 blur-3xl"></div>
+		<div class="absolute top-10 right-0 h-80 w-80 rounded-full bg-indigo-500/30 blur-3xl"></div>
+		<div class="absolute bottom-0 left-0 h-64 w-64 rounded-full bg-emerald-400/20 blur-3xl"></div>
 	</div>
 
 	<section class="relative mx-auto flex max-w-6xl flex-col gap-8 px-5 pb-12 pt-12 md:pt-16">
