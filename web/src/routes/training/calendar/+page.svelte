@@ -547,8 +547,7 @@ const happeningEntries: UpcomingEntry[] = [...happeningTrainingEntries].sort(
 				<div class="flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-4">
 					<h2 class="whitespace-nowrap text-lg font-semibold text-amber-900">Happening now</h2>
 					<p class="min-w-0 flex-1 text-xs text-amber-700">
-						These cohorts are running now. Bookmark this calendar to get the next dates as soon as
-						they open.
+						Bookmark this page so you never miss another event
 					</p>
 				</div>
 				<ul class="mt-4 space-y-4">
