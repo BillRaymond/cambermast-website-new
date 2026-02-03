@@ -16,7 +16,7 @@
 			}
 		},
 		{
-			text: '🛒 Check the prerequisites for your training program and make sure you purchase or download any required apps, hardware, or services.',
+			text: '🛒 Check the prerequisites for your training program and make sure you purchase or download any required apps, hardware, or services. They are typically listed on the public site where you signed up or in an email. Here are links to our public programs where you can find the prerequisites:',
 			showPrograms: true
 		},
 		{
@@ -67,7 +67,9 @@
 	</ul>
 </section>
 
-<section class="space-y-6 rounded-2xl border border-blue-100 bg-blue-50 p-6 text-sm text-blue-950 shadow">
+<section
+	class="space-y-6 rounded-2xl border border-blue-100 bg-blue-50 p-6 text-sm text-blue-950 shadow"
+>
 	<h3 class="text-2xl font-semibold text-blue-950">Bonus tips for smooth sessions</h3>
 	<ul class="list-disc space-y-2 pl-6">
 		{#each bonusTips as tip}
