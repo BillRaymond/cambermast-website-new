@@ -82,22 +82,29 @@
 	];
 
 	const roleOptions = [
-		{ value: 'technical-writer', label: 'Technical writer or documentation specialist' },
-		{ value: 'content-strategist', label: 'Content strategist or manager' },
-		{ value: 'ux-writer', label: 'UX writer or designer' },
+		{ value: 'leader', label: 'Founder, executive, or team leader' },
+		{ value: 'product', label: 'Product manager or owner' },
+		{ value: 'engineering', label: 'IT, engineer, or developer' },
+		{ value: 'design', label: 'Designer or UX researcher' },
+		{ value: 'data', label: 'Data, analytics, or research' },
+		{ value: 'operations', label: 'Operations or program manager' },
+		{ value: 'sales', label: 'Sales, customer success, or support' },
 		{ value: 'marketing', label: 'Marketing or communications professional' },
+		{ value: 'content', label: 'Writer, editor, or documentation specialist' },
 		{ value: 'educator', label: 'Educator or trainer' },
 		{ value: 'other', label: 'Other' }
 	];
 
 	const contentOptions = [
 		{ value: 'documents', label: 'Documents, proposals, or reports' },
-		{ value: 'knowledge-base', label: 'Knowledge base or support content' },
-		{ value: 'presentations', label: 'Presentations or training materials' },
+		{ value: 'product-specs', label: 'Product specs, requirements, or user stories' },
+		{ value: 'knowledge-base', label: 'Knowledge base, help, or support content' },
+		{ value: 'presentations', label: 'Presentations, decks, or training materials' },
 		{ value: 'marketing-content', label: 'Marketing, web, or campaign content' },
-		{ value: 'communications', label: 'Communications (email, social media, newsletters)' },
-		{ value: 'operations', label: 'Operational or process documentation' },
+		{ value: 'communications', label: 'Communications (email, memos, newsletters)' },
+		{ value: 'operations', label: 'Process docs, SOPs, or checklists' },
 		{ value: 'data-analysis', label: 'Data summaries, analysis, or insights' },
+		{ value: 'code', label: 'Code, scripts, or technical workflows' },
 		{ value: 'automation', label: 'Automations, workflows, or internal tooling' },
 		{ value: 'other', label: 'Other' }
 	];
@@ -131,15 +138,15 @@
 				llmFamiliarity: ['chatgpt', 'gemini', 'other'],
 				llmOther: 'more llms',
 				paidAccess: 'yes',
-				roles: ['technical-writer', 'educator', 'other'],
+				roles: ['content', 'educator', 'other'],
 				roleOther: 'More roles',
-				contentTypes: ['technical-docs', 'knowledge-base', 'other'],
-				contentOther: 'More types of content',
+				contentTypes: ['documents', 'knowledge-base', 'other'],
+				contentOther: 'More work outputs',
 				aiToolsExperience:
 					'I use Copilot in Word for summaries and ChatGPT to draft release notes. I love the speed but need help keeping tone consistent.',
 				communityInterests: ['slack', 'discord', 'other'],
 				communityOther: 'Another shared space',
-				syllabusSuggestions: 'I would like more examples of governance guardrails and content QA workflows.',
+				syllabusSuggestions: 'I would like more examples of governance guardrails and QA workflows.',
 				workshopGoal: workshopGoalPrompt,
 				additionalNotes: 'Looking forward to collaborating with the group.',
 				accessibilityNeeds: 'None at this time.'
@@ -505,7 +512,7 @@
 
 		if (contentTypes.includes('other') && !contentOther.trim()) {
 			status = 'error';
-			errorMsg = 'Please share the other content type you manage.';
+			errorMsg = 'Please share the other work output you manage.';
 			return;
 		}
 
@@ -759,7 +766,7 @@
 		<fieldset class="border-0 p-0">
 			<legend class="block text-sm font-semibold uppercase tracking-wide text-gray-600">
 				<span class="required-label">
-					What large language models (LLMs) are you familiar with?
+					What AI large language models (LLMs) are you familiar with?
 				</span>
 				<span class="sr-only"> required</span>
 			</legend>
@@ -799,16 +806,35 @@
 				<span class="sr-only"> required</span>
 			</legend>
 			<p class="mt-1 text-xs text-gray-500">
-				To get the most value out of this workshop, you should have access to a paid version of an
-				AI app. ChatGPT Plus is $20/month at the time of this survey.
+				To get the most value out of this workshop, you should have access to a paid AI LLM app.
+				ChatGPT Plus is $20/month at the time of this survey. See pricing for
 				<a
 					class="font-semibold text-blue-600 underline"
 					href="https://openai.com/chatgpt/pricing/"
 					target="_blank"
 					rel="noreferrer"
 				>
-					View pricing
+					ChatGPT
 				</a>
+				,
+				<a
+					class="font-semibold text-blue-600 underline"
+					href="https://claude.com/pricing"
+					target="_blank"
+					rel="noreferrer"
+				>
+					Claude
+				</a>
+				, and
+				<a
+					class="font-semibold text-blue-600 underline"
+					href="https://gemini.google/subscriptions/"
+					target="_blank"
+					rel="noreferrer"
+				>
+					Gemini
+				</a>
+				.
 			</p>
 			<div class="mt-3 space-y-2">
 				{#each paidAccessOptions as option}
@@ -862,7 +888,7 @@
 
 		<fieldset class="border-0 p-0">
 			<legend class="block text-sm font-semibold uppercase tracking-wide text-gray-600">
-				What types of content do you hope AI can help you maintain, create, or automate?
+				What types of work outputs do you hope AI can help you create, improve, or automate?
 			</legend>
 			<p class="mt-1 text-xs text-gray-500">Select all that apply.</p>
 			<div class="mt-3 space-y-2">
@@ -884,7 +910,7 @@
 							bind:value={contentOther}
 							type="text"
 							name="contentOther"
-							placeholder="Share the other content type"
+							placeholder="Share the other work output"
 							required
 						/>
 					{/if}
@@ -904,8 +930,8 @@
 				and what you do not like about those AI features.
 			</p>
 			<p class="mt-1 text-xs text-gray-500 italic">
-				Example: "I use Copilot in Microsoft Word to help me summarize my content for social media
-				posts."
+				Example: "I use Copilot in Microsoft Word to summarize meeting notes and draft project
+				updates."
 			</p>
 			<textarea
 				class="mt-2 w-full rounded-lg border px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500"
@@ -992,8 +1018,8 @@
 				When this workshop is complete, I...
 			</label>
 			<p class="mt-1 text-xs text-gray-500">
-				Example: When this workshop is complete, I will have the prompting skills to make AI write
-				content based on my style and writing guidelines.
+				Example: When this workshop is complete, I will have a repeatable workflow to draft,
+				improve, and QA my work with AI.
 			</p>
 			<textarea
 				class="mt-2 w-full rounded-lg border px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500"
