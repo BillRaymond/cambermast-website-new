@@ -88,6 +88,7 @@
 		.map(([slug, sec]) => ({ slug, ...sec })) as Array<{ slug: string } & CatalogSection>;
 
 	const today = normalizeToday();
+	const now = new Date();
 	const endDateFormatter = new Intl.DateTimeFormat('en-US', {
 		month: 'short',
 		day: 'numeric',
@@ -223,7 +224,7 @@
 				session.startDate &&
 				hasExternalRegistration(session) &&
 				isSessionUpcoming(session, today) &&
-				!isSessionHappeningNow(session, today)
+				!isSessionHappeningNow(session, now)
 		)
 		.map(({ program, session }) => ({
 			type: 'training' as const,
@@ -235,7 +236,7 @@
 		}));
 
 	const happeningTrainingEntries = trainingSessionEntries.filter(({ session }) =>
-		session.startDate ? isSessionHappeningNow(session, today) : false
+		session.startDate ? isSessionHappeningNow(session, now) : false
 	);
 
 	const upcomingExternalEntries: UpcomingExternalEntry[] = listExternalEvents()
@@ -538,7 +539,7 @@
 				</p>
 			</div>
 			<a
-				href="/training/calendar"
+				href="/calendar"
 				class="sessions-strip-link inline-flex items-center justify-center rounded-full border border-blue-200 bg-white px-3 py-2 text-xs font-semibold text-blue-700 transition hover:border-blue-300 hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-200"
 			>
 				View calendar →

@@ -36,6 +36,7 @@ let statsBeforeCta: TrainingStat[] = [];
 let statsAfterCta: TrainingStat[] = [];
 let ctaInsertIndex = -1;
 const today = normalizeToday();
+const now = new Date();
 let registerableSessions: TrainingSession[] = [];
 let happeningSessions: TrainingSession[] = [];
 let programTestimonials: Testimonial[] = [];
@@ -66,10 +67,10 @@ const formatTestimonialRole = (testimonial: Testimonial): string => {
 				session.startDate &&
 				hasExternalRegistration(session) &&
 				isSessionUpcoming(session, today) &&
-				!isSessionHappeningNow(session, today)
+				!isSessionHappeningNow(session, now)
 		);
 		happeningSessions = sessions.filter((session) =>
-			session.startDate ? isSessionHappeningNow(session, today) : false
+			session.startDate ? isSessionHappeningNow(session, now) : false
 		);
 	}
 

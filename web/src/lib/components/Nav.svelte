@@ -32,7 +32,7 @@
 	const navLinks = [
 		...catalogLinks,
 		{ href: '/resources', label: 'Resources' },
-		{ href: '/training/calendar', label: 'Calendar' },
+		{ href: '/calendar', label: 'Calendar' },
 		{ href: '/connect', label: 'Connect' },
 		{ href: '/about', label: 'About' }
 	];
@@ -74,7 +74,7 @@
 			}`}
 			aria-current={isActive ? 'page' : undefined}
 		>
-			{#if link.href === '/training/calendar' && upcomingExists}
+			{#if link.href === '/calendar' && upcomingExists}
 				<span class="relative flex h-2.5 w-2.5">
 					<span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue-400/80 opacity-75"></span>
 					<span class="relative inline-flex h-full w-full rounded-full bg-blue-600"></span>

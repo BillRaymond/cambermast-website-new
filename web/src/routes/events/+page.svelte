@@ -45,6 +45,23 @@
 
 <section class="bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white">
 	<div class="mx-auto flex max-w-6xl flex-col gap-10 px-5 py-14">
+		<div class="rounded-3xl border border-cyan-300/30 bg-cyan-400/10 p-4 text-xs text-cyan-100">
+			<p class="text-[0.6rem] font-semibold uppercase tracking-[0.3em] text-cyan-200">
+				Dev-only reference
+			</p>
+			<div class="mt-2 grid gap-2 text-[0.7rem] text-cyan-100/90 md:grid-cols-2">
+				<div>
+					<p class="font-semibold text-cyan-100">Training images</p>
+					<p>Hero sizes in use: 1920×1080 and 3840×2160.</p>
+					<p>Open graph sizes: 1920×1080.</p>
+				</div>
+				<div>
+					<p class="font-semibold text-cyan-100">Event images</p>
+					<p>Current Lu.ma cover image: 800×800 (square).</p>
+				</div>
+			</div>
+		</div>
+
 		<div class="flex flex-col gap-4">
 			<p class="text-xs font-semibold uppercase tracking-[0.3em] text-cyan-300">Cambermast events</p>
 			<h1 class="text-4xl font-semibold md:text-5xl">Events, webinars, and live sessions</h1>
@@ -53,7 +70,7 @@
 				connect with practitioners, and explore related training.
 			</p>
 			<a
-				href="/training/calendar"
+				href="/calendar"
 				class="inline-flex w-fit items-center gap-2 rounded-full border border-white/20 px-4 py-2 text-xs font-semibold text-white/90 transition hover:border-white/50"
 			>
 				View full training calendar →

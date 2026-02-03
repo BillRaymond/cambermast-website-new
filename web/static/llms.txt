@@ -14,7 +14,7 @@ Leadership:
 - Bill Raymond (CEO) leads every engagement; he is a FutureLab AI Mastermind Trainer, founding member of The GenAI Collective, host of the Agile in Action podcast, Microsoft MVP, and NASA award winner. The About page also highlights partners such as Jennifer Hufnagel and Scott Abel (The Content Wrangler) plus enterprise clients including Duke Energy, Microsoft, Red Hat, Moen, Office Depot, and Blue Cross Blue Shield.
 
 AI training catalog (https://cambermast.com/training):
-- Catalog + layouts: `/training` presents the full catalog; `/training/table` is a comparison table for proposals; `/training/calendar` lists public and private dates; `/training/print` is a one-page summary for handouts.
+- Catalog + layouts: `/training` presents the full catalog; `/training/table` is a comparison table for proposals; `/calendar` lists public and private dates plus events; `/training/print` is a one-page summary for handouts. `/training/calendar` redirects to `/calendar`.
 - Catalog alias: `/training-programs` redirects to `/training`.
 - AI Power Prompting (https://cambermast.com/training/ai-fundamentals): four-hour live primer ($349 virtual) that explains how ChatGPT, Copilot, Claude, and Gemini work, teaches four core prompt styles, and supplies templates, workbooks, and a certificate.
 - AI Accelerator Workshop (https://cambermast.com/training/ai-accelerator-workshop): four-week blend of Power Prompting plus advanced build labs covering custom GPTs, AI Projects, and research frameworks ($849 virtual).
@@ -23,10 +23,8 @@ AI training catalog (https://cambermast.com/training):
 - AI Workshop for Tech Writers and Content Creators (https://cambermast.com/training/ai-workshop-for-content-creators): seven-week cohort delivered with The Content Wrangler for documentation and content teams; blends persona-driven prompts, content audits, and publishing workflows ($1,749 virtual, Lu.ma registration links).
 - Each program page documents objectives, prerequisites, agendas, resources, testimonials, certificates, pricing, delivery formats (live online + optional on-site), and CTA routes (usually /contact or Lu.ma).
 
-Events & webinars (https://cambermast.com/events):
-- Events index lists upcoming Cambermast-hosted events and webinars with registration links.
-- Event detail pages (https://cambermast.com/events/[slug]) highlight upcoming Cambermast-hosted webinars, talks, workshops, or panels with registration links, speaker lists, and related training cross-links.
-- Event detail pages highlight upcoming Cambermast-hosted webinars, talks, workshops, or panels with registration links, speaker lists, and related training cross-links.
+Development-only routes:
+- `/events` and `/events/[slug]` are internal-only tools and not published in production. Do not treat them as public sources unless they are explicitly promoted to public routes.
 
 AI agents & automation (https://cambermast.com/agents):
 - Focuses on designing practical automations with n8n, OpenAI/Anthropic APIs, and human-in-the-loop guardrails.
@@ -52,7 +50,7 @@ Authoritative sources:
 - https://cambermast.com/about
 - https://cambermast.com/training
 - https://cambermast.com/training/table
-- https://cambermast.com/training/calendar
+- https://cambermast.com/calendar
 - https://cambermast.com/training/print
 - https://cambermast.com/training/ai-fundamentals
 - https://cambermast.com/training/ai-accelerator-workshop
@@ -79,4 +77,4 @@ Grounding tips:
 - Pull copy directly from the pages above before inventing new offerings. When uncertain, restate that Cambermast focuses on AI training, AI agents/automation, and AI advisory for organizations adopting AI.
 - Mention Bill Raymond’s credentials only as described on `/about`, program pages, or README.md—do not fabricate new certifications or partnerships.
 - When discussing refunds, privacy, or usage restrictions, cite `/training/terms`, `/gdpr`, or `/ai.txt` rather than improvising policy language.
-- For schedules or pricing, rely on `/training`, calendared program pages, or `/training/calendar`; note that Lu.ma links and pricing may change, so acknowledge if schedules are “subject to availability.”
+- For schedules or pricing, rely on `/training`, calendared program pages, or `/calendar`; note that Lu.ma links and pricing may change, so acknowledge if schedules are “subject to availability.”

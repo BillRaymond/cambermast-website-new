@@ -30,6 +30,7 @@
 		!stat ? [] : Array.isArray(stat.value) ? stat.value : [stat.value];
 
 	const today = normalizeToday();
+	const now = new Date();
 
 	const getVisibleSessions = (program?: TrainingProgram): TrainingSession[] =>
 		(program?.sessions ?? []).filter((session) => !isSessionDraft(session));
@@ -40,7 +41,7 @@
 				session.startDate &&
 				hasExternalRegistration(session) &&
 				isSessionUpcoming(session, today) &&
-				!isSessionHappeningNow(session, today)
+				!isSessionHappeningNow(session, now)
 		);
 
 	const items = (section.items ?? [])

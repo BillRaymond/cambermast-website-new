@@ -41,6 +41,7 @@ let statsBeforeCta: TrainingStat[] = [];
 let statsAfterCta: TrainingStat[] = [];
 let ctaInsertIndex = -1;
 const today = normalizeToday();
+const now = new Date();
 let nonDraftSessions: TrainingSession[] = [];
 let upcomingSessions: TrainingSession[] = [];
 let happeningSessions: TrainingSession[] = [];
@@ -139,13 +140,13 @@ const toTimeLines = (value?: string | string[]): string[] =>
 
 	const isUpcomingSession = (session: TrainingSession): boolean => {
 		if (!session.startDate) return true;
-		return !isSessionHappeningNow(session, today) && isSessionUpcoming(session, today);
+		return !isSessionHappeningNow(session, now) && isSessionUpcoming(session, today);
 	};
 
 	$: upcomingSessions = nonDraftSessions.filter((session) => isUpcomingSession(session));
 
 	$: happeningSessions = nonDraftSessions.filter((session) =>
-		session.startDate ? isSessionHappeningNow(session, today) : false
+		session.startDate ? isSessionHappeningNow(session, now) : false
 	);
 
 	$: registerableSessions = upcomingSessions.filter((session) => hasExternalRegistration(session));
@@ -265,7 +266,7 @@ const toTimeLines = (value?: string | string[]): string[] =>
 								Related upcoming events
 							</p>
 							<a
-								href="/training/calendar"
+								href="/calendar"
 								class="text-xs font-semibold text-emerald-700 underline decoration-emerald-200 underline-offset-4"
 							>
 								View calendar

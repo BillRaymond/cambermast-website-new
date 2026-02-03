@@ -7,13 +7,13 @@
 	import { getSeo } from '$lib/seo';
 	import SeoHead from '$lib/components/SeoHead.svelte';
 	import { getProgramCertificateText } from '$lib/data/training/program-meta';
-import {
-	hasExternalRegistration,
-	isSessionDraft,
-	isSessionHappeningNow,
-	isSessionUpcoming,
-	normalizeToday
-} from '$lib/data/training/session-utils';
+	import {
+		hasExternalRegistration,
+		isSessionDraft,
+		isSessionHappeningNow,
+		isSessionUpcoming,
+		normalizeToday
+	} from '$lib/data/training/session-utils';
 
 	const section = catalog.agents;
 	const scheduleTeamLabel = 'Schedule your team';
@@ -38,21 +38,22 @@ import {
 		return slug ? getTrainingProgram(slug) : undefined;
 	};
 
-const today = normalizeToday();
-const getVisibleSessions = (program?: TrainingProgram): TrainingSession[] =>
-	(program?.sessions ?? []).filter((session) => !isSessionDraft(session));
-const gatherUpcomingSessions = (program?: TrainingProgram): TrainingSession[] =>
-	getVisibleSessions(program).filter(
-		(session) =>
-			session.startDate &&
-			hasExternalRegistration(session) &&
-			isSessionUpcoming(session, today) &&
-			!isSessionHappeningNow(session, today)
-	);
-const gatherHappeningSessions = (program?: TrainingProgram): TrainingSession[] =>
-	getVisibleSessions(program).filter((session) =>
-		session.startDate ? isSessionHappeningNow(session, today) : false
-	);
+	const today = normalizeToday();
+	const now = new Date();
+	const getVisibleSessions = (program?: TrainingProgram): TrainingSession[] =>
+		(program?.sessions ?? []).filter((session) => !isSessionDraft(session));
+	const gatherUpcomingSessions = (program?: TrainingProgram): TrainingSession[] =>
+		getVisibleSessions(program).filter(
+			(session) =>
+				session.startDate &&
+				hasExternalRegistration(session) &&
+				isSessionUpcoming(session, today) &&
+				!isSessionHappeningNow(session, now)
+		);
+	const gatherHappeningSessions = (program?: TrainingProgram): TrainingSession[] =>
+		getVisibleSessions(program).filter((session) =>
+			session.startDate ? isSessionHappeningNow(session, now) : false
+		);
 
 	const withSourceQuery = (route?: string): string | undefined => {
 		if (!route) return undefined;

@@ -42,10 +42,10 @@ export const pageSeo: SeoOverrides = {
 		description:
 			'Compare Cambermast AI workshops side by side with duration, format, and cost details for proposals and planning.'
 	},
-	'/training/calendar': {
-		title: 'AI Training Calendar | Cambermast',
+	'/calendar': {
+		title: 'AI Training & Events Calendar | Cambermast',
 		description:
-			'Review upcoming AI workshops, public cohorts, and private training dates, then register or schedule a session for your team.'
+			'Review upcoming AI workshops, public cohorts, and event sessions, then register or schedule a session for your team.'
 	},
 	'/events': {
 		title: 'Events & Webinars | Cambermast',

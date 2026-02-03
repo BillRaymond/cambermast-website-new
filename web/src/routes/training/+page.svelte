@@ -7,14 +7,14 @@
 	import { getSeo } from '$lib/seo';
 	import SeoHead from '$lib/components/SeoHead.svelte';
 	import { getProgramCertificateText } from '$lib/data/training/program-meta';
-import {
-	hasExternalRegistration,
-	isSessionDraft,
-	isSessionHappeningNow,
-	isSessionUpcoming,
-	getSessionStartTimestamp,
-	normalizeToday
-} from '$lib/data/training/session-utils';
+	import {
+		hasExternalRegistration,
+		isSessionDraft,
+		isSessionHappeningNow,
+		isSessionUpcoming,
+		getSessionStartTimestamp,
+		normalizeToday
+	} from '$lib/data/training/session-utils';
 
 	const section = catalog.training;
 	const pageHeading = section.catalogLabel ?? section.label;
@@ -28,7 +28,8 @@ import {
 
 	const getScheduleUrl = (program?: TrainingProgram): string => program?.secondaryCta?.url ?? '/contact';
 
-const today = normalizeToday();
+	const today = normalizeToday();
+	const now = new Date();
 
 const getVisibleSessions = (program?: TrainingProgram): TrainingSession[] =>
 	(program?.sessions ?? []).filter((session) => !isSessionDraft(session));
@@ -39,12 +40,12 @@ const gatherUpcomingSessions = (program?: TrainingProgram): TrainingSession[] =>
 			session.startDate &&
 			hasExternalRegistration(session) &&
 			isSessionUpcoming(session, today) &&
-			!isSessionHappeningNow(session, today)
+			!isSessionHappeningNow(session, now)
 	);
 
 const gatherHappeningSessions = (program?: TrainingProgram): TrainingSession[] =>
 	getVisibleSessions(program).filter((session) =>
-		session.startDate ? isSessionHappeningNow(session, today) : false
+		session.startDate ? isSessionHappeningNow(session, now) : false
 	);
 
 const getSessionSortKey = (

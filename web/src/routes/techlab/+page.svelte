@@ -149,6 +149,7 @@
 	};
 
 	const today = normalizeToday();
+	const now = new Date();
 	const scheduleEntries: ScheduleEntry[] = programs.flatMap((program) => {
 		const session =
 			program.sessions?.find(
@@ -157,7 +158,7 @@
 					entry.startDate &&
 					hasExternalRegistration(entry) &&
 					isSessionUpcoming(entry, today) &&
-					!isSessionHappeningNow(entry, today)
+					!isSessionHappeningNow(entry, now)
 			) ?? null;
 
 		if (!session) return [];
