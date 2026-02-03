@@ -1,0 +1,49 @@
+{
+	"events": [
+		{
+			"id": "evt-leadership-ai-accelerating-teams",
+			"slug": "leadership-in-the-age-of-ai-accelerating-how-teams-work",
+			"title": "Leadership in the Age of AI: Accelerating how Teams Work",
+			"type": "webinar",
+			"typeLabel": "Webinar",
+			"tagline": "Live session on leadership habits that make AI an accelerator",
+			"summary": "A free, 1-hour webinar on leading high-performing teams in the age of AI, with real examples from leaders using AI automation to deliver results faster.",
+			"description": "What does it take to lead high-performing teams in the age of AI? In this live session, three industry leaders who leverage AI automation to increase productivity and deliver results faster will share their experiences and discuss how you can build high-performance teams. You will hear real stories, experience from the field, tough questions to ask yourself, and takeaways you can apply with your teams immediately.",
+			"highlights": [
+				"How to build psychological safety and trust so your teams are empowered to do their best",
+				"Practical leadership habits that drive AI as an accelerator",
+				"The new AI fluency skills every manager needs to stay relevant",
+				"Real-world examples of what a 10x manager looks like today"
+			],
+			"date": "February 9, 2026",
+			"time": "2:00 PM – 3:00 PM PT",
+			"timezone": "PT",
+			"startAt": "2026-02-09T22:00:00.000Z",
+			"endAt": "2026-02-09T23:00:00.000Z",
+			"location": "Zoom",
+			"registerUrl": "https://luma.com/aic-sf-9-18",
+			"registerLabel": "Request to Join",
+			"image": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,dpr=2,background=white,quality=75,width=400,height=400/event-covers/7i/e51cbe3a-a57d-458b-8753-f56be560c265.png",
+			"imageAlt": "Leadership in the Age of AI: Accelerating how Teams Work webinar cover art",
+			"speakers": [
+				{
+					"name": "Adelina Martiniuc",
+					"title": "Founder & CEO @ RoryPlans.ai"
+				},
+				{
+					"name": "Bill Raymond",
+					"title": "CEO, Cambermast LLC & Author at BillTalksAI.com"
+				},
+				{
+					"name": "Magda Jary",
+					"title": "Doctoral researcher; former Google professional"
+				},
+				{
+					"name": "AJ Green",
+					"title": "Host"
+				}
+			],
+			"draft": true
+		}
+	]
+}

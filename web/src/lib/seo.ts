@@ -47,6 +47,11 @@ export const pageSeo: SeoOverrides = {
 		description:
 			'Review upcoming AI workshops, public cohorts, and private training dates, then register or schedule a session for your team.'
 	},
+	'/events': {
+		title: 'Events & Webinars | Cambermast',
+		description:
+			'Browse upcoming Cambermast events, webinars, talks, and workshops with registration links and related training.'
+	},
 	'/training/print': {
 		title: 'Cambermast Training Programs | Print View',
 		description:

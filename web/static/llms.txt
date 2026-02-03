@@ -1,6 +1,6 @@
 Cambermast LLC
 llms.txt – Guidance for Language Models
-Last updated: 2026-01-09
+Last updated: 2026-02-03
 ----------------------------------------
 Mission summary:
 Cambermast helps organizations adopt AI with confidence through hands-on training, production-ready agents, and advisory programs that align experimentation with measurable business outcomes.
@@ -22,6 +22,11 @@ AI training catalog (https://cambermast.com/training):
 - AI Automation with Agents Workshop (https://cambermast.com/training/ai-automation-with-agents): six-week cohort for technical builders ($1,749 virtual) who want production-ready agents using n8n, OpenAI/Anthropic, APIs, guardrails, monitoring, and 30-day coaching.
 - AI Workshop for Tech Writers and Content Creators (https://cambermast.com/training/ai-workshop-for-content-creators): seven-week cohort delivered with The Content Wrangler for documentation and content teams; blends persona-driven prompts, content audits, and publishing workflows ($1,749 virtual, Lu.ma registration links).
 - Each program page documents objectives, prerequisites, agendas, resources, testimonials, certificates, pricing, delivery formats (live online + optional on-site), and CTA routes (usually /contact or Lu.ma).
+
+Events & webinars (https://cambermast.com/events):
+- Events index lists upcoming Cambermast-hosted events and webinars with registration links.
+- Event detail pages (https://cambermast.com/events/[slug]) highlight upcoming Cambermast-hosted webinars, talks, workshops, or panels with registration links, speaker lists, and related training cross-links.
+- Event detail pages highlight upcoming Cambermast-hosted webinars, talks, workshops, or panels with registration links, speaker lists, and related training cross-links.
 
 AI agents & automation (https://cambermast.com/agents):
 - Focuses on designing practical automations with n8n, OpenAI/Anthropic APIs, and human-in-the-loop guardrails.

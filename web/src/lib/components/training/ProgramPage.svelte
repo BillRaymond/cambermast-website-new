@@ -1,6 +1,8 @@
 <script lang="ts">
 import ReviewCard from '$lib/components/ReviewCard.svelte';
 import SessionCard from '$lib/components/SessionCard.svelte';
+import { getEventTypeLabel } from '$lib/data/events';
+import type { Event } from '$lib/data/events/types';
 import type {
 	TrainingFaq,
 	TrainingProgram,
@@ -28,6 +30,7 @@ import {
 
 	export let program: TrainingProgram;
 	export let backLink: BackLink | undefined = undefined;
+	export let relatedEvents: Event[] = [];
 
 	const getFaqAnswers = (faq: TrainingFaq): string[] =>
 		faq.answers ?? (faq.answer ? [faq.answer] : []);
@@ -102,6 +105,9 @@ const formatTestimonialRole = (testimonial: Testimonial): string => {
 	}
 	return testimonial.jobTitle ?? testimonial.company ?? '';
 };
+
+const toTimeLines = (value?: string | string[]): string[] =>
+	Array.isArray(value) ? value : value ? [value] : [];
 
 	$: {
 		const stats = program?.stats ?? [];
@@ -251,6 +257,62 @@ const formatTestimonialRole = (testimonial: Testimonial): string => {
 				<p class="mt-2.5 text-base text-gray-600">{program.description}</p>
 				{#if program.secondaryDescription}
 					<p class="mt-2.5 text-base text-gray-600">{program.secondaryDescription}</p>
+				{/if}
+				{#if relatedEvents.length}
+					<div class="mt-6 rounded-2xl border border-emerald-100 bg-emerald-50/60 p-4 shadow-sm">
+						<div class="flex flex-wrap items-center justify-between gap-2">
+							<p class="text-xs font-semibold uppercase tracking-wide text-emerald-700">
+								Related upcoming events
+							</p>
+							<a
+								href="/training/calendar"
+								class="text-xs font-semibold text-emerald-700 underline decoration-emerald-200 underline-offset-4"
+							>
+								View calendar
+							</a>
+						</div>
+						<ul class="mt-3 space-y-3">
+							{#each relatedEvents as event}
+								<li class="rounded-xl border border-emerald-100 bg-white p-3">
+									<div class="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+									<div>
+										<div class="flex flex-wrap items-center gap-2">
+											<span class="inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-600/10 px-2 py-0.5 text-[0.6rem] font-semibold uppercase tracking-wide text-emerald-700">
+												<svg viewBox="0 0 24 24" aria-hidden="true" class="h-3 w-3" fill="currentColor">
+													<path d="M9 3a3 3 0 00-3 3v5a3 3 0 006 0V6a3 3 0 00-3-3zm7 1a1 1 0 011 1v6a5 5 0 01-4 4.9V19h3a1 1 0 110 2H8a1 1 0 110-2h3v-3.1A5 5 0 017 11V5a1 1 0 112 0v6a3 3 0 006 0V5a1 1 0 011-1z" />
+												</svg>
+												Event
+											</span>
+											<span class="text-xs font-semibold uppercase tracking-wide text-emerald-600">
+												{getEventTypeLabel(event)}
+											</span>
+											{#if event.draft}
+												<span class="inline-flex items-center rounded-full bg-amber-100 px-2 py-0.5 text-[0.6rem] font-semibold uppercase tracking-wide text-amber-700">
+													Draft
+												</span>
+											{/if}
+										</div>
+										<p class="text-sm font-semibold text-gray-900">{event.title}</p>
+											<p class="text-xs text-gray-600">{event.date}</p>
+											{#if event.time}
+												<p class="text-xs text-gray-600">{toTimeLines(event.time).join(' · ')}</p>
+											{/if}
+										</div>
+										<div>
+											<a
+												href={event.registerUrl}
+												target="_blank"
+												rel="noopener"
+												class="inline-flex items-center justify-center rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-emerald-700"
+											>
+												Register ↗
+											</a>
+										</div>
+									</div>
+								</li>
+							{/each}
+						</ul>
+					</div>
 				{/if}
 				{#if program.videoUrl || certificateText}
 					<div class="mt-4 space-y-2">

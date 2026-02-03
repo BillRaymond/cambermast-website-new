@@ -5,6 +5,13 @@
 		isExternalEventUpcoming
 	} from '$lib/data/external-events';
 	import type { ExternalEvent } from '$lib/data/external-events';
+	import {
+		getEventStartTimestamp,
+		getEventTypeLabel,
+		isEventUpcoming,
+		listEvents
+	} from '$lib/data/events';
+	import type { Event } from '$lib/data/events/types';
 import { listTrainingPrograms } from '$lib/data/training';
 import type { TrainingProgram, TrainingSession } from '$lib/data/training/types';
 import { getProgramCertificateText } from '$lib/data/training/program-meta';
@@ -31,7 +38,7 @@ import {
 
 	type UpcomingEntry = {
 		id: string;
-		type: 'training' | 'external';
+		type: 'training' | 'external' | 'event';
 		title: string;
 		subtitle: string | null;
 		startTimestamp: number | null;
@@ -143,6 +150,21 @@ const defaultLocationLabel = 'Live online';
 		};
 	};
 
+	const getEventCardImage = (event: Event): EntryImage => {
+		const image = event.image
+			? {
+					src: event.image,
+					alt: event.imageAlt ?? event.title
+				}
+			: null;
+
+		return {
+			desktop: image,
+			mobile: image,
+			aspect: 'wide'
+		};
+	};
+
 const getEventImage = (event: ExternalEvent): EntryImage => {
 	const image = event.image
 		? {
@@ -244,9 +266,42 @@ const upcomingExternalEntries: UpcomingEntry[] = listExternalEvents()
 			};
 		});
 
+const upcomingEventEntries: UpcomingEntry[] = listEvents()
+	.filter((event) => isEventUpcoming(event, today))
+	.map((event, index) => {
+		const startTimestamp = toFiniteTimestamp(getEventStartTimestamp(event));
+		const timeLabel = formatTimeLabel(event.time);
+		const locationLabel = event.location ?? defaultLocationLabel;
+		const metaDetails: string[] = [];
+		if (timeLabel) metaDetails.push(timeLabel);
+		if (locationLabel) metaDetails.push(locationLabel);
+
+		const relatedProgramSlug = event.relatedProgramSlugs?.[0];
+		const relatedProgram = relatedProgramSlug
+			? listTrainingPrograms().find((program) => program.slug === relatedProgramSlug)
+			: undefined;
+
+		const subtitle = `${getEventTypeLabel(event)}${event.draft ? ' · Draft' : ''}`;
+
+		return {
+			id: `event-${event.id ?? index}`,
+			type: 'event' as const,
+			title: event.title,
+			subtitle,
+			startTimestamp,
+			dateText: formatDateLabel(startTimestamp, event.date),
+			metaDetails,
+			partnerText: null,
+			registerUrl: event.registerUrl,
+			learnMoreUrl: relatedProgram?.route,
+			image: getEventCardImage(event)
+		};
+	});
+
 const upcomingEntries: UpcomingEntry[] = [
 	...upcomingTrainingEntries,
-	...upcomingExternalEntries
+	...upcomingExternalEntries,
+	...upcomingEventEntries
 ].sort((a, b) => (a.startTimestamp ?? Infinity) - (b.startTimestamp ?? Infinity));
 
 const happeningEntries: UpcomingEntry[] = [...happeningTrainingEntries].sort(
@@ -318,18 +373,8 @@ const happeningEntries: UpcomingEntry[] = [...happeningTrainingEntries].sort(
 		</header>
 
 		<div class="rounded-2xl border border-blue-100 bg-white p-5 shadow-sm">
-			<div class="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
-				<h2 class="text-lg font-semibold text-gray-900">
-					Upcoming sessions ({upcomingEntries.length})
-				</h2>
-				<p class="text-xs text-gray-500">
-					List sorted chronologically. Additional cohorts may be scheduled privately —{' '}
-					<a
-						href="/contact"
-						class="font-semibold text-blue-700 underline decoration-blue-200 underline-offset-4 transition hover:text-blue-900"
-						>contact us</a
-					>.
-				</p>
+			<div class="flex flex-col justify-between gap-3 sm:flex-row sm:items-center sm:gap-4">
+				<h2 class="whitespace-nowrap text-lg font-semibold text-gray-900">Upcoming sessions</h2>
 			</div>
 
 			{#if groupedEntries.length}
@@ -357,7 +402,7 @@ const happeningEntries: UpcomingEntry[] = [...happeningTrainingEntries].sort(
 												{#if entryImage?.mobile || entryImage?.desktop}
 													{@const isSquare = entryImage.aspect === 'square'}
 													{@const desktopWidthClass = 'sm:w-48'}
-													{@const imageFitClass = isSquare ? 'object-contain' : 'object-cover'}
+													{@const imageFitClass = 'object-contain'}
 													<div
 														class={`relative h-44 w-full overflow-hidden rounded-xl border border-blue-100 bg-white shadow-sm ${desktopWidthClass} sm:h-36`}
 													>
@@ -385,15 +430,27 @@ const happeningEntries: UpcomingEntry[] = [...happeningTrainingEntries].sort(
 													</div>
 												{/if}
 												<div class="flex-1" id={`${cardId}-title`}>
-													<p class="text-xs font-semibold uppercase tracking-wide text-blue-600">
-														{entry.dateText}
-													</p>
+													<div class="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-wide text-blue-600">
+														<span>{entry.dateText}</span>
+														{#if entry.type === 'training'}
+															<span class="inline-flex items-center gap-1.5 rounded-full border border-blue-200 bg-blue-600/10 px-2 py-0.5 text-[0.6rem] font-semibold uppercase tracking-wide text-blue-700">
+																<svg viewBox="0 0 24 24" aria-hidden="true" class="h-3 w-3" fill="currentColor">
+																	<path d="M12 3l10 5-10 5-10-5 10-5zm0 7l6-3v4.5c0 2.5-4 4.5-6 4.5s-6-2-6-4.5V7l6 3zm7 4.5v4a1 1 0 01-2 0v-4h2z" />
+																</svg>
+																Training
+															</span>
+														{:else}
+															<span class="inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-600/10 px-2 py-0.5 text-[0.6rem] font-semibold uppercase tracking-wide text-emerald-700">
+																<svg viewBox="0 0 24 24" aria-hidden="true" class="h-3 w-3" fill="currentColor">
+																	<path d="M9 3a3 3 0 00-3 3v5a3 3 0 006 0V6a3 3 0 00-3-3zm7 1a1 1 0 011 1v6a5 5 0 01-4 4.9V19h3a1 1 0 110 2H8a1 1 0 110-2h3v-3.1A5 5 0 017 11V5a1 1 0 112 0v6a3 3 0 006 0V5a1 1 0 011-1z" />
+																</svg>
+																Event
+															</span>
+														{/if}
+													</div>
 													<p class="mt-1 text-sm font-semibold text-gray-900">
 														{entry.title}
 													</p>
-													{#if entry.subtitle}
-														<p class="text-sm text-gray-700">{entry.subtitle}</p>
-													{/if}
 													{#if entry.metaDetails.length}
 														<p class="text-xs text-gray-600">{entry.metaDetails.join(' · ')}</p>
 													{/if}
@@ -474,19 +531,13 @@ const happeningEntries: UpcomingEntry[] = [...happeningTrainingEntries].sort(
 
 		{#if happeningEntries.length}
 			<div class="rounded-2xl border border-amber-200 bg-amber-50/70 p-5 shadow-sm">
-				<div class="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
-						<h2 class="text-lg font-semibold text-amber-900">Happening now</h2>
-						<p class="text-xs text-amber-700">
-							These cohorts are running now. Bookmark this calendar to get the next dates as soon as
-							they open.
-							<a
-								href="/training/calendar"
-								class="ml-1 inline-flex items-center gap-1 rounded-full border border-amber-300 px-2 py-0.5 font-semibold text-amber-800 transition hover:bg-amber-100"
-							>
-								Bookmark this page ↗
-							</a>
-						</p>
-					</div>
+				<div class="flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-4">
+					<h2 class="whitespace-nowrap text-lg font-semibold text-amber-900">Happening now</h2>
+					<p class="min-w-0 flex-1 text-xs text-amber-700">
+						These cohorts are running now. Bookmark this calendar to get the next dates as soon as
+						they open.
+					</p>
+				</div>
 				<ul class="mt-4 space-y-4">
 					{#each happeningEntries as entry}
 						<li>
@@ -496,7 +547,7 @@ const happeningEntries: UpcomingEntry[] = [...happeningTrainingEntries].sort(
 										{#if entry.image?.mobile || entry.image?.desktop}
 											{@const isSquare = entry.image.aspect === 'square'}
 											{@const desktopWidthClass = 'sm:w-48'}
-											{@const imageFitClass = isSquare ? 'object-contain' : 'object-cover'}
+											{@const imageFitClass = 'object-contain'}
 											<div
 												class={`relative h-44 w-full overflow-hidden rounded-xl border border-amber-100 bg-white shadow-sm ${desktopWidthClass} sm:h-36`}
 											>
@@ -521,13 +572,16 @@ const happeningEntries: UpcomingEntry[] = [...happeningTrainingEntries].sort(
 											</div>
 										{/if}
 										<div class="flex-1">
-											<p class="text-xs font-semibold uppercase tracking-wide text-amber-700">
-												{entry.dateText}
-											</p>
+											<div class="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-wide text-amber-700">
+												<span>{entry.dateText}</span>
+												<span class="inline-flex items-center gap-1.5 rounded-full border border-amber-200 bg-amber-100/70 px-2 py-0.5 text-[0.6rem] font-semibold uppercase tracking-wide text-amber-800">
+													<svg viewBox="0 0 24 24" aria-hidden="true" class="h-3 w-3" fill="currentColor">
+														<path d="M12 3l10 5-10 5-10-5 10-5zm0 7l6-3v4.5c0 2.5-4 4.5-6 4.5s-6-2-6-4.5V7l6 3zm7 4.5v4a1 1 0 01-2 0v-4h2z" />
+													</svg>
+													Training
+												</span>
+											</div>
 											<p class="mt-1 text-sm font-semibold text-gray-900">{entry.title}</p>
-											{#if entry.subtitle}
-												<p class="text-sm text-gray-700">{entry.subtitle}</p>
-											{/if}
 											{#if entry.metaDetails.length}
 												<p class="text-xs text-gray-600">{entry.metaDetails.join(' · ')}</p>
 											{/if}

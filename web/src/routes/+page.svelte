@@ -3,10 +3,17 @@
 	import Card from '$lib/components/ServiceCard.svelte';
 	import UpcomingSessionsCarousel from '$lib/components/home/UpcomingSessionsCarousel.svelte';
 	import {
+		getEventStartTimestamp,
+		getEventTypeLabel,
+		isEventUpcoming,
+		listEvents
+	} from '$lib/data/events';
+	import {
 		listExternalEvents,
 		getExternalEventStartTimestamp,
 		isExternalEventUpcoming
 	} from '$lib/data/external-events';
+	import type { Event } from '$lib/data/events/types';
 	import type { ExternalEvent } from '$lib/data/external-events';
 	import { listTrainingPrograms } from '$lib/data/training';
 	import type { TrainingProgram, TrainingSession } from '$lib/data/training/types';
@@ -149,7 +156,17 @@
 		startTimestamp: number;
 	};
 
-	type UpcomingEntry = UpcomingTrainingEntry | HappeningTrainingEntry | UpcomingExternalEntry;
+	type UpcomingEventEntry = {
+		type: 'event';
+		event: Event;
+		startTimestamp: number;
+	};
+
+	type UpcomingEntry =
+		| UpcomingTrainingEntry
+		| HappeningTrainingEntry
+		| UpcomingExternalEntry
+		| UpcomingEventEntry;
 
 	const toTimeLines = (value?: string | string[]): string[] =>
 		Array.isArray(value) ? value : value ? [value] : [];
@@ -229,6 +246,14 @@
 			startTimestamp: getExternalEventStartTimestamp(event)
 		}));
 
+	const upcomingEventEntries: UpcomingEventEntry[] = listEvents()
+		.filter((event) => isEventUpcoming(event, today))
+		.map((event) => ({
+			type: 'event' as const,
+			event,
+			startTimestamp: getEventStartTimestamp(event)
+		}));
+
 	const happeningItems: HappeningTrainingEntry[] = happeningTrainingEntries.map(
 		({ program, session }) => ({
 			type: 'happening' as const,
@@ -248,6 +273,7 @@
 	const upcomingItems: UpcomingEntry[] = [
 		...upcomingTrainingEntries,
 		...upcomingExternalEntries,
+		...upcomingEventEntries,
 		...happeningItems
 	].sort((a, b) => {
 		const aKey = getUpcomingSortKey(a);
@@ -336,7 +362,26 @@
 		return `Starts in ${diffDays} days`;
 	};
 
+	const buildEventSlide = (entry: UpcomingEventEntry, index: number) => ({
+		id: `${entry.event.id}-${entry.event.startAt ?? index.toString(10)}`,
+		kind: 'event' as const,
+		programTitle: entry.event.title,
+		sessionLabel: `${getEventTypeLabel(entry.event)}${entry.event.draft ? ' · Draft' : ''}`,
+		date: entry.event.date,
+		timeLines: toTimeLines(entry.event.time),
+		location: entry.event.location,
+		urgency: getUrgencyLabel(entry.startTimestamp),
+		registerUrl: entry.event.registerUrl,
+		image: entry.event.image,
+		imageAlt: entry.event.imageAlt ?? entry.event.title,
+		isHappeningNow: false
+	});
+
 	const upcomingSlides = upcomingItems.map((entry, index) => {
+		if (entry.type === 'event') {
+			return buildEventSlide(entry, index);
+		}
+
 		if (entry.type === 'training') {
 			const meta = getSessionMeta(entry.program, entry.session);
 			return {
@@ -344,6 +389,7 @@
 					entry.program.slug +
 					'-' +
 					(entry.session.startDate ?? entry.session.date ?? index.toString(10)),
+				kind: 'training' as const,
 				programTitle: entry.program.title,
 				sessionLabel: meta.sessionLabel,
 				date: entry.session.date,
@@ -368,6 +414,7 @@
 					entry.program.slug +
 					'-happening-' +
 					(entry.session.startDate ?? entry.session.date ?? index.toString(10)),
+				kind: 'training' as const,
 				programTitle: entry.program.title,
 				sessionLabel: meta.sessionLabel,
 				date: entry.session.date,
@@ -387,6 +434,7 @@
 
 		return {
 			id: entry.event.id,
+			kind: 'external' as const,
 			programTitle: entry.event.title,
 			sessionLabel: entry.event.sessionLabel,
 			date: entry.event.date,

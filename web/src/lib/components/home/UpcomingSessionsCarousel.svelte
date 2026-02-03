@@ -3,6 +3,7 @@
 
 	type UpcomingSessionSlide = {
 		id: string;
+		kind?: 'training' | 'event' | 'external';
 		programTitle: string;
 		sessionLabel?: string | null;
 		date: string;
@@ -116,6 +117,25 @@
 		}
 	};
 
+	const getStatusLabel = (slide: UpcomingSessionSlide): string => {
+		if (slide.isHappeningNow) return 'Happening now';
+		if (slide.kind === 'event' || slide.kind === 'external') return 'Upcoming event';
+		return 'Upcoming session';
+	};
+
+	const getBadge = (slide: UpcomingSessionSlide): { label: string; className: string } => {
+		if (slide.kind === 'event' || slide.kind === 'external') {
+			return {
+				label: 'Event',
+				className: 'border-emerald-200 bg-emerald-600/10 text-emerald-700'
+			};
+		}
+		return {
+			label: 'Training',
+			className: 'border-blue-200 bg-blue-600/10 text-blue-700'
+		};
+	};
+
 	onMount(() => {
 		restartAutoplay();
 		return () => {
@@ -154,6 +174,7 @@
 				style={`transform: translateX(-${currentIndex * 100}%);`}
 			>
 				{#each slides as slide (slide.id)}
+					{@const badge = getBadge(slide)}
 					<article
 						class={`flex w-full shrink-0 basis-full flex-col gap-4 p-3 md:flex-row md:items-center md:gap-4 md:p-5 ${
 							slide.isHappeningNow ? 'bg-amber-50/70' : 'bg-white/0'
@@ -187,14 +208,49 @@
 							}`}
 						>
 							<div class="w-full">
-								<div
-									class={`rounded-lg border p-3 text-left ${
-										slide.isHappeningNow
-											? 'border-amber-200 bg-amber-50/80'
-											: 'border-blue-100 bg-blue-50/70'
-									}`}
-								>
-									<div class="flex flex-wrap items-end gap-3">
+									<div
+										class={`rounded-lg border p-3 text-left ${
+											slide.isHappeningNow
+												? 'border-amber-200 bg-amber-50/80'
+												: 'border-blue-100 bg-blue-50/70'
+										}`}
+									>
+										<div class="mb-2 flex flex-wrap items-center gap-2">
+											<span
+												class={`inline-flex items-center gap-1.5 rounded-full border px-2 py-0.5 text-[0.6rem] font-semibold uppercase tracking-wide ${badge.className}`}
+											>
+												{#if badge.label === 'Training'}
+													<svg
+														viewBox="0 0 24 24"
+														aria-hidden="true"
+														class="h-3 w-3"
+														fill="currentColor"
+													>
+														<path
+															d="M12 3l10 5-10 5-10-5 10-5zm0 7l6-3v4.5c0 2.5-4 4.5-6 4.5s-6-2-6-4.5V7l6 3zm7 4.5v4a1 1 0 01-2 0v-4h2z"
+														/>
+													</svg>
+												{:else}
+													<svg
+														viewBox="0 0 24 24"
+														aria-hidden="true"
+														class="h-3 w-3"
+														fill="currentColor"
+													>
+														<path
+															d="M9 3a3 3 0 00-3 3v5a3 3 0 006 0V6a3 3 0 00-3-3zm7 1a1 1 0 011 1v6a5 5 0 01-4 4.9V19h3a1 1 0 110 2H8a1 1 0 110-2h3v-3.1A5 5 0 017 11V5a1 1 0 112 0v6a3 3 0 006 0V5a1 1 0 011-1z"
+														/>
+													</svg>
+												{/if}
+												{badge.label}
+											</span>
+											{#if slide.isHappeningNow}
+												<span class="inline-flex items-center rounded-full bg-amber-100 px-2 py-0.5 text-[0.6rem] font-semibold uppercase tracking-wide text-amber-700">
+													Live
+												</span>
+											{/if}
+										</div>
+										<div class="flex flex-wrap items-end gap-3">
 										<div class="min-w-[14rem] flex-1">
 											<div class="flex flex-wrap items-center gap-2">
 												<p
@@ -202,7 +258,7 @@
 														slide.isHappeningNow ? 'text-amber-700' : 'text-blue-600'
 													}`}
 												>
-													{slide.isHappeningNow ? 'Happening now' : 'Upcoming session'}
+													{getStatusLabel(slide)}
 												</p>
 												<span
 													class={`inline-flex items-center gap-1.5 rounded-lg bg-white px-2.5 py-1 text-[0.6rem] font-semibold ${
