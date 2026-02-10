@@ -573,14 +573,14 @@
 			</label>
 		</div>
 
-		<div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+		<div>
 			<span class="block text-sm font-medium text-gray-700">
 				Verification
 				<span class="text-red-500" aria-hidden="true">*</span>
 				<span class="sr-only"> required</span>
 			</span>
 			<div
-				class="mt-2 rounded-md border bg-white px-3 py-2"
+				class="mt-1 rounded-md border bg-white px-3 py-2"
 				bind:this={turnstileContainer}
 				aria-live="polite"
 			>
