@@ -438,17 +438,17 @@
 		</div>
 
 		<fieldset class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-			<legend class="text-base font-semibold text-gray-900">
+			<legend class="survey-legend text-base font-semibold text-gray-900">
 				<span class="required-label">How relevant was today’s session to your work?</span>
 				<span class="sr-only"> required</span>
 			</legend>
 			<p class="mt-2 text-sm text-gray-600">Scale: 1 to 5 (1 = Not relevant, 5 = Highly relevant).</p>
-			<div class="mt-4 grid gap-3 sm:grid-cols-[auto_1fr_auto] sm:items-center">
+			<div class="mt-4 space-y-2 sm:grid sm:grid-cols-[auto_1fr_auto] sm:items-center sm:gap-3 sm:space-y-0">
 				<span class="text-sm text-gray-500">Not relevant</span>
-				<div class="flex flex-col items-center gap-3 sm:flex-row sm:justify-between">
+				<div class="flex items-center justify-between">
 					{#each scaleOptions as option}
-						<label class="flex flex-col items-center gap-2 text-sm font-semibold text-gray-600">
-							<span>{option}</span>
+						<label class="flex flex-col items-center gap-1 text-sm font-semibold text-gray-600">
+							<span class="leading-none">{option}</span>
 							<input
 								class="h-4 w-4"
 								name="relevance"
@@ -465,17 +465,17 @@
 		</fieldset>
 
 		<fieldset class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-			<legend class="text-base font-semibold text-gray-900">
+			<legend class="survey-legend text-base font-semibold text-gray-900">
 				<span class="required-label">How confident do you feel applying what you learned?</span>
 				<span class="sr-only"> required</span>
 			</legend>
 			<p class="mt-2 text-sm text-gray-600">Scale: 1 to 5 (1 = Not confident, 5 = Very confident).</p>
-			<div class="mt-4 grid gap-3 sm:grid-cols-[auto_1fr_auto] sm:items-center">
+			<div class="mt-4 space-y-2 sm:grid sm:grid-cols-[auto_1fr_auto] sm:items-center sm:gap-3 sm:space-y-0">
 				<span class="text-sm text-gray-500">Not confident</span>
-				<div class="flex flex-col items-center gap-3 sm:flex-row sm:justify-between">
+				<div class="flex items-center justify-between">
 					{#each scaleOptions as option}
-						<label class="flex flex-col items-center gap-2 text-sm font-semibold text-gray-600">
-							<span>{option}</span>
+						<label class="flex flex-col items-center gap-1 text-sm font-semibold text-gray-600">
+							<span class="leading-none">{option}</span>
 							<input
 								class="h-4 w-4"
 								name="confidence"
@@ -492,17 +492,17 @@
 		</fieldset>
 
 		<fieldset class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-			<legend class="text-base font-semibold text-gray-900">
+			<legend class="survey-legend text-base font-semibold text-gray-900">
 				<span class="required-label">How likely are you to use this in your day-to-day work?</span>
 				<span class="sr-only"> required</span>
 			</legend>
 			<p class="mt-2 text-sm text-gray-600">Scale: 1 to 5 (1 = Not likely, 5 = Very likely).</p>
-			<div class="mt-4 grid gap-3 sm:grid-cols-[auto_1fr_auto] sm:items-center">
+			<div class="mt-4 space-y-2 sm:grid sm:grid-cols-[auto_1fr_auto] sm:items-center sm:gap-3 sm:space-y-0">
 				<span class="text-sm text-gray-500">Not likely</span>
-				<div class="flex flex-col items-center gap-3 sm:flex-row sm:justify-between">
+				<div class="flex items-center justify-between">
 					{#each scaleOptions as option}
-						<label class="flex flex-col items-center gap-2 text-sm font-semibold text-gray-600">
-							<span>{option}</span>
+						<label class="flex flex-col items-center gap-1 text-sm font-semibold text-gray-600">
+							<span class="leading-none">{option}</span>
 							<input
 								class="h-4 w-4"
 								name="likelihood"
@@ -636,5 +636,11 @@
 
 	:global(.required-label--inline)::after {
 		content: '*';
+	}
+
+	:global(.survey-legend) {
+		max-width: 100%;
+		padding: 0 0.25rem;
+		white-space: normal;
 	}
 </style>
