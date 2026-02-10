@@ -26,5 +26,8 @@ Use this file to keep automated changes aligned with the site’s governance and
 ## Assets and media
 - Testimonial photos must live in `web/static/images/testimonials/` and be square (~300x300).
 
+## Forms
+- Use `web/src/lib/components/forms/TurnstileField.svelte` for Cloudflare Turnstile on new forms to keep mobile layout consistent.
+
 ## Preferred workflow checks
 - Use `web/scripts/sync-site-metadata.mjs` (or `npm --prefix web run dev/build/preview`) to keep `web/static/ai.txt` and `web/static/llms.txt` in sync.

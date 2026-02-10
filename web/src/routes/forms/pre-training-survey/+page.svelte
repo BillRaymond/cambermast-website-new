@@ -2,6 +2,7 @@
 	import { browser, dev } from '$app/environment';
 	import { onMount } from 'svelte';
 	import SeoHead from '$lib/components/SeoHead.svelte';
+	import TurnstileField from '$lib/components/forms/TurnstileField.svelte';
 	import { listTrainingPrograms } from '$lib/data/training';
 
 	type FormStatus = 'idle' | 'sending' | 'sent' | 'error';
@@ -1076,20 +1077,7 @@
 			></textarea>
 		</div>
 
-		<div>
-			<span class="block text-sm font-medium text-gray-700">
-				Verification
-				<span class="text-red-500" aria-hidden="true">*</span>
-				<span class="sr-only"> required</span></span
-			>
-			<div
-				class="mt-1 rounded-md border bg-white px-3 py-2"
-				bind:this={turnstileContainer}
-				aria-live="polite"
-			>
-				<noscript>Enable JavaScript to complete the verification step.</noscript>
-			</div>
-		</div>
+		<TurnstileField bind:containerRef={turnstileContainer} />
 
 		<div aria-live="polite">
 			{#if status === 'sent'}
