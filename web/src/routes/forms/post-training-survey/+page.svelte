@@ -437,14 +437,14 @@
 			{/if}
 		</div>
 
-		<fieldset class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-			<legend class="survey-legend text-base font-semibold text-gray-900">
+		<fieldset class="survey-fieldset rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+			<legend class="sr-only">How relevant was today’s session to your work? Required.</legend>
+			<p class="text-base font-semibold text-gray-900">
 				<span class="required-label">How relevant was today’s session to your work?</span>
-				<span class="sr-only"> required</span>
-			</legend>
+			</p>
 			<p class="mt-2 text-sm text-gray-600">Scale: 1 to 5 (1 = Not relevant, 5 = Highly relevant).</p>
 			<div class="mt-4 space-y-2 sm:grid sm:grid-cols-[auto_1fr_auto] sm:items-center sm:gap-3 sm:space-y-0">
-				<span class="text-sm text-gray-500">Not relevant</span>
+				<span class="hidden text-sm text-gray-500 sm:block">Not relevant</span>
 				<div class="flex items-center justify-between">
 					{#each scaleOptions as option}
 						<label class="flex flex-col items-center gap-1 text-sm font-semibold text-gray-600">
@@ -460,18 +460,18 @@
 						</label>
 					{/each}
 				</div>
-				<span class="text-sm text-gray-500">Highly relevant</span>
+				<span class="hidden text-sm text-gray-500 sm:block">Highly relevant</span>
 			</div>
 		</fieldset>
 
-		<fieldset class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-			<legend class="survey-legend text-base font-semibold text-gray-900">
+		<fieldset class="survey-fieldset rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+			<legend class="sr-only">How confident do you feel applying what you learned? Required.</legend>
+			<p class="text-base font-semibold text-gray-900">
 				<span class="required-label">How confident do you feel applying what you learned?</span>
-				<span class="sr-only"> required</span>
-			</legend>
+			</p>
 			<p class="mt-2 text-sm text-gray-600">Scale: 1 to 5 (1 = Not confident, 5 = Very confident).</p>
 			<div class="mt-4 space-y-2 sm:grid sm:grid-cols-[auto_1fr_auto] sm:items-center sm:gap-3 sm:space-y-0">
-				<span class="text-sm text-gray-500">Not confident</span>
+				<span class="hidden text-sm text-gray-500 sm:block">Not confident</span>
 				<div class="flex items-center justify-between">
 					{#each scaleOptions as option}
 						<label class="flex flex-col items-center gap-1 text-sm font-semibold text-gray-600">
@@ -487,18 +487,18 @@
 						</label>
 					{/each}
 				</div>
-				<span class="text-sm text-gray-500">Very confident</span>
+				<span class="hidden text-sm text-gray-500 sm:block">Very confident</span>
 			</div>
 		</fieldset>
 
-		<fieldset class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-			<legend class="survey-legend text-base font-semibold text-gray-900">
+		<fieldset class="survey-fieldset rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+			<legend class="sr-only">How likely are you to use this in your day-to-day work? Required.</legend>
+			<p class="text-base font-semibold text-gray-900">
 				<span class="required-label">How likely are you to use this in your day-to-day work?</span>
-				<span class="sr-only"> required</span>
-			</legend>
+			</p>
 			<p class="mt-2 text-sm text-gray-600">Scale: 1 to 5 (1 = Not likely, 5 = Very likely).</p>
 			<div class="mt-4 space-y-2 sm:grid sm:grid-cols-[auto_1fr_auto] sm:items-center sm:gap-3 sm:space-y-0">
-				<span class="text-sm text-gray-500">Not likely</span>
+				<span class="hidden text-sm text-gray-500 sm:block">Not likely</span>
 				<div class="flex items-center justify-between">
 					{#each scaleOptions as option}
 						<label class="flex flex-col items-center gap-1 text-sm font-semibold text-gray-600">
@@ -514,7 +514,7 @@
 						</label>
 					{/each}
 				</div>
-				<span class="text-sm text-gray-500">Very likely</span>
+				<span class="hidden text-sm text-gray-500 sm:block">Very likely</span>
 			</div>
 		</fieldset>
 
@@ -638,9 +638,7 @@
 		content: '*';
 	}
 
-	:global(.survey-legend) {
-		max-width: 100%;
-		padding: 0 0.25rem;
-		white-space: normal;
+	:global(.survey-fieldset) {
+		min-inline-size: 0;
 	}
 </style>
