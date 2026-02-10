@@ -8,6 +8,11 @@
       "path": "web",
       "group": { "kind": "build", "isDefault": true },
       "isBackground": true,
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+      },
       "problemMatcher": [],
       "runOptions": { "runOn": "folderOpen" }
     }

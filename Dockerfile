@@ -10,6 +10,9 @@ RUN npm i -g @openai/codex@latest
 COPY web/package*.json ./web/
 RUN cd web && npm install
 
+# Needed by predev sync script
+COPY ai.txt llms.txt ./
+
 # Copy the app source
 COPY web ./web
 

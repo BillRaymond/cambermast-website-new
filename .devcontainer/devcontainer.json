@@ -7,6 +7,7 @@
 	"workspaceFolder": "/workspaces/cambermast-website-new",
 	"runArgs": ["-p", "5173:5173"],
 	"forwardPorts": [5173],
+	"overrideCommand": false,
 	"portsAttributes": {
 		"5173": {
 			"label": "Vite dev server",
@@ -15,6 +16,9 @@
 	},
 	"customizations": {
 		"vscode": {
+			"settings": {
+				"task.allowAutomaticTasks": "on"
+			},
 			"extensions": [
 				"openai.chatgpt",
 				"svelte.svelte-vscode"
