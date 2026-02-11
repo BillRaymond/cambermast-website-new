@@ -49,8 +49,8 @@
 	<header class="flex flex-col gap-3">
 		<h1 class="text-3xl font-semibold tracking-tight text-gray-900">Internal events registry</h1>
 		<p class="max-w-3xl text-sm text-gray-600">
-			Use this route to manage event visibility, lifecycle state, registration state, and campaign linkage.
-			This page is internal-only and intentionally excluded from sitemap/navigation.
+			Use this route to manage event visibility, lifecycle state, registration state, and campaign
+			linkage. This page is internal-only and intentionally excluded from sitemap/navigation.
 		</p>
 		<p class="text-xs text-gray-500">
 			Data source:
@@ -62,26 +62,29 @@
 
 	<section class="mt-8 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
 		<div class="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
-			<p class="text-xs font-semibold uppercase tracking-wide text-gray-500">Visibility</p>
+			<p class="text-xs font-semibold tracking-wide text-gray-500 uppercase">Visibility</p>
 			<p class="mt-2 text-sm text-gray-700">
-				Public: <span class="font-semibold text-gray-900">{visibilityCounts.public}</span> · Unlisted:
+				Public: <span class="font-semibold text-gray-900">{visibilityCounts.public}</span> ·
+				Unlisted:
 				<span class="font-semibold text-gray-900">{visibilityCounts.unlisted}</span> · Draft:
 				<span class="font-semibold text-gray-900">{visibilityCounts.draft}</span>
 			</p>
 		</div>
 		<div class="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
-			<p class="text-xs font-semibold uppercase tracking-wide text-gray-500">Lifecycle</p>
+			<p class="text-xs font-semibold tracking-wide text-gray-500 uppercase">Lifecycle</p>
 			<p class="mt-2 text-sm text-gray-700">
-				Scheduled: <span class="font-semibold text-gray-900">{lifecycleCounts.scheduled}</span> · Postponed:
+				Scheduled: <span class="font-semibold text-gray-900">{lifecycleCounts.scheduled}</span> ·
+				Postponed:
 				<span class="font-semibold text-gray-900">{lifecycleCounts.postponed}</span>
 			</p>
 			<p class="mt-1 text-sm text-gray-700">
-				Canceled: <span class="font-semibold text-gray-900">{lifecycleCounts.canceled}</span> · Completed:
+				Canceled: <span class="font-semibold text-gray-900">{lifecycleCounts.canceled}</span> ·
+				Completed:
 				<span class="font-semibold text-gray-900">{lifecycleCounts.completed}</span>
 			</p>
 		</div>
 		<div class="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
-			<p class="text-xs font-semibold uppercase tracking-wide text-gray-500">Registration</p>
+			<p class="text-xs font-semibold tracking-wide text-gray-500 uppercase">Registration</p>
 			<p class="mt-2 text-sm text-gray-700">
 				Open: <span class="font-semibold text-gray-900">{registrationCounts.open}</span> · External:
 				<span class="font-semibold text-gray-900">{registrationCounts.external}</span> · Closed:
@@ -96,12 +99,19 @@
 	</section>
 
 	<section class="mt-6 rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
-		<p class="text-xs font-semibold uppercase tracking-wide text-gray-500">Partner catalog</p>
+		<p class="text-xs font-semibold tracking-wide text-gray-500 uppercase">Partner catalog</p>
 		<div class="mt-3 flex flex-wrap gap-3">
 			{#each partners as partner}
-				<div class="inline-flex items-center gap-2 rounded-full border border-gray-200 bg-gray-50 px-3 py-1.5">
+				<div
+					class="inline-flex items-center gap-2 rounded-full border border-gray-200 bg-gray-50 px-3 py-1.5"
+				>
 					{#if partner.logo}
-						<img src={partner.logo} alt={`${partner.name} logo`} class="h-5 w-5 rounded object-contain" loading="lazy" />
+						<img
+							src={partner.logo}
+							alt={`${partner.name} logo`}
+							class="h-5 w-5 rounded object-contain"
+							loading="lazy"
+						/>
 					{/if}
 					<span class="text-xs font-semibold text-gray-800">{partner.code}</span>
 					<span class="text-xs text-gray-600">{partner.name}</span>
@@ -115,7 +125,7 @@
 			<div class="overflow-x-auto">
 				<table class="min-w-full divide-y divide-gray-200 text-sm">
 					<thead class="bg-gray-50">
-						<tr class="text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
+						<tr class="text-left text-xs font-semibold tracking-wide text-gray-500 uppercase">
 							<th class="px-4 py-3">Partner</th>
 							<th class="px-4 py-3">Event</th>
 							<th class="px-4 py-3">Start (PT)</th>
@@ -199,7 +209,10 @@
 								</td>
 								<td class="px-4 py-3 text-xs">
 									<div class="flex flex-col gap-1">
-										<a class="font-semibold text-blue-700 hover:text-blue-900 hover:underline" href={`/events/${event.slug}`}>
+										<a
+											class="font-semibold text-blue-700 hover:text-blue-900 hover:underline"
+											href={`/events/${event.slug}`}
+										>
 											Event page
 										</a>
 										{#if event.cta?.url}
@@ -213,7 +226,12 @@
 											</a>
 										{/if}
 										{#if event.campaignId}
-											<a class="font-semibold text-blue-700 hover:text-blue-900 hover:underline" href={`/c/${event.campaignId}`} target="_blank" rel="noopener noreferrer">
+											<a
+												class="font-semibold text-blue-700 hover:text-blue-900 hover:underline"
+												href={`/c/${event.campaignId}`}
+												target="_blank"
+												rel="noopener noreferrer"
+											>
 												Short link
 											</a>
 										{/if}

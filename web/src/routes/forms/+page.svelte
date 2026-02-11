@@ -173,7 +173,7 @@
 
 <section class="mx-auto max-w-3xl space-y-6 py-10">
 	<div class="space-y-4 text-center">
-		<p class="text-xs font-semibold uppercase tracking-wide text-amber-600">Cambermast forms</p>
+		<p class="text-xs font-semibold tracking-wide text-amber-600 uppercase">Cambermast forms</p>
 		<h1 class="text-3xl font-bold text-gray-900">Share feedback in a couple of minutes</h1>
 		<p class="text-gray-700">
 			These links make it easy to send testimonials, request training follow-ups, or share ideas
@@ -194,7 +194,7 @@
 				aria-labelledby="forms-pretraining-label"
 			>
 				<h3
-					class="text-sm font-semibold uppercase tracking-wide text-blue-700"
+					class="text-sm font-semibold tracking-wide text-blue-700 uppercase"
 					id="forms-pretraining-label"
 				>
 					Pre-training surveys
@@ -232,7 +232,9 @@
 						</summary>
 						<div class="space-y-4 pt-2">
 							<div class="space-y-2">
-								<div class="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-gray-100 bg-white px-3 py-2">
+								<div
+									class="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-gray-100 bg-white px-3 py-2"
+								>
 									<p class="text-xs text-gray-500">
 										Prod:
 										<span class="font-medium text-gray-700">
@@ -257,7 +259,9 @@
 										{copiedForm === `${prodOrigin}/forms/pre-training-survey` ? 'Copied!' : 'Copy'}
 									</button>
 								</div>
-								<div class="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-gray-100 bg-white px-3 py-2">
+								<div
+									class="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-gray-100 bg-white px-3 py-2"
+								>
 									<p class="text-xs text-gray-500">
 										Dev:
 										<span class="font-medium text-gray-700">
@@ -285,7 +289,7 @@
 							</div>
 							<div class="grid gap-4 sm:grid-cols-2">
 								<div class="rounded-xl border bg-white p-3 text-center">
-									<p class="text-xs font-semibold uppercase tracking-wide text-gray-500">Prod</p>
+									<p class="text-xs font-semibold tracking-wide text-gray-500 uppercase">Prod</p>
 									{#if qrAssets['pre-training-main']?.prod?.pngDataUrl}
 										<img
 											class="mx-auto mt-2 h-40 w-40"
@@ -301,7 +305,7 @@
 									{/if}
 								</div>
 								<div class="rounded-xl border bg-white p-3 text-center">
-									<p class="text-xs font-semibold uppercase tracking-wide text-gray-500">Dev</p>
+									<p class="text-xs font-semibold tracking-wide text-gray-500 uppercase">Dev</p>
 									{#if qrAssets['pre-training-main']?.dev?.pngDataUrl}
 										<img
 											class="mx-auto mt-2 h-40 w-40"
@@ -319,14 +323,16 @@
 							</div>
 
 							<div class="space-y-3">
-								<p class="text-xs font-semibold uppercase tracking-wide text-gray-600">
+								<p class="text-xs font-semibold tracking-wide text-gray-600 uppercase">
 									Program-specific links
 								</p>
 								{#each preTrainingProgramUrls as program}
 									<div class="rounded-2xl border border-gray-100 bg-white px-4 py-3">
 										<div class="space-y-2">
 											<p class="text-sm font-semibold text-gray-900">{program.title}</p>
-											<div class="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-gray-100 bg-white px-3 py-2">
+											<div
+												class="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-gray-100 bg-white px-3 py-2"
+											>
 												<p class="text-xs text-gray-500">Prod: {program.prod}</p>
 												<button
 													class="inline-flex items-center gap-2 rounded-lg border border-blue-200 px-3 py-1.5 text-xs font-medium text-blue-700 transition hover:border-blue-300 hover:bg-blue-50"
@@ -341,12 +347,15 @@
 														stroke-width="2"
 													>
 														<rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-														<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+														<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
+														></path>
 													</svg>
 													{copiedForm === program.prod ? 'Copied!' : 'Copy'}
 												</button>
 											</div>
-											<div class="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-gray-100 bg-white px-3 py-2">
+											<div
+												class="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-gray-100 bg-white px-3 py-2"
+											>
 												<p class="text-xs text-gray-500">Dev: {program.dev}</p>
 												<button
 													class="inline-flex items-center gap-2 rounded-lg border border-blue-200 px-3 py-1.5 text-xs font-medium text-blue-700 transition hover:border-blue-300 hover:bg-blue-50"
@@ -361,7 +370,8 @@
 														stroke-width="2"
 													>
 														<rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-														<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+														<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
+														></path>
 													</svg>
 													{copiedForm === program.dev ? 'Copied!' : 'Copy'}
 												</button>
@@ -369,7 +379,7 @@
 										</div>
 										<div class="mt-3 grid gap-4 sm:grid-cols-2">
 											<div class="rounded-xl border bg-white p-3 text-center">
-												<p class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+												<p class="text-xs font-semibold tracking-wide text-gray-500 uppercase">
 													Prod
 												</p>
 												{#if qrAssets[`pre-training-${program.slug}`]?.prod?.pngDataUrl}
@@ -387,7 +397,7 @@
 												{/if}
 											</div>
 											<div class="rounded-xl border bg-white p-3 text-center">
-												<p class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+												<p class="text-xs font-semibold tracking-wide text-gray-500 uppercase">
 													Dev
 												</p>
 												{#if qrAssets[`pre-training-${program.slug}`]?.dev?.pngDataUrl}
@@ -418,7 +428,7 @@
 				aria-labelledby="forms-posttraining-label"
 			>
 				<h3
-					class="text-sm font-semibold uppercase tracking-wide text-indigo-700"
+					class="text-sm font-semibold tracking-wide text-indigo-700 uppercase"
 					id="forms-posttraining-label"
 				>
 					Post-training surveys
@@ -456,7 +466,9 @@
 						</summary>
 						<div class="space-y-4 pt-2">
 							<div class="space-y-2">
-								<div class="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-gray-100 bg-white px-3 py-2">
+								<div
+									class="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-gray-100 bg-white px-3 py-2"
+								>
 									<p class="text-xs text-gray-500">
 										Prod:
 										<span class="font-medium text-gray-700">
@@ -481,7 +493,9 @@
 										{copiedForm === `${prodOrigin}/forms/post-training-survey` ? 'Copied!' : 'Copy'}
 									</button>
 								</div>
-								<div class="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-gray-100 bg-white px-3 py-2">
+								<div
+									class="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-gray-100 bg-white px-3 py-2"
+								>
 									<p class="text-xs text-gray-500">
 										Dev:
 										<span class="font-medium text-gray-700">
@@ -509,7 +523,7 @@
 							</div>
 							<div class="grid gap-4 sm:grid-cols-2">
 								<div class="rounded-xl border bg-white p-3 text-center">
-									<p class="text-xs font-semibold uppercase tracking-wide text-gray-500">Prod</p>
+									<p class="text-xs font-semibold tracking-wide text-gray-500 uppercase">Prod</p>
 									{#if qrAssets['post-training-main']?.prod?.pngDataUrl}
 										<img
 											class="mx-auto mt-2 h-40 w-40"
@@ -525,7 +539,7 @@
 									{/if}
 								</div>
 								<div class="rounded-xl border bg-white p-3 text-center">
-									<p class="text-xs font-semibold uppercase tracking-wide text-gray-500">Dev</p>
+									<p class="text-xs font-semibold tracking-wide text-gray-500 uppercase">Dev</p>
 									{#if qrAssets['post-training-main']?.dev?.pngDataUrl}
 										<img
 											class="mx-auto mt-2 h-40 w-40"
@@ -543,14 +557,16 @@
 							</div>
 
 							<div class="space-y-3">
-								<p class="text-xs font-semibold uppercase tracking-wide text-gray-600">
+								<p class="text-xs font-semibold tracking-wide text-gray-600 uppercase">
 									Program-specific links
 								</p>
 								{#each postTrainingProgramUrls as program}
 									<div class="rounded-2xl border border-gray-100 bg-white px-4 py-3">
 										<div class="space-y-2">
 											<p class="text-sm font-semibold text-gray-900">{program.title}</p>
-											<div class="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-gray-100 bg-white px-3 py-2">
+											<div
+												class="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-gray-100 bg-white px-3 py-2"
+											>
 												<p class="text-xs text-gray-500">Prod: {program.prod}</p>
 												<button
 													class="inline-flex items-center gap-2 rounded-lg border border-blue-200 px-3 py-1.5 text-xs font-medium text-blue-700 transition hover:border-blue-300 hover:bg-blue-50"
@@ -565,12 +581,15 @@
 														stroke-width="2"
 													>
 														<rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-														<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+														<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
+														></path>
 													</svg>
 													{copiedForm === program.prod ? 'Copied!' : 'Copy'}
 												</button>
 											</div>
-											<div class="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-gray-100 bg-white px-3 py-2">
+											<div
+												class="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-gray-100 bg-white px-3 py-2"
+											>
 												<p class="text-xs text-gray-500">Dev: {program.dev}</p>
 												<button
 													class="inline-flex items-center gap-2 rounded-lg border border-blue-200 px-3 py-1.5 text-xs font-medium text-blue-700 transition hover:border-blue-300 hover:bg-blue-50"
@@ -585,7 +604,8 @@
 														stroke-width="2"
 													>
 														<rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-														<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+														<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
+														></path>
 													</svg>
 													{copiedForm === program.dev ? 'Copied!' : 'Copy'}
 												</button>
@@ -593,7 +613,7 @@
 										</div>
 										<div class="mt-3 grid gap-4 sm:grid-cols-2">
 											<div class="rounded-xl border bg-white p-3 text-center">
-												<p class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+												<p class="text-xs font-semibold tracking-wide text-gray-500 uppercase">
 													Prod
 												</p>
 												{#if qrAssets[`post-training-${program.slug}`]?.prod?.pngDataUrl}
@@ -611,7 +631,7 @@
 												{/if}
 											</div>
 											<div class="rounded-xl border bg-white p-3 text-center">
-												<p class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+												<p class="text-xs font-semibold tracking-wide text-gray-500 uppercase">
 													Dev
 												</p>
 												{#if qrAssets[`post-training-${program.slug}`]?.dev?.pngDataUrl}
@@ -642,7 +662,7 @@
 				aria-labelledby="forms-testimonials-label"
 			>
 				<h3
-					class="text-sm font-semibold uppercase tracking-wide text-amber-700"
+					class="text-sm font-semibold tracking-wide text-amber-700 uppercase"
 					id="forms-testimonials-label"
 				>
 					Testimonials

@@ -11,23 +11,23 @@
 	const isScheduleTeamButton = (label?: string): boolean =>
 		(label ?? '').toLowerCase().trim() === scheduleTeamLabel.toLowerCase();
 
-let rawTitle: string;
-let titleSlug: string;
-let sessionsSectionId: string;
-let isRowLayout: boolean;
-let hasHappeningSessions: boolean;
-let hasUpcomingOrHappening: boolean;
+	let rawTitle: string;
+	let titleSlug: string;
+	let sessionsSectionId: string;
+	let isRowLayout: boolean;
+	let hasHappeningSessions: boolean;
+	let hasUpcomingOrHappening: boolean;
 
-$: hasUpcomingSessions = Boolean(item.upcomingSessions?.length);
-$: hasHappeningSessions = Boolean(item.happeningSessions?.length);
-$: hasUpcomingOrHappening = hasUpcomingSessions || hasHappeningSessions;
-$: rawTitle = item.title ?? '';
-$: titleSlug = rawTitle
-	.toLowerCase()
-	.replace(/[^a-z0-9]+/g, '-')
-	.replace(/(^-+|-+$)/g, '');
-$: sessionsSectionId = `${titleSlug || 'training'}-sessions`;
-$: isRowLayout = layout === 'row';
+	$: hasUpcomingSessions = Boolean(item.upcomingSessions?.length);
+	$: hasHappeningSessions = Boolean(item.happeningSessions?.length);
+	$: hasUpcomingOrHappening = hasUpcomingSessions || hasHappeningSessions;
+	$: rawTitle = item.title ?? '';
+	$: titleSlug = rawTitle
+		.toLowerCase()
+		.replace(/[^a-z0-9]+/g, '-')
+		.replace(/(^-+|-+$)/g, '');
+	$: sessionsSectionId = `${titleSlug || 'training'}-sessions`;
+	$: isRowLayout = layout === 'row';
 </script>
 
 <article
@@ -46,7 +46,7 @@ $: isRowLayout = layout === 'row';
 			{#if item.route}
 				<a
 					href={item.route}
-					class="group block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+					class="group block focus-visible:ring-2 focus-visible:ring-blue-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-white focus-visible:outline-none"
 					aria-label={`View ${item.title}`}
 				>
 					<img
@@ -82,7 +82,7 @@ $: isRowLayout = layout === 'row';
 			<h2 class="text-xl font-semibold">
 				<a
 					href={item.route}
-					class="transition hover:text-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+					class="transition hover:text-blue-700 focus-visible:ring-2 focus-visible:ring-blue-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-white focus-visible:outline-none"
 				>
 					{item.title}
 				</a>
@@ -102,7 +102,7 @@ $: isRowLayout = layout === 'row';
 			<div class="mt-1.5 flex flex-wrap items-center gap-2">
 				{#if item.certificateText}
 					<span
-						class="inline-flex items-center rounded-full border border-blue-100 bg-blue-50 px-2.5 py-0.5 text-[0.7rem] font-medium normal-case text-blue-700/80"
+						class="inline-flex items-center rounded-full border border-blue-100 bg-blue-50 px-2.5 py-0.5 text-[0.7rem] font-medium text-blue-700/80 normal-case"
 					>
 						{item.certificateText}
 					</span>
@@ -112,7 +112,7 @@ $: isRowLayout = layout === 'row';
 						href={item.videoUrl}
 						target="_blank"
 						rel="noopener noreferrer"
-						class="inline-flex items-center rounded-full border border-blue-100 bg-blue-50 px-2.5 py-0.5 text-[0.7rem] font-medium normal-case text-blue-700/80 transition hover:border-blue-200 hover:bg-blue-100"
+						class="inline-flex items-center rounded-full border border-blue-100 bg-blue-50 px-2.5 py-0.5 text-[0.7rem] font-medium text-blue-700/80 normal-case transition hover:border-blue-200 hover:bg-blue-100"
 					>
 						🎬 Watch the trailer
 					</a>
@@ -131,7 +131,9 @@ $: isRowLayout = layout === 'row';
 				id={sessionsSectionId}
 				class="mt-2 w-full rounded-2xl border border-blue-100 bg-blue-50 p-3 text-left"
 			>
-				<p class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-blue-600">
+				<p
+					class="inline-flex items-center gap-2 text-xs font-semibold tracking-wide text-blue-600 uppercase"
+				>
 					<span class="h-2 w-2 rounded-full bg-blue-500"></span>
 					Upcoming sessions
 				</p>
@@ -174,7 +176,7 @@ $: isRowLayout = layout === 'row';
 						id={sessionsSectionId}
 						class="w-full rounded-2xl border border-amber-200 bg-amber-50/70 p-3 text-left"
 					>
-						<p class="text-xs font-semibold uppercase tracking-wide text-amber-700">
+						<p class="text-xs font-semibold tracking-wide text-amber-700 uppercase">
 							Happening now
 						</p>
 						<ul class="mt-2 space-y-2.5">

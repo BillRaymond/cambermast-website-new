@@ -6,7 +6,8 @@ export const techlabAiAdvancedWorkshop: TechlabProgram = {
 	sku: 'CM-TR-003',
 	title: 'AI Workshop for Modern Teams',
 	nickname: 'Seven-week cohort for founder-led teams',
-tagline: 'Kick-start AI adoption for startup founders and their teams, with measurable results in seven weeks.',
+	tagline:
+		'Kick-start AI adoption for startup founders and their teams, with measurable results in seven weeks.',
 	heroImage: '/images/ai-advanced.jpeg',
 	heroImageAlt: 'AI Workshop for Modern Teams illustration',
 	ogImage: '/images/cambermast-content-3-ai-workshop-for-modern-teams-og.jpeg',
@@ -151,7 +152,9 @@ tagline: 'Kick-start AI adoption for startup founders and their teams, with meas
 	faqs: [
 		{
 			question: 'Will I receive a certificate of completion?',
-			answers: ['Yes. Graduates receive a digital certificate after presenting their final project.']
+			answers: [
+				'Yes. Graduates receive a digital certificate after presenting their final project.'
+			]
 		},
 		{
 			question: 'Will there be makeup dates?',

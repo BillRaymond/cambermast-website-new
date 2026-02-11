@@ -9,26 +9,22 @@
 	export let label: string = 'Resource';
 </script>
 
-<SeoHead
-	title={title}
-	description={description}
-	path={path}
-	image={imageSrc}
-	imageAlt={imageAlt}
-/>
+<SeoHead {title} {description} {path} image={imageSrc} {imageAlt} />
 
 <section class="mx-auto mb-8 max-w-4xl">
 	<div class="rounded-3xl border border-gray-200 bg-white p-4 shadow-sm md:p-6">
 		<div class="flex flex-col gap-6 md:flex-row md:items-center">
 			<div class="order-2 space-y-4 md:order-1 md:w-1/2">
-				<p class="text-sm font-semibold uppercase tracking-wide text-blue-600">{label}</p>
+				<p class="text-sm font-semibold tracking-wide text-blue-600 uppercase">{label}</p>
 				<h1 class="text-3xl font-bold text-gray-900">{title}</h1>
 				{#if description}
 					<p class="text-lg text-gray-700">{description}</p>
 				{/if}
 			</div>
 			{#if imageSrc}
-				<figure class="order-1 w-full overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-sm md:order-2 md:w-1/2">
+				<figure
+					class="order-1 w-full overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-sm md:order-2 md:w-1/2"
+				>
 					<img
 						class="h-auto w-full object-contain"
 						src={imageSrc}

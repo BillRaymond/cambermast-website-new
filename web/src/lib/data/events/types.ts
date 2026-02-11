@@ -17,7 +17,13 @@ export type EventVisibility = 'public' | 'unlisted' | 'draft';
 
 export type EventLifecycleStatus = 'scheduled' | 'postponed' | 'canceled' | 'completed';
 
-export type EventRegistrationStatus = 'open' | 'closed' | 'external' | 'none' | 'waitlist' | 'sold_out';
+export type EventRegistrationStatus =
+	| 'open'
+	| 'closed'
+	| 'external'
+	| 'none'
+	| 'waitlist'
+	| 'sold_out';
 
 export type EventLocationMode = 'online' | 'in_person' | 'hybrid';
 

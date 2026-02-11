@@ -14,7 +14,9 @@
 	const startAtTimestamp = new Date(event.startAtUtc).valueOf();
 	const endAtTimestamp = event.endAtUtc ? new Date(event.endAtUtc).valueOf() : undefined;
 	const isTimestampValid = Number.isFinite(startAtTimestamp);
-	const hasEnded = Number.isFinite(endAtTimestamp) ? (endAtTimestamp as number) < Date.now() : false;
+	const hasEnded = Number.isFinite(endAtTimestamp)
+		? (endAtTimestamp as number) < Date.now()
+		: false;
 
 	const pacificDateTimeFormatter = new Intl.DateTimeFormat('en-US', {
 		timeZone: pacificTimeZone,
@@ -75,7 +77,9 @@
 	const pageDescription = event.summary;
 	const statusLabel = getStatusLabel(event.registrationStatus);
 	const canRegister =
-		Boolean(event.cta?.url) && event.registrationStatus !== 'closed' && event.registrationStatus !== 'none';
+		Boolean(event.cta?.url) &&
+		event.registrationStatus !== 'closed' &&
+		event.registrationStatus !== 'none';
 	const eventPath = `/events/${event.slug}`;
 </script>
 
@@ -91,27 +95,38 @@
 <section class="bg-white py-12 md:py-16">
 	<div class="mx-auto max-w-4xl px-5">
 		<div class="mb-8">
-			<a href="/events" class="inline-flex items-center text-sm font-semibold text-slate-600 hover:text-slate-900">
+			<a
+				href="/events"
+				class="inline-flex items-center text-sm font-semibold text-slate-600 hover:text-slate-900"
+			>
 				&larr; Back to events
 			</a>
 		</div>
 
 		<article class="rounded-3xl border border-slate-200 bg-slate-50 p-6 md:p-8">
 			<div class="flex flex-wrap items-center gap-2">
-				<span class="inline-flex rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">
+				<span
+					class="inline-flex rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700"
+				>
 					{getEventTypeLabel(event)}
 				</span>
 				{#if statusLabel}
-					<span class="inline-flex rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-800">
+					<span
+						class="inline-flex rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-800"
+					>
 						{statusLabel}
 					</span>
 				{/if}
 			</div>
 
-			<h1 class="mt-4 text-3xl font-semibold tracking-tight text-slate-900 md:text-4xl">{event.title}</h1>
+			<h1 class="mt-4 text-3xl font-semibold tracking-tight text-slate-900 md:text-4xl">
+				{event.title}
+			</h1>
 			<p class="mt-4 text-base text-slate-700 md:text-lg">{event.summary}</p>
 
-			<div class="mt-6 grid gap-3 rounded-2xl border border-slate-200 bg-white p-4 text-sm text-slate-700">
+			<div
+				class="mt-6 grid gap-3 rounded-2xl border border-slate-200 bg-white p-4 text-sm text-slate-700"
+			>
 				<p>
 					<span class="font-semibold text-slate-900">Official time (Pacific):</span>
 					{isTimestampValid ? pacificDateTimeFormatter.format(startAtTimestamp) : 'TBD'}
@@ -150,7 +165,9 @@
 						{event.cta.label}
 					</a>
 				{:else}
-					<span class="inline-flex rounded-full border border-slate-300 px-5 py-2.5 text-sm font-semibold text-slate-600">
+					<span
+						class="inline-flex rounded-full border border-slate-300 px-5 py-2.5 text-sm font-semibold text-slate-600"
+					>
 						{event.cta?.label ?? 'Registration unavailable'}
 					</span>
 				{/if}
@@ -166,13 +183,20 @@
 
 			{#if partner || (event.partnerCode && event.partnerCode !== 'NONE')}
 				<div class="mt-6 rounded-2xl border border-slate-200 bg-white p-4">
-					<p class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Partner</p>
+					<p class="text-xs font-semibold tracking-[0.2em] text-slate-500 uppercase">Partner</p>
 					<div class="mt-2 flex items-center gap-3">
 						{#if partner?.logo}
-							<img src={partner.logo} alt={`${partner.name} logo`} class="h-10 w-10 rounded object-contain" loading="lazy" />
+							<img
+								src={partner.logo}
+								alt={`${partner.name} logo`}
+								class="h-10 w-10 rounded object-contain"
+								loading="lazy"
+							/>
 						{/if}
 						<div class="min-w-0">
-							<p class="text-sm font-semibold text-slate-900">{partner?.name ?? event.partnerCode}</p>
+							<p class="text-sm font-semibold text-slate-900">
+								{partner?.name ?? event.partnerCode}
+							</p>
 							{#if partner?.homepageUrl}
 								<a
 									href={partner.homepageUrl}
@@ -190,7 +214,7 @@
 
 			{#if relatedProgram}
 				<div class="mt-6 rounded-2xl border border-slate-200 bg-white p-4">
-					<p class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+					<p class="text-xs font-semibold tracking-[0.2em] text-slate-500 uppercase">
 						Related training program
 					</p>
 					<p class="mt-2 text-sm font-semibold text-slate-900">{relatedProgram.title}</p>
@@ -210,7 +234,9 @@
 				<div class="mt-8 border-t border-slate-200 pt-6">
 					<h2 class="text-xl font-semibold text-slate-900">About this event</h2>
 					<p class="mt-3 whitespace-pre-line text-slate-700">
-						{typeof event.description === 'string' ? event.description : (event.description.bodyMd ?? event.description.summary ?? '')}
+						{typeof event.description === 'string'
+							? event.description
+							: (event.description.bodyMd ?? event.description.summary ?? '')}
 					</p>
 				</div>
 			{/if}

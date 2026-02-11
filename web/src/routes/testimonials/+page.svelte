@@ -27,28 +27,28 @@
 		return acc;
 	}, new Map());
 
-const sortByNewest = (a: Testimonial, b: Testimonial) =>
-	new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+	const sortByNewest = (a: Testimonial, b: Testimonial) =>
+		new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
 
-const formatFallbackProgramTitle = (testimonial?: Testimonial): string => {
-	const slug = testimonial?.programSlug ?? testimonial?.programSku;
-	if (!slug) {
-		return 'Training Program';
-	}
-	return slug
-		.split('-')
-		.map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-		.join(' ');
-};
+	const formatFallbackProgramTitle = (testimonial?: Testimonial): string => {
+		const slug = testimonial?.programSlug ?? testimonial?.programSku;
+		if (!slug) {
+			return 'Training Program';
+		}
+		return slug
+			.split('-')
+			.map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+			.join(' ');
+	};
 
-const formatRole = (testimonial: Testimonial): string => {
-	if (testimonial.jobTitle && testimonial.company) {
-		return `${testimonial.jobTitle}, ${testimonial.company}`;
-	}
-	return testimonial.jobTitle ?? testimonial.company ?? '';
-};
+	const formatRole = (testimonial: Testimonial): string => {
+		if (testimonial.jobTitle && testimonial.company) {
+			return `${testimonial.jobTitle}, ${testimonial.company}`;
+		}
+		return testimonial.jobTitle ?? testimonial.company ?? '';
+	};
 
-const groupedTestimonials: TestimonialsGroup[] = [];
+	const groupedTestimonials: TestimonialsGroup[] = [];
 
 	for (const program of trainingPrograms) {
 		const programTestimonials = testimonialsBySlug.get(program.slug);
@@ -76,14 +76,14 @@ const groupedTestimonials: TestimonialsGroup[] = [];
 		});
 	}
 
-const testimonialCount = testimonials.length;
-const programCount = groupedTestimonials.length;
+	const testimonialCount = testimonials.length;
+	const programCount = groupedTestimonials.length;
 </script>
 
 <SeoHead title={pageMeta.title} description={pageMeta.description} path="/testimonials" />
 
 <section class="py-8">
-	<p class="text-sm font-semibold uppercase tracking-wide text-blue-600">Testimonials</p>
+	<p class="text-sm font-semibold tracking-wide text-blue-600 uppercase">Testimonials</p>
 	<h1 class="mt-2 text-3xl font-bold text-gray-900">AI training wins from real teams</h1>
 	<p class="mt-4 max-w-3xl text-lg text-gray-700">
 		Read {testimonialCount} testimonials from {programCount} Cambermast training programs. Each story
@@ -103,9 +103,7 @@ const programCount = groupedTestimonials.length;
 	<section class="flex flex-col gap-8 pb-8">
 		{#each groupedTestimonials as group (group.slug)}
 			<article class="rounded-2xl border border-blue-100 bg-white p-6 shadow-sm">
-				<div
-					class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between md:gap-6"
-				>
+				<div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between md:gap-6">
 					<div>
 						<h2 class="text-2xl font-semibold text-gray-900">{group.title}</h2>
 						{#if group.description}

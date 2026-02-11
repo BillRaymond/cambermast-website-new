@@ -47,9 +47,7 @@
 			url: SITE_ORIGIN
 		},
 		...(data.program.sku ? { courseCode: data.program.sku } : {}),
-		...(data.program.audience?.length
-			? { keywords: data.program.audience.join(', ') }
-			: {})
+		...(data.program.audience?.length ? { keywords: data.program.audience.join(', ') } : {})
 	});
 </script>
 
@@ -68,4 +66,4 @@
 	</script>
 </svelte:head>
 
-<ProgramPage program={data.program} backLink={backLink} relatedEvents={data.relatedEvents} />
+<ProgramPage program={data.program} {backLink} relatedEvents={data.relatedEvents} />

@@ -69,9 +69,7 @@
 		.sort((a, b) => (a.order ?? 999) - (b.order ?? 999))
 		.map((item) => {
 			const program = getProgram(item.route);
-			const durationStat = program?.stats?.find(
-				(stat) => stat.label?.toLowerCase() === 'duration'
-			);
+			const durationStat = program?.stats?.find((stat) => stat.label?.toLowerCase() === 'duration');
 			const upcomingSessions = gatherUpcomingSessions(program);
 			const happeningSessions = gatherHappeningSessions(program);
 
@@ -107,8 +105,8 @@
 	<div class="grid gap-5">
 		{#each items as item (item.route ?? item.title)}
 			<CatalogCard
-				item={item}
-				scheduleTeamLabel={scheduleTeamLabel}
+				{item}
+				{scheduleTeamLabel}
 				showBullets={true}
 				showDuration={false}
 				layout="row"
@@ -117,12 +115,11 @@
 	</div>
 </section>
 
-
-
 <section class="mb-20 rounded-2xl border bg-gray-50 p-5 md:mb-0">
 	<h3 class="text-lg font-semibold">Need help scoping an automation?</h3>
 	<p class="mt-1.5 text-gray-700">
-		Tell us what your team wants to streamline, and we'll recommend the fastest path to a working agent.
+		Tell us what your team wants to streamline, and we'll recommend the fastest path to a working
+		agent.
 	</p>
 	<a href="/contact" class="mt-3 inline-block rounded-lg border px-4 py-2 hover:bg-gray-100"
 		>Contact us</a

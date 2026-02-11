@@ -25,8 +25,8 @@
 			label: 'Value lens',
 			title: 'Anchor the engagement to outcomes, not hours',
 			blurb: 'Frame the conversation around time saved, quality improved, and revenue generated.',
-				detail:
-					'Before we talk tooling or price, we align on the transformation you expect. That narrative drives every downstream decision, from ROI math to how we communicate the investment internally.',
+			detail:
+				'Before we talk tooling or price, we align on the transformation you expect. That narrative drives every downstream decision, from ROI math to how we communicate the investment internally.',
 			questions: [
 				'Which metric or customer moment is under the most pressure right now?',
 				'Who needs to be convinced this is an investment rather than an expense?'
@@ -65,8 +65,8 @@
 			label: 'Design & QA',
 			title: 'Co-design the engagement plan, guardrails, and QA loops',
 			blurb: 'Milestone-based delivery keeps us accountable while stakeholders stay involved.',
-				detail:
-					'We translate the prioritized workflow into a delivery plan that highlights human-in-the-loop checkpoints, testing responsibilities, and data access requirements. When something changes, we adjust scope, not just the price.',
+			detail:
+				'We translate the prioritized workflow into a delivery plan that highlights human-in-the-loop checkpoints, testing responsibilities, and data access requirements. When something changes, we adjust scope, not just the price.',
 			questions: [
 				'Which milestones prove value the fastest?',
 				'What does “done” look like for each stakeholder involved?'
@@ -106,13 +106,21 @@
 			title: 'Milestone delivery',
 			description:
 				'We build and manage AI workflows with human-in-the-loop guardrails and weekly demos.',
-			bullets: ['Prototyping + testing environments', 'Documented QA + handover playbooks', 'Go-live and monitoring support']
+			bullets: [
+				'Prototyping + testing environments',
+				'Documented QA + handover playbooks',
+				'Go-live and monitoring support'
+			]
 		},
 		{
 			title: 'Ongoing stewardship',
 			description:
 				'A flexible retainer that covers maintenance, optimization, and version-two improvements.',
-			bullets: ['Model + API updates handled for you', 'Lightweight backlog grooming', 'Performance reviews with leadership']
+			bullets: [
+				'Model + API updates handled for you',
+				'Lightweight backlog grooming',
+				'Performance reviews with leadership'
+			]
 		}
 	];
 
@@ -135,7 +143,10 @@
 			value:
 				'Marketing site updates to stay compliant with AI optimization, search, and content guidelines.'
 		},
-		{ label: 'Frequency or volume', value: '2–3 update pushes per week; spikes during model rollouts.' },
+		{
+			label: 'Frequency or volume',
+			value: '2–3 update pushes per week; spikes during model rollouts.'
+		},
 		{
 			label: 'Stakeholders involved',
 			value: 'Marketing ops lead, web developer, and compliance reviewer.'
@@ -146,11 +157,13 @@
 		},
 		{
 			label: 'Tooling + data guardrails',
-			value: 'Approved systems, datasets, and anything off-limits so we know the boundaries from day one.'
+			value:
+				'Approved systems, datasets, and anything off-limits so we know the boundaries from day one.'
 		},
 		{
 			label: 'Desired outcome',
-			value: 'Automate compliant copy blocks, approvals, and publishing alerts while keeping a final human review.'
+			value:
+				'Automate compliant copy blocks, approvals, and publishing alerts while keeping a final human review.'
 		},
 		{
 			label: 'Primary success metric',
@@ -167,32 +180,46 @@
 
 <SeoHead title={pageMeta.title} description={pageMeta.description} path="/strategy" />
 
-<section class="mb-12 overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-blue-900 to-blue-700 text-white shadow-xl">
+<section
+	class="mb-12 overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-blue-900 to-blue-700 text-white shadow-xl"
+>
 	<div class="grid gap-8 p-8 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] lg:p-12">
 		<div class="space-y-5">
-			<p class="text-sm font-semibold uppercase tracking-[0.25em] text-blue-200">
+			<p class="text-sm font-semibold tracking-[0.25em] text-blue-200 uppercase">
 				Outcome-focused advisory
 			</p>
 			<h1 class="text-3xl font-bold lg:text-4xl">{section.label}</h1>
 			<p class="text-lg text-blue-50 lg:text-xl">
-				{section.headline} When repetitive tasks and overbuilt processes eat into revenue, bring them to us and we’ll turn them into clear next steps, prototypes, and proof you can rally around.
+				{section.headline} When repetitive tasks and overbuilt processes eat into revenue, bring them
+				to us and we’ll turn them into clear next steps, prototypes, and proof you can rally around.
 			</p>
 			<ul class="space-y-2 text-sm text-blue-100 lg:text-base">
 				<li class="flex items-start gap-3">
 					<span aria-hidden="true">✅</span>
-					<span>Show leadership exactly how much time, cost, and risk fall away with each workflow we tackle together.</span>
+					<span
+						>Show leadership exactly how much time, cost, and risk fall away with each workflow we
+						tackle together.</span
+					>
 				</li>
 				<li class="flex items-start gap-3">
 					<span aria-hidden="true">✅</span>
-					<span>Co-build with our team through live demos, QA scripts, and human-in-the-loop guardrails so nothing feels like a black box.</span>
+					<span
+						>Co-build with our team through live demos, QA scripts, and human-in-the-loop guardrails
+						so nothing feels like a black box.</span
+					>
 				</li>
 				<li class="flex items-start gap-3">
 					<span aria-hidden="true">✅</span>
-					<span>Ease into retainers or optimization plans once the first win lands, keeping the same crew who knows your business.</span>
+					<span
+						>Ease into retainers or optimization plans once the first win lands, keeping the same
+						crew who knows your business.</span
+					>
 				</li>
 			</ul>
 		</div>
-		<dl class="grid gap-4 rounded-2xl border border-white/20 bg-white/5 p-6 text-sm uppercase tracking-wide text-blue-100">
+		<dl
+			class="grid gap-4 rounded-2xl border border-white/20 bg-white/5 p-6 text-sm tracking-wide text-blue-100 uppercase"
+		>
 			<div>
 				<dt class="text-xs text-blue-200">What we focus on</dt>
 				<dd class="text-2xl font-semibold text-white">Time, cost, and error reduction</dd>
@@ -211,7 +238,7 @@
 
 <section class="mb-12 space-y-6">
 	<div class="space-y-2">
-		<p class="text-sm font-semibold uppercase tracking-wide text-blue-700">Our approach</p>
+		<p class="text-sm font-semibold tracking-wide text-blue-700 uppercase">Our approach</p>
 		<h2 class="text-2xl font-bold">A visual map of how we engage</h2>
 		<p class="text-gray-700">
 			Each step builds on the last. Select a stage to see how the work evolves and what your team
@@ -231,13 +258,15 @@
 					on:click={() => (activeStepId = step.id)}
 					aria-current={activeStepId === step.id ? 'step' : undefined}
 				>
-					<p class="text-xs font-semibold uppercase tracking-wide text-gray-500">Step {index + 1}</p>
+					<p class="text-xs font-semibold tracking-wide text-gray-500 uppercase">
+						Step {index + 1}
+					</p>
 					<p class="mt-1 text-lg font-semibold text-gray-900">{step.label}</p>
 					<p class="mt-2 text-sm text-gray-600">{step.blurb}</p>
 					{#if index < approachSteps.length - 1}
 						<span
 							aria-hidden="true"
-							class="pointer-events-none absolute right-[-18px] top-1/2 hidden h-px w-9 bg-gradient-to-r from-blue-100 via-blue-400 to-blue-600 md:block"
+							class="pointer-events-none absolute top-1/2 right-[-18px] hidden h-px w-9 bg-gradient-to-r from-blue-100 via-blue-400 to-blue-600 md:block"
 						></span>
 					{/if}
 				</button>
@@ -245,14 +274,12 @@
 		</div>
 
 		<div class="mt-6 rounded-2xl border border-blue-100 bg-white p-6 shadow-inner">
-			<p class="text-sm font-semibold uppercase tracking-wide text-blue-700">
-				Now focused on
-			</p>
+			<p class="text-sm font-semibold tracking-wide text-blue-700 uppercase">Now focused on</p>
 			<h3 class="text-2xl font-bold text-gray-900">{activeStep.title}</h3>
 			<p class="mt-2 text-gray-700">{activeStep.detail}</p>
 			<div class="mt-4 grid gap-4 md:grid-cols-2">
 				<div>
-					<p class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+					<p class="text-xs font-semibold tracking-wide text-gray-500 uppercase">
 						Questions we answer
 					</p>
 					<ul class="mt-2 list-disc space-y-1.5 pl-5 text-sm text-gray-700">
@@ -262,7 +289,7 @@
 					</ul>
 				</div>
 				<div>
-					<p class="text-xs font-semibold uppercase tracking-wide text-gray-500">Key outputs</p>
+					<p class="text-xs font-semibold tracking-wide text-gray-500 uppercase">Key outputs</p>
 					<ul class="mt-2 list-disc space-y-1.5 pl-5 text-sm text-gray-700">
 						{#each activeStep.outputs as output}
 							<li>{output}</li>
@@ -276,7 +303,7 @@
 
 <section class="mb-12 space-y-6">
 	<div class="space-y-2">
-		<p class="text-sm font-semibold uppercase tracking-wide text-blue-700">Engagement formats</p>
+		<p class="text-sm font-semibold tracking-wide text-blue-700 uppercase">Engagement formats</p>
 		<h2 class="text-2xl font-bold">Pick the level of support you need</h2>
 		<p class="text-gray-700">
 			We mix and match sprints, builds, and retainers so you only pay for the help that drives the
@@ -297,7 +324,9 @@
 				</article>
 			{/each}
 		</div>
-		<div class="rounded-2xl border bg-gradient-to-b from-slate-900 to-blue-900 p-6 text-white shadow-md">
+		<div
+			class="rounded-2xl border bg-gradient-to-b from-slate-900 to-blue-900 p-6 text-white shadow-md"
+		>
 			<h3 class="text-xl font-semibold">Advisory sprint deliverables</h3>
 			<p class="mt-2 text-blue-100">
 				These are the core elements clients request most often from our catalog.
@@ -305,10 +334,10 @@
 			<div class="mt-4 space-y-4">
 				{#each items as i}
 					<div class="rounded-xl border border-white/20 bg-white/5 p-4">
-						<p class="text-sm font-semibold uppercase tracking-wide text-blue-200">{i.title}</p>
+						<p class="text-sm font-semibold tracking-wide text-blue-200 uppercase">{i.title}</p>
 						{#if i.summary}<p class="mt-1 text-sm text-blue-100">{i.summary}</p>{/if}
 						{#if i.bullets?.length}
-								<ul class="mt-2 list-disc space-y-1 pl-6 text-sm text-blue-50">
+							<ul class="mt-2 list-disc space-y-1 pl-6 text-sm text-blue-50">
 								{#each i.bullets as b}<li>{b}</li>{/each}
 							</ul>
 						{/if}
@@ -317,24 +346,21 @@
 			</div>
 			<a
 				class="mt-4 inline-flex items-center justify-center rounded-xl bg-white/10 px-4 py-2 text-sm font-semibold text-white ring-1 ring-white/30 transition hover:bg-white/20"
-				href="/contact"
-				>Talk through options</a
+				href="/contact">Talk through options</a
 			>
 		</div>
 	</div>
 </section>
 
-
-
 <section class="mb-12 grid gap-6 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
 	<article class="rounded-2xl border bg-white p-6 shadow-sm">
-		<p class="text-sm font-semibold uppercase tracking-wide text-blue-700">Proof in practice</p>
+		<p class="text-sm font-semibold tracking-wide text-blue-700 uppercase">Proof in practice</p>
 		<h3 class="text-2xl font-bold text-gray-900">{caseSnapshot.title}</h3>
 		<p class="mt-3 text-gray-700">{caseSnapshot.summary}</p>
 		<dl class="mt-4 grid gap-4 sm:grid-cols-3">
 			{#each caseSnapshot.stats as stat}
 				<div class="rounded-xl border bg-gray-50 p-4">
-					<dt class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+					<dt class="text-xs font-semibold tracking-wide text-gray-500 uppercase">
 						{stat.label}
 					</dt>
 					<dd class="text-lg font-semibold text-gray-900">{stat.value}</dd>
@@ -344,7 +370,7 @@
 		<p class="mt-4 text-sm text-gray-600">{caseSnapshot.narrative}</p>
 	</article>
 	<article class="rounded-2xl border bg-blue-50 p-6 text-blue-900">
-		<p class="text-sm font-semibold uppercase tracking-wide text-blue-800">How pricing works</p>
+		<p class="text-sm font-semibold tracking-wide text-blue-800 uppercase">How pricing works</p>
 		<h3 class="text-2xl font-bold text-blue-950">Transparent, customer-focused pricing</h3>
 		<p class="mt-3 text-blue-900">
 			Instead of forcing you into a rigid framework, we price engagements based on the tangible
@@ -383,16 +409,17 @@
 
 <section class="mb-12 grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.85fr)]">
 	<article class="space-y-4 rounded-3xl border bg-white p-6 shadow-sm">
-		<p class="text-sm font-semibold uppercase tracking-wide text-blue-700">Discovery intake</p>
+		<p class="text-sm font-semibold tracking-wide text-blue-700 uppercase">Discovery intake</p>
 		<h3 class="text-2xl font-bold text-gray-900">Here’s the info we gather up front</h3>
 		<p class="text-gray-700">
-			While we automate the intake workflow, use this sample to draft your notes and send them via the
+			While we automate the intake workflow, use this sample to draft your notes and send them via
+			the
 			<a class="text-blue-700 underline" href="/contact">contact page</a> or directly to our team.
 		</p>
 		<dl class="space-y-4">
 			{#each intakeSample as item}
 				<div class="rounded-2xl border bg-gray-50 p-4">
-					<dt class="text-xs font-semibold uppercase tracking-wide text-gray-500">{item.label}</dt>
+					<dt class="text-xs font-semibold tracking-wide text-gray-500 uppercase">{item.label}</dt>
 					<dd class="mt-1 text-sm text-gray-900">{item.value}</dd>
 				</div>
 			{/each}
@@ -400,25 +427,28 @@
 	</article>
 
 	<div class="rounded-3xl border bg-gray-50 p-6">
-		<p class="text-sm font-semibold uppercase tracking-wide text-gray-600">What happens next</p>
+		<p class="text-sm font-semibold tracking-wide text-gray-600 uppercase">What happens next</p>
 		<h3 class="text-2xl font-bold text-gray-900">How we use that sample</h3>
-			<ul class="mt-4 space-y-3 text-gray-700">
-				<li class="flex gap-3">
-					<span class="text-blue-600">1.</span>
-					<span>We translate your notes into a quick value canvas for internal review.</span>
-				</li>
-				<li class="flex gap-3">
-					<span class="text-blue-600">2.</span>
-					<span>During our first call we validate assumptions, surface blockers, and pick a pilot.</span>
-				</li>
-				<li class="flex gap-3">
-					<span class="text-blue-600">3.</span>
-					<span>Within a few days you receive a scoped proposal with the ROI math spelled out.</span>
-				</li>
-			</ul>
+		<ul class="mt-4 space-y-3 text-gray-700">
+			<li class="flex gap-3">
+				<span class="text-blue-600">1.</span>
+				<span>We translate your notes into a quick value canvas for internal review.</span>
+			</li>
+			<li class="flex gap-3">
+				<span class="text-blue-600">2.</span>
+				<span
+					>During our first call we validate assumptions, surface blockers, and pick a pilot.</span
+				>
+			</li>
+			<li class="flex gap-3">
+				<span class="text-blue-600">3.</span>
+				<span>Within a few days you receive a scoped proposal with the ROI math spelled out.</span>
+			</li>
+		</ul>
 		<p class="mt-4 text-sm text-gray-600">
-			Ready to share your version? Send it through the <a class="text-blue-700 underline" href="/contact"
-				>contact page</a
+			Ready to share your version? Send it through the <a
+				class="text-blue-700 underline"
+				href="/contact">contact page</a
 			> or mention it when you book time.
 		</p>
 	</div>

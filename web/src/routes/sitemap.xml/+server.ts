@@ -50,7 +50,9 @@ const getTrainingRoutes = (): string[] =>
 
 const getNewsRoutes = (): string[] => listNewsPosts().map((post) => `/news/${post.slug}`);
 const getEventRoutes = (): string[] =>
-	listEvents({ includeDrafts: false, includeUnlisted: false }).map((event) => `/events/${event.slug}`);
+	listEvents({ includeDrafts: false, includeUnlisted: false }).map(
+		(event) => `/events/${event.slug}`
+	);
 const uniquePaths = (): string[] => {
 	const paths = new Set<string>();
 	for (const path of [
@@ -76,8 +78,10 @@ const buildSitemap = (paths: string[]): string => {
 		})
 		.join('');
 
-	return `<?xml version="1.0" encoding="UTF-8"?>\n` +
-		`<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${urls}</urlset>`;
+	return (
+		`<?xml version="1.0" encoding="UTF-8"?>\n` +
+		`<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${urls}</urlset>`
+	);
 };
 
 export const prerender = true;

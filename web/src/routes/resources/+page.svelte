@@ -38,8 +38,8 @@
 <section class="mx-auto max-w-4xl text-left">
 	<h1 class="mb-5 text-3xl font-bold">Resources for AI training and delivery</h1>
 	<p class="mb-8 text-gray-700">
-		Practical guides and checklists to help you prepare for Cambermast sessions, keep your
-		team aligned, and apply what you learn.
+		Practical guides and checklists to help you prepare for Cambermast sessions, keep your team
+		aligned, and apply what you learn.
 	</p>
 </section>
 

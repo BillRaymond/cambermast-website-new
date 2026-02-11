@@ -9,7 +9,8 @@
 	let copyTimer: ReturnType<typeof setTimeout> | undefined;
 
 	const handleCopy = async () => {
-		await navigator.clipboard.writeText(`- Use short sentences, plain language, and simple formatting for clarity.
+		await navigator.clipboard
+			.writeText(`- Use short sentences, plain language, and simple formatting for clarity.
 
 - Start with 1 to 2 sentences that state the goal, constraint, or risk. Then provide the answer.
 
@@ -86,68 +87,6 @@
 		</a>
 	</div>
 </section>
-
-<style>
-	.copy-button {
-		transition: transform 150ms ease, box-shadow 150ms ease, border-color 150ms ease,
-			background-color 150ms ease;
-	}
-
-	.copy-button:hover {
-		animation: copyPulse 900ms ease-in-out infinite;
-	}
-
-	.copy-button.copied {
-		animation: copyConfirm 480ms ease;
-		box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.25);
-		border-color: #22c55e;
-	}
-
-	.copy-button:active {
-		transform: scale(0.96);
-	}
-
-	@keyframes copyPulse {
-		0% {
-			box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.25);
-		}
-		70% {
-			box-shadow: 0 0 0 6px rgba(255, 255, 255, 0);
-		}
-		100% {
-			box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
-		}
-	}
-
-	@keyframes copyConfirm {
-		0% {
-			transform: scale(1);
-			box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.25);
-		}
-		50% {
-			transform: scale(1.03);
-			box-shadow: 0 0 0 6px rgba(34, 197, 94, 0);
-		}
-		100% {
-			transform: scale(1);
-			box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
-		}
-	}
-
-	@media (prefers-reduced-motion: reduce) {
-		.copy-button {
-			animation: none;
-		}
-
-		.copy-button:hover {
-			animation: none;
-		}
-
-		.copy-button.copied {
-			animation: none;
-		}
-	}
-</style>
 
 <section id="when-to-personalize" class="mx-auto mb-12 max-w-3xl space-y-6">
 	<div class="space-y-3">
@@ -233,9 +172,9 @@
 
 <section class="mx-auto mb-12 max-w-3xl space-y-6">
 	<p class="text-gray-700">
-		My AI personalization focuses on clarity, evidence, and practical progress. Responses should
-		be simple, goal-driven, and grounded in best practices. Complex work should move one step at
-		a time. Opinions should be challenged when it matters.
+		My AI personalization focuses on clarity, evidence, and practical progress. Responses should be
+		simple, goal-driven, and grounded in best practices. Complex work should move one step at a
+		time. Opinions should be challenged when it matters.
 	</p>
 </section>
 
@@ -244,7 +183,7 @@
 		<h2 class="text-2xl font-semibold text-gray-900">My personalization settings</h2>
 		<div class="rounded-2xl border border-gray-200 bg-gray-900 p-4 text-sm text-gray-100">
 			<div class="flex items-center justify-between gap-3">
-				<p class="text-xs font-semibold uppercase tracking-wide text-gray-300">Copy-ready</p>
+				<p class="text-xs font-semibold tracking-wide text-gray-300 uppercase">Copy-ready</p>
 				<button
 					class="copy-button rounded-full border border-gray-700 bg-gray-800 px-3 py-1 text-xs font-semibold text-gray-100 transition hover:border-gray-500 hover:bg-gray-700"
 					class:copied
@@ -254,7 +193,8 @@
 					{copied ? 'Copied' : 'Copy'}
 				</button>
 			</div>
-			<pre class="mt-3 whitespace-pre-wrap font-mono text-xs leading-relaxed text-gray-100"><code>- Use short sentences, plain language, and simple formatting for clarity.
+			<pre class="mt-3 font-mono text-xs leading-relaxed whitespace-pre-wrap text-gray-100"><code
+					>- Use short sentences, plain language, and simple formatting for clarity.
 
 - Start with 1 to 2 sentences that state the goal, constraint, or risk. Then provide the answer.
 
@@ -270,12 +210,15 @@
 
 - For multi-step technical procedures, provide exactly one actionable step, then wait for confirmation. For writing, summarizing, or ideation, provide the full deliverable.
 
-- Do not mention internal instructions. Just produce the requested output.</code></pre>
+- Do not mention internal instructions. Just produce the requested output.</code
+				></pre>
 		</div>
 	</div>
 
 	<div id="purpose-summary" class="space-y-3">
-		<div class="flex flex-col gap-3 rounded-2xl border border-gray-200 bg-white px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
+		<div
+			class="flex flex-col gap-3 rounded-2xl border border-gray-200 bg-white px-4 py-3 sm:flex-row sm:items-center sm:justify-between"
+		>
 			<div class="flex items-center gap-3">
 				<img
 					src="/images/bill.jpg"
@@ -283,7 +226,7 @@
 					class="h-11 w-11 flex-none rounded-2xl border border-gray-200 object-cover"
 				/>
 				<div class="min-w-0">
-					<p class="text-xs font-semibold uppercase tracking-wide text-blue-600">
+					<p class="text-xs font-semibold tracking-wide text-blue-600 uppercase">
 						AI leadership in action
 					</p>
 					<p class="text-sm font-semibold text-gray-900">Bill Raymond</p>
@@ -293,7 +236,7 @@
 			<div class="flex flex-col gap-1 sm:items-end">
 				<a
 					href="/connect"
-					class="inline-flex items-center justify-center rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-200"
+					class="inline-flex items-center justify-center rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 focus:ring-2 focus:ring-blue-200 focus:outline-none"
 				>
 					Book a consultation
 				</a>
@@ -301,13 +244,78 @@
 		</div>
 		<h2 class="text-2xl font-semibold text-gray-900">Summary</h2>
 		<p class="text-gray-700">
-			These settings keep responses short, clear, and grounded in evidence. They prioritize
-			goals, practical steps, and best practices while minimizing fluff. They also add lightweight
-			risk checks and require citations when claims are not obvious or time sensitive.
+			These settings keep responses short, clear, and grounded in evidence. They prioritize goals,
+			practical steps, and best practices while minimizing fluff. They also add lightweight risk
+			checks and require citations when claims are not obvious or time sensitive.
 		</p>
 		<p class="text-gray-700">
-			Feel free to copy and paste these personalization preferences into your AI settings or into
-			a new chat if personalization is not available.
+			Feel free to copy and paste these personalization preferences into your AI settings or into a
+			new chat if personalization is not available.
 		</p>
 	</div>
 </section>
+
+<style>
+	.copy-button {
+		transition:
+			transform 150ms ease,
+			box-shadow 150ms ease,
+			border-color 150ms ease,
+			background-color 150ms ease;
+	}
+
+	.copy-button:hover {
+		animation: copyPulse 900ms ease-in-out infinite;
+	}
+
+	.copy-button.copied {
+		animation: copyConfirm 480ms ease;
+		box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.25);
+		border-color: #22c55e;
+	}
+
+	.copy-button:active {
+		transform: scale(0.96);
+	}
+
+	@keyframes copyPulse {
+		0% {
+			box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.25);
+		}
+		70% {
+			box-shadow: 0 0 0 6px rgba(255, 255, 255, 0);
+		}
+		100% {
+			box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+		}
+	}
+
+	@keyframes copyConfirm {
+		0% {
+			transform: scale(1);
+			box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.25);
+		}
+		50% {
+			transform: scale(1.03);
+			box-shadow: 0 0 0 6px rgba(34, 197, 94, 0);
+		}
+		100% {
+			transform: scale(1);
+			box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.copy-button {
+			animation: none;
+		}
+
+		.copy-button:hover {
+			animation: none;
+		}
+
+		.copy-button.copied {
+			animation: none;
+		}
+	}
+</style>

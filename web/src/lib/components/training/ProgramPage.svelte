@@ -1,27 +1,27 @@
 <script lang="ts">
-import ReviewCard from '$lib/components/ReviewCard.svelte';
-import SessionCard from '$lib/components/SessionCard.svelte';
-import { getEventTypeLabel } from '$lib/data/events';
-import type { Event } from '$lib/data/events/types';
-import type {
-	TrainingFaq,
-	TrainingProgram,
-	TrainingSession,
-	TrainingStat
-} from '$lib/data/training/types';
-import {
-	getSessionStartTimestamp,
-	hasExternalRegistration,
-	isSessionDraft,
-	isSessionHappeningNow,
-	isSessionUpcoming,
-	normalizeToday
-} from '$lib/data/training/session-utils';
-import {
-	listTestimonialsForSku,
-	listTestimonialsForSlug,
-	type Testimonial
-} from '$lib/data/testimonials';
+	import ReviewCard from '$lib/components/ReviewCard.svelte';
+	import SessionCard from '$lib/components/SessionCard.svelte';
+	import { getEventTypeLabel } from '$lib/data/events';
+	import type { Event } from '$lib/data/events/types';
+	import type {
+		TrainingFaq,
+		TrainingProgram,
+		TrainingSession,
+		TrainingStat
+	} from '$lib/data/training/types';
+	import {
+		getSessionStartTimestamp,
+		hasExternalRegistration,
+		isSessionDraft,
+		isSessionHappeningNow,
+		isSessionUpcoming,
+		normalizeToday
+	} from '$lib/data/training/session-utils';
+	import {
+		listTestimonialsForSku,
+		listTestimonialsForSlug,
+		type Testimonial
+	} from '$lib/data/testimonials';
 
 	type BackLink = {
 		href: string;
@@ -37,30 +37,31 @@ import {
 
 	type ExtendedFaq = TrainingFaq & { __isTrainingTerms?: boolean };
 
-let statsBeforeCta: TrainingStat[] = [];
-let statsAfterCta: TrainingStat[] = [];
-let ctaInsertIndex = -1;
-const today = normalizeToday();
-const now = new Date();
-let nonDraftSessions: TrainingSession[] = [];
-let upcomingSessions: TrainingSession[] = [];
-let happeningSessions: TrainingSession[] = [];
-let registerableSessions: TrainingSession[] = [];
-let featuredRegistrationSession: TrainingSession | undefined;
-let videoEmbedUrl: string | undefined;
-let certificateText: string | undefined;
-let programTestimonials: Testimonial[] = [];
-let faqsWithTerms: ExtendedFaq[] = [];
+	let statsBeforeCta: TrainingStat[] = [];
+	let statsAfterCta: TrainingStat[] = [];
+	let ctaInsertIndex = -1;
+	const today = normalizeToday();
+	const now = new Date();
+	let nonDraftSessions: TrainingSession[] = [];
+	let upcomingSessions: TrainingSession[] = [];
+	let happeningSessions: TrainingSession[] = [];
+	let registerableSessions: TrainingSession[] = [];
+	let featuredRegistrationSession: TrainingSession | undefined;
+	let videoEmbedUrl: string | undefined;
+	let certificateText: string | undefined;
+	let programTestimonials: Testimonial[] = [];
+	let faqsWithTerms: ExtendedFaq[] = [];
 
-const trainingTermsFaq: ExtendedFaq = {
-	question: 'Where can I review the Training Terms & Conditions?',
-	answer: "These answers complement Cambermast's Training Terms & Conditions.",
-	__isTrainingTerms: true
-};
+	const trainingTermsFaq: ExtendedFaq = {
+		question: 'Where can I review the Training Terms & Conditions?',
+		answer: "These answers complement Cambermast's Training Terms & Conditions.",
+		__isTrainingTerms: true
+	};
 
 	const normalizeLabel = (label?: string): string | undefined => label?.toLowerCase().trim();
 	const scheduleTeamLabel = 'schedule your team';
-	const isScheduleTeamLabel = (label?: string): boolean => normalizeLabel(label) === scheduleTeamLabel;
+	const isScheduleTeamLabel = (label?: string): boolean =>
+		normalizeLabel(label) === scheduleTeamLabel;
 	const getYouTubeVideoId = (value?: string): string | undefined => {
 		if (!value) return undefined;
 		try {
@@ -97,30 +98,27 @@ const trainingTermsFaq: ExtendedFaq = {
 		targetLabel: string
 	): TrainingStat | undefined => stats?.find((stat) => normalizeLabel(stat.label) === targetLabel);
 
-const toStatText = (value?: string | string[]): string | undefined =>
-	Array.isArray(value) ? value.join(', ') : value;
+	const toStatText = (value?: string | string[]): string | undefined =>
+		Array.isArray(value) ? value.join(', ') : value;
 
-const formatTestimonialRole = (testimonial: Testimonial): string => {
-	if (testimonial.jobTitle && testimonial.company) {
-		return `${testimonial.jobTitle}, ${testimonial.company}`;
-	}
-	return testimonial.jobTitle ?? testimonial.company ?? '';
-};
+	const formatTestimonialRole = (testimonial: Testimonial): string => {
+		if (testimonial.jobTitle && testimonial.company) {
+			return `${testimonial.jobTitle}, ${testimonial.company}`;
+		}
+		return testimonial.jobTitle ?? testimonial.company ?? '';
+	};
 
-const toTimeLines = (value?: string | string[]): string[] =>
-	Array.isArray(value) ? value : value ? [value] : [];
+	const toTimeLines = (value?: string | string[]): string[] =>
+		Array.isArray(value) ? value : value ? [value] : [];
 
 	$: {
 		const stats = program?.stats ?? [];
-		ctaInsertIndex = stats.findIndex(
-			(stat) => normalizeLabel(stat.label) === 'cost'
-		);
+		ctaInsertIndex = stats.findIndex((stat) => normalizeLabel(stat.label) === 'cost');
 		statsBeforeCta = ctaInsertIndex >= 0 ? stats.slice(0, ctaInsertIndex + 1) : stats;
 		statsAfterCta = ctaInsertIndex >= 0 ? stats.slice(ctaInsertIndex + 1) : [];
 	}
 
-	$: nonDraftSessions =
-		program?.sessions?.filter((session) => !isSessionDraft(session)) ?? [];
+	$: nonDraftSessions = program?.sessions?.filter((session) => !isSessionDraft(session)) ?? [];
 
 	const formatSessionDate = (value?: string): string | undefined => {
 		if (!value) return undefined;
@@ -152,9 +150,7 @@ const toTimeLines = (value?: string | string[]): string[] =>
 	$: registerableSessions = upcomingSessions.filter((session) => hasExternalRegistration(session));
 	$: videoEmbedUrl = getVideoEmbedUrl(program?.videoUrl);
 	$: certificateText = toStatText(getStatByLabel(program?.stats, 'certificate')?.value);
-	$: faqsWithTerms = program?.faqs?.length
-		? [...program.faqs, trainingTermsFaq]
-		: [];
+	$: faqsWithTerms = program?.faqs?.length ? [...program.faqs, trainingTermsFaq] : [];
 
 	$: {
 		if (!registerableSessions.length) {
@@ -190,13 +186,13 @@ const toTimeLines = (value?: string | string[]): string[] =>
 	</nav>
 {/if}
 
-<main class="mx-auto flex max-w-5xl flex-col gap-12 px-3.5 pb-10 pt-5 md:px-5 md:pt-6">
+<main class="mx-auto flex max-w-5xl flex-col gap-12 px-3.5 pt-5 pb-10 md:px-5 md:pt-6">
 	<section class="rounded-3xl bg-gradient-to-br from-blue-50 to-white p-6 shadow-sm md:p-9">
 		<div class="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
 			<div class="md:max-w-2xl">
-				<p class="text-sm font-semibold uppercase tracking-wide text-blue-600">Training Program</p>
+				<p class="text-sm font-semibold tracking-wide text-blue-600 uppercase">Training Program</p>
 				{#if program.sku}
-					<p class="mt-1 text-xs font-semibold uppercase tracking-wide text-gray-500">
+					<p class="mt-1 text-xs font-semibold tracking-wide text-gray-500 uppercase">
 						({program.sku})
 					</p>
 				{/if}
@@ -221,7 +217,7 @@ const toTimeLines = (value?: string | string[]): string[] =>
 								<span aria-hidden="true">↗</span>
 							</a>
 						{/if}
-						<p class="text-xs font-semibold uppercase tracking-wide text-amber-700">
+						<p class="text-xs font-semibold tracking-wide text-amber-700 uppercase">
 							In partnership with The Content Wrangler
 						</p>
 					</div>
@@ -233,7 +229,7 @@ const toTimeLines = (value?: string | string[]): string[] =>
 				{#if registerableSessions.length}
 					<div class="mt-4 rounded-2xl border border-blue-100 bg-white p-4 shadow-sm">
 						<p
-							class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-blue-600"
+							class="inline-flex items-center gap-2 text-xs font-semibold tracking-wide text-blue-600 uppercase"
 						>
 							<span class="h-2 w-2 rounded-full bg-blue-500"></span>
 							Upcoming dates
@@ -246,7 +242,9 @@ const toTimeLines = (value?: string | string[]): string[] =>
 									time={session.time}
 									location={session.location}
 									ctaUrl={session.registerUrl}
-									ctaLabel={session.registerUrl === '/contact' ? 'Schedule your team' : 'Register now'}
+									ctaLabel={session.registerUrl === '/contact'
+										? 'Schedule your team'
+										: 'Register now'}
 									scheduleTeam={session.registerUrl === '/contact'}
 									tone="upcoming"
 								/>
@@ -262,7 +260,7 @@ const toTimeLines = (value?: string | string[]): string[] =>
 				{#if relatedEvents.length}
 					<div class="mt-6 rounded-2xl border border-emerald-100 bg-emerald-50/60 p-4 shadow-sm">
 						<div class="flex flex-wrap items-center justify-between gap-2">
-							<p class="text-xs font-semibold uppercase tracking-wide text-emerald-700">
+							<p class="text-xs font-semibold tracking-wide text-emerald-700 uppercase">
 								Related upcoming events
 							</p>
 							<a
@@ -276,24 +274,37 @@ const toTimeLines = (value?: string | string[]): string[] =>
 							{#each relatedEvents as event}
 								<li class="rounded-xl border border-emerald-100 bg-white p-3">
 									<div class="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
-									<div>
-										<div class="flex flex-wrap items-center gap-2">
-											<span class="inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-600/10 px-2 py-0.5 text-[0.6rem] font-semibold uppercase tracking-wide text-emerald-700">
-												<svg viewBox="0 0 24 24" aria-hidden="true" class="h-3 w-3" fill="currentColor">
-													<path d="M9 3a3 3 0 00-3 3v5a3 3 0 006 0V6a3 3 0 00-3-3zm7 1a1 1 0 011 1v6a5 5 0 01-4 4.9V19h3a1 1 0 110 2H8a1 1 0 110-2h3v-3.1A5 5 0 017 11V5a1 1 0 112 0v6a3 3 0 006 0V5a1 1 0 011-1z" />
-												</svg>
-												Event
-											</span>
-											<span class="text-xs font-semibold uppercase tracking-wide text-emerald-600">
-												{getEventTypeLabel(event)}
-											</span>
-											{#if event.draft}
-												<span class="inline-flex items-center rounded-full bg-amber-100 px-2 py-0.5 text-[0.6rem] font-semibold uppercase tracking-wide text-amber-700">
-													Draft
+										<div>
+											<div class="flex flex-wrap items-center gap-2">
+												<span
+													class="inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-600/10 px-2 py-0.5 text-[0.6rem] font-semibold tracking-wide text-emerald-700 uppercase"
+												>
+													<svg
+														viewBox="0 0 24 24"
+														aria-hidden="true"
+														class="h-3 w-3"
+														fill="currentColor"
+													>
+														<path
+															d="M9 3a3 3 0 00-3 3v5a3 3 0 006 0V6a3 3 0 00-3-3zm7 1a1 1 0 011 1v6a5 5 0 01-4 4.9V19h3a1 1 0 110 2H8a1 1 0 110-2h3v-3.1A5 5 0 017 11V5a1 1 0 112 0v6a3 3 0 006 0V5a1 1 0 011-1z"
+														/>
+													</svg>
+													Event
 												</span>
-											{/if}
-										</div>
-										<p class="text-sm font-semibold text-gray-900">{event.title}</p>
+												<span
+													class="text-xs font-semibold tracking-wide text-emerald-600 uppercase"
+												>
+													{getEventTypeLabel(event)}
+												</span>
+												{#if event.draft}
+													<span
+														class="inline-flex items-center rounded-full bg-amber-100 px-2 py-0.5 text-[0.6rem] font-semibold tracking-wide text-amber-700 uppercase"
+													>
+														Draft
+													</span>
+												{/if}
+											</div>
+											<p class="text-sm font-semibold text-gray-900">{event.title}</p>
 											<p class="text-xs text-gray-600">{event.date}</p>
 											{#if event.time}
 												<p class="text-xs text-gray-600">{toTimeLines(event.time).join(' · ')}</p>
@@ -369,70 +380,76 @@ const toTimeLines = (value?: string | string[]): string[] =>
 					</a>
 				</div>
 			</div>
-	{#if program.stats?.length}
-		<div class="flex flex-col gap-3.5 rounded-2xl bg-white p-5 shadow md:sticky md:top-6 md:w-64">
-			{#if program.primaryCta && ctaInsertIndex < 0}
-				<a
-					href={program.primaryCta.url}
-					class="text-center text-sm font-semibold text-blue-700 underline decoration-blue-200 underline-offset-4 transition hover:text-blue-900"
-					class:schedule-team-button={isScheduleTeamLabel(program.primaryCta?.label)}
+			{#if program.stats?.length}
+				<div
+					class="flex flex-col gap-3.5 rounded-2xl bg-white p-5 shadow md:sticky md:top-6 md:w-64"
 				>
-					{program.primaryCta.label}
-				</a>
-			{/if}
-			<ul class="grid gap-3">
-				{#each statsBeforeCta as stat (stat.label)}
-					<li class="rounded-xl border border-blue-100 bg-blue-50 p-3.5">
-						<p class="text-xs font-semibold uppercase tracking-wide text-blue-600">{stat.label}</p>
-						{#if Array.isArray(stat.value)}
-							<ul class="mt-1.5 list-none space-y-1.5 text-sm font-medium text-gray-900">
-								{#each stat.value as option}
-									<li class="leading-snug">{option}</li>
-								{/each}
-							</ul>
-						{:else}
-							<p class="mt-1.5 text-sm font-medium text-gray-900">{stat.value}</p>
-						{/if}
-					</li>
-					{#if featuredRegistrationSession && normalizeLabel(stat.label) === 'cost'}
+					{#if program.primaryCta && ctaInsertIndex < 0}
 						<a
-							href={featuredRegistrationSession.registerUrl}
-							class="register-cta mt-1 block rounded-lg bg-blue-600 px-4 py-2 text-center text-sm font-semibold text-white transition hover:bg-blue-700"
+							href={program.primaryCta.url}
+							class="text-center text-sm font-semibold text-blue-700 underline decoration-blue-200 underline-offset-4 transition hover:text-blue-900"
+							class:schedule-team-button={isScheduleTeamLabel(program.primaryCta?.label)}
 						>
-							Register now
+							{program.primaryCta.label}
 						</a>
 					{/if}
-				{/each}
-			</ul>
-			{#if program.primaryCta && ctaInsertIndex >= 0}
-				<a
-					href={program.primaryCta.url}
-					class="text-center text-sm font-semibold text-blue-700 underline decoration-blue-200 underline-offset-4 transition hover:text-blue-900"
-					class:schedule-team-button={isScheduleTeamLabel(program.primaryCta?.label)}
-				>
-					{program.primaryCta.label}
-				</a>
-			{/if}
-			{#if statsAfterCta.length}
-				<ul class="grid gap-3">
-					{#each statsAfterCta as stat (stat.label)}
-						<li class="rounded-xl border border-blue-100 bg-blue-50 p-3.5">
-							<p class="text-xs font-semibold uppercase tracking-wide text-blue-600">{stat.label}</p>
-							{#if Array.isArray(stat.value)}
-								<ul class="mt-1.5 list-none space-y-1.5 text-sm font-medium text-gray-900">
-									{#each stat.value as option}
-										<li class="leading-snug">{option}</li>
-									{/each}
-								</ul>
-							{:else}
-								<p class="mt-1.5 text-sm font-medium text-gray-900">{stat.value}</p>
+					<ul class="grid gap-3">
+						{#each statsBeforeCta as stat (stat.label)}
+							<li class="rounded-xl border border-blue-100 bg-blue-50 p-3.5">
+								<p class="text-xs font-semibold tracking-wide text-blue-600 uppercase">
+									{stat.label}
+								</p>
+								{#if Array.isArray(stat.value)}
+									<ul class="mt-1.5 list-none space-y-1.5 text-sm font-medium text-gray-900">
+										{#each stat.value as option}
+											<li class="leading-snug">{option}</li>
+										{/each}
+									</ul>
+								{:else}
+									<p class="mt-1.5 text-sm font-medium text-gray-900">{stat.value}</p>
+								{/if}
+							</li>
+							{#if featuredRegistrationSession && normalizeLabel(stat.label) === 'cost'}
+								<a
+									href={featuredRegistrationSession.registerUrl}
+									class="register-cta mt-1 block rounded-lg bg-blue-600 px-4 py-2 text-center text-sm font-semibold text-white transition hover:bg-blue-700"
+								>
+									Register now
+								</a>
 							{/if}
-						</li>
-					{/each}
-				</ul>
+						{/each}
+					</ul>
+					{#if program.primaryCta && ctaInsertIndex >= 0}
+						<a
+							href={program.primaryCta.url}
+							class="text-center text-sm font-semibold text-blue-700 underline decoration-blue-200 underline-offset-4 transition hover:text-blue-900"
+							class:schedule-team-button={isScheduleTeamLabel(program.primaryCta?.label)}
+						>
+							{program.primaryCta.label}
+						</a>
+					{/if}
+					{#if statsAfterCta.length}
+						<ul class="grid gap-3">
+							{#each statsAfterCta as stat (stat.label)}
+								<li class="rounded-xl border border-blue-100 bg-blue-50 p-3.5">
+									<p class="text-xs font-semibold tracking-wide text-blue-600 uppercase">
+										{stat.label}
+									</p>
+									{#if Array.isArray(stat.value)}
+										<ul class="mt-1.5 list-none space-y-1.5 text-sm font-medium text-gray-900">
+											{#each stat.value as option}
+												<li class="leading-snug">{option}</li>
+											{/each}
+										</ul>
+									{:else}
+										<p class="mt-1.5 text-sm font-medium text-gray-900">{stat.value}</p>
+									{/if}
+								</li>
+							{/each}
+						</ul>
+					{/if}
+				</div>
 			{/if}
-		</div>
-	{/if}
 		</div>
 	</section>
 
@@ -553,7 +570,9 @@ const toTimeLines = (value?: string | string[]): string[] =>
 	{/if}
 
 	{#if program.sessions?.length && program.primaryCta}
-		<div class="rounded-2xl border border-blue-100 bg-gradient-to-r from-blue-50 to-white p-5 shadow md:flex md:items-center md:justify-between">
+		<div
+			class="rounded-2xl border border-blue-100 bg-gradient-to-r from-blue-50 to-white p-5 shadow md:flex md:items-center md:justify-between"
+		>
 			<div class="md:max-w-xl">
 				<h3 class="text-xl font-semibold text-gray-900">Lock in your seat</h3>
 				<p class="mt-1.5 text-sm text-gray-600">
@@ -587,20 +606,24 @@ const toTimeLines = (value?: string | string[]): string[] =>
 			</div>
 		</section>
 		{#if program.primaryCta}
-			<div class="mt-5 flex flex-col gap-3.5 rounded-2xl border border-blue-100 bg-blue-50 p-5 shadow md:flex-row md:items-center md:justify-between">
+			<div
+				class="mt-5 flex flex-col gap-3.5 rounded-2xl border border-blue-100 bg-blue-50 p-5 shadow md:flex-row md:items-center md:justify-between"
+			>
 				<div class="md:max-w-xl">
-					<h3 class="text-xl font-semibold text-gray-900">Ready to work through this agenda with us?</h3>
+					<h3 class="text-xl font-semibold text-gray-900">
+						Ready to work through this agenda with us?
+					</h3>
 					<p class="mt-1.5 text-sm text-gray-600">
 						Secure your spot now and get the playbook delivered to your team.
 					</p>
 				</div>
-			<a
-				href={program.primaryCta.url}
-				class="text-sm font-semibold text-blue-700 underline decoration-blue-200 underline-offset-4 transition hover:text-blue-900"
-				class:schedule-team-button={isScheduleTeamLabel(program.primaryCta?.label)}
-			>
-				{program.primaryCta.label}
-			</a>
+				<a
+					href={program.primaryCta.url}
+					class="text-sm font-semibold text-blue-700 underline decoration-blue-200 underline-offset-4 transition hover:text-blue-900"
+					class:schedule-team-button={isScheduleTeamLabel(program.primaryCta?.label)}
+				>
+					{program.primaryCta.label}
+				</a>
 			</div>
 		{/if}
 	{/if}
@@ -648,14 +671,16 @@ const toTimeLines = (value?: string | string[]): string[] =>
 					{/if}
 					<div class="text-center lg:max-w-xl lg:text-left">
 						<p class="text-lg font-semibold text-gray-900">{program.aboutTrainer.name}</p>
-						<p class="mt-1 text-sm uppercase tracking-wide text-blue-600">
+						<p class="mt-1 text-sm tracking-wide text-blue-600 uppercase">
 							{program.aboutTrainer.role}
 						</p>
 						<p class="mt-3 text-base text-gray-700">{program.aboutTrainer.summary}</p>
 					</div>
 				</div>
 				{#if program.aboutTrainer.highlights?.length}
-					<ul class="bullet-list w-full space-y-2.5 rounded-2xl border border-blue-100 bg-blue-50 p-5 text-gray-800 lg:max-w-sm lg:flex-shrink-0">
+					<ul
+						class="bullet-list w-full space-y-2.5 rounded-2xl border border-blue-100 bg-blue-50 p-5 text-gray-800 lg:max-w-sm lg:flex-shrink-0"
+					>
 						{#each program.aboutTrainer.highlights as highlight}
 							<li>{highlight}</li>
 						{/each}
@@ -676,7 +701,8 @@ const toTimeLines = (value?: string | string[]): string[] =>
 						</summary>
 						{#if faq.__isTrainingTerms}
 							<div class="mt-3 flex items-start gap-2.5 text-gray-700">
-								<span class="mt-0.5 inline-flex h-2 w-2 flex-shrink-0 rounded-full bg-blue-600"></span>
+								<span class="mt-0.5 inline-flex h-2 w-2 flex-shrink-0 rounded-full bg-blue-600"
+								></span>
 								<p class="text-gray-700">
 									These answers complement Cambermast's
 									<a class="font-semibold text-blue-600 underline" href="/training/terms"
@@ -691,7 +717,8 @@ const toTimeLines = (value?: string | string[]): string[] =>
 									class:mt-3={index === 0}
 									class:mt-2={index > 0}
 								>
-									<span class="mt-0.5 inline-flex h-2 w-2 flex-shrink-0 rounded-full bg-blue-600"></span>
+									<span class="mt-0.5 inline-flex h-2 w-2 flex-shrink-0 rounded-full bg-blue-600"
+									></span>
 									<p class="whitespace-pre-line text-gray-700">{answer}</p>
 								</div>
 							{/each}
@@ -702,7 +729,9 @@ const toTimeLines = (value?: string | string[]): string[] =>
 		</section>
 	{/if}
 
-	<section class="rounded-3xl bg-gradient-to-r from-blue-600 to-blue-500 p-6 text-white md:flex md:items-center md:justify-between md:gap-6 md:p-10">
+	<section
+		class="rounded-3xl bg-gradient-to-r from-blue-600 to-blue-500 p-6 text-white md:flex md:items-center md:justify-between md:gap-6 md:p-10"
+	>
 		<div class="md:max-w-xl">
 			<h2 class="text-3xl font-bold">Ready to bring AI clarity to your team?</h2>
 			<p class="mt-3 text-lg text-blue-100">
@@ -712,14 +741,14 @@ const toTimeLines = (value?: string | string[]): string[] =>
 		<div class="mt-5 flex flex-col gap-3 md:mt-0">
 			<a
 				href={program.primaryCta.url}
-				class="inline-flex items-center justify-center whitespace-nowrap text-sm font-semibold text-white underline decoration-white/50 underline-offset-4 transition hover:text-blue-100"
+				class="inline-flex items-center justify-center text-sm font-semibold whitespace-nowrap text-white underline decoration-white/50 underline-offset-4 transition hover:text-blue-100"
 				class:schedule-team-button={isScheduleTeamLabel(program.primaryCta?.label)}
 			>
 				{program.primaryCta.label}
 			</a>
 			<a
 				href={program.secondaryCta.url}
-				class="inline-flex items-center justify-center whitespace-nowrap text-sm font-semibold text-white underline decoration-white/50 underline-offset-4 transition hover:text-blue-100"
+				class="inline-flex items-center justify-center text-sm font-semibold whitespace-nowrap text-white underline decoration-white/50 underline-offset-4 transition hover:text-blue-100"
 			>
 				{program.secondaryCta.label}
 			</a>

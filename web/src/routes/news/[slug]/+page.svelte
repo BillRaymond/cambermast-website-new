@@ -23,7 +23,9 @@
 />
 
 <article class="mx-auto max-w-4xl">
-	<div class="mb-3 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-blue-700">
+	<div
+		class="mb-3 flex items-center gap-2 text-xs font-semibold tracking-[0.14em] text-blue-700 uppercase"
+	>
 		<span class="rounded-full bg-blue-50 px-2 py-1">Preview</span>
 		<time datetime={post.date} class="text-gray-700">
 			{formatDate(post.date)}
@@ -34,7 +36,7 @@
 		{/if}
 	</div>
 
-	<h1 class="mb-2 text-4xl font-bold leading-tight text-gray-900">{post.title}</h1>
+	<h1 class="mb-2 text-4xl leading-tight font-bold text-gray-900">{post.title}</h1>
 	<div class="mb-6 flex flex-wrap items-center gap-3 text-sm text-gray-700">
 		<span class="font-semibold text-gray-900">{post.author}</span>
 		{#if post.tags?.length}
@@ -75,7 +77,7 @@
 
 	<div class="mt-10 flex flex-wrap items-center gap-4 rounded-2xl border bg-gray-50 p-5">
 		<div class="flex-1">
-			<p class="text-sm font-semibold uppercase tracking-[0.12em] text-blue-700">
+			<p class="text-sm font-semibold tracking-[0.12em] text-blue-700 uppercase">
 				Want to dig deeper?
 			</p>
 			<p class="text-gray-700">
@@ -92,7 +94,10 @@
 	</div>
 
 	<div class="mt-6 text-sm">
-		<a href="/news" class="inline-flex items-center gap-2 font-semibold text-blue-700 hover:text-blue-800">
+		<a
+			href="/news"
+			class="inline-flex items-center gap-2 font-semibold text-blue-700 hover:text-blue-800"
+		>
 			<span aria-hidden="true">←</span> Back to news
 		</a>
 	</div>

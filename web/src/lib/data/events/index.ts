@@ -39,7 +39,8 @@ const pacificDateFormatter = new Intl.DateTimeFormat('en-US', {
 	year: 'numeric'
 });
 
-const withDefault = <T>(value: T | undefined, fallback: T): T => (value === undefined ? fallback : value);
+const withDefault = <T>(value: T | undefined, fallback: T): T =>
+	value === undefined ? fallback : value;
 
 const coerceVisibility = (event: EventSource): EventVisibility => {
 	if (event.visibility) return event.visibility;

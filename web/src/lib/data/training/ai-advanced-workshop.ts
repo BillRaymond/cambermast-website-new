@@ -6,8 +6,7 @@ export const aiAdvancedWorkshop: TrainingProgram = {
 	sku: 'CM-TR-003',
 	title: 'AI Workshop for Modern Teams',
 	nickname: 'Seven-week cohort for cross-functional teams',
-	tagline:
-		'AI-enhanced team workflows that deliver measurable results in seven weeks.',
+	tagline: 'AI-enhanced team workflows that deliver measurable results in seven weeks.',
 	heroImage: '/images/ai-advanced.jpeg',
 	heroImageAlt: 'AI Workshop for Modern Teams illustration',
 	ogImage: '/images/cambermast-content-3-ai-workshop-for-modern-teams-og.jpeg',
@@ -193,7 +192,7 @@ export const aiAdvancedWorkshop: TrainingProgram = {
 		{
 			question: "I can't take this course. Are there others?",
 			answers: [
-				'Follow Bill\'s training calendar at https://lu.ma/BillTalksAI and subscribe to the Bill Talks AI newsletter for upcoming offerings.'
+				"Follow Bill's training calendar at https://lu.ma/BillTalksAI and subscribe to the Bill Talks AI newsletter for upcoming offerings."
 			]
 		}
 	]

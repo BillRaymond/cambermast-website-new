@@ -18,7 +18,9 @@ export const load: PageLoad = ({ params }) => {
 	}
 
 	const partner =
-		event.partnerCode && event.partnerCode !== 'NONE' ? getPartnerByCode(event.partnerCode) : undefined;
+		event.partnerCode && event.partnerCode !== 'NONE'
+			? getPartnerByCode(event.partnerCode)
+			: undefined;
 	const relatedProgramSlug = event.programRef?.programSlug ?? event.relatedProgramSlugs?.[0];
 	const relatedProgram = relatedProgramSlug ? getTrainingProgram(relatedProgramSlug) : undefined;
 

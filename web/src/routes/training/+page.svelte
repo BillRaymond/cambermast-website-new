@@ -26,42 +26,41 @@
 		return slug ? getTrainingProgram(slug) : undefined;
 	};
 
-	const getScheduleUrl = (program?: TrainingProgram): string => program?.secondaryCta?.url ?? '/contact';
+	const getScheduleUrl = (program?: TrainingProgram): string =>
+		program?.secondaryCta?.url ?? '/contact';
 
 	const today = normalizeToday();
 	const now = new Date();
 
-const getVisibleSessions = (program?: TrainingProgram): TrainingSession[] =>
-	(program?.sessions ?? []).filter((session) => !isSessionDraft(session));
+	const getVisibleSessions = (program?: TrainingProgram): TrainingSession[] =>
+		(program?.sessions ?? []).filter((session) => !isSessionDraft(session));
 
-const gatherUpcomingSessions = (program?: TrainingProgram): TrainingSession[] =>
-	getVisibleSessions(program).filter(
-		(session) =>
-			session.startDate &&
-			hasExternalRegistration(session) &&
-			isSessionUpcoming(session, today) &&
-			!isSessionHappeningNow(session, now)
-	);
+	const gatherUpcomingSessions = (program?: TrainingProgram): TrainingSession[] =>
+		getVisibleSessions(program).filter(
+			(session) =>
+				session.startDate &&
+				hasExternalRegistration(session) &&
+				isSessionUpcoming(session, today) &&
+				!isSessionHappeningNow(session, now)
+		);
 
-const gatherHappeningSessions = (program?: TrainingProgram): TrainingSession[] =>
-	getVisibleSessions(program).filter((session) =>
-		session.startDate ? isSessionHappeningNow(session, now) : false
-	);
+	const gatherHappeningSessions = (program?: TrainingProgram): TrainingSession[] =>
+		getVisibleSessions(program).filter((session) =>
+			session.startDate ? isSessionHappeningNow(session, now) : false
+		);
 
-const getSessionSortKey = (
-	item: CatalogCardData
-): { priority: number; timestamp?: number } => {
-	if (item.upcomingSessions?.length) {
-		return {
-			priority: 0,
-			timestamp: Math.min(...item.upcomingSessions.map(getSessionStartTimestamp))
-		};
-	}
-	if (item.happeningSessions?.length) {
-		return { priority: 1, timestamp: today.getTime() };
-	}
-	return { priority: 2 };
-};
+	const getSessionSortKey = (item: CatalogCardData): { priority: number; timestamp?: number } => {
+		if (item.upcomingSessions?.length) {
+			return {
+				priority: 0,
+				timestamp: Math.min(...item.upcomingSessions.map(getSessionStartTimestamp))
+			};
+		}
+		if (item.happeningSessions?.length) {
+			return { priority: 1, timestamp: today.getTime() };
+		}
+		return { priority: 2 };
+	};
 
 	// Title for the page and services we offer from JSON
 	const items: CatalogCardData[] = (section.items ?? [])
@@ -72,17 +71,17 @@ const getSessionSortKey = (
 			const upcomingSessions = gatherUpcomingSessions(program);
 			const happeningSessions = gatherHappeningSessions(program);
 
-				return {
-					...item,
-					sku: program?.sku,
-					duration: durationStat?.value,
-					videoUrl: program?.videoUrl,
-					certificateText: getProgramCertificateText(program),
-					upcomingSessions,
-					happeningSessions,
-					scheduleUrl: getScheduleUrl(program),
-					scheduleLabel
-				};
+			return {
+				...item,
+				sku: program?.sku,
+				duration: durationStat?.value,
+				videoUrl: program?.videoUrl,
+				certificateText: getProgramCertificateText(program),
+				upcomingSessions,
+				happeningSessions,
+				scheduleUrl: getScheduleUrl(program),
+				scheduleLabel
+			};
 		})
 		.sort((a, b) => {
 			const aKey = getSessionSortKey(a);
@@ -107,7 +106,7 @@ const getSessionSortKey = (
 	<h1 class="text-3xl font-bold">{pageHeading}</h1>
 	<a
 		href="/training/table"
-		class="inline-flex items-center rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-blue-700 transition hover:border-blue-200 hover:bg-blue-100"
+		class="inline-flex items-center rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-xs font-semibold tracking-wide text-blue-700 uppercase transition hover:border-blue-200 hover:bg-blue-100"
 	>
 		View the table layout
 	</a>
@@ -115,20 +114,18 @@ const getSessionSortKey = (
 <p class="mb-5 text-gray-700">{section.headline}</p>
 
 <section class="mb-12">
-		<div class="grid gap-5">
-			{#each items as item (item.route ?? item.title)}
-				<CatalogCard
-					item={item}
-					scheduleTeamLabel={scheduleLabel}
-					showBullets={true}
-					showDuration={false}
-					layout="row"
-				/>
-			{/each}
-		</div>
+	<div class="grid gap-5">
+		{#each items as item (item.route ?? item.title)}
+			<CatalogCard
+				{item}
+				scheduleTeamLabel={scheduleLabel}
+				showBullets={true}
+				showDuration={false}
+				layout="row"
+			/>
+		{/each}
+	</div>
 </section>
-
-
 
 <section class="rounded-2xl border bg-gray-50 p-5">
 	<h3 class="text-lg font-semibold">Not sure where to start?</h3>

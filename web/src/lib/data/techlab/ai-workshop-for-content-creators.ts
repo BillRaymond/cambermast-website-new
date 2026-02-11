@@ -162,7 +162,9 @@ export const techlabAiWorkshopForContentCreators = {
 	faqs: [
 		{
 			question: 'Will I receive a certificate of completion?',
-			answers: ['Yes. Graduates receive a digital certificate after presenting their final project.']
+			answers: [
+				'Yes. Graduates receive a digital certificate after presenting their final project.'
+			]
 		},
 		{
 			question: 'Will there be makeup dates?',

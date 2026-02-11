@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @layer base {
 	:root {
@@ -19,7 +19,6 @@
 		line-height: 1.45;
 	}
 }
-
 
 @layer components {
 	.skip-link {

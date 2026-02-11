@@ -1,56 +1,57 @@
 <script lang="ts">
-import type { TrainingFaq, TrainingSession, TrainingStat } from '$lib/data/training/types';
-import {
-	hasExternalRegistration,
-	isSessionDraft,
-	isSessionHappeningNow,
-	isSessionUpcoming,
-	normalizeToday
-} from '$lib/data/training/session-utils';
+	import type { TrainingFaq, TrainingSession, TrainingStat } from '$lib/data/training/types';
+	import {
+		hasExternalRegistration,
+		isSessionDraft,
+		isSessionHappeningNow,
+		isSessionUpcoming,
+		normalizeToday
+	} from '$lib/data/training/session-utils';
 	import ReviewCard from '$lib/components/ReviewCard.svelte';
 	import SessionCard from '$lib/components/SessionCard.svelte';
-import type { TechlabProgram } from '$lib/data/techlab/types';
-import {
-	listTestimonialsForSku,
-	listTestimonialsForSlug,
-	type Testimonial
-} from '$lib/data/testimonials';
+	import type { TechlabProgram } from '$lib/data/techlab/types';
+	import {
+		listTestimonialsForSku,
+		listTestimonialsForSlug,
+		type Testimonial
+	} from '$lib/data/testimonials';
 
 	export let program: TechlabProgram;
 	export let backLink: { href: string; label: string } | undefined = undefined;
 
-const getFaqAnswers = (faq: TrainingFaq): string[] =>
-	faq.answers ?? (faq.answer ? [faq.answer] : []);
+	const getFaqAnswers = (faq: TrainingFaq): string[] =>
+		faq.answers ?? (faq.answer ? [faq.answer] : []);
 
-type ExtendedFaq = TrainingFaq & { __isTrainingTerms?: boolean };
+	type ExtendedFaq = TrainingFaq & { __isTrainingTerms?: boolean };
 
-const trainingTermsFaq: ExtendedFaq = {
-	question: 'Where can I review the Training Terms & Conditions?',
-	answer: "These answers complement Cambermast's Training Terms & Conditions.",
-	__isTrainingTerms: true
-};
+	const trainingTermsFaq: ExtendedFaq = {
+		question: 'Where can I review the Training Terms & Conditions?',
+		answer: "These answers complement Cambermast's Training Terms & Conditions.",
+		__isTrainingTerms: true
+	};
 
-let faqsWithTerms: ExtendedFaq[] = [];
+	let faqsWithTerms: ExtendedFaq[] = [];
 
-let statsBeforeCta: TrainingStat[] = [];
-let statsAfterCta: TrainingStat[] = [];
-let ctaInsertIndex = -1;
-const today = normalizeToday();
-const now = new Date();
-let registerableSessions: TrainingSession[] = [];
-let happeningSessions: TrainingSession[] = [];
-let programTestimonials: Testimonial[] = [];
+	let statsBeforeCta: TrainingStat[] = [];
+	let statsAfterCta: TrainingStat[] = [];
+	let ctaInsertIndex = -1;
+	const today = normalizeToday();
+	const now = new Date();
+	let registerableSessions: TrainingSession[] = [];
+	let happeningSessions: TrainingSession[] = [];
+	let programTestimonials: Testimonial[] = [];
 
-const normalizeLabel = (label?: string): string | undefined => label?.toLowerCase().trim();
-const scheduleTeamLabel = 'schedule your team';
-const isScheduleTeamLabel = (label?: string): boolean => normalizeLabel(label) === scheduleTeamLabel;
+	const normalizeLabel = (label?: string): string | undefined => label?.toLowerCase().trim();
+	const scheduleTeamLabel = 'schedule your team';
+	const isScheduleTeamLabel = (label?: string): boolean =>
+		normalizeLabel(label) === scheduleTeamLabel;
 
-const formatTestimonialRole = (testimonial: Testimonial): string => {
-	if (testimonial.jobTitle && testimonial.company) {
-		return `${testimonial.jobTitle}, ${testimonial.company}`;
-	}
-	return testimonial.jobTitle ?? testimonial.company ?? '';
-};
+	const formatTestimonialRole = (testimonial: Testimonial): string => {
+		if (testimonial.jobTitle && testimonial.company) {
+			return `${testimonial.jobTitle}, ${testimonial.company}`;
+		}
+		return testimonial.jobTitle ?? testimonial.company ?? '';
+	};
 
 	$: {
 		const stats = program?.stats ?? [];
@@ -60,8 +61,7 @@ const formatTestimonialRole = (testimonial: Testimonial): string => {
 	}
 
 	$: {
-		const sessions =
-			program?.sessions?.filter((session) => !isSessionDraft(session)) ?? [];
+		const sessions = program?.sessions?.filter((session) => !isSessionDraft(session)) ?? [];
 		registerableSessions = sessions.filter(
 			(session) =>
 				session.startDate &&
@@ -84,7 +84,7 @@ const formatTestimonialRole = (testimonial: Testimonial): string => {
 		}
 	}
 
-$: faqsWithTerms = program?.faqs?.length ? [...program.faqs, trainingTermsFaq] : [];
+	$: faqsWithTerms = program?.faqs?.length ? [...program.faqs, trainingTermsFaq] : [];
 </script>
 
 {#if backLink}

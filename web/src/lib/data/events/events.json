@@ -6,8 +6,8 @@
 			"title": "AI Workshop for Tech Writers and Content Creators",
 			"type": "training_session",
 			"typeLabel": "Training",
-			"tagline": "Eight-week live cohort focused on practical AI workflows",
-			"summary": "A live cohort for technical writers and content teams to build practical AI systems for drafting, editing, and governance.",
+			"tagline": "This is a 7-week course that meets on Tuesdays.",
+			"summary": "This is a 7-week course that meets on Tuesdays. January 27 - March 10, 2026, from 10 am PT to 11:30 am PT",
 			"description": "This multi-session workshop combines strategy and hands-on implementation. Participants build repeatable workflows for research, drafting, editing, and quality checks while preserving voice, review standards, and governance expectations.",
 			"highlights": [
 				"Structured prompting systems for high-quality first drafts",
@@ -15,7 +15,7 @@
 				"Reusable workflow templates for documentation teams"
 			],
 			"startAtUtc": "2026-01-27T18:00:00.000Z",
-			"endAtUtc": "2026-03-10T20:00:00.000Z",
+			"endAtUtc": "2026-03-10T18:30:00.000Z",
 			"visibility": "public",
 			"lifecycleStatus": "scheduled",
 			"registrationStatus": "closed",
@@ -24,6 +24,9 @@
 				"url": "/training/ai-workshop-for-content-creators",
 				"campaignId": "evt-20260127-1000-training-session-none"
 			},
+			"date": "January 27 - March 10, 2026 (Tuesdays)",
+			"time": "10 am PT to 11:30 am PT",
+			"timezone": "PT",
 			"location": {
 				"mode": "online",
 				"publicLabel": "Online",
@@ -35,6 +38,7 @@
 			"relatedProgramSlugs": ["ai-workshop-for-content-creators"],
 			"partnerCode": "NONE",
 			"campaignId": "evt-20260127-1000-training-session-none",
+			"image": "/images/cambermast-content-5-ai-workshop-for-content-creators-og.jpeg",
 			"imageAlt": "AI Workshop for Tech Writers and Content Creators"
 		},
 		{
@@ -68,6 +72,7 @@
 			},
 			"partnerCode": "TLB",
 			"campaignId": "evt-20260218-1300-webinar-tlb",
+			"image": "/images/events/vibe-coding-webinar-feb-2026.svg",
 			"imageAlt": "Vibe Coding Webinar event artwork"
 		}
 	]

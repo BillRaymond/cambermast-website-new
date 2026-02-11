@@ -3,79 +3,817 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		
-		<link href="../_app/immutable/assets/0.DkYkP2TR.css" rel="stylesheet">
-		<link href="../_app/immutable/assets/24.DmalW8Qv.css" rel="stylesheet">
-		<link rel="modulepreload" href="../_app/immutable/entry/start.BFm6HIG2.js">
-		<link rel="modulepreload" href="../_app/immutable/chunks/B7WkXYZR.js">
-		<link rel="modulepreload" href="../_app/immutable/chunks/Bw-8-MEp.js">
-		<link rel="modulepreload" href="../_app/immutable/chunks/DRfavhxJ.js">
-		<link rel="modulepreload" href="../_app/immutable/chunks/uR_bxVVS.js">
-		<link rel="modulepreload" href="../_app/immutable/chunks/B3MNBrJR.js">
-		<link rel="modulepreload" href="../_app/immutable/chunks/9EZGTKNG.js">
-		<link rel="modulepreload" href="../_app/immutable/chunks/D0iwhpLH.js">
-		<link rel="modulepreload" href="../_app/immutable/entry/app.CXvqWB9_.js">
-		<link rel="modulepreload" href="../_app/immutable/chunks/DsnmJJEf.js">
-		<link rel="modulepreload" href="../_app/immutable/chunks/BDVLWN_q.js">
-		<link rel="modulepreload" href="../_app/immutable/chunks/B6llMCqJ.js">
-		<link rel="modulepreload" href="../_app/immutable/nodes/0.IRuBz3Ih.js">
-		<link rel="modulepreload" href="../_app/immutable/chunks/Diu21u5V.js">
-		<link rel="modulepreload" href="../_app/immutable/chunks/DGDPbyqI.js">
-		<link rel="modulepreload" href="../_app/immutable/chunks/BjlYsyu9.js">
-		<link rel="modulepreload" href="../_app/immutable/chunks/DE3XkWhI.js">
-		<link rel="modulepreload" href="../_app/immutable/chunks/X5Sv9yWS.js">
-		<link rel="modulepreload" href="../_app/immutable/chunks/vTDNKku7.js">
-		<link rel="modulepreload" href="../_app/immutable/chunks/BS_0vmpZ.js">
-		<link rel="modulepreload" href="../_app/immutable/chunks/DNMfQPyn.js">
-		<link rel="modulepreload" href="../_app/immutable/chunks/01LxE7VI.js">
-		<link rel="modulepreload" href="../_app/immutable/chunks/sMVohfJM.js">
-		<link rel="modulepreload" href="../_app/immutable/chunks/BF8-igFo.js">
-		<link rel="modulepreload" href="../_app/immutable/chunks/C5N9sfw7.js">
-		<link rel="modulepreload" href="../_app/immutable/chunks/Bk0dtuJf.js">
-		<link rel="modulepreload" href="../_app/immutable/nodes/24.DWCt_GT0.js">
-		<link rel="modulepreload" href="../_app/immutable/chunks/djvsYbDl.js">
-		<link rel="modulepreload" href="../_app/immutable/chunks/MtH1BQRv.js">
-		<link rel="modulepreload" href="../_app/immutable/chunks/DS5yphAr.js">
-		<link rel="modulepreload" href="../_app/immutable/chunks/pvdKvWfF.js">
-		<link rel="modulepreload" href="../_app/immutable/chunks/BzsFBdnK.js">
-		<link rel="modulepreload" href="../_app/immutable/chunks/CTlCwu53.js"><!--[--><script type="application/ld+json">
-		{@html organizationJsonLd}
-	</script><!----><!--]--><!--[--><meta name="robots" content="noindex"/> <link rel="preconnect" href="https://fonts.googleapis.com"/> <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"/> <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;600;700;900&amp;display=swap"/> <script type="application/ld+json">
-		{@html courseJsonLd}
-	</script><!--]--><!--[--><!--[--><meta name="description" content="A live primer on prompting: learn how AI works and how to prompt successfully."/><!--]--> <!--[--><link rel="canonical" href="https://www.cambermast.com/techlab/ai-fundamentals"/> <meta property="og:url" content="https://www.cambermast.com/techlab/ai-fundamentals"/><!--]--> <meta property="og:title" content="AI Power Prompting | TechLAB × Cambermast"/> <!--[--><meta property="og:description" content="A live primer on prompting: learn how AI works and how to prompt successfully."/><!--]--> <meta property="og:type" content="article"/> <!--[--><meta property="og:site_name" content="TechLAB × Cambermast"/><!--]--> <!--[--><meta property="og:image" content="https://www.cambermast.com/images/cambermast-content-1-ai-fundamentals-ai-power-prompting-og.jpeg"/> <!--[--><meta property="og:image:alt" content="Open graph image for the AI Power Prompting training program"/><!--]--><!--]--> <meta name="twitter:card" content="summary_large_image"/> <meta name="twitter:title" content="AI Power Prompting | TechLAB × Cambermast"/> <!--[--><meta name="twitter:description" content="A live primer on prompting: learn how AI works and how to prompt successfully."/><!--]--> <!--[--><meta name="twitter:image" content="https://www.cambermast.com/images/cambermast-content-1-ai-fundamentals-ai-power-prompting-og.jpeg"/> <!--[--><meta name="twitter:image:alt" content="Open graph image for the AI Power Prompting training program"/><!--]--><!--]--><!--]--><title>AI Power Prompting | TechLAB × Cambermast</title>
+
+		<link href="../_app/immutable/assets/0.DkYkP2TR.css" rel="stylesheet" />
+		<link href="../_app/immutable/assets/24.DmalW8Qv.css" rel="stylesheet" />
+		<link rel="modulepreload" href="../_app/immutable/entry/start.BFm6HIG2.js" />
+		<link rel="modulepreload" href="../_app/immutable/chunks/B7WkXYZR.js" />
+		<link rel="modulepreload" href="../_app/immutable/chunks/Bw-8-MEp.js" />
+		<link rel="modulepreload" href="../_app/immutable/chunks/DRfavhxJ.js" />
+		<link rel="modulepreload" href="../_app/immutable/chunks/uR_bxVVS.js" />
+		<link rel="modulepreload" href="../_app/immutable/chunks/B3MNBrJR.js" />
+		<link rel="modulepreload" href="../_app/immutable/chunks/9EZGTKNG.js" />
+		<link rel="modulepreload" href="../_app/immutable/chunks/D0iwhpLH.js" />
+		<link rel="modulepreload" href="../_app/immutable/entry/app.CXvqWB9_.js" />
+		<link rel="modulepreload" href="../_app/immutable/chunks/DsnmJJEf.js" />
+		<link rel="modulepreload" href="../_app/immutable/chunks/BDVLWN_q.js" />
+		<link rel="modulepreload" href="../_app/immutable/chunks/B6llMCqJ.js" />
+		<link rel="modulepreload" href="../_app/immutable/nodes/0.IRuBz3Ih.js" />
+		<link rel="modulepreload" href="../_app/immutable/chunks/Diu21u5V.js" />
+		<link rel="modulepreload" href="../_app/immutable/chunks/DGDPbyqI.js" />
+		<link rel="modulepreload" href="../_app/immutable/chunks/BjlYsyu9.js" />
+		<link rel="modulepreload" href="../_app/immutable/chunks/DE3XkWhI.js" />
+		<link rel="modulepreload" href="../_app/immutable/chunks/X5Sv9yWS.js" />
+		<link rel="modulepreload" href="../_app/immutable/chunks/vTDNKku7.js" />
+		<link rel="modulepreload" href="../_app/immutable/chunks/BS_0vmpZ.js" />
+		<link rel="modulepreload" href="../_app/immutable/chunks/DNMfQPyn.js" />
+		<link rel="modulepreload" href="../_app/immutable/chunks/01LxE7VI.js" />
+		<link rel="modulepreload" href="../_app/immutable/chunks/sMVohfJM.js" />
+		<link rel="modulepreload" href="../_app/immutable/chunks/BF8-igFo.js" />
+		<link rel="modulepreload" href="../_app/immutable/chunks/C5N9sfw7.js" />
+		<link rel="modulepreload" href="../_app/immutable/chunks/Bk0dtuJf.js" />
+		<link rel="modulepreload" href="../_app/immutable/nodes/24.DWCt_GT0.js" />
+		<link rel="modulepreload" href="../_app/immutable/chunks/djvsYbDl.js" />
+		<link rel="modulepreload" href="../_app/immutable/chunks/MtH1BQRv.js" />
+		<link rel="modulepreload" href="../_app/immutable/chunks/DS5yphAr.js" />
+		<link rel="modulepreload" href="../_app/immutable/chunks/pvdKvWfF.js" />
+		<link rel="modulepreload" href="../_app/immutable/chunks/BzsFBdnK.js" />
+		<link rel="modulepreload" href="../_app/immutable/chunks/CTlCwu53.js" />
+		<!--[-->
+		<script type="application/ld+json">
+			{@html organizationJsonLd}
+		</script>
+		<!---->
+		<!--]-->
+		<!--[-->
+		<meta name="robots" content="noindex" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+		<link
+			rel="stylesheet"
+			href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;600;700;900&amp;display=swap"
+		/>
+		<script type="application/ld+json">
+			{@html courseJsonLd}
+		</script>
+		<!--]-->
+		<!--[-->
+		<!--[-->
+		<meta
+			name="description"
+			content="A live primer on prompting: learn how AI works and how to prompt successfully."
+		/>
+		<!--]-->
+		<!--[-->
+		<link rel="canonical" href="https://www.cambermast.com/techlab/ai-fundamentals" />
+		<meta property="og:url" content="https://www.cambermast.com/techlab/ai-fundamentals" />
+		<!--]-->
+		<meta property="og:title" content="AI Power Prompting | TechLAB × Cambermast" />
+		<!--[-->
+		<meta
+			property="og:description"
+			content="A live primer on prompting: learn how AI works and how to prompt successfully."
+		/>
+		<!--]-->
+		<meta property="og:type" content="article" />
+		<!--[-->
+		<meta property="og:site_name" content="TechLAB × Cambermast" />
+		<!--]-->
+		<!--[-->
+		<meta
+			property="og:image"
+			content="https://www.cambermast.com/images/cambermast-content-1-ai-fundamentals-ai-power-prompting-og.jpeg"
+		/>
+		<!--[-->
+		<meta
+			property="og:image:alt"
+			content="Open graph image for the AI Power Prompting training program"
+		/>
+		<!--]-->
+		<!--]-->
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content="AI Power Prompting | TechLAB × Cambermast" />
+		<!--[-->
+		<meta
+			name="twitter:description"
+			content="A live primer on prompting: learn how AI works and how to prompt successfully."
+		/>
+		<!--]-->
+		<!--[-->
+		<meta
+			name="twitter:image"
+			content="https://www.cambermast.com/images/cambermast-content-1-ai-fundamentals-ai-power-prompting-og.jpeg"
+		/>
+		<!--[-->
+		<meta
+			name="twitter:image:alt"
+			content="Open graph image for the AI Power Prompting training program"
+		/>
+		<!--]-->
+		<!--]-->
+		<!--]-->
+		<title>AI Power Prompting | TechLAB × Cambermast</title>
 	</head>
 	<body data-sveltekit-preload-data="hover">
-		<div style="display: contents"><!--[--><!--[--><!----><!--[--><!----><!--[!--><!----><!----> <!--[--><nav class="tlp-breadcrumb svelte-1cp7sgv"><a href="/techlab" class="tlp-back svelte-1cp7sgv"><span aria-hidden="true">←</span> Back to TechLAB programs</a></nav><!--]--> <article class="tlp-shell svelte-1cp7sgv"><section class="tlp-hero svelte-1cp7sgv"><div class="tlp-hero__text svelte-1cp7sgv"><p class="tlp-eyebrow svelte-1cp7sgv">TechLAB × Cambermast</p> <h1 class="svelte-1cp7sgv">AI Power Prompting</h1> <!--[--><p class="tlp-subtitle svelte-1cp7sgv">Your AI fundamentals • From prompting to productivity</p><!--]--> <p class="tlp-lead svelte-1cp7sgv">A live primer on prompting: learn how AI works and how to prompt successfully.</p> <p class="tlp-body svelte-1cp7sgv">AI Power Prompting is a four-hour crash course that explains how modern AI systems work and shows you how to craft prompts that consistently deliver results.</p> <!--[--><p class="tlp-body svelte-1cp7sgv">Build confidence through guided demos and exercises with ChatGPT, Copilot, Claude, and Gemini so you know when to reach for each tool and how to collaborate with it.</p><!--]--> <div class="tlp-ctas svelte-1cp7sgv"><a class="tlp-btn tlp-btn--primary svelte-1cp7sgv schedule-team-button" href="/contact">Schedule your team</a> <a class="tlp-btn tlp-btn--ghost svelte-1cp7sgv" href="/contact">Talk with Bill</a></div> <div class="tlp-meta svelte-1cp7sgv"><span>Led by Bill Raymond</span> <span class="tlp-dot svelte-1cp7sgv" aria-hidden="true"></span> <span>Official TechLAB program</span></div></div> <div class="tlp-hero__panel svelte-1cp7sgv"><!--[--><img src="/images/ai-fundamentals.jpeg" alt="AI Power Prompting training workshop illustration" class="tlp-hero__image svelte-1cp7sgv" loading="lazy"/><!--]--> <!--[--><div class="tlp-stat-grid svelte-1cp7sgv"><!--[--><div class="tlp-stat svelte-1cp7sgv"><p class="tlp-stat__label svelte-1cp7sgv">Duration</p> <!--[!--><p class="tlp-stat__value svelte-1cp7sgv">4-hours</p><!--]--></div><div class="tlp-stat svelte-1cp7sgv"><p class="tlp-stat__label svelte-1cp7sgv">Format</p> <!--[--><ul class="tlp-stat__list svelte-1cp7sgv"><!--[--><li>🔴 Live online</li><li>🏫 In-person available</li><!--]--></ul><!--]--></div><div class="tlp-stat svelte-1cp7sgv"><p class="tlp-stat__label svelte-1cp7sgv">Cost</p> <!--[!--><p class="tlp-stat__value svelte-1cp7sgv">$349 per person (virtual cohort)</p><!--]--></div><!--]--></div><!--]--></div></section> <!--[--><div class="tlp-panel tlp-panel--inline svelte-1cp7sgv"><div><p class="tlp-eyebrow tlp-eyebrow--small svelte-1cp7sgv">Ready to plan</p> <h3 class="tlp-panel__title">Lock in your team’s session</h3> <p class="tlp-body svelte-1cp7sgv">Set dates, pick the delivery format, and tailor examples to your workflows.</p></div> <a class="tlp-btn tlp-btn--primary svelte-1cp7sgv schedule-team-button" href="/contact">Schedule your team</a></div><!--]--> <!--[--><section class="tlp-panel svelte-1cp7sgv"><h2 class="tlp-section-title svelte-1cp7sgv">What to expect</h2> <div class="tlp-stat-grid tlp-stat-grid--wide svelte-1cp7sgv"><!--[--><div class="tlp-stat svelte-1cp7sgv"><p class="tlp-stat__label svelte-1cp7sgv">Environment</p> <!--[!--><p class="tlp-stat__value svelte-1cp7sgv">💙 Learn in a supportive, judgment-free environment</p><!--]--></div><div class="tlp-stat svelte-1cp7sgv"><p class="tlp-stat__label svelte-1cp7sgv">In-person</p> <!--[!--><p class="tlp-stat__value svelte-1cp7sgv">Custom pricing for private teams</p><!--]--></div><!--]--></div></section><!--]--> <!--[!--><!--]--> <!--[--><section class="tlp-panel tlp-panel--split svelte-1cp7sgv"><!--[--><div><h2 class="tlp-section-title svelte-1cp7sgv">What you’ll learn</h2> <ul class="tlp-list svelte-1cp7sgv"><!--[--><li>Understand how modern AI systems process inputs and generate responses.</li><li>Learn the four core prompt types to improve every AI interaction.</li><li>Collaborate with AI to brainstorm ideas and move work forward faster.</li><li>Translate startup deliverables such as pitch decks, market tear-downs, and VC updates into reusable prompt patterns.</li><!--]--></ul></div><!--]--> <!--[--><div class="tlp-panel__side svelte-1cp7sgv"><h3 class="tlp-section-subtitle svelte-1cp7sgv">Prerequisites</h3> <ul class="tlp-list svelte-1cp7sgv"><!--[--><li>Access to an AI chatbot (ChatGPT recommended; Claude, Gemini, or Copilot also work).</li><li>Curiosity and openness to experimentation.</li><li>Comfort using a modern web browser.</li><!--]--></ul></div><!--]--></section><!--]--> <!--[--><section class="tlp-panel svelte-1cp7sgv"><h2 class="tlp-section-title svelte-1cp7sgv">Results you can use</h2> <ul class="tlp-grid-list svelte-1cp7sgv"><!--[--><li class="svelte-1cp7sgv">Explain AI clearly to colleagues and clients.</li><li class="svelte-1cp7sgv">Apply four proven prompt techniques with ready-made templates.</li><li class="svelte-1cp7sgv">Save hours drafting content and documents.</li><li class="svelte-1cp7sgv">Jump-start projects with AI-generated plans and ideas.</li><li class="svelte-1cp7sgv">Founder-ready template pack covering investor memos, pitch deck outlines, and competitive brief starters.</li><!--]--></ul></section><!--]--> <!--[--><section class="tlp-panel svelte-1cp7sgv"><h2 class="tlp-section-title svelte-1cp7sgv">Agenda</h2> <div class="tlp-agenda svelte-1cp7sgv"><!--[--><div class="tlp-agenda__item svelte-1cp7sgv"><p class="tlp-agenda__title svelte-1cp7sgv">1. AI Fundamentals</p> <ul class="tlp-list tlp-list--compact svelte-1cp7sgv"><!--[--><li>Explain AI in your own words and align on shared language.</li><li>Distinguish how ChatGPT, Copilot, Claude, and Gemini approach tasks.</li><li>Outline responsible-use scenarios and ethical guardrails.</li><li>Explore chatbot interfaces and capture usability wins.</li><!--]--></ul></div><div class="tlp-agenda__item svelte-1cp7sgv"><p class="tlp-agenda__title svelte-1cp7sgv">2. Prompting Basics</p> <ul class="tlp-list tlp-list--compact svelte-1cp7sgv"><!--[--><li>Break down the anatomy of an effective prompt for clarity and context.</li><li>Practice the four core prompt types: zero-shot, few-shot, chain-of-thought, and chat.</li><li>Rewrite weak prompts and articulate what changed.</li><li>Identify and troubleshoot hallucinations.</li><!--]--></ul></div><div class="tlp-agenda__item svelte-1cp7sgv"><p class="tlp-agenda__title svelte-1cp7sgv">3. Productivity Strategies</p> <ul class="tlp-list tlp-list--compact svelte-1cp7sgv"><!--[--><li>Draft emails, posts, and documents with AI as your writing partner.</li><li>Build project plans with tasks, owners, and deadlines in minutes.</li><li>Accelerate research and brainstorming for new initiatives, including market scans and investor FAQs.</li><li>Analyze data by asking questions and exporting structured results.</li><!--]--></ul></div><div class="tlp-agenda__item svelte-1cp7sgv"><p class="tlp-agenda__title svelte-1cp7sgv">4. Creative Uses for AI</p> <ul class="tlp-list tlp-list--compact svelte-1cp7sgv"><!--[--><li>Beat creative blocks with ideation sprints and story prompts.</li><li>Co-develop ideas through conversational refinement.</li><li>Personalize tone and style to fit different audiences, including VC outreach and stakeholder updates.</li><!--]--></ul></div><div class="tlp-agenda__item svelte-1cp7sgv"><p class="tlp-agenda__title svelte-1cp7sgv">5. Advanced Prompting Techniques</p> <ul class="tlp-list tlp-list--compact svelte-1cp7sgv"><!--[--><li>Design reusable prompt templates for social and marketing assets.</li><li>Experiment with Custom GPTs or assistants tailored to your brand.</li><li>Format outputs into tables, charts, and files ready to ship.</li><!--]--></ul></div><div class="tlp-agenda__item svelte-1cp7sgv"><p class="tlp-agenda__title svelte-1cp7sgv">6. The Future of AI &amp; Wrap Up</p> <ul class="tlp-list tlp-list--compact svelte-1cp7sgv"><!--[--><li>Experiment with multimodal prompting using images and files.</li><li>Plan the first projects to apply back at work with measurable goals.</li><li>Reflect on the most valuable techniques and share next steps.</li><!--]--></ul></div><!--]--></div></section><!--]--> <!--[--><section class="tlp-panel tlp-panel--split svelte-1cp7sgv"><!--[--><div><h2 class="tlp-section-title svelte-1cp7sgv">Included in this workshop</h2> <ul class="tlp-list svelte-1cp7sgv"><!--[--><li>Course workbook with prompt templates and examples.</li><li>Earn a certificate you can showcase with pride.</li><li>A free one-hour follow-up two weeks after the training.</li><!--]--></ul></div><!--]--> <!--[--><figure class="flex h-full flex-col justify-between rounded-2xl border border-blue-100 bg-white p-5 shadow-sm"><div><div class="flex items-center gap-1 text-yellow-500" aria-label="Rated five out of five stars"><!--[--><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20" role="img" aria-hidden="true"><polygon points="10 1.5 12.9 7.26 19.2 7.97 14.3 12.28 15.6 18.48 10 15.4 4.4 18.48 5.7 12.28 0.8 7.97 7.1 7.26"></polygon></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20" role="img" aria-hidden="true"><polygon points="10 1.5 12.9 7.26 19.2 7.97 14.3 12.28 15.6 18.48 10 15.4 4.4 18.48 5.7 12.28 0.8 7.97 7.1 7.26"></polygon></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20" role="img" aria-hidden="true"><polygon points="10 1.5 12.9 7.26 19.2 7.97 14.3 12.28 15.6 18.48 10 15.4 4.4 18.48 5.7 12.28 0.8 7.97 7.1 7.26"></polygon></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20" role="img" aria-hidden="true"><polygon points="10 1.5 12.9 7.26 19.2 7.97 14.3 12.28 15.6 18.48 10 15.4 4.4 18.48 5.7 12.28 0.8 7.97 7.1 7.26"></polygon></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20" role="img" aria-hidden="true"><polygon points="10 1.5 12.9 7.26 19.2 7.97 14.3 12.28 15.6 18.48 10 15.4 4.4 18.48 5.7 12.28 0.8 7.97 7.1 7.26"></polygon></svg><!--]--></div> <blockquote class="mt-3.5 text-left text-base text-gray-800">“Bill guided our leadership team through what's possible with AI while keeping us realistic about the risks.”</blockquote></div> <figcaption class="mt-4 flex items-center gap-3 text-left text-sm text-gray-700"><!--[!--><!--]--> <div class="font-semibold">Elena P., VP of Operations <!--[!--><!--]--></div></figcaption></figure><!--]--></section><!--]--> <!--[--><section class="tlp-panel svelte-1cp7sgv"><h2 class="tlp-section-title svelte-1cp7sgv">What learners are saying</h2> <div class="tlp-review-grid svelte-1cp7sgv"><!--[--><figure class="flex h-full flex-col justify-between rounded-2xl border border-blue-100 bg-white p-5 shadow-sm"><div><div class="flex items-center gap-1 text-yellow-500" aria-label="Rated five out of five stars"><!--[--><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20" role="img" aria-hidden="true"><polygon points="10 1.5 12.9 7.26 19.2 7.97 14.3 12.28 15.6 18.48 10 15.4 4.4 18.48 5.7 12.28 0.8 7.97 7.1 7.26"></polygon></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20" role="img" aria-hidden="true"><polygon points="10 1.5 12.9 7.26 19.2 7.97 14.3 12.28 15.6 18.48 10 15.4 4.4 18.48 5.7 12.28 0.8 7.97 7.1 7.26"></polygon></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20" role="img" aria-hidden="true"><polygon points="10 1.5 12.9 7.26 19.2 7.97 14.3 12.28 15.6 18.48 10 15.4 4.4 18.48 5.7 12.28 0.8 7.97 7.1 7.26"></polygon></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20" role="img" aria-hidden="true"><polygon points="10 1.5 12.9 7.26 19.2 7.97 14.3 12.28 15.6 18.48 10 15.4 4.4 18.48 5.7 12.28 0.8 7.97 7.1 7.26"></polygon></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20" role="img" aria-hidden="true"><polygon points="10 1.5 12.9 7.26 19.2 7.97 14.3 12.28 15.6 18.48 10 15.4 4.4 18.48 5.7 12.28 0.8 7.97 7.1 7.26"></polygon></svg><!--]--></div> <blockquote class="mt-3.5 text-left text-base text-gray-800">“Our marketing squad left the session with a shared language for AI and a repeatable prompting playbook we now use daily.”</blockquote></div> <figcaption class="mt-4 flex items-center gap-3 text-left text-sm text-gray-700"><!--[!--><!--]--> <div class="font-semibold">Jasmine R. <!--[--><span class="block font-normal text-gray-500">Director of Demand Gen</span><!--]--></div></figcaption></figure><figure class="flex h-full flex-col justify-between rounded-2xl border border-blue-100 bg-white p-5 shadow-sm"><div><div class="flex items-center gap-1 text-yellow-500" aria-label="Rated five out of five stars"><!--[--><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20" role="img" aria-hidden="true"><polygon points="10 1.5 12.9 7.26 19.2 7.97 14.3 12.28 15.6 18.48 10 15.4 4.4 18.48 5.7 12.28 0.8 7.97 7.1 7.26"></polygon></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20" role="img" aria-hidden="true"><polygon points="10 1.5 12.9 7.26 19.2 7.97 14.3 12.28 15.6 18.48 10 15.4 4.4 18.48 5.7 12.28 0.8 7.97 7.1 7.26"></polygon></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20" role="img" aria-hidden="true"><polygon points="10 1.5 12.9 7.26 19.2 7.97 14.3 12.28 15.6 18.48 10 15.4 4.4 18.48 5.7 12.28 0.8 7.97 7.1 7.26"></polygon></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20" role="img" aria-hidden="true"><polygon points="10 1.5 12.9 7.26 19.2 7.97 14.3 12.28 15.6 18.48 10 15.4 4.4 18.48 5.7 12.28 0.8 7.97 7.1 7.26"></polygon></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20" role="img" aria-hidden="true"><polygon points="10 1.5 12.9 7.26 19.2 7.97 14.3 12.28 15.6 18.48 10 15.4 4.4 18.48 5.7 12.28 0.8 7.97 7.1 7.26"></polygon></svg><!--]--></div> <blockquote class="mt-3.5 text-left text-base text-gray-800">“Bill connects strategy to hands-on practice better than any other AI workshop we have brought in.”</blockquote></div> <figcaption class="mt-4 flex items-center gap-3 text-left text-sm text-gray-700"><!--[!--><!--]--> <div class="font-semibold">Miguel A. <!--[--><span class="block font-normal text-gray-500">VP, Product Operations</span><!--]--></div></figcaption></figure><figure class="flex h-full flex-col justify-between rounded-2xl border border-blue-100 bg-white p-5 shadow-sm"><div><div class="flex items-center gap-1 text-yellow-500" aria-label="Rated five out of five stars"><!--[--><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20" role="img" aria-hidden="true"><polygon points="10 1.5 12.9 7.26 19.2 7.97 14.3 12.28 15.6 18.48 10 15.4 4.4 18.48 5.7 12.28 0.8 7.97 7.1 7.26"></polygon></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20" role="img" aria-hidden="true"><polygon points="10 1.5 12.9 7.26 19.2 7.97 14.3 12.28 15.6 18.48 10 15.4 4.4 18.48 5.7 12.28 0.8 7.97 7.1 7.26"></polygon></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20" role="img" aria-hidden="true"><polygon points="10 1.5 12.9 7.26 19.2 7.97 14.3 12.28 15.6 18.48 10 15.4 4.4 18.48 5.7 12.28 0.8 7.97 7.1 7.26"></polygon></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20" role="img" aria-hidden="true"><polygon points="10 1.5 12.9 7.26 19.2 7.97 14.3 12.28 15.6 18.48 10 15.4 4.4 18.48 5.7 12.28 0.8 7.97 7.1 7.26"></polygon></svg><svg class="h-4 w-4 fill-current" viewBox="0 0 20 20" role="img" aria-hidden="true"><polygon points="10 1.5 12.9 7.26 19.2 7.97 14.3 12.28 15.6 18.48 10 15.4 4.4 18.48 5.7 12.28 0.8 7.97 7.1 7.26"></polygon></svg><!--]--></div> <blockquote class="mt-3.5 text-left text-base text-gray-800">“I was able to immediately apply what I learned and saved hours in my first week.”</blockquote></div> <figcaption class="mt-4 flex items-center gap-3 text-left text-sm text-gray-700"><!--[!--><!--]--> <div class="font-semibold">Priya D. <!--[--><span class="block font-normal text-gray-500">Agency Managing Partner</span><!--]--></div></figcaption></figure><!--]--></div></section><!--]--> <!--[--><section class="tlp-panel tlp-panel--split svelte-1cp7sgv"><div><h2 class="tlp-section-title svelte-1cp7sgv">About your trainer</h2> <div class="tlp-trainer svelte-1cp7sgv"><!--[--><img src="/images/bill.jpg" alt="Bill Raymond" class="tlp-trainer__photo svelte-1cp7sgv"/><!--]--> <div><p class="tlp-trainer__name svelte-1cp7sgv">Bill Raymond</p> <p class="tlp-trainer__role svelte-1cp7sgv">Founder, Cambermast LLC</p> <p class="tlp-body svelte-1cp7sgv">Bill focuses on AI learning and development, project management, and leadership initiatives that help teams adopt new technology responsibly.</p></div></div></div> <!--[--><ul class="tlp-list svelte-1cp7sgv"><!--[--><li>Author of the Bill Talks AI newsletter.</li><li>Founding member of the AI Collective.</li><li>NASA award winner.</li><li>Microsoft MVP.</li><li>Host of the Agile in Action podcast with 130+ episodes and 30,000+ listeners.</li><!--]--></ul><!--]--></section><!--]--> <!--[--><section class="tlp-panel svelte-1cp7sgv"><h2 class="tlp-section-title svelte-1cp7sgv">Frequently asked questions</h2> <div class="tlp-faqs svelte-1cp7sgv"><!--[--><details class="tlp-faq svelte-1cp7sgv"><summary class="svelte-1cp7sgv">How customizable is the agenda?</summary> <!--[!--><!--[--><p class="svelte-1cp7sgv">If you are taking a publicly scheduled course, the agenda is fixed.</p><p class="svelte-1cp7sgv">For private team workshops, we can adjust the agenda to focus on specific use cases or tools.</p><!--]--><!--]--></details><details class="tlp-faq svelte-1cp7sgv"><summary class="svelte-1cp7sgv">Do participants need prior AI experience?</summary> <!--[!--><!--[--><p class="svelte-1cp7sgv">No. The course is designed for beginners through intermediate users, mixing demos with guided exercises.</p><!--]--><!--]--></details><details class="tlp-faq svelte-1cp7sgv"><summary class="svelte-1cp7sgv">Can we host the workshop in person?</summary> <!--[!--><!--[--><p class="svelte-1cp7sgv">Yes. On-site sessions include travel in the proposal; virtual cohorts are available worldwide.</p><!--]--><!--]--></details><details class="tlp-faq svelte-1cp7sgv"><summary class="svelte-1cp7sgv">Do you have a letter I can send to my manager for budget approval?</summary> <!--[!--><!--[--><p class="svelte-1cp7sgv">Yes! Here’s a customizable letter you can use:
+		<div style="display: contents">
+			<!--[--><!--[--><!----><!--[--><!----><!--[!--><!----><!---->
+			<!--[-->
+			<nav class="tlp-breadcrumb svelte-1cp7sgv">
+				<a href="/techlab" class="tlp-back svelte-1cp7sgv"
+					><span aria-hidden="true">←</span> Back to TechLAB programs</a
+				>
+			</nav>
+			<!--]-->
+			<article class="tlp-shell svelte-1cp7sgv">
+				<section class="tlp-hero svelte-1cp7sgv">
+					<div class="tlp-hero__text svelte-1cp7sgv">
+						<p class="tlp-eyebrow svelte-1cp7sgv">TechLAB × Cambermast</p>
+						<h1 class="svelte-1cp7sgv">AI Power Prompting</h1>
+						<!--[-->
+						<p class="tlp-subtitle svelte-1cp7sgv">
+							Your AI fundamentals • From prompting to productivity
+						</p>
+						<!--]-->
+						<p class="tlp-lead svelte-1cp7sgv">
+							A live primer on prompting: learn how AI works and how to prompt successfully.
+						</p>
+						<p class="tlp-body svelte-1cp7sgv">
+							AI Power Prompting is a four-hour crash course that explains how modern AI systems
+							work and shows you how to craft prompts that consistently deliver results.
+						</p>
+						<!--[-->
+						<p class="tlp-body svelte-1cp7sgv">
+							Build confidence through guided demos and exercises with ChatGPT, Copilot, Claude, and
+							Gemini so you know when to reach for each tool and how to collaborate with it.
+						</p>
+						<!--]-->
+						<div class="tlp-ctas svelte-1cp7sgv">
+							<a
+								class="tlp-btn tlp-btn--primary svelte-1cp7sgv schedule-team-button"
+								href="/contact"
+								>Schedule your team</a
+							>
+							<a class="tlp-btn tlp-btn--ghost svelte-1cp7sgv" href="/contact">Talk with Bill</a>
+						</div>
+						<div class="tlp-meta svelte-1cp7sgv">
+							<span>Led by Bill Raymond</span>
+							<span class="tlp-dot svelte-1cp7sgv" aria-hidden="true"></span>
+							<span>Official TechLAB program</span>
+						</div>
+					</div>
+					<div class="tlp-hero__panel svelte-1cp7sgv">
+						<!--[--><img
+							src="/images/ai-fundamentals.jpeg"
+							alt="AI Power Prompting training workshop illustration"
+							class="tlp-hero__image svelte-1cp7sgv"
+							loading="lazy"
+						/><!--]-->
+						<!--[-->
+						<div class="tlp-stat-grid svelte-1cp7sgv">
+							<!--[-->
+							<div class="tlp-stat svelte-1cp7sgv">
+								<p class="tlp-stat__label svelte-1cp7sgv">Duration</p>
+								<!--[!-->
+								<p class="tlp-stat__value svelte-1cp7sgv">4-hours</p>
+								<!--]-->
+							</div>
+							<div class="tlp-stat svelte-1cp7sgv">
+								<p class="tlp-stat__label svelte-1cp7sgv">Format</p>
+								<!--[-->
+								<ul class="tlp-stat__list svelte-1cp7sgv">
+									<!--[-->
+									<li>🔴 Live online</li>
+									<li>🏫 In-person available</li>
+									<!--]-->
+								</ul>
+								<!--]-->
+							</div>
+							<div class="tlp-stat svelte-1cp7sgv">
+								<p class="tlp-stat__label svelte-1cp7sgv">Cost</p>
+								<!--[!-->
+								<p class="tlp-stat__value svelte-1cp7sgv">$349 per person (virtual cohort)</p>
+								<!--]-->
+							</div>
+							<!--]-->
+						</div>
+						<!--]-->
+					</div>
+				</section>
+				<!--[-->
+				<div class="tlp-panel tlp-panel--inline svelte-1cp7sgv">
+					<div>
+						<p class="tlp-eyebrow tlp-eyebrow--small svelte-1cp7sgv">Ready to plan</p>
+						<h3 class="tlp-panel__title">Lock in your team’s session</h3>
+						<p class="tlp-body svelte-1cp7sgv">
+							Set dates, pick the delivery format, and tailor examples to your workflows.
+						</p>
+					</div>
+					<a class="tlp-btn tlp-btn--primary svelte-1cp7sgv schedule-team-button" href="/contact"
+						>Schedule your team</a
+					>
+				</div>
+				<!--]-->
+				<!--[-->
+				<section class="tlp-panel svelte-1cp7sgv">
+					<h2 class="tlp-section-title svelte-1cp7sgv">What to expect</h2>
+					<div class="tlp-stat-grid tlp-stat-grid--wide svelte-1cp7sgv">
+						<!--[-->
+						<div class="tlp-stat svelte-1cp7sgv">
+							<p class="tlp-stat__label svelte-1cp7sgv">Environment</p>
+							<!--[!-->
+							<p class="tlp-stat__value svelte-1cp7sgv">
+								💙 Learn in a supportive, judgment-free environment
+							</p>
+							<!--]-->
+						</div>
+						<div class="tlp-stat svelte-1cp7sgv">
+							<p class="tlp-stat__label svelte-1cp7sgv">In-person</p>
+							<!--[!-->
+							<p class="tlp-stat__value svelte-1cp7sgv">Custom pricing for private teams</p>
+							<!--]-->
+						</div>
+						<!--]-->
+					</div>
+				</section>
+				<!--]-->
+				<!--[!--><!--]-->
+				<!--[-->
+				<section class="tlp-panel tlp-panel--split svelte-1cp7sgv">
+					<!--[-->
+					<div>
+						<h2 class="tlp-section-title svelte-1cp7sgv">What you’ll learn</h2>
+						<ul class="tlp-list svelte-1cp7sgv">
+							<!--[-->
+							<li>Understand how modern AI systems process inputs and generate responses.</li>
+							<li>Learn the four core prompt types to improve every AI interaction.</li>
+							<li>Collaborate with AI to brainstorm ideas and move work forward faster.</li>
+							<li>
+								Translate startup deliverables such as pitch decks, market tear-downs, and VC
+								updates into reusable prompt patterns.
+							</li>
+							<!--]-->
+						</ul>
+					</div>
+					<!--]-->
+					<!--[-->
+					<div class="tlp-panel__side svelte-1cp7sgv">
+						<h3 class="tlp-section-subtitle svelte-1cp7sgv">Prerequisites</h3>
+						<ul class="tlp-list svelte-1cp7sgv">
+							<!--[-->
+							<li>
+								Access to an AI chatbot (ChatGPT recommended; Claude, Gemini, or Copilot also work).
+							</li>
+							<li>Curiosity and openness to experimentation.</li>
+							<li>Comfort using a modern web browser.</li>
+							<!--]-->
+						</ul>
+					</div>
+					<!--]-->
+				</section>
+				<!--]-->
+				<!--[-->
+				<section class="tlp-panel svelte-1cp7sgv">
+					<h2 class="tlp-section-title svelte-1cp7sgv">Results you can use</h2>
+					<ul class="tlp-grid-list svelte-1cp7sgv">
+						<!--[-->
+						<li class="svelte-1cp7sgv">Explain AI clearly to colleagues and clients.</li>
+						<li class="svelte-1cp7sgv">
+							Apply four proven prompt techniques with ready-made templates.
+						</li>
+						<li class="svelte-1cp7sgv">Save hours drafting content and documents.</li>
+						<li class="svelte-1cp7sgv">Jump-start projects with AI-generated plans and ideas.</li>
+						<li class="svelte-1cp7sgv">
+							Founder-ready template pack covering investor memos, pitch deck outlines, and
+							competitive brief starters.
+						</li>
+						<!--]-->
+					</ul>
+				</section>
+				<!--]-->
+				<!--[-->
+				<section class="tlp-panel svelte-1cp7sgv">
+					<h2 class="tlp-section-title svelte-1cp7sgv">Agenda</h2>
+					<div class="tlp-agenda svelte-1cp7sgv">
+						<!--[-->
+						<div class="tlp-agenda__item svelte-1cp7sgv">
+							<p class="tlp-agenda__title svelte-1cp7sgv">1. AI Fundamentals</p>
+							<ul class="tlp-list tlp-list--compact svelte-1cp7sgv">
+								<!--[-->
+								<li>Explain AI in your own words and align on shared language.</li>
+								<li>Distinguish how ChatGPT, Copilot, Claude, and Gemini approach tasks.</li>
+								<li>Outline responsible-use scenarios and ethical guardrails.</li>
+								<li>Explore chatbot interfaces and capture usability wins.</li>
+								<!--]-->
+							</ul>
+						</div>
+						<div class="tlp-agenda__item svelte-1cp7sgv">
+							<p class="tlp-agenda__title svelte-1cp7sgv">2. Prompting Basics</p>
+							<ul class="tlp-list tlp-list--compact svelte-1cp7sgv">
+								<!--[-->
+								<li>Break down the anatomy of an effective prompt for clarity and context.</li>
+								<li>
+									Practice the four core prompt types: zero-shot, few-shot, chain-of-thought, and
+									chat.
+								</li>
+								<li>Rewrite weak prompts and articulate what changed.</li>
+								<li>Identify and troubleshoot hallucinations.</li>
+								<!--]-->
+							</ul>
+						</div>
+						<div class="tlp-agenda__item svelte-1cp7sgv">
+							<p class="tlp-agenda__title svelte-1cp7sgv">3. Productivity Strategies</p>
+							<ul class="tlp-list tlp-list--compact svelte-1cp7sgv">
+								<!--[-->
+								<li>Draft emails, posts, and documents with AI as your writing partner.</li>
+								<li>Build project plans with tasks, owners, and deadlines in minutes.</li>
+								<li>
+									Accelerate research and brainstorming for new initiatives, including market scans
+									and investor FAQs.
+								</li>
+								<li>Analyze data by asking questions and exporting structured results.</li>
+								<!--]-->
+							</ul>
+						</div>
+						<div class="tlp-agenda__item svelte-1cp7sgv">
+							<p class="tlp-agenda__title svelte-1cp7sgv">4. Creative Uses for AI</p>
+							<ul class="tlp-list tlp-list--compact svelte-1cp7sgv">
+								<!--[-->
+								<li>Beat creative blocks with ideation sprints and story prompts.</li>
+								<li>Co-develop ideas through conversational refinement.</li>
+								<li>
+									Personalize tone and style to fit different audiences, including VC outreach and
+									stakeholder updates.
+								</li>
+								<!--]-->
+							</ul>
+						</div>
+						<div class="tlp-agenda__item svelte-1cp7sgv">
+							<p class="tlp-agenda__title svelte-1cp7sgv">5. Advanced Prompting Techniques</p>
+							<ul class="tlp-list tlp-list--compact svelte-1cp7sgv">
+								<!--[-->
+								<li>Design reusable prompt templates for social and marketing assets.</li>
+								<li>Experiment with Custom GPTs or assistants tailored to your brand.</li>
+								<li>Format outputs into tables, charts, and files ready to ship.</li>
+								<!--]-->
+							</ul>
+						</div>
+						<div class="tlp-agenda__item svelte-1cp7sgv">
+							<p class="tlp-agenda__title svelte-1cp7sgv">6. The Future of AI &amp; Wrap Up</p>
+							<ul class="tlp-list tlp-list--compact svelte-1cp7sgv">
+								<!--[-->
+								<li>Experiment with multimodal prompting using images and files.</li>
+								<li>Plan the first projects to apply back at work with measurable goals.</li>
+								<li>Reflect on the most valuable techniques and share next steps.</li>
+								<!--]-->
+							</ul>
+						</div>
+						<!--]-->
+					</div>
+				</section>
+				<!--]-->
+				<!--[-->
+				<section class="tlp-panel tlp-panel--split svelte-1cp7sgv">
+					<!--[-->
+					<div>
+						<h2 class="tlp-section-title svelte-1cp7sgv">Included in this workshop</h2>
+						<ul class="tlp-list svelte-1cp7sgv">
+							<!--[-->
+							<li>Course workbook with prompt templates and examples.</li>
+							<li>Earn a certificate you can showcase with pride.</li>
+							<li>A free one-hour follow-up two weeks after the training.</li>
+							<!--]-->
+						</ul>
+					</div>
+					<!--]-->
+					<!--[-->
+					<figure
+						class="flex h-full flex-col justify-between rounded-2xl border border-blue-100 bg-white p-5 shadow-sm"
+					>
+						<div>
+							<div
+								class="flex items-center gap-1 text-yellow-500"
+								aria-label="Rated five out of five stars"
+							>
+								<!--[--><svg
+									class="h-4 w-4 fill-current"
+									viewBox="0 0 20 20"
+									role="img"
+									aria-hidden="true"
+								>
+									<polygon
+										points="10 1.5 12.9 7.26 19.2 7.97 14.3 12.28 15.6 18.48 10 15.4 4.4 18.48 5.7 12.28 0.8 7.97 7.1 7.26"
+									></polygon></svg
+								><svg
+									class="h-4 w-4 fill-current"
+									viewBox="0 0 20 20"
+									role="img"
+									aria-hidden="true"
+								>
+									<polygon
+										points="10 1.5 12.9 7.26 19.2 7.97 14.3 12.28 15.6 18.48 10 15.4 4.4 18.48 5.7 12.28 0.8 7.97 7.1 7.26"
+									></polygon></svg
+								><svg
+									class="h-4 w-4 fill-current"
+									viewBox="0 0 20 20"
+									role="img"
+									aria-hidden="true"
+								>
+									<polygon
+										points="10 1.5 12.9 7.26 19.2 7.97 14.3 12.28 15.6 18.48 10 15.4 4.4 18.48 5.7 12.28 0.8 7.97 7.1 7.26"
+									></polygon></svg
+								><svg
+									class="h-4 w-4 fill-current"
+									viewBox="0 0 20 20"
+									role="img"
+									aria-hidden="true"
+								>
+									<polygon
+										points="10 1.5 12.9 7.26 19.2 7.97 14.3 12.28 15.6 18.48 10 15.4 4.4 18.48 5.7 12.28 0.8 7.97 7.1 7.26"
+									></polygon></svg
+								><svg
+									class="h-4 w-4 fill-current"
+									viewBox="0 0 20 20"
+									role="img"
+									aria-hidden="true"
+								>
+									<polygon
+										points="10 1.5 12.9 7.26 19.2 7.97 14.3 12.28 15.6 18.48 10 15.4 4.4 18.48 5.7 12.28 0.8 7.97 7.1 7.26"
+									></polygon></svg
+								><!--]-->
+							</div>
+							<blockquote class="mt-3.5 text-left text-base text-gray-800">
+								“Bill guided our leadership team through what's possible with AI while keeping us
+								realistic about the risks.”
+							</blockquote>
+						</div>
+						<figcaption class="mt-4 flex items-center gap-3 text-left text-sm text-gray-700">
+							<!--[!--><!--]-->
+							<div class="font-semibold">
+								Elena P., VP of Operations
+								<!--[!--><!--]-->
+							</div>
+						</figcaption>
+					</figure>
+					<!--]-->
+				</section>
+				<!--]-->
+				<!--[-->
+				<section class="tlp-panel svelte-1cp7sgv">
+					<h2 class="tlp-section-title svelte-1cp7sgv">What learners are saying</h2>
+					<div class="tlp-review-grid svelte-1cp7sgv">
+						<!--[-->
+						<figure
+							class="flex h-full flex-col justify-between rounded-2xl border border-blue-100 bg-white p-5 shadow-sm"
+						>
+							<div>
+								<div
+									class="flex items-center gap-1 text-yellow-500"
+									aria-label="Rated five out of five stars"
+								>
+									<!--[--><svg
+										class="h-4 w-4 fill-current"
+										viewBox="0 0 20 20"
+										role="img"
+										aria-hidden="true"
+									>
+										<polygon
+											points="10 1.5 12.9 7.26 19.2 7.97 14.3 12.28 15.6 18.48 10 15.4 4.4 18.48 5.7 12.28 0.8 7.97 7.1 7.26"
+										></polygon></svg
+									><svg
+										class="h-4 w-4 fill-current"
+										viewBox="0 0 20 20"
+										role="img"
+										aria-hidden="true"
+									>
+										<polygon
+											points="10 1.5 12.9 7.26 19.2 7.97 14.3 12.28 15.6 18.48 10 15.4 4.4 18.48 5.7 12.28 0.8 7.97 7.1 7.26"
+										></polygon></svg
+									><svg
+										class="h-4 w-4 fill-current"
+										viewBox="0 0 20 20"
+										role="img"
+										aria-hidden="true"
+									>
+										<polygon
+											points="10 1.5 12.9 7.26 19.2 7.97 14.3 12.28 15.6 18.48 10 15.4 4.4 18.48 5.7 12.28 0.8 7.97 7.1 7.26"
+										></polygon></svg
+									><svg
+										class="h-4 w-4 fill-current"
+										viewBox="0 0 20 20"
+										role="img"
+										aria-hidden="true"
+									>
+										<polygon
+											points="10 1.5 12.9 7.26 19.2 7.97 14.3 12.28 15.6 18.48 10 15.4 4.4 18.48 5.7 12.28 0.8 7.97 7.1 7.26"
+										></polygon></svg
+									><svg
+										class="h-4 w-4 fill-current"
+										viewBox="0 0 20 20"
+										role="img"
+										aria-hidden="true"
+									>
+										<polygon
+											points="10 1.5 12.9 7.26 19.2 7.97 14.3 12.28 15.6 18.48 10 15.4 4.4 18.48 5.7 12.28 0.8 7.97 7.1 7.26"
+										></polygon></svg
+									><!--]-->
+								</div>
+								<blockquote class="mt-3.5 text-left text-base text-gray-800">
+									“Our marketing squad left the session with a shared language for AI and a
+									repeatable prompting playbook we now use daily.”
+								</blockquote>
+							</div>
+							<figcaption class="mt-4 flex items-center gap-3 text-left text-sm text-gray-700">
+								<!--[!--><!--]-->
+								<div class="font-semibold">
+									Jasmine R.
+									<!--[--><span class="block font-normal text-gray-500">Director of Demand Gen</span
+									><!--]-->
+								</div>
+							</figcaption>
+						</figure>
+						<figure
+							class="flex h-full flex-col justify-between rounded-2xl border border-blue-100 bg-white p-5 shadow-sm"
+						>
+							<div>
+								<div
+									class="flex items-center gap-1 text-yellow-500"
+									aria-label="Rated five out of five stars"
+								>
+									<!--[--><svg
+										class="h-4 w-4 fill-current"
+										viewBox="0 0 20 20"
+										role="img"
+										aria-hidden="true"
+									>
+										<polygon
+											points="10 1.5 12.9 7.26 19.2 7.97 14.3 12.28 15.6 18.48 10 15.4 4.4 18.48 5.7 12.28 0.8 7.97 7.1 7.26"
+										></polygon></svg
+									><svg
+										class="h-4 w-4 fill-current"
+										viewBox="0 0 20 20"
+										role="img"
+										aria-hidden="true"
+									>
+										<polygon
+											points="10 1.5 12.9 7.26 19.2 7.97 14.3 12.28 15.6 18.48 10 15.4 4.4 18.48 5.7 12.28 0.8 7.97 7.1 7.26"
+										></polygon></svg
+									><svg
+										class="h-4 w-4 fill-current"
+										viewBox="0 0 20 20"
+										role="img"
+										aria-hidden="true"
+									>
+										<polygon
+											points="10 1.5 12.9 7.26 19.2 7.97 14.3 12.28 15.6 18.48 10 15.4 4.4 18.48 5.7 12.28 0.8 7.97 7.1 7.26"
+										></polygon></svg
+									><svg
+										class="h-4 w-4 fill-current"
+										viewBox="0 0 20 20"
+										role="img"
+										aria-hidden="true"
+									>
+										<polygon
+											points="10 1.5 12.9 7.26 19.2 7.97 14.3 12.28 15.6 18.48 10 15.4 4.4 18.48 5.7 12.28 0.8 7.97 7.1 7.26"
+										></polygon></svg
+									><svg
+										class="h-4 w-4 fill-current"
+										viewBox="0 0 20 20"
+										role="img"
+										aria-hidden="true"
+									>
+										<polygon
+											points="10 1.5 12.9 7.26 19.2 7.97 14.3 12.28 15.6 18.48 10 15.4 4.4 18.48 5.7 12.28 0.8 7.97 7.1 7.26"
+										></polygon></svg
+									><!--]-->
+								</div>
+								<blockquote class="mt-3.5 text-left text-base text-gray-800">
+									“Bill connects strategy to hands-on practice better than any other AI workshop we
+									have brought in.”
+								</blockquote>
+							</div>
+							<figcaption class="mt-4 flex items-center gap-3 text-left text-sm text-gray-700">
+								<!--[!--><!--]-->
+								<div class="font-semibold">
+									Miguel A.
+									<!--[--><span class="block font-normal text-gray-500">VP, Product Operations</span
+									><!--]-->
+								</div>
+							</figcaption>
+						</figure>
+						<figure
+							class="flex h-full flex-col justify-between rounded-2xl border border-blue-100 bg-white p-5 shadow-sm"
+						>
+							<div>
+								<div
+									class="flex items-center gap-1 text-yellow-500"
+									aria-label="Rated five out of five stars"
+								>
+									<!--[--><svg
+										class="h-4 w-4 fill-current"
+										viewBox="0 0 20 20"
+										role="img"
+										aria-hidden="true"
+									>
+										<polygon
+											points="10 1.5 12.9 7.26 19.2 7.97 14.3 12.28 15.6 18.48 10 15.4 4.4 18.48 5.7 12.28 0.8 7.97 7.1 7.26"
+										></polygon></svg
+									><svg
+										class="h-4 w-4 fill-current"
+										viewBox="0 0 20 20"
+										role="img"
+										aria-hidden="true"
+									>
+										<polygon
+											points="10 1.5 12.9 7.26 19.2 7.97 14.3 12.28 15.6 18.48 10 15.4 4.4 18.48 5.7 12.28 0.8 7.97 7.1 7.26"
+										></polygon></svg
+									><svg
+										class="h-4 w-4 fill-current"
+										viewBox="0 0 20 20"
+										role="img"
+										aria-hidden="true"
+									>
+										<polygon
+											points="10 1.5 12.9 7.26 19.2 7.97 14.3 12.28 15.6 18.48 10 15.4 4.4 18.48 5.7 12.28 0.8 7.97 7.1 7.26"
+										></polygon></svg
+									><svg
+										class="h-4 w-4 fill-current"
+										viewBox="0 0 20 20"
+										role="img"
+										aria-hidden="true"
+									>
+										<polygon
+											points="10 1.5 12.9 7.26 19.2 7.97 14.3 12.28 15.6 18.48 10 15.4 4.4 18.48 5.7 12.28 0.8 7.97 7.1 7.26"
+										></polygon></svg
+									><svg
+										class="h-4 w-4 fill-current"
+										viewBox="0 0 20 20"
+										role="img"
+										aria-hidden="true"
+									>
+										<polygon
+											points="10 1.5 12.9 7.26 19.2 7.97 14.3 12.28 15.6 18.48 10 15.4 4.4 18.48 5.7 12.28 0.8 7.97 7.1 7.26"
+										></polygon></svg
+									><!--]-->
+								</div>
+								<blockquote class="mt-3.5 text-left text-base text-gray-800">
+									“I was able to immediately apply what I learned and saved hours in my first week.”
+								</blockquote>
+							</div>
+							<figcaption class="mt-4 flex items-center gap-3 text-left text-sm text-gray-700">
+								<!--[!--><!--]-->
+								<div class="font-semibold">
+									Priya D.
+									<!--[--><span class="block font-normal text-gray-500"
+										>Agency Managing Partner</span
+									><!--]-->
+								</div>
+							</figcaption>
+						</figure>
+						<!--]-->
+					</div>
+				</section>
+				<!--]-->
+				<!--[-->
+				<section class="tlp-panel tlp-panel--split svelte-1cp7sgv">
+					<div>
+						<h2 class="tlp-section-title svelte-1cp7sgv">About your trainer</h2>
+						<div class="tlp-trainer svelte-1cp7sgv">
+							<!--[--><img
+								src="/images/bill.jpg"
+								alt="Bill Raymond"
+								class="tlp-trainer__photo svelte-1cp7sgv"
+							/><!--]-->
+							<div>
+								<p class="tlp-trainer__name svelte-1cp7sgv">Bill Raymond</p>
+								<p class="tlp-trainer__role svelte-1cp7sgv">Founder, Cambermast LLC</p>
+								<p class="tlp-body svelte-1cp7sgv">
+									Bill focuses on AI learning and development, project management, and leadership
+									initiatives that help teams adopt new technology responsibly.
+								</p>
+							</div>
+						</div>
+					</div>
+					<!--[-->
+					<ul class="tlp-list svelte-1cp7sgv">
+						<!--[-->
+						<li>Author of the Bill Talks AI newsletter.</li>
+						<li>Founding member of the AI Collective.</li>
+						<li>NASA award winner.</li>
+						<li>Microsoft MVP.</li>
+						<li>Host of the Agile in Action podcast with 130+ episodes and 30,000+ listeners.</li>
+						<!--]-->
+					</ul>
+					<!--]-->
+				</section>
+				<!--]-->
+				<!--[-->
+				<section class="tlp-panel svelte-1cp7sgv">
+					<h2 class="tlp-section-title svelte-1cp7sgv">Frequently asked questions</h2>
+					<div class="tlp-faqs svelte-1cp7sgv">
+						<!--[-->
+						<details class="tlp-faq svelte-1cp7sgv">
+							<summary class="svelte-1cp7sgv">How customizable is the agenda?</summary>
+							<!--[!--><!--[-->
+							<p class="svelte-1cp7sgv">
+								If you are taking a publicly scheduled course, the agenda is fixed.
+							</p>
+							<p class="svelte-1cp7sgv">
+								For private team workshops, we can adjust the agenda to focus on specific use cases
+								or tools.
+							</p>
+							<!--]--><!--]-->
+						</details>
+						<details class="tlp-faq svelte-1cp7sgv">
+							<summary class="svelte-1cp7sgv">Do participants need prior AI experience?</summary>
+							<!--[!--><!--[-->
+							<p class="svelte-1cp7sgv">
+								No. The course is designed for beginners through intermediate users, mixing demos
+								with guided exercises.
+							</p>
+							<!--]--><!--]-->
+						</details>
+						<details class="tlp-faq svelte-1cp7sgv">
+							<summary class="svelte-1cp7sgv">Can we host the workshop in person?</summary>
+							<!--[!--><!--[-->
+							<p class="svelte-1cp7sgv">
+								Yes. On-site sessions include travel in the proposal; virtual cohorts are available
+								worldwide.
+							</p>
+							<!--]--><!--]-->
+						</details>
+						<details class="tlp-faq svelte-1cp7sgv">
+							<summary class="svelte-1cp7sgv">
+								Do you have a letter I can send to my manager for budget approval?
+							</summary>
+							<!--[!--><!--[-->
+							<p class="svelte-1cp7sgv">
+								Yes! Here’s a customizable letter you can use: Subject: Request to Attend AI
+								Training Hi [Manager’s Name], I’d like to attend the upcoming [Workshop Name] with
+								Bill Raymond. Bill is a founding member of the AI Collective
+								(https://www.aicollective.com) and the author of the popular Bill Talks AI
+								newsletter (https://BillTalksAI.com). His work focuses on helping professionals
+								safely and effectively adopt AI, and this program is designed to build practical
+								skills and confidence in everyday use. The workshop also includes a certification
+								that validates the skills I’ll be applying in my role. I believe this will benefit
+								both my growth and the value I bring to our team. The cost is [insert cost]. Thank
+								you for considering this request. Here is a link to the course: [Insert Training
+								Program URL] Best, [Your Name]
+							</p>
+							<!--]--><!--]-->
+						</details>
+						<details class="tlp-faq svelte-1cp7sgv">
+							<summary class="svelte-1cp7sgv">
+								Where can I review the Training Terms &amp; Conditions?
+							</summary>
+							<!--[-->
+							<p class="svelte-1cp7sgv">
+								These answers complement Cambermast's
+								<a class="font-semibold text-blue-600 underline" href="/training/terms"
+									>Training Terms &amp; Conditions</a
+								>.
+							</p>
+							<!--]-->
+						</details>
+						<!--]-->
+					</div>
+				</section>
+				<!--]-->
+				<section class="tlp-cta svelte-1cp7sgv">
+					<div>
+						<p class="tlp-eyebrow tlp-eyebrow--small svelte-1cp7sgv">Next step</p>
+						<h2>Bring this program to your team</h2>
+						<p class="tlp-body svelte-1cp7sgv">
+							Set a date, tailor scenarios to your workflows, and deliver AI outcomes with TechLAB
+							and Cambermast.
+						</p>
+					</div>
+					<div class="tlp-ctas svelte-1cp7sgv">
+						<a class="tlp-btn tlp-btn--primary svelte-1cp7sgv schedule-team-button" href="/contact"
+							>Schedule your team</a
+						>
+						<a class="tlp-btn tlp-btn--ghost svelte-1cp7sgv" href="/contact">Talk with Bill</a>
+					</div>
+				</section>
+			</article>
+			<!----><!----><!--]--><!----><!--]-->
+			<!--[!--><!--]--><!----><!--]-->
+			<!--[!--><!--]--><!--]-->
 
-Subject: Request to Attend AI Training
-
-Hi [Manager’s Name],
-
-I’d like to attend the upcoming [Workshop Name] with Bill Raymond. Bill is a founding member of the AI Collective (https://www.aicollective.com) and the author of the popular Bill Talks AI newsletter (https://BillTalksAI.com). His work focuses on helping professionals safely and effectively adopt AI, and this program is designed to build practical skills and confidence in everyday use.
-
-The workshop also includes a certification that validates the skills I’ll be applying in my role. I believe this will benefit both my growth and the value I bring to our team. The cost is [insert cost]. Thank you for considering this request.
-
-Here is a link to the course: [Insert Training Program URL]
-
-Best,
-[Your Name]</p><!--]--><!--]--></details><details class="tlp-faq svelte-1cp7sgv"><summary class="svelte-1cp7sgv">Where can I review the Training Terms &amp; Conditions?</summary> <!--[--><p class="svelte-1cp7sgv">These answers complement Cambermast's <a class="font-semibold text-blue-600 underline" href="/training/terms">Training Terms &amp; Conditions</a>.</p><!--]--></details><!--]--></div></section><!--]--> <section class="tlp-cta svelte-1cp7sgv"><div><p class="tlp-eyebrow tlp-eyebrow--small svelte-1cp7sgv">Next step</p> <h2>Bring this program to your team</h2> <p class="tlp-body svelte-1cp7sgv">Set a date, tailor scenarios to your workflows, and deliver AI outcomes with TechLAB and
-				Cambermast.</p></div> <div class="tlp-ctas svelte-1cp7sgv"><a class="tlp-btn tlp-btn--primary svelte-1cp7sgv schedule-team-button" href="/contact">Schedule your team</a> <a class="tlp-btn tlp-btn--ghost svelte-1cp7sgv" href="/contact">Talk with Bill</a></div></section></article><!----><!----><!--]--><!----><!--]--> <!--[!--><!--]--><!----><!--]--> <!--[!--><!--]--><!--]-->
-			
 			<script>
 				{
 					__sveltekit_1yqr2du = {
-						base: new URL("..", location).pathname.slice(0, -1)
+						base: new URL('..', location).pathname.slice(0, -1)
 					};
 
 					const element = document.currentScript.parentElement;
 
 					Promise.all([
-						import("../_app/immutable/entry/start.BFm6HIG2.js"),
-						import("../_app/immutable/entry/app.CXvqWB9_.js")
+						import('../_app/immutable/entry/start.BFm6HIG2.js'),
+						import('../_app/immutable/entry/app.CXvqWB9_.js')
 					]).then(([kit, app]) => {
 						kit.start(app, element, {
 							node_ids: [0, 24],
-							data: [null,null],
+							data: [null, null],
 							form: null,
 							error: null
 						});

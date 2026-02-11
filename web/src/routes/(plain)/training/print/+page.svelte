@@ -75,17 +75,19 @@
 		<a href="/training/table" class="inline-flex items-center justify-center">
 			<img src="/images/cambermast-logo-full.png" alt="Cambermast logo" class="h-16 w-auto" />
 		</a>
-		<h1 class="text-3xl font-bold uppercase tracking-wide">{pageTitle}</h1>
+		<h1 class="text-3xl font-bold tracking-wide uppercase">{pageTitle}</h1>
 		<p class="text-xs text-gray-600">
 			All programs follow Cambermast's
-			<a class="font-semibold text-blue-700 underline" href="/training/terms">Training Terms &amp; Conditions</a>.
+			<a class="font-semibold text-blue-700 underline" href="/training/terms"
+				>Training Terms &amp; Conditions</a
+			>.
 		</p>
 	</header>
 
 	<table class="w-full border-collapse text-left text-sm leading-relaxed">
 		<thead>
 			<tr
-				class="border-y border-gray-300 bg-gray-100 text-xs font-semibold uppercase tracking-wide"
+				class="border-y border-gray-300 bg-gray-100 text-xs font-semibold tracking-wide uppercase"
 			>
 				<th class="px-4 py-3">Program</th>
 				<th class="px-4 py-3">Duration</th>
@@ -99,7 +101,7 @@
 					<td class="px-4 py-3">
 						<p class="font-semibold text-gray-900">{program.title}</p>
 						{#if program.sku}
-							<p class="text-xs font-semibold uppercase tracking-wide text-gray-600">
+							<p class="text-xs font-semibold tracking-wide text-gray-600 uppercase">
 								({program.sku})
 							</p>
 						{/if}
@@ -111,17 +113,17 @@
 								{#if program.certificateText}
 									<p>{program.certificateText}</p>
 								{/if}
-									{#if program.videoUrl}
-										<a
-											href={program.videoUrl}
-											target="_blank"
-											rel="noopener noreferrer"
-											class="inline-flex items-center gap-1 underline decoration-blue-200 underline-offset-4"
-										>
-											Watch the trailer
-											<span aria-hidden="true">↗</span>
-										</a>
-									{/if}
+								{#if program.videoUrl}
+									<a
+										href={program.videoUrl}
+										target="_blank"
+										rel="noopener noreferrer"
+										class="inline-flex items-center gap-1 underline decoration-blue-200 underline-offset-4"
+									>
+										Watch the trailer
+										<span aria-hidden="true">↗</span>
+									</a>
+								{/if}
 							</div>
 						{/if}
 					</td>

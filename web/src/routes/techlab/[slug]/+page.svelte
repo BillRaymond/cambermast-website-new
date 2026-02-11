@@ -23,9 +23,7 @@
 			url: SITE_ORIGIN
 		},
 		...(data.program.sku ? { courseCode: data.program.sku } : {}),
-		...(data.program.audience?.length
-			? { keywords: data.program.audience.join(', ') }
-			: {})
+		...(data.program.audience?.length ? { keywords: data.program.audience.join(', ') } : {})
 	});
 </script>
 
@@ -52,4 +50,7 @@
 	</script>
 </svelte:head>
 
-<ProgramPage program={data.program} backLink={{ href: '/techlab', label: 'Back to TechLAB programs' }} />
+<ProgramPage
+	program={data.program}
+	backLink={{ href: '/techlab', label: 'Back to TechLAB programs' }}
+/>

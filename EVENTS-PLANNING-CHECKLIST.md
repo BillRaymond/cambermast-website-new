@@ -25,6 +25,30 @@ Purpose: Track architecture decisions and implementation progress for the unifie
   - `web/src/lib/components/training/ProgramPage.svelte`
   - `web/src/lib/components/techlab/ProgramPage.svelte`
 
+## What We Did In This Chat (Feb 2026)
+
+- Added featured images for events:
+  - Set `image` + `imageAlt` for seeded events in `web/src/lib/data/events/events.json`.
+  - Added a new static featured image: `web/static/images/events/vibe-coding-webinar-feb-2026.svg`.
+- Standardized the `/events` card layout:
+  - Always reserve space so `Learn more →` aligns consistently on desktop.
+  - Unified pill/meta ordering to match the “Happening now” card (pills first, then meta details).
+- Updated card link behavior:
+  - `Learn more →` always goes to the event landing page (`/events/[slug]`) for event items.
+  - For course-style events (`type=training_session` + `programRef.programSlug`), the title links to the training program page (`/training/[slug]`).
+  - For other events, title and `Learn more →` both link to the event landing page.
+- Improved registration button states:
+  - Closed events render a disabled, non-clickable button using the event’s `cta.label` (ex: “Enrollment closed”).
+- Added compact chips for crowded cards:
+  - Added `📜 Certificate` chip when `certificateText` is present (instead of a full row of text).
+  - Moved trailer link into a compact `▶ Trailer ↗` chip and placed it first in the pill row.
+- Updated the AI Workshop event record (to reduce reliance on the training catalog for listing details):
+  - Updated `tagline`, `summary`, `date`, `time`, `timezone`, and `endAtUtc` in `web/src/lib/data/events/events.json`.
+  - Updated `/events` date rendering to prefer `event.date` when present.
+  - Updated event partner display on cards to use `partnerCode` → `web/src/lib/data/partners.ts` (instead of pulling freeform partner strings from training sessions).
+- Build fix discovered while validating:
+  - Fixed an unescaped quote in `web/src/routes/forms/pre-training-survey/+page.svelte` that prevented `npm --prefix web run build` from succeeding.
+
 ## Key Files Touched So Far
 
 - Events data/model
@@ -51,6 +75,8 @@ Purpose: Track architecture decisions and implementation progress for the unifie
   - `web/src/lib/seo.ts`
   - `web/src/routes/sitemap.xml/+server.ts`
   - `web/static/robots.txt`
+- Assets
+  - `web/static/images/events/vibe-coding-webinar-feb-2026.svg`
 
 ## 1) Locked Decisions (Done)
 
@@ -157,6 +183,8 @@ Purpose: Track architecture decisions and implementation progress for the unifie
 
 - [ ] Remove legacy event resolver compatibility layer in `web/src/lib/data/events/index.ts` once consumers are migrated.
 - [ ] Finalize `/events` UX scope: keep mixed training/events feed vs events-only feed (current is mixed via `CalendarPage`).
+- [ ] Decide whether training sessions should be sourced from the events registry (and not the training catalog) for `/events` + “Happening now”.
+- [ ] Decide whether the `/events/[slug]` landing pages should display certificate/trailer chips (right now these are only on the `/events` listing cards).
 - [ ] Decide whether event cards should deep-link CTA through `/c/{campaignId}` by default for attribution.
 - [ ] Add editability workflow for ops (JSON editing guidance or lightweight tooling in `/internal/events`).
 - [ ] Decide whether to expose partner homepage links for all partners (currently only when set in catalog).

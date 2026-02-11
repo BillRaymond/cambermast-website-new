@@ -125,7 +125,9 @@
 	<slot />
 {:else}
 	{#if showAnalyticsDebug}
-		<div class="fixed bottom-4 right-4 z-50 rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold text-white shadow-lg">
+		<div
+			class="fixed right-4 bottom-4 z-50 rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold text-white shadow-lg"
+		>
 			Analytics: {analyticsDebugLabel}
 		</div>
 	{/if}
@@ -133,7 +135,7 @@
 	<header class="flex flex-col items-center bg-white px-5 py-3">
 		<a
 			href="/about"
-			class="mb-2 inline-flex items-center justify-center gap-3 rounded-3xl border border-gray-200 bg-white px-3 py-2 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+			class="mb-2 inline-flex items-center justify-center gap-3 rounded-3xl border border-gray-200 bg-white px-3 py-2 shadow-sm focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:outline-none"
 		>
 			<img
 				src="/images/bill.jpg"
@@ -181,7 +183,7 @@
 			<a class="underline" href="/gdpr">Privacy & GDPR notice</a> ·
 			<a class="underline" href="/training/terms">Training T&amp;Cs</a> ·
 			<button
-				class="underline transition hover:text-gray-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+				class="underline transition hover:text-gray-700 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:outline-none"
 				type="button"
 				on:click={openConsentPreferences}
 			>
@@ -197,18 +199,20 @@
 		role="dialog"
 		aria-live="polite"
 	>
-		<div class="mx-auto flex max-w-4xl flex-col gap-4 px-5 py-5 text-sm text-gray-800 sm:flex-row sm:items-center sm:justify-between">
+		<div
+			class="mx-auto flex max-w-4xl flex-col gap-4 px-5 py-5 text-sm text-gray-800 sm:flex-row sm:items-center sm:justify-between"
+		>
 			<div class="space-y-2">
 				<p class="text-base font-semibold text-gray-900">
 					{manageConsentOpen ? 'Update your analytics settings' : 'Help us improve cambermast.com'}
 				</p>
 				<p class="text-gray-700">
-					We use Google Analytics to understand which pages help visitors most. Analytics cookies only
-					load if you allow them. Review the details any time on our
+					We use Google Analytics to understand which pages help visitors most. Analytics cookies
+					only load if you allow them. Review the details any time on our
 					<a class="font-semibold text-blue-600 underline" href="/gdpr">GDPR & privacy overview</a>.
 				</p>
 				{#if manageConsentOpen && analyticsPreference !== 'unknown'}
-					<p class="text-xs uppercase tracking-wide text-gray-500">
+					<p class="text-xs tracking-wide text-gray-500 uppercase">
 						Current setting:
 						<span class="font-semibold text-gray-900">
 							{analyticsPreference === 'granted'
@@ -220,14 +224,14 @@
 			</div>
 			<div class="flex flex-col gap-2 sm:flex-row sm:items-center">
 				<button
-					class="rounded border border-gray-300 px-4 py-2 text-sm font-semibold text-gray-700 transition hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+					class="rounded border border-gray-300 px-4 py-2 text-sm font-semibold text-gray-700 transition hover:bg-gray-100 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:outline-none"
 					type="button"
 					on:click={() => handleAnalyticsConsent('denied')}
 				>
 					Decline analytics
 				</button>
 				<button
-					class="rounded bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow transition hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+					class="rounded bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow transition hover:bg-blue-700 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:outline-none"
 					type="button"
 					on:click={() => handleAnalyticsConsent('granted')}
 				>
@@ -235,7 +239,7 @@
 				</button>
 				{#if manageConsentOpen && analyticsPreference !== 'unknown'}
 					<button
-						class="text-sm font-semibold text-gray-600 underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+						class="text-sm font-semibold text-gray-600 underline focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:outline-none"
 						type="button"
 						on:click={closeConsentPreferences}
 					>

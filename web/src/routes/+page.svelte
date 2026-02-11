@@ -67,12 +67,12 @@
 		registerUrl?: string;
 	};
 
-		type TrustedByOrg = {
-			name: string;
-			url: string;
-			logoSrc?: string;
-			logoAlt?: string;
-		};
+	type TrustedByOrg = {
+		name: string;
+		url: string;
+		logoSrc?: string;
+		logoAlt?: string;
+	};
 
 	type SectionWithUpcoming = { slug: string } & CatalogSection & {
 			hasUpcomingSessions: boolean;
@@ -95,36 +95,64 @@
 		year: 'numeric'
 	});
 
-		const trustedBy: TrustedByOrg[] = [
-			{ name: 'Microsoft', url: 'https://www.microsoft.com/', logoSrc: '/images/trusted-by/microsoft.png' },
-			{ name: 'Digital.ai', url: 'https://digital.ai/', logoSrc: '/images/trusted-by/digital-ai.png' },
-			{ name: 'DocuSign', url: 'https://www.docusign.com/', logoSrc: '/images/trusted-by/docusign.png' },
-			{ name: 'Acuity Inc.', url: 'https://www.acuityinc.com/', logoSrc: '/images/trusted-by/acuityinc.png' },
-			{ name: 'SLB', url: 'https://www.slb.com/', logoSrc: '/images/trusted-by/slb.png' },
-			{ name: 'NASA', url: 'https://www.nasa.gov/', logoSrc: '/images/trusted-by/nasa.png' },
-			{ name: 'Duke Energy', url: 'https://www.duke-energy.com/', logoSrc: '/images/trusted-by/duke-energy.png' },
-			{ name: 'Moen', url: 'https://www.moen.com/', logoSrc: '/images/trusted-by/moen.png' },
-			{
-				name: 'NYCHA',
-				url: 'https://www.nyc.gov/site/nycha/index.page',
-				logoSrc: '/images/trusted-by/nycha.png'
-			},
-			{
-				name: 'AI Collective',
-				url: 'https://theaicollective.ai/',
-				logoSrc: '/images/trusted-by/ai-collective.png',
-				logoAlt: 'The AI Collective logo'
-			},
-			{ name: 'Kaggle', url: 'https://www.kaggle.com/', logoSrc: '/images/trusted-by/kaggle.png' },
-			{ name: 'GoSkills', url: 'https://www.goskills.com/', logoSrc: '/images/trusted-by/goskills.png' },
-			{ name: 'Help Scout', url: 'https://www.helpscout.com/', logoSrc: '/images/trusted-by/help-scout.png' },
-			{
-				name: 'The Content Wrangler',
-				url: 'https://thecontentwrangler.com/',
-				logoSrc: '/images/trusted-by/the-content-wrangler.png'
-			},
-			{ name: 'Red Hat', url: 'https://www.redhat.com/', logoSrc: '/images/trusted-by/red-hat.png' }
-		];
+	const trustedBy: TrustedByOrg[] = [
+		{
+			name: 'Microsoft',
+			url: 'https://www.microsoft.com/',
+			logoSrc: '/images/trusted-by/microsoft.png'
+		},
+		{
+			name: 'Digital.ai',
+			url: 'https://digital.ai/',
+			logoSrc: '/images/trusted-by/digital-ai.png'
+		},
+		{
+			name: 'DocuSign',
+			url: 'https://www.docusign.com/',
+			logoSrc: '/images/trusted-by/docusign.png'
+		},
+		{
+			name: 'Acuity Inc.',
+			url: 'https://www.acuityinc.com/',
+			logoSrc: '/images/trusted-by/acuityinc.png'
+		},
+		{ name: 'SLB', url: 'https://www.slb.com/', logoSrc: '/images/trusted-by/slb.png' },
+		{ name: 'NASA', url: 'https://www.nasa.gov/', logoSrc: '/images/trusted-by/nasa.png' },
+		{
+			name: 'Duke Energy',
+			url: 'https://www.duke-energy.com/',
+			logoSrc: '/images/trusted-by/duke-energy.png'
+		},
+		{ name: 'Moen', url: 'https://www.moen.com/', logoSrc: '/images/trusted-by/moen.png' },
+		{
+			name: 'NYCHA',
+			url: 'https://www.nyc.gov/site/nycha/index.page',
+			logoSrc: '/images/trusted-by/nycha.png'
+		},
+		{
+			name: 'AI Collective',
+			url: 'https://theaicollective.ai/',
+			logoSrc: '/images/trusted-by/ai-collective.png',
+			logoAlt: 'The AI Collective logo'
+		},
+		{ name: 'Kaggle', url: 'https://www.kaggle.com/', logoSrc: '/images/trusted-by/kaggle.png' },
+		{
+			name: 'GoSkills',
+			url: 'https://www.goskills.com/',
+			logoSrc: '/images/trusted-by/goskills.png'
+		},
+		{
+			name: 'Help Scout',
+			url: 'https://www.helpscout.com/',
+			logoSrc: '/images/trusted-by/help-scout.png'
+		},
+		{
+			name: 'The Content Wrangler',
+			url: 'https://thecontentwrangler.com/',
+			logoSrc: '/images/trusted-by/the-content-wrangler.png'
+		},
+		{ name: 'Red Hat', url: 'https://www.redhat.com/', logoSrc: '/images/trusted-by/red-hat.png' }
+	];
 
 	const formatEndLabel = (value?: string): string => {
 		if (!value) return 'current cohort';
@@ -201,7 +229,9 @@
 	const buildSectionTestimonial = (routes: string[], fallback?: SectionTestimonial) => {
 		if (!routes.length) return fallback;
 		const picked = listTestimonials()
-			.filter((testimonial) => testimonial.allowPublicUse && routes.includes(testimonial.programRoute))
+			.filter(
+				(testimonial) => testimonial.allowPublicUse && routes.includes(testimonial.programRoute)
+			)
 			.sort(sortTestimonials)[0];
 		if (!picked) return fallback;
 		return {
@@ -531,7 +561,9 @@
 	<div class="sessions-strip mx-auto max-w-5xl px-4 py-4">
 		<div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
 			<div class="flex flex-col gap-1">
-				<h1 class="sessions-strip-title text-lg font-extrabold tracking-tight text-gray-900 sm:text-xl">
+				<h1
+					class="sessions-strip-title text-lg font-extrabold tracking-tight text-gray-900 sm:text-xl"
+				>
 					Upcoming sessions & events
 				</h1>
 				<p class="sessions-strip-subtitle text-sm text-gray-700">
@@ -540,7 +572,7 @@
 			</div>
 			<a
 				href="/calendar"
-				class="sessions-strip-link inline-flex items-center justify-center rounded-full border border-blue-200 bg-white px-3 py-2 text-xs font-semibold text-blue-700 transition hover:border-blue-300 hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-200"
+				class="sessions-strip-link inline-flex items-center justify-center rounded-full border border-blue-200 bg-white px-3 py-2 text-xs font-semibold text-blue-700 transition hover:border-blue-300 hover:bg-blue-50 focus:ring-2 focus:ring-blue-200 focus:outline-none"
 			>
 				View calendar →
 			</a>
@@ -551,7 +583,9 @@
 				<UpcomingSessionsCarousel slides={upcomingSlides} />
 			</div>
 		{:else}
-			<div class="mt-4 rounded-2xl border border-blue-100 bg-white/70 px-4 py-3 text-sm text-gray-700">
+			<div
+				class="mt-4 rounded-2xl border border-blue-100 bg-white/70 px-4 py-3 text-sm text-gray-700"
+			>
 				No upcoming sessions are listed right now. Check the calendar for the latest updates.
 			</div>
 		{/if}
@@ -562,13 +596,18 @@
 	<div class="mx-auto max-w-5xl px-4">
 		<div class="home-trust-band rounded-2xl border border-gray-200 bg-white px-4 py-4 shadow-sm">
 			<div>
-				<p class="text-xs font-semibold uppercase tracking-wide text-gray-500">Trusted by</p>
+				<p class="text-xs font-semibold tracking-wide text-gray-500 uppercase">Trusted by</p>
 				<div class="trusted-by-marquee mt-4" aria-label="Trusted by organizations" role="list">
 					<div class="trusted-by-track">
 						<div class="trusted-by-group">
 							{#each trustedBy as org (org.name)}
 								<div class="trusted-by-item" role="listitem">
-									<a href={org.url} target="_blank" rel="noopener noreferrer" class="trusted-by-link">
+									<a
+										href={org.url}
+										target="_blank"
+										rel="noopener noreferrer"
+										class="trusted-by-link"
+									>
 										{#if org.logoSrc}
 											<img
 												src={org.logoSrc}
@@ -578,7 +617,9 @@
 												decoding="async"
 											/>
 										{:else}
-											<span class="rounded-full border border-gray-200 bg-gray-50 px-3 py-1 text-sm font-semibold text-gray-700">
+											<span
+												class="rounded-full border border-gray-200 bg-gray-50 px-3 py-1 text-sm font-semibold text-gray-700"
+											>
 												{org.name}
 											</span>
 										{/if}
@@ -608,7 +649,9 @@
 												decoding="async"
 											/>
 										{:else}
-											<span class="rounded-full border border-gray-200 bg-gray-50 px-3 py-1 text-sm font-semibold text-gray-700">
+											<span
+												class="rounded-full border border-gray-200 bg-gray-50 px-3 py-1 text-sm font-semibold text-gray-700"
+											>
 												{org.name}
 											</span>
 										{/if}
@@ -620,7 +663,9 @@
 				</div>
 			</div>
 
-			<div class="home-trust-cta flex flex-col gap-3 pt-4 sm:flex-row sm:items-center sm:justify-between">
+			<div
+				class="home-trust-cta flex flex-col gap-3 pt-4 sm:flex-row sm:items-center sm:justify-between"
+			>
 				<div class="flex items-center gap-3">
 					<img
 						src="/images/bill.jpg"
@@ -628,7 +673,7 @@
 						class="home-trust-avatar h-10 w-10 flex-none rounded-2xl border border-gray-200 object-cover"
 					/>
 					<div class="min-w-0">
-						<p class="text-xs font-semibold uppercase tracking-wide text-blue-600">
+						<p class="text-xs font-semibold tracking-wide text-blue-600 uppercase">
 							AI leadership in action
 						</p>
 						<p class="text-sm font-semibold text-gray-900">Bill Raymond</p>
@@ -638,7 +683,7 @@
 				<div class="flex flex-col gap-1 sm:items-end">
 					<a
 						href="/connect"
-						class="inline-flex items-center justify-center rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-200"
+						class="inline-flex items-center justify-center rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 focus:ring-2 focus:ring-blue-200 focus:outline-none"
 					>
 						Book a consultation
 					</a>
@@ -684,14 +729,16 @@
 		</a>
 	</div>
 	<div class="w-full max-w-5xl">
-		<div class="luma-teaser rounded-2xl border border-gray-200 bg-white px-4 py-4 text-sm text-gray-700 sm:hidden">
+		<div
+			class="luma-teaser rounded-2xl border border-gray-200 bg-white px-4 py-4 text-sm text-gray-700 sm:hidden"
+		>
 			<p class="font-semibold text-gray-900">Upcoming calendar preview</p>
 			<p class="mt-1">
 				See Bill's upcoming training and speaking schedule. Tap below to load the full calendar.
 			</p>
 			<button
 				type="button"
-				class="mt-3 inline-flex items-center justify-center rounded-full border border-blue-200 bg-white px-3 py-2 text-xs font-semibold text-blue-700 transition hover:border-blue-300 hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-200"
+				class="mt-3 inline-flex items-center justify-center rounded-full border border-blue-200 bg-white px-3 py-2 text-xs font-semibold text-blue-700 transition hover:border-blue-300 hover:bg-blue-50 focus:ring-2 focus:ring-blue-200 focus:outline-none"
 				aria-expanded={showLumaEmbed}
 				aria-controls="luma-calendar-embed"
 				on:click={() => {
@@ -824,39 +871,40 @@
 		flex: 0 0 2.5rem;
 	}
 
-		.trusted-by-item {
-			display: flex;
-			align-items: center;
-			flex: 0 0 auto;
-		}
+	.trusted-by-item {
+		display: flex;
+		align-items: center;
+		flex: 0 0 auto;
+	}
 
-		.trusted-by-link {
-			display: flex;
-			align-items: center;
-			text-decoration: none;
-		}
+	.trusted-by-link {
+		display: flex;
+		align-items: center;
+		text-decoration: none;
+	}
 
-		.trusted-by-link:focus-visible {
-			outline: 2px solid rgba(191, 219, 254, 0.9);
-			outline-offset: 6px;
-			border-radius: 9999px;
-		}
+	.trusted-by-link:focus-visible {
+		outline: 2px solid rgba(191, 219, 254, 0.9);
+		outline-offset: 6px;
+		border-radius: 9999px;
+	}
 
 	.trusted-by-logo {
 		height: 2rem;
 		width: auto;
 		max-width: 180px;
-			object-fit: contain;
-			opacity: 0.8;
-			filter: grayscale(1);
-			transition: opacity 200ms ease, filter 200ms ease;
-		}
+		object-fit: contain;
+		opacity: 0.8;
+		filter: grayscale(1);
+		transition:
+			opacity 200ms ease,
+			filter 200ms ease;
+	}
 
 	.trusted-by-logo:hover {
 		opacity: 1;
 		filter: grayscale(0);
 	}
-
 
 	@keyframes trusted-by-scroll {
 		from {

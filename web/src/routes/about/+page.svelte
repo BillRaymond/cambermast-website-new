@@ -85,7 +85,7 @@
 			</div>
 		</div>
 		<div class="flex flex-col gap-1">
-			<p class="text-xs font-semibold uppercase tracking-wide text-blue-600">
+			<p class="text-xs font-semibold tracking-wide text-blue-600 uppercase">
 				AI leadership in action
 			</p>
 			<p class="text-gray-700">

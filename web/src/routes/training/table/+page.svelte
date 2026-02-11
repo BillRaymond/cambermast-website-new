@@ -105,7 +105,7 @@
 
 <div class="overflow-x-auto rounded-2xl border bg-white shadow-sm">
 	<table class="w-full min-w-[720px] table-auto border-collapse text-left">
-		<thead class="bg-gray-50 text-xs font-semibold uppercase tracking-wide text-gray-600">
+		<thead class="bg-gray-50 text-xs font-semibold tracking-wide text-gray-600 uppercase">
 			<tr>
 				<th class="border-b px-4 py-3">Program</th>
 				<th class="border-b px-4 py-3">Duration</th>
@@ -127,7 +127,7 @@
 								{program.title}
 							</a>
 							{#if program.sku}
-								<p class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+								<p class="text-xs font-semibold tracking-wide text-gray-500 uppercase">
 									({program.sku})
 								</p>
 							{/if}
@@ -139,17 +139,17 @@
 									{#if program.certificateText}
 										<p>{program.certificateText}</p>
 									{/if}
-										{#if program.videoUrl}
-											<a
-												href={program.videoUrl}
-												target="_blank"
-												rel="noopener noreferrer"
-												class="inline-flex items-center gap-1 underline decoration-blue-200 underline-offset-4 transition hover:text-blue-800"
-											>
-												Watch the trailer
-												<span aria-hidden="true">↗</span>
-											</a>
-										{/if}
+									{#if program.videoUrl}
+										<a
+											href={program.videoUrl}
+											target="_blank"
+											rel="noopener noreferrer"
+											class="inline-flex items-center gap-1 underline decoration-blue-200 underline-offset-4 transition hover:text-blue-800"
+										>
+											Watch the trailer
+											<span aria-hidden="true">↗</span>
+										</a>
+									{/if}
 								</div>
 							{/if}
 						</div>
@@ -171,7 +171,7 @@
 							{#if program.registerUrl}
 								<a
 									href={program.registerUrl}
-									class="inline-flex items-center justify-center gap-2 rounded-full bg-blue-600 px-4 py-1.5 text-xs font-semibold text-white shadow transition hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white text-center"
+									class="inline-flex items-center justify-center gap-2 rounded-full bg-blue-600 px-4 py-1.5 text-center text-xs font-semibold text-white shadow transition hover:bg-blue-700 focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white focus-visible:outline-none"
 									target="_blank"
 									rel="noopener noreferrer"
 								>
@@ -184,7 +184,7 @@
 							{/if}
 							<a
 								href={program.scheduleUrl}
-								class="inline-flex items-center justify-center rounded-md bg-blue-600 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-blue-700 text-center"
+								class="inline-flex items-center justify-center rounded-md bg-blue-600 px-3 py-1.5 text-center text-xs font-semibold text-white transition hover:bg-blue-700"
 							>
 								{program.scheduleLabel}
 							</a>

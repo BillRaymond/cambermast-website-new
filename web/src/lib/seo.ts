@@ -108,8 +108,7 @@ export const pageSeo: SeoOverrides = {
 	},
 	'/tools/ai-tool-comparison': {
 		title: 'AI Tool Fit Comparison | Cambermast Tools',
-		description:
-			'Compare AI tools by role fit, learning curve, and workflow readiness.'
+		description: 'Compare AI tools by role fit, learning curve, and workflow readiness.'
 	},
 	'/gdpr': {
 		title: 'GDPR & Privacy at Cambermast',

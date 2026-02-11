@@ -46,18 +46,22 @@
 			Book time with Bill
 		</h1>
 		<p class="mt-3 text-lg text-gray-600">
-			Paid consults are the fastest path to a clear answer. If you just want to say hello, a free chat is
-			available too.
+			Paid consults are the fastest path to a clear answer. If you just want to say hello, a free
+			chat is available too.
 		</p>
 		<div class="mt-4">
-			<div class="flex w-full items-center gap-3 rounded-2xl border border-gray-200 bg-white px-4 py-3 shadow-sm">
+			<div
+				class="flex w-full items-center gap-3 rounded-2xl border border-gray-200 bg-white px-4 py-3 shadow-sm"
+			>
 				<img
 					src="/images/bill.jpg"
 					alt="Bill Raymond"
 					class="h-12 w-12 rounded-2xl border border-gray-200 object-cover"
 				/>
 				<div class="text-left leading-tight">
-					<p class="text-xs font-semibold uppercase tracking-wide text-blue-600">AI leadership in action</p>
+					<p class="text-xs font-semibold tracking-wide text-blue-600 uppercase">
+						AI leadership in action
+					</p>
 					<p class="text-sm font-semibold text-gray-900">Bill Raymond</p>
 				</div>
 			</div>
@@ -90,9 +94,7 @@
 						Schedule now <span class="ml-1 transition-transform group-hover:translate-x-1">→</span>
 					</div>
 					{#if option.highlight}
-						<p class="mt-3 text-xs font-semibold text-blue-700">
-							Recommended starting point
-						</p>
+						<p class="mt-3 text-xs font-semibold text-blue-700">Recommended starting point</p>
 					{/if}
 				</a>
 			{/each}

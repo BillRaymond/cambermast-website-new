@@ -36,15 +36,12 @@
 	<div class="flex w-full flex-wrap items-end gap-3">
 		<div class="min-w-[12rem] flex-1 space-y-1.5">
 			{#if eyebrow}
-				<p class={`text-[0.65rem] font-semibold uppercase tracking-wide ${eyebrowClasses}`}>
+				<p class={`text-[0.65rem] font-semibold tracking-wide uppercase ${eyebrowClasses}`}>
 					{eyebrow}
 				</p>
 			{/if}
 			{#if ctaUrl}
-				<a
-					href={ctaUrl}
-					class="text-sm font-semibold text-gray-900 transition hover:text-blue-500"
-				>
+				<a href={ctaUrl} class="text-sm font-semibold text-gray-900 transition hover:text-blue-500">
 					{title}
 				</a>
 			{:else}
