@@ -17,6 +17,40 @@
 				"src": "qr",
 				"ad": "techlab"
 			}
+		},
+		{
+			"id": "evt-20260127-1000-training-session-none",
+			"type": "qr",
+			"partner": "cambermast",
+			"partnerLabel": "Cambermast",
+			"landingPath": "/events/ai-workshop-for-tech-writers-and-content-creators-winter-2026",
+			"description": "Campaign short link for the AI Workshop for Tech Writers and Content Creators event page.",
+			"createdAt": "2026-02-11T00:00:00Z",
+			"params": {
+				"utm_source": "qr",
+				"utm_medium": "offline",
+				"utm_campaign": "events",
+				"utm_content": "evt-20260127-1000-training-session-none",
+				"src": "qr",
+				"ad": "cambermast"
+			}
+		},
+		{
+			"id": "evt-20260218-1300-webinar-tlb",
+			"type": "qr",
+			"partner": "techlab",
+			"partnerLabel": "TechLAB",
+			"landingPath": "/events/vibe-coding-webinar-feb-2026",
+			"description": "Campaign short link for the Vibe Coding Webinar event page.",
+			"createdAt": "2026-02-11T00:00:00Z",
+			"params": {
+				"utm_source": "qr",
+				"utm_medium": "offline",
+				"utm_campaign": "events",
+				"utm_content": "evt-20260218-1300-webinar-tlb",
+				"src": "qr",
+				"ad": "techlab"
+			}
 		}
 	]
 }

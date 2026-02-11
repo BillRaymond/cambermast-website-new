@@ -46,7 +46,7 @@ import {
 		dateText: string;
 		metaDetails: string[];
 		partnerText: string | null;
-		registerUrl: string;
+		registerUrl?: string;
 		learnMoreUrl?: string;
 		image: EntryImage | null;
 		certificateText?: string;
@@ -296,18 +296,17 @@ $: upcomingExternalEntries = listExternalEvents()
 		.map((event, index) => {
 			const startTimestamp = toFiniteTimestamp(getEventStartTimestamp(event));
 			const timeLabel = formatTimeLabel(event.time);
-		const locationLabel = event.location ?? defaultLocationLabel;
-		const metaDetails: string[] = [];
-		if (timeLabel) metaDetails.push(timeLabel);
-		if (locationLabel) metaDetails.push(locationLabel);
-
-		const relatedProgramSlug = event.relatedProgramSlugs?.[0];
-		const relatedProgram = relatedProgramSlug
-			? listTrainingPrograms().find((program) => program.slug === relatedProgramSlug)
-			: undefined;
+			const locationLabel = event.location ?? defaultLocationLabel;
+			const metaDetails: string[] = [];
+			if (timeLabel) metaDetails.push(timeLabel);
+			if (locationLabel) metaDetails.push(locationLabel);
 
 			const eventTypeLabel = getEventTypeLabel(event);
 			const subtitle = `${eventTypeLabel}${event.draft ? ' · Draft' : ''}`;
+			const registerUrl =
+				event.registrationStatus === 'closed' || event.registrationStatus === 'none'
+					? undefined
+					: event.registerUrl;
 
 			return {
 				id: `event-${event.id ?? index}`,
@@ -320,11 +319,11 @@ $: upcomingExternalEntries = listExternalEvents()
 				dateText: formatDateLabel(startTimestamp, event.date),
 				metaDetails,
 				partnerText: null,
-				registerUrl: event.registerUrl,
-			learnMoreUrl: relatedProgram?.route ?? '/events',
-			image: getEventCardImage(event)
-		};
-	});
+				registerUrl,
+				learnMoreUrl: `/events/${event.slug}`,
+				image: getEventCardImage(event)
+			};
+		});
 
 	$: upcomingEntries = [
 		...upcomingTrainingEntries,
@@ -338,6 +337,13 @@ $: upcomingExternalEntries = listExternalEvents()
 	};
 
 	let eventTypeFilters: EventTypeFilter[] = [];
+	const hiddenEventTypeFilterKeys = new Set(['training', 'training_session', 'event', 'other']);
+	const normalizeFilterLabel = (value: string): string =>
+		value.trim().toLowerCase().replace(/\s+/g, ' ');
+	const getEventTypeChipLabel = (filter: EventTypeFilter): string => {
+		if (filter.key === 'webinar') return `🎙️ ${filter.label}`;
+		return filter.label;
+	};
 
 	$: eventTypeFilters = Array.from(
 		new Map(
@@ -348,7 +354,13 @@ $: upcomingExternalEntries = listExternalEvents()
 					entry.eventTypeLabel ?? (entry.eventType as string)
 				])
 		).entries()
-	).map(([key, label]) => ({ key, label }));
+	)
+		.map(([key, label]) => ({ key, label }))
+		.filter((filter) => !hiddenEventTypeFilterKeys.has(filter.key))
+		.filter((filter) => {
+			const normalized = normalizeFilterLabel(filter.label);
+			return normalized !== 'training' && normalized !== 'training session';
+		});
 
 	const filteredUpcomingEntries = (entries: UpcomingEntry[], filter: FilterOption): UpcomingEntry[] => {
 		if (filter === 'training') {
@@ -478,7 +490,7 @@ $: happeningEntries = [...happeningTrainingEntries].sort(
 										: 'border-gray-200 bg-white text-gray-500 hover:text-gray-700'
 								}`}
 							>
-								{filter.label}
+								{getEventTypeChipLabel(filter)}
 							</button>
 						{/each}
 					{/if}

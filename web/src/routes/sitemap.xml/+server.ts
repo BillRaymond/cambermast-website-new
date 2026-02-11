@@ -1,5 +1,6 @@
 import { SITE_ORIGIN } from '$lib/config/site';
 import catalog from '$lib/data/catalog.json';
+import { listEvents } from '$lib/data/events';
 import { listNewsPosts } from '$lib/data/news';
 import { listTrainingPrograms } from '$lib/data/training';
 
@@ -12,7 +13,7 @@ const staticRoutes = [
 	'/agents',
 	'/strategy',
 	'/training',
-	'/calendar',
+	'/events',
 	'/training/table',
 	'/training/print',
 	'/training/terms',
@@ -26,7 +27,7 @@ const staticRoutes = [
 	'/services/microsoft-project-server'
 ];
 
-const excludedPrefixes = ['/internal', '/forms', '/tools', '/campaigns', '/techlab'];
+const excludedPrefixes = ['/internal', '/admin', '/forms', '/tools', '/campaigns', '/techlab'];
 
 const shouldExclude = (route: string): boolean =>
 	excludedPrefixes.some((prefix) => route === prefix || route.startsWith(`${prefix}/`));
@@ -48,13 +49,16 @@ const getTrainingRoutes = (): string[] =>
 	listTrainingPrograms().map((program) => program.route ?? `/training/${program.slug}`);
 
 const getNewsRoutes = (): string[] => listNewsPosts().map((post) => `/news/${post.slug}`);
+const getEventRoutes = (): string[] =>
+	listEvents({ includeDrafts: false, includeUnlisted: false }).map((event) => `/events/${event.slug}`);
 const uniquePaths = (): string[] => {
 	const paths = new Set<string>();
 	for (const path of [
 		...staticRoutes,
 		...getCatalogRoutes(),
 		...getTrainingRoutes(),
-		...getNewsRoutes()
+		...getNewsRoutes(),
+		...getEventRoutes()
 	]) {
 		if (!path) continue;
 		const normalized = path.startsWith('/') ? path : `/${path}`;

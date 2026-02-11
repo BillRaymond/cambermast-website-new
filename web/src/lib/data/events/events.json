@@ -1,49 +1,74 @@
 {
 	"events": [
 		{
-			"id": "evt-leadership-ai-accelerating-teams",
-			"slug": "leadership-in-the-age-of-ai-accelerating-how-teams-work",
-			"title": "Leadership in the Age of AI: Accelerating how Teams Work",
+			"id": "evt_20260127_1000_training_session_NONE",
+			"slug": "ai-workshop-for-tech-writers-and-content-creators-winter-2026",
+			"title": "AI Workshop for Tech Writers and Content Creators",
+			"type": "training_session",
+			"typeLabel": "Training",
+			"tagline": "Eight-week live cohort focused on practical AI workflows",
+			"summary": "A live cohort for technical writers and content teams to build practical AI systems for drafting, editing, and governance.",
+			"description": "This multi-session workshop combines strategy and hands-on implementation. Participants build repeatable workflows for research, drafting, editing, and quality checks while preserving voice, review standards, and governance expectations.",
+			"highlights": [
+				"Structured prompting systems for high-quality first drafts",
+				"Editorial quality controls and policy-aligned review loops",
+				"Reusable workflow templates for documentation teams"
+			],
+			"startAtUtc": "2026-01-27T18:00:00.000Z",
+			"endAtUtc": "2026-03-10T20:00:00.000Z",
+			"visibility": "public",
+			"lifecycleStatus": "scheduled",
+			"registrationStatus": "closed",
+			"cta": {
+				"label": "Enrollment closed",
+				"url": "/training/ai-workshop-for-content-creators",
+				"campaignId": "evt-20260127-1000-training-session-none"
+			},
+			"location": {
+				"mode": "online",
+				"publicLabel": "Online",
+				"detailsVisibility": "public"
+			},
+			"programRef": {
+				"programSlug": "ai-workshop-for-content-creators"
+			},
+			"relatedProgramSlugs": ["ai-workshop-for-content-creators"],
+			"partnerCode": "NONE",
+			"campaignId": "evt-20260127-1000-training-session-none",
+			"imageAlt": "AI Workshop for Tech Writers and Content Creators"
+		},
+		{
+			"id": "evt_20260218_1300_webinar_TLB",
+			"slug": "vibe-coding-webinar-feb-2026",
+			"title": "Vibe Coding Webinar",
 			"type": "webinar",
 			"typeLabel": "Webinar",
-			"tagline": "Live session on leadership habits that make AI an accelerator",
-			"summary": "A free, 1-hour webinar on leading high-performing teams in the age of AI, with real examples from leaders using AI automation to deliver results faster.",
-			"description": "What does it take to lead high-performing teams in the age of AI? In this live session, three industry leaders who leverage AI automation to increase productivity and deliver results faster will share their experiences and discuss how you can build high-performance teams. You will hear real stories, experience from the field, tough questions to ask yourself, and takeaways you can apply with your teams immediately.",
+			"tagline": "Practical demos for modern vibe coding workflows",
+			"summary": "A focused webinar on building and debugging vibe coding workflows that are practical for cross-functional teams.",
+			"description": "Join this live session for a practical walk-through of vibe coding methods, demo patterns, and implementation mistakes to avoid. We will cover workflow setup, review checkpoints, and rollout guidance for real teams.",
 			"highlights": [
-				"How to build psychological safety and trust so your teams are empowered to do their best",
-				"Practical leadership habits that drive AI as an accelerator",
-				"The new AI fluency skills every manager needs to stay relevant",
-				"Real-world examples of what a 10x manager looks like today"
+				"Practical workflow patterns you can apply immediately",
+				"Prompt-to-production handoff techniques",
+				"Operational guardrails for team adoption"
 			],
-			"date": "February 9, 2026",
-			"time": "2:00 PM – 3:00 PM PT",
-			"timezone": "PT",
-			"startAt": "2026-02-09T22:00:00.000Z",
-			"endAt": "2026-02-09T23:00:00.000Z",
-			"location": "Zoom",
-			"registerUrl": "https://luma.com/aic-sf-9-18",
-			"registerLabel": "Request to Join",
-			"image": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,dpr=2,background=white,quality=75,width=400,height=400/event-covers/7i/e51cbe3a-a57d-458b-8753-f56be560c265.png",
-			"imageAlt": "Leadership in the Age of AI: Accelerating how Teams Work webinar cover art",
-			"speakers": [
-				{
-					"name": "Adelina Martiniuc",
-					"title": "Founder & CEO @ RoryPlans.ai"
-				},
-				{
-					"name": "Bill Raymond",
-					"title": "CEO, Cambermast LLC & Author at BillTalksAI.com"
-				},
-				{
-					"name": "Magda Jary",
-					"title": "Doctoral researcher; former Google professional"
-				},
-				{
-					"name": "AJ Green",
-					"title": "Host"
-				}
-			],
-			"draft": true
+			"startAtUtc": "2026-02-18T21:00:00.000Z",
+			"endAtUtc": "2026-02-18T22:00:00.000Z",
+			"visibility": "public",
+			"lifecycleStatus": "scheduled",
+			"registrationStatus": "external",
+			"cta": {
+				"label": "Register on Luma",
+				"url": "https://luma.com/your-event",
+				"campaignId": "evt-20260218-1300-webinar-tlb"
+			},
+			"location": {
+				"mode": "online",
+				"publicLabel": "Online",
+				"detailsVisibility": "public"
+			},
+			"partnerCode": "TLB",
+			"campaignId": "evt-20260218-1300-webinar-tlb",
+			"imageAlt": "Vibe Coding Webinar event artwork"
 		}
 	]
 }

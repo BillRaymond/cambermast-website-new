@@ -1,9 +1,8 @@
-import { listEvents } from '$lib/data/events';
+import { redirect } from '@sveltejs/kit';
 import type { PageLoad } from './$types';
 
 export const prerender = true;
 
 export const load: PageLoad = () => {
-	const events = listEvents();
-	return { events };
+	throw redirect(308, '/events');
 };

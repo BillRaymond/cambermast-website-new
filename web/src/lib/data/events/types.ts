@@ -1,14 +1,27 @@
 export type KnownEventType =
-	| 'event'
+	| 'training_session'
 	| 'webinar'
-	| 'talk'
+	| 'conference_talk'
+	| 'community'
 	| 'workshop'
+	| 'talk'
 	| 'panel'
 	| 'roundtable'
 	| 'fireside'
+	| 'event'
 	| 'other';
 
 export type EventType = KnownEventType | (string & {});
+
+export type EventVisibility = 'public' | 'unlisted' | 'draft';
+
+export type EventLifecycleStatus = 'scheduled' | 'postponed' | 'canceled' | 'completed';
+
+export type EventRegistrationStatus = 'open' | 'closed' | 'external' | 'none' | 'waitlist' | 'sold_out';
+
+export type EventLocationMode = 'online' | 'in_person' | 'hybrid';
+
+export type EventLocationDetailsVisibility = 'public' | 'post_signup' | 'tbd';
 
 export type EventSpeaker = {
 	name: string;
@@ -17,27 +30,79 @@ export type EventSpeaker = {
 	photoAlt?: string;
 };
 
-export type Event = {
+export type EventCta = {
+	label: string;
+	url?: string;
+	campaignId?: string;
+};
+
+export type EventLocation = {
+	mode: EventLocationMode;
+	publicLabel: string;
+	detailsVisibility: EventLocationDetailsVisibility;
+	joinUrl?: string;
+};
+
+export type EventProgramRef = {
+	programSlug: string;
+};
+
+export type EventDescription = {
+	summary?: string;
+	bodyMd?: string;
+};
+
+export type EventLinks = {
+	recordingUrl?: string;
+	slidesUrl?: string;
+	conferenceUrl?: string;
+};
+
+export type EventSource = {
 	id: string;
 	slug: string;
 	title: string;
 	type: EventType;
-	typeLabel?: string;
-	tagline?: string;
 	summary: string;
-	description: string;
+	startAtUtc: string;
+	endAtUtc?: string;
+	visibility: EventVisibility;
+	lifecycleStatus: EventLifecycleStatus;
+	registrationStatus: EventRegistrationStatus;
+	cta: EventCta;
+	location: EventLocation;
+	tagline?: string;
+	description?: string | EventDescription;
 	highlights?: string[];
-	date: string;
-	time?: string | string[];
-	timezone?: string;
-	startAt: string;
-	endAt?: string;
-	location?: string;
-	registerUrl: string;
-	registerLabel?: string;
 	image?: string;
 	imageAlt?: string;
 	speakers?: EventSpeaker[];
 	relatedProgramSlugs?: string[];
+	programRef?: EventProgramRef;
+	partnerCode?: string;
+	campaignId?: string;
+	links?: EventLinks;
 	draft?: boolean;
+	typeLabel?: string;
+	date?: string;
+	time?: string | string[];
+	timezone?: string;
+	startAt?: string;
+	endAt?: string;
+	registerUrl?: string;
+	registerLabel?: string;
+};
+
+export type Event = Omit<EventSource, 'location'> & {
+	locationMeta: EventLocation;
+	location: string;
+	typeLabel: string;
+	date: string;
+	time?: string | string[];
+	timezone: string;
+	startAt: string;
+	endAt?: string;
+	registerUrl: string;
+	registerLabel: string;
+	draft: boolean;
 };

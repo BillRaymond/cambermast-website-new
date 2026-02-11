@@ -1,0 +1,178 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://cambermast.com/schemas/events.schema.json",
+	"title": "Cambermast Event Registry",
+	"type": "object",
+	"additionalProperties": false,
+	"required": ["events"],
+	"properties": {
+		"events": {
+			"type": "array",
+			"items": {
+				"$ref": "#/$defs/event"
+			}
+		}
+	},
+	"$defs": {
+		"event": {
+			"type": "object",
+			"additionalProperties": false,
+			"required": [
+				"id",
+				"slug",
+				"title",
+				"type",
+				"summary",
+				"startAtUtc",
+				"visibility",
+				"lifecycleStatus",
+				"registrationStatus",
+				"cta",
+				"location"
+			],
+			"properties": {
+				"id": {
+					"type": "string",
+					"description": "Event identifier. Standard (new): 6-char base36 (^[a-z0-9]{6}$), immutable once created. Legacy evt_* IDs remain valid during migration.",
+					"pattern": "^(?:[a-z0-9]{6}|evt_[0-9]{8}_[0-9]{4}_[a-z0-9_]+_[A-Z0-9]{3,4})$"
+				},
+				"slug": {
+					"type": "string",
+					"pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+				},
+				"title": {
+					"type": "string",
+					"minLength": 1
+				},
+				"type": {
+					"type": "string",
+					"minLength": 1
+				},
+				"typeLabel": {
+					"type": "string"
+				},
+				"tagline": {
+					"type": "string"
+				},
+				"summary": {
+					"type": "string",
+					"minLength": 1
+				},
+				"description": {
+					"oneOf": [
+						{ "type": "string" },
+						{
+							"type": "object",
+							"additionalProperties": false,
+							"properties": {
+								"summary": { "type": "string" },
+								"bodyMd": { "type": "string" }
+							}
+						}
+					]
+				},
+				"highlights": {
+					"type": "array",
+					"items": { "type": "string" }
+				},
+				"startAtUtc": {
+					"type": "string",
+					"format": "date-time",
+					"pattern": "Z$"
+				},
+				"endAtUtc": {
+					"type": "string",
+					"format": "date-time",
+					"pattern": "Z$"
+				},
+				"visibility": {
+					"type": "string",
+					"enum": ["public", "unlisted", "draft"]
+				},
+				"lifecycleStatus": {
+					"type": "string",
+					"enum": ["scheduled", "postponed", "canceled", "completed"]
+				},
+				"registrationStatus": {
+					"type": "string",
+					"enum": ["open", "closed", "external", "none", "waitlist", "sold_out"]
+				},
+				"cta": {
+					"type": "object",
+					"additionalProperties": false,
+					"required": ["label"],
+					"properties": {
+						"label": { "type": "string", "minLength": 1 },
+						"url": { "type": "string" },
+						"campaignId": {
+							"type": "string",
+							"pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+						}
+					}
+				},
+				"location": {
+					"type": "object",
+					"additionalProperties": false,
+					"required": ["mode", "publicLabel", "detailsVisibility"],
+					"properties": {
+						"mode": {
+							"type": "string",
+							"enum": ["online", "in_person", "hybrid"]
+						},
+						"publicLabel": {
+							"type": "string",
+							"minLength": 1
+						},
+						"detailsVisibility": {
+							"type": "string",
+							"enum": ["public", "post_signup", "tbd"]
+						},
+						"joinUrl": {
+							"type": "string"
+						}
+					}
+				},
+				"speakers": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"additionalProperties": false,
+						"required": ["name", "title"],
+						"properties": {
+							"name": { "type": "string" },
+							"title": { "type": "string" },
+							"photo": { "type": "string" },
+							"photoAlt": { "type": "string" }
+						}
+					}
+				},
+				"relatedProgramSlugs": {
+					"type": "array",
+					"items": { "type": "string" }
+				},
+				"programRef": {
+					"type": "object",
+					"additionalProperties": false,
+					"required": ["programSlug"],
+					"properties": {
+						"programSlug": { "type": "string" }
+					}
+				},
+				"partnerCode": {
+					"type": "string",
+					"pattern": "^[A-Z0-9]{3,4}$"
+				},
+				"campaignId": {
+					"type": "string",
+					"pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+				},
+				"image": {
+					"type": "string"
+				},
+				"imageAlt": {
+					"type": "string"
+				}
+			}
+		}
+	}
+}
