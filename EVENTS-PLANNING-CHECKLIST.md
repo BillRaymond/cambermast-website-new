@@ -11,7 +11,7 @@ Purpose: Track architecture decisions and implementation progress for the unifie
   - `/internal/events` (events registry + status/campaign checks)
   - `/admin/events` (redirect alias to `/internal/events`)
 - Event detail route: `/events/[slug]` (countdown + CTA + partner panel)
-- Event detail route also supports related training back-link when `programRef.programSlug` (or `relatedProgramSlugs[0]`) is present.
+- Event detail route also supports related training back-link when `programRef.sku` is present.
 - Campaign short links: `/c/[id]` mapped in `web/src/lib/data/qr-campaigns.json`
 - Events API route: `/api/events.json`
 - Calendar filter behavior:
@@ -35,7 +35,7 @@ Purpose: Track architecture decisions and implementation progress for the unifie
   - Unified pill/meta ordering to match the “Happening now” card (pills first, then meta details).
 - Updated card link behavior:
   - `Learn more →` always goes to the event landing page (`/events/[slug]`) for event items.
-  - For course-style events (`type=training_session` + `programRef.programSlug`), the title links to the training program page (`/training/[slug]`).
+  - For course-style events (`type=training_session` + `programRef.sku`), the title links to the training program page (`/training/[slug]`).
   - For other events, title and `Learn more →` both link to the event landing page.
 - Improved registration button states:
   - Closed events render a disabled, non-clickable button using the event’s `cta.label` (ex: “Enrollment closed”).
@@ -93,6 +93,12 @@ Purpose: Track architecture decisions and implementation progress for the unifie
 - [x] Each list item includes a one-line summary.
 - [x] Use campaigns for CTA tracking/shortlinks into event landing pages.
 - [x] Add partner support with 3-letter code conventions.
+- [x] Make `web/src/lib/data/events/events.json` the canonical source for all scheduled items shown on `/events` (including training sessions).
+- [x] Use `programRef.sku` (for example `CM-TR-005`) as the canonical training-to-event join key.
+- [x] Use strict API split: `/api/events.json` is canonical schedule data; `/catalog.json` remains non-schedule catalog/program content.
+- [x] Remove `program.sessions` as a schedule source immediately (migrate all consumers to events registry).
+- [x] Add a hard validation gate for `web/src/lib/data/events/events.json` using JSON Schema (fail on invalid data).
+- [x] During current dev phase, keep `/events` listing limited to two seeded entries: AI Workshop for Tech Writers and Vibe Coding Webinar.
 
 ## 2) Target Information Architecture
 
@@ -152,6 +158,7 @@ Purpose: Track architecture decisions and implementation progress for the unifie
 - [x] Update `web/src/lib/data/events/events.json` to new schema.
 - [x] Add/adjust `/api` endpoint for events payload consumed by automations.
 - [x] Ensure campaigns endpoint integration remains compatible.
+- [ ] Add `events.json` schema validation script (AJV) and wire it into npm scripts as a hard gate.
 - [ ] Remove legacy resolver compatibility fields in `web/src/lib/data/events/index.ts` after all consumers move to canonical fields.
 
 ## 8) Content + Governance Sync
@@ -182,14 +189,15 @@ Purpose: Track architecture decisions and implementation progress for the unifie
 ## 11) Next High-Value Tasks
 
 - [ ] Remove legacy event resolver compatibility layer in `web/src/lib/data/events/index.ts` once consumers are migrated.
-- [ ] Finalize `/events` UX scope: keep mixed training/events feed vs events-only feed (current is mixed via `CalendarPage`).
-- [ ] Decide whether training sessions should be sourced from the events registry (and not the training catalog) for `/events` + “Happening now”.
+- [ ] Complete migration of `/events` and training surfaces to events-registry-only schedule reads (no `program.sessions` reads).
+- [ ] Remove legacy calendar listing sources so only seeded event entries appear during dev (AI Workshop + Vibe Coding Webinar).
 - [ ] Decide whether the `/events/[slug]` landing pages should display certificate/trailer chips (right now these are only on the `/events` listing cards).
 - [ ] Decide whether event cards should deep-link CTA through `/c/{campaignId}` by default for attribution.
 - [ ] Add editability workflow for ops (JSON editing guidance or lightweight tooling in `/internal/events`).
 - [ ] Decide whether to expose partner homepage links for all partners (currently only when set in catalog).
 - [ ] Optional: add `/admin/events` entry point in internal docs/navigation.
 - [ ] Optional cleanup: normalize old event IDs (`evt_...`) to 6-char base36 after migration plan is approved.
+- [ ] Keep `web/src/lib/data/training/index.ts` manual imports for now; revisit auto-discovery (`import.meta.glob`) after `/events` migration stabilizes.
 - [ ] Optional UI polish: add explicit "Archived" state treatment on `/events/[slug]` for non-promoted but reachable events.
 
 ## 12) Working Notes

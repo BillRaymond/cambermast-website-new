@@ -4,6 +4,7 @@
 	type UpcomingSessionSlide = {
 		id: string;
 		kind?: 'training' | 'event' | 'external';
+		kindLabel?: string;
 		programTitle: string;
 		sessionLabel?: string | null;
 		date: string;
@@ -119,11 +120,22 @@
 
 	const getStatusLabel = (slide: UpcomingSessionSlide): string => {
 		if (slide.isHappeningNow) return 'Happening now';
+		if (slide.kindLabel) return `Upcoming ${slide.kindLabel.toLowerCase()}`;
 		if (slide.kind === 'event' || slide.kind === 'external') return 'Upcoming event';
 		return 'Upcoming session';
 	};
 
 	const getBadge = (slide: UpcomingSessionSlide): { label: string; className: string } => {
+		if (slide.kindLabel) {
+			const normalized = slide.kindLabel.trim().toLowerCase();
+			const isTrainingLike = normalized === 'training' || normalized === 'training session';
+			return {
+				label: slide.kindLabel,
+				className: isTrainingLike
+					? 'border-blue-200 bg-blue-600/10 text-blue-700'
+					: 'border-emerald-200 bg-emerald-600/10 text-emerald-700'
+			};
+		}
 		if (slide.kind === 'event' || slide.kind === 'external') {
 			return {
 				label: 'Event',

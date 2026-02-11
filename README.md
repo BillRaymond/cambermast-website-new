@@ -40,12 +40,8 @@ These two documents live in the repo root as the source of truth. The SvelteKit 
 ## URL Aliases & Redirects
 
 - `/training-programs` redirects to `/training` to support legacy or marketing links to the catalog.
-- `/training/calendar` is an alias for `/calendar` so existing links land on the canonical calendar.
-- `/calendar` is the public hub for training sessions and event listings.
-
-## Dev-Only Routes
-
-- `/events` and `/events/[slug]` are currently for internal development and are not published in production builds or listed in the sitemap. Treat them as a private tool suite until events become a public-facing offering.
+- `/events` is the canonical public calendar of events route.
+- `/calendar` redirects to `/events` as a legacy alias.
 
 ## Privacy, GDPR & Cookies
 

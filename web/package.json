@@ -4,19 +4,20 @@
 	"version": "0.0.1",
 	"type": "module",
 	"scripts": {
-		"prebuild": "node ./scripts/sync-site-metadata.mjs",
+		"prebuild": "node ./scripts/sync-site-metadata.mjs && npm run validate:events",
 		"dev": "vite dev",
-		"predev": "node ./scripts/sync-site-metadata.mjs",
+		"predev": "node ./scripts/sync-site-metadata.mjs && npm run validate:events",
 		"dev:host": "vite dev --host 0.0.0.0 --port 5173",
 		"build": "vite build",
 		"preview": "vite preview",
-		"prepreview": "node ./scripts/sync-site-metadata.mjs",
+		"prepreview": "node ./scripts/sync-site-metadata.mjs && npm run validate:events",
 		"prepare": "svelte-kit sync || echo ''",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"format": "prettier --write .",
 		"lint": "prettier --check . && eslint .",
-		"validate:qr": "node ./scripts/validate-qr-campaigns.mjs"
+		"validate:qr": "node ./scripts/validate-qr-campaigns.mjs",
+		"validate:events": "node ./scripts/validate-events.mjs"
 	},
 	"devDependencies": {
 		"@eslint/compat": "^1.2.5",

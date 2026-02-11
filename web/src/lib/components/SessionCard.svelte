@@ -3,11 +3,11 @@
 	export let date: string | undefined;
 	export let time: string | string[] | undefined;
 	export let location: string | undefined;
-	export let eyebrow: string | undefined;
-	export let subtitle: string | undefined;
-	export let ctaUrl: string | undefined;
+	export let eyebrow: string | undefined = undefined;
+	export let subtitle: string | undefined = undefined;
+	export let ctaUrl: string | undefined = undefined;
 	export let ctaLabel = 'Register ↗';
-	export let statusLabel: string | undefined;
+	export let statusLabel: string | undefined = undefined;
 	export let scheduleTeam = false;
 	export let tone: 'upcoming' | 'happening' | 'neutral' = 'upcoming';
 

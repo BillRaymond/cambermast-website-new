@@ -16,7 +16,7 @@ export const load: PageLoad = ({ params }) => {
 
 	const relatedEvents = listEvents()
 		.filter((event) => isEventUpcoming(event))
-		.filter((event) => event.relatedProgramSlugs?.includes(program.slug));
+		.filter((event) => event.programRef?.sku === program.sku);
 
 	return { program, relatedEvents };
 };

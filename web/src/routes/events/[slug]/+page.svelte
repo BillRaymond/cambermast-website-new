@@ -122,6 +122,9 @@
 			<h1 class="mt-4 text-3xl font-semibold tracking-tight text-slate-900 md:text-4xl">
 				{event.title}
 			</h1>
+			{#if event.subtitle}
+				<p class="mt-2 text-sm font-semibold tracking-wide text-slate-600 uppercase">{event.subtitle}</p>
+			{/if}
 			<p class="mt-4 text-base text-slate-700 md:text-lg">{event.summary}</p>
 
 			<div

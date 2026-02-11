@@ -3,20 +3,12 @@
 	import SessionCard from '$lib/components/SessionCard.svelte';
 	import { getEventTypeLabel } from '$lib/data/events';
 	import type { Event } from '$lib/data/events/types';
-	import type {
-		TrainingFaq,
-		TrainingProgram,
-		TrainingSession,
-		TrainingStat
-	} from '$lib/data/training/types';
+	import type { TrainingFaq, TrainingProgram, TrainingStat } from '$lib/data/training/types';
 	import {
-		getSessionStartTimestamp,
-		hasExternalRegistration,
-		isSessionDraft,
-		isSessionHappeningNow,
-		isSessionUpcoming,
-		normalizeToday
-	} from '$lib/data/training/session-utils';
+		listHappeningTrainingEntriesForProgram,
+		listUpcomingTrainingEntriesForProgram,
+		type TrainingScheduleEntry
+	} from '$lib/data/training/schedule';
 	import {
 		listTestimonialsForSku,
 		listTestimonialsForSlug,
@@ -40,13 +32,10 @@
 	let statsBeforeCta: TrainingStat[] = [];
 	let statsAfterCta: TrainingStat[] = [];
 	let ctaInsertIndex = -1;
-	const today = normalizeToday();
-	const now = new Date();
-	let nonDraftSessions: TrainingSession[] = [];
-	let upcomingSessions: TrainingSession[] = [];
-	let happeningSessions: TrainingSession[] = [];
-	let registerableSessions: TrainingSession[] = [];
-	let featuredRegistrationSession: TrainingSession | undefined;
+	let upcomingSessions: TrainingScheduleEntry[] = [];
+	let happeningSessions: TrainingScheduleEntry[] = [];
+	let registerableSessions: TrainingScheduleEntry[] = [];
+	let featuredRegistrationSession: TrainingScheduleEntry | undefined;
 	let videoEmbedUrl: string | undefined;
 	let certificateText: string | undefined;
 	let programTestimonials: Testimonial[] = [];
@@ -118,36 +107,9 @@
 		statsAfterCta = ctaInsertIndex >= 0 ? stats.slice(ctaInsertIndex + 1) : [];
 	}
 
-	$: nonDraftSessions = program?.sessions?.filter((session) => !isSessionDraft(session)) ?? [];
-
-	const formatSessionDate = (value?: string): string | undefined => {
-		if (!value) return undefined;
-		const parsed = new Date(value);
-		if (Number.isNaN(parsed.valueOf())) return undefined;
-		return new Intl.DateTimeFormat('en-US', {
-			month: 'short',
-			day: 'numeric',
-			year: 'numeric'
-		}).format(parsed);
-	};
-
-	const getHappeningLabel = (session: TrainingSession): string => {
-		const end = formatSessionDate(session.endDate);
-		return 'Enrollment closed, running now';
-	};
-
-	const isUpcomingSession = (session: TrainingSession): boolean => {
-		if (!session.startDate) return true;
-		return !isSessionHappeningNow(session, now) && isSessionUpcoming(session, today);
-	};
-
-	$: upcomingSessions = nonDraftSessions.filter((session) => isUpcomingSession(session));
-
-	$: happeningSessions = nonDraftSessions.filter((session) =>
-		session.startDate ? isSessionHappeningNow(session, now) : false
-	);
-
-	$: registerableSessions = upcomingSessions.filter((session) => hasExternalRegistration(session));
+	$: upcomingSessions = listUpcomingTrainingEntriesForProgram(program?.sku);
+	$: happeningSessions = listHappeningTrainingEntriesForProgram(program?.sku);
+	$: registerableSessions = upcomingSessions.filter((session) => Boolean(session.registerUrl));
 	$: videoEmbedUrl = getVideoEmbedUrl(program?.videoUrl);
 	$: certificateText = toStatText(getStatByLabel(program?.stats, 'certificate')?.value);
 	$: faqsWithTerms = program?.faqs?.length ? [...program.faqs, trainingTermsFaq] : [];
@@ -157,7 +119,7 @@
 			featuredRegistrationSession = undefined;
 		} else {
 			const sorted = [...registerableSessions].sort(
-				(a, b) => getSessionStartTimestamp(a) - getSessionStartTimestamp(b)
+				(a, b) => a.startTimestamp - b.startTimestamp
 			);
 			featuredRegistrationSession = sorted[0];
 		}
@@ -235,16 +197,15 @@
 							Upcoming dates
 						</p>
 						<div class="mt-3 grid gap-3">
-							{#each registerableSessions as session ((session.registerUrl ?? '') + session.name + session.date)}
+							{#each registerableSessions as session (session.id)}
 								<SessionCard
-									title={session.name}
+									title={session.title}
+									subtitle={session.subtitle}
 									date={session.date}
 									time={session.time}
 									location={session.location}
 									ctaUrl={session.registerUrl}
-									ctaLabel={session.registerUrl === '/contact'
-										? 'Schedule your team'
-										: 'Register now'}
+									ctaLabel={session.registerLabel ?? 'Register now'}
 									scheduleTeam={session.registerUrl === '/contact'}
 									tone="upcoming"
 								/>
@@ -457,13 +418,14 @@
 		<section class="rounded-2xl border border-blue-200 bg-white p-5 shadow">
 			<h2 class="text-2xl font-semibold text-gray-900">Happening now</h2>
 			<div class="mt-3.5 grid gap-3 md:grid-cols-2">
-				{#each happeningSessions as session ((session.registerUrl ?? '') + session.name + session.date)}
+				{#each happeningSessions as session (session.id)}
 					<SessionCard
-						title={session.name}
+						title={session.title}
+						subtitle={session.subtitle}
 						date={session.date}
 						time={session.time}
 						location={session.location}
-						statusLabel={getHappeningLabel(session)}
+						statusLabel="Enrollment closed, running now"
 						tone="happening"
 					/>
 				{/each}
@@ -550,15 +512,16 @@
 				<div class="rounded-2xl bg-white p-5 shadow">
 					<h3 class="text-lg font-semibold text-gray-900">Upcoming dates</h3>
 					<ul class="mt-3.5 space-y-4">
-						{#each registerableSessions as session (session.registerUrl + session.date)}
+						{#each registerableSessions as session (session.id)}
 							<li>
 								<SessionCard
-									title={session.name}
+									title={session.title}
+									subtitle={session.subtitle}
 									date={session.date}
 									time={session.time}
 									location={session.location}
 									ctaUrl={session.registerUrl}
-									ctaLabel="Register now"
+									ctaLabel={session.registerLabel ?? 'Register now'}
 									tone="upcoming"
 								/>
 							</li>
@@ -569,7 +532,7 @@
 		</section>
 	{/if}
 
-	{#if program.sessions?.length && program.primaryCta}
+	{#if (registerableSessions.length || happeningSessions.length) && program.primaryCta}
 		<div
 			class="rounded-2xl border border-blue-100 bg-gradient-to-r from-blue-50 to-white p-5 shadow md:flex md:items-center md:justify-between"
 		>

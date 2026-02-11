@@ -3,19 +3,9 @@
 <script lang="ts">
 	import { page } from '$app/state';
 	import catalog from '$lib/data/catalog.json';
-	import { listTrainingPrograms } from '$lib/data/training';
-	import {
-		normalizeToday,
-		isSessionUpcoming,
-		hasExternalRegistration
-	} from '$lib/data/training/session-utils';
+	import { listUpcomingTrainingScheduleEntries } from '$lib/data/training/schedule';
 
-	const today = normalizeToday();
-	const upcomingExists = listTrainingPrograms().some((program) =>
-		(program.sessions ?? []).some(
-			(session) => hasExternalRegistration(session) && isSessionUpcoming(session, today)
-		)
-	);
+	const upcomingExists = listUpcomingTrainingScheduleEntries().length > 0;
 
 	const {
 		vertical = false,

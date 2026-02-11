@@ -1,19 +1,16 @@
 <script lang="ts">
 	import catalog from '$lib/data/catalog.json';
 	import { getTrainingProgram } from '$lib/data/training';
-	import type { TrainingProgram, TrainingSession } from '$lib/data/training/types';
+	import type { TrainingProgram } from '$lib/data/training/types';
 	import CatalogCard from '$lib/components/training/CatalogCard.svelte';
 	import type { CatalogCardData } from '$lib/components/training/catalog-card-data';
 	import { getSeo } from '$lib/seo';
 	import SeoHead from '$lib/components/SeoHead.svelte';
 	import { getProgramCertificateText } from '$lib/data/training/program-meta';
 	import {
-		hasExternalRegistration,
-		isSessionDraft,
-		isSessionHappeningNow,
-		isSessionUpcoming,
-		normalizeToday
-	} from '$lib/data/training/session-utils';
+		listHappeningTrainingEntriesForProgram,
+		listUpcomingTrainingEntriesForProgram
+	} from '$lib/data/training/schedule';
 
 	const section = catalog.agents;
 	const scheduleTeamLabel = 'Schedule your team';
@@ -38,23 +35,6 @@
 		return slug ? getTrainingProgram(slug) : undefined;
 	};
 
-	const today = normalizeToday();
-	const now = new Date();
-	const getVisibleSessions = (program?: TrainingProgram): TrainingSession[] =>
-		(program?.sessions ?? []).filter((session) => !isSessionDraft(session));
-	const gatherUpcomingSessions = (program?: TrainingProgram): TrainingSession[] =>
-		getVisibleSessions(program).filter(
-			(session) =>
-				session.startDate &&
-				hasExternalRegistration(session) &&
-				isSessionUpcoming(session, today) &&
-				!isSessionHappeningNow(session, now)
-		);
-	const gatherHappeningSessions = (program?: TrainingProgram): TrainingSession[] =>
-		getVisibleSessions(program).filter((session) =>
-			session.startDate ? isSessionHappeningNow(session, now) : false
-		);
-
 	const withSourceQuery = (route?: string): string | undefined => {
 		if (!route) return undefined;
 		const separator = route.includes('?') ? '&' : '?';
@@ -70,8 +50,25 @@
 		.map((item) => {
 			const program = getProgram(item.route);
 			const durationStat = program?.stats?.find((stat) => stat.label?.toLowerCase() === 'duration');
-			const upcomingSessions = gatherUpcomingSessions(program);
-			const happeningSessions = gatherHappeningSessions(program);
+			const upcomingSessions = listUpcomingTrainingEntriesForProgram(program?.sku).map((entry) => ({
+				id: entry.id,
+				title: program?.title ?? entry.title,
+				subtitle: entry.subtitle,
+				date: entry.date,
+				time: entry.time,
+				location: entry.location,
+				registerUrl: entry.registerUrl,
+				registerLabel: entry.registerLabel
+			}));
+			const happeningSessions = listHappeningTrainingEntriesForProgram(program?.sku).map((entry) => ({
+				id: entry.id,
+				title: program?.title ?? entry.title,
+				subtitle: entry.subtitle,
+				date: entry.date,
+				time: entry.time,
+				location: entry.location,
+				statusLabel: 'Enrollment closed, running now'
+			}));
 
 			return {
 				...item,

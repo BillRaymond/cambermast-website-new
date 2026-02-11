@@ -138,16 +138,16 @@
 					Upcoming sessions
 				</p>
 				<ul class="mt-2 space-y-2.5">
-					{#each item.upcomingSessions as session (session.registerUrl + session.date)}
+					{#each item.upcomingSessions as session (session.id)}
 						<li>
 							<SessionCard
-								title={item.title}
-								subtitle={session.name}
+								title={session.title}
+								subtitle={session.subtitle}
 								date={session.date}
 								time={session.time}
 								location={session.location}
 								ctaUrl={session.registerUrl}
-								ctaLabel="Register now"
+								ctaLabel={session.registerLabel ?? 'Register now'}
 								tone="upcoming"
 							/>
 						</li>
@@ -180,14 +180,15 @@
 							Happening now
 						</p>
 						<ul class="mt-2 space-y-2.5">
-							{#each item.happeningSessions as session (session.name + (session.startDate ?? session.date))}
+							{#each item.happeningSessions as session (session.id)}
 								<li>
 									<SessionCard
-										title={session.name}
+										title={session.title}
+										subtitle={session.subtitle}
 										date={session.date}
 										time={session.time}
 										location={session.location}
-										statusLabel="Enrollment closed, running now"
+										statusLabel={session.statusLabel ?? 'Enrollment closed, running now'}
 										tone="happening"
 									/>
 								</li>

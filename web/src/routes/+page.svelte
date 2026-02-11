@@ -16,19 +16,15 @@
 	import type { Event } from '$lib/data/events/types';
 	import type { ExternalEvent } from '$lib/data/external-events';
 	import { listTrainingPrograms } from '$lib/data/training';
-	import type { TrainingProgram, TrainingSession } from '$lib/data/training/types';
+	import type { TrainingProgram } from '$lib/data/training/types';
 	import { listTestimonials, type Testimonial } from '$lib/data/testimonials';
 	import { getSeo } from '$lib/seo';
 	import SeoHead from '$lib/components/SeoHead.svelte';
 	import {
-		getSessionStartTimestamp,
-		hasExternalRegistration,
-		isSessionDraft,
-		isSessionHappeningNow,
-		isSessionUpcoming,
-		normalizeToday
-	} from '$lib/data/training/session-utils';
-	import { getProgramCertificateText } from '$lib/data/training/program-meta';
+		listHappeningTrainingEventsWithPrograms,
+		listUpcomingTrainingEventsWithPrograms,
+		type TrainingScheduleEntry
+	} from '$lib/data/training/schedule';
 
 	const year = new Date().getFullYear();
 	let showLumaEmbed = false;
@@ -87,14 +83,13 @@
 		.filter(([slug, sec]) => slug !== 'home' && Boolean(sec?.label) && Boolean(sec?.headline))
 		.map(([slug, sec]) => ({ slug, ...sec })) as Array<{ slug: string } & CatalogSection>;
 
-	const today = normalizeToday();
-	const now = new Date();
-	const endDateFormatter = new Intl.DateTimeFormat('en-US', {
-		month: 'short',
-		day: 'numeric',
-		year: 'numeric'
-	});
+	const normalizeToday = (reference: Date = new Date()): Date => {
+		const normalized = new Date(reference);
+		normalized.setHours(0, 0, 0, 0);
+		return normalized;
+	};
 
+	const today = normalizeToday();
 	const trustedBy: TrustedByOrg[] = [
 		{
 			name: 'Microsoft',
@@ -154,29 +149,18 @@
 		{ name: 'Red Hat', url: 'https://www.redhat.com/', logoSrc: '/images/trusted-by/red-hat.png' }
 	];
 
-	const formatEndLabel = (value?: string): string => {
-		if (!value) return 'current cohort';
-		const parsed = new Date(value);
-		if (Number.isNaN(parsed.valueOf())) return value;
-		return endDateFormatter.format(parsed);
-	};
-
 	type UpcomingTrainingEntry = {
 		type: 'training';
 		program: TrainingProgram;
-		session: TrainingSession;
+		entry: TrainingScheduleEntry;
 		startTimestamp: number;
-		certificateText?: string;
-		videoUrl?: string;
 	};
 
 	type HappeningTrainingEntry = {
 		type: 'happening';
 		program: TrainingProgram;
-		session: TrainingSession;
+		entry: TrainingScheduleEntry;
 		startTimestamp: number;
-		certificateText?: string;
-		videoUrl?: string;
 	};
 
 	type UpcomingExternalEntry = {
@@ -199,16 +183,6 @@
 
 	const toTimeLines = (value?: string | string[]): string[] =>
 		Array.isArray(value) ? value : value ? [value] : [];
-
-	const getSessionMeta = (program: TrainingProgram, session: TrainingSession) => {
-		const trimmedName = session.name?.trim();
-		const sessionLabel =
-			trimmedName && trimmedName.length > 0 && trimmedName !== program.title ? trimmedName : null;
-		return {
-			primaryTitle: program.title,
-			sessionLabel
-		};
-	};
 
 	const formatTestimonialRole = (testimonial: Testimonial): string | undefined => {
 		if (testimonial.jobTitle && testimonial.company) {
@@ -242,31 +216,23 @@
 		};
 	};
 
-	const trainingSessionEntries = listTrainingPrograms()
-		.flatMap((program: TrainingProgram) =>
-			(program.sessions ?? []).map((session) => ({ program, session }))
-		)
-		.filter(({ session }) => !isSessionDraft(session));
+	const upcomingTrainingEntries: UpcomingTrainingEntry[] = listUpcomingTrainingEventsWithPrograms(
+		{},
+		today
+	).map(({ program, entry }) => ({
+		type: 'training',
+		program,
+		entry,
+		startTimestamp: entry.startTimestamp
+	}));
 
-	const upcomingTrainingEntries: UpcomingTrainingEntry[] = trainingSessionEntries
-		.filter(
-			({ session }) =>
-				session.startDate &&
-				hasExternalRegistration(session) &&
-				isSessionUpcoming(session, today) &&
-				!isSessionHappeningNow(session, now)
-		)
-		.map(({ program, session }) => ({
-			type: 'training' as const,
+	const happeningTrainingEntries: HappeningTrainingEntry[] = listHappeningTrainingEventsWithPrograms().map(
+		({ program, entry }) => ({
+			type: 'happening',
 			program,
-			session,
-			startTimestamp: getSessionStartTimestamp(session),
-			certificateText: getProgramCertificateText(program),
-			videoUrl: program.videoUrl
-		}));
-
-	const happeningTrainingEntries = trainingSessionEntries.filter(({ session }) =>
-		session.startDate ? isSessionHappeningNow(session, now) : false
+			entry,
+			startTimestamp: entry.startTimestamp
+		})
 	);
 
 	const upcomingExternalEntries: UpcomingExternalEntry[] = listExternalEvents()
@@ -286,13 +252,11 @@
 		}));
 
 	const happeningItems: HappeningTrainingEntry[] = happeningTrainingEntries.map(
-		({ program, session }) => ({
-			type: 'happening' as const,
+		({ program, entry }) => ({
+			type: 'happening',
 			program,
-			session,
-			startTimestamp: getSessionStartTimestamp(session),
-			certificateText: getProgramCertificateText(program),
-			videoUrl: program.videoUrl
+			entry,
+			startTimestamp: entry.startTimestamp
 		})
 	);
 
@@ -300,18 +264,6 @@
 		const priority = item.type === 'happening' ? 1 : 0;
 		return { priority, timestamp: item.startTimestamp };
 	};
-
-	const upcomingItems: UpcomingEntry[] = [
-		...upcomingTrainingEntries,
-		...upcomingExternalEntries,
-		...upcomingEventEntries,
-		...happeningItems
-	].sort((a, b) => {
-		const aKey = getUpcomingSortKey(a);
-		const bKey = getUpcomingSortKey(b);
-		if (aKey.priority !== bKey.priority) return aKey.priority - bKey.priority;
-		return aKey.timestamp - bKey.timestamp;
-	});
 
 	const programRoutesWithUpcoming = new Set(
 		upcomingTrainingEntries.map(({ program }) => program.route)
@@ -323,22 +275,19 @@
 
 	const upcomingSessionsByRoute = new Map<string, UpcomingSessionCard[]>();
 
-	upcomingTrainingEntries.forEach(({ program, session }, index) => {
-		if (!program.route || !session.date) return;
-		const trimmedSessionName = session.name?.trim();
-		const sessionTitle =
-			trimmedSessionName && trimmedSessionName !== program.title ? trimmedSessionName : undefined;
-		const entry: UpcomingSessionCard = {
-			id: `${program.slug}-${session.startDate ?? session.endDate ?? index}`,
+	upcomingTrainingEntries.forEach(({ program, entry }, index) => {
+		if (!program.route || !entry.date) return;
+		const upcomingSession: UpcomingSessionCard = {
+			id: `${program.slug}-${entry.event.id}-${index}`,
 			programTitle: program.title,
-			sessionTitle,
-			date: session.date,
-			timeLines: toTimeLines(session.time),
-			location: session.location,
-			registerUrl: session.registerUrl ?? undefined
+			sessionTitle: entry.subtitle,
+			date: entry.date,
+			timeLines: toTimeLines(entry.time),
+			location: entry.location,
+			registerUrl: entry.registerUrl ?? undefined
 		};
 		const existing = upcomingSessionsByRoute.get(program.route) ?? [];
-		existing.push(entry);
+		existing.push(upcomingSession);
 		upcomingSessionsByRoute.set(program.route, existing);
 	});
 
@@ -396,8 +345,10 @@
 	const buildEventSlide = (entry: UpcomingEventEntry, index: number) => ({
 		id: `${entry.event.id}-${entry.event.startAt ?? index.toString(10)}`,
 		kind: 'event' as const,
+		kindLabel: getEventTypeLabel(entry.event),
 		programTitle: entry.event.title,
-		sessionLabel: `${getEventTypeLabel(entry.event)}${entry.event.draft ? ' · Draft' : ''}`,
+		sessionLabel:
+			entry.event.subtitle ?? `${getEventTypeLabel(entry.event)}${entry.event.draft ? ' · Draft' : ''}`,
 		date: entry.event.date,
 		timeLines: toTimeLines(entry.event.time),
 		location: entry.event.location,
@@ -408,78 +359,9 @@
 		isHappeningNow: false
 	});
 
-	const upcomingSlides = upcomingItems.map((entry, index) => {
-		if (entry.type === 'event') {
-			return buildEventSlide(entry, index);
-		}
-
-		if (entry.type === 'training') {
-			const meta = getSessionMeta(entry.program, entry.session);
-			return {
-				id:
-					entry.program.slug +
-					'-' +
-					(entry.session.startDate ?? entry.session.date ?? index.toString(10)),
-				kind: 'training' as const,
-				programTitle: entry.program.title,
-				sessionLabel: meta.sessionLabel,
-				date: entry.session.date,
-				timeLines: toTimeLines(entry.session.time),
-				location: entry.session.location,
-				partner: entry.session.partner,
-				spots: entry.session.spots,
-				urgency: getUrgencyLabel(entry.startTimestamp),
-				registerUrl: entry.session.registerUrl,
-				image: entry.program.ogImage ?? entry.program.heroImage,
-				imageAlt: entry.program.ogImageAlt ?? entry.program.heroImageAlt ?? entry.program.title,
-				certificateText: entry.certificateText,
-				videoUrl: entry.videoUrl,
-				isHappeningNow: false
-			};
-		}
-
-		if (entry.type === 'happening') {
-			const meta = getSessionMeta(entry.program, entry.session);
-			return {
-				id:
-					entry.program.slug +
-					'-happening-' +
-					(entry.session.startDate ?? entry.session.date ?? index.toString(10)),
-				kind: 'training' as const,
-				programTitle: entry.program.title,
-				sessionLabel: meta.sessionLabel,
-				date: entry.session.date,
-				timeLines: toTimeLines(entry.session.time),
-				location: entry.session.location,
-				partner: entry.session.partner,
-				spots: entry.session.spots,
-				urgency: 'Enrollment closed, running now',
-				registerUrl: entry.session.registerUrl,
-				image: entry.program.ogImage ?? entry.program.heroImage,
-				imageAlt: entry.program.ogImageAlt ?? entry.program.heroImageAlt ?? entry.program.title,
-				certificateText: entry.certificateText,
-				videoUrl: entry.videoUrl,
-				isHappeningNow: true
-			};
-		}
-
-		return {
-			id: entry.event.id,
-			kind: 'external' as const,
-			programTitle: entry.event.title,
-			sessionLabel: entry.event.sessionLabel,
-			date: entry.event.date,
-			timeLines: entry.event.timeLines,
-			location: entry.event.location,
-			partner: entry.event.partner,
-			spots: entry.event.spots,
-			urgency: getUrgencyLabel(entry.startTimestamp),
-			registerUrl: entry.event.registerUrl,
-			image: entry.event.image,
-			imageAlt: entry.event.imageAlt ?? entry.event.title,
-			isHappeningNow: false
-		};
-	});
+	const upcomingSlides = [...upcomingEventEntries]
+		.sort((a, b) => a.startTimestamp - b.startTimestamp)
+		.map((entry, index) => buildEventSlide(entry, index));
 
 	const pageMeta = getSeo('/');
 </script>

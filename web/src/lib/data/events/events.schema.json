@@ -44,6 +44,10 @@
 					"type": "string",
 					"minLength": 1
 				},
+				"subtitle": {
+					"type": "string",
+					"minLength": 1
+				},
 				"type": {
 					"type": "string",
 					"minLength": 1
@@ -84,6 +88,15 @@
 					"type": "string",
 					"format": "date-time",
 					"pattern": "Z$"
+				},
+				"date": {
+					"type": "string"
+				},
+				"time": {
+					"oneOf": [{ "type": "string" }, { "type": "array", "items": { "type": "string" } }]
+				},
+				"timezone": {
+					"type": "string"
 				},
 				"visibility": {
 					"type": "string",
@@ -146,16 +159,12 @@
 						}
 					}
 				},
-				"relatedProgramSlugs": {
-					"type": "array",
-					"items": { "type": "string" }
-				},
 				"programRef": {
 					"type": "object",
 					"additionalProperties": false,
-					"required": ["programSlug"],
+					"required": ["sku"],
 					"properties": {
-						"programSlug": { "type": "string" }
+						"sku": { "type": "string", "pattern": "^CM-TR-[0-9]{3}$" }
 					}
 				},
 				"partnerCode": {
@@ -172,7 +181,22 @@
 				"imageAlt": {
 					"type": "string"
 				}
-			}
+			},
+			"allOf": [
+				{
+					"if": {
+						"properties": {
+							"type": { "const": "training_session" }
+						}
+					},
+					"then": {
+						"required": ["programRef"],
+						"properties": {
+							"programRef": { "type": "object" }
+						}
+					}
+				}
+			]
 		}
 	}
 }

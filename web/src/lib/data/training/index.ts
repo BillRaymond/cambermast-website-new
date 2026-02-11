@@ -26,6 +26,16 @@ export const trainingPrograms: Record<string, TrainingProgram> = allPrograms.red
 	{} as Record<string, TrainingProgram>
 );
 
+export const trainingProgramsBySku: Record<string, TrainingProgram> = allPrograms.reduce(
+	(acc, program) => {
+		if (program.sku) {
+			acc[program.sku] = program;
+		}
+		return acc;
+	},
+	{} as Record<string, TrainingProgram>
+);
+
 type ListTrainingProgramsOptions = {
 	includeDrafts?: boolean;
 };
@@ -39,3 +49,6 @@ export const listTrainingPrograms = (
 
 export const getTrainingProgram = (slug: string): TrainingProgram | undefined =>
 	trainingPrograms[slug];
+
+export const getTrainingProgramBySku = (sku: string): TrainingProgram | undefined =>
+	trainingProgramsBySku[sku];

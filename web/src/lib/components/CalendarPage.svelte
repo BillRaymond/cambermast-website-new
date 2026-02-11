@@ -1,29 +1,15 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import {
-		listExternalEvents,
-		getExternalEventStartTimestamp,
-		isExternalEventUpcoming
-	} from '$lib/data/external-events';
-	import type { ExternalEvent } from '$lib/data/external-events';
-	import {
 		getEventStartTimestamp,
 		getEventTypeLabel,
 		isEventUpcoming,
 		listEvents
 	} from '$lib/data/events';
 	import type { Event } from '$lib/data/events/types';
-	import { getTrainingProgram, listTrainingPrograms } from '$lib/data/training';
+	import { getTrainingProgramBySku } from '$lib/data/training';
 	import { getPartnerByCode } from '$lib/data/partners';
-	import type { TrainingProgram, TrainingSession } from '$lib/data/training/types';
 	import { getProgramCertificateText } from '$lib/data/training/program-meta';
-	import {
-		getSessionStartTimestamp,
-		hasExternalRegistration,
-		isSessionUpcoming,
-		isSessionHappeningNow,
-		normalizeToday
-	} from '$lib/data/training/session-utils';
 
 	type ProgramImage = {
 		src: string;
@@ -38,7 +24,7 @@
 
 	type UpcomingEntry = {
 		id: string;
-		type: 'training' | 'external' | 'event';
+		type: 'event';
 		title: string;
 		titleUrl?: string;
 		subtitle: string | null;
@@ -56,7 +42,6 @@
 		certificateText?: string;
 		videoUrl?: string;
 		isHappening?: boolean;
-		happeningEndLabel?: string;
 	};
 
 	type GroupedEntries = {
@@ -65,6 +50,12 @@
 	};
 
 	type FilterOption = 'all' | 'training' | 'events' | `event:${string}`;
+
+	const normalizeToday = (reference: Date = new Date()): Date => {
+		const normalized = new Date(reference);
+		normalized.setHours(0, 0, 0, 0);
+		return normalized;
+	};
 
 	const today = normalizeToday();
 	let now = new Date();
@@ -79,17 +70,6 @@
 		day: 'numeric',
 		year: 'numeric'
 	});
-
-	const endDateFormatter = new Intl.DateTimeFormat('en-US', {
-		month: 'long',
-		day: 'numeric',
-		year: 'numeric'
-	});
-
-	const getSessionLabel = (program: TrainingProgram, session: TrainingSession): string | null => {
-		const trimmed = session.name?.trim();
-		return trimmed && trimmed.length > 0 && trimmed !== program.title ? trimmed : null;
-	};
 
 	const formatCountdown = (diffMs: number): string => {
 		const totalSeconds = Math.max(0, Math.floor(diffMs / 1000));
@@ -141,13 +121,6 @@
 		return Array.isArray(value) ? value.join(' / ') : value;
 	};
 
-	const formatEndLabel = (value?: string): string => {
-		if (!value) return 'soon';
-		const parsed = new Date(value);
-		if (Number.isNaN(parsed.valueOf())) return value;
-		return endDateFormatter.format(parsed);
-	};
-
 	const defaultLocationLabel = 'Live online';
 
 	const getEntryStatusPill = (
@@ -161,27 +134,6 @@
 			return 'Running now';
 		}
 		return null;
-	};
-
-	const getProgramImage = (program: TrainingProgram): EntryImage => {
-		const heroImage = program.heroImage
-			? {
-					src: program.heroImage,
-					alt: program.heroImageAlt ?? program.title
-				}
-			: null;
-		const ogImage = program.ogImage
-			? {
-					src: program.ogImage,
-					alt: program.ogImageAlt ?? program.title
-				}
-			: null;
-
-		return {
-			desktop: heroImage ?? ogImage,
-			mobile: ogImage ?? heroImage,
-			aspect: 'wide'
-		};
 	};
 
 	const getEventCardImage = (event: Event): EntryImage => {
@@ -199,112 +151,13 @@
 		};
 	};
 
-	const getEventImage = (event: ExternalEvent): EntryImage => {
-		const image = event.image
-			? {
-					src: event.image,
-					alt: event.imageAlt ?? event.title
-				}
-			: null;
-		return {
-			desktop: image,
-			mobile: image,
-			aspect: event.imageAspect ?? 'wide'
-		};
-	};
-
-	const createTrainingEntry = (
-		program: TrainingProgram,
-		session: TrainingSession,
-		index: number,
-		overrides: Partial<UpcomingEntry> = {}
-	): UpcomingEntry => {
-		const startTimestamp = toFiniteTimestamp(getSessionStartTimestamp(session));
-		const sessionLabel = getSessionLabel(program, session);
-		const timeLabel = formatTimeLabel(session.time);
-		const locationLabel = session.location ?? defaultLocationLabel;
-		const metaDetails: string[] = [];
-		if (timeLabel) metaDetails.push(timeLabel);
-		if (locationLabel) metaDetails.push(locationLabel);
-		if (session.spots) metaDetails.push(session.spots);
-
-		const { isHappening = false, ...rest } = overrides;
-
-		const entry: UpcomingEntry = {
-			id: rest.id ?? `training-${program.slug}-${isHappening ? 'happening' : 'upcoming'}-${index}`,
-			type: 'training',
-			title: program.title,
-			titleUrl: program.route,
-			subtitle: sessionLabel,
-			startTimestamp,
-			dateText: formatDateLabel(startTimestamp, session.date),
-			metaDetails,
-			partnerText: session.partner ?? null,
-			registerUrl: session.registerUrl,
-			registerLabel: session.registerUrl ? 'Register now' : undefined,
-			learnMoreUrl: program.route,
-			image: getProgramImage(program),
-			certificateText: getProgramCertificateText(program),
-			videoUrl: program.videoUrl,
-			isHappening,
-			...rest
-		};
-
-		return entry;
-	};
 
 	const toFiniteTimestamp = (value: number): number | null =>
 		Number.isFinite(value) ? value : null;
 
-	let upcomingTrainingEntries: UpcomingEntry[] = [];
-	let happeningTrainingEntries: UpcomingEntry[] = [];
-	let upcomingExternalEntries: UpcomingEntry[] = [];
 	let upcomingEventEntries: UpcomingEntry[] = [];
 	let upcomingEntries: UpcomingEntry[] = [];
-
-	$: upcomingTrainingEntries = listTrainingPrograms()
-		.flatMap((program) => (program.sessions ?? []).map((session) => ({ program, session })))
-		.filter(({ session }) => hasExternalRegistration(session))
-		.filter(
-			({ session }) => isSessionUpcoming(session, today) && !isSessionHappeningNow(session, now)
-		)
-		.map(({ program, session }, index) => createTrainingEntry(program, session, index));
-
-	$: happeningTrainingEntries = listTrainingPrograms()
-		.flatMap((program) => (program.sessions ?? []).map((session) => ({ program, session })))
-		.filter(({ session }) => session.startDate && isSessionHappeningNow(session, now))
-		.map(({ program, session }, index) =>
-			createTrainingEntry(program, session, index, {
-				isHappening: true,
-				happeningEndLabel: formatEndLabel(session.endDate ?? session.date)
-			})
-		);
-
-	$: upcomingExternalEntries = listExternalEvents()
-		.filter((event) => isExternalEventUpcoming(event, today))
-		.map((event, index) => {
-			const startTimestamp = toFiniteTimestamp(getExternalEventStartTimestamp(event));
-			const timeLabel = formatTimeLabel(event.timeLines);
-			const locationLabel = event.location ?? defaultLocationLabel;
-			const metaDetails: string[] = [];
-			if (timeLabel) metaDetails.push(timeLabel);
-			if (locationLabel) metaDetails.push(locationLabel);
-			if (event.spots) metaDetails.push(event.spots);
-
-			return {
-				id: `external-${event.id ?? index}`,
-				type: 'external' as const,
-				title: event.title,
-				subtitle: event.sessionLabel ?? null,
-				startTimestamp,
-				dateText: formatDateLabel(startTimestamp, event.date),
-				metaDetails,
-				partnerText: event.partner ?? null,
-				registerUrl: event.registerUrl,
-				registerLabel: event.registerUrl ? 'Register now' : undefined,
-				image: getEventImage(event)
-			};
-		});
+	let happeningEntries: UpcomingEntry[] = [];
 
 	$: upcomingEventEntries = listEvents()
 		.filter((event) => isEventUpcoming(event, today))
@@ -325,7 +178,7 @@
 			if (locationLabel) metaDetails.push(locationLabel);
 
 			const eventTypeLabel = getEventTypeLabel(event);
-			const subtitle = `${eventTypeLabel}${event.draft ? ' · Draft' : ''}`;
+			const subtitle = event.subtitle ?? `${eventTypeLabel}${event.draft ? ' · Draft' : ''}`;
 			const registerDisabled =
 				event.registrationStatus === 'closed' ||
 				event.registrationStatus === 'none' ||
@@ -337,12 +190,12 @@
 					: event.registerLabel || 'Register now';
 			const registerLabel = baseRegisterLabel;
 			const isCourseEvent = event.type === 'training_session';
-			const courseProgramSlug = event.programRef?.programSlug;
+			const courseProgramSku = event.programRef?.sku;
 			const courseProgram =
-				courseProgramSlug && isCourseEvent ? getTrainingProgram(courseProgramSlug) : undefined;
+				courseProgramSku && isCourseEvent ? getTrainingProgramBySku(courseProgramSku) : undefined;
 			const courseProgramRoute =
-				courseProgramSlug && isCourseEvent
-					? (courseProgram?.route ?? `/training/${courseProgramSlug}`)
+				courseProgramSku && isCourseEvent
+					? (courseProgram?.route ?? undefined)
 					: null;
 			const partnerName =
 				event.partnerCode && event.partnerCode !== 'NONE'
@@ -355,7 +208,7 @@
 
 			return {
 				id: `event-${event.id ?? index}`,
-				type: 'event' as const,
+				type: 'event',
 				title: event.title,
 				titleUrl,
 				subtitle,
@@ -376,11 +229,9 @@
 			};
 		});
 
-	$: upcomingEntries = [
-		...upcomingTrainingEntries,
-		...upcomingExternalEntries,
-		...upcomingEventEntries
-	].sort((a, b) => (a.startTimestamp ?? Infinity) - (b.startTimestamp ?? Infinity));
+	$: upcomingEntries = upcomingEventEntries
+		.filter((entry) => !entry.isHappening)
+		.sort((a, b) => (a.startTimestamp ?? Infinity) - (b.startTimestamp ?? Infinity));
 
 	type EventTypeFilter = {
 		key: string;
@@ -418,10 +269,10 @@
 		filter: FilterOption
 	): UpcomingEntry[] => {
 		if (filter === 'training') {
-			return entries.filter((entry) => entry.type === 'training');
+			return entries.filter((entry) => entry.eventType === 'training_session');
 		}
 		if (filter === 'events') {
-			return entries.filter((entry) => entry.type !== 'training');
+			return entries.filter((entry) => entry.eventType !== 'training_session');
 		}
 		if (filter.startsWith('event:')) {
 			const eventType = filter.slice('event:'.length);
@@ -430,9 +281,9 @@
 		return entries;
 	};
 
-	let happeningEntries: UpcomingEntry[] = [];
-
-	$: happeningEntries = [...happeningTrainingEntries].sort(
+	$: happeningEntries = upcomingEventEntries
+		.filter((entry) => entry.isHappening)
+		.sort(
 		(a, b) => (a.startTimestamp ?? Infinity) - (b.startTimestamp ?? Infinity)
 	);
 
@@ -668,7 +519,7 @@
 																		▶ Trailer <span aria-hidden="true">↗</span>
 																	</a>
 																{/if}
-																{#if entry.type === 'training' || isCourseEntry}
+																{#if isCourseEntry}
 																	<span
 																		class="inline-flex items-center gap-1.5 rounded-full border border-blue-200 bg-blue-600/10 px-2 py-0.5 text-[0.6rem] font-semibold tracking-wide text-blue-700 uppercase"
 																	>

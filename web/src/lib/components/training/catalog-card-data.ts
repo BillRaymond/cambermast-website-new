@@ -1,4 +1,14 @@
-import type { TrainingSession } from '$lib/data/training/types';
+export type CatalogScheduleEntry = {
+	id: string;
+	title: string;
+	subtitle?: string;
+	date: string;
+	time?: string | string[];
+	location?: string;
+	registerUrl?: string;
+	registerLabel?: string;
+	statusLabel?: string;
+};
 
 export type CatalogCardData = {
 	title: string;
@@ -11,8 +21,8 @@ export type CatalogCardData = {
 	duration?: string | string[];
 	videoUrl?: string;
 	certificateText?: string;
-	upcomingSessions?: TrainingSession[];
-	happeningSessions?: TrainingSession[];
+	upcomingSessions?: CatalogScheduleEntry[];
+	happeningSessions?: CatalogScheduleEntry[];
 	scheduleUrl?: string;
 	scheduleLabel?: string;
 };

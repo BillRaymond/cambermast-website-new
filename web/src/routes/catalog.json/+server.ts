@@ -85,7 +85,10 @@ export const prerender = true;
  */
 export const GET = () => {
 	// Pull the most up-to-date training programs at request time.
-	const trainingPrograms = listTrainingPrograms();
+	const trainingPrograms = listTrainingPrograms().map((program) => {
+		const { sessions, ...programWithoutSchedule } = program;
+		return programWithoutSchedule;
+	});
 
 	// Wrap both data sources in the same transformation to ensure consistency.
 	return json({

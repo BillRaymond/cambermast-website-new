@@ -50,7 +50,7 @@ export type EventLocation = {
 };
 
 export type EventProgramRef = {
-	programSlug: string;
+	sku: string;
 };
 
 export type EventDescription = {
@@ -68,6 +68,7 @@ export type EventSource = {
 	id: string;
 	slug: string;
 	title: string;
+	subtitle?: string;
 	type: EventType;
 	summary: string;
 	startAtUtc: string;
@@ -83,7 +84,6 @@ export type EventSource = {
 	image?: string;
 	imageAlt?: string;
 	speakers?: EventSpeaker[];
-	relatedProgramSlugs?: string[];
 	programRef?: EventProgramRef;
 	partnerCode?: string;
 	campaignId?: string;

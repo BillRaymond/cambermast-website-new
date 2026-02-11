@@ -2,7 +2,7 @@ import { dev } from '$app/environment';
 import { error } from '@sveltejs/kit';
 import { getEvent, listEvents } from '$lib/data/events';
 import { getPartnerByCode } from '$lib/data/partners';
-import { getTrainingProgram } from '$lib/data/training';
+import { getTrainingProgramBySku } from '$lib/data/training';
 import type { PageLoad } from './$types';
 
 export const prerender = true;
@@ -21,8 +21,8 @@ export const load: PageLoad = ({ params }) => {
 		event.partnerCode && event.partnerCode !== 'NONE'
 			? getPartnerByCode(event.partnerCode)
 			: undefined;
-	const relatedProgramSlug = event.programRef?.programSlug ?? event.relatedProgramSlugs?.[0];
-	const relatedProgram = relatedProgramSlug ? getTrainingProgram(relatedProgramSlug) : undefined;
+	const relatedProgramSku = event.programRef?.sku;
+	const relatedProgram = relatedProgramSku ? getTrainingProgramBySku(relatedProgramSku) : undefined;
 
 	return { event, partner, relatedProgram };
 };

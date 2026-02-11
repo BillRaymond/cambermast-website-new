@@ -1,17 +1,11 @@
 <script lang="ts">
 	import catalog from '$lib/data/catalog.json';
 	import { getTrainingProgram } from '$lib/data/training';
-	import type { TrainingProgram, TrainingSession, TrainingStat } from '$lib/data/training/types';
+	import type { TrainingProgram, TrainingStat } from '$lib/data/training/types';
 	import { getSeo } from '$lib/seo';
 	import SeoHead from '$lib/components/SeoHead.svelte';
 	import { getProgramCertificateText } from '$lib/data/training/program-meta';
-	import {
-		hasExternalRegistration,
-		isSessionDraft,
-		isSessionHappeningNow,
-		isSessionUpcoming,
-		normalizeToday
-	} from '$lib/data/training/session-utils';
+	import { listUpcomingTrainingEntriesForProgram } from '$lib/data/training/schedule';
 
 	const section = catalog.training;
 	const pageHeading = `${section.catalogLabel ?? section.label}`;
@@ -29,21 +23,6 @@
 	const statToArray = (stat?: TrainingStat): string[] =>
 		!stat ? [] : Array.isArray(stat.value) ? stat.value : [stat.value];
 
-	const today = normalizeToday();
-	const now = new Date();
-
-	const getVisibleSessions = (program?: TrainingProgram): TrainingSession[] =>
-		(program?.sessions ?? []).filter((session) => !isSessionDraft(session));
-
-	const getUpcomingRegisterableSession = (program?: TrainingProgram): TrainingSession | undefined =>
-		getVisibleSessions(program).find(
-			(session) =>
-				session.startDate &&
-				hasExternalRegistration(session) &&
-				isSessionUpcoming(session, today) &&
-				!isSessionHappeningNow(session, now)
-		);
-
 	const items = (section.items ?? [])
 		.filter((item) => item.published ?? true)
 		.sort((a, b) => (a.order ?? 999) - (b.order ?? 999))
@@ -54,7 +33,7 @@
 
 			const duration = statToString(findStat(program, 'duration'));
 			const certificateText = getProgramCertificateText(program);
-			const registerableSession = getUpcomingRegisterableSession(program);
+			const registerableSession = listUpcomingTrainingEntriesForProgram(program?.sku)[0];
 			const formatLines = [
 				...statToArray(findStat(program, 'format')),
 				...(certificateText ? [certificateText] : [])
@@ -73,7 +52,7 @@
 				scheduleLabel: program?.primaryCta?.label ?? 'Schedule your team',
 				scheduleUrl: program?.primaryCta?.url ?? '/contact',
 				registerUrl: registerableSession?.registerUrl,
-				registerLabel: registerableSession ? 'Register now' : undefined,
+				registerLabel: registerableSession?.registerLabel ?? 'Register now',
 				summary: item.summary ?? program?.tagline ?? ''
 			};
 		});
