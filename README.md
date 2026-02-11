@@ -43,6 +43,30 @@ These two documents live in the repo root as the source of truth. The SvelteKit 
 - `/events` is the canonical public calendar of events route.
 - `/calendar` redirects to `/events` as a legacy alias.
 
+## Creating Events from Training Programs
+
+When creating a new training event, use this strict flow:
+
+1. Pick the training program (by `sku`).
+2. Pull duration + daily time commitment from the program `scheduleTemplate`.
+3. Generate a draft event schedule, then copy the resulting `draftEvent` into `web/src/lib/data/events/events.json`.
+
+Run:
+
+`npm --prefix web run events:draft -- --program-sku CM-TR-005 --start-date 2026-03-17 --id evt_20260317_1000_training_session_NONE --slug ai-workshop-for-tech-writers-and-content-creators-spring-2026 --subtitle "🌷 Spring 2026 Cohort"`
+
+Optional overrides:
+
+- `--start-time` (example `13:00`)
+- `--duration-days` (overrides training default)
+- `--hours-per-day` (overrides training default)
+
+Output includes:
+
+- `program.scheduleTemplate` (source values)
+- `scheduleDraft` (generated date/time window)
+- `draftEvent` (ready-to-paste event object with explicit `schedule` fields)
+
 ## Privacy, GDPR & Cookies
 
 - `web/src/routes/gdpr/+page.svelte` is the canonical privacy notice for cambermast.com, covering lawful bases, vendor list, and contact options for data requests. Update it whenever we add a new form, vendor, or processing purpose.

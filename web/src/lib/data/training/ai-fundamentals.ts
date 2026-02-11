@@ -25,6 +25,14 @@ export const aiFundamentals = {
 		label: 'Talk with Bill',
 		url: '/contact'
 	},
+	scheduleTemplate: {
+		durationDays: 1,
+		hoursPerDayCommitment: 4,
+		defaultStartTimeLocal: '13:00',
+		defaultTimeZone: 'America/Los_Angeles',
+		defaultTimeZoneLabel: 'PT',
+		defaultLocationLabel: 'Online'
+	},
 	// Keep pricing + duration aligned with the sales one-pager before publishing updates.
 	stats: [
 		{ label: 'Duration', value: '4-hours' },

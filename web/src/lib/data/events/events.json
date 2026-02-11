@@ -36,49 +36,14 @@
 			"programRef": {
 				"sku": "CM-TR-005"
 			},
+			"schedule": {
+				"durationDays": 49,
+				"estimatedHoursCommitment": 2
+			},
 			"partnerCode": "NONE",
 			"campaignId": "evt-20260127-1000-training-session-none",
 			"image": "/images/cambermast-content-5-ai-workshop-for-content-creators-og.jpeg",
 			"imageAlt": "AI Workshop for Tech Writers and Content Creators"
-		},
-		{
-			"id": "a17c04",
-			"slug": "ai-automation-with-agents-workshop-feb-2026-intensive",
-			"title": "AI Automation with Agents Workshop",
-			"subtitle": "Tuesday Intensive Cohort",
-			"type": "training_session",
-			"typeLabel": "Training",
-			"tagline": "Hands-on workshop focused on building practical AI agents.",
-			"summary": "A focused Tuesday intensive covering AI agent design, automation workflows, and implementation patterns from 1:00 pm to 5:00 pm PT.",
-			"description": "This intensive workshop helps teams design and build practical AI agents using real workflow examples. You will map use cases, build automation flows, and review guardrails for reliable production use.",
-			"highlights": [
-				"Agent workflow design patterns you can deploy quickly",
-				"Hands-on automation exercises with real implementation steps",
-				"Guardrails for reliability, review, and rollout"
-			],
-			"startAtUtc": "2026-02-17T21:00:00.000Z",
-			"endAtUtc": "2026-02-18T01:00:00.000Z",
-			"visibility": "public",
-			"lifecycleStatus": "scheduled",
-			"registrationStatus": "open",
-			"cta": {
-				"label": "Register now",
-				"url": "/training/ai-automation-with-agents"
-			},
-			"date": "February 17, 2026 (Tuesday)",
-			"time": "1:00 pm to 5:00 pm PT",
-			"timezone": "PT",
-			"location": {
-				"mode": "online",
-				"publicLabel": "Online",
-				"detailsVisibility": "public"
-			},
-			"programRef": {
-				"sku": "CM-TR-004"
-			},
-			"partnerCode": "NONE",
-			"image": "/images/cambermast-content-4-ai-automation-with-agents-workshop-og.jpeg",
-			"imageAlt": "AI Automation with Agents Workshop"
 		},
 		{
 			"id": "evt_20260218_1300_webinar_TLB",
@@ -109,6 +74,10 @@
 				"mode": "online",
 				"publicLabel": "Online",
 				"detailsVisibility": "public"
+			},
+			"schedule": {
+				"durationDays": 1,
+				"estimatedHoursCommitment": 1
 			},
 			"partnerCode": "TLB",
 			"campaignId": "evt-20260218-1300-webinar-tlb",

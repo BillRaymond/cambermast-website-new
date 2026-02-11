@@ -23,6 +23,14 @@ export const techlabAiFundamentals = {
 		label: 'Talk with Bill',
 		url: '/contact'
 	},
+	scheduleTemplate: {
+		durationDays: 1,
+		hoursPerDayCommitment: 4,
+		defaultStartTimeLocal: '13:00',
+		defaultTimeZone: 'America/Los_Angeles',
+		defaultTimeZoneLabel: 'PT',
+		defaultLocationLabel: 'Online'
+	},
 	stats: [
 		{ label: 'Duration', value: '4-hours' },
 		{ label: 'Format', value: ['🔴 Live online', '🏫 In-person available'] },

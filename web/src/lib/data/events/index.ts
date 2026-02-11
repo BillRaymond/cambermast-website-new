@@ -154,3 +154,10 @@ export const getEventStartTimestamp = (event: Event): number => {
 };
 
 export const getEventTypeLabel = (event: Event): string => event.typeLabel;
+
+export {
+	buildTrainingSessionEventFromProgram,
+	buildTrainingSessionEventFromProgramSku,
+	buildTrainingDraftScheduleFromProgram,
+	buildTrainingDraftScheduleFromProgramSku
+} from './training-event-builder';

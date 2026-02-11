@@ -53,6 +53,15 @@ export type TrainingReview = {
 	role?: string;
 };
 
+export type TrainingScheduleTemplate = {
+	durationDays: number;
+	hoursPerDayCommitment: number;
+	defaultStartTimeLocal: string;
+	defaultTimeZone: string;
+	defaultTimeZoneLabel: string;
+	defaultLocationLabel?: string;
+};
+
 export type TrainingProgram = {
 	slug: string;
 	route: string;
@@ -69,6 +78,7 @@ export type TrainingProgram = {
 	secondaryDescription?: string;
 	primaryCta: TrainingCta;
 	secondaryCta: TrainingCta;
+	scheduleTemplate: TrainingScheduleTemplate;
 	stats?: TrainingStat[];
 	audience?: string[];
 	audienceExamples?: string[];

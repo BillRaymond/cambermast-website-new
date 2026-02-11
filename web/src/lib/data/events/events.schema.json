@@ -5,7 +5,7 @@
 	"type": "object",
 	"additionalProperties": false,
 	"required": ["events"],
-	"properties": {
+				"properties": {
 		"events": {
 			"type": "array",
 			"items": {
@@ -159,18 +159,27 @@
 						}
 					}
 				},
-				"programRef": {
-					"type": "object",
-					"additionalProperties": false,
-					"required": ["sku"],
-					"properties": {
-						"sku": { "type": "string", "pattern": "^CM-TR-[0-9]{3}$" }
-					}
-				},
-				"partnerCode": {
-					"type": "string",
-					"pattern": "^[A-Z0-9]{3,4}$"
-				},
+					"programRef": {
+						"type": "object",
+						"additionalProperties": false,
+						"required": ["sku"],
+						"properties": {
+							"sku": { "type": "string", "pattern": "^CM-TR-[0-9]{3}$" }
+						}
+					},
+					"schedule": {
+						"type": "object",
+						"additionalProperties": false,
+						"required": ["durationDays", "estimatedHoursCommitment"],
+						"properties": {
+							"durationDays": { "type": "integer", "minimum": 1 },
+							"estimatedHoursCommitment": { "type": "number", "exclusiveMinimum": 0 }
+						}
+					},
+					"partnerCode": {
+						"type": "string",
+						"pattern": "^[A-Z0-9]{3,4}$"
+					},
 				"campaignId": {
 					"type": "string",
 					"pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
@@ -189,14 +198,15 @@
 							"type": { "const": "training_session" }
 						}
 					},
-					"then": {
-						"required": ["programRef"],
-						"properties": {
-							"programRef": { "type": "object" }
+						"then": {
+							"required": ["programRef", "schedule"],
+							"properties": {
+								"programRef": { "type": "object" },
+								"schedule": { "type": "object" }
+							}
 						}
 					}
-				}
-			]
+				]
 		}
 	}
 }

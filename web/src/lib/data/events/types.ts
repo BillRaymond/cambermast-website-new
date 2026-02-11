@@ -53,6 +53,11 @@ export type EventProgramRef = {
 	sku: string;
 };
 
+export type EventSchedule = {
+	durationDays: number;
+	estimatedHoursCommitment: number;
+};
+
 export type EventDescription = {
 	summary?: string;
 	bodyMd?: string;
@@ -85,6 +90,7 @@ export type EventSource = {
 	imageAlt?: string;
 	speakers?: EventSpeaker[];
 	programRef?: EventProgramRef;
+	schedule?: EventSchedule;
 	partnerCode?: string;
 	campaignId?: string;
 	links?: EventLinks;

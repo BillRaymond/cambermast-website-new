@@ -158,6 +158,7 @@ Purpose: Track architecture decisions and implementation progress for the unifie
 - [x] Update `web/src/lib/data/events/events.json` to new schema.
 - [x] Add/adjust `/api` endpoint for events payload consumed by automations.
 - [x] Ensure campaigns endpoint integration remains compatible.
+- [x] Add a scriptable draft-event generator from training SKU + start date (`npm --prefix web run events:draft`).
 - [ ] Add `events.json` schema validation script (AJV) and wire it into npm scripts as a hard gate.
 - [ ] Remove legacy resolver compatibility fields in `web/src/lib/data/events/index.ts` after all consumers move to canonical fields.
 

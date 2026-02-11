@@ -24,6 +24,14 @@ export const techlabAiAdvancedWorkshop: TechlabProgram = {
 		label: 'Talk with Bill',
 		url: '/contact'
 	},
+	scheduleTemplate: {
+		durationDays: 49,
+		hoursPerDayCommitment: 2,
+		defaultStartTimeLocal: '10:00',
+		defaultTimeZone: 'America/Los_Angeles',
+		defaultTimeZoneLabel: 'PT',
+		defaultLocationLabel: 'Online'
+	},
 	stats: [
 		{ label: 'Duration', value: 'Seven weeks, 2-hour commitment per week' },
 		{ label: 'Format', value: ['🔴 Live online', '🏫 In-person available'] },

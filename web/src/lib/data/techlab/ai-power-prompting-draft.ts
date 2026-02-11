@@ -23,6 +23,14 @@ export const techlabAiPowerPromptingDraft = {
 		label: 'Share feedback',
 		url: '/contact'
 	},
+	scheduleTemplate: {
+		durationDays: 1,
+		hoursPerDayCommitment: 4,
+		defaultStartTimeLocal: '13:00',
+		defaultTimeZone: 'America/Los_Angeles',
+		defaultTimeZoneLabel: 'PT',
+		defaultLocationLabel: 'Online'
+	},
 	stats: [
 		{ label: 'Duration', value: '4 hours (TBD)' },
 		{ label: 'Format', value: ['🔴 Live online (draft)', '🏫 On-site TBD'] },

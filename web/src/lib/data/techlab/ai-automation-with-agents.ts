@@ -24,6 +24,14 @@ export const techlabAiAutomationWithAgents = {
 		label: 'See more automation work',
 		url: '/agents'
 	},
+	scheduleTemplate: {
+		durationDays: 42,
+		hoursPerDayCommitment: 2,
+		defaultStartTimeLocal: '13:00',
+		defaultTimeZone: 'America/Los_Angeles',
+		defaultTimeZoneLabel: 'PT',
+		defaultLocationLabel: 'Online'
+	},
 	stats: [
 		{ label: 'Duration', value: 'Six weeks, 2-hour commitment per week' },
 		{ label: 'Format', value: ['🔴 Live online', '🏫 In-person available'] },
