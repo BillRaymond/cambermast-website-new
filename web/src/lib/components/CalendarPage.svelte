@@ -49,7 +49,7 @@
 		items: Array<{ entry: UpcomingEntry; index: number }>;
 	};
 
-	type FilterOption = 'all' | 'training' | 'events' | `event:${string}`;
+	type FilterOption = 'all' | 'training' | `event:${string}`;
 
 	const normalizeToday = (reference: Date = new Date()): Date => {
 		const normalized = new Date(reference);
@@ -158,6 +158,7 @@
 	let upcomingEventEntries: UpcomingEntry[] = [];
 	let upcomingEntries: UpcomingEntry[] = [];
 	let happeningEntries: UpcomingEntry[] = [];
+	let filteredHappeningEntries: UpcomingEntry[] = [];
 
 	$: upcomingEventEntries = listEvents()
 		.filter((event) => isEventUpcoming(event, today))
@@ -271,9 +272,6 @@
 		if (filter === 'training') {
 			return entries.filter((entry) => entry.eventType === 'training_session');
 		}
-		if (filter === 'events') {
-			return entries.filter((entry) => entry.eventType !== 'training_session');
-		}
 		if (filter.startsWith('event:')) {
 			const eventType = filter.slice('event:'.length);
 			return entries.filter((entry) => entry.type === 'event' && entry.eventType === eventType);
@@ -283,9 +281,9 @@
 
 	$: happeningEntries = upcomingEventEntries
 		.filter((entry) => entry.isHappening)
-		.sort(
-		(a, b) => (a.startTimestamp ?? Infinity) - (b.startTimestamp ?? Infinity)
-	);
+		.sort((a, b) => (a.startTimestamp ?? Infinity) - (b.startTimestamp ?? Infinity));
+
+	$: filteredHappeningEntries = filteredUpcomingEntries(happeningEntries, activeFilter);
 
 	const getMonthLabel = (entry: UpcomingEntry): string => {
 		if (entry.startTimestamp) {
@@ -367,23 +365,6 @@
 						/>
 					</svg>
 					Training
-				</button>
-				<button
-					type="button"
-					onclick={() => (activeFilter = 'events')}
-					aria-pressed={activeFilter === 'events'}
-					class={`inline-flex items-center gap-1.5 rounded-full border px-2 py-0.5 text-[0.6rem] font-semibold tracking-wide uppercase transition ${
-						activeFilter === 'events'
-							? 'border-emerald-200 bg-emerald-600/10 text-emerald-700'
-							: 'border-gray-200 bg-white text-gray-500 hover:text-gray-700'
-					}`}
-				>
-					<svg viewBox="0 0 24 24" aria-hidden="true" class="h-3 w-3" fill="currentColor">
-						<path
-							d="M9 3a3 3 0 00-3 3v5a3 3 0 006 0V6a3 3 0 00-3-3zm7 1a1 1 0 011 1v6a5 5 0 01-4 4.9V19h3a1 1 0 110 2H8a1 1 0 110-2h3v-3.1A5 5 0 017 11V5a1 1 0 112 0v6a3 3 0 006 0V5a1 1 0 011-1z"
-						/>
-					</svg>
-					Events
 				</button>
 				{#if eventTypeFilters.length}
 					{#each eventTypeFilters as filter}
@@ -646,7 +627,7 @@
 			</div>
 		</div>
 
-		{#if activeFilter !== 'events' && happeningEntries.length}
+		{#if filteredHappeningEntries.length}
 			<div class="rounded-2xl border border-amber-200 bg-amber-50/70 p-5 shadow-sm">
 				<div class="flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-4">
 					<h2 class="text-lg font-semibold whitespace-nowrap text-amber-900">Happening now</h2>
@@ -655,7 +636,7 @@
 					</p>
 				</div>
 				<ul class="mt-4 space-y-4">
-					{#each happeningEntries as entry}
+					{#each filteredHappeningEntries as entry}
 						<li>
 							<article
 								class="relative rounded-xl border border-amber-200 bg-white p-4 pb-3 shadow-sm"
