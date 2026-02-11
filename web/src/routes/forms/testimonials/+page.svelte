@@ -5,6 +5,10 @@
 	import TurnstileField from '$lib/components/forms/TurnstileField.svelte';
 	import { listTestimonials } from '$lib/data/testimonials';
 	import { getTrainingProgram, listTrainingPrograms } from '$lib/data/training';
+	import {
+		getWebhookSubmissionErrorMessage,
+		postJsonWithTimeout
+	} from '$lib/utils/form-submission';
 
 	type FormStatus = 'idle' | 'sending' | 'sent' | 'error';
 
@@ -350,11 +354,9 @@
 			const programSku = programData?.sku;
 			const programRoute = programData?.route;
 			const generatedId = programSku ? getNextTestimonialId(programSku) : undefined;
-			const res = await fetch(getWebhookUrl(), {
-				method: 'POST',
-				mode: 'cors',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({
+			const res = await postJsonWithTimeout(
+				getWebhookUrl(),
+				{
 					id: generatedId,
 					displayName: sanitizedDisplayName,
 					email,
@@ -374,8 +376,11 @@
 					turnstileToken,
 					turnstileSiteKey: turnstileSiteKeyInUse,
 					turnstileIsDevelopmentSiteKey
-				})
-			});
+				},
+				{
+					mode: 'cors'
+				}
+			);
 
 			if (!res.ok) {
 				let description = '';
@@ -400,9 +405,9 @@
 			allowPublicUse = true;
 			turnstileToken = '';
 			resetTurnstile();
-		} catch (err: any) {
+		} catch (err: unknown) {
 			status = 'error';
-			errorMsg = err?.message ?? 'Something went wrong.';
+			errorMsg = getWebhookSubmissionErrorMessage(err, getTurnstileWindow()?.location.origin);
 			resetTurnstile();
 			turnstileToken = '';
 		}
@@ -429,7 +434,7 @@
 		/>
 	</figure>
 
-	<p class="text-center text-sm font-semibold uppercase tracking-wide text-amber-700">
+	<p class="text-center text-sm font-semibold tracking-wide text-amber-700 uppercase">
 		Thank you for sharing your Cambermast training experience with the community.
 	</p>
 
@@ -459,7 +464,7 @@
 	>
 		<div>
 			<label
-				class="block text-sm font-semibold uppercase tracking-wide text-gray-600"
+				class="block text-sm font-semibold tracking-wide text-gray-600 uppercase"
 				for="testimonial-program"
 			>
 				<span class="required-label">Which training did you complete?</span>
@@ -492,7 +497,7 @@
 		</div>
 
 		<fieldset class="border-0 p-0">
-			<legend class="block text-sm font-semibold uppercase tracking-wide text-gray-600">
+			<legend class="block text-sm font-semibold tracking-wide text-gray-600 uppercase">
 				<span class="required-label">How many stars would you give this training?</span>
 				<span class="sr-only"> required</span>
 			</legend>
@@ -540,7 +545,7 @@
 
 		<div>
 			<label
-				class="block text-sm font-semibold uppercase tracking-wide text-gray-600"
+				class="block text-sm font-semibold tracking-wide text-gray-600 uppercase"
 				for="testimonial-quote"
 			>
 				<span class="required-label">What made this training valuable for you?</span>
@@ -566,7 +571,7 @@
 					<span aria-hidden="true">✨</span>
 					<span>Need inspiration?</span>
 				</p>
-				<p class="mt-1 italic text-gray-600 transition" aria-live="polite">
+				<p class="mt-1 text-gray-600 italic transition" aria-live="polite">
 					{sampleTestimonials[sampleIndex]}
 				</p>
 			</div>
@@ -624,7 +629,7 @@
 		</div>
 
 		<div class="rounded-2xl border border-blue-100 bg-blue-50/60 p-4 text-sm text-gray-800">
-			<p class="text-xs font-semibold uppercase tracking-wide text-blue-700">Live preview</p>
+			<p class="text-xs font-semibold tracking-wide text-blue-700 uppercase">Live preview</p>
 			<figure class="mt-2 rounded-2xl border border-white bg-white/90 p-4 shadow-sm">
 				<p class="text-xs font-semibold text-blue-600">
 					{selectedProgram
@@ -726,7 +731,7 @@
 			{status === 'sending' ? 'Sending...' : 'Share my story'}
 		</button>
 
-		<p class="text-xs font-medium uppercase tracking-wide text-gray-500">
+		<p class="text-xs font-medium tracking-wide text-gray-500 uppercase">
 			Fields marked <span class="required-label required-label--inline" aria-hidden="true"></span> are
 			required.
 		</p>

@@ -4,6 +4,10 @@
 	import SeoHead from '$lib/components/SeoHead.svelte';
 	import TurnstileField from '$lib/components/forms/TurnstileField.svelte';
 	import { listTrainingPrograms } from '$lib/data/training';
+	import {
+		getWebhookSubmissionErrorMessage,
+		postJsonWithTimeout
+	} from '$lib/utils/form-submission';
 
 	type FormStatus = 'idle' | 'sending' | 'sent' | 'error';
 
@@ -59,11 +63,13 @@
 		},
 		{
 			value: 'advanced',
-			label: 'Advanced: I use AI every day to streamline my work and consider myself to be great at prompting.'
+			label:
+				'Advanced: I use AI every day to streamline my work and consider myself to be great at prompting.'
 		},
 		{
 			value: 'power-user',
-			label: 'Power user: I use AI every day and have created custom workflows and pipelines to automate my work.'
+			label:
+				'Power user: I use AI every day and have created custom workflows and pipelines to automate my work.'
 		},
 		{ value: 'other', label: 'Other' }
 	];
@@ -124,7 +130,8 @@
 	const productionTurnstileSiteKey = '0x4AAAAAACJwz83T0R7vFAHk';
 	const developmentTurnstileSiteKey = '1x00000000000000000000AA';
 	const productionBaseDomains = ['cambermast.com'];
-	const productionWebhookUrl = 'https://n8n.cambermast.com/webhook/575c03a2-94cb-49f4-bf41-6def76e5c68a';
+	const productionWebhookUrl =
+		'https://n8n.cambermast.com/webhook/575c03a2-94cb-49f4-bf41-6def76e5c68a';
 	const developmentWebhookUrl =
 		'https://n8n.cambermast.com/webhook-test/575c03a2-94cb-49f4-bf41-6def76e5c68a';
 
@@ -147,7 +154,8 @@
 					'I use Copilot in Word for summaries and ChatGPT to draft release notes. I love the speed but need help keeping tone consistent.',
 				communityInterests: ['slack', 'discord', 'other'],
 				communityOther: 'Another shared space',
-				syllabusSuggestions: 'I would like more examples of governance guardrails and QA workflows.',
+				syllabusSuggestions:
+					'I would like more examples of governance guardrails and QA workflows.',
 				workshopGoal: workshopGoalPrompt,
 				additionalNotes: 'Looking forward to collaborating with the group.',
 				accessibilityNeeds: 'None at this time.'
@@ -223,13 +231,11 @@
 		window.history.replaceState({}, '', `${url.pathname}${url.search}${url.hash}`);
 	};
 
-	$: selectedProgramData = trainingProgramData.find(
-		(program) => program.slug === selectedProgram
-	);
+	$: selectedProgramData = trainingProgramData.find((program) => program.slug === selectedProgram);
 	$: displayProgramTitle =
 		selectedProgram === 'other'
 			? customProgramTitle.trim() || 'Training program'
-			: selectedProgramData?.title ?? defaultProgram?.title ?? 'Training program';
+			: (selectedProgramData?.title ?? defaultProgram?.title ?? 'Training program');
 	$: pageMeta = {
 		title: `Pre-training Survey for ${displayProgramTitle}`,
 		description: selectedProgramData?.title
@@ -524,18 +530,16 @@
 		}
 
 		try {
-			const res = await fetch(getWebhookUrl(), {
-				method: 'POST',
-				mode: 'cors',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({
+			const res = await postJsonWithTimeout(
+				getWebhookUrl(),
+				{
 					email: sanitizedEmail,
 					name: sanitizedName,
 					programSlug: selectedProgram,
 					programTitle:
 						selectedProgram === 'other'
 							? customProgramTitle.trim() || 'Other or not listed'
-							: selectedProgramData?.title ?? defaultProgram?.title ?? 'Training program',
+							: (selectedProgramData?.title ?? defaultProgram?.title ?? 'Training program'),
 					skillLevel:
 						skillLevel === 'other'
 							? formatOtherLabel(getSkillLevelLabel(), skillLevelOther)
@@ -565,8 +569,11 @@
 					turnstileToken,
 					turnstileSiteKey: turnstileSiteKeyInUse,
 					turnstileIsDevelopmentSiteKey
-				})
-			});
+				},
+				{
+					mode: 'cors'
+				}
+			);
 
 			if (!res.ok) {
 				let description = '';
@@ -602,9 +609,9 @@
 			accessibilityNeeds = '';
 			turnstileToken = '';
 			resetTurnstile();
-		} catch (err: any) {
+		} catch (err: unknown) {
 			status = 'error';
-			errorMsg = err?.message ?? 'Something went wrong.';
+			errorMsg = getWebhookSubmissionErrorMessage(err, getTurnstileWindow()?.location.origin);
 			resetTurnstile();
 			turnstileToken = '';
 		}
@@ -631,7 +638,7 @@
 		/>
 	</figure>
 
-	<p class="text-center text-sm font-semibold uppercase tracking-wide text-amber-700">
+	<p class="text-center text-sm font-semibold tracking-wide text-amber-700 uppercase">
 		{displayProgramTitle}
 	</p>
 
@@ -695,7 +702,7 @@
 		</div>
 
 		<div>
-			<label class="block text-sm font-semibold uppercase tracking-wide text-gray-600" for="email">
+			<label class="block text-sm font-semibold tracking-wide text-gray-600 uppercase" for="email">
 				<span class="required-label">Email</span>
 				<span class="sr-only"> required</span>
 			</label>
@@ -710,7 +717,7 @@
 		</div>
 
 		<div>
-			<label class="block text-sm font-semibold uppercase tracking-wide text-gray-600" for="name">
+			<label class="block text-sm font-semibold tracking-wide text-gray-600 uppercase" for="name">
 				<span class="required-label">Please share your name</span>
 				<span class="sr-only"> required</span>
 			</label>
@@ -729,7 +736,7 @@
 		</div>
 
 		<fieldset class="border-0 p-0">
-			<legend class="block text-sm font-semibold uppercase tracking-wide text-gray-600">
+			<legend class="block text-sm font-semibold tracking-wide text-gray-600 uppercase">
 				<span class="required-label">
 					Consider your interactions with AI. How would you rate your skill level?
 				</span>
@@ -752,7 +759,7 @@
 					</label>
 					{#if option.value === 'other' && skillLevel === 'other'}
 						<input
-							class="ml-7 mt-2 w-full rounded-lg border px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500"
+							class="mt-2 ml-7 w-full rounded-lg border px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500"
 							bind:value={skillLevelOther}
 							type="text"
 							name="skillLevelOther"
@@ -765,7 +772,7 @@
 		</fieldset>
 
 		<fieldset class="border-0 p-0">
-			<legend class="block text-sm font-semibold uppercase tracking-wide text-gray-600">
+			<legend class="block text-sm font-semibold tracking-wide text-gray-600 uppercase">
 				<span class="required-label">
 					What AI large language models (LLMs) are you familiar with?
 				</span>
@@ -787,7 +794,7 @@
 					</label>
 					{#if option.value === 'other' && llmFamiliarity.includes('other')}
 						<input
-							class="ml-7 mt-2 w-full rounded-lg border px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500"
+							class="mt-2 ml-7 w-full rounded-lg border px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500"
 							bind:value={llmOther}
 							type="text"
 							name="llmOther"
@@ -800,7 +807,7 @@
 		</fieldset>
 
 		<fieldset class="border-0 p-0">
-			<legend class="block text-sm font-semibold uppercase tracking-wide text-gray-600">
+			<legend class="block text-sm font-semibold tracking-wide text-gray-600 uppercase">
 				<span class="required-label">
 					Will you attend the session with access to a paid version of an AI LLM?
 				</span>
@@ -856,7 +863,7 @@
 		</fieldset>
 
 		<fieldset class="border-0 p-0">
-			<legend class="block text-sm font-semibold uppercase tracking-wide text-gray-600">
+			<legend class="block text-sm font-semibold tracking-wide text-gray-600 uppercase">
 				What best describes your current role?
 			</legend>
 			<p class="mt-1 text-xs text-gray-500">Select all that apply.</p>
@@ -875,7 +882,7 @@
 					</label>
 					{#if option.value === 'other' && roles.includes('other')}
 						<input
-							class="ml-7 mt-2 w-full rounded-lg border px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500"
+							class="mt-2 ml-7 w-full rounded-lg border px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500"
 							bind:value={roleOther}
 							type="text"
 							name="roleOther"
@@ -888,7 +895,7 @@
 		</fieldset>
 
 		<fieldset class="border-0 p-0">
-			<legend class="block text-sm font-semibold uppercase tracking-wide text-gray-600">
+			<legend class="block text-sm font-semibold tracking-wide text-gray-600 uppercase">
 				What types of work outputs do you hope AI can help you create, improve, or automate?
 			</legend>
 			<p class="mt-1 text-xs text-gray-500">Select all that apply.</p>
@@ -907,7 +914,7 @@
 					</label>
 					{#if option.value === 'other' && contentTypes.includes('other')}
 						<input
-							class="ml-7 mt-2 w-full rounded-lg border px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500"
+							class="mt-2 ml-7 w-full rounded-lg border px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500"
 							bind:value={contentOther}
 							type="text"
 							name="contentOther"
@@ -921,7 +928,7 @@
 
 		<div>
 			<label
-				class="block text-sm font-semibold uppercase tracking-wide text-gray-600"
+				class="block text-sm font-semibold tracking-wide text-gray-600 uppercase"
 				for="ai-tools"
 			>
 				Which AI tools or AI-powered features do you use most often in your work?
@@ -944,7 +951,7 @@
 		</div>
 
 		<fieldset class="border-0 p-0">
-			<legend class="block text-sm font-semibold uppercase tracking-wide text-gray-600">
+			<legend class="block text-sm font-semibold tracking-wide text-gray-600 uppercase">
 				Bill is exploring a shared space for participants to connect and support one another.
 			</legend>
 			<p class="mt-1 text-xs text-gray-500">Select all that apply.</p>
@@ -964,7 +971,7 @@
 					</label>
 					{#if option.value === 'other' && communityInterests.includes('other')}
 						<input
-							class="ml-7 mt-2 w-full rounded-lg border px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500"
+							class="mt-2 ml-7 w-full rounded-lg border px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500"
 							bind:value={communityOther}
 							type="text"
 							name="communityOther"
@@ -978,7 +985,7 @@
 
 		<div>
 			<label
-				class="block text-sm font-semibold uppercase tracking-wide text-gray-600"
+				class="block text-sm font-semibold tracking-wide text-gray-600 uppercase"
 				for="syllabus"
 			>
 				Please think about the workshop syllabus. Is there anything additional you would like to
@@ -1012,7 +1019,7 @@
 
 		<div>
 			<label
-				class="block text-sm font-semibold uppercase tracking-wide text-gray-600"
+				class="block text-sm font-semibold tracking-wide text-gray-600 uppercase"
 				for="workshop-goal"
 			>
 				Think about what you personally want to get out of this workshop and finish this sentence:
@@ -1033,7 +1040,7 @@
 
 		<div>
 			<label
-				class="block text-sm font-semibold uppercase tracking-wide text-gray-600"
+				class="block text-sm font-semibold tracking-wide text-gray-600 uppercase"
 				for="additional"
 			>
 				Is there anything else you would like to share?
@@ -1049,7 +1056,7 @@
 
 		<div>
 			<label
-				class="block text-sm font-semibold uppercase tracking-wide text-gray-600"
+				class="block text-sm font-semibold tracking-wide text-gray-600 uppercase"
 				for="accessibility"
 			>
 				Do you have any accessibility or special accommodation needs?
@@ -1060,7 +1067,9 @@
 					<li>Share presentations</li>
 					<li>Chat in real time (text and voice)</li>
 					<li>Run polls and surveys (live or offline)</li>
-					<li>Screen sharing (by the host and optionally for those who wish to share their screen)</li>
+					<li>
+						Screen sharing (by the host and optionally for those who wish to share their screen)
+					</li>
 				</ul>
 				<p class="mt-3">
 					After the workshop, we offer optional (but highly recommended) exercises. You will use
@@ -1089,9 +1098,7 @@
 					Something went wrong while submitting the form. Please try again or email
 					<a class="font-semibold underline" href="mailto:bill.raymond@cambermast.com">
 						bill.raymond@cambermast.com
-					</a
-					>.
-					Error message: {errorMsg}
+					</a>. Error message: {errorMsg}
 				</p>
 			{:else if status === 'sending'}
 				<p class="text-sm text-gray-600" role="status">Sending...</p>
@@ -1106,7 +1113,7 @@
 			{status === 'sending' ? 'Sending...' : 'Submit survey'}
 		</button>
 
-		<p class="text-xs font-medium uppercase tracking-wide text-gray-500">
+		<p class="text-xs font-medium tracking-wide text-gray-500 uppercase">
 			Fields marked <span class="required-label required-label--inline" aria-hidden="true"></span>
 			are required.
 		</p>

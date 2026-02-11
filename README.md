@@ -59,6 +59,14 @@ These two documents live in the repo root as the source of truth. The SvelteKit 
 - Include a visible link to `/training/terms` on every registration form, landing page, or program overview so attendees know where to review policy details.
 - When policy language changes, update that file first and then refresh any marketing copy or registration emails that describe the guarantees.
 
+## Form Submission Standard
+
+- Use `web/src/lib/components/forms/TurnstileField.svelte` for Cloudflare Turnstile in new forms.
+- For webhook-backed submissions, use `web/src/lib/utils/form-submission.ts`:
+  - `postJsonWithTimeout(...)` for consistent timeout handling.
+  - `getWebhookSubmissionErrorMessage(...)` for consistent timeout/network/CORS messaging.
+- Keep webhook error payloads compatible with existing parsing patterns used by forms: `message`, `error`, `error-codes`, or `messages`.
+
 ## Microsoft Project Server Migration Support
 
 - `web/src/routes/services/microsoft-project-server/+page.svelte` is the dedicated page explaining how Cambermast and Project Hosts keep Microsoft Project Server online after Microsoft ends direct support.

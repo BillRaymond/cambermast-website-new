@@ -28,6 +28,8 @@ Use this file to keep automated changes aligned with the site’s governance and
 
 ## Forms
 - Use `web/src/lib/components/forms/TurnstileField.svelte` for Cloudflare Turnstile on new forms to keep mobile layout consistent.
+- Use `web/src/lib/utils/form-submission.ts` for webhook form submissions (`postJsonWithTimeout` + `getWebhookSubmissionErrorMessage`) so timeout and error UX stays consistent.
+- Keep webhook error responses compatible with existing parsing in form pages (`message`, `error`, `error-codes`, or `messages`) to preserve user-friendly feedback.
 
 ## Preferred workflow checks
 - Use `web/scripts/sync-site-metadata.mjs` (or `npm --prefix web run dev/build/preview`) to keep `web/static/ai.txt` and `web/static/llms.txt` in sync.

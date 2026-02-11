@@ -4,6 +4,10 @@
 	import SeoHead from '$lib/components/SeoHead.svelte';
 	import TurnstileField from '$lib/components/forms/TurnstileField.svelte';
 	import { listTrainingPrograms } from '$lib/data/training';
+	import {
+		getWebhookSubmissionErrorMessage,
+		postJsonWithTimeout
+	} from '$lib/utils/form-submission';
 
 	type FormStatus = 'idle' | 'sending' | 'sent' | 'error';
 
@@ -45,11 +49,11 @@
 
 	const programOptions = [...trainingPrograms, { slug: 'other', title: 'Other or not listed' }];
 
-
 	const productionTurnstileSiteKey = '0x4AAAAAACJwz83T0R7vFAHk';
 	const developmentTurnstileSiteKey = '1x00000000000000000000AA';
 	const productionBaseDomains = ['cambermast.com'];
-	const productionWebhookUrl = 'https://n8n.cambermast.com/webhook/847251a3-3ff6-4ad6-bfa5-80c85a9ecc56';
+	const productionWebhookUrl =
+		'https://n8n.cambermast.com/webhook/847251a3-3ff6-4ad6-bfa5-80c85a9ecc56';
 	const developmentWebhookUrl =
 		'https://n8n.cambermast.com/webhook-test/847251a3-3ff6-4ad6-bfa5-80c85a9ecc56';
 
@@ -193,7 +197,6 @@
 		turnstileWindow?.turnstile?.reset(getTurnstileTarget());
 	};
 
-
 	const initTurnstile = () => {
 		const turnstileWindow = getTurnstileWindow();
 		if (!turnstileWindow || !turnstileContainer) return;
@@ -301,19 +304,16 @@
 			return;
 		}
 
-
 		try {
-			const res = await fetch(getWebhookUrl(), {
-				method: 'POST',
-				mode: 'cors',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({
+			const res = await postJsonWithTimeout(
+				getWebhookUrl(),
+				{
 					programSlug: selectedProgram,
 					programTitle:
 						selectedProgram === 'other'
 							? customProgramTitle.trim() || 'Other or not listed'
-							: trainingPrograms.find((program) => program.slug === selectedProgram)?.title ??
-								'Training program',
+							: (trainingPrograms.find((program) => program.slug === selectedProgram)?.title ??
+								'Training program'),
 					relevance: Number(relevance),
 					confidence: Number(confidence),
 					likelihood: Number(likelihood),
@@ -326,8 +326,11 @@
 					turnstileToken,
 					turnstileSiteKey: turnstileSiteKeyInUse,
 					turnstileIsDevelopmentSiteKey
-				})
-			});
+				},
+				{
+					mode: 'cors'
+				}
+			);
 
 			if (!res.ok) {
 				let description = '';
@@ -352,9 +355,9 @@
 			allowEmailFollowUp = false;
 			turnstileToken = '';
 			resetTurnstile();
-		} catch (err: any) {
+		} catch (err: unknown) {
 			status = 'error';
-			errorMsg = err?.message ?? 'Something went wrong.';
+			errorMsg = getWebhookSubmissionErrorMessage(err, getTurnstileWindow()?.location.origin);
 			resetTurnstile();
 			turnstileToken = '';
 		}
@@ -381,7 +384,7 @@
 		/>
 	</figure>
 
-	<p class="text-center text-sm font-semibold uppercase tracking-wide text-amber-700">
+	<p class="text-center text-sm font-semibold tracking-wide text-amber-700 uppercase">
 		Thank you for sharing your post-training feedback.
 	</p>
 
@@ -443,8 +446,12 @@
 			<p class="text-base font-semibold text-gray-900">
 				<span class="required-label">How relevant was today’s session to your work?</span>
 			</p>
-			<p class="mt-2 text-sm text-gray-600">Scale: 1 to 5 (1 = Not relevant, 5 = Highly relevant).</p>
-			<div class="mt-4 space-y-2 sm:grid sm:grid-cols-[auto_1fr_auto] sm:items-center sm:gap-3 sm:space-y-0">
+			<p class="mt-2 text-sm text-gray-600">
+				Scale: 1 to 5 (1 = Not relevant, 5 = Highly relevant).
+			</p>
+			<div
+				class="mt-4 space-y-2 sm:grid sm:grid-cols-[auto_1fr_auto] sm:items-center sm:gap-3 sm:space-y-0"
+			>
 				<span class="hidden text-sm text-gray-500 sm:block">Not relevant</span>
 				<div class="flex items-center justify-between">
 					{#each scaleOptions as option}
@@ -466,12 +473,17 @@
 		</fieldset>
 
 		<fieldset class="survey-fieldset rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-			<legend class="sr-only">How confident do you feel applying what you learned? Required.</legend>
+			<legend class="sr-only">How confident do you feel applying what you learned? Required.</legend
+			>
 			<p class="text-base font-semibold text-gray-900">
 				<span class="required-label">How confident do you feel applying what you learned?</span>
 			</p>
-			<p class="mt-2 text-sm text-gray-600">Scale: 1 to 5 (1 = Not confident, 5 = Very confident).</p>
-			<div class="mt-4 space-y-2 sm:grid sm:grid-cols-[auto_1fr_auto] sm:items-center sm:gap-3 sm:space-y-0">
+			<p class="mt-2 text-sm text-gray-600">
+				Scale: 1 to 5 (1 = Not confident, 5 = Very confident).
+			</p>
+			<div
+				class="mt-4 space-y-2 sm:grid sm:grid-cols-[auto_1fr_auto] sm:items-center sm:gap-3 sm:space-y-0"
+			>
 				<span class="hidden text-sm text-gray-500 sm:block">Not confident</span>
 				<div class="flex items-center justify-between">
 					{#each scaleOptions as option}
@@ -493,12 +505,16 @@
 		</fieldset>
 
 		<fieldset class="survey-fieldset rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-			<legend class="sr-only">How likely are you to use this in your day-to-day work? Required.</legend>
+			<legend class="sr-only"
+				>How likely are you to use this in your day-to-day work? Required.</legend
+			>
 			<p class="text-base font-semibold text-gray-900">
 				<span class="required-label">How likely are you to use this in your day-to-day work?</span>
 			</p>
 			<p class="mt-2 text-sm text-gray-600">Scale: 1 to 5 (1 = Not likely, 5 = Very likely).</p>
-			<div class="mt-4 space-y-2 sm:grid sm:grid-cols-[auto_1fr_auto] sm:items-center sm:gap-3 sm:space-y-0">
+			<div
+				class="mt-4 space-y-2 sm:grid sm:grid-cols-[auto_1fr_auto] sm:items-center sm:gap-3 sm:space-y-0"
+			>
 				<span class="hidden text-sm text-gray-500 sm:block">Not likely</span>
 				<div class="flex items-center justify-between">
 					{#each scaleOptions as option}
@@ -586,9 +602,7 @@
 					Something went wrong while submitting the form. Please try again or email
 					<a class="font-semibold underline" href="mailto:bill.raymond@cambermast.com">
 						bill.raymond@cambermast.com
-					</a
-					>.
-					Error message: {errorMsg}
+					</a>. Error message: {errorMsg}
 				</p>
 			{:else if status === 'sending'}
 				<p class="text-sm text-gray-600" role="status">Sending...</p>
@@ -603,13 +617,13 @@
 			{status === 'sending' ? 'Sending...' : 'Submit survey'}
 		</button>
 
-		<p class="text-xs font-medium uppercase tracking-wide text-gray-500">
+		<p class="text-xs font-medium tracking-wide text-gray-500 uppercase">
 			Fields marked <span class="required-label required-label--inline" aria-hidden="true"></span>
 			are required.
 		</p>
 		<p class="text-xs text-gray-500">
-			We keep your responses so we can tailor future training. You can ask us to edit or delete
-			your survey at any time. Full details live in our
+			We keep your responses so we can tailor future training. You can ask us to edit or delete your
+			survey at any time. Full details live in our
 			<a class="font-semibold text-blue-600 underline" href="/gdpr">GDPR & privacy overview</a>.
 		</p>
 	</form>
