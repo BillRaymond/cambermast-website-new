@@ -30,7 +30,7 @@ export const pageSeo: SeoOverrides = {
 	'/connect': {
 		title: 'Book a Consultation with Bill Raymond | Cambermast',
 		description:
-			'Pick a paid consultation time with Bill Raymond, or start with a free 15-minute chat.'
+			'Pick a paid consultation time with Bill Raymond for training, advisory, and workflow decisions.'
 	},
 	'/training': {
 		title: 'AI Training Programs | Cambermast',

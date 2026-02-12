@@ -326,12 +326,6 @@
 
 <section class="bg-gradient-to-b from-blue-50/60 to-white">
 	<div class="mx-auto flex max-w-6xl flex-col gap-4 px-4 py-4">
-		<header class="flex flex-col gap-5">
-			<h1 class="text-3xl font-bold text-gray-900">
-				Upcoming AI workshops, cohorts, and events you can join
-			</h1>
-		</header>
-
 		<div class="flex flex-col gap-1">
 			<div
 				class="flex flex-wrap items-center gap-2 pl-5 text-xs font-semibold tracking-wide text-gray-500 uppercase"

@@ -8,4 +8,5 @@
 
 <SeoHead title={pageMeta.title} description={pageMeta.description} path="/events" />
 
+<h1 class="mb-6 text-3xl font-bold">Calendar of Events</h1>
 <CalendarPage />

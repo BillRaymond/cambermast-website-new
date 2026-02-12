@@ -134,7 +134,7 @@
 	<a class="skip-link" href="#main-content">Skip to main content</a>
 	<header class="flex flex-col items-center bg-white px-5 py-3">
 		<a
-			href="/about"
+			href="/"
 			class="mb-2 inline-flex items-center justify-center gap-3 rounded-3xl border border-gray-200 bg-white px-3 py-2 shadow-sm focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:outline-none"
 		>
 			<img

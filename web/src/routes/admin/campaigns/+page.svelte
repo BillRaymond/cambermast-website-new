@@ -2,6 +2,7 @@
 	import { browser } from '$app/environment';
 	import { onMount, tick } from 'svelte';
 	import QRCode from 'qrcode';
+	import AdminRouteChips from '$lib/components/admin/AdminRouteChips.svelte';
 	import SeoHead from '$lib/components/SeoHead.svelte';
 	import { SITE_ORIGIN } from '$lib/config/site';
 	import { getCampaignShortPath, getCampaignTrackingPath, listCampaigns } from '$lib/data/campaigns';
@@ -212,19 +213,12 @@
 </svelte:head>
 
 <section class="mb-10">
-	<div class="mx-auto max-w-4xl text-center">
-		<h1 class="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">Campaigns</h1>
-		<p class="mt-4 text-lg text-gray-600">
+	<div>
+		<h1 class="mb-6 text-3xl font-bold">Campaigns</h1>
+		<AdminRouteChips />
+		<p class="max-w-3xl text-gray-700">
 			Internal campaign registry. Data source:
 			<code class="rounded bg-blue-100/70 px-2 py-0.5 text-sm text-blue-900">/api/campaigns.json</code>
-		</p>
-		<p class="mt-4">
-			<a
-				href="/admin/events"
-				class="inline-flex items-center justify-center rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-semibold text-gray-700 shadow-sm transition hover:border-gray-300 hover:text-gray-900"
-			>
-				View events registry →
-			</a>
 		</p>
 	</div>
 </section>

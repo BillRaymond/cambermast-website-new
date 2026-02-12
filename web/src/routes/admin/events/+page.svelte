@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { PageData } from './$types';
+	import AdminRouteChips from '$lib/components/admin/AdminRouteChips.svelte';
 
 	export let data: PageData;
 
@@ -45,38 +46,22 @@
 	};
 </script>
 
-<main class="mx-auto max-w-6xl px-4 py-10 md:px-6">
-	<header class="flex flex-col gap-3">
-		<h1 class="text-3xl font-semibold tracking-tight text-gray-900">Internal events registry</h1>
-		<p class="max-w-3xl text-sm text-gray-600">
-			Use this route to manage event visibility, lifecycle state, registration state, and campaign
-			linkage. This page is internal-only and intentionally excluded from sitemap/navigation.
-		</p>
-		<p class="pt-1 text-center">
-			<a
-				href="/admin"
-				class="inline-flex items-center justify-center rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-semibold text-gray-700 shadow-sm transition hover:border-gray-300 hover:text-gray-900"
-			>
-				Admin home →
-			</a>
-		</p>
-		<p class="pt-1 text-center">
-			<a
-				href="/admin/campaigns"
-				class="inline-flex items-center justify-center rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-semibold text-gray-700 shadow-sm transition hover:border-gray-300 hover:text-gray-900"
-			>
-				View campaigns →
-			</a>
-		</p>
-		<p class="text-xs text-gray-500">
-			Data source:
-			<code class="rounded bg-gray-100 px-1 py-0.5 text-[0.7rem] text-gray-700">
-				web/src/lib/data/events/events.json
-			</code>
-		</p>
-	</header>
+<header class="flex flex-col">
+	<h1 class="mb-6 text-3xl font-bold">Internal events registry</h1>
+	<AdminRouteChips />
+	<p class="max-w-3xl text-gray-700">
+		Use this route to manage event visibility, lifecycle state, registration state, and campaign
+		linkage. This page is internal-only and intentionally excluded from sitemap/navigation.
+	</p>
+	<p class="text-xs text-gray-500">
+		Data source:
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-[0.7rem] text-gray-700">
+			web/src/lib/data/events/events.json
+		</code>
+	</p>
+</header>
 
-	<section class="mt-8 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+<section class="mt-8 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
 		<div class="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
 			<p class="text-xs font-semibold tracking-wide text-gray-500 uppercase">Visibility</p>
 			<p class="mt-2 text-sm text-gray-700">
@@ -268,5 +253,3 @@
 			</div>
 		</div>
 	</section>
-</main>
-

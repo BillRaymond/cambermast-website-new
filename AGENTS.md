@@ -7,6 +7,13 @@ Use this file to keep automated changes aligned with the site’s governance and
 - Keep policy, governance, and AI guidance consistent across the site.
 - Do not invent services, partners, credentials, pricing, or dates.
 
+## Page layout baseline (new/updated pages)
+- Use `web/src/routes/about/+page.svelte` as the default layout model unless a route has an intentional custom design.
+- Do not add nested `mx-auto max-w-*` wrappers around the top heading/content block on standard pages; use the shared layout container alignment.
+- Start pages with a left-aligned heading block:
+  - `h1` class: `mb-6 text-3xl font-bold`
+  - Intro paragraph class: `max-w-3xl text-gray-700`
+
 ## When adding or changing routes/content
 - Update `web/src/routes/sitemap.xml/+server.ts` for new public routes.
 - Update `web/static/robots.txt` if crawl rules change.

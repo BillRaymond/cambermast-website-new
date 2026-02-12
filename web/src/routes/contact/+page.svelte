@@ -93,7 +93,6 @@
 	};
 
 	const webhook = 'https://n8n.cambermast.com/webhook/0095b76c-c32c-49ce-a59d-de6435af2b3e';
-	const calBookingUrl = 'https://cal.com/billraymond/15min';
 
 	const getProgramTitle = (slug: string): string =>
 		contactOptions.find((option) => option.slug === slug)?.title ??
@@ -364,18 +363,15 @@
 
 	<div class="space-y-5">
 		<section class="rounded-2xl border bg-blue-50 p-6 text-blue-900 shadow">
-			<h2 class="text-xl font-semibold">Or, book a 15-minute training consult</h2>
+			<h2 class="text-xl font-semibold">Need a live consult?</h2>
 			<p class="mt-2 text-sm text-blue-900">
-				Pick a time that works for you. Bring your questions about AI training, private team
-				workshops, or custom AI enablement plans.
+				See paid consultation options with Bill and pick the time that matches your needs.
 			</p>
 			<a
 				class="mt-4 inline-flex w-full items-center justify-center rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow transition hover:bg-blue-700"
-				href={calBookingUrl}
-				target="_blank"
-				rel="noreferrer"
+				href="/connect"
 			>
-				Book a 15-minute call
+				View consultation options
 			</a>
 		</section>
 

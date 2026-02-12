@@ -180,6 +180,7 @@
 
 <SeoHead title={pageMeta.title} description={pageMeta.description} path="/strategy" />
 
+<h1 class="mb-6 text-3xl font-bold">{section.label}</h1>
 <section
 	class="mb-12 overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-blue-900 to-blue-700 text-white shadow-xl"
 >
@@ -188,7 +189,6 @@
 			<p class="text-sm font-semibold tracking-[0.25em] text-blue-200 uppercase">
 				Outcome-focused advisory
 			</p>
-			<h1 class="text-3xl font-bold lg:text-4xl">{section.label}</h1>
 			<p class="text-lg text-blue-50 lg:text-xl">
 				{section.headline} When repetitive tasks and overbuilt processes eat into revenue, bring them
 				to us and we’ll turn them into clear next steps, prototypes, and proof you can rally around.

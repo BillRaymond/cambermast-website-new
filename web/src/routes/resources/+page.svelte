@@ -35,15 +35,15 @@
 	imageAlt={heroImageAlt}
 />
 
-<section class="mx-auto max-w-4xl text-left">
-	<h1 class="mb-5 text-3xl font-bold">Resources for AI training and delivery</h1>
+<section class="text-left">
+	<h1 class="mb-6 text-3xl font-bold">Resources for AI training and delivery</h1>
 	<p class="mb-8 text-gray-700">
 		Practical guides and checklists to help you prepare for Cambermast sessions, keep your team
 		aligned, and apply what you learn.
 	</p>
 </section>
 
-<section id="attendee-training-tips" class="mx-auto mb-16 max-w-4xl space-y-6">
+<section id="attendee-training-tips" class="mb-16 space-y-6">
 	{#each resources as resource (resource.href)}
 		<ResourceCard {...resource} />
 	{/each}

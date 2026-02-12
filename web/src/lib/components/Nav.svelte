@@ -55,14 +55,6 @@
 			: 'flex-row items-center'
 	}`}
 >
-	<a
-		href="/"
-		onclick={handleNavClick}
-		class={pathname === '/' ? 'font-semibold text-blue-600' : 'hover:text-blue-600'}
-		aria-current={pathname === '/' ? 'page' : undefined}
-	>
-		Home
-	</a>
 	{#each navLinks as link}
 		{@const isActive = pathname === link.href || pathname.startsWith(`${link.href}/`)}
 		<a

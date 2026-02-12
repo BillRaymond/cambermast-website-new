@@ -3,6 +3,7 @@
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 	import QRCode from 'qrcode';
+	import AdminRouteChips from '$lib/components/admin/AdminRouteChips.svelte';
 	import SeoHead from '$lib/components/SeoHead.svelte';
 	import { SITE_ORIGIN } from '$lib/config/site';
 	import { getCampaignShortPath, listCampaigns } from '$lib/data/campaigns';
@@ -130,12 +131,10 @@
 </svelte:head>
 
 <section class="mb-10">
-	<div class="mx-auto max-w-4xl text-center">
-		<p class="text-xs font-semibold tracking-[0.25em] text-blue-700 uppercase">Partner access</p>
-		<h1 class="mt-3 text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">
-			{partnerLabel} assets
-		</h1>
-		<p class="mt-4 text-lg text-gray-600">Share-ready production links and printable QR files.</p>
+	<div>
+		<h1 class="mb-6 text-3xl font-bold">{partnerLabel} assets</h1>
+		<AdminRouteChips />
+		<p class="max-w-3xl text-gray-700">Share-ready production links and printable QR files.</p>
 	</div>
 </section>
 
@@ -277,4 +276,3 @@
 		{/if}
 	</div>
 </section>
-

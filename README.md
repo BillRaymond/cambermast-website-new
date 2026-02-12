@@ -111,6 +111,14 @@ When publishing significant messaging or offer changes:
 4. Keep structural metadata current: update `web/static/robots.txt` and `web/src/routes/sitemap.xml/+server.ts` whenever routes, slugs, or canonical URLs change so crawlers pick up the new paths.
 5. Ensure the training [worksheet](https://docs.google.com/spreadsheets/d/1KmPBGD2_6RVGvnvK9d26zuvbxCfkbBCx9Fs816z7YhA/edit?gid=0#gid=0) updates.
 
+## Standard Page Layout
+
+- Use `web/src/routes/about/+page.svelte` as the default page scaffold for new standard pages.
+- Keep top-level content aligned to the shared layout container; avoid extra nested `mx-auto max-w-*` wrappers around the page heading block unless intentionally designing a custom layout.
+- Use this heading baseline by default:
+  - `h1`: `mb-6 text-3xl font-bold`
+  - Intro copy: `max-w-3xl text-gray-700`
+
 ## Testimonial Photos
 
 - Store approved headshots under `web/static/images/testimonials/`.
