@@ -1,8 +1,8 @@
 import { SITE_ORIGIN } from '$lib/config/site';
 import catalog from '$lib/data/catalog.json';
-import { listEvents } from '$lib/data/events';
 import { listNewsPosts } from '$lib/data/news';
 import { listTrainingPrograms } from '$lib/data/training';
+import { listEventUi } from '$lib/view-models/events';
 
 const origin = SITE_ORIGIN.replace(/\/$/, '');
 
@@ -50,7 +50,7 @@ const getTrainingRoutes = (): string[] =>
 
 const getNewsRoutes = (): string[] => listNewsPosts().map((post) => `/news/${post.slug}`);
 const getEventRoutes = (): string[] =>
-	listEvents({ includeDrafts: false, includeUnlisted: false }).map(
+	listEventUi({ includeDrafts: false, includeUnlisted: false }).map(
 		(event) => `/events/${event.slug}`
 	);
 const uniquePaths = (): string[] => {

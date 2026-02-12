@@ -5,9 +5,7 @@
 	import AdminRouteChips from '$lib/components/admin/AdminRouteChips.svelte';
 	import SeoHead from '$lib/components/SeoHead.svelte';
 	import { SITE_ORIGIN } from '$lib/config/site';
-	import { getCampaignShortPath, listCampaigns } from '$lib/data/campaigns';
-
-	type Campaign = ReturnType<typeof listCampaigns>[number];
+	import { listCampaignUi } from '$lib/view-models/campaigns';
 
 	type QrAsset = {
 		pngDataUrl?: string;
@@ -21,14 +19,10 @@
 	const prodOrigin = SITE_ORIGIN.replace(/\/$/, '');
 	const qrSize = 512;
 
-	const campaigns = listCampaigns().map((campaign) => {
-		const shortPath = getCampaignShortPath(campaign.id);
-		return {
-			...campaign,
-			shortPath,
-			shortUrlProd: `${prodOrigin}${shortPath}`
-		};
-	});
+	const campaigns = listCampaignUi(prodOrigin).map((campaign) => ({
+		...campaign,
+		shortUrlProd: campaign.shortUrl
+	}));
 
 	let copiedKey = '';
 	let qrAssets: Record<string, QrAsset> = {};
@@ -202,7 +196,9 @@
 							<div class="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
 								<div class="flex flex-wrap items-center justify-between gap-3">
 									<div>
-										<p class="text-xs font-semibold tracking-wide text-gray-500 uppercase">QR code</p>
+										<p class="text-xs font-semibold tracking-wide text-gray-500 uppercase">
+											QR code
+										</p>
 										<p class="mt-1 text-xs text-gray-600">Printable QR files for this campaign.</p>
 									</div>
 								</div>

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onDestroy } from 'svelte';
 	import SeoHead from '$lib/components/SeoHead.svelte';
-	import { getEventTypeLabel } from '$lib/data/events';
+	import { getEventTypeLabelUi } from '$lib/view-models/events';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
@@ -114,7 +114,7 @@
 				<span
 					class="inline-flex rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700"
 				>
-					{getEventTypeLabel(event)}
+					{getEventTypeLabelUi(event)}
 				</span>
 				{#if statusLabel}
 					<span
@@ -129,7 +129,9 @@
 				{event.title}
 			</h1>
 			{#if event.subtitle}
-				<p class="mt-2 text-sm font-semibold tracking-wide text-slate-600 uppercase">{event.subtitle}</p>
+				<p class="mt-2 text-sm font-semibold tracking-wide text-slate-600 uppercase">
+					{event.subtitle}
+				</p>
 			{/if}
 			<p class="mt-4 text-base text-slate-700 md:text-lg">{event.summary}</p>
 

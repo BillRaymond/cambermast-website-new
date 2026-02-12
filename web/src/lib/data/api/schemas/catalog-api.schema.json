@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cambermast.com/schemas/catalog-api.schema.json",
+  "title": "Catalog API Response",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["catalog", "trainingPrograms"],
+  "properties": {
+    "catalog": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "trainingPrograms": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": ["slug", "route", "title", "scheduleTemplate"],
+        "properties": {
+          "slug": { "type": "string" },
+          "route": { "type": "string", "pattern": "^https?://" },
+          "sku": { "type": "string" },
+          "title": { "type": "string" },
+          "scheduleTemplate": {
+            "type": "object",
+            "additionalProperties": true,
+            "required": [
+              "durationDays",
+              "hoursPerDayCommitment",
+              "defaultStartTimeLocal",
+              "defaultTimeZone",
+              "defaultTimeZoneLabel"
+            ],
+            "properties": {
+              "durationDays": { "type": "integer", "minimum": 1 },
+              "hoursPerDayCommitment": { "type": "number", "exclusiveMinimum": 0 },
+              "defaultStartTimeLocal": { "type": "string" },
+              "defaultTimeZone": { "type": "string" },
+              "defaultTimeZoneLabel": { "type": "string" },
+              "defaultLocationLabel": { "type": "string" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

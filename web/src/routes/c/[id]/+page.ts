@@ -1,25 +1,25 @@
 import { error } from '@sveltejs/kit';
-import { getCampaignTrackingPath, listCampaigns } from '$lib/data/campaigns';
+import { SITE_ORIGIN } from '$lib/config/site';
+import { getCampaignUi, listCampaignUi } from '$lib/view-models/campaigns';
 
 export const prerender = true;
+const origin = SITE_ORIGIN.replace(/\/$/, '');
 
 export const entries = () => {
-	return listCampaigns().map((campaign) => ({
+	return listCampaignUi(origin).map((campaign) => ({
 		id: campaign.id
 	}));
 };
 
 export const load = ({ params }) => {
-	const campaign = listCampaigns().find((item) => item.id === params.id);
+	const campaign = getCampaignUi(params.id, origin);
 
 	if (!campaign) {
 		throw error(404, 'Campaign not found');
 	}
 
-	const redirectPath = getCampaignTrackingPath(campaign);
-
 	return {
 		id: campaign.id,
-		redirectPath
+		redirectPath: campaign.trackingPath
 	};
 };

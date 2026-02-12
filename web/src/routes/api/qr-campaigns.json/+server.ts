@@ -1,10 +1,6 @@
 import { SITE_ORIGIN } from '$lib/config/site';
-import {
-	getCampaignRegistryVersion,
-	getCampaignShortPath,
-	getCampaignTrackingPath,
-	listCampaigns
-} from '$lib/data/campaigns';
+import { getCampaignRegistryVersion } from '$lib/data/campaigns';
+import { listCampaignUi } from '$lib/view-models/campaigns';
 
 export const prerender = true;
 
@@ -14,13 +10,13 @@ export const GET = ({ url }: { url: URL }) => {
 	const payload = {
 		version: getCampaignRegistryVersion(),
 		generatedAt: new Date().toISOString(),
-		campaigns: listCampaigns().map((campaign) => {
-			const qrPath = getCampaignTrackingPath(campaign);
-			const qrUrl = `${origin}${qrPath}`;
-			const shortPath = getCampaignShortPath(campaign.id);
-			const shortUrl = `${origin}${shortPath}`;
-
-			return { ...campaign, qrPath, qrUrl, shortPath, shortUrl };
+		campaigns: listCampaignUi(origin).map((campaign) => {
+			return {
+				...campaign,
+				qrPath: campaign.trackingPath,
+				qrUrl: campaign.trackingUrl,
+				shortUrl: campaign.shortUrl
+			};
 		})
 	};
 

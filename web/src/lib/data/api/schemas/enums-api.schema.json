@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cambermast.com/schemas/enums-api.schema.json",
+  "title": "Enums API Response",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["generatedAt", "enums", "patterns", "knownPartnerCodes"],
+  "properties": {
+    "generatedAt": { "type": "string", "format": "date-time" },
+    "enums": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "eventVisibility",
+        "eventLifecycleStatus",
+        "eventRegistrationStatus",
+        "eventLocationMode",
+        "eventLocationDetailsVisibility"
+      ],
+      "properties": {
+        "eventVisibility": { "type": "array", "items": { "type": "string" } },
+        "eventLifecycleStatus": { "type": "array", "items": { "type": "string" } },
+        "eventRegistrationStatus": { "type": "array", "items": { "type": "string" } },
+        "eventLocationMode": { "type": "array", "items": { "type": "string" } },
+        "eventLocationDetailsVisibility": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "patterns": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["eventId", "eventSlug", "campaignId", "utmContent", "partnerCode"],
+      "properties": {
+        "eventId": { "type": "string" },
+        "eventSlug": { "type": "string" },
+        "campaignId": { "type": "string" },
+        "utmContent": { "type": "string" },
+        "partnerCode": { "type": "string" }
+      }
+    },
+    "knownPartnerCodes": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^[A-Z0-9]{3,4}$" }
+    }
+  }
+}

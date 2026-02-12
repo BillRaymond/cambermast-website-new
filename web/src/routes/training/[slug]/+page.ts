@@ -1,7 +1,7 @@
 import { error } from '@sveltejs/kit';
 
-import { isEventUpcoming, listEvents } from '$lib/data/events';
 import { getTrainingProgram } from '$lib/data/training';
+import { isEventUpcomingUi, listEventUi } from '$lib/view-models/events';
 
 import type { PageLoad } from './$types';
 
@@ -14,8 +14,8 @@ export const load: PageLoad = ({ params }) => {
 		throw error(404, 'Training program not found');
 	}
 
-	const relatedEvents = listEvents()
-		.filter((event) => isEventUpcoming(event))
+	const relatedEvents = listEventUi()
+		.filter((event) => isEventUpcomingUi(event))
 		.filter((event) => event.programRef?.sku === program.sku);
 
 	return { program, relatedEvents };

@@ -4,13 +4,13 @@
 	"version": "0.0.1",
 	"type": "module",
 	"scripts": {
-		"prebuild": "node ./scripts/sync-site-metadata.mjs && npm run validate:events && npm run validate:campaigns",
+		"prebuild": "node ./scripts/sync-site-metadata.mjs && npm run validate:events && npm run validate:campaigns && npm run validate:api && npm run validate:ui-adapters",
 		"dev": "vite dev",
-		"predev": "node ./scripts/sync-site-metadata.mjs && npm run validate:events && npm run validate:campaigns",
+		"predev": "node ./scripts/sync-site-metadata.mjs && npm run validate:events && npm run validate:campaigns && npm run validate:api && npm run validate:ui-adapters",
 		"dev:host": "vite dev --host 0.0.0.0 --port 5173",
 		"build": "vite build",
 		"preview": "vite preview",
-		"prepreview": "node ./scripts/sync-site-metadata.mjs && npm run validate:events && npm run validate:campaigns",
+		"prepreview": "node ./scripts/sync-site-metadata.mjs && npm run validate:events && npm run validate:campaigns && npm run validate:api && npm run validate:ui-adapters",
 		"prepare": "svelte-kit sync || echo ''",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
@@ -18,7 +18,9 @@
 		"format": "prettier --write .",
 		"lint": "prettier --check . && eslint .",
 		"validate:campaigns": "node ./scripts/validate-campaigns.mjs",
-		"validate:events": "node ./scripts/validate-events.mjs"
+		"validate:events": "node ./scripts/validate-events.mjs",
+		"validate:api": "tsx ./scripts/validate-api-responses.ts",
+		"validate:ui-adapters": "tsx ./scripts/validate-ui-adapters.ts"
 	},
 	"devDependencies": {
 		"@eslint/compat": "^1.2.5",

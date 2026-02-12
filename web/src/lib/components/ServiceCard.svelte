@@ -1,18 +1,33 @@
-<script>
+<script lang="ts">
 	import ReviewCard from '$lib/components/ReviewCard.svelte';
 	import SessionCard from '$lib/components/SessionCard.svelte';
 
-	export let icon;
-	export let label;
-	export let headline;
-	export let testimonial;
-	export let author;
-	export let testimonialRole;
-	export let testimonialPhotoUrl;
-	export let route;
-	export let testimonialCta;
+	type UpcomingSession = {
+		programTitle: string;
+		sessionTitle?: string;
+		date: string;
+		timeLines?: string[];
+		location?: string;
+		registerUrl?: string;
+	};
+
+	type TestimonialCta = {
+		href?: string;
+		label?: string;
+		ariaLabel?: string;
+	};
+
+	export let icon: string | undefined = undefined;
+	export let label: string | undefined = undefined;
+	export let headline: string | undefined = undefined;
+	export let testimonial: string | undefined = undefined;
+	export let author: string | undefined = undefined;
+	export let testimonialRole: string | undefined = undefined;
+	export let testimonialPhotoUrl: string | null | undefined = undefined;
+	export let route: string | undefined = undefined;
+	export let testimonialCta: TestimonialCta | undefined = undefined;
 	export let hasUpcomingSessions = false;
-	export let upcomingSessions = [];
+	export let upcomingSessions: UpcomingSession[] = [];
 
 	const DEFAULT_TESTIMONIAL_CTA_LABEL = 'Schedule for your team';
 	const CONTACT_BADGE_LABEL = 'Contact us for availability';
@@ -90,8 +105,8 @@
 					{#if testimonial}
 						<div class="w-full">
 							<ReviewCard
-								quote={testimonial}
-								{author}
+								quote={testimonial ?? ''}
+								author={author ?? ''}
 								role={testimonialRole ?? ''}
 								photoUrl={testimonialPhotoUrl ?? undefined}
 							/>

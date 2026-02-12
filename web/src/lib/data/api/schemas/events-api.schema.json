@@ -1,0 +1,151 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://cambermast.com/schemas/events-api.schema.json",
+	"title": "Events API Response",
+	"type": "object",
+	"additionalProperties": false,
+	"required": ["generatedAt", "events"],
+	"properties": {
+		"generatedAt": { "type": "string", "format": "date-time" },
+		"events": {
+			"type": "array",
+			"items": {
+				"type": "object",
+				"additionalProperties": false,
+				"required": [
+					"id",
+					"slug",
+					"title",
+					"type",
+					"summary",
+					"startAtUtc",
+					"visibility",
+					"lifecycleStatus",
+					"registrationStatus",
+					"cta",
+					"location",
+					"url"
+				],
+				"properties": {
+					"id": { "type": "string", "pattern": "^[a-z0-9]{6}$" },
+					"slug": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+					"title": { "type": "string", "minLength": 1 },
+					"subtitle": { "type": "string", "minLength": 1 },
+					"type": { "type": "string", "minLength": 1 },
+					"typeLabel": { "type": "string" },
+					"tagline": { "type": "string" },
+					"summary": { "type": "string", "minLength": 1 },
+					"description": {
+						"oneOf": [
+							{ "type": "string" },
+							{
+								"type": "object",
+								"additionalProperties": false,
+								"properties": {
+									"summary": { "type": "string" },
+									"bodyMd": { "type": "string" }
+								}
+							}
+						]
+					},
+					"highlights": { "type": "array", "items": { "type": "string" } },
+					"startAtUtc": { "type": "string", "format": "date-time", "pattern": "Z$" },
+					"endAtUtc": { "type": "string", "format": "date-time", "pattern": "Z$" },
+					"date": { "type": "string" },
+					"time": {
+						"oneOf": [{ "type": "string" }, { "type": "array", "items": { "type": "string" } }]
+					},
+					"timezone": { "type": "string" },
+					"visibility": { "type": "string", "enum": ["public", "unlisted", "draft"] },
+					"lifecycleStatus": {
+						"type": "string",
+						"enum": ["scheduled", "postponed", "canceled", "completed"]
+					},
+					"registrationStatus": {
+						"type": "string",
+						"enum": ["open", "closed", "external", "none", "waitlist", "sold_out"]
+					},
+					"cta": {
+						"type": "object",
+						"additionalProperties": false,
+						"required": ["label"],
+						"properties": {
+							"label": { "type": "string", "minLength": 1 },
+							"url": { "type": "string" },
+							"campaignId": {
+								"type": "string",
+								"pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+							}
+						}
+					},
+					"location": {
+						"type": "object",
+						"additionalProperties": false,
+						"required": ["mode", "publicLabel", "detailsVisibility"],
+						"properties": {
+							"mode": { "type": "string", "enum": ["online", "in_person", "hybrid"] },
+							"publicLabel": { "type": "string", "minLength": 1 },
+							"detailsVisibility": {
+								"type": "string",
+								"enum": ["public", "post_signup", "tbd"]
+							},
+							"joinUrl": { "type": "string" }
+						}
+					},
+					"speakers": {
+						"type": "array",
+						"items": {
+							"type": "object",
+							"additionalProperties": false,
+							"required": ["name", "title"],
+							"properties": {
+								"name": { "type": "string" },
+								"title": { "type": "string" },
+								"photo": { "type": "string" },
+								"photoAlt": { "type": "string" }
+							}
+						}
+					},
+					"programRef": {
+						"type": "object",
+						"additionalProperties": false,
+						"required": ["sku"],
+						"properties": {
+							"sku": { "type": "string", "pattern": "^CM-TR-[0-9]{3}$" }
+						}
+					},
+					"schedule": {
+						"type": "object",
+						"additionalProperties": false,
+						"required": ["durationDays", "estimatedHoursCommitment"],
+						"properties": {
+							"durationDays": { "type": "integer", "minimum": 1 },
+							"estimatedHoursCommitment": { "type": "number", "exclusiveMinimum": 0 }
+						}
+					},
+					"partnerCode": { "type": "string", "pattern": "^[A-Z0-9]{3,4}$" },
+					"campaignId": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+					"image": { "type": "string" },
+					"imageAlt": { "type": "string" },
+					"url": { "type": "string", "pattern": "^https?://" }
+				},
+				"allOf": [
+					{
+						"if": {
+							"properties": {
+								"type": { "const": "training_session" }
+							}
+						},
+						"then": {
+							"required": ["programRef", "schedule"],
+							"properties": {
+								"programRef": { "type": "object" },
+								"schedule": { "type": "object" }
+							}
+						}
+					}
+				]
+			}
+		}
+	}
+}

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import ReviewCard from '$lib/components/ReviewCard.svelte';
 	import SessionCard from '$lib/components/SessionCard.svelte';
-	import { getEventTypeLabel } from '$lib/data/events';
+	import { getEventTypeLabelUi } from '$lib/view-models/events';
 	import type { Event } from '$lib/data/events/types';
 	import type { TrainingFaq, TrainingProgram, TrainingStat } from '$lib/data/training/types';
 	import {
@@ -118,9 +118,7 @@
 		if (!registerableSessions.length) {
 			featuredRegistrationSession = undefined;
 		} else {
-			const sorted = [...registerableSessions].sort(
-				(a, b) => a.startTimestamp - b.startTimestamp
-			);
+			const sorted = [...registerableSessions].sort((a, b) => a.startTimestamp - b.startTimestamp);
 			featuredRegistrationSession = sorted[0];
 		}
 	}
@@ -255,7 +253,7 @@
 												<span
 													class="text-xs font-semibold tracking-wide text-emerald-600 uppercase"
 												>
-													{getEventTypeLabel(event)}
+													{getEventTypeLabelUi(event)}
 												</span>
 												{#if event.draft}
 													<span

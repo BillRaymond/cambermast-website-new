@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import type { EventUiModel } from '$lib/view-models/events';
 	import {
-		getEventStartTimestamp,
-		getEventTypeLabel,
-		isEventUpcoming,
-		listEvents
-	} from '$lib/data/events';
-	import type { Event } from '$lib/data/events/types';
+		getEventStartTimestampUi,
+		getEventTypeLabelUi,
+		isEventUpcomingUi,
+		listEventUi
+	} from '$lib/view-models/events';
 	import { getTrainingProgramBySku } from '$lib/data/training';
 	import { getPartnerByCode } from '$lib/data/partners';
 	import { getProgramCertificateText } from '$lib/data/training/program-meta';
@@ -136,7 +136,7 @@
 		return null;
 	};
 
-	const getEventCardImage = (event: Event): EntryImage => {
+	const getEventCardImage = (event: EventUiModel): EntryImage => {
 		const image = event.image
 			? {
 					src: event.image,
@@ -151,7 +151,6 @@
 		};
 	};
 
-
 	const toFiniteTimestamp = (value: number): number | null =>
 		Number.isFinite(value) ? value : null;
 
@@ -160,8 +159,8 @@
 	let happeningEntries: UpcomingEntry[] = [];
 	let filteredHappeningEntries: UpcomingEntry[] = [];
 
-	$: upcomingEventEntries = listEvents()
-		.filter((event) => isEventUpcoming(event, today))
+	$: upcomingEventEntries = listEventUi()
+		.filter((event) => isEventUpcomingUi(event, today))
 		.map((event, index) => {
 			const startAtTimestamp = new Date(event.startAtUtc).valueOf();
 			const endAtTimestamp = event.endAtUtc ? new Date(event.endAtUtc).valueOf() : startAtTimestamp;
@@ -171,14 +170,14 @@
 				startAtTimestamp <= nowMs &&
 				endAtTimestamp >= nowMs;
 
-			const startTimestamp = toFiniteTimestamp(getEventStartTimestamp(event));
+			const startTimestamp = toFiniteTimestamp(getEventStartTimestampUi(event));
 			const timeLabel = formatTimeLabel(event.time);
 			const locationLabel = event.location ?? defaultLocationLabel;
 			const metaDetails: string[] = [];
 			if (timeLabel) metaDetails.push(timeLabel);
 			if (locationLabel) metaDetails.push(locationLabel);
 
-			const eventTypeLabel = getEventTypeLabel(event);
+			const eventTypeLabel = getEventTypeLabelUi(event);
 			const subtitle = event.subtitle ?? `${eventTypeLabel}${event.draft ? ' · Draft' : ''}`;
 			const registerDisabled =
 				event.registrationStatus === 'closed' ||
@@ -195,9 +194,7 @@
 			const courseProgram =
 				courseProgramSku && isCourseEvent ? getTrainingProgramBySku(courseProgramSku) : undefined;
 			const courseProgramRoute =
-				courseProgramSku && isCourseEvent
-					? (courseProgram?.route ?? undefined)
-					: null;
+				courseProgramSku && isCourseEvent ? (courseProgram?.route ?? undefined) : null;
 			const partnerName =
 				event.partnerCode && event.partnerCode !== 'NONE'
 					? (getPartnerByCode(event.partnerCode)?.name ?? event.partnerCode)

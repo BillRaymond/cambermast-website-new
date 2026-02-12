@@ -3,17 +3,17 @@
 	import Card from '$lib/components/ServiceCard.svelte';
 	import UpcomingSessionsCarousel from '$lib/components/home/UpcomingSessionsCarousel.svelte';
 	import {
-		getEventStartTimestamp,
-		getEventTypeLabel,
-		isEventUpcoming,
-		listEvents
-	} from '$lib/data/events';
+		getEventStartTimestampUi,
+		getEventTypeLabelUi,
+		isEventUpcomingUi,
+		listEventUi
+	} from '$lib/view-models/events';
 	import {
 		listExternalEvents,
 		getExternalEventStartTimestamp,
 		isExternalEventUpcoming
 	} from '$lib/data/external-events';
-	import type { Event } from '$lib/data/events/types';
+	import type { EventUiModel } from '$lib/view-models/events';
 	import type { ExternalEvent } from '$lib/data/external-events';
 	import { listTrainingPrograms } from '$lib/data/training';
 	import type { TrainingProgram } from '$lib/data/training/types';
@@ -171,7 +171,7 @@
 
 	type UpcomingEventEntry = {
 		type: 'event';
-		event: Event;
+		event: EventUiModel;
 		startTimestamp: number;
 	};
 
@@ -226,14 +226,13 @@
 		startTimestamp: entry.startTimestamp
 	}));
 
-	const happeningTrainingEntries: HappeningTrainingEntry[] = listHappeningTrainingEventsWithPrograms().map(
-		({ program, entry }) => ({
+	const happeningTrainingEntries: HappeningTrainingEntry[] =
+		listHappeningTrainingEventsWithPrograms().map(({ program, entry }) => ({
 			type: 'happening',
 			program,
 			entry,
 			startTimestamp: entry.startTimestamp
-		})
-	);
+		}));
 
 	const upcomingExternalEntries: UpcomingExternalEntry[] = listExternalEvents()
 		.filter((event) => isExternalEventUpcoming(event, today))
@@ -243,12 +242,12 @@
 			startTimestamp: getExternalEventStartTimestamp(event)
 		}));
 
-	const upcomingEventEntries: UpcomingEventEntry[] = listEvents()
-		.filter((event) => isEventUpcoming(event, today))
+	const upcomingEventEntries: UpcomingEventEntry[] = listEventUi()
+		.filter((event) => isEventUpcomingUi(event, today))
 		.map((event) => ({
 			type: 'event' as const,
 			event,
-			startTimestamp: getEventStartTimestamp(event)
+			startTimestamp: getEventStartTimestampUi(event)
 		}));
 
 	const happeningItems: HappeningTrainingEntry[] = happeningTrainingEntries.map(
@@ -345,10 +344,11 @@
 	const buildEventSlide = (entry: UpcomingEventEntry, index: number) => ({
 		id: `${entry.event.id}-${entry.event.startAt ?? index.toString(10)}`,
 		kind: 'event' as const,
-		kindLabel: getEventTypeLabel(entry.event),
+		kindLabel: getEventTypeLabelUi(entry.event),
 		programTitle: entry.event.title,
 		sessionLabel:
-			entry.event.subtitle ?? `${getEventTypeLabel(entry.event)}${entry.event.draft ? ' · Draft' : ''}`,
+			entry.event.subtitle ??
+			`${getEventTypeLabelUi(entry.event)}${entry.event.draft ? ' · Draft' : ''}`,
 		date: entry.event.date,
 		timeLines: toTimeLines(entry.event.time),
 		location: entry.event.location,

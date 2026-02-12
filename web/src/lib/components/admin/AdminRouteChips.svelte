@@ -7,20 +7,30 @@
 		'/admin/events': '🟢 Live Events',
 		'/admin/drafts': '📝 Draft Events',
 		'/admin/campaigns': '📣 Campaigns',
-		'/admin/forms': '🧾 Forms'
+		'/admin/forms': '🧾 Forms',
+		'/admin/sop': '📚 SOP'
 	};
-	const routePriority = ['/admin', '/admin/events', '/admin/drafts', '/admin/campaigns', '/admin/forms'];
+	const routePriority = [
+		'/admin',
+		'/admin/sop',
+		'/admin/events',
+		'/admin/drafts',
+		'/admin/campaigns',
+		'/admin/forms'
+	];
 	const toTitleCase = (value: string): string =>
 		value
 			.split('-')
 			.filter(Boolean)
 			.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
 			.join(' ');
+	const getPathDepth = (routePath: string): number => routePath.split('/').filter(Boolean).length;
 
 	const routePaths = Object.keys(routeModules)
 		.map((filePath) => filePath.replace('/src/routes', '').replace('/+page.svelte', ''))
 		.filter((routePath) => routePath.startsWith('/admin'))
 		.filter((routePath) => !routePath.includes('['))
+		.filter((routePath) => getPathDepth(routePath) <= 2)
 		.sort((a, b) => {
 			const aIndex = routePriority.indexOf(a);
 			const bIndex = routePriority.indexOf(b);
@@ -40,7 +50,10 @@
 
 <nav aria-label="Admin page navigation" class="mb-2 flex flex-wrap gap-2">
 	{#each chips as chip}
-		{@const active = chip.href === '/admin' ? pathname === '/admin' : pathname === chip.href || pathname.startsWith(`${chip.href}/`)}
+		{@const active =
+			chip.href === '/admin'
+				? pathname === '/admin'
+				: pathname === chip.href || pathname.startsWith(`${chip.href}/`)}
 		<a
 			href={chip.href}
 			aria-current={active ? 'page' : undefined}
