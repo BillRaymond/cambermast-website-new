@@ -4,7 +4,7 @@ FROM node:20.19.5-bookworm-slim
 WORKDIR /app
 
 RUN apt-get update \
-	&& apt-get install -y --no-install-recommends git jq procps ripgrep \
+	&& apt-get install -y --no-install-recommends git jq procps ripgrep curl ca-certificates \
 	&& rm -rf /var/lib/apt/lists/*
 
 ARG CODEX_VERSION=0.94.0
