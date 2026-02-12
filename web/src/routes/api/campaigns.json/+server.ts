@@ -15,12 +15,12 @@ export const GET = ({ url }: { url: URL }) => {
 		version: getCampaignRegistryVersion(),
 		generatedAt: new Date().toISOString(),
 		campaigns: listCampaigns().map((campaign) => {
-			const qrPath = getCampaignTrackingPath(campaign);
-			const qrUrl = `${origin}${qrPath}`;
+			const trackingPath = getCampaignTrackingPath(campaign);
+			const trackingUrl = `${origin}${trackingPath}`;
 			const shortPath = getCampaignShortPath(campaign.id);
 			const shortUrl = `${origin}${shortPath}`;
 
-			return { ...campaign, qrPath, qrUrl, shortPath, shortUrl };
+			return { ...campaign, trackingPath, trackingUrl, shortPath, shortUrl };
 		})
 	};
 

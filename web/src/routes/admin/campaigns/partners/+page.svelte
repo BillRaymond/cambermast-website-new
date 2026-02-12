@@ -4,18 +4,9 @@
 	import QRCode from 'qrcode';
 	import SeoHead from '$lib/components/SeoHead.svelte';
 	import { SITE_ORIGIN } from '$lib/config/site';
-	import campaignsData from '$lib/data/qr-campaigns.json';
+	import { getCampaignShortPath, listCampaigns } from '$lib/data/campaigns';
 
-	type Campaign = {
-		id: string;
-		type?: string;
-		partner?: string;
-		partnerLabel?: string;
-		landingPath: string;
-		description?: string;
-		createdAt: string;
-		params?: Record<string, string | undefined>;
-	};
+	type Campaign = ReturnType<typeof listCampaigns>[number];
 
 	type QrAsset = {
 		pngDataUrl?: string;
@@ -25,11 +16,12 @@
 	};
 
 	const pageTitle = 'Partner Campaigns | Cambermast';
-	const pageDescription = 'Partner-ready QR codes and production URLs.';
+	const pageDescription = 'Partner-ready production links and QR assets.';
 	const prodOrigin = SITE_ORIGIN.replace(/\/$/, '');
+	const qrSize = 512;
 
-	const campaigns = (campaignsData.campaigns as Campaign[]).map((campaign) => {
-		const shortPath = `/c/${campaign.id}`;
+	const campaigns = listCampaigns().map((campaign) => {
+		const shortPath = getCampaignShortPath(campaign.id);
 		return {
 			...campaign,
 			shortPath,
@@ -37,11 +29,8 @@
 		};
 	});
 
-	const qrCampaigns = campaigns.filter((campaign) => campaign.type === 'qr');
-
 	let copiedKey = '';
 	let qrAssets: Record<string, QrAsset> = {};
-	const qrSize = 512;
 
 	const setCopied = (key: string) => {
 		copiedKey = key;
@@ -108,7 +97,7 @@
 
 	onMount(() => {
 		if (!browser) return;
-		qrCampaigns.forEach((campaign) => {
+		campaigns.forEach((campaign) => {
 			void generateQr(campaign.id, campaign.shortUrlProd);
 		});
 	});
@@ -117,7 +106,7 @@
 <SeoHead
 	title={pageTitle}
 	description={pageDescription}
-	path="/campaigns/partners"
+	path="/admin/campaigns/partners"
 	useDefaultImage={false}
 />
 
@@ -129,7 +118,7 @@
 	<div class="mx-auto max-w-4xl text-center">
 		<p class="text-xs font-semibold tracking-[0.25em] text-blue-700 uppercase">Partner access</p>
 		<h1 class="mt-3 text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">
-			Campaign QR codes
+			Campaign assets
 		</h1>
 		<p class="mt-4 text-lg text-gray-600">Share-ready production links and printable QR files.</p>
 	</div>
@@ -137,15 +126,15 @@
 
 <section class="mb-12">
 	<div class="mx-auto max-w-5xl">
-		{#if qrCampaigns.length}
+		{#if campaigns.length}
 			<div class="space-y-6">
-				{#each qrCampaigns as campaign}
+				{#each campaigns as campaign}
 					<article class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
 						<div class="flex flex-wrap items-start justify-between gap-4">
 							<div>
 								<p class="text-xs tracking-wide text-gray-500 uppercase">Campaign</p>
 								<p class="text-lg font-semibold text-gray-900">
-									{campaign.partnerLabel ?? campaign.partner ?? 'Partner'} - {campaign.id}
+									{campaign.partnerLabel ?? campaign.partner ?? 'Partner'} — {campaign.id}
 								</p>
 								{#if campaign.description}
 									<p class="mt-1 text-sm text-gray-600">{campaign.description}</p>
@@ -214,9 +203,7 @@
 							<div class="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
 								<div class="flex flex-wrap items-center justify-between gap-3">
 									<div>
-										<p class="text-xs font-semibold tracking-wide text-gray-500 uppercase">
-											QR code
-										</p>
+										<p class="text-xs font-semibold tracking-wide text-gray-500 uppercase">QR code</p>
 										<p class="mt-1 text-xs text-gray-600">Printable QR files for this campaign.</p>
 									</div>
 								</div>
@@ -233,7 +220,6 @@
 											<div class="space-y-3 text-xs text-gray-600">
 												<div>
 													<p class="font-semibold text-gray-800">PNG ({qrSize}×{qrSize})</p>
-													<p>Best for quick printing, slides, and email.</p>
 													<div class="mt-2">
 														<a
 															class="inline-flex min-w-[140px] items-center justify-center rounded border border-gray-300 bg-white px-3 py-1.5 text-xs font-semibold text-gray-700 transition hover:border-gray-400 hover:text-gray-900"
@@ -247,7 +233,6 @@
 												{#if qrAssets[campaign.id]?.svgDataUrl}
 													<div>
 														<p class="font-semibold text-gray-800">SVG (scalable)</p>
-														<p>Best for designers and large-format print.</p>
 														<div class="mt-2">
 															<a
 																class="inline-flex min-w-[140px] items-center justify-center rounded border border-gray-300 bg-white px-3 py-1.5 text-xs font-semibold text-gray-700 transition hover:border-gray-400 hover:text-gray-900"
@@ -262,11 +247,9 @@
 											</div>
 										</div>
 									{:else if qrAssets[campaign.id]?.loading}
-										<p class="text-xs text-gray-500">Generating QR code...</p>
-									{:else if qrAssets[campaign.id]?.error}
-										<p class="text-xs text-red-600">{qrAssets[campaign.id].error}</p>
+										<p class="mt-2 text-xs text-gray-500">Generating…</p>
 									{:else}
-										<p class="text-xs text-gray-500">Preparing QR code...</p>
+										<p class="mt-2 text-xs text-gray-500">Generating…</p>
 									{/if}
 								</div>
 							</div>
@@ -276,8 +259,9 @@
 			</div>
 		{:else}
 			<div class="rounded-xl border border-gray-200 bg-gray-50 p-8 text-center text-gray-600">
-				No partner-ready QR campaigns yet.
+				No campaigns yet.
 			</div>
 		{/if}
 	</div>
 </section>
+

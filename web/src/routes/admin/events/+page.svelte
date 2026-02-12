@@ -52,6 +52,22 @@
 			Use this route to manage event visibility, lifecycle state, registration state, and campaign
 			linkage. This page is internal-only and intentionally excluded from sitemap/navigation.
 		</p>
+		<p class="pt-1 text-center">
+			<a
+				href="/admin"
+				class="inline-flex items-center justify-center rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-semibold text-gray-700 shadow-sm transition hover:border-gray-300 hover:text-gray-900"
+			>
+				Admin home →
+			</a>
+		</p>
+		<p class="pt-1 text-center">
+			<a
+				href="/admin/campaigns"
+				class="inline-flex items-center justify-center rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-semibold text-gray-700 shadow-sm transition hover:border-gray-300 hover:text-gray-900"
+			>
+				View campaigns →
+			</a>
+		</p>
 		<p class="text-xs text-gray-500">
 			Data source:
 			<code class="rounded bg-gray-100 px-1 py-0.5 text-[0.7rem] text-gray-700">
@@ -234,6 +250,14 @@
 											>
 												Short link
 											</a>
+											{#if campaignIdSet.has(event.campaignId)}
+												<a
+													class="font-semibold text-blue-700 hover:text-blue-900 hover:underline"
+													href={`/admin/campaigns#campaign-${event.campaignId}`}
+												>
+													Campaign page
+												</a>
+											{/if}
 										{/if}
 									</div>
 								</td>
@@ -245,3 +269,4 @@
 		</div>
 	</section>
 </main>
+

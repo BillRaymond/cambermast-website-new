@@ -39,10 +39,17 @@
 	<header class="flex flex-col gap-3">
 		<h1 class="text-3xl font-semibold tracking-tight text-gray-900">Internal draft overview</h1>
 		<p class="max-w-2xl text-sm text-gray-600">
-			This route (<code class="rounded bg-gray-100 px-1 py-0.5 text-xs text-gray-700"
-				>/internal/drafts</code
+			This route (<code class="rounded bg-gray-100 px-1 py-0.5 text-xs text-gray-700">/admin/drafts</code
 			>) is intentionally hidden from navigation, marketing pages, and the sitemap. Use it to review
 			draft training programs, sessions, and events before they launch.
+		</p>
+		<p class="pt-1">
+			<a
+				href="/admin"
+				class="inline-flex items-center justify-center rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-semibold text-gray-700 shadow-sm transition hover:border-gray-300 hover:text-gray-900"
+			>
+				Admin home →
+			</a>
 		</p>
 	</header>
 
@@ -231,10 +238,9 @@
 	<footer class="mt-16 border-t border-gray-200 pt-6 text-xs text-gray-500">
 		<p>
 			Keep this link unlisted. If you ever need it removed from a production build, delete the
-			<code class="rounded bg-gray-100 px-1 py-0.5 text-[0.7rem] text-gray-700"
-				>/internal/drafts</code
-			>
+			<code class="rounded bg-gray-100 px-1 py-0.5 text-[0.7rem] text-gray-700">/admin/drafts</code>
 			route before exporting the site.
 		</p>
 	</footer>
 </main>
+
