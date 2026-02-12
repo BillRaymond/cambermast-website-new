@@ -1,6 +1,16 @@
 # Schema-First Development Standard
 
-This repository follows a strict **schema-first** rule for event/campaign data and API contracts.
+This entire site follows a strict **schema-first** rule.
+All structured data contracts across the website must be defined by schema first, then implemented in data, APIs, UI adapters, and docs.
+
+## Scope
+
+Schema-first applies to all structured website data, including:
+
+- Content registries
+- API response payloads
+- Enums, patterns, and status values
+- Any UI behavior that depends on structured fields
 
 ## Core rule
 
@@ -19,6 +29,9 @@ No exceptions.
 
 - `web/src/lib/data/events/events.schema.json`
 - `web/src/lib/data/campaigns.schema.json`
+- `web/src/lib/data/catalog.schema.json`
+- `web/src/lib/data/tools.schema.json`
+- `web/src/lib/data/testimonials.schema.json`
 
 ### API response schemas
 
@@ -31,6 +44,9 @@ No exceptions.
 
 - `web/src/lib/data/events/events.json`
 - `web/src/lib/data/campaigns.json`
+- `web/src/lib/data/catalog.json`
+- `web/src/lib/data/tools.json`
+- `web/src/lib/data/testimonials.json`
 
 ### API payload builders (must stay schema-aligned)
 
@@ -50,6 +66,7 @@ Run these before merge:
 
 - `npm --prefix web run validate:events`
 - `npm --prefix web run validate:campaigns`
+- `npm --prefix web run validate:registries`
 - `npm --prefix web run validate:api`
 - `npm --prefix web run validate:ui-adapters`
 
@@ -63,7 +80,7 @@ When changing schema/data contracts:
 4. Update affected route handlers
 5. Update UI adapters
 6. Update SOP page (`web/src/routes/admin/sop/+page.svelte`)
-7. Run validation gates (including UI adapter validation)
+7. Run validation gates (including registry and UI adapter validation)
 
 ## Examples of expected behavior
 

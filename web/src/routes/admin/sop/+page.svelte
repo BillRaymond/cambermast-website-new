@@ -233,6 +233,30 @@
 			>.
 		</li>
 		<li>
+			Catalog source of truth:
+			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">web/src/lib/data/catalog.json</code>
+			with schema
+			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
+				>web/src/lib/data/catalog.schema.json</code
+			>.
+		</li>
+		<li>
+			Tools source of truth:
+			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">web/src/lib/data/tools.json</code>
+			with schema
+			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">web/src/lib/data/tools.schema.json</code
+			>.
+		</li>
+		<li>
+			Testimonials source of truth:
+			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">web/src/lib/data/testimonials.json</code
+			>
+			with schema
+			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
+				>web/src/lib/data/testimonials.schema.json</code
+			>.
+		</li>
+		<li>
 			Use the generator command for training events:
 			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
 				>npm --prefix web run events:draft -- --program-sku CM-TR-005 --start-date 2026-03-17 --slug
@@ -300,6 +324,15 @@
 		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
 			>npm --prefix web run validate:campaigns</code
 		>
+	</p>
+	<p class="mt-2 max-w-3xl text-gray-700">
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
+			>npm --prefix web run validate:registries</code
+		>
+		(runs catalog/tools/testimonials schema checks).
+	</p>
+	<p class="mt-2 max-w-3xl text-gray-700">
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">npm --prefix web run validate:api</code>
 	</p>
 	<p class="mt-2 max-w-3xl text-gray-700">
 		Then verify these read endpoints:
@@ -408,15 +441,21 @@
 <section class="mt-8">
 	<h2 class="text-2xl font-semibold">SOP Maintenance Rule</h2>
 	<p class="mt-2 max-w-3xl text-gray-700">
-		Whenever we create or modify event/campaign JSON files, schemas, or enum values, this page must
-		be updated in the same change so humans and automation stay aligned.
+		Whenever we create or modify registry JSON files, schemas, or enum values, this page must be
+		updated in the same change so humans and automation stay aligned.
 	</p>
 	<p class="mt-2 max-w-3xl text-gray-700">
 		This includes updates to:
 		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">events.json</code>,
 		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">campaigns.json</code>,
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">catalog.json</code>,
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">tools.json</code>,
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">testimonials.json</code>,
 		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">events.schema.json</code>,
 		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">campaigns.schema.json</code>,
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">catalog.schema.json</code>,
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">tools.schema.json</code>,
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">testimonials.schema.json</code>,
 		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">events-api.schema.json</code>,
 		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">campaigns-api.schema.json</code>,
 		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">enums-api.schema.json</code>,
@@ -425,7 +464,10 @@
 		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">/api/enums.json</code>.
 	</p>
 	<p class="mt-2 max-w-3xl text-gray-700">
-		Required validation gate:
+		Required validation gates:
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
+			>npm --prefix web run validate:registries</code
+		>,
 		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">npm --prefix web run validate:api</code>.
 	</p>
 </section>
@@ -435,6 +477,7 @@
 	<ol class="mt-3 max-w-3xl list-decimal space-y-2 pl-5 text-gray-700">
 		<li>Event exists in events registry and passes schema validation.</li>
 		<li>Campaign exists in campaigns registry and passes schema validation.</li>
+		<li>Catalog, tools, and testimonials registries pass schema validation.</li>
 		<li>
 			Campaign short link <code class="rounded bg-gray-100 px-1 py-0.5 text-xs">/c/&lt;id&gt;</code>
 			redirects correctly.

@@ -65,6 +65,7 @@
 		"photoUrl": null,
 		"rating": 5,
 		"quote": "This was amazing!",
+		"allowPublicUse": true,
 		"source": "training-testimonial",
 		"createdAt": "2025-12-31T22:09:39.574Z"
 	},
@@ -119,6 +120,7 @@
 		"jobTitle": "Senior Technical Writer",
 		"rating": 5,
 		"quote": "I came in experienced but unsure how to use AI without losing rigor. This workshop taught a disciplined way to embed AI into real content systems. I now build persona-led workflows where AI speeds drafting while accuracy, structure, and judgment stay human.",
+		"allowPublicUse": true,
 		"source": "training-testimonial",
 		"createdAt": "2026-01-07T13:58:28.634Z"
 	},
@@ -131,6 +133,7 @@
 		"jobTitle": "Documentation Manager",
 		"rating": 5,
 		"quote": "Even as someone who’s been using AI tools for a couple of years, this course helped me level up fast. Bill went beyond “better prompts” and showed me advanced ways to research topics, structure real projects, and build custom GPT instructions that fit technical writing workflows. ",
+		"allowPublicUse": true,
 		"source": "training-testimonial",
 		"createdAt": "2026-01-07T14:41:48.351Z"
 	},
@@ -143,6 +146,7 @@
 		"jobTitle": "Product Marketing and Growth",
 		"rating": 5,
 		"quote": "I thought I knew AI. This workshop showed what I was leaving on the table and how to turn it into a real playbook that improves both performance and speed: stronger assets, faster to market, and fewer dependencies across research, PM, and Eng. Bonus: it also supercharged my personal AI use.",
+		"allowPublicUse": true,
 		"source": "training-testimonial",
 		"createdAt": "2026-02-04T20:56:42.792Z"
 	}

@@ -21,7 +21,7 @@ export type Testimonial = {
 	quote: string;
 	allowPublicUse: boolean;
 	featured?: boolean;
-	source?: 'form' | 'manual' | 'import';
+	source?: 'form' | 'manual' | 'import' | 'training-testimonial';
 	createdAt: string;
 };
 

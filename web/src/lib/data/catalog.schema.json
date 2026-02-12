@@ -1,0 +1,53 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://cambermast.com/schemas/catalog.schema.json",
+	"title": "Cambermast Catalog Registry",
+	"type": "object",
+	"additionalProperties": false,
+	"patternProperties": {
+		"^[a-z0-9]+(?:-[a-z0-9]+)*$": {
+			"$ref": "#/$defs/catalogSection"
+		}
+	},
+	"$defs": {
+		"catalogSection": {
+			"type": "object",
+			"additionalProperties": false,
+			"required": ["label", "headline"],
+			"properties": {
+				"label": { "type": "string", "minLength": 1 },
+				"catalogLabel": { "type": "string", "minLength": 1 },
+				"navlabel": { "type": "string", "minLength": 1 },
+				"testimonial": { "type": "string", "minLength": 1 },
+				"author": { "type": "string", "minLength": 1 },
+				"icon": { "type": "string", "minLength": 1 },
+				"route": { "type": "string", "pattern": "^/.*" },
+				"headline": { "type": "string", "minLength": 1 },
+				"homeorder": { "type": "integer", "minimum": 0 },
+				"items": {
+					"type": "array",
+					"items": { "$ref": "#/$defs/catalogItem" }
+				}
+			}
+		},
+		"catalogItem": {
+			"type": "object",
+			"additionalProperties": false,
+			"required": ["id", "title", "summary", "order", "published"],
+			"properties": {
+				"id": { "type": "string", "minLength": 1 },
+				"title": { "type": "string", "minLength": 1 },
+				"summary": { "type": "string", "minLength": 1 },
+				"image": { "type": "string", "pattern": "^/.*" },
+				"imageAlt": { "type": "string", "minLength": 1 },
+				"bullets": {
+					"type": "array",
+					"items": { "type": "string", "minLength": 1 }
+				},
+				"route": { "type": "string", "pattern": "^/.*" },
+				"order": { "type": "integer", "minimum": 0 },
+				"published": { "type": "boolean" }
+			}
+		}
+	}
+}

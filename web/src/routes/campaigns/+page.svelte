@@ -2,12 +2,11 @@
 	import SeoHead from '$lib/components/SeoHead.svelte';
 	import { SITE_ORIGIN } from '$lib/config/site';
 	import { browser } from '$app/environment';
-	import campaignsData from '$lib/data/qr-campaigns.json';
+	import campaignsData from '$lib/data/campaigns.json';
 	import QRCode from 'qrcode';
 
 	type Campaign = {
 		id: string;
-		type?: string;
 		partner?: string;
 		partnerLabel?: string;
 		landingPath: string;
@@ -66,8 +65,7 @@
 		};
 	});
 
-	const qrCampaigns = campaigns.filter((campaign) => campaign.type === 'qr');
-	const otherCampaigns = campaigns.filter((campaign) => campaign.type !== 'qr');
+	const campaignEntries = campaigns;
 
 	let copiedKey = '';
 
@@ -175,9 +173,9 @@
 	<div class="mx-auto max-w-4xl text-center">
 		<h1 class="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">Campaigns</h1>
 		<p class="mt-4 text-lg text-gray-600">
-			Internal registry for QR and offline campaigns. Data source:
+			Internal registry for campaign links and QR assets. Data source:
 			<code class="rounded bg-blue-100/70 px-2 py-0.5 text-sm text-blue-900">
-				/api/qr-campaigns.json
+				web/src/lib/data/campaigns.json
 			</code>
 		</p>
 	</div>
@@ -245,10 +243,10 @@
 
 <section class="mb-12">
 	<div class="mx-auto max-w-5xl">
-		<h2 class="mb-4 text-2xl font-bold text-gray-900">QR campaigns</h2>
-		{#if qrCampaigns.length}
+		<h2 class="mb-4 text-2xl font-bold text-gray-900">Campaigns</h2>
+		{#if campaignEntries.length}
 			<div class="space-y-6">
-				{#each qrCampaigns as campaign}
+				{#each campaignEntries as campaign}
 					<article class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
 						<div class="flex flex-wrap items-start justify-between gap-4">
 							<div>
@@ -742,32 +740,7 @@
 			</div>
 		{:else}
 			<div class="rounded-xl border border-gray-200 bg-gray-50 p-8 text-center text-gray-600">
-				No QR campaigns yet.
-			</div>
-		{/if}
-	</div>
-</section>
-
-<section class="mb-12">
-	<div class="mx-auto max-w-5xl">
-		<h2 class="mb-4 text-2xl font-bold text-gray-900">Other campaigns</h2>
-		{#if otherCampaigns.length}
-			<div class="space-y-6">
-				{#each otherCampaigns as campaign}
-					<div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
-						<p class="text-sm tracking-wide text-gray-500 uppercase">ID</p>
-						<p class="text-lg font-semibold text-gray-900">{campaign.id}</p>
-						<div class="mt-3 text-sm text-gray-700">
-							<p>Type: {campaign.type ?? 'general'}</p>
-							<p>Landing path: {campaign.landingPath}</p>
-							<p>Created: {campaign.createdAt}</p>
-						</div>
-					</div>
-				{/each}
-			</div>
-		{:else}
-			<div class="rounded-xl border border-gray-200 bg-gray-50 p-8 text-center text-gray-600">
-				No other campaigns yet.
+				No campaigns yet.
 			</div>
 		{/if}
 	</div>

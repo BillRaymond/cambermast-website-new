@@ -5,8 +5,8 @@ import Ajv from 'ajv/dist/2020.js';
 import addFormats from 'ajv-formats';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const dataPath = path.resolve(__dirname, '../src/lib/data/qr-campaigns.json');
-const schemaPath = path.resolve(__dirname, '../src/lib/data/qr-campaigns.schema.json');
+const dataPath = path.resolve(__dirname, '../src/lib/data/catalog.json');
+const schemaPath = path.resolve(__dirname, '../src/lib/data/catalog.schema.json');
 
 const [dataRaw, schemaRaw] = await Promise.all([
 	fs.readFile(dataPath, 'utf-8'),
@@ -23,9 +23,9 @@ const validate = ajv.compile(schema);
 const valid = validate(data);
 
 if (!valid) {
-	console.error('QR campaign validation failed.');
+	console.error('Catalog validation failed.');
 	console.error(ajv.errorsText(validate.errors, { separator: '\n' }));
 	process.exit(1);
 }
 
-console.log('QR campaigns are valid.');
+console.log('Catalog is valid.');
