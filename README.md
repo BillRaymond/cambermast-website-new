@@ -42,6 +42,7 @@ These two documents live in the repo root as the source of truth. The SvelteKit 
 - `/training-programs` redirects to `/training` to support legacy or marketing links to the catalog.
 - `/events` is the canonical public calendar of events route.
 - `/calendar` redirects to `/events` as a legacy alias.
+- `/campaigns` redirects to `/admin/campaigns` (internal registry).
 
 ## Creating Events from Training Programs
 
@@ -53,7 +54,9 @@ When creating a new training event, use this strict flow:
 
 Run:
 
-`npm --prefix web run events:draft -- --program-sku CM-TR-005 --start-date 2026-03-17 --slug ai-workshop-for-tech-writers-and-content-creators-spring-2026 --subtitle "🌷 Spring 2026 Cohort"`
+`npm --prefix web run events:draft -- --program-sku CM-TR-005 --start-date 2026-03-17 --id 7iu8p4 --slug ai-workshop-for-tech-writers-and-content-creators-spring-2026 --subtitle "🌷 Spring 2026 Cohort"`
+
+By default, the generated event page slug is suffixed with the campaign id (example: `ai-workshop-for-tech-writers-and-content-creators-spring-2026-7iu8p4`) to prevent accidental overwrites.
 
 Optional overrides:
 
@@ -62,13 +65,15 @@ Optional overrides:
 - `--start-time` (example `13:00`)
 - `--duration-days` (overrides training default)
 - `--hours-per-day` (overrides training default)
+- `--overwrite` (allow collisions with existing event/campaign ids or slugs)
+- `--no-slug-suffix` (skip the `-<campaignId>` slug suffix; not recommended)
 
 Output includes:
 
 - `program.scheduleTemplate` (source values)
 - `scheduleDraft` (generated date/time window)
 - `draftEvent` (ready-to-paste event object with explicit `schedule` fields)
-- `draftCampaign` (ready-to-paste QR campaign entry for `web/src/lib/data/qr-campaigns.json`)
+- `draftCampaign` (ready-to-paste campaign entry for `web/src/lib/data/campaigns.json`)
 
 ## Privacy, GDPR & Cookies
 

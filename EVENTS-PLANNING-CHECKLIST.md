@@ -12,7 +12,7 @@ Purpose: Track architecture decisions and implementation progress for the unifie
   - `/admin/events` (redirect alias to `/internal/events`)
 - Event detail route: `/events/[slug]` (countdown + CTA + partner panel)
 - Event detail route also supports related training back-link when `programRef.sku` is present.
-- Campaign short links: `/c/[id]` mapped in `web/src/lib/data/qr-campaigns.json`
+- Campaign short links: `/c/[id]` mapped in `web/src/lib/data/campaigns.json`
 - Events API route: `/api/events.json`
 - Calendar filter behavior:
   - Keep top-level `All`, `Training`, `Events`.
@@ -69,7 +69,7 @@ Purpose: Track architecture decisions and implementation progress for the unifie
   - `web/src/routes/internal/events/+page.svelte`
   - `web/src/routes/admin/events/+page.ts`
 - Campaigns/partners
-  - `web/src/lib/data/qr-campaigns.json`
+  - `web/src/lib/data/campaigns.json`
   - `web/src/lib/data/partners.ts`
 - Crawl/SEO metadata
   - `web/src/lib/seo.ts`
@@ -126,7 +126,7 @@ Purpose: Track architecture decisions and implementation progress for the unifie
 - [x] Add partner catalog data file (for code/name/logo/homepage).
 - [x] Define 3-letter partner code list and mapping to partner slug.
 - [x] Migrate legacy event IDs from `evt_...` format to 6-char base36 standard.
-- [x] Keep campaign IDs kebab-case to match existing `qr-campaigns` constraints.
+- [x] Keep campaign IDs kebab-case to match existing `campaigns` schema constraints.
 - [x] For each promoted event, create a campaign with `landingPath` to `/events/[slug]`.
 - [x] Event landing pages support external CTA targets (Luma for now).
 

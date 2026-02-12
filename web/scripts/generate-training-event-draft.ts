@@ -5,6 +5,9 @@ import {
 import { getPartnerByCode } from '../src/lib/data/partners';
 import { getTrainingProgramBySku } from '../src/lib/data/training';
 import crypto from 'node:crypto';
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 type CliOptions = {
 	programSku?: string;
@@ -16,6 +19,8 @@ type CliOptions = {
 	campaignId?: string;
 	slug?: string;
 	subtitle?: string;
+	overwrite?: boolean;
+	noSlugSuffix?: boolean;
 };
 
 const printUsage = (): void => {
@@ -31,7 +36,14 @@ const printUsage = (): void => {
 			"    [--subtitle '🌷 Spring 2026 Cohort'] \\",
 			'    [--start-time 10:00] \\',
 			'    [--duration-days 49] \\',
-			'    [--hours-per-day 2]'
+			'    [--hours-per-day 2] \\',
+			'    [--overwrite] \\',
+			'    [--no-slug-suffix]',
+			'',
+			'Notes:',
+			'  - By default, the generated event slug is suffixed with "-<campaignId>" to prevent accidental overwrites.',
+			'  - The script refuses to generate an event/campaign that collides with existing IDs or slugs unless --overwrite is passed.',
+			'  - Use --no-slug-suffix only when you intentionally want a non-suffixed slug (not recommended).'
 		].join('\n')
 	);
 };
@@ -81,6 +93,12 @@ const parseArgs = (argv: string[]): CliOptions => {
 				options.subtitle = next;
 				i += 1;
 				break;
+			case '--overwrite':
+				options.overwrite = true;
+				break;
+			case '--no-slug-suffix':
+				options.noSlugSuffix = true;
+				break;
 			case '--help':
 				printUsage();
 				process.exit(0);
@@ -94,6 +112,7 @@ const parseArgs = (argv: string[]): CliOptions => {
 
 const BASE36_ID_PATTERN = /^[a-z0-9]{6}$/;
 const BASE36_ALPHABET = '0123456789abcdefghijklmnopqrstuvwxyz';
+const SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 const createBase36Id = (): string => {
 	const bytes = crypto.randomBytes(6);
@@ -110,6 +129,60 @@ const toFallbackSlug = (programTitle: string, startDate: string): string => {
 		.replace(/[^a-z0-9]+/g, '-')
 		.replace(/^-+|-+$/g, '');
 	return `${normalizedTitle}-${startDate}`;
+};
+
+const ensureSlugSuffix = (slug: string, suffixId: string): string => {
+	const suffix = `-${suffixId}`;
+	return slug.endsWith(suffix) ? slug : `${slug}${suffix}`;
+};
+
+const createDefaultSubtitle = (input: {
+	startAtUtc: string;
+	timeZone: string;
+	timeZoneLabel: string;
+}): string => {
+	const start = new Date(input.startAtUtc);
+	const dateText = new Intl.DateTimeFormat('en-US', {
+		timeZone: input.timeZone,
+		weekday: 'short',
+		month: 'short',
+		day: 'numeric',
+		year: 'numeric'
+	}).format(start);
+	const timeText = new Intl.DateTimeFormat('en-US', {
+		timeZone: input.timeZone,
+		hour: 'numeric',
+		minute: '2-digit'
+	}).format(start);
+	return `${dateText} • ${timeText} ${input.timeZoneLabel}`;
+};
+
+const loadExistingEventsIndex = (): { ids: Set<string>; slugs: Set<string> } => {
+	const __dirname = path.dirname(fileURLToPath(import.meta.url));
+	const dataPath = path.resolve(__dirname, '../src/lib/data/events/events.json');
+	const raw = fs.readFileSync(dataPath, 'utf-8');
+	const data = JSON.parse(raw) as { events?: Array<{ id?: string; slug?: string }> };
+	const ids = new Set<string>();
+	const slugs = new Set<string>();
+	for (const event of data.events ?? []) {
+		if (event.id) ids.add(event.id);
+		if (event.slug) slugs.add(event.slug);
+	}
+	return { ids, slugs };
+};
+
+const loadExistingCampaignIndex = (): { ids: Set<string>; landingPaths: Set<string> } => {
+	const __dirname = path.dirname(fileURLToPath(import.meta.url));
+	const dataPath = path.resolve(__dirname, '../src/lib/data/campaigns.json');
+	const raw = fs.readFileSync(dataPath, 'utf-8');
+	const data = JSON.parse(raw) as { campaigns?: Array<{ id?: string; landingPath?: string }> };
+	const ids = new Set<string>();
+	const landingPaths = new Set<string>();
+	for (const campaign of data.campaigns ?? []) {
+		if (campaign.id) ids.add(campaign.id);
+		if (campaign.landingPath) landingPaths.add(campaign.landingPath);
+	}
+	return { ids, landingPaths };
 };
 
 const run = (): void => {
@@ -139,6 +212,20 @@ const run = (): void => {
 		);
 	}
 
+	const baseSlug = (options.slug ?? toFallbackSlug(program.title, startDate)).trim();
+	if (!SLUG_PATTERN.test(baseSlug)) {
+		throw new Error(
+			`--slug must be lowercase and URL-safe (^[a-z0-9]+(?:-[a-z0-9]+)*$). Got "${baseSlug}".`
+		);
+	}
+
+	const finalSlug = options.noSlugSuffix ? baseSlug : ensureSlugSuffix(baseSlug, campaignId);
+	if (!SLUG_PATTERN.test(finalSlug)) {
+		throw new Error(
+			`Generated slug is not URL-safe (^[a-z0-9]+(?:-[a-z0-9]+)*$). Got "${finalSlug}".`
+		);
+	}
+
 	const scheduleDraft = buildTrainingDraftScheduleFromProgramSku({
 		programSku,
 		startDate,
@@ -147,15 +234,48 @@ const run = (): void => {
 		estimatedHoursCommitment: options.hoursPerDayCommitment
 	});
 
+	if (!options.overwrite) {
+		const existingEvents = loadExistingEventsIndex();
+		const existingCampaigns = loadExistingCampaignIndex();
+		const landingPath = `/events/${finalSlug}`;
+
+		if (existingEvents.ids.has(eventId)) {
+			throw new Error(
+				`Event id "${eventId}" already exists in events.json. Refusing to overwrite without --overwrite.`
+			);
+		}
+		if (existingEvents.slugs.has(finalSlug)) {
+			throw new Error(
+				`Event slug "${finalSlug}" already exists in events.json. Refusing to overwrite without --overwrite.`
+			);
+		}
+		if (existingCampaigns.ids.has(campaignId)) {
+			throw new Error(
+				`Campaign id "${campaignId}" already exists in campaigns.json. Refusing to overwrite without --overwrite.`
+			);
+		}
+		if (existingCampaigns.landingPaths.has(landingPath)) {
+			throw new Error(
+				`Campaign landingPath "${landingPath}" already exists in campaigns.json. Refusing to overwrite without --overwrite.`
+			);
+		}
+	}
+
 	const draftEventBase = buildTrainingSessionEventFromProgramSku({
 		programSku,
 		id: eventId,
-		slug: options.slug ?? toFallbackSlug(program.title, startDate),
+		slug: finalSlug,
 		startDate,
 		startTimeLocal: options.startTimeLocal,
 		durationDays: options.durationDays,
 		estimatedHoursCommitment: options.hoursPerDayCommitment,
-		subtitle: options.subtitle,
+		subtitle:
+			options.subtitle ??
+			createDefaultSubtitle({
+				startAtUtc: scheduleDraft.startAtUtc,
+				timeZone: program.scheduleTemplate?.defaultTimeZone ?? 'America/Los_Angeles',
+				timeZoneLabel: program.scheduleTemplate?.defaultTimeZoneLabel ?? 'PT'
+			}),
 		visibility: 'draft',
 		registrationStatus: 'none',
 		ctaLabel: 'Draft',
@@ -173,15 +293,16 @@ const run = (): void => {
 
 	const partner = getPartnerByCode(draftEvent.partnerCode);
 	const campaignPartnerSlug =
-		partner && partner.slug !== 'none' ? partner.slug : getPartnerByCode('CMB')?.slug ?? 'cambermast';
+		partner && partner.slug !== 'none'
+			? partner.slug
+			: (getPartnerByCode('CMB')?.slug ?? 'cambermast');
 	const campaignPartnerLabel =
 		partner && partner.slug !== 'none'
 			? partner.name
-			: getPartnerByCode('CMB')?.name ?? 'Cambermast';
+			: (getPartnerByCode('CMB')?.name ?? 'Cambermast');
 
 	const draftCampaign = {
 		id: campaignId,
-		type: 'qr',
 		partner: campaignPartnerSlug,
 		partnerLabel: campaignPartnerLabel,
 		landingPath: `/events/${draftEvent.slug}`,
