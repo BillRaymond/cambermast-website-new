@@ -7,7 +7,11 @@
 	"workspaceFolder": "/workspaces/cambermast-website-new",
 	"runArgs": ["-p", "5173:5173"],
 	"forwardPorts": [5173],
-	"overrideCommand": false,
+	"overrideCommand": true,
+	"postStartCommand": "bash -lc './web/scripts/start-vite-dev.sh'",
+	"mounts": [
+		"source=cambermast_web_node_modules,target=/workspaces/cambermast-website-new/web/node_modules,type=volume"
+	],
 	"portsAttributes": {
 		"5173": {
 			"label": "Vite dev server",
