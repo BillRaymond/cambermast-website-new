@@ -92,6 +92,12 @@
 	type="article"
 />
 
+<svelte:head>
+	{#if event.visibility !== 'public'}
+		<meta name="robots" content="noindex,nofollow" />
+	{/if}
+</svelte:head>
+
 <section class="bg-white py-12 md:py-16">
 	<div class="mx-auto max-w-4xl px-5">
 		<div class="mb-8">

@@ -33,8 +33,8 @@
 			"properties": {
 				"id": {
 					"type": "string",
-					"description": "Event identifier. Standard (new): 6-char base36 (^[a-z0-9]{6}$), immutable once created. Legacy evt_* IDs remain valid during migration.",
-					"pattern": "^(?:[a-z0-9]{6}|evt_[0-9]{8}_[0-9]{4}_[a-z0-9_]+_[A-Z0-9]{3,4})$"
+					"description": "Event identifier. Standard: 6-char base36 (^[a-z0-9]{6}$), immutable once created.",
+					"pattern": "^[a-z0-9]{6}$"
 				},
 				"slug": {
 					"type": "string",

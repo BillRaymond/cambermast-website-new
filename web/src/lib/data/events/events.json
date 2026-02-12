@@ -1,7 +1,7 @@
 {
 	"events": [
 		{
-			"id": "evt_20260127_1000_training_session_NONE",
+			"id": "7iu8p4",
 			"slug": "ai-workshop-for-tech-writers-and-content-creators-winter-2026",
 			"title": "AI Workshop for Tech Writers and Content Creators",
 			"subtitle": "🌷 Spring 2026 Cohort",
@@ -23,7 +23,7 @@
 			"cta": {
 				"label": "Enrollment closed",
 				"url": "/training/ai-workshop-for-content-creators",
-				"campaignId": "evt-20260127-1000-training-session-none"
+				"campaignId": "7iu8p4"
 			},
 			"date": "January 27 - March 10, 2026 (Tuesdays)",
 			"time": "10 am PT to 11:30 am PT",
@@ -41,12 +41,12 @@
 				"estimatedHoursCommitment": 2
 			},
 			"partnerCode": "NONE",
-			"campaignId": "evt-20260127-1000-training-session-none",
+			"campaignId": "7iu8p4",
 			"image": "/images/cambermast-content-5-ai-workshop-for-content-creators-og.jpeg",
 			"imageAlt": "AI Workshop for Tech Writers and Content Creators"
 		},
 		{
-			"id": "evt_20260212_0900_training_session_NONE",
+			"id": "ltb9nx",
 			"slug": "ai-workshop-for-modern-teams-feb-2026",
 			"title": "AI Workshop for Modern Teams",
 			"type": "training_session",
@@ -61,7 +61,7 @@
 			"cta": {
 				"label": "Draft",
 				"url": "/training/ai-advanced-workshop",
-				"campaignId": "evt-20260212-0900-training-session-none"
+				"campaignId": "ltb9nx"
 			},
 			"date": "February 12, 2026 - April 1, 2026",
 			"time": "9:00 AM to 11:00 AM PT",
@@ -81,10 +81,10 @@
 			"partnerCode": "NONE",
 			"image": "/images/cambermast-content-3-ai-workshop-for-modern-teams-og.jpeg",
 			"imageAlt": "Open graph image for the AI Workshop for Modern Teams training program",
-			"campaignId": "evt-20260212-0900-training-session-none"
+			"campaignId": "ltb9nx"
 		},
 		{
-			"id": "evt_20260217_1300_training_session_NONE",
+			"id": "3slr4s",
 			"slug": "ai-automation-with-agents-workshop-feb-2026",
 			"title": "AI Automation with Agents Workshop",
 			"type": "training_session",
@@ -99,7 +99,7 @@
 			"cta": {
 				"label": "Draft",
 				"url": "/training/ai-automation-with-agents",
-				"campaignId": "evt-20260217-1300-training-session-none"
+				"campaignId": "3slr4s"
 			},
 			"date": "February 17, 2026 - March 30, 2026",
 			"time": "1:00 PM to 3:00 PM PT",
@@ -119,10 +119,10 @@
 			"partnerCode": "NONE",
 			"image": "/images/cambermast-content-4-ai-automation-with-agents-workshop-og.jpeg",
 			"imageAlt": "Open graph image for the AI Automation with Agents workshop training program",
-			"campaignId": "evt-20260217-1300-training-session-none"
+			"campaignId": "3slr4s"
 		},
 		{
-			"id": "evt_20260218_1300_webinar_TLB",
+			"id": "59v3n2",
 			"slug": "vibe-coding-webinar-feb-2026",
 			"title": "Vibe Coding Webinar",
 			"subtitle": "With Codex",
@@ -144,7 +144,7 @@
 			"cta": {
 				"label": "Register on Luma",
 				"url": "https://luma.com/your-event",
-				"campaignId": "evt-20260218-1300-webinar-tlb"
+				"campaignId": "59v3n2"
 			},
 			"location": {
 				"mode": "online",
@@ -156,7 +156,7 @@
 				"estimatedHoursCommitment": 1
 			},
 			"partnerCode": "TLB",
-			"campaignId": "evt-20260218-1300-webinar-tlb",
+			"campaignId": "59v3n2",
 			"image": "/images/events/vibe-coding-webinar-feb-2026.svg",
 			"imageAlt": "Vibe Coding Webinar event artwork"
 		}

@@ -2,7 +2,9 @@ import {
 	buildTrainingDraftScheduleFromProgramSku,
 	buildTrainingSessionEventFromProgramSku
 } from '../src/lib/data/events/training-event-builder';
+import { getPartnerByCode } from '../src/lib/data/partners';
 import { getTrainingProgramBySku } from '../src/lib/data/training';
+import crypto from 'node:crypto';
 
 type CliOptions = {
 	programSku?: string;
@@ -11,6 +13,7 @@ type CliOptions = {
 	durationDays?: number;
 	hoursPerDayCommitment?: number;
 	id?: string;
+	campaignId?: string;
 	slug?: string;
 	subtitle?: string;
 };
@@ -22,7 +25,8 @@ const printUsage = (): void => {
 			'  npm --prefix web run events:draft -- \\',
 			'    --program-sku CM-TR-005 \\',
 			'    --start-date 2026-03-17 \\',
-			'    --id evt_20260317_1000_training_session_NONE \\',
+			'    [--id 7iu8p4] \\',
+			'    [--campaign-id 7iu8p4] \\',
 			'    --slug ai-workshop-for-tech-writers-and-content-creators-spring-2026 \\',
 			"    [--subtitle '🌷 Spring 2026 Cohort'] \\",
 			'    [--start-time 10:00] \\',
@@ -65,6 +69,10 @@ const parseArgs = (argv: string[]): CliOptions => {
 				options.id = next;
 				i += 1;
 				break;
+			case '--campaign-id':
+				options.campaignId = next;
+				i += 1;
+				break;
 			case '--slug':
 				options.slug = next;
 				i += 1;
@@ -84,9 +92,16 @@ const parseArgs = (argv: string[]): CliOptions => {
 	return options;
 };
 
-const toFallbackEventId = (programSku: string, startDate: string): string => {
-	const compactDate = startDate.replace(/-/g, '');
-	return `evt_${compactDate}_1000_training_session_NONE_${programSku.replace(/[^A-Z0-9]/g, '')}`;
+const BASE36_ID_PATTERN = /^[a-z0-9]{6}$/;
+const BASE36_ALPHABET = '0123456789abcdefghijklmnopqrstuvwxyz';
+
+const createBase36Id = (): string => {
+	const bytes = crypto.randomBytes(6);
+	let value = '';
+	for (const byte of bytes) {
+		value += BASE36_ALPHABET[byte % 36];
+	}
+	return value;
 };
 
 const toFallbackSlug = (programTitle: string, startDate: string): string => {
@@ -112,6 +127,18 @@ const run = (): void => {
 		throw new Error(`No training program found for SKU "${programSku}".`);
 	}
 
+	const eventId = (options.id ?? createBase36Id()).trim();
+	if (!BASE36_ID_PATTERN.test(eventId)) {
+		throw new Error(`--id must be a 6-char base36 string (^[a-z0-9]{6}$). Got "${eventId}".`);
+	}
+
+	const campaignId = (options.campaignId ?? eventId).trim();
+	if (!BASE36_ID_PATTERN.test(campaignId)) {
+		throw new Error(
+			`--campaign-id must be a 6-char base36 string (^[a-z0-9]{6}$). Got "${campaignId}".`
+		);
+	}
+
 	const scheduleDraft = buildTrainingDraftScheduleFromProgramSku({
 		programSku,
 		startDate,
@@ -120,16 +147,55 @@ const run = (): void => {
 		estimatedHoursCommitment: options.hoursPerDayCommitment
 	});
 
-	const draftEvent = buildTrainingSessionEventFromProgramSku({
+	const draftEventBase = buildTrainingSessionEventFromProgramSku({
 		programSku,
-		id: options.id ?? toFallbackEventId(programSku, startDate),
+		id: eventId,
 		slug: options.slug ?? toFallbackSlug(program.title, startDate),
 		startDate,
 		startTimeLocal: options.startTimeLocal,
 		durationDays: options.durationDays,
 		estimatedHoursCommitment: options.hoursPerDayCommitment,
-		subtitle: options.subtitle
+		subtitle: options.subtitle,
+		visibility: 'draft',
+		registrationStatus: 'none',
+		ctaLabel: 'Draft',
+		ctaUrl: program.route
 	});
+
+	const draftEvent = {
+		...draftEventBase,
+		campaignId,
+		cta: {
+			...draftEventBase.cta,
+			campaignId
+		}
+	};
+
+	const partner = getPartnerByCode(draftEvent.partnerCode);
+	const campaignPartnerSlug =
+		partner && partner.slug !== 'none' ? partner.slug : getPartnerByCode('CMB')?.slug ?? 'cambermast';
+	const campaignPartnerLabel =
+		partner && partner.slug !== 'none'
+			? partner.name
+			: getPartnerByCode('CMB')?.name ?? 'Cambermast';
+
+	const draftCampaign = {
+		id: campaignId,
+		type: 'qr',
+		partner: campaignPartnerSlug,
+		partnerLabel: campaignPartnerLabel,
+		landingPath: `/events/${draftEvent.slug}`,
+		description: `Campaign short link for the ${draftEvent.title} event page.`,
+		createdAt: new Date().toISOString(),
+		params: {
+			utm_source: 'qr',
+			utm_medium: 'offline',
+			utm_campaign: 'events',
+			utm_content: campaignId,
+			src: 'qr',
+			ad: campaignPartnerSlug
+		}
+	};
 
 	process.stdout.write(
 		`${JSON.stringify(
@@ -141,7 +207,8 @@ const run = (): void => {
 					scheduleTemplate: program.scheduleTemplate
 				},
 				scheduleDraft,
-				draftEvent
+				draftEvent,
+				draftCampaign
 			},
 			null,
 			2

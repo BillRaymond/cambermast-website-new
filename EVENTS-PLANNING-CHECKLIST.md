@@ -125,7 +125,7 @@ Purpose: Track architecture decisions and implementation progress for the unifie
 
 - [x] Add partner catalog data file (for code/name/logo/homepage).
 - [x] Define 3-letter partner code list and mapping to partner slug.
-- [ ] Migrate legacy event IDs from `evt_...` format to 6-char base36 standard.
+- [x] Migrate legacy event IDs from `evt_...` format to 6-char base36 standard.
 - [x] Keep campaign IDs kebab-case to match existing `qr-campaigns` constraints.
 - [x] For each promoted event, create a campaign with `landingPath` to `/events/[slug]`.
 - [x] Event landing pages support external CTA targets (Luma for now).
@@ -197,7 +197,7 @@ Purpose: Track architecture decisions and implementation progress for the unifie
 - [ ] Add editability workflow for ops (JSON editing guidance or lightweight tooling in `/internal/events`).
 - [ ] Decide whether to expose partner homepage links for all partners (currently only when set in catalog).
 - [ ] Optional: add `/admin/events` entry point in internal docs/navigation.
-- [ ] Optional cleanup: normalize old event IDs (`evt_...`) to 6-char base36 after migration plan is approved.
+- [x] Optional cleanup: normalize old event IDs (`evt_...`) to 6-char base36 after migration plan is approved.
 - [ ] Keep `web/src/lib/data/training/index.ts` manual imports for now; revisit auto-discovery (`import.meta.glob`) after `/events` migration stabilizes.
 - [ ] Optional UI polish: add explicit "Archived" state treatment on `/events/[slug]` for non-promoted but reachable events.
 

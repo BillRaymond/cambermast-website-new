@@ -53,10 +53,12 @@ When creating a new training event, use this strict flow:
 
 Run:
 
-`npm --prefix web run events:draft -- --program-sku CM-TR-005 --start-date 2026-03-17 --id evt_20260317_1000_training_session_NONE --slug ai-workshop-for-tech-writers-and-content-creators-spring-2026 --subtitle "🌷 Spring 2026 Cohort"`
+`npm --prefix web run events:draft -- --program-sku CM-TR-005 --start-date 2026-03-17 --slug ai-workshop-for-tech-writers-and-content-creators-spring-2026 --subtitle "🌷 Spring 2026 Cohort"`
 
 Optional overrides:
 
+- `--id` (6-char base36; auto-generated if omitted)
+- `--campaign-id` (6-char base36; defaults to `--id` when omitted)
 - `--start-time` (example `13:00`)
 - `--duration-days` (overrides training default)
 - `--hours-per-day` (overrides training default)
@@ -66,6 +68,7 @@ Output includes:
 - `program.scheduleTemplate` (source values)
 - `scheduleDraft` (generated date/time window)
 - `draftEvent` (ready-to-paste event object with explicit `schedule` fields)
+- `draftCampaign` (ready-to-paste QR campaign entry for `web/src/lib/data/qr-campaigns.json`)
 
 ## Privacy, GDPR & Cookies
 

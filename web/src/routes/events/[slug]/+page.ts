@@ -1,4 +1,3 @@
-import { dev } from '$app/environment';
 import { error } from '@sveltejs/kit';
 import { getEvent, listEvents } from '$lib/data/events';
 import { getPartnerByCode } from '$lib/data/partners';
@@ -8,10 +7,10 @@ import type { PageLoad } from './$types';
 export const prerender = true;
 
 export const entries = () =>
-	listEvents({ includeDrafts: dev, includeUnlisted: true }).map((event) => ({ slug: event.slug }));
+	listEvents({ includeDrafts: true, includeUnlisted: true }).map((event) => ({ slug: event.slug }));
 
 export const load: PageLoad = ({ params }) => {
-	const event = getEvent(params.slug, { includeDrafts: dev, includeUnlisted: true });
+	const event = getEvent(params.slug, { includeDrafts: true, includeUnlisted: true });
 
 	if (!event) {
 		throw error(404, 'Event not found');
