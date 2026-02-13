@@ -7,6 +7,15 @@ Use this file to keep automated changes aligned with the site’s governance and
 - Keep policy, governance, and AI guidance consistent across the site.
 - Do not invent services, partners, credentials, pricing, or dates.
 
+## Schema governance rule (required)
+- Use schema-first for every structured registry contract under `web/src/lib/data/**`.
+- Every registry schema must have:
+  - a public read-only API endpoint (`/api/<domain>.json` or documented equivalent),
+  - an API response schema in `web/src/lib/data/api/schemas/`,
+  - an API payload builder in `web/src/lib/data/api/`,
+  - admin SOP documentation in an existing relevant `/admin/sop*` route (or a new `/admin/sop-<domain>` page if none fits).
+- Run `npm --prefix web run validate:schema-governance` when schemas/contracts change.
+
 ## Page layout baseline (new/updated pages)
 - Use `web/src/routes/about/+page.svelte` as the default layout model unless a route has an intentional custom design.
 - Do not add nested `mx-auto max-w-*` wrappers around the top heading/content block on standard pages; use the shared layout container alignment.

@@ -5,10 +5,17 @@ import eventsApiSchema from '../src/lib/data/api/schemas/events-api.schema.json'
 import campaignsApiSchema from '../src/lib/data/api/schemas/campaigns-api.schema.json';
 import enumsApiSchema from '../src/lib/data/api/schemas/enums-api.schema.json';
 import catalogApiSchema from '../src/lib/data/api/schemas/catalog-api.schema.json';
+import testimonialsApiSchema from '../src/lib/data/api/schemas/testimonials-api.schema.json';
+import toolsApiSchema from '../src/lib/data/api/schemas/tools-api.schema.json';
 import { buildEventsApiExamples, buildEventsApiPayload } from '../src/lib/data/api/events';
 import { buildCampaignsApiExamples, buildCampaignsApiPayload } from '../src/lib/data/api/campaigns';
 import { buildEnumsApiExamples, buildEnumsApiPayload } from '../src/lib/data/api/enums';
 import { buildCatalogApiExamples, buildCatalogApiPayload } from '../src/lib/data/api/catalog';
+import {
+	buildTestimonialsApiExamples,
+	buildTestimonialsApiPayload
+} from '../src/lib/data/api/testimonials';
+import { buildToolsApiExamples, buildToolsApiPayload } from '../src/lib/data/api/tools';
 import { SITE_ORIGIN } from '../src/lib/config/site';
 
 const origin = SITE_ORIGIN.replace(/\/$/, '');
@@ -62,5 +69,25 @@ const catalogPayload = buildCatalogApiPayload({ origin });
 const catalogExamples = buildCatalogApiExamples(origin);
 assertValid('catalog api payload', catalogApiSchema as object, catalogPayload);
 assertValid('catalog api example', catalogApiSchema as object, catalogExamples.example);
+
+const testimonialsPayload = buildTestimonialsApiPayload({
+	origin,
+	generatedAt: '2026-02-13T18:15:00.000Z'
+});
+const testimonialsExamples = buildTestimonialsApiExamples(origin);
+assertValid('testimonials api payload', testimonialsApiSchema as object, testimonialsPayload);
+assertValid(
+	'testimonials api example',
+	testimonialsApiSchema as object,
+	testimonialsExamples.example
+);
+
+const toolsPayload = buildToolsApiPayload({
+	origin,
+	generatedAt: '2026-02-13T18:15:00.000Z'
+});
+const toolsExamples = buildToolsApiExamples(origin);
+assertValid('tools api payload', toolsApiSchema as object, toolsPayload);
+assertValid('tools api example', toolsApiSchema as object, toolsExamples.example);
 
 console.log('API responses and examples are valid.');

@@ -96,11 +96,15 @@
 	</a>
 
 	<a
-		href="/admin/sop-forms"
+		href="/admin/sop-testimonials"
 		class="group rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition hover:border-gray-300"
 	>
 		<p class="text-xs font-semibold tracking-wide text-gray-500 uppercase">Playbook</p>
-		<p class="mt-2 text-lg font-semibold text-gray-900 group-hover:text-blue-900">Forms SOPs</p>
-		<p class="mt-1 text-sm text-gray-600">Form validation, webhook, and operations SOP coverage.</p>
+		<p class="mt-2 text-lg font-semibold text-gray-900 group-hover:text-blue-900">
+			Testimonial SOPs
+		</p>
+		<p class="mt-1 text-sm text-gray-600">
+			Testimonial intake, validation, and publishing procedures.
+		</p>
 	</a>
 </section>

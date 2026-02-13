@@ -5,7 +5,7 @@
 		{ href: '/admin', label: '🧭 Admin' },
 		{ href: '/admin/sop', label: '📚 Event SOPs' },
 		{ href: '/admin/sop-training', label: '🎓 Training SOPs' },
-		{ href: '/admin/sop-forms', label: '🧾 Forms SOPs' },
+		{ href: '/admin/sop-testimonials', label: '💬 Testimonial SOPs' },
 		{ href: '/admin/events', label: '🟢 Live Events' },
 		{ href: '/admin/drafts', label: '📝 Draft Events' },
 		{ href: '/admin/campaigns', label: '📣 Campaigns' },

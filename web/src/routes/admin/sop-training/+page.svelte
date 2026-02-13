@@ -122,6 +122,13 @@
 		<a href="/admin/events" class="text-blue-700 hover:underline">/admin/events</a>,
 		<a href="/admin/forms" class="text-blue-700 hover:underline">/admin/forms</a>.
 	</p>
+	<p class="mt-2 max-w-3xl text-gray-700">
+		Governance rule: every registry schema change must stay schema-first and include matching API
+		contract updates plus SOP updates in a relevant <code
+			class="rounded bg-gray-100 px-1 py-0.5 text-xs">/admin/sop*</code
+		>
+		page. See <code class="rounded bg-gray-100 px-1 py-0.5 text-xs">SCHEMA-FIRST.md</code>.
+	</p>
 </section>
 
 <section class="mt-8">

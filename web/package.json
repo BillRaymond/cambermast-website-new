@@ -4,13 +4,13 @@
 	"version": "0.0.1",
 	"type": "module",
 	"scripts": {
-		"prebuild": "node ./scripts/sync-site-metadata.mjs && npm run validate:events && npm run validate:campaigns && npm run validate:registries && npm run validate:api && npm run validate:ui-adapters",
+		"prebuild": "node ./scripts/sync-site-metadata.mjs && npm run validate:events && npm run validate:campaigns && npm run validate:registries && npm run validate:api && npm run validate:schema-governance && npm run validate:ui-adapters",
 		"dev": "vite dev",
-		"predev": "node ./scripts/sync-site-metadata.mjs && npm run validate:events && npm run validate:campaigns && npm run validate:registries && npm run validate:api && npm run validate:ui-adapters",
+		"predev": "node ./scripts/sync-site-metadata.mjs && npm run validate:events && npm run validate:campaigns && npm run validate:registries && npm run validate:api && npm run validate:schema-governance && npm run validate:ui-adapters",
 		"dev:host": "vite dev --host 0.0.0.0 --port 5173",
 		"build": "vite build",
 		"preview": "vite preview",
-		"prepreview": "node ./scripts/sync-site-metadata.mjs && npm run validate:events && npm run validate:campaigns && npm run validate:registries && npm run validate:api && npm run validate:ui-adapters",
+		"prepreview": "node ./scripts/sync-site-metadata.mjs && npm run validate:events && npm run validate:campaigns && npm run validate:registries && npm run validate:api && npm run validate:schema-governance && npm run validate:ui-adapters",
 		"prepare": "svelte-kit sync || echo ''",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
@@ -24,6 +24,7 @@
 		"validate:testimonials": "node ./scripts/validate-testimonials.mjs",
 		"validate:registries": "npm run validate:catalog && npm run validate:tools && npm run validate:testimonials",
 		"validate:api": "tsx ./scripts/validate-api-responses.ts",
+		"validate:schema-governance": "node ./scripts/validate-schema-governance.mjs",
 		"validate:ui-adapters": "tsx ./scripts/validate-ui-adapters.ts"
 	},
 	"devDependencies": {

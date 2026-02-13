@@ -65,6 +65,8 @@ Authoritative sources:
 - https://cambermast.com/agents
 - https://cambermast.com/strategy
 - https://cambermast.com/testimonials
+- https://cambermast.com/api/testimonials.json
+- https://cambermast.com/api/tools.json
 - https://cambermast.com/news and https://cambermast.com/news/ai-adoption-playbook
 - https://cambermast.com/gdpr
 - https://cambermast.com/contact

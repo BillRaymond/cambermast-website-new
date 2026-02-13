@@ -7,10 +7,14 @@
 	import campaignsApiResponseSchema from '$lib/data/api/schemas/campaigns-api.schema.json';
 	import enumsApiResponseSchema from '$lib/data/api/schemas/enums-api.schema.json';
 	import catalogApiResponseSchema from '$lib/data/api/schemas/catalog-api.schema.json';
+	import toolsApiResponseSchema from '$lib/data/api/schemas/tools-api.schema.json';
+	import testimonialsApiResponseSchema from '$lib/data/api/schemas/testimonials-api.schema.json';
 	import { buildEventsApiExamples } from '$lib/data/api/events';
 	import { buildCampaignsApiExamples } from '$lib/data/api/campaigns';
 	import { buildEnumsApiExamples } from '$lib/data/api/enums';
 	import { buildCatalogApiExamples } from '$lib/data/api/catalog';
+	import { buildToolsApiExamples } from '$lib/data/api/tools';
+	import { buildTestimonialsApiExamples } from '$lib/data/api/testimonials';
 
 	const pageMeta = {
 		title: 'Event SOPs | Admin | Cambermast',
@@ -38,6 +42,8 @@
 	const campaignsApiExamples = buildCampaignsApiExamples(schemaDemoOrigin);
 	const enumsApiExamples = buildEnumsApiExamples();
 	const catalogApiExamples = buildCatalogApiExamples(schemaDemoOrigin);
+	const toolsApiExamples = buildToolsApiExamples(schemaDemoOrigin);
+	const testimonialsApiExamples = buildTestimonialsApiExamples(schemaDemoOrigin);
 
 	const apiSamples: ApiSample[] = [
 		{
@@ -75,6 +81,20 @@
 			response: JSON.stringify(catalogApiExamples.response, null, 2),
 			example: JSON.stringify(catalogApiExamples.example, null, 2),
 			schema: JSON.stringify(catalogApiResponseSchema, null, 2)
+		},
+		{
+			id: 'tools',
+			title: '/api/tools.json',
+			response: JSON.stringify(toolsApiExamples.response, null, 2),
+			example: JSON.stringify(toolsApiExamples.example, null, 2),
+			schema: JSON.stringify(toolsApiResponseSchema, null, 2)
+		},
+		{
+			id: 'testimonials',
+			title: '/api/testimonials.json',
+			response: JSON.stringify(testimonialsApiExamples.response, null, 2),
+			example: JSON.stringify(testimonialsApiExamples.example, null, 2),
+			schema: JSON.stringify(testimonialsApiResponseSchema, null, 2)
 		}
 	];
 
@@ -82,7 +102,9 @@
 		events: 'response',
 		campaigns: 'response',
 		enums: 'response',
-		catalog: 'response'
+		catalog: 'response',
+		tools: 'response',
+		testimonials: 'response'
 	};
 	let copiedKey = '';
 
@@ -147,6 +169,13 @@
 		<a href="/admin/drafts" class="text-blue-700 hover:underline">/admin/drafts</a>,
 		<a href="/admin/campaigns" class="text-blue-700 hover:underline">/admin/campaigns</a>,
 		<a href="/admin/forms" class="text-blue-700 hover:underline">/admin/forms</a>.
+	</p>
+	<p class="mt-2 max-w-3xl text-gray-700">
+		Governance rule: every registry schema in <code
+			class="rounded bg-gray-100 px-1 py-0.5 text-xs">web/src/lib/data/**</code
+		>
+		must have a corresponding public read-only API contract and SOP coverage in a relevant
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">/admin/sop*</code> page.
 	</p>
 </section>
 
@@ -364,7 +393,9 @@
 		Then verify these read endpoints:
 		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">/api/events.json</code> and
 		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">/api/campaigns.json</code> and
-		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">/api/enums.json</code>.
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">/api/enums.json</code> and
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">/api/tools.json</code> and
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">/api/testimonials.json</code>.
 	</p>
 </section>
 
@@ -456,7 +487,9 @@
 		API behavior note: <code class="rounded bg-gray-100 px-1 py-0.5 text-xs">/api/events.json</code
 		>,
 		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">/api/campaigns.json</code>,
-		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">/api/enums.json</code>, and
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">/api/enums.json</code>,
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">/api/tools.json</code>,
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">/api/testimonials.json</code>, and
 		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">/catalog.json</code> are read-only GET
 		endpoints and return HTTP 200 on success. Campaign short-link route
 		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">/c/&lt;id&gt;</code> returns 404 when the campaign
@@ -485,7 +518,9 @@
 		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">events-api.schema.json</code>,
 		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">campaigns-api.schema.json</code>,
 		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">enums-api.schema.json</code>,
-		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">catalog-api.schema.json</code>, and enum
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">catalog-api.schema.json</code>,
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">tools-api.schema.json</code>,
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">testimonials-api.schema.json</code>, and enum
 		output from
 		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">/api/enums.json</code>.
 	</p>
@@ -582,6 +617,40 @@
 		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">http://localhost:5173/catalog.json</code>
 	</p>
 	<p class="mt-2 max-w-3xl text-gray-700">
+		Tools API:
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">GET /api/tools.json</code> returns tool
+		registry entries with absolute public URLs.
+	</p>
+	<p class="mt-2 max-w-3xl text-gray-700">
+		prod:
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
+			>https://www.cambermast.com/api/tools.json</code
+		>
+	</p>
+	<p class="mt-2 max-w-3xl text-gray-700">
+		dev:
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
+			>http://localhost:5173/api/tools.json</code
+		>
+	</p>
+	<p class="mt-2 max-w-3xl text-gray-700">
+		Testimonials API:
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">GET /api/testimonials.json</code> returns
+		public-approved testimonials with canonical program mapping.
+	</p>
+	<p class="mt-2 max-w-3xl text-gray-700">
+		prod:
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
+			>https://www.cambermast.com/api/testimonials.json</code
+		>
+	</p>
+	<p class="mt-2 max-w-3xl text-gray-700">
+		dev:
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
+			>http://localhost:5173/api/testimonials.json</code
+		>
+	</p>
+	<p class="mt-2 max-w-3xl text-gray-700">
 		Implementation files:
 		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
 			>web/src/routes/api/events.json/+server.ts</code
@@ -592,6 +661,12 @@
 		>, and
 		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
 			>web/src/routes/api/enums.json/+server.ts</code
+		>, and
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
+			>web/src/routes/api/tools.json/+server.ts</code
+		>, and
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
+			>web/src/routes/api/testimonials.json/+server.ts</code
 		>, and
 		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
 			>web/src/routes/catalog.json/+server.ts</code
