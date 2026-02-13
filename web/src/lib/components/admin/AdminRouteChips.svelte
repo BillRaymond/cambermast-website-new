@@ -1,53 +1,16 @@
 <script lang="ts">
 	import { page } from '$app/state';
 
-	const routeModules = import.meta.glob('/src/routes/admin/**/+page.svelte');
-	const labelOverrides: Record<string, string> = {
-		'/admin': '🧭 Admin',
-		'/admin/events': '🟢 Live Events',
-		'/admin/drafts': '📝 Draft Events',
-		'/admin/campaigns': '📣 Campaigns',
-		'/admin/forms': '🧾 Forms',
-		'/admin/sop': '📚 Event SOPs',
-		'/admin/sop-training': '🎓 Training SOPs',
-		'/admin/sop-forms': '🧾 Forms SOPs'
-	};
-	const routePriority = [
-		'/admin',
-		'/admin/sop',
-		'/admin/sop-training',
-		'/admin/sop-forms',
-		'/admin/events',
-		'/admin/drafts',
-		'/admin/campaigns',
-		'/admin/forms'
-	];
-	const toTitleCase = (value: string): string =>
-		value
-			.split('-')
-			.filter(Boolean)
-			.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-			.join(' ');
-	const getPathDepth = (routePath: string): number => routePath.split('/').filter(Boolean).length;
-
-	const routePaths = Object.keys(routeModules)
-		.map((filePath) => filePath.replace('/src/routes', '').replace('/+page.svelte', ''))
-		.filter((routePath) => routePath.startsWith('/admin'))
-		.filter((routePath) => !routePath.includes('['))
-		.filter((routePath) => getPathDepth(routePath) <= 2)
-		.sort((a, b) => {
-			const aIndex = routePriority.indexOf(a);
-			const bIndex = routePriority.indexOf(b);
-			if (aIndex !== -1 && bIndex !== -1) return aIndex - bIndex;
-			if (aIndex !== -1) return -1;
-			if (bIndex !== -1) return 1;
-			return a.localeCompare(b);
-		});
-
-	const chips = routePaths.map((href) => {
-		const fallbackLabel = `🧩 ${toTitleCase(href.split('/').filter(Boolean).at(-1) ?? 'Admin')}`;
-		return { href, label: labelOverrides[href] ?? fallbackLabel };
-	});
+	const chips = [
+		{ href: '/admin', label: '🧭 Admin' },
+		{ href: '/admin/sop', label: '📚 Event SOPs' },
+		{ href: '/admin/sop-training', label: '🎓 Training SOPs' },
+		{ href: '/admin/sop-forms', label: '🧾 Forms SOPs' },
+		{ href: '/admin/events', label: '🟢 Live Events' },
+		{ href: '/admin/drafts', label: '📝 Draft Events' },
+		{ href: '/admin/campaigns', label: '📣 Campaigns' },
+		{ href: '/admin/forms', label: '🧾 Forms' }
+	] as const;
 
 	const pathname = $derived(page.url.pathname);
 </script>
