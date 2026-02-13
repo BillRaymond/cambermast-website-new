@@ -82,9 +82,25 @@
 		class="group rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition hover:border-gray-300"
 	>
 		<p class="text-xs font-semibold tracking-wide text-gray-500 uppercase">Playbook</p>
-		<p class="mt-2 text-lg font-semibold text-gray-900 group-hover:text-blue-900">SOP</p>
-		<p class="mt-1 text-sm text-gray-600">
-			Working procedures for events, drafts, campaigns, and forms maintenance.
-		</p>
+		<p class="mt-2 text-lg font-semibold text-gray-900 group-hover:text-blue-900">Event SOPs</p>
+		<p class="mt-1 text-sm text-gray-600">Working procedures for event and campaign maintenance.</p>
+	</a>
+
+	<a
+		href="/admin/sop-training"
+		class="group rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition hover:border-gray-300"
+	>
+		<p class="text-xs font-semibold tracking-wide text-gray-500 uppercase">Playbook</p>
+		<p class="mt-2 text-lg font-semibold text-gray-900 group-hover:text-blue-900">Training SOPs</p>
+		<p class="mt-1 text-sm text-gray-600">Training catalog and schedule SOP coverage.</p>
+	</a>
+
+	<a
+		href="/admin/sop-forms"
+		class="group rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition hover:border-gray-300"
+	>
+		<p class="text-xs font-semibold tracking-wide text-gray-500 uppercase">Playbook</p>
+		<p class="mt-2 text-lg font-semibold text-gray-900 group-hover:text-blue-900">Forms SOPs</p>
+		<p class="mt-1 text-sm text-gray-600">Form validation, webhook, and operations SOP coverage.</p>
 	</a>
 </section>

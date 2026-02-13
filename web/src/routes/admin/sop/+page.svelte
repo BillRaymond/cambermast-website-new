@@ -13,9 +13,8 @@
 	import { buildCatalogApiExamples } from '$lib/data/api/catalog';
 
 	const pageMeta = {
-		title: 'Admin SOP | Cambermast',
-		description:
-			'Internal standard operating procedures for maintaining events, drafts, campaigns, and forms.'
+		title: 'Event SOPs | Admin | Cambermast',
+		description: 'Internal SOP for maintaining events and campaigns with schema-first standards.'
 	};
 
 	type ApiTab = 'response' | 'example' | 'partner' | 'schema';
@@ -128,7 +127,7 @@
 </svelte:head>
 
 <header class="flex flex-col">
-	<h1 class="mb-6 text-3xl font-bold">Admin SOP</h1>
+	<h1 class="mb-6 text-3xl font-bold">Event SOPs (Events and Campaigns)</h1>
 	<AdminRouteChips />
 	<p class="max-w-3xl text-gray-700">
 		This page documents how to create and maintain events and campaigns in a way that is clear for
@@ -148,6 +147,33 @@
 		<a href="/admin/drafts" class="text-blue-700 hover:underline">/admin/drafts</a>,
 		<a href="/admin/campaigns" class="text-blue-700 hover:underline">/admin/campaigns</a>,
 		<a href="/admin/forms" class="text-blue-700 hover:underline">/admin/forms</a>.
+	</p>
+</section>
+
+<section class="mt-8">
+	<h2 class="text-2xl font-semibold">Campaign Naming and Governance</h2>
+	<p class="mt-2 max-w-3xl text-gray-700">
+		Use one canonical campaign registry as the source of truth:
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">web/src/lib/data/campaigns.json</code>.
+		Schema source:
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
+			>web/src/lib/data/campaigns.schema.json</code
+		>.
+	</p>
+	<p class="mt-2 max-w-3xl text-gray-700">
+		Keep campaign IDs stable over time. Keep
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">params.utm_content</code> aligned with
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">id</code>.
+	</p>
+	<p class="mt-2 max-w-3xl text-gray-700">
+		Good examples:
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">techlab-go</code>,
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">standing-signage-sc</code>,
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">partner-demo-01</code>.
+	</p>
+	<p class="mt-2 max-w-3xl text-gray-700">
+		Avoid spaces/underscores, long verbose IDs, and changing IDs after links or printed assets are
+		published.
 	</p>
 </section>
 

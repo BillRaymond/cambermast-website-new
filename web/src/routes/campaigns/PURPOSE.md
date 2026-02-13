@@ -1,6 +1,8 @@
 # Purpose: Campaign and Partner Registry
 
 This area documents how Cambermast manages campaigns and partner-facing pages.
+The canonical internal UI reference for this guidance lives at:
+`/admin/sop`.
 
 ## What we're doing here
 

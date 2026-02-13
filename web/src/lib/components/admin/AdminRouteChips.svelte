@@ -8,11 +8,15 @@
 		'/admin/drafts': '📝 Draft Events',
 		'/admin/campaigns': '📣 Campaigns',
 		'/admin/forms': '🧾 Forms',
-		'/admin/sop': '📚 SOP'
+		'/admin/sop': '📚 Event SOPs',
+		'/admin/sop-training': '🎓 Training SOPs',
+		'/admin/sop-forms': '🧾 Forms SOPs'
 	};
 	const routePriority = [
 		'/admin',
 		'/admin/sop',
+		'/admin/sop-training',
+		'/admin/sop-forms',
 		'/admin/events',
 		'/admin/drafts',
 		'/admin/campaigns',
