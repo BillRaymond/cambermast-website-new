@@ -4,6 +4,20 @@ export const aiAdvancedWorkshop: TrainingProgram = {
 	slug: 'ai-advanced-workshop',
 	route: '/training/ai-advanced-workshop',
 	sku: 'CM-TR-003',
+	catalog: {
+		id: 'training-ai-advanced',
+		summary:
+			'Seven-week cohort for cross-functional teams to integrate AI across planning, delivery, and reporting.',
+		image: '/images/ai-advanced.jpeg',
+		imageAlt: 'AI Workshop for Modern Teams illustration',
+		bullets: [
+			'Automate repetitive work with reusable AI workflows',
+			'Co-create prompts and playbooks that fit your standards',
+			'Present a final project and adoption roadmap'
+		],
+		order: 2,
+		published: true
+	},
 	title: 'AI Workshop for Modern Teams',
 	nickname: 'Seven-week cohort for cross-functional teams',
 	tagline: 'AI-enhanced team workflows that deliver measurable results in seven weeks.',

@@ -4,6 +4,19 @@ export const aiAutomationWithAgents = {
 	slug: 'ai-automation-with-agents',
 	route: '/training/ai-automation-with-agents',
 	sku: 'CM-TR-004',
+	catalog: {
+		id: 'training-ai-automation-with-agents',
+		summary: 'Hands-on agent building with n8n, OpenAI, and your internal APIs.',
+		image: '/images/ai-automation.jpg',
+		imageAlt: 'AI Automation with Agents Workshop illustration',
+		bullets: [
+			'Design human-in-the-loop automations',
+			'Build working agents in guided labs',
+			'Optimize for reliability and cost'
+		],
+		order: 3,
+		published: true
+	},
 	title: 'AI Automation with Agents Workshop',
 	nickname: 'Six-week cohort for applied agent builders',
 	tagline:
@@ -147,10 +160,6 @@ export const aiAutomationWithAgents = {
 		'Configuration checklists and runbooks for on-call responders.',
 		'30-day support channel to review logs and iterate on automations.'
 	],
-	testimonial: {
-		quote: 'The team left with a production-ready agent plus the knowledge to keep improving it.',
-		author: 'Samira H., COO'
-	},
 	aboutTrainer: {
 		title: 'About your trainer',
 		name: 'Bill Raymond',

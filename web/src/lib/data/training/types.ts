@@ -3,6 +3,16 @@ export type TrainingCta = {
 	url: string;
 };
 
+export type TrainingCatalogMeta = {
+	id: string;
+	summary: string;
+	image?: string;
+	imageAlt?: string;
+	bullets?: string[];
+	order: number;
+	published?: boolean;
+};
+
 export type TrainingStat = {
 	label: string;
 	value: string | string[];
@@ -26,11 +36,6 @@ export type TrainingAgendaBlock = {
 	details: string[];
 };
 
-export type TrainingTestimonial = {
-	quote: string;
-	author: string;
-};
-
 export type TrainingTrainer = {
 	title: string;
 	name: string;
@@ -47,12 +52,6 @@ export type TrainingFaq = {
 	answer?: string;
 };
 
-export type TrainingReview = {
-	quote: string;
-	author: string;
-	role?: string;
-};
-
 export type TrainingScheduleTemplate = {
 	durationDays: number;
 	hoursPerDayCommitment: number;
@@ -62,10 +61,25 @@ export type TrainingScheduleTemplate = {
 	defaultLocationLabel?: string;
 };
 
+export type TrainingProgramPresentation = {
+	heroEyebrow?: string;
+	partnershipLabel?: string;
+	trailerLinkLabel?: string;
+	lockInSeatTitle?: string;
+	lockInSeatDescription?: string;
+	agendaCtaTitle?: string;
+	agendaCtaDescription?: string;
+	finalCtaTitle?: string;
+	finalCtaDescription?: string;
+	termsQuestion?: string;
+	termsAnswer?: string;
+};
+
 export type TrainingProgram = {
 	slug: string;
 	route: string;
 	sku?: string;
+	catalog?: TrainingCatalogMeta;
 	title: string;
 	nickname?: string;
 	tagline: string;
@@ -89,8 +103,11 @@ export type TrainingProgram = {
 	draft?: boolean;
 	agenda?: TrainingAgendaBlock[];
 	resources?: string[];
-	reviews?: TrainingReview[];
-	testimonial?: TrainingTestimonial;
 	aboutTrainer?: TrainingTrainer;
 	faqs?: TrainingFaq[];
+	presentation?: TrainingProgramPresentation;
+};
+
+export type TrainingRegistry = {
+	programs: TrainingProgram[];
 };

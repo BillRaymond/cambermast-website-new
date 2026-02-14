@@ -4,6 +4,20 @@ export const aiAcceleratorWorkshop = {
 	slug: 'ai-accelerator-workshop',
 	route: '/training/ai-accelerator-workshop',
 	sku: 'CM-TR-002',
+	catalog: {
+		id: 'training-ai-accelerator',
+		summary:
+			'Extends the AI Power prompting course as a multi-week AI workshop so you can tap powerful new AI features to run your business.',
+		image: '/images/ai-accelerator.jpeg',
+		imageAlt: 'AI Accelerator Workshop illustration',
+		bullets: [
+			'Understand how today’s AI models generate answers',
+			'Custom GPTs tuned to your workflows',
+			'Organize prompts, files, and research in AI projects'
+		],
+		order: 1,
+		published: true
+	},
 	title: 'AI Accelerator Workshop',
 	nickname: 'From core prompting to professional AI systems',
 	tagline:
@@ -119,11 +133,6 @@ export const aiAcceleratorWorkshop = {
 		'Research brief template that transforms findings into presentations.',
 		'Post-workshop office hours to refine GPTs and projects.'
 	],
-	testimonial: {
-		quote:
-			'Our small business now has reusable AI assets that save hours each week, and we no longer start from scratch.',
-		author: 'Nia F., Founder'
-	},
 	aboutTrainer: {
 		title: 'About your trainer',
 		name: 'Bill Raymond',

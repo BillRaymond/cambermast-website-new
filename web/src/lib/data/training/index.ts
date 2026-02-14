@@ -1,21 +1,8 @@
-import type { TrainingProgram } from './types';
+import trainingRegistryData from './training.json';
+import type { TrainingProgram, TrainingRegistry } from './types';
 
-import { aiFundamentals } from './ai-fundamentals';
-import { aiAcceleratorWorkshop } from './ai-accelerator-workshop';
-import { aiAdvancedWorkshop } from './ai-advanced-workshop';
-import { aiAutomationWithAgents } from './ai-automation-with-agents';
-import { aiWorkshopForContentCreators } from './ai-workshop-for-content-creators';
-import { aiPowerPromptingDraft } from './ai-power-prompting-draft';
-
-const allPrograms: TrainingProgram[] = [
-	aiFundamentals,
-	aiAcceleratorWorkshop,
-	aiAdvancedWorkshop,
-	aiAutomationWithAgents,
-	aiWorkshopForContentCreators,
-	aiPowerPromptingDraft
-];
-
+const trainingRegistry = trainingRegistryData as TrainingRegistry;
+const allPrograms: TrainingProgram[] = trainingRegistry.programs ?? [];
 const publishedPrograms: TrainingProgram[] = allPrograms.filter((program) => !program.draft);
 
 export const trainingPrograms: Record<string, TrainingProgram> = allPrograms.reduce(

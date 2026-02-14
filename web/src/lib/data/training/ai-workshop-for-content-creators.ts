@@ -4,6 +4,20 @@ export const aiWorkshopForContentCreators = {
 	slug: 'ai-workshop-for-content-creators',
 	route: '/training/ai-workshop-for-content-creators',
 	sku: 'CM-TR-005',
+	catalog: {
+		id: 'training-ai-workshop-content-creators',
+		summary:
+			'Seven-week cohort that helps content and documentation teams layer AI into their workflows.',
+		image: '/images/ai-workshop-for-content-creators.jpeg',
+		imageAlt: 'AI Workshop for Tech Writers and Content Creators illustration',
+		bullets: [
+			'Automate repetitive content production tasks with AI',
+			'Preserve brand voice with reusable prompts and guardrails',
+			'Ship a final project and earn a completion certificate'
+		],
+		order: 4,
+		published: true
+	},
 	title: 'AI Workshop for Tech Writers and Content Creators',
 	nickname: 'Seven-week cohort for technical communicators',
 	tagline: 'AI-enhanced content workflows that deliver measurable impact in seven weeks.',
@@ -24,6 +38,10 @@ export const aiWorkshopForContentCreators = {
 	secondaryCta: {
 		label: 'Talk with Bill',
 		url: '/contact'
+	},
+	presentation: {
+		partnershipLabel: 'In partnership with The Content Wrangler',
+		trailerLinkLabel: 'Watch the trailer'
 	},
 	scheduleTemplate: {
 		durationDays: 49,

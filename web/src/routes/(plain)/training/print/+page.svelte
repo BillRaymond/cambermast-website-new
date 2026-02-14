@@ -1,52 +1,38 @@
 <script lang="ts">
-	import catalog from '$lib/data/catalog.json';
-	import { getTrainingProgram } from '$lib/data/training';
-	import type { TrainingProgram, TrainingStat } from '$lib/data/training/types';
+	import { listTrainingPrograms } from '$lib/data/training';
 	import { getSeo } from '$lib/seo';
 	import SeoHead from '$lib/components/SeoHead.svelte';
-	import { getProgramCertificateText } from '$lib/data/training/program-meta';
+	import {
+		findProgramStat,
+		getProgramCertificateText,
+		statValueToArray,
+		statValueToText
+	} from '$lib/data/training/program-meta';
 
-	const section = catalog.training;
 	const pageTitle = 'Cambermast Training Programs';
 
-	const normalizeLabel = (label?: string): string | undefined => label?.toLowerCase().trim();
-	const findStat = (
-		program: TrainingProgram | undefined,
-		match: string
-	): TrainingStat | undefined =>
-		program?.stats?.find((stat) => normalizeLabel(stat.label) === normalizeLabel(match));
-
-	const statToString = (stat?: TrainingStat): string =>
-		!stat ? '' : Array.isArray(stat.value) ? stat.value.join(', ') : stat.value;
-
-	const statToArray = (stat?: TrainingStat): string[] =>
-		!stat ? [] : Array.isArray(stat.value) ? stat.value : [stat.value];
-
-	const items = (section.items ?? [])
-		.filter((item) => item.published ?? true)
-		.sort((a, b) => (a.order ?? 999) - (b.order ?? 999))
-		.map((item) => {
-			const slug = item.route?.split('/').filter(Boolean).pop() ?? '';
-			const program: TrainingProgram | undefined = slug ? getTrainingProgram(slug) : undefined;
-
-			const duration = statToString(findStat(program, 'duration'));
+	const items = listTrainingPrograms()
+		.filter((program) => program.catalog?.published ?? true)
+		.sort((a, b) => (a.catalog?.order ?? 999) - (b.catalog?.order ?? 999))
+		.map((program) => {
+			const duration = statValueToText(findProgramStat(program, 'duration')?.value) ?? '';
 			const certificateText = getProgramCertificateText(program);
 			const formatLines = [
-				...statToArray(findStat(program, 'format')),
+				...statValueToArray(findProgramStat(program, 'format')?.value),
 				...(certificateText ? [certificateText] : [])
 			];
-			const cost = statToString(findStat(program, 'cost'));
+			const cost = statValueToText(findProgramStat(program, 'cost')?.value) ?? '';
 
 			return {
-				title: item.title ?? program?.title ?? '',
-				route: item.route ?? (program ? `/training/${program.slug}` : ''),
-				sku: program?.sku ?? '',
+				title: program.title,
+				route: program.route,
+				sku: program.sku ?? '',
 				duration,
 				formatLines,
 				cost,
-				summary: item.summary ?? program?.tagline ?? '',
+				summary: program.catalog?.summary ?? program.tagline,
 				certificateText,
-				videoUrl: program?.videoUrl
+				videoUrl: program.videoUrl
 			};
 		});
 

@@ -4,6 +4,19 @@ export const aiPowerPromptingDraft = {
 	slug: 'ai-power-prompting-draft',
 	route: '/training/ai-power-prompting-draft',
 	sku: 'CM-TR-DRAFT-001',
+	catalog: {
+		id: 'training-ai-power-prompting-draft',
+		summary: 'Draft program data used for internal review and QA only.',
+		image: '/images/ai-fundamentals.jpeg',
+		imageAlt: 'AI Power Prompting lab concept art',
+		bullets: [
+			'Internal-only curriculum review',
+			'Validate layout and content flow',
+			'Capture QA and launch feedback'
+		],
+		order: 99,
+		published: false
+	},
 	title: 'AI Power Prompting Lab (Draft)',
 	nickname: 'Experimental prompt lab for early testers',
 	tagline: 'Preview the next iteration of our AI Power Prompting experience before it launches.',

@@ -5,8 +5,10 @@
 	import { SITE_ORIGIN } from '$lib/config/site';
 	import eventsApiResponseSchema from '$lib/data/api/schemas/events-api.schema.json';
 	import catalogApiResponseSchema from '$lib/data/api/schemas/catalog-api.schema.json';
+	import trainingApiResponseSchema from '$lib/data/api/schemas/training-api.schema.json';
 	import { buildCatalogApiExamples } from '$lib/data/api/catalog';
 	import { buildEventsApiPayload } from '$lib/data/api/events';
+	import { buildTrainingApiExamples } from '$lib/data/api/training';
 
 	const pageMeta = {
 		title: 'Training SOPs | Admin | Cambermast',
@@ -25,6 +27,7 @@
 
 	const schemaDemoOrigin = SITE_ORIGIN.replace(/\/$/, '');
 	const catalogApiExamples = buildCatalogApiExamples(schemaDemoOrigin);
+	const trainingApiExamples = buildTrainingApiExamples(schemaDemoOrigin);
 	const eventsApiPayload = buildEventsApiPayload({
 		origin: schemaDemoOrigin,
 		generatedAt: '2026-02-12T18:15:00.000Z'
@@ -47,6 +50,13 @@
 			schema: JSON.stringify(catalogApiResponseSchema, null, 2)
 		},
 		{
+			id: 'training',
+			title: '/api/training.json (program registry)',
+			response: JSON.stringify(trainingApiExamples.response, null, 2),
+			example: JSON.stringify(trainingApiExamples.example, null, 2),
+			schema: JSON.stringify(trainingApiResponseSchema, null, 2)
+		},
+		{
 			id: 'training-events',
 			title: '/api/events.json (filtered to training_session)',
 			response: JSON.stringify(trainingEventsOnly, null, 2),
@@ -57,6 +67,7 @@
 
 	let activeApiTab: Record<string, ApiTab> = {
 		catalog: 'response',
+		training: 'response',
 		'training-events': 'response'
 	};
 	let copiedKey = '';
@@ -136,18 +147,24 @@
 	<h3 class="mt-6 text-xl font-semibold">New training program workflow</h3>
 	<ol class="mt-3 max-w-3xl list-decimal space-y-2 pl-5 text-gray-700">
 		<li>
-			Create or update a training program module in <code
-				class="rounded bg-gray-100 px-1 py-0.5 text-xs">web/src/lib/data/training/</code
+			Update the training registry in <code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
+				>web/src/lib/data/training/training.json</code
 			>.
 		</li>
 		<li>
-			Register the program in <code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
-				>web/src/lib/data/training/index.ts</code
+			Validate against <code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
+				>web/src/lib/data/training/training.schema.json</code
 			>.
 		</li>
 		<li>
-			Update training listing metadata in <code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
-				>web/src/lib/data/catalog.json</code
+			Keep list metadata in each program's <code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
+				>catalog</code
+			>
+			object (summary, image, bullets, order, published).
+		</li>
+		<li>
+			Review API output at <code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
+				>/api/training.json</code
 			>.
 		</li>
 		<li>
@@ -178,8 +195,12 @@
 	<h2 class="text-2xl font-semibold">AI/Developer Contract (Machine Readable Rules)</h2>
 	<ol class="mt-3 max-w-3xl list-decimal space-y-2 pl-5 text-gray-700">
 		<li>
-			Training program sources are TypeScript modules under <code
-				class="rounded bg-gray-100 px-1 py-0.5 text-xs">web/src/lib/data/training/*.ts</code
+			Training program registry data is <code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
+				>web/src/lib/data/training/training.json</code
+			>
+			with schema
+			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
+				>web/src/lib/data/training/training.schema.json</code
 			>.
 		</li>
 		<li>
@@ -193,13 +214,19 @@
 			>.
 		</li>
 		<li>
-			Training catalog listing data is <code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
-				>web/src/lib/data/catalog.json</code
+			Public training listing pages (<code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
+				>/training</code
+			>, <code class="rounded bg-gray-100 px-1 py-0.5 text-xs">/training/table</code>, and
+			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">/training/print</code>) use
+			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">program.catalog</code> metadata from
+			each registry program as their canonical card/row source.
+		</li>
+		<li>
+			Training-specific API contract is <code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
+				>web/src/lib/data/api/schemas/training-api.schema.json</code
 			>
-			with schema
-			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
-				>web/src/lib/data/catalog.schema.json</code
-			>.
+			with payload builder
+			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">web/src/lib/data/api/training.ts</code>.
 		</li>
 		<li>
 			Training session events live in <code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
@@ -254,6 +281,20 @@
 		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">defaultTimeZoneLabel</code>.
 	</p>
 	<p class="mt-2 max-w-3xl text-gray-700">
+		Published training programs should include <code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
+			>catalog</code
+		>
+		metadata fields: <code class="rounded bg-gray-100 px-1 py-0.5 text-xs">id</code>,
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">summary</code>,
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">order</code>, and optional display fields
+		like image and bullets.
+	</p>
+	<p class="mt-2 max-w-3xl text-gray-700">
+		Do not store testimonials in the training registry. Program pages read testimonials from
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">/api/testimonials.json</code> and
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">web/src/lib/data/testimonials.json</code>.
+	</p>
+	<p class="mt-2 max-w-3xl text-gray-700">
 		Training events use UTC event timestamps: <code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
 			>startAtUtc</code
 		>
@@ -277,6 +318,11 @@
 		>
 	</p>
 	<p class="mt-2 max-w-3xl text-gray-700">
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
+			>npm --prefix web run validate:training</code
+		>
+	</p>
+	<p class="mt-2 max-w-3xl text-gray-700">
 		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">npm --prefix web run validate:api</code>
 	</p>
 	<p class="mt-2 max-w-3xl text-gray-700">
@@ -288,11 +334,11 @@
 	<h2 class="text-2xl font-semibold">Publish Checklist</h2>
 	<ol class="mt-3 max-w-3xl list-decimal space-y-2 pl-5 text-gray-700">
 		<li>
-			Program module updates are registered in <code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
-				>training/index.ts</code
+			Training registry updates are committed in <code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
+				>training/training.json</code
 			>.
 		</li>
-		<li>Catalog entry reflects the program title/route and passes schema validation.</li>
+		<li>Program catalog metadata (`program.catalog`) is present and schema-valid.</li>
 		<li>
 			Training event record maps to valid <code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
 				>programRef.sku</code
@@ -307,19 +353,21 @@
 <section class="mt-8">
 	<h2 class="text-2xl font-semibold">Read-only APIs (GET)</h2>
 	<p class="mt-2 max-w-3xl text-gray-700">
-		Training catalog API:
-		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">GET /catalog.json</code> returns
-		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">trainingPrograms</code> for program automation.
+		Training registry API:
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">GET /api/training.json</code> returns
+		training programs for automation.
 	</p>
 	<p class="mt-2 max-w-3xl text-gray-700">
 		prod:
 		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
-			>https://www.cambermast.com/catalog.json</code
+			>https://www.cambermast.com/api/training.json</code
 		>
 	</p>
 	<p class="mt-2 max-w-3xl text-gray-700">
 		dev:
-		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">http://localhost:5173/catalog.json</code>
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
+			>http://localhost:5173/api/training.json</code
+		>
 	</p>
 	<p class="mt-2 max-w-3xl text-gray-700">
 		Events API:
@@ -428,7 +476,7 @@
 <section class="mt-8">
 	<h2 class="text-2xl font-semibold">SOP Maintenance Rule</h2>
 	<p class="mt-2 max-w-3xl text-gray-700">
-		When training module files, catalog records, event schemas, or training API contracts change,
-		this page must be updated in the same pull request.
+		When training registry files, event schemas, or training API contracts change, this page must be
+		updated in the same pull request.
 	</p>
 </section>

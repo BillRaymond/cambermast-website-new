@@ -4,6 +4,20 @@ export const aiFundamentals = {
 	slug: 'ai-fundamentals',
 	route: '/training/ai-fundamentals',
 	sku: 'CM-TR-001',
+	catalog: {
+		id: 'training-ai-fundamentals',
+		summary:
+			'Primer on prompting that explains how AI works and shows you how to prompt successfully.',
+		image: '/images/ai-fundamentals.jpeg',
+		imageAlt: 'AI Power Prompting training workshop illustration',
+		bullets: [
+			'Understand how today’s AI models generate answers',
+			'Learn four core prompt types you can reuse anywhere',
+			'Collaborate with AI to brainstorm and polish ideas'
+		],
+		order: 0,
+		published: true
+	},
 	title: 'AI Power Prompting',
 	nickname: 'Your AI fundamentals • From prompting to productivity',
 	tagline: 'A live primer on prompting: learn how AI works and how to prompt successfully.',
@@ -152,11 +166,6 @@ export const aiFundamentals = {
 		'Earn a certificate you can showcase with pride.',
 		'A free one-hour follow-up two weeks after the training.'
 	],
-	testimonial: {
-		quote:
-			"Bill guided our leadership team through what's possible with AI while keeping us realistic about the risks.",
-		author: 'Elena P., VP of Operations'
-	},
 	aboutTrainer: {
 		title: 'About your trainer',
 		name: 'Bill Raymond',

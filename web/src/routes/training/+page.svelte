@@ -1,12 +1,12 @@
 <script lang="ts">
 	import catalog from '$lib/data/catalog.json';
-	import { getTrainingProgram } from '$lib/data/training';
+	import { listTrainingPrograms } from '$lib/data/training';
 	import type { TrainingProgram } from '$lib/data/training/types';
 	import CatalogCard from '$lib/components/training/CatalogCard.svelte';
 	import type { CatalogCardData } from '$lib/components/training/catalog-card-data';
 	import { getSeo } from '$lib/seo';
 	import SeoHead from '$lib/components/SeoHead.svelte';
-	import { getProgramCertificateText } from '$lib/data/training/program-meta';
+	import { findProgramStat, getProgramCertificateText } from '$lib/data/training/program-meta';
 	import {
 		listHappeningTrainingEntriesForProgram,
 		listUpcomingTrainingEntriesForProgram
@@ -15,12 +15,6 @@
 	const section = catalog.training;
 	const pageHeading = section.catalogLabel ?? section.label;
 	const scheduleLabel = 'Schedule your team';
-
-	const getProgramForRoute = (route?: string): TrainingProgram | undefined => {
-		if (!route) return undefined;
-		const slug = route.split('/').filter(Boolean).pop();
-		return slug ? getTrainingProgram(slug) : undefined;
-	};
 
 	const getScheduleUrl = (program?: TrainingProgram): string =>
 		program?.secondaryCta?.url ?? '/contact';
@@ -35,15 +29,15 @@
 		return { priority: 2 };
 	};
 
-	// Title for the page and services we offer from JSON
-	const items: CatalogCardData[] = (section.items ?? [])
-		.filter((i) => i.published ?? true)
-		.map((item) => {
-			const program = getProgramForRoute(item.route);
-			const durationStat = program?.stats?.find((stat) => stat.label?.toLowerCase() === 'duration');
-			const upcomingSessions = listUpcomingTrainingEntriesForProgram(program?.sku).map((entry) => ({
+	// Training cards are rendered from the canonical training program registry.
+	const items: CatalogCardData[] = listTrainingPrograms()
+		.filter((program) => program.catalog?.published ?? true)
+		.sort((a, b) => (a.catalog?.order ?? 999) - (b.catalog?.order ?? 999))
+		.map((program) => {
+			const durationStat = findProgramStat(program, 'duration');
+			const upcomingSessions = listUpcomingTrainingEntriesForProgram(program.sku).map((entry) => ({
 				id: entry.id,
-				title: program?.title ?? entry.title,
+				title: program.title ?? entry.title,
 				subtitle: entry.subtitle,
 				date: entry.date,
 				time: entry.time,
@@ -51,9 +45,9 @@
 				registerUrl: entry.registerUrl,
 				registerLabel: entry.registerLabel
 			}));
-			const happeningSessions = listHappeningTrainingEntriesForProgram(program?.sku).map((entry) => ({
+			const happeningSessions = listHappeningTrainingEntriesForProgram(program.sku).map((entry) => ({
 				id: entry.id,
-				title: program?.title ?? entry.title,
+				title: program.title ?? entry.title,
 				subtitle: entry.subtitle,
 				date: entry.date,
 				time: entry.time,
@@ -62,10 +56,15 @@
 			}));
 
 			return {
-				...item,
-				sku: program?.sku,
+				title: program.title,
+				summary: program.catalog?.summary ?? program.tagline,
+				bullets: program.catalog?.bullets,
+				image: program.catalog?.image ?? program.heroImage,
+				imageAlt: program.catalog?.imageAlt ?? program.heroImageAlt ?? program.title,
+				route: program.route,
+				sku: program.sku,
 				duration: durationStat?.value,
-				videoUrl: program?.videoUrl,
+				videoUrl: program.videoUrl,
 				certificateText: getProgramCertificateText(program),
 				upcomingSessions,
 				happeningSessions,
@@ -84,7 +83,7 @@
 			} else if (bKey.timestamp !== undefined) {
 				return 1;
 			}
-			return (a.title ?? '').localeCompare(b.title ?? '', 'en', { sensitivity: 'base' });
+			return a.title.localeCompare(b.title, 'en', { sensitivity: 'base' });
 		});
 
 	const pageMeta = getSeo('/training');

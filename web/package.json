@@ -20,9 +20,10 @@
 		"validate:campaigns": "node ./scripts/validate-campaigns.mjs",
 		"validate:events": "node ./scripts/validate-events.mjs",
 		"validate:catalog": "node ./scripts/validate-catalog.mjs",
+		"validate:training": "node ./scripts/validate-training.mjs",
 		"validate:tools": "node ./scripts/validate-tools.mjs",
 		"validate:testimonials": "node ./scripts/validate-testimonials.mjs",
-		"validate:registries": "npm run validate:catalog && npm run validate:tools && npm run validate:testimonials",
+		"validate:registries": "npm run validate:catalog && npm run validate:training && npm run validate:tools && npm run validate:testimonials",
 		"validate:api": "tsx ./scripts/validate-api-responses.ts",
 		"validate:schema-governance": "node ./scripts/validate-schema-governance.mjs",
 		"validate:ui-adapters": "tsx ./scripts/validate-ui-adapters.ts"

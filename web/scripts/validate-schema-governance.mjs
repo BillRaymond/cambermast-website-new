@@ -48,6 +48,18 @@ const manifest = {
 			}
 		]
 	},
+	training: {
+		registrySchema: 'src/lib/data/training/training.schema.json',
+		apiSchema: 'src/lib/data/api/schemas/training-api.schema.json',
+		apiBuilder: 'src/lib/data/api/training.ts',
+		apiRoute: 'src/routes/api/training.json/+server.ts',
+		sopMentions: [
+			{
+				file: 'src/routes/admin/sop-training/+page.svelte',
+				patterns: ['/api/training.json', 'training-api.schema.json']
+			}
+		]
+	},
 	tools: {
 		registrySchema: 'src/lib/data/tools.schema.json',
 		apiSchema: 'src/lib/data/api/schemas/tools-api.schema.json',

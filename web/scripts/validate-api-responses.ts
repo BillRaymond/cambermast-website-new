@@ -5,12 +5,14 @@ import eventsApiSchema from '../src/lib/data/api/schemas/events-api.schema.json'
 import campaignsApiSchema from '../src/lib/data/api/schemas/campaigns-api.schema.json';
 import enumsApiSchema from '../src/lib/data/api/schemas/enums-api.schema.json';
 import catalogApiSchema from '../src/lib/data/api/schemas/catalog-api.schema.json';
+import trainingApiSchema from '../src/lib/data/api/schemas/training-api.schema.json';
 import testimonialsApiSchema from '../src/lib/data/api/schemas/testimonials-api.schema.json';
 import toolsApiSchema from '../src/lib/data/api/schemas/tools-api.schema.json';
 import { buildEventsApiExamples, buildEventsApiPayload } from '../src/lib/data/api/events';
 import { buildCampaignsApiExamples, buildCampaignsApiPayload } from '../src/lib/data/api/campaigns';
 import { buildEnumsApiExamples, buildEnumsApiPayload } from '../src/lib/data/api/enums';
 import { buildCatalogApiExamples, buildCatalogApiPayload } from '../src/lib/data/api/catalog';
+import { buildTrainingApiExamples, buildTrainingApiPayload } from '../src/lib/data/api/training';
 import {
 	buildTestimonialsApiExamples,
 	buildTestimonialsApiPayload
@@ -69,6 +71,14 @@ const catalogPayload = buildCatalogApiPayload({ origin });
 const catalogExamples = buildCatalogApiExamples(origin);
 assertValid('catalog api payload', catalogApiSchema as object, catalogPayload);
 assertValid('catalog api example', catalogApiSchema as object, catalogExamples.example);
+
+const trainingPayload = buildTrainingApiPayload({
+	origin,
+	generatedAt: '2026-02-14T17:00:00.000Z'
+});
+const trainingExamples = buildTrainingApiExamples(origin);
+assertValid('training api payload', trainingApiSchema as object, trainingPayload);
+assertValid('training api example', trainingApiSchema as object, trainingExamples.example);
 
 const testimonialsPayload = buildTestimonialsApiPayload({
 	origin,

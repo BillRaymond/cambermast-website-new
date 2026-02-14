@@ -1,0 +1,257 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://cambermast.com/schemas/training.schema.json",
+	"title": "Cambermast Training Registry",
+	"type": "object",
+	"additionalProperties": false,
+	"required": ["programs"],
+	"properties": {
+		"programs": {
+			"type": "array",
+			"items": { "$ref": "#/$defs/trainingProgram" }
+		}
+	},
+	"$defs": {
+		"urlOrPath": {
+			"type": "string",
+			"pattern": "^(\\/|https?:\\/\\/|mailto:|tel:).+"
+		},
+		"trainingCta": {
+			"type": "object",
+			"additionalProperties": false,
+			"required": ["label", "url"],
+			"properties": {
+				"label": { "type": "string", "minLength": 1 },
+				"url": { "$ref": "#/$defs/urlOrPath" }
+			}
+		},
+		"trainingCatalogMeta": {
+			"type": "object",
+			"additionalProperties": false,
+			"required": ["id", "summary", "order"],
+			"properties": {
+				"id": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+				"summary": { "type": "string", "minLength": 1 },
+				"image": { "$ref": "#/$defs/urlOrPath" },
+				"imageAlt": { "type": "string", "minLength": 1 },
+				"bullets": {
+					"type": "array",
+					"items": { "type": "string", "minLength": 1 }
+				},
+				"order": { "type": "integer", "minimum": 0 },
+				"published": { "type": "boolean" }
+			}
+		},
+		"trainingStat": {
+			"type": "object",
+			"additionalProperties": false,
+			"required": ["label", "value"],
+			"properties": {
+				"label": { "type": "string", "minLength": 1 },
+				"value": {
+					"oneOf": [
+						{ "type": "string", "minLength": 1 },
+						{
+							"type": "array",
+							"items": { "type": "string", "minLength": 1 }
+						}
+					]
+				}
+			}
+		},
+		"trainingSession": {
+			"type": "object",
+			"additionalProperties": false,
+			"required": ["name", "date", "location", "spots", "registerUrl"],
+			"properties": {
+				"name": { "type": "string", "minLength": 1 },
+				"date": { "type": "string", "minLength": 1 },
+				"time": {
+					"oneOf": [
+						{ "type": "string", "minLength": 1 },
+						{
+							"type": "array",
+							"items": { "type": "string", "minLength": 1 }
+						}
+					]
+				},
+				"partner": { "type": "string", "minLength": 1 },
+				"startDate": { "type": "string", "format": "date" },
+				"endDate": { "type": "string", "format": "date" },
+				"location": { "type": "string", "minLength": 1 },
+				"spots": { "type": "string", "minLength": 1 },
+				"registerUrl": { "$ref": "#/$defs/urlOrPath" },
+				"draft": { "type": "boolean" }
+			}
+		},
+		"trainingAgendaBlock": {
+			"type": "object",
+			"additionalProperties": false,
+			"required": ["title", "details"],
+			"properties": {
+				"title": { "type": "string", "minLength": 1 },
+				"details": {
+					"type": "array",
+					"items": { "type": "string", "minLength": 1 }
+				}
+			}
+		},
+		"trainingTrainer": {
+			"type": "object",
+			"additionalProperties": false,
+			"required": ["title", "name", "role", "summary"],
+			"properties": {
+				"title": { "type": "string", "minLength": 1 },
+				"name": { "type": "string", "minLength": 1 },
+				"role": { "type": "string", "minLength": 1 },
+				"summary": { "type": "string", "minLength": 1 },
+				"photo": { "$ref": "#/$defs/urlOrPath" },
+				"photoAlt": { "type": "string", "minLength": 1 },
+				"highlights": {
+					"type": "array",
+					"items": { "type": "string", "minLength": 1 }
+				}
+			}
+		},
+		"trainingFaq": {
+			"type": "object",
+			"additionalProperties": false,
+			"required": ["question"],
+			"properties": {
+				"question": { "type": "string", "minLength": 1 },
+				"answers": {
+					"type": "array",
+					"items": { "type": "string", "minLength": 1 }
+				},
+				"answer": { "type": "string", "minLength": 1 }
+			},
+			"anyOf": [
+				{
+					"required": ["answers"],
+					"properties": {
+						"answers": {}
+					}
+				},
+				{
+					"required": ["answer"],
+					"properties": {
+						"answer": {}
+					}
+				}
+			]
+		},
+		"trainingScheduleTemplate": {
+			"type": "object",
+			"additionalProperties": false,
+			"required": [
+				"durationDays",
+				"hoursPerDayCommitment",
+				"defaultStartTimeLocal",
+				"defaultTimeZone",
+				"defaultTimeZoneLabel"
+			],
+			"properties": {
+				"durationDays": { "type": "integer", "minimum": 1 },
+				"hoursPerDayCommitment": { "type": "number", "exclusiveMinimum": 0 },
+				"defaultStartTimeLocal": { "type": "string", "pattern": "^\\d{2}:\\d{2}$" },
+				"defaultTimeZone": { "type": "string", "minLength": 1 },
+				"defaultTimeZoneLabel": { "type": "string", "minLength": 1 },
+				"defaultLocationLabel": { "type": "string", "minLength": 1 }
+			}
+		},
+		"trainingPresentation": {
+			"type": "object",
+			"additionalProperties": false,
+			"properties": {
+				"heroEyebrow": { "type": "string", "minLength": 1 },
+				"partnershipLabel": { "type": "string", "minLength": 1 },
+				"trailerLinkLabel": { "type": "string", "minLength": 1 },
+				"lockInSeatTitle": { "type": "string", "minLength": 1 },
+				"lockInSeatDescription": { "type": "string", "minLength": 1 },
+				"agendaCtaTitle": { "type": "string", "minLength": 1 },
+				"agendaCtaDescription": { "type": "string", "minLength": 1 },
+				"finalCtaTitle": { "type": "string", "minLength": 1 },
+				"finalCtaDescription": { "type": "string", "minLength": 1 },
+				"termsQuestion": { "type": "string", "minLength": 1 },
+				"termsAnswer": { "type": "string", "minLength": 1 }
+			}
+		},
+		"trainingProgram": {
+			"type": "object",
+			"additionalProperties": false,
+			"required": [
+				"slug",
+				"route",
+				"catalog",
+				"title",
+				"tagline",
+				"description",
+				"primaryCta",
+				"secondaryCta",
+				"scheduleTemplate"
+			],
+			"properties": {
+				"slug": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+				"route": { "type": "string", "pattern": "^/training/[a-z0-9]+(?:-[a-z0-9]+)*$" },
+				"sku": { "type": "string", "pattern": "^CM-TR-(?:[0-9]{3}|DRAFT-[0-9]{3})$" },
+				"catalog": { "$ref": "#/$defs/trainingCatalogMeta" },
+				"title": { "type": "string", "minLength": 1 },
+				"nickname": { "type": "string", "minLength": 1 },
+				"tagline": { "type": "string", "minLength": 1 },
+				"heroImage": { "$ref": "#/$defs/urlOrPath" },
+				"heroImageAlt": { "type": "string", "minLength": 1 },
+				"ogImage": { "$ref": "#/$defs/urlOrPath" },
+				"ogImageAlt": { "type": "string", "minLength": 1 },
+				"videoUrl": { "$ref": "#/$defs/urlOrPath" },
+				"description": { "type": "string", "minLength": 1 },
+				"secondaryDescription": { "type": "string", "minLength": 1 },
+				"primaryCta": { "$ref": "#/$defs/trainingCta" },
+				"secondaryCta": { "$ref": "#/$defs/trainingCta" },
+				"scheduleTemplate": { "$ref": "#/$defs/trainingScheduleTemplate" },
+				"stats": {
+					"type": "array",
+					"items": { "$ref": "#/$defs/trainingStat" }
+				},
+				"audience": {
+					"type": "array",
+					"items": { "type": "string", "minLength": 1 }
+				},
+				"audienceExamples": {
+					"type": "array",
+					"items": { "type": "string", "minLength": 1 }
+				},
+				"objectives": {
+					"type": "array",
+					"items": { "type": "string", "minLength": 1 }
+				},
+				"prerequisites": {
+					"type": "array",
+					"items": { "type": "string", "minLength": 1 }
+				},
+				"takeaways": {
+					"type": "array",
+					"items": { "type": "string", "minLength": 1 }
+				},
+				"sessions": {
+					"type": "array",
+					"items": { "$ref": "#/$defs/trainingSession" }
+				},
+				"draft": { "type": "boolean" },
+				"agenda": {
+					"type": "array",
+					"items": { "$ref": "#/$defs/trainingAgendaBlock" }
+				},
+				"resources": {
+					"type": "array",
+					"items": { "type": "string", "minLength": 1 }
+				},
+				"aboutTrainer": { "$ref": "#/$defs/trainingTrainer" },
+				"faqs": {
+					"type": "array",
+					"items": { "$ref": "#/$defs/trainingFaq" }
+				},
+				"presentation": { "$ref": "#/$defs/trainingPresentation" }
+			}
+		}
+	}
+}

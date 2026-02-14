@@ -6,7 +6,7 @@
 	import type { CatalogCardData } from '$lib/components/training/catalog-card-data';
 	import { getSeo } from '$lib/seo';
 	import SeoHead from '$lib/components/SeoHead.svelte';
-	import { getProgramCertificateText } from '$lib/data/training/program-meta';
+	import { findProgramStat, getProgramCertificateText } from '$lib/data/training/program-meta';
 	import {
 		listHappeningTrainingEntriesForProgram,
 		listUpcomingTrainingEntriesForProgram
@@ -49,7 +49,7 @@
 		.sort((a, b) => (a.order ?? 999) - (b.order ?? 999))
 		.map((item) => {
 			const program = getProgram(item.route);
-			const durationStat = program?.stats?.find((stat) => stat.label?.toLowerCase() === 'duration');
+			const durationStat = findProgramStat(program, 'duration');
 			const upcomingSessions = listUpcomingTrainingEntriesForProgram(program?.sku).map((entry) => ({
 				id: entry.id,
 				title: program?.title ?? entry.title,

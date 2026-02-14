@@ -41,6 +41,7 @@ If no existing SOP page fits the domain, add a new route under `/admin/sop-<doma
 - `web/src/lib/data/events/events.schema.json`
 - `web/src/lib/data/campaigns.schema.json`
 - `web/src/lib/data/catalog.schema.json`
+- `web/src/lib/data/training/training.schema.json`
 - `web/src/lib/data/tools.schema.json`
 - `web/src/lib/data/testimonials.schema.json`
 
@@ -50,6 +51,7 @@ If no existing SOP page fits the domain, add a new route under `/admin/sop-<doma
 - `web/src/lib/data/api/schemas/campaigns-api.schema.json`
 - `web/src/lib/data/api/schemas/enums-api.schema.json`
 - `web/src/lib/data/api/schemas/catalog-api.schema.json`
+- `web/src/lib/data/api/schemas/training-api.schema.json`
 - `web/src/lib/data/api/schemas/tools-api.schema.json`
 - `web/src/lib/data/api/schemas/testimonials-api.schema.json`
 
@@ -58,6 +60,7 @@ If no existing SOP page fits the domain, add a new route under `/admin/sop-<doma
 - `web/src/lib/data/events/events.json`
 - `web/src/lib/data/campaigns.json`
 - `web/src/lib/data/catalog.json`
+- `web/src/lib/data/training/training.json`
 - `web/src/lib/data/tools.json`
 - `web/src/lib/data/testimonials.json`
 
@@ -67,6 +70,7 @@ If no existing SOP page fits the domain, add a new route under `/admin/sop-<doma
 - `web/src/lib/data/api/campaigns.ts`
 - `web/src/lib/data/api/enums.ts`
 - `web/src/lib/data/api/catalog.ts`
+- `web/src/lib/data/api/training.ts`
 - `web/src/lib/data/api/tools.ts`
 - `web/src/lib/data/api/testimonials.ts`
 
@@ -82,6 +86,7 @@ Run these before merge:
 - `npm --prefix web run validate:events`
 - `npm --prefix web run validate:campaigns`
 - `npm --prefix web run validate:registries`
+- `npm --prefix web run validate:training`
 - `npm --prefix web run validate:api`
 - `npm --prefix web run validate:schema-governance`
 - `npm --prefix web run validate:ui-adapters`

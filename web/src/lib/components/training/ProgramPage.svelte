@@ -41,12 +41,6 @@
 	let programTestimonials: Testimonial[] = [];
 	let faqsWithTerms: ExtendedFaq[] = [];
 
-	const trainingTermsFaq: ExtendedFaq = {
-		question: 'Where can I review the Training Terms & Conditions?',
-		answer: "These answers complement Cambermast's Training Terms & Conditions.",
-		__isTrainingTerms: true
-	};
-
 	const normalizeLabel = (label?: string): string | undefined => label?.toLowerCase().trim();
 	const scheduleTeamLabel = 'schedule your team';
 	const isScheduleTeamLabel = (label?: string): boolean =>
@@ -112,7 +106,20 @@
 	$: registerableSessions = upcomingSessions.filter((session) => Boolean(session.registerUrl));
 	$: videoEmbedUrl = getVideoEmbedUrl(program?.videoUrl);
 	$: certificateText = toStatText(getStatByLabel(program?.stats, 'certificate')?.value);
-	$: faqsWithTerms = program?.faqs?.length ? [...program.faqs, trainingTermsFaq] : [];
+	$: faqsWithTerms = program?.faqs?.length
+		? [
+				...program.faqs,
+				{
+					question:
+						program.presentation?.termsQuestion ??
+						'Where can I review the Training Terms & Conditions?',
+					answer:
+						program.presentation?.termsAnswer ??
+						"These answers complement Cambermast's Training Terms & Conditions.",
+					__isTrainingTerms: true
+				}
+			]
+		: [];
 
 	$: {
 		if (!registerableSessions.length) {
@@ -150,7 +157,13 @@
 	<section class="rounded-3xl bg-gradient-to-br from-blue-50 to-white p-6 shadow-sm md:p-9">
 		<div class="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
 			<div class="md:max-w-2xl">
-				<p class="text-sm font-semibold tracking-wide text-blue-600 uppercase">Training Program</p>
+				{#if program.presentation?.heroEyebrow}
+					<p class="text-sm font-semibold tracking-wide text-blue-600 uppercase">
+						{program.presentation.heroEyebrow}
+					</p>
+				{:else}
+					<p class="text-sm font-semibold tracking-wide text-blue-600 uppercase">Training Program</p>
+				{/if}
 				{#if program.sku}
 					<p class="mt-1 text-xs font-semibold tracking-wide text-gray-500 uppercase">
 						({program.sku})
@@ -164,7 +177,7 @@
 						loading="lazy"
 					/>
 				{/if}
-				{#if program.slug === 'ai-workshop-for-content-creators'}
+				{#if program.presentation?.partnershipLabel || program.videoUrl}
 					<div class="mt-2 flex flex-col gap-1 text-sm font-semibold text-blue-700">
 						{#if program.videoUrl}
 							<a
@@ -173,13 +186,15 @@
 								rel="noopener noreferrer"
 								class="inline-flex items-center gap-2 text-blue-700 underline decoration-blue-200 underline-offset-4 transition hover:text-blue-800"
 							>
-								🎬 Watch the trailer
+								🎬 {program.presentation?.trailerLinkLabel ?? 'Watch the trailer'}
 								<span aria-hidden="true">↗</span>
 							</a>
 						{/if}
-						<p class="text-xs font-semibold tracking-wide text-amber-700 uppercase">
-							In partnership with The Content Wrangler
-						</p>
+						{#if program.presentation?.partnershipLabel}
+							<p class="text-xs font-semibold tracking-wide text-amber-700 uppercase">
+								{program.presentation.partnershipLabel}
+							</p>
+						{/if}
 					</div>
 				{/if}
 				<h1 class="mt-1.5 text-4xl font-bold text-gray-900">{program.title}</h1>
@@ -535,9 +550,12 @@
 			class="rounded-2xl border border-blue-100 bg-gradient-to-r from-blue-50 to-white p-5 shadow md:flex md:items-center md:justify-between"
 		>
 			<div class="md:max-w-xl">
-				<h3 class="text-xl font-semibold text-gray-900">Lock in your seat</h3>
+				<h3 class="text-xl font-semibold text-gray-900">
+					{program.presentation?.lockInSeatTitle ?? 'Lock in your seat'}
+				</h3>
 				<p class="mt-1.5 text-sm text-gray-600">
-					Pick the session that fits you best or reach out for a private workshop.
+					{program.presentation?.lockInSeatDescription ??
+						'Pick the session that fits you best or reach out for a private workshop.'}
 				</p>
 			</div>
 			<a
@@ -572,10 +590,11 @@
 			>
 				<div class="md:max-w-xl">
 					<h3 class="text-xl font-semibold text-gray-900">
-						Ready to work through this agenda with us?
+						{program.presentation?.agendaCtaTitle ?? 'Ready to work through this agenda with us?'}
 					</h3>
 					<p class="mt-1.5 text-sm text-gray-600">
-						Secure your spot now and get the playbook delivered to your team.
+						{program.presentation?.agendaCtaDescription ??
+							'Secure your spot now and get the playbook delivered to your team.'}
 					</p>
 				</div>
 				<a
@@ -589,32 +608,16 @@
 		{/if}
 	{/if}
 
-	{#if program.resources?.length || program.testimonial}
+	{#if program.resources?.length}
 		<section class="grid gap-6 md:grid-cols-2">
-			{#if program.resources?.length}
-				<div class="rounded-2xl border border-blue-100 bg-blue-50 p-5">
-					<h2 class="text-2xl font-semibold text-gray-900">Included in the workshop</h2>
-					<ul class="bullet-list mt-3.5 space-y-2.5 text-gray-700">
-						{#each program.resources as resource}
-							<li>{resource}</li>
-						{/each}
-					</ul>
-				</div>
-			{/if}
-			{#if program.testimonial}
-				<div class="flex h-full flex-col gap-3.5">
-					<ReviewCard quote={program.testimonial.quote} author={program.testimonial.author} />
-					{#if program.primaryCta}
-						<a
-							href={program.primaryCta.url}
-							class="mt-1.5 inline-flex items-center justify-center self-start text-sm font-semibold text-blue-700 underline decoration-blue-200 underline-offset-4 transition hover:text-blue-900"
-							class:schedule-team-button={isScheduleTeamLabel(program.primaryCta?.label)}
-						>
-							{program.primaryCta.label}
-						</a>
-					{/if}
-				</div>
-			{/if}
+			<div class="rounded-2xl border border-blue-100 bg-blue-50 p-5">
+				<h2 class="text-2xl font-semibold text-gray-900">Included in the workshop</h2>
+				<ul class="bullet-list mt-3.5 space-y-2.5 text-gray-700">
+					{#each program.resources as resource}
+						<li>{resource}</li>
+					{/each}
+				</ul>
+			</div>
 		</section>
 	{/if}
 
@@ -694,9 +697,12 @@
 		class="rounded-3xl bg-gradient-to-r from-blue-600 to-blue-500 p-6 text-white md:flex md:items-center md:justify-between md:gap-6 md:p-10"
 	>
 		<div class="md:max-w-xl">
-			<h2 class="text-3xl font-bold">Ready to bring AI clarity to your team?</h2>
+			<h2 class="text-3xl font-bold">
+				{program.presentation?.finalCtaTitle ?? 'Ready to bring AI clarity to your team?'}
+			</h2>
 			<p class="mt-3 text-lg text-blue-100">
-				Schedule your team or talk with Bill to customize the training for your organization.
+				{program.presentation?.finalCtaDescription ??
+					'Schedule your team or talk with Bill to customize the training for your organization.'}
 			</p>
 		</div>
 		<div class="mt-5 flex flex-col gap-3 md:mt-0">
