@@ -270,13 +270,13 @@
 												>
 													{getEventTypeLabelUi(event)}
 												</span>
-												{#if event.draft}
-													<span
-														class="inline-flex items-center rounded-full bg-amber-100 px-2 py-0.5 text-[0.6rem] font-semibold tracking-wide text-amber-700 uppercase"
-													>
-														Draft
-													</span>
-												{/if}
+													{#if event.visibility === 'draft'}
+														<span
+															class="inline-flex items-center rounded-full bg-amber-100 px-2 py-0.5 text-[0.6rem] font-semibold tracking-wide text-amber-700 uppercase"
+														>
+															Draft
+														</span>
+													{/if}
 											</div>
 											<p class="text-sm font-semibold text-gray-900">{event.title}</p>
 											<p class="text-xs text-gray-600">{event.date}</p>
@@ -285,14 +285,16 @@
 											{/if}
 										</div>
 										<div>
-											<a
-												href={event.registerUrl}
-												target="_blank"
-												rel="noopener"
-												class="inline-flex items-center justify-center rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-emerald-700"
-											>
-												Register ↗
-											</a>
+												{#if event.cta?.url}
+													<a
+														href={event.cta.url}
+														target={event.cta.url.startsWith('http') ? '_blank' : undefined}
+														rel={event.cta.url.startsWith('http') ? 'noopener' : undefined}
+														class="inline-flex items-center justify-center rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-emerald-700"
+													>
+														{event.cta.label || 'Register'}{event.cta.url.startsWith('http') ? ' ↗' : ''}
+													</a>
+												{/if}
 										</div>
 									</div>
 								</li>

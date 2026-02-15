@@ -17,6 +17,12 @@
 	const hasEnded = Number.isFinite(endAtTimestamp)
 		? (endAtTimestamp as number) < Date.now()
 		: false;
+	const isHappeningNow =
+		Number.isFinite(startAtTimestamp) &&
+		Number.isFinite(endAtTimestamp) &&
+		startAtTimestamp <= Date.now() &&
+		(endAtTimestamp as number) >= Date.now();
+	const isTrainingHappeningNow = event.type === 'training_session' && isHappeningNow;
 
 	const pacificDateTimeFormatter = new Intl.DateTimeFormat('en-US', {
 		timeZone: pacificTimeZone,
@@ -75,9 +81,12 @@
 
 	const pageTitle = `${event.title} | Cambermast Events`;
 	const pageDescription = event.summary;
-	const statusLabel = getStatusLabel(event.registrationStatus);
+	const statusLabel = isTrainingHappeningNow
+		? 'Enrollment closed'
+		: getStatusLabel(event.registrationStatus);
 	const canRegister =
 		Boolean(event.cta?.url) &&
+		!isTrainingHappeningNow &&
 		event.registrationStatus !== 'closed' &&
 		event.registrationStatus !== 'none';
 	const eventPath = `/events/${event.slug}`;

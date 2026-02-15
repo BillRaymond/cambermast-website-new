@@ -8,13 +8,7 @@
 		isEventUpcomingUi,
 		listEventUi
 	} from '$lib/view-models/events';
-	import {
-		listExternalEvents,
-		getExternalEventStartTimestamp,
-		isExternalEventUpcoming
-	} from '$lib/data/external-events';
 	import type { EventUiModel } from '$lib/view-models/events';
-	import type { ExternalEvent } from '$lib/data/external-events';
 	import { listTrainingPrograms } from '$lib/data/training';
 	import type { TrainingProgram } from '$lib/data/training/types';
 	import { listTestimonials, type Testimonial } from '$lib/data/testimonials';
@@ -163,23 +157,13 @@
 		startTimestamp: number;
 	};
 
-	type UpcomingExternalEntry = {
-		type: 'external';
-		event: ExternalEvent;
-		startTimestamp: number;
-	};
-
 	type UpcomingEventEntry = {
 		type: 'event';
 		event: EventUiModel;
 		startTimestamp: number;
 	};
 
-	type UpcomingEntry =
-		| UpcomingTrainingEntry
-		| HappeningTrainingEntry
-		| UpcomingExternalEntry
-		| UpcomingEventEntry;
+	type UpcomingEntry = UpcomingTrainingEntry | HappeningTrainingEntry | UpcomingEventEntry;
 
 	const toTimeLines = (value?: string | string[]): string[] =>
 		Array.isArray(value) ? value : value ? [value] : [];
@@ -232,14 +216,6 @@
 			program,
 			entry,
 			startTimestamp: entry.startTimestamp
-		}));
-
-	const upcomingExternalEntries: UpcomingExternalEntry[] = listExternalEvents()
-		.filter((event) => isExternalEventUpcoming(event, today))
-		.map((event) => ({
-			type: 'external' as const,
-			event,
-			startTimestamp: getExternalEventStartTimestamp(event)
 		}));
 
 	const upcomingEventEntries: UpcomingEventEntry[] = listEventUi()
@@ -342,18 +318,18 @@
 	};
 
 	const buildEventSlide = (entry: UpcomingEventEntry, index: number) => ({
-		id: `${entry.event.id}-${entry.event.startAt ?? index.toString(10)}`,
+		id: `${entry.event.id}-${entry.event.startAtUtc ?? index.toString(10)}`,
 		kind: 'event' as const,
 		kindLabel: getEventTypeLabelUi(entry.event),
 		programTitle: entry.event.title,
 		sessionLabel:
 			entry.event.subtitle ??
-			`${getEventTypeLabelUi(entry.event)}${entry.event.draft ? ' · Draft' : ''}`,
+			`${getEventTypeLabelUi(entry.event)}${entry.event.visibility === 'draft' ? ' · Draft' : ''}`,
 		date: entry.event.date,
 		timeLines: toTimeLines(entry.event.time),
 		location: entry.event.location,
 		urgency: getUrgencyLabel(entry.startTimestamp),
-		registerUrl: entry.event.registerUrl,
+		registerUrl: entry.event.cta?.url ?? `/events/${entry.event.slug}`,
 		image: entry.event.image,
 		imageAlt: entry.event.imageAlt ?? entry.event.title,
 		isHappeningNow: false

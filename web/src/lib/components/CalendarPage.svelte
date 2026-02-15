@@ -169,6 +169,7 @@
 				Number.isFinite(endAtTimestamp) &&
 				startAtTimestamp <= nowMs &&
 				endAtTimestamp >= nowMs;
+			const isTrainingHappeningNow = isHappening && event.type === 'training_session';
 
 			const startTimestamp = toFiniteTimestamp(getEventStartTimestampUi(event));
 			const timeLabel = formatTimeLabel(event.time);
@@ -178,16 +179,20 @@
 			if (locationLabel) metaDetails.push(locationLabel);
 
 			const eventTypeLabel = getEventTypeLabelUi(event);
-			const subtitle = event.subtitle ?? `${eventTypeLabel}${event.draft ? ' · Draft' : ''}`;
+			const subtitle =
+				event.subtitle ?? `${eventTypeLabel}${event.visibility === 'draft' ? ' · Draft' : ''}`;
 			const registerDisabled =
 				event.registrationStatus === 'closed' ||
 				event.registrationStatus === 'none' ||
-				event.registrationStatus === 'sold_out';
-			const registerUrl = registerDisabled ? undefined : event.registerUrl;
+				event.registrationStatus === 'sold_out' ||
+				isTrainingHappeningNow;
+			const registerUrl = registerDisabled ? undefined : event.cta?.url;
 			const baseRegisterLabel =
-				event.registrationStatus === 'none'
-					? event.registerLabel || 'Registration unavailable'
-					: event.registerLabel || 'Register now';
+				isTrainingHappeningNow
+					? 'Enrollment closed'
+					: event.registrationStatus === 'none'
+					? event.cta?.label || 'Registration unavailable'
+					: event.cta?.label || 'Register now';
 			const registerLabel = baseRegisterLabel;
 			const isCourseEvent = event.type === 'training_session';
 			const courseProgramSku = event.programRef?.sku;

@@ -1,34 +1,22 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	import { isSessionDraft, isExternalUrl } from '$lib/data/training/session-utils';
+	import { isExternalUrl } from '$lib/data/training/session-utils';
 	import AdminRouteChips from '$lib/components/admin/AdminRouteChips.svelte';
 
 	export let data: PageData;
 
 	const programs = data.trainingPrograms;
-	const externalEvents = data.externalEvents;
+	const trainingEvents = data.trainingEvents;
 
 	const draftPrograms = programs.filter((program) => program.draft);
 
-	const draftSessions = programs
-		.flatMap((program) => (program.sessions ?? []).map((session) => ({ program, session })))
-		.filter(({ session }) => isSessionDraft(session))
+	const draftTrainingEvents = trainingEvents
+		.filter((entry) => entry.event.visibility === 'draft')
 		.sort((a, b) => {
-			const aValue = toSortValue(a.session.startDate);
-			const bValue = toSortValue(b.session.startDate);
+			const aValue = a.startTimestamp;
+			const bValue = b.startTimestamp;
 			return aValue - bValue;
 		});
-
-	const draftExternalEvents = externalEvents
-		.filter((event) => event.draft)
-		.sort((a, b) => toSortValue(a.startAt) - toSortValue(b.startAt));
-
-	function toSortValue(value?: string | null): number {
-		if (!value) return Number.MAX_SAFE_INTEGER;
-		const parsed = new Date(value);
-		const timestamp = parsed.getTime();
-		return Number.isNaN(timestamp) ? Number.MAX_SAFE_INTEGER : timestamp;
-	}
 
 	const formatTime = (value?: string | string[]): string[] => {
 		if (!value) return [];
@@ -82,43 +70,6 @@
 							{/if}
 						</div>
 
-						{#if program.sessions?.length}
-							<div class="mt-4 space-y-3">
-								<p class="text-xs font-semibold tracking-wide text-gray-500 uppercase">Sessions</p>
-								<ul class="space-y-2 text-sm text-gray-700">
-									{#each program.sessions as session}
-										<li class="rounded-xl bg-gray-50/70 p-3">
-											<div class="flex flex-wrap items-center gap-2">
-												<span class="font-medium text-gray-900">
-													{session.name ?? 'Untitled session'}
-												</span>
-												{#if session.draft}
-													<span
-														class="rounded-full bg-amber-100 px-2 py-0.5 text-[0.65rem] font-semibold tracking-wide text-amber-700 uppercase"
-													>
-														Draft
-													</span>
-												{/if}
-											</div>
-											<div class="mt-2 space-y-1 text-xs text-gray-600">
-												{#if session.date}
-													<p>{session.date}</p>
-												{/if}
-												{#each formatTime(session.time) as timeLine}
-													<p>{timeLine}</p>
-												{/each}
-												{#if session.location}
-													<p>{session.location}</p>
-												{/if}
-												{#if session.spots}
-													<p>{session.spots}</p>
-												{/if}
-											</div>
-										</li>
-									{/each}
-								</ul>
-							</div>
-						{/if}
 					</li>
 				{/each}
 			</ul>
@@ -131,48 +82,45 @@
 
 	<section class="mt-12 flex flex-col gap-4">
 		<div class="flex flex-wrap items-center gap-3">
-			<h2 class="text-xl font-semibold text-gray-900">Draft sessions</h2>
-			{#if draftSessions.length > 0}
+			<h2 class="text-xl font-semibold text-gray-900">Draft training events</h2>
+			{#if draftTrainingEvents.length > 0}
 				<span
 					class="rounded-full bg-amber-100 px-2.5 py-1 text-xs font-semibold tracking-wide text-amber-700 uppercase"
 				>
-					{draftSessions.length} pending
+					{draftTrainingEvents.length} pending
 				</span>
 			{/if}
 		</div>
-		{#if draftSessions.length > 0}
+		{#if draftTrainingEvents.length > 0}
 			<div class="grid gap-3">
-				{#each draftSessions as { program, session }}
+				{#each draftTrainingEvents as entry}
 					<article class="rounded-2xl border border-amber-100 bg-amber-50/40 p-4">
 						<header class="flex flex-wrap items-center gap-2 text-sm font-semibold text-amber-900">
-							<a class="hover:underline" href={program.route}>{program.title}</a>
-							{#if session.name && session.name.trim() && session.name.trim() !== program.title}
-								<span>· {session.name}</span>
+							{#if entry.event.programRef?.sku}
+								<span>
+									<code class="rounded bg-amber-100 px-1 py-0.5 text-[0.65rem]">
+										{entry.event.programRef.sku}
+									</code>
+								</span>
 							{/if}
+							<span>· {entry.title}</span>
 						</header>
 						<div class="mt-2 space-y-1 text-xs text-amber-900/90">
-							{#if session.date}
-								<p>{session.date}</p>
-							{/if}
-							{#each formatTime(session.time) as timeLine}
+							<p>{entry.date}</p>
+							{#each formatTime(entry.time) as timeLine}
 								<p>{timeLine}</p>
 							{/each}
-							{#if session.location}
-								<p>{session.location}</p>
-							{/if}
-							{#if session.spots}
-								<p>{session.spots}</p>
-							{/if}
+							<p>{entry.location}</p>
 						</div>
-						{#if session.registerUrl}
+						{#if entry.registerUrl}
 							<div class="mt-3">
 								<a
 									class="text-xs font-semibold text-blue-700 hover:text-blue-900 hover:underline"
-									href={session.registerUrl}
-									rel={isExternalUrl(session.registerUrl) ? 'noopener noreferrer' : undefined}
-									target={isExternalUrl(session.registerUrl) ? '_blank' : undefined}
+									href={entry.registerUrl}
+									rel={isExternalUrl(entry.registerUrl) ? 'noopener noreferrer' : undefined}
+									target={isExternalUrl(entry.registerUrl) ? '_blank' : undefined}
 								>
-									{isExternalUrl(session.registerUrl)
+									{isExternalUrl(entry.registerUrl)
 										? 'External registration link'
 										: 'Internal registration link'}
 								</a>
@@ -183,50 +131,10 @@
 			</div>
 		{:else}
 			<p class="rounded-xl border border-gray-200 bg-white px-4 py-5 text-sm text-gray-600">
-				No draft sessions are currently defined.
+				No draft training events are currently defined.
 			</p>
 		{/if}
 	</section>
-
-	{#if draftExternalEvents.length > 0}
-		<section class="mt-12 flex flex-col gap-4">
-			<div class="flex flex-wrap items-center gap-3">
-				<h2 class="text-xl font-semibold text-gray-900">Draft external events</h2>
-				<span
-					class="rounded-full bg-amber-100 px-2.5 py-1 text-xs font-semibold tracking-wide text-amber-700 uppercase"
-				>
-					{draftExternalEvents.length} pending
-				</span>
-			</div>
-			<div class="grid gap-3">
-				{#each draftExternalEvents as event}
-					<article class="rounded-2xl border border-amber-100 bg-amber-50/50 p-4">
-						<h3 class="text-sm font-semibold text-amber-900">{event.title}</h3>
-						{#if event.sessionLabel}
-							<p class="text-xs text-amber-800/90">{event.sessionLabel}</p>
-						{/if}
-						<div class="mt-2 space-y-1 text-xs text-amber-800/90">
-							{#if event.date}
-								<p>{event.date}</p>
-							{/if}
-							{#each event.timeLines ?? [] as timeLine}
-								<p>{timeLine}</p>
-							{/each}
-							{#if event.location}
-								<p>{event.location}</p>
-							{/if}
-						</div>
-					</article>
-				{/each}
-			</div>
-		</section>
-	{:else}
-		<section
-			class="mt-12 rounded-xl border border-gray-200 bg-white px-4 py-5 text-sm text-gray-600"
-		>
-			No draft external events are currently defined.
-		</section>
-	{/if}
 
 <footer class="mt-16 border-t border-gray-200 pt-6 text-xs text-gray-500">
 		<p>

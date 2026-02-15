@@ -20,9 +20,8 @@ export type EventUiModel = Event & {
 
 export const toEventUiModel = (event: Event): EventUiModel => {
 	const location = event.locationMeta?.publicLabel ?? event.location ?? 'TBD';
-	const ctaLabel =
-		event.cta?.label?.trim() || event.registerLabel?.trim() || 'Registration unavailable';
-	const ctaUrl = event.cta?.url?.trim() || event.registerUrl?.trim() || undefined;
+	const ctaLabel = event.cta?.label?.trim() || 'Registration unavailable';
+	const ctaUrl = event.cta?.url?.trim() || undefined;
 
 	return {
 		...event,

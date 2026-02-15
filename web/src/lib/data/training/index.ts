@@ -1,4 +1,5 @@
 import trainingRegistryData from './training.json';
+import { dev } from '$app/environment';
 import type { TrainingProgram, TrainingRegistry } from './types';
 
 const trainingRegistry = trainingRegistryData as TrainingRegistry;
@@ -30,7 +31,7 @@ type ListTrainingProgramsOptions = {
 export const listTrainingPrograms = (
 	options: ListTrainingProgramsOptions = {}
 ): TrainingProgram[] => {
-	const { includeDrafts = false } = options;
+	const { includeDrafts = dev } = options;
 	return includeDrafts ? [...allPrograms] : [...publishedPrograms];
 };
 

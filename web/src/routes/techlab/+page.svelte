@@ -5,12 +5,10 @@
 	import { listTechlabPrograms } from '$lib/data/techlab';
 	import type { TechlabProgram } from '$lib/data/techlab/types';
 	import {
-		hasExternalRegistration,
-		isSessionDraft,
-		isSessionHappeningNow,
-		isSessionUpcoming,
+		isExternalUrl,
 		normalizeToday
 	} from '$lib/data/training/session-utils';
+	import { listUpcomingTrainingScheduleEntries } from '$lib/data/training/schedule';
 
 	const programs: TechlabProgram[] = listTechlabPrograms();
 
@@ -149,16 +147,11 @@
 	};
 
 	const today = normalizeToday();
-	const now = new Date();
+	const upcomingTrainingEvents = listUpcomingTrainingScheduleEntries({}, today);
 	const scheduleEntries: ScheduleEntry[] = programs.flatMap((program) => {
 		const session =
-			program.sessions?.find(
-				(entry) =>
-					!isSessionDraft(entry) &&
-					entry.startDate &&
-					hasExternalRegistration(entry) &&
-					isSessionUpcoming(entry, today) &&
-					!isSessionHappeningNow(entry, now)
+			upcomingTrainingEvents.find(
+				(entry) => entry.event.programRef?.sku === program.sku && isExternalUrl(entry.registerUrl)
 			) ?? null;
 
 		if (!session) return [];
@@ -170,11 +163,11 @@
 				route: program.route ?? `/techlab/${program.slug}`,
 				heroImage: program.heroImage,
 				heroImageAlt: program.heroImage ? (program.heroImageAlt ?? program.title) : undefined,
-				sessionName: session.name,
+				sessionName: session.title,
 				date: session.date,
 				timeText,
 				location: session.location ?? undefined,
-				registerUrl: session.registerUrl,
+				registerUrl: session.registerUrl ?? '/contact',
 				ctaLabel: 'Register'
 			}
 		];

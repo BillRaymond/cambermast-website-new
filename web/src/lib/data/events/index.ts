@@ -43,8 +43,7 @@ const withDefault = <T>(value: T | undefined, fallback: T): T =>
 	value === undefined ? fallback : value;
 
 const coerceVisibility = (event: EventSource): EventVisibility => {
-	if (event.visibility) return event.visibility;
-	return event.draft ? 'draft' : 'public';
+	return withDefault(event.visibility, 'public');
 };
 
 const coerceLifecycleStatus = (value?: EventLifecycleStatus): EventLifecycleStatus =>
@@ -52,7 +51,7 @@ const coerceLifecycleStatus = (value?: EventLifecycleStatus): EventLifecycleStat
 
 const coerceRegistrationStatus = (event: EventSource): EventRegistrationStatus => {
 	if (event.registrationStatus) return event.registrationStatus;
-	const ctaUrl = event.cta?.url ?? event.registerUrl;
+	const ctaUrl = event.cta?.url;
 	if (!ctaUrl) return 'none';
 	return /^https?:\/\//i.test(ctaUrl) ? 'external' : 'open';
 };
@@ -77,14 +76,13 @@ const toTypeLabel = (type: EventType, typeLabel?: string): string => {
 };
 
 const resolveEvent = (event: EventSource): Event => {
-	const startAtUtc = event.startAtUtc ?? event.startAt ?? '';
-	const endAtUtc = event.endAtUtc ?? event.endAt;
+	const startAtUtc = event.startAtUtc;
+	const endAtUtc = event.endAtUtc;
 	const visibility = coerceVisibility(event);
 	const lifecycleStatus = coerceLifecycleStatus(event.lifecycleStatus);
 	const registrationStatus = coerceRegistrationStatus(event);
-	const ctaLabel = event.cta?.label ?? event.registerLabel ?? 'Register';
-	const ctaUrl = event.cta?.url ?? event.registerUrl ?? '';
-	const draft = Boolean(event.draft) || visibility === 'draft';
+	const ctaLabel = event.cta?.label ?? 'Register';
+	const ctaUrl = event.cta?.url ?? '';
 	const typeLabel = toTypeLabel(event.type, event.typeLabel);
 
 	return {
@@ -104,12 +102,7 @@ const resolveEvent = (event: EventSource): Event => {
 		typeLabel,
 		date: event.date ?? toPacificDateLabel(startAtUtc),
 		time: event.time,
-		timezone: event.timezone ?? 'PT',
-		startAt: startAtUtc,
-		endAt: endAtUtc,
-		registerUrl: ctaUrl,
-		registerLabel: ctaLabel,
-		draft
+		timezone: event.timezone ?? 'PT'
 	};
 };
 
@@ -132,7 +125,7 @@ export const listEvents = (options: ListEventsOptions = {}): Event[] => {
 export const getEvent = (slug: string, options: ListEventsOptions = {}): Event | undefined =>
 	listEvents({ includeDrafts: true, ...options }).find((event) => event.slug === slug);
 
-export const isEventDraft = (event: Event): boolean => event.draft;
+export const isEventDraft = (event: Event): boolean => event.visibility === 'draft';
 
 export const isEventUpcoming = (
 	event: Event,

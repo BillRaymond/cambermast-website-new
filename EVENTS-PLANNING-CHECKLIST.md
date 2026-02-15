@@ -159,17 +159,17 @@ Purpose: Track architecture decisions and implementation progress for the unifie
 - [x] Add/adjust `/api` endpoint for events payload consumed by automations.
 - [x] Ensure campaigns endpoint integration remains compatible.
 - [x] Add a scriptable draft-event generator from training SKU + start date (`npm --prefix web run events:draft`).
-- [ ] Add `events.json` schema validation script (AJV) and wire it into npm scripts as a hard gate.
-- [ ] Remove legacy resolver compatibility fields in `web/src/lib/data/events/index.ts` after all consumers move to canonical fields.
+- [x] Add `events.json` schema validation script (AJV) and wire it into npm scripts as a hard gate.
+- [x] Remove legacy resolver compatibility fields in `web/src/lib/data/events/index.ts` after all consumers move to canonical fields.
 
 ## 8) Content + Governance Sync
 
-- [ ] Update `README.md` route notes (`/events` public model and `/calendar` role).
-- [ ] Update `llms.txt` if public event model messaging changes materially.
-- [ ] Update `ai.txt` only if policy/usage language changes.
+- [x] Update `README.md` route notes (`/events` public model and `/calendar` role).
+- [x] Update `llms.txt` if public event model messaging changes materially.
+- [x] Update `ai.txt` only if policy/usage language changes (no additional policy wording changes required).
 - [x] If crawl behavior changes, update `web/static/robots.txt`.
 - [x] If route exposure changes, update `web/src/routes/sitemap.xml/+server.ts`.
-- [ ] Sync root `ai.txt` and `llms.txt` to `web/static/` if either changes.
+- [x] Sync root `ai.txt` and `llms.txt` to `web/static/` if either changes.
 
 ## 9) Seed Content Tasks
 
@@ -182,23 +182,23 @@ Purpose: Track architecture decisions and implementation progress for the unifie
 
 - [ ] Multi-partner events (host/sponsor arrays) with multiple logos.
 - [ ] Waitlist + capacity + sold-out states.
-- [ ] "Happening now" section on `/events`.
+- [x] "Happening now" section on `/events`.
 - [ ] Past-events archive and recap/recording policy.
-- [ ] Auto-hide/promote windows (time-based unlisting rules).
+- [x] Auto-hide/promote windows decision resolved as visibility/state filters: drafts auto-display only in `dev` and internal admin views, public events display when `visibility=public`, unlisted events are direct-link accessible (and visible in `dev`), and in-progress training events switch to "Happening now" with enrollment closed state.
 - [ ] Stripe-native on-page checkout flow.
 
 ## 11) Next High-Value Tasks
 
-- [ ] Remove legacy event resolver compatibility layer in `web/src/lib/data/events/index.ts` once consumers are migrated.
-- [ ] Complete migration of `/events` and training surfaces to events-registry-only schedule reads (no `program.sessions` reads).
-- [ ] Remove legacy calendar listing sources so only seeded event entries appear during dev (AI Workshop + Vibe Coding Webinar).
+- [x] Remove legacy event resolver compatibility layer in `web/src/lib/data/events/index.ts` once consumers are migrated.
+- [x] Complete migration of `/events` and training surfaces to events-registry-only schedule reads (no `program.sessions` reads).
+- [x] Remove legacy calendar listing sources so events visibility is filter-driven (`dev` can include drafts; production listings show only viewable events by visibility/status).
 - [ ] Decide whether the `/events/[slug]` landing pages should display certificate/trailer chips (right now these are only on the `/events` listing cards).
 - [ ] Decide whether event cards should deep-link CTA through `/c/{campaignId}` by default for attribution.
 - [ ] Add editability workflow for ops (JSON editing guidance or lightweight tooling in `/internal/events`).
 - [ ] Decide whether to expose partner homepage links for all partners (currently only when set in catalog).
-- [ ] Optional: add `/admin/events` entry point in internal docs/navigation.
+- [x] Optional: add `/admin/events` entry point in internal docs/navigation.
 - [x] Optional cleanup: normalize old event IDs (`evt_...`) to 6-char base36 after migration plan is approved.
-- [ ] Keep `web/src/lib/data/training/index.ts` manual imports for now; revisit auto-discovery (`import.meta.glob`) after `/events` migration stabilizes.
+- [x] Keep training program discovery registry-driven from `training.json` (auto-includes new entries); include in-progress courses in `dev` by default and hide drafts in production unless `includeDrafts` is explicitly enabled.
 - [ ] Optional UI polish: add explicit "Archived" state treatment on `/events/[slug]` for non-promoted but reachable events.
 
 ## 12) Working Notes

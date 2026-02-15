@@ -94,15 +94,10 @@ export type EventSource = {
 	partnerCode?: string;
 	campaignId?: string;
 	links?: EventLinks;
-	draft?: boolean;
 	typeLabel?: string;
 	date?: string;
 	time?: string | string[];
 	timezone?: string;
-	startAt?: string;
-	endAt?: string;
-	registerUrl?: string;
-	registerLabel?: string;
 };
 
 export type Event = Omit<EventSource, 'location'> & {
@@ -112,9 +107,4 @@ export type Event = Omit<EventSource, 'location'> & {
 	date: string;
 	time?: string | string[];
 	timezone: string;
-	startAt: string;
-	endAt?: string;
-	registerUrl: string;
-	registerLabel: string;
-	draft: boolean;
 };
