@@ -263,6 +263,17 @@
 												Live
 											</span>
 										{/if}
+										{#if slide.certificateText}
+											<span
+												class={`inline-flex items-center rounded-full border px-2 py-0.5 text-[0.6rem] font-semibold tracking-wide uppercase ${
+													slide.isHappeningNow
+														? 'border-amber-100 bg-amber-100/70 text-amber-800'
+														: 'border-blue-100 bg-blue-50 text-blue-700/80'
+												}`}
+											>
+												📜 Certificate included
+											</span>
+										{/if}
 									</div>
 									<div class="flex flex-wrap items-end gap-3">
 										<div class="min-w-[14rem] flex-1">
@@ -321,17 +332,6 @@
 												>
 													{slide.location}
 												</p>
-											{/if}
-											{#if slide.certificateText}
-												<span
-													class={`mt-1 inline-flex items-center rounded-full border px-2.5 py-0.5 text-[0.7rem] font-medium normal-case ${
-														slide.isHappeningNow
-															? 'border-amber-100 bg-amber-100/70 text-amber-800'
-															: 'border-blue-100 bg-blue-50 text-blue-700/80'
-													}`}
-												>
-													{slide.certificateText}
-												</span>
 											{/if}
 											{#if slide.videoUrl && !slide.isHappeningNow}
 												<a

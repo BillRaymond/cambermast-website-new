@@ -49,7 +49,7 @@ export const aiAutomationWithAgents = {
 		{ label: 'Duration', value: 'Six weeks, 2-hour commitment per week' },
 		{ label: 'Format', value: ['🔴 Live online', '🏫 In-person available'] },
 		{ label: 'Cost', value: '$1,749 per person (virtual cohort)' },
-		{ label: 'Certificate', value: '📜 Personalized certificate included' },
+		{ label: 'Certificate', value: '📜 Certificate included' },
 		{ label: 'Environment', value: '💙 Learn in a supportive, judgment-free environment' },
 		{ label: 'In-person', value: 'Custom fees for SF Bay Area or on-site sessions' },
 		{

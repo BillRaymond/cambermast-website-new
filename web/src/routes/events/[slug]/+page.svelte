@@ -2,6 +2,7 @@
 	import { onDestroy } from 'svelte';
 	import SeoHead from '$lib/components/SeoHead.svelte';
 	import { getEventTypeLabelUi } from '$lib/view-models/events';
+	import { getProgramCertificateText } from '$lib/data/training/program-meta';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
@@ -17,12 +18,15 @@
 	const hasEnded = Number.isFinite(endAtTimestamp)
 		? (endAtTimestamp as number) < Date.now()
 		: false;
+	const isCanceled = event.lifecycleStatus === 'canceled';
+	const isCompleted = event.lifecycleStatus === 'completed';
 	const isHappeningNow =
 		Number.isFinite(startAtTimestamp) &&
 		Number.isFinite(endAtTimestamp) &&
 		startAtTimestamp <= Date.now() &&
 		(endAtTimestamp as number) >= Date.now();
 	const isTrainingHappeningNow = event.type === 'training_session' && isHappeningNow;
+	const isPastEvent = isCanceled || isCompleted || hasEnded;
 
 	const pacificDateTimeFormatter = new Intl.DateTimeFormat('en-US', {
 		timeZone: pacificTimeZone,
@@ -50,7 +54,7 @@
 		if (registrationStatus === 'closed') return 'Enrollment closed';
 		if (registrationStatus === 'waitlist') return 'Waitlist open';
 		if (registrationStatus === 'sold_out') return 'Sold out';
-		if (registrationStatus === 'none') return 'Registration unavailable';
+		if (registrationStatus === 'none') return 'Enrollment closed';
 		return null;
 	};
 
@@ -81,11 +85,18 @@
 
 	const pageTitle = `${event.title} | Cambermast Events`;
 	const pageDescription = event.summary;
-	const statusLabel = isTrainingHappeningNow
-		? 'Enrollment closed'
-		: getStatusLabel(event.registrationStatus);
+	const certificateText = relatedProgram ? getProgramCertificateText(relatedProgram) : undefined;
+	const trailerUrl = relatedProgram?.videoUrl;
+	const statusLabel = isCanceled
+		? 'Event canceled'
+		: isPastEvent
+			? 'Past event'
+			: isTrainingHappeningNow
+				? 'Enrollment closed'
+				: getStatusLabel(event.registrationStatus);
 	const canRegister =
 		Boolean(event.cta?.url) &&
+		!isPastEvent &&
 		!isTrainingHappeningNow &&
 		event.registrationStatus !== 'closed' &&
 		event.registrationStatus !== 'none';
@@ -143,6 +154,48 @@
 				</p>
 			{/if}
 			<p class="mt-4 text-base text-slate-700 md:text-lg">{event.summary}</p>
+			{#if isPastEvent}
+				<div class="mt-4 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3">
+					<p class="text-sm font-semibold text-amber-900">
+						{#if isCanceled}
+							Sorry, this event was canceled. If you had already registered, please check your email
+							for more details. A new event may already be available. Please check our events calendar
+							using the following link:
+						{:else}
+							Sorry, this event already occurred. A new event may already be available. Please check
+							our events calendar using the following link:
+						{/if}
+					</p>
+					<a
+						href="/events"
+						class="mt-2 inline-flex text-sm font-semibold text-blue-700 underline decoration-blue-200 underline-offset-4 hover:text-blue-900"
+					>
+						View current events calendar →
+					</a>
+				</div>
+			{/if}
+			{#if certificateText || trailerUrl}
+				<div class="mt-3 flex flex-wrap items-center gap-2">
+					{#if certificateText}
+						<span
+							class="inline-flex items-center rounded-full border border-slate-300 bg-white px-2 py-0.5 text-[0.65rem] font-semibold tracking-wide text-slate-700 uppercase"
+						>
+							📜 Certificate included
+						</span>
+					{/if}
+					{#if trailerUrl}
+						<a
+							href={trailerUrl}
+							target="_blank"
+							rel="noopener noreferrer"
+							class="inline-flex items-center rounded-full border border-slate-300 bg-white px-2 py-0.5 text-[0.65rem] font-semibold tracking-wide text-slate-700 uppercase transition hover:border-slate-500 hover:text-slate-900"
+							aria-label="Watch the trailer (opens in new tab)"
+						>
+							▶ Trailer <span aria-hidden="true">↗</span>
+						</a>
+					{/if}
+				</div>
+			{/if}
 
 			<div
 				class="mt-6 grid gap-3 rounded-2xl border border-slate-200 bg-white p-4 text-sm text-slate-700"
@@ -166,7 +219,9 @@
 				<p class="mt-1 text-2xl font-semibold text-slate-900">
 					{#if !isTimestampValid}
 						TBD
-					{:else if hasEnded}
+					{:else if isCanceled}
+						Event canceled
+					{:else if hasEnded || isCompleted}
 						Event completed
 					{:else}
 						{countdownLabel}
@@ -188,7 +243,11 @@
 					<span
 						class="inline-flex rounded-full border border-slate-300 px-5 py-2.5 text-sm font-semibold text-slate-600"
 					>
-						{event.cta?.label ?? 'Registration unavailable'}
+						{isPastEvent
+							? 'This event has ended'
+							: event.registrationStatus === 'none'
+								? 'Enrollment closed'
+								: (event.cta?.label ?? 'Enrollment closed')}
 					</span>
 				{/if}
 				{#if event.campaignId}
@@ -217,16 +276,6 @@
 							<p class="text-sm font-semibold text-slate-900">
 								{partner?.name ?? event.partnerCode}
 							</p>
-							{#if partner?.homepageUrl}
-								<a
-									href={partner.homepageUrl}
-									target="_blank"
-									rel="noopener noreferrer"
-									class="text-xs font-semibold text-blue-700 underline decoration-blue-200 underline-offset-2 hover:text-blue-900"
-								>
-									Visit partner site
-								</a>
-							{/if}
 						</div>
 					</div>
 				</div>

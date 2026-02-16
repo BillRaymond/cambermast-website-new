@@ -198,6 +198,27 @@
 					</div>
 				{/if}
 				<h1 class="mt-1.5 text-4xl font-bold text-gray-900">{program.title}</h1>
+				{#if certificateText || program.videoUrl}
+					<div class="mt-1.5 flex flex-wrap items-center gap-2">
+						{#if certificateText}
+							<span
+								class="inline-flex items-center rounded-full border border-blue-100 bg-blue-50 px-2.5 py-0.5 text-[0.7rem] font-medium text-blue-700/80 normal-case"
+							>
+								📜 Certificate included
+							</span>
+						{/if}
+						{#if program.videoUrl}
+							<a
+								href={program.videoUrl}
+								target="_blank"
+								rel="noopener noreferrer"
+								class="inline-flex items-center rounded-full border border-blue-100 bg-blue-50 px-2.5 py-0.5 text-[0.7rem] font-medium text-blue-700/80 normal-case transition hover:border-blue-200 hover:bg-blue-100"
+							>
+								🎬 Watch the trailer
+							</a>
+						{/if}
+					</div>
+				{/if}
 				{#if program.nickname}
 					<p class="mt-1 text-sm font-medium text-blue-600">{program.nickname}</p>
 				{/if}
@@ -321,11 +342,6 @@
 							</div>
 						{/if}
 						<div class="flex flex-col gap-1.5 text-sm font-semibold text-blue-700">
-							{#if certificateText}
-								<p class="flex items-center gap-2 text-blue-700">
-									{certificateText}
-								</p>
-							{/if}
 							{#if program.videoUrl}
 								<a
 									href={program.videoUrl}

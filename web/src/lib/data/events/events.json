@@ -56,7 +56,7 @@
 			"startAtUtc": "2026-02-12T17:00:00.000Z",
 			"endAtUtc": "2026-04-01T19:00:00.000Z",
 			"visibility": "draft",
-			"lifecycleStatus": "scheduled",
+			"lifecycleStatus": "canceled",
 			"registrationStatus": "none",
 			"cta": {
 				"label": "Draft",
@@ -136,10 +136,10 @@
 				"Prompt-to-production handoff techniques",
 				"Operational guardrails for team adoption"
 			],
-			"startAtUtc": "2026-02-18T21:00:00.000Z",
-			"endAtUtc": "2026-02-18T22:00:00.000Z",
+			"startAtUtc": "2026-02-14T21:00:00.000Z",
+			"endAtUtc": "2026-02-14T22:00:00.000Z",
 			"visibility": "public",
-			"lifecycleStatus": "scheduled",
+			"lifecycleStatus": "completed",
 			"registrationStatus": "external",
 			"cta": {
 				"label": "Register on Luma",

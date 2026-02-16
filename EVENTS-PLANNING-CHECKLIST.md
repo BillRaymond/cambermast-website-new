@@ -192,14 +192,14 @@ Purpose: Track architecture decisions and implementation progress for the unifie
 - [x] Remove legacy event resolver compatibility layer in `web/src/lib/data/events/index.ts` once consumers are migrated.
 - [x] Complete migration of `/events` and training surfaces to events-registry-only schedule reads (no `program.sessions` reads).
 - [x] Remove legacy calendar listing sources so events visibility is filter-driven (`dev` can include drafts; production listings show only viewable events by visibility/status).
-- [ ] Decide whether the `/events/[slug]` landing pages should display certificate/trailer chips (right now these are only on the `/events` listing cards).
-- [ ] Decide whether event cards should deep-link CTA through `/c/{campaignId}` by default for attribution.
+- [x] Decide whether the `/events/[slug]` landing pages should display certificate/trailer chips: yes, display on event detail pages as well as `/events` listing cards.
+- [x] Decide whether event cards should deep-link CTA through `/c/{campaignId}` by default for attribution: yes, use campaign short links by default when a campaign ID is present.
 - [ ] Add editability workflow for ops (JSON editing guidance or lightweight tooling in `/internal/events`).
-- [ ] Decide whether to expose partner homepage links for all partners (currently only when set in catalog).
+- [x] Decide whether to expose partner homepage links for all partners: no external partner links on event surfaces; keep "In partnership with" attribution text while retaining users on Cambermast pages.
 - [x] Optional: add `/admin/events` entry point in internal docs/navigation.
 - [x] Optional cleanup: normalize old event IDs (`evt_...`) to 6-char base36 after migration plan is approved.
 - [x] Keep training program discovery registry-driven from `training.json` (auto-includes new entries); include in-progress courses in `dev` by default and hide drafts in production unless `includeDrafts` is explicitly enabled.
-- [ ] Optional UI polish: add explicit "Archived" state treatment on `/events/[slug]` for non-promoted but reachable events.
+- [x] Optional UI polish: add explicit past/canceled state treatment on `/events/[slug]` with a friendly notice and a clear path back to `/events`.
 
 ## 12) Working Notes
 

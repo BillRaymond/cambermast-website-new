@@ -17,10 +17,7 @@
 		.map((program) => {
 			const duration = statValueToText(findProgramStat(program, 'duration')?.value) ?? '';
 			const certificateText = getProgramCertificateText(program);
-			const formatLines = [
-				...statValueToArray(findProgramStat(program, 'format')?.value),
-				...(certificateText ? [certificateText] : [])
-			];
+			const formatLines = [...statValueToArray(findProgramStat(program, 'format')?.value)];
 			const cost = statValueToText(findProgramStat(program, 'cost')?.value) ?? '';
 
 			return {
@@ -95,19 +92,22 @@
 							<p class="mt-1 text-xs text-gray-600">{program.summary}</p>
 						{/if}
 						{#if program.certificateText || program.videoUrl}
-							<div class="mt-1 flex flex-col gap-1 text-xs font-semibold text-blue-700">
+							<div class="mt-1.5 flex flex-wrap items-center gap-2">
 								{#if program.certificateText}
-									<p>{program.certificateText}</p>
+									<span
+										class="inline-flex items-center rounded-full border border-blue-100 bg-blue-50 px-2.5 py-0.5 text-[0.7rem] font-medium text-blue-700/80 normal-case"
+									>
+										📜 Certificate included
+									</span>
 								{/if}
 								{#if program.videoUrl}
 									<a
 										href={program.videoUrl}
 										target="_blank"
 										rel="noopener noreferrer"
-										class="inline-flex items-center gap-1 underline decoration-blue-200 underline-offset-4"
+										class="inline-flex items-center rounded-full border border-blue-100 bg-blue-50 px-2.5 py-0.5 text-[0.7rem] font-medium text-blue-700/80 normal-case"
 									>
-										Watch the trailer
-										<span aria-hidden="true">↗</span>
+										🎬 Watch the trailer
 									</a>
 								{/if}
 							</div>

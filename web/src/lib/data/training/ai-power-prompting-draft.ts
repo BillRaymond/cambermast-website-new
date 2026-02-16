@@ -48,7 +48,7 @@ export const aiPowerPromptingDraft = {
 		{ label: 'Duration', value: '4 hours (TBD)' },
 		{ label: 'Format', value: ['🔴 Live online (draft)', '🏫 On-site TBD'] },
 		{ label: 'Cost', value: '$0 (internal review only)' },
-		{ label: 'Certificate', value: '📜 Personalized certificate included' }
+		{ label: 'Certificate', value: '📜 Certificate included' }
 	],
 	audience: [
 		'Internal reviewers validating new program structure.',

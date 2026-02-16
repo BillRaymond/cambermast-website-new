@@ -148,6 +148,14 @@ export const getEventStartTimestamp = (event: Event): number => {
 
 export const getEventTypeLabel = (event: Event): string => event.typeLabel;
 
+export const getEventRegistrationUrl = (
+	event: Pick<Event, 'campaignId' | 'cta'>
+): string | undefined => {
+	const campaignId = event.campaignId ?? event.cta?.campaignId;
+	if (campaignId) return `/c/${campaignId}`;
+	return event.cta?.url;
+};
+
 export {
 	buildTrainingSessionEventFromProgram,
 	buildTrainingSessionEventFromProgramSku,

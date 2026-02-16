@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { browser } from '$app/environment';
 	import { onMount } from 'svelte';
 	import type { EventUiModel } from '$lib/view-models/events';
 	import {
@@ -191,7 +192,7 @@
 				isTrainingHappeningNow
 					? 'Enrollment closed'
 					: event.registrationStatus === 'none'
-					? event.cta?.label || 'Registration unavailable'
+					? 'Enrollment closed'
 					: event.cta?.label || 'Register now';
 			const registerLabel = baseRegisterLabel;
 			const isCourseEvent = event.type === 'training_session';
@@ -248,6 +249,34 @@
 	const getEventTypeChipLabel = (filter: EventTypeFilter): string => {
 		if (filter.key === 'webinar') return `🎙️ ${filter.label}`;
 		return filter.label;
+	};
+
+	const handleBookmarkClick = (event: MouseEvent): void => {
+		event.preventDefault();
+		if (!browser) return;
+
+		const bookmarkTitle = document.title || 'Cambermast Events';
+		const bookmarkUrl = window.location.href;
+		const windowWithBookmarks = window as Window & {
+			external?: { AddFavorite?: (url: string, title?: string) => void };
+			sidebar?: { addPanel?: (title: string, url: string, unused?: string) => void };
+		};
+
+		try {
+			if (typeof windowWithBookmarks.external?.AddFavorite === 'function') {
+				windowWithBookmarks.external.AddFavorite(bookmarkUrl, bookmarkTitle);
+				return;
+			}
+			if (typeof windowWithBookmarks.sidebar?.addPanel === 'function') {
+				windowWithBookmarks.sidebar.addPanel(bookmarkTitle, bookmarkUrl, '');
+				return;
+			}
+		} catch {
+			// Fall through to keyboard shortcut guidance.
+		}
+
+		const isMac = /Mac|iPhone|iPad/i.test(navigator.platform);
+		window.alert(`Use ${isMac ? 'Cmd' : 'Ctrl'} + D to bookmark this page.`);
 	};
 
 	$: eventTypeFilters = Array.from(
@@ -478,13 +507,13 @@
 																		{statusPill}
 																	</span>
 																{/if}
-																{#if entry.certificateText}
-																	<span
-																		class="inline-flex items-center rounded-full border border-blue-200 bg-white/70 px-2 py-0.5 text-[0.6rem] font-semibold tracking-wide text-blue-700 uppercase"
-																	>
-																		📜 Certificate
-																	</span>
-																{/if}
+																	{#if entry.certificateText}
+																		<span
+																			class="inline-flex items-center rounded-full border border-blue-200 bg-white/70 px-2 py-0.5 text-[0.6rem] font-semibold tracking-wide text-blue-700 uppercase"
+																		>
+																			📜 Certificate included
+																		</span>
+																	{/if}
 																{#if entry.videoUrl}
 																	<a
 																		href={entry.videoUrl}
@@ -625,12 +654,20 @@
 
 		{#if filteredHappeningEntries.length}
 			<div class="rounded-2xl border border-amber-200 bg-amber-50/70 p-5 shadow-sm">
-				<div class="flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-4">
-					<h2 class="text-lg font-semibold whitespace-nowrap text-amber-900">Happening now</h2>
-					<p class="min-w-0 flex-1 text-xs text-amber-700">
-						Bookmark this page so you never miss another event
-					</p>
-				</div>
+					<div class="flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-4">
+						<h2 class="text-lg font-semibold whitespace-nowrap text-amber-900">Happening now</h2>
+						<p class="min-w-0 flex-1 text-xs text-amber-700">
+							Bookmark
+							<a
+								href="/events"
+								class="font-semibold underline decoration-amber-300 underline-offset-2 hover:text-amber-900"
+								onclick={handleBookmarkClick}
+							>
+								this page
+							</a>
+							so you never miss another event.
+						</p>
+					</div>
 				<ul class="mt-4 space-y-4">
 					{#each filteredHappeningEntries as entry}
 						<li>
@@ -690,13 +727,13 @@
 												>
 													Enrollment closed
 												</span>
-												{#if entry.certificateText}
-													<span
-														class="inline-flex items-center rounded-full border border-amber-200 bg-white/70 px-2 py-0.5 text-[0.6rem] font-semibold tracking-wide text-amber-800 uppercase"
-													>
-														📜 Certificate
-													</span>
-												{/if}
+													{#if entry.certificateText}
+														<span
+															class="inline-flex items-center rounded-full border border-amber-200 bg-white/70 px-2 py-0.5 text-[0.6rem] font-semibold tracking-wide text-amber-800 uppercase"
+														>
+															📜 Certificate included
+														</span>
+													{/if}
 												{#if entry.videoUrl}
 													<a
 														href={entry.videoUrl}

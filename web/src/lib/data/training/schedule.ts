@@ -1,4 +1,9 @@
-import { getEventStartTimestamp, isEventUpcoming, listEvents } from '$lib/data/events';
+import {
+	getEventRegistrationUrl,
+	getEventStartTimestamp,
+	isEventUpcoming,
+	listEvents
+} from '$lib/data/events';
 import type { Event } from '$lib/data/events/types';
 import { getTrainingProgramBySku } from '$lib/data/training';
 import type { TrainingProgram } from '$lib/data/training/types';
@@ -64,7 +69,7 @@ export const toTrainingScheduleEntry = (
 		date: event.date,
 		time: event.time,
 		location: event.location,
-		registerUrl: canRegister ? event.cta?.url : undefined,
+		registerUrl: canRegister ? getEventRegistrationUrl(event) : undefined,
 		registerLabel,
 		isHappeningNow: isTrainingEventHappeningNow(event, referenceTimestamp),
 		startTimestamp,

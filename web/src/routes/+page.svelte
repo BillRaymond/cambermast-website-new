@@ -9,7 +9,8 @@
 		listEventUi
 	} from '$lib/view-models/events';
 	import type { EventUiModel } from '$lib/view-models/events';
-	import { listTrainingPrograms } from '$lib/data/training';
+import { getTrainingProgramBySku, listTrainingPrograms } from '$lib/data/training';
+import { getProgramCertificateText } from '$lib/data/training/program-meta';
 	import type { TrainingProgram } from '$lib/data/training/types';
 	import { listTestimonials, type Testimonial } from '$lib/data/testimonials';
 	import { getSeo } from '$lib/seo';
@@ -317,23 +318,30 @@
 		return `Starts in ${diffDays} days`;
 	};
 
-	const buildEventSlide = (entry: UpcomingEventEntry, index: number) => ({
-		id: `${entry.event.id}-${entry.event.startAtUtc ?? index.toString(10)}`,
-		kind: 'event' as const,
-		kindLabel: getEventTypeLabelUi(entry.event),
-		programTitle: entry.event.title,
-		sessionLabel:
-			entry.event.subtitle ??
-			`${getEventTypeLabelUi(entry.event)}${entry.event.visibility === 'draft' ? ' · Draft' : ''}`,
-		date: entry.event.date,
-		timeLines: toTimeLines(entry.event.time),
-		location: entry.event.location,
-		urgency: getUrgencyLabel(entry.startTimestamp),
-		registerUrl: entry.event.cta?.url ?? `/events/${entry.event.slug}`,
-		image: entry.event.image,
-		imageAlt: entry.event.imageAlt ?? entry.event.title,
-		isHappeningNow: false
-	});
+	const buildEventSlide = (entry: UpcomingEventEntry, index: number) => {
+		const relatedProgram = entry.event.programRef?.sku
+			? getTrainingProgramBySku(entry.event.programRef.sku)
+			: undefined;
+		return {
+			id: `${entry.event.id}-${entry.event.startAtUtc ?? index.toString(10)}`,
+			kind: 'event' as const,
+			kindLabel: getEventTypeLabelUi(entry.event),
+			programTitle: entry.event.title,
+			sessionLabel:
+				entry.event.subtitle ??
+				`${getEventTypeLabelUi(entry.event)}${entry.event.visibility === 'draft' ? ' · Draft' : ''}`,
+			date: entry.event.date,
+			timeLines: toTimeLines(entry.event.time),
+			location: entry.event.location,
+			urgency: getUrgencyLabel(entry.startTimestamp),
+			registerUrl: entry.event.cta?.url ?? `/events/${entry.event.slug}`,
+			image: entry.event.image,
+			imageAlt: entry.event.imageAlt ?? entry.event.title,
+			certificateText: relatedProgram ? getProgramCertificateText(relatedProgram) : undefined,
+			videoUrl: relatedProgram?.videoUrl,
+			isHappeningNow: false
+		};
+	};
 
 	const upcomingSlides = [...upcomingEventEntries]
 		.sort((a, b) => a.startTimestamp - b.startTimestamp)
