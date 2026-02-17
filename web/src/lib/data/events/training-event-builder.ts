@@ -47,6 +47,8 @@ type TrainingDraftSchedule = {
 	};
 };
 
+const EVENT_TIME_ZONE_IANA = 'America/Los_Angeles';
+
 const parseTimeParts = (value: string): { hours: number; minutes: number } => {
 	const trimmed = value.trim().toLowerCase();
 	const isoMatch = /^(\d{1,2}):(\d{2})$/.exec(trimmed);
@@ -174,19 +176,19 @@ export const buildTrainingSessionEventFromProgram = (
 	if (durationDays < 1) {
 		throw new Error('durationDays must be at least 1.');
 	}
-	const startTimestamp = toZonedTimestamp(startDateParts, startTimeParts, template.defaultTimeZone);
+	const startTimestamp = toZonedTimestamp(startDateParts, startTimeParts, EVENT_TIME_ZONE_IANA);
 
 	const endProgramStartTimestamp = startTimestamp + (durationDays - 1) * 24 * 60 * 60 * 1000;
 	const endTimestamp = endProgramStartTimestamp + sessionDurationMinutes * 60 * 1000;
 
 	const dateText =
 		durationDays > 1
-			? formatRangeDate(startTimestamp, endTimestamp, template.defaultTimeZone)
-			: formatLocalDate(startTimestamp, template.defaultTimeZone);
+			? formatRangeDate(startTimestamp, endTimestamp, EVENT_TIME_ZONE_IANA)
+			: formatLocalDate(startTimestamp, EVENT_TIME_ZONE_IANA);
 	const timeText = formatTimeRange(
 		startTimestamp,
 		sessionDurationMinutes,
-		template.defaultTimeZone,
+		EVENT_TIME_ZONE_IANA,
 		template.defaultTimeZoneLabel
 	);
 
@@ -213,10 +215,19 @@ export const buildTrainingSessionEventFromProgram = (
 		date: dateText,
 		time: timeText,
 		timezone: template.defaultTimeZoneLabel,
+		timeZoneIana: EVENT_TIME_ZONE_IANA,
 		location: {
 			mode: 'online',
 			publicLabel: template.defaultLocationLabel ?? 'Online',
 			detailsVisibility: 'public'
+		},
+		ticketing: {
+			currency: 'USD',
+			amountUsd: 0
+		},
+		registrationSettings: {
+			approvalRequired: false,
+			capacity: { type: 'unlimited' }
 		},
 		programRef: {
 			sku: program.sku
@@ -226,6 +237,8 @@ export const buildTrainingSessionEventFromProgram = (
 			estimatedHoursCommitment
 		},
 		partners: input.partnerCodes?.map((code) => ({ code })),
+		heroImage: program.heroImage ?? program.ogImage,
+		heroImageAlt: program.heroImageAlt ?? program.ogImageAlt ?? program.title,
 		image: program.ogImage ?? program.heroImage,
 		imageAlt: program.ogImageAlt ?? program.heroImageAlt ?? program.title
 	};

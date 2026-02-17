@@ -81,9 +81,11 @@ const resolveEvent = (event: EventSource): Event => {
 	const visibility = coerceVisibility(event);
 	const lifecycleStatus = coerceLifecycleStatus(event.lifecycleStatus);
 	const registrationStatus = coerceRegistrationStatus(event);
-	const ctaLabel = event.cta?.label ?? 'Register';
+	const ctaLabel = event.cta?.label ?? 'Register now';
 	const ctaUrl = event.cta?.url ?? '';
 	const typeLabel = toTypeLabel(event.type, event.typeLabel);
+	const timeZoneIana = event.timeZoneIana ?? PACIFIC_TIME_ZONE;
+	const timezoneLabel = event.timezone ?? 'America/Los_Angeles';
 
 	return {
 		...event,
@@ -102,7 +104,8 @@ const resolveEvent = (event: EventSource): Event => {
 		typeLabel,
 		date: event.date ?? toPacificDateLabel(startAtUtc),
 		time: event.time,
-		timezone: event.timezone ?? 'PT'
+		timezone: timezoneLabel,
+		timeZoneIana
 	};
 };
 

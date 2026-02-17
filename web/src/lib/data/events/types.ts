@@ -55,6 +55,23 @@ export type EventLocation = {
 	publicLabel: string;
 	detailsVisibility: EventLocationDetailsVisibility;
 	joinUrl?: string;
+	mapUrl?: string;
+	venueName?: string;
+};
+
+export type EventTicketing = {
+	currency: 'USD';
+	amountUsd: number;
+};
+
+export type EventCapacity = {
+	type: 'unlimited' | 'limited';
+	limit?: number;
+};
+
+export type EventRegistrationSettings = {
+	approvalRequired?: boolean;
+	capacity?: EventCapacity;
 };
 
 export type EventProgramRef = {
@@ -69,6 +86,18 @@ export type EventSchedule = {
 export type EventDescription = {
 	summary?: string;
 	bodyMd?: string;
+};
+
+export type EventAgendaItem = {
+	title: string;
+	startsAtLabel?: string;
+	outcome?: string;
+	details?: string;
+};
+
+export type EventFaqItem = {
+	question: string;
+	answer: string;
 };
 
 export type EventLinks = {
@@ -94,6 +123,9 @@ export type EventSource = {
 	tagline?: string;
 	description?: string | EventDescription;
 	highlights?: string[];
+	outcomes?: string[];
+	agenda?: EventAgendaItem[];
+	faq?: EventFaqItem[];
 	image?: string;
 	imageAlt?: string;
 	speakers?: EventSpeaker[];
@@ -106,6 +138,12 @@ export type EventSource = {
 	date?: string;
 	time?: string | string[];
 	timezone?: string;
+	timeZoneIana?: string;
+	registrationClosesAtUtc?: string;
+	ticketing?: EventTicketing;
+	registrationSettings?: EventRegistrationSettings;
+	heroImage?: string;
+	heroImageAlt?: string;
 };
 
 export type Event = Omit<EventSource, 'location'> & {
@@ -115,4 +153,5 @@ export type Event = Omit<EventSource, 'location'> & {
 	date: string;
 	time?: string | string[];
 	timezone: string;
+	timeZoneIana: string;
 };

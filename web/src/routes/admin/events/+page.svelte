@@ -36,13 +36,14 @@
 		day: 'numeric',
 		year: 'numeric',
 		hour: 'numeric',
-		minute: '2-digit'
+		minute: '2-digit',
+		timeZoneName: 'short'
 	});
 
 	const formatStart = (startAtUtc: string): string => {
 		const parsed = new Date(startAtUtc);
 		if (Number.isNaN(parsed.valueOf())) return startAtUtc;
-		return `${dateFormatter.format(parsed)} PT`;
+		return dateFormatter.format(parsed);
 	};
 </script>
 

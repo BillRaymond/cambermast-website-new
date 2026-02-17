@@ -313,7 +313,7 @@
 														rel={event.cta.url.startsWith('http') ? 'noopener' : undefined}
 														class="inline-flex items-center justify-center rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-emerald-700"
 													>
-														{event.cta.label || 'Register'}{event.cta.url.startsWith('http') ? ' ↗' : ''}
+														{event.cta.label || 'Register now'}{event.cta.url.startsWith('http') ? ' ↗' : ''}
 													</a>
 												{/if}
 										</div>

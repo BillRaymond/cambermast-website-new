@@ -28,7 +28,10 @@
 				"lifecycleStatus",
 				"registrationStatus",
 				"cta",
-				"location"
+				"location",
+				"timeZoneIana",
+				"heroImage",
+				"image"
 			],
 			"properties": {
 				"id": {
@@ -79,12 +82,47 @@
 					"type": "array",
 					"items": { "type": "string" }
 				},
+				"outcomes": {
+					"type": "array",
+					"items": { "type": "string" }
+				},
+				"agenda": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"additionalProperties": false,
+						"required": ["title"],
+						"properties": {
+							"title": { "type": "string", "minLength": 1 },
+							"startsAtLabel": { "type": "string" },
+							"outcome": { "type": "string" },
+							"details": { "type": "string" }
+						}
+					}
+				},
+				"faq": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"additionalProperties": false,
+						"required": ["question", "answer"],
+						"properties": {
+							"question": { "type": "string", "minLength": 1 },
+							"answer": { "type": "string", "minLength": 1 }
+						}
+					}
+				},
 				"startAtUtc": {
 					"type": "string",
 					"format": "date-time",
 					"pattern": "Z$"
 				},
 				"endAtUtc": {
+					"type": "string",
+					"format": "date-time",
+					"pattern": "Z$"
+				},
+				"registrationClosesAtUtc": {
 					"type": "string",
 					"format": "date-time",
 					"pattern": "Z$"
@@ -97,6 +135,10 @@
 				},
 				"timezone": {
 					"type": "string"
+				},
+				"timeZoneIana": {
+					"type": "string",
+					"const": "America/Los_Angeles"
 				},
 				"visibility": {
 					"type": "string",
@@ -142,6 +184,52 @@
 						},
 						"joinUrl": {
 							"type": "string"
+						},
+						"mapUrl": {
+							"type": "string"
+						},
+						"venueName": {
+							"type": "string"
+						}
+					}
+				},
+				"ticketing": {
+					"type": "object",
+					"additionalProperties": false,
+					"required": ["currency", "amountUsd"],
+					"properties": {
+						"currency": { "type": "string", "const": "USD" },
+						"amountUsd": { "type": "number", "minimum": 0 }
+					}
+				},
+				"registrationSettings": {
+					"type": "object",
+					"additionalProperties": false,
+					"properties": {
+						"approvalRequired": { "type": "boolean" },
+						"capacity": {
+							"type": "object",
+							"additionalProperties": false,
+							"required": ["type"],
+							"properties": {
+								"type": { "type": "string", "enum": ["unlimited", "limited"] },
+								"limit": { "type": "integer", "minimum": 1 }
+							},
+							"allOf": [
+								{
+									"if": {
+										"properties": {
+											"type": { "const": "limited" }
+										}
+									},
+									"then": {
+										"required": ["limit"],
+										"properties": {
+											"limit": { "type": "integer", "minimum": 1 }
+										}
+									}
+								}
+							]
 						}
 					}
 				},
@@ -210,6 +298,12 @@
 					"type": "string"
 				},
 				"imageAlt": {
+					"type": "string"
+				},
+				"heroImage": {
+					"type": "string"
+				},
+				"heroImageAlt": {
 					"type": "string"
 				}
 			},

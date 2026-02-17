@@ -359,6 +359,20 @@
 			event fields and a linked campaign.
 		</li>
 		<li>
+			Timezone and media rule: set <code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
+				>timeZoneIana = America/Los_Angeles</code
+			> for every event and provide both <code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
+				>heroImage</code
+			> (page image) and <code class="rounded bg-gray-100 px-1 py-0.5 text-xs">image</code> (OG image).
+		</li>
+		<li>
+			Ticketing and registration options: set <code
+				class="rounded bg-gray-100 px-1 py-0.5 text-xs">ticketing.currency = USD</code
+			>, include <code class="rounded bg-gray-100 px-1 py-0.5 text-xs">ticketing.amountUsd</code> (use
+			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">0</code> for free), and set optional approval/capacity
+			in <code class="rounded bg-gray-100 px-1 py-0.5 text-xs">registrationSettings</code>.
+		</li>
+		<li>
 			Partner alignment rule:
 			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">event.partners[].code</code> should align
 			with

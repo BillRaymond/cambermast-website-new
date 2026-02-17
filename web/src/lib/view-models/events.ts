@@ -21,8 +21,8 @@ export type EventUiModel = Event & {
 
 export const toEventUiModel = (event: Event): EventUiModel => {
 	const location = event.locationMeta?.publicLabel ?? event.location ?? 'TBD';
-	const ctaLabel = event.cta?.label?.trim() || 'Enrollment closed';
 	const ctaUrl = getEventRegistrationUrl(event)?.trim() || undefined;
+	const ctaLabel = ctaUrl ? 'Register now' : (event.cta?.label?.trim() ?? 'Enrollment closed');
 
 	return {
 		...event,

@@ -124,13 +124,13 @@
 {#if hideChrome}
 	<slot />
 {:else}
-	{#if showAnalyticsDebug}
-		<div
-			class="fixed right-4 bottom-4 z-50 rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold text-white shadow-lg"
-		>
-			Analytics: {analyticsDebugLabel}
-		</div>
-	{/if}
+		{#if showAnalyticsDebug}
+			<div
+				class="pointer-events-none fixed top-4 right-4 z-30 rounded-full bg-slate-900/95 px-3 py-1.5 text-xs font-semibold text-white shadow-lg"
+			>
+				Analytics: {analyticsDebugLabel}
+			</div>
+		{/if}
 	<a class="skip-link" href="#main-content">Skip to main content</a>
 	<header class="flex flex-col items-center bg-white px-5 py-3">
 		<a
