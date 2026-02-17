@@ -51,6 +51,11 @@ export const pageSeo: SeoOverrides = {
 		description:
 			'Review upcoming Cambermast workshops, webinars, and speaking events in one calendar with filters, countdowns, and registration links.'
 	},
+	'/events/archive': {
+		title: 'Past Events Archive | Cambermast',
+		description:
+			'Browse completed and canceled Cambermast events, including recap assets such as recordings and slides when available.'
+	},
 	'/training/print': {
 		title: 'Cambermast Training Programs | Print View',
 		description:

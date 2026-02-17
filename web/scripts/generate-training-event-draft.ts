@@ -291,7 +291,8 @@ const run = (): void => {
 		}
 	};
 
-	const partner = getPartnerByCode(draftEvent.partnerCode);
+	const primaryPartnerCode = draftEvent.partners?.[0]?.code;
+	const partner = getPartnerByCode(primaryPartnerCode);
 	const campaignPartnerSlug =
 		partner && partner.slug !== 'none'
 			? partner.slug

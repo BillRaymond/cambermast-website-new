@@ -32,8 +32,16 @@ export type EventLocationDetailsVisibility = 'public' | 'post_signup' | 'tbd';
 export type EventSpeaker = {
 	name: string;
 	title: string;
+	shortBio?: string;
 	photo?: string;
 	photoAlt?: string;
+};
+
+export type EventPartnerRole = 'host' | 'sponsor' | 'community' | 'media' | 'partner';
+
+export type EventPartner = {
+	code: string;
+	role?: EventPartnerRole;
 };
 
 export type EventCta = {
@@ -91,7 +99,7 @@ export type EventSource = {
 	speakers?: EventSpeaker[];
 	programRef?: EventProgramRef;
 	schedule?: EventSchedule;
-	partnerCode?: string;
+	partners?: EventPartner[];
 	campaignId?: string;
 	links?: EventLinks;
 	typeLabel?: string;

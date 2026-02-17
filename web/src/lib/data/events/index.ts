@@ -1,5 +1,5 @@
-import { dev } from '$app/environment';
 import eventsData from './events.json';
+import { runtimeDev } from '$lib/utils/runtime-env';
 import type {
 	Event,
 	EventSource,
@@ -118,7 +118,7 @@ const isVisible = (
 };
 
 export const listEvents = (options: ListEventsOptions = {}): Event[] => {
-	const { includeDrafts = dev, includeUnlisted = false } = options;
+	const { includeDrafts = runtimeDev, includeUnlisted = false } = options;
 	return resolvedEvents.filter((event) => isVisible(event, { includeDrafts, includeUnlisted }));
 };
 
@@ -132,7 +132,7 @@ export const isEventUpcoming = (
 	today: Date = new Date(),
 	options: ListEventsOptions = {}
 ): boolean => {
-	const { includeDrafts = dev, includeUnlisted = false } = options;
+	const { includeDrafts = runtimeDev, includeUnlisted = false } = options;
 	if (!isVisible(event, { includeDrafts, includeUnlisted })) return false;
 	if (event.lifecycleStatus === 'canceled' || event.lifecycleStatus === 'completed') return false;
 	const start = toTimestamp(event.startAtUtc);

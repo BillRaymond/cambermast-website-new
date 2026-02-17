@@ -620,38 +620,6 @@
 		gap: 0.75rem;
 	}
 
-	.tlp-session {
-		border: 1px solid #e4ecf5;
-		border-radius: 12px;
-		padding: 0.9rem;
-		background: #f7fafc;
-		display: flex;
-		flex-direction: column;
-		gap: 0.4rem;
-	}
-
-	.tlp-session__name {
-		margin: 0;
-		font-weight: 800;
-		color: #0d1a2b;
-	}
-
-	.tlp-session__date {
-		margin: 0;
-		color: #26405a;
-		font-weight: 600;
-	}
-
-	.tlp-session__time {
-		margin: 0.1rem 0;
-		color: #3c526d;
-	}
-
-	.tlp-session__location {
-		color: #3c526d;
-		margin: 0.1rem 0;
-		font-size: 0.95rem;
-	}
 
 	.tlp-list {
 		list-style: disc;
@@ -708,21 +676,6 @@
 		border-radius: 12px;
 		padding: 0.9rem;
 		border: 1px solid #e1ebf4;
-	}
-
-	.tlp-quote {
-		background: linear-gradient(135deg, #0d1a2b 0%, #0b6fbf 100%);
-		color: #e8f2fb;
-		border-radius: 14px;
-		padding: 1rem;
-		margin: 0;
-		display: grid;
-		gap: 0.4rem;
-	}
-
-	.tlp-quote cite {
-		font-weight: 800;
-		color: #ffffff;
 	}
 
 	.tlp-review-grid {

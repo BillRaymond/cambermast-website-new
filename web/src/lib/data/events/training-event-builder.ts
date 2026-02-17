@@ -16,7 +16,7 @@ type BuildTrainingEventInput = {
 	registrationStatus?: EventRegistrationStatus;
 	ctaLabel?: string;
 	ctaUrl?: string;
-	partnerCode?: string;
+	partnerCodes?: string[];
 };
 
 type BuildTrainingEventFromSkuInput = Omit<BuildTrainingEventInput, 'program'> & {
@@ -225,7 +225,7 @@ export const buildTrainingSessionEventFromProgram = (
 			durationDays,
 			estimatedHoursCommitment
 		},
-		partnerCode: input.partnerCode ?? 'NONE',
+		partners: input.partnerCodes?.map((code) => ({ code })),
 		image: program.ogImage ?? program.heroImage,
 		imageAlt: program.ogImageAlt ?? program.heroImageAlt ?? program.title
 	};

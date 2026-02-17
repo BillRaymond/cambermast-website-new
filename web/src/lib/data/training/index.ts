@@ -1,5 +1,5 @@
 import trainingRegistryData from './training.json';
-import { dev } from '$app/environment';
+import { runtimeDev } from '$lib/utils/runtime-env';
 import type { TrainingProgram, TrainingRegistry } from './types';
 
 const trainingRegistry = trainingRegistryData as TrainingRegistry;
@@ -31,7 +31,7 @@ type ListTrainingProgramsOptions = {
 export const listTrainingPrograms = (
 	options: ListTrainingProgramsOptions = {}
 ): TrainingProgram[] => {
-	const { includeDrafts = dev } = options;
+	const { includeDrafts = runtimeDev } = options;
 	return includeDrafts ? [...allPrograms] : [...publishedPrograms];
 };
 

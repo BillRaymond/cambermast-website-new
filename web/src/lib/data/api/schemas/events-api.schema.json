@@ -101,6 +101,7 @@
 							"properties": {
 								"name": { "type": "string" },
 								"title": { "type": "string" },
+								"shortBio": { "type": "string" },
 								"photo": { "type": "string" },
 								"photoAlt": { "type": "string" }
 							}
@@ -123,8 +124,32 @@
 							"estimatedHoursCommitment": { "type": "number", "exclusiveMinimum": 0 }
 						}
 					},
-					"partnerCode": { "type": "string", "pattern": "^[A-Z0-9]{3,4}$" },
+					"partners": {
+						"type": "array",
+						"items": {
+							"type": "object",
+							"additionalProperties": false,
+							"required": ["code"],
+							"properties": {
+								"code": { "type": "string", "pattern": "^[A-Z0-9]{3,4}$" },
+								"role": {
+									"type": "string",
+									"enum": ["host", "sponsor", "community", "media", "partner"]
+								}
+							}
+						},
+						"uniqueItems": true
+					},
 					"campaignId": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+					"links": {
+						"type": "object",
+						"additionalProperties": false,
+						"properties": {
+							"recordingUrl": { "type": "string" },
+							"slidesUrl": { "type": "string" },
+							"conferenceUrl": { "type": "string" }
+						}
+					},
 					"image": { "type": "string" },
 					"imageAlt": { "type": "string" },
 					"url": { "type": "string", "pattern": "^https?://" }

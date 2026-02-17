@@ -18,12 +18,22 @@ export const load: PageLoad = ({ params }) => {
 		throw error(404, 'Event not found');
 	}
 
-	const partner =
-		event.partnerCode && event.partnerCode !== 'NONE'
-			? getPartnerByCode(event.partnerCode)
-			: undefined;
+	const partners = (event.partners ?? [])
+		.map((partnerRef) => {
+			const partner = getPartnerByCode(partnerRef.code);
+			if (partner) {
+				return { ...partner, role: partnerRef.role };
+			}
+			return {
+				code: partnerRef.code,
+				name: partnerRef.code,
+				slug: partnerRef.code.toLowerCase(),
+				role: partnerRef.role
+			};
+		})
+		.filter((partner) => partner.code !== 'NONE');
 	const relatedProgramSku = event.programRef?.sku;
 	const relatedProgram = relatedProgramSku ? getTrainingProgramBySku(relatedProgramSku) : undefined;
 
-	return { event, partner, relatedProgram };
+	return { event, partners, relatedProgram };
 };

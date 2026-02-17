@@ -75,7 +75,16 @@ export const buildEnumsApiPayload = ({ generatedAt }: BuildEnumsApiPayloadInput 
 			'utm_content',
 			'pattern'
 		]),
-		partnerCode: getString(eventsSchema, ['$defs', 'event', 'properties', 'partnerCode', 'pattern'])
+		partnerEntryCode: getString(eventsSchema, [
+			'$defs',
+			'event',
+			'properties',
+			'partners',
+			'items',
+			'properties',
+			'code',
+			'pattern'
+		])
 	},
 	knownPartnerCodes: listPartners().map((partner) => partner.code)
 });

@@ -14,6 +14,7 @@ Purpose: Track architecture decisions and implementation progress for the unifie
 - Event detail route also supports related training back-link when `programRef.sku` is present.
 - Campaign short links: `/c/[id]` mapped in `web/src/lib/data/campaigns.json`
 - Events API route: `/api/events.json`
+- Waitlist/capacity/sold-out implementation is intentionally deferred until Stripe-native checkout is live; while registrations remain in Luma, these are not MVP requirements.
 - Calendar filter behavior:
   - Keep top-level `All`, `Training`, `Events`.
   - Show dynamic event-type chips only when present in current data.
@@ -45,7 +46,7 @@ Purpose: Track architecture decisions and implementation progress for the unifie
 - Updated the AI Workshop event record (to reduce reliance on the training catalog for listing details):
   - Updated `tagline`, `summary`, `date`, `time`, `timezone`, and `endAtUtc` in `web/src/lib/data/events/events.json`.
   - Updated `/events` date rendering to prefer `event.date` when present.
-  - Updated event partner display on cards to use `partnerCode` → `web/src/lib/data/partners.ts` (instead of pulling freeform partner strings from training sessions).
+  - Updated event partner display on cards to use structured `partners[]` entries resolved via `web/src/lib/data/partners.ts` (instead of pulling freeform partner strings from training sessions).
 - Build fix discovered while validating:
   - Fixed an unescaped quote in `web/src/routes/forms/pre-training-survey/+page.svelte` that prevented `npm --prefix web run build` from succeeding.
 
@@ -118,7 +119,7 @@ Purpose: Track architecture decisions and implementation progress for the unifie
 - [x] Add registration fields: `registrationStatus` (`open|closed|external|none`).
 - [x] Add CTA fields (campaign-aware): `cta.label`, `cta.url`, `cta.campaignId`.
 - [x] Add location object: `mode`, `publicLabel`, `detailsVisibility`.
-- [x] Add partner link field(s): `partnerCode` (single partner in MVP).
+- [x] Add partner link field(s): `partners[]` (multi-partner support with role labels).
 - [x] Keep optional content blocks (`description`, `highlights`, `speakers`, `programRef`, `links`).
 
 ## 4) Partner + Campaign Model
@@ -180,12 +181,12 @@ Purpose: Track architecture decisions and implementation progress for the unifie
 
 ## 10) Wishlist (Not in MVP)
 
-- [ ] Multi-partner events (host/sponsor arrays) with multiple logos.
-- [ ] Waitlist + capacity + sold-out states.
+- [x] Multi-partner events (host/sponsor arrays) with multiple logos.
+- [ ] Waitlist + capacity + sold-out states (deferred: implement together with Stripe-native checkout so capacity can be source-of-truth and enforcement is reliable).
 - [x] "Happening now" section on `/events`.
-- [ ] Past-events archive and recap/recording policy.
+- [x] Past-events archive and recap/recording policy.
 - [x] Auto-hide/promote windows decision resolved as visibility/state filters: drafts auto-display only in `dev` and internal admin views, public events display when `visibility=public`, unlisted events are direct-link accessible (and visible in `dev`), and in-progress training events switch to "Happening now" with enrollment closed state.
-- [ ] Stripe-native on-page checkout flow.
+- [ ] Stripe-native on-page checkout flow (dependency for first-class waitlist/capacity/sold-out enforcement; while registrations stay in Luma, treat these states as non-required for MVP).
 
 ## 11) Next High-Value Tasks
 

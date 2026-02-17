@@ -40,8 +40,14 @@
 				"durationDays": 49,
 				"estimatedHoursCommitment": 2
 			},
-			"partnerCode": "NONE",
 			"campaignId": "7iu8p4",
+			"speakers": [
+				{
+					"name": "Bill Raymond",
+					"title": "Lead Instructor",
+					"shortBio": "Cambermast founder and hands-on trainer focused on practical AI adoption."
+				}
+			],
 			"image": "/images/cambermast-content-5-ai-workshop-for-content-creators-og.jpeg",
 			"imageAlt": "AI Workshop for Tech Writers and Content Creators"
 		},
@@ -78,7 +84,6 @@
 				"durationDays": 49,
 				"estimatedHoursCommitment": 2
 			},
-			"partnerCode": "NONE",
 			"image": "/images/cambermast-content-3-ai-workshop-for-modern-teams-og.jpeg",
 			"imageAlt": "Open graph image for the AI Workshop for Modern Teams training program",
 			"campaignId": "ltb9nx"
@@ -116,7 +121,6 @@
 				"durationDays": 42,
 				"estimatedHoursCommitment": 2
 			},
-			"partnerCode": "NONE",
 			"image": "/images/cambermast-content-4-ai-automation-with-agents-workshop-og.jpeg",
 			"imageAlt": "Open graph image for the AI Automation with Agents workshop training program",
 			"campaignId": "3slr4s"
@@ -155,7 +159,33 @@
 				"durationDays": 1,
 				"estimatedHoursCommitment": 1
 			},
-			"partnerCode": "TLB",
+			"partners": [
+				{
+					"code": "TLB",
+					"role": "sponsor"
+				},
+				{
+					"code": "TCW",
+					"role": "community"
+				}
+			],
+			"speakers": [
+				{
+					"name": "Bill Raymond",
+					"title": "Host",
+					"shortBio": "Cambermast founder who leads practical AI workshops and live team demos."
+				},
+				{
+					"name": "Jennifer Hufnagel",
+					"title": "Guest Speaker",
+					"shortBio": "Consulting leader focused on measurable AI transformation outcomes."
+				},
+				{
+					"name": "Jaden Fath",
+					"title": "Guest Speaker",
+					"shortBio": "Workflow designer specializing in modern vibe coding practices."
+				}
+			],
 			"campaignId": "59v3n2",
 			"image": "/images/events/vibe-coding-webinar-feb-2026.svg",
 			"imageAlt": "Vibe Coding Webinar event artwork"

@@ -35,6 +35,7 @@
 		dateText: string;
 		metaDetails: string[];
 		partnerText: string | null;
+		speakerText: string | null;
 		registerUrl?: string;
 		registerLabel?: string;
 		registerDisabled?: boolean;
@@ -201,10 +202,14 @@
 				courseProgramSku && isCourseEvent ? getTrainingProgramBySku(courseProgramSku) : undefined;
 			const courseProgramRoute =
 				courseProgramSku && isCourseEvent ? (courseProgram?.route ?? undefined) : null;
-			const partnerName =
-				event.partnerCode && event.partnerCode !== 'NONE'
-					? (getPartnerByCode(event.partnerCode)?.name ?? event.partnerCode)
-					: null;
+			const partnerNames = (event.partners ?? [])
+				.map((partnerRef) => getPartnerByCode(partnerRef.code)?.name ?? partnerRef.code)
+				.filter((name) => name && name !== 'NONE');
+			const partnerName = partnerNames.length ? partnerNames.join(' + ') : null;
+			const speakerNames = (event.speakers ?? [])
+				.map((speaker) => speaker.name?.trim())
+				.filter((name): name is string => Boolean(name));
+			const speakerText = speakerNames.length ? speakerNames.join(' + ') : null;
 
 			const eventLandingUrl = `/events/${event.slug}`;
 			const titleUrl = courseProgramRoute ?? eventLandingUrl;
@@ -222,6 +227,7 @@
 				dateText: formatDateLabel(startTimestamp, event.date),
 				metaDetails,
 				partnerText: partnerName,
+				speakerText,
 				registerUrl,
 				registerLabel,
 				registerDisabled,
@@ -296,16 +302,20 @@
 			return normalized !== 'training' && normalized !== 'training session';
 		});
 
-	const filteredUpcomingEntries = (
-		entries: UpcomingEntry[],
+	type FilterableEntry = {
+		eventType?: string;
+	};
+
+	const filterEntriesByType = <T extends FilterableEntry>(
+		entries: T[],
 		filter: FilterOption
-	): UpcomingEntry[] => {
+	): T[] => {
 		if (filter === 'training') {
 			return entries.filter((entry) => entry.eventType === 'training_session');
 		}
 		if (filter.startsWith('event:')) {
 			const eventType = filter.slice('event:'.length);
-			return entries.filter((entry) => entry.type === 'event' && entry.eventType === eventType);
+			return entries.filter((entry) => entry.eventType === eventType);
 		}
 		return entries;
 	};
@@ -314,7 +324,7 @@
 		.filter((entry) => entry.isHappening)
 		.sort((a, b) => (a.startTimestamp ?? Infinity) - (b.startTimestamp ?? Infinity));
 
-	$: filteredHappeningEntries = filteredUpcomingEntries(happeningEntries, activeFilter);
+	$: filteredHappeningEntries = filterEntriesByType(happeningEntries, activeFilter);
 
 	const getMonthLabel = (entry: UpcomingEntry): string => {
 		if (entry.startTimestamp) {
@@ -326,7 +336,7 @@
 	let groupedEntries: GroupedEntries[] = [];
 	let firstTodayIndex = -1;
 
-	$: groupedEntries = filteredUpcomingEntries(upcomingEntries, activeFilter).reduce<
+	$: groupedEntries = filterEntriesByType(upcomingEntries, activeFilter).reduce<
 		GroupedEntries[]
 	>((groups, entry, index) => {
 		const monthLabel = getMonthLabel(entry);
@@ -338,7 +348,7 @@
 		return groups;
 	}, []);
 
-	$: firstTodayIndex = filteredUpcomingEntries(upcomingEntries, activeFilter).findIndex(
+	$: firstTodayIndex = filterEntriesByType(upcomingEntries, activeFilter).findIndex(
 		({ startTimestamp }) => isTodayTimestamp(startTimestamp)
 	);
 
@@ -569,6 +579,9 @@
 																	In partnership with {entry.partnerText}
 																</p>
 															{/if}
+															{#if entry.speakerText}
+																<p class="mt-1 text-xs text-gray-600">Speakers: {entry.speakerText}</p>
+															{/if}
 															{#if entry.registerLabel || entry.learnMoreUrl}
 																<div
 																	class="mt-3 grid gap-3 sm:grid-cols-[12rem_minmax(0,1fr)] sm:items-center"
@@ -769,6 +782,9 @@
 													In partnership with {entry.partnerText}
 												</p>
 											{/if}
+											{#if entry.speakerText}
+												<p class="mt-1 text-xs text-gray-600">Speakers: {entry.speakerText}</p>
+											{/if}
 											{#if entry.registerUrl || entry.learnMoreUrl}
 												<div
 													class="mt-3 grid gap-3 sm:grid-cols-[12rem_minmax(0,1fr)] sm:items-center"
@@ -802,6 +818,18 @@
 				</ul>
 			</div>
 		{/if}
+
+		<div class="rounded-2xl border border-slate-200 bg-slate-50 p-5 shadow-sm">
+			<p class="text-sm text-slate-700">
+				Looking for completed sessions?
+				<a
+					href="/events/archive"
+					class="font-semibold text-blue-700 underline decoration-blue-200 underline-offset-4 hover:text-blue-900"
+				>
+					Browse the past events archive →
+				</a>
+			</p>
+		</div>
 
 		<p class="text-sm text-gray-600">
 			Browse the full schedule on

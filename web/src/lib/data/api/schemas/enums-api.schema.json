@@ -28,13 +28,13 @@
     "patterns": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["eventId", "eventSlug", "campaignId", "utmContent", "partnerCode"],
+      "required": ["eventId", "eventSlug", "campaignId", "utmContent", "partnerEntryCode"],
       "properties": {
         "eventId": { "type": "string" },
         "eventSlug": { "type": "string" },
         "campaignId": { "type": "string" },
         "utmContent": { "type": "string" },
-        "partnerCode": { "type": "string" }
+        "partnerEntryCode": { "type": "string" }
       }
     },
     "knownPartnerCodes": {

@@ -127,7 +127,7 @@
 				<table class="min-w-full divide-y divide-gray-200 text-sm">
 					<thead class="bg-gray-50">
 						<tr class="text-left text-xs font-semibold tracking-wide text-gray-500 uppercase">
-							<th class="px-4 py-3">Partner</th>
+							<th class="px-4 py-3">Partners</th>
 							<th class="px-4 py-3">Event</th>
 							<th class="px-4 py-3">Start (PT)</th>
 							<th class="px-4 py-3">State</th>
@@ -139,25 +139,30 @@
 						{#each events as event}
 							<tr class="align-top">
 								<td class="px-4 py-3">
-									{#if event.partner}
-										<div class="flex items-center gap-2">
-											{#if event.partner.logo}
-												<img
-													src={event.partner.logo}
-													alt={`${event.partner.name} logo`}
-													class="h-7 w-7 rounded object-contain"
-													loading="lazy"
-												/>
-											{/if}
-											<div>
-												<p class="text-xs font-semibold text-gray-800">{event.partner.name}</p>
-												<p class="text-[0.65rem] text-gray-500">{event.partner.code}</p>
-											</div>
-										</div>
-									{:else if event.partnerCode}
-										<p class="text-xs text-gray-500">
-											<code class="rounded bg-gray-100 px-1 py-0.5">{event.partnerCode}</code>
-										</p>
+									{#if event.partners?.length}
+										<ul class="space-y-2">
+											{#each event.partners as partner}
+												<li class="flex items-center gap-2">
+													{#if partner.logo}
+														<img
+															src={partner.logo}
+															alt={`${partner.name} logo`}
+															class="h-7 w-7 rounded object-contain"
+															loading="lazy"
+														/>
+													{/if}
+													<div>
+														<p class="text-xs font-semibold text-gray-800">{partner.name}</p>
+														<p class="text-[0.65rem] text-gray-500">
+															{partner.code}
+															{#if partner.role}
+																· {partner.role}
+															{/if}
+														</p>
+													</div>
+												</li>
+											{/each}
+										</ul>
 									{:else}
 										<p class="text-xs text-gray-500">None</p>
 									{/if}

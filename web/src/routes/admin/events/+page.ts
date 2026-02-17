@@ -16,15 +16,24 @@ export const load: PageLoad = () => {
 
 	const campaignIds = new Set(listCampaignUi(origin).map((campaign) => campaign.id));
 
-	const eventsWithPartner = events.map((event) => ({
+	const eventsWithPartners = events.map((event) => ({
 		...event,
-		partner:
-			event.partnerCode && event.partnerCode !== 'NONE'
-				? getPartnerByCode(event.partnerCode)
-				: undefined
+		partners: (event.partners ?? [])
+			.map((partnerRef) => {
+				const partner = getPartnerByCode(partnerRef.code);
+				return {
+					code: partnerRef.code,
+					name: partner?.name ?? partnerRef.code,
+					slug: partner?.slug ?? partnerRef.code.toLowerCase(),
+					logo: partner?.logo,
+					homepageUrl: partner?.homepageUrl,
+					role: partnerRef.role
+				};
+			})
+			.filter((partner) => partner.code !== 'NONE')
 	}));
 
 	const partners = listPartners().filter((partner) => partner.code !== 'NONE');
 
-	return { events: eventsWithPartner, campaignIds: [...campaignIds], partners };
+	return { events: eventsWithPartners, campaignIds: [...campaignIds], partners };
 };

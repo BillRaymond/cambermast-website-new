@@ -240,9 +240,8 @@
 	<h3 class="mt-6 text-xl font-semibold">Partner association workflow (applies to both types)</h3>
 	<ol class="mt-3 max-w-3xl list-decimal space-y-2 pl-5 text-gray-700">
 		<li>
-			Choose a valid partner code for <code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
-				>event.partnerCode</code
-			>.
+			Choose one or more valid partner entries in
+			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">event.partners[]</code>.
 		</li>
 		<li>
 			Set campaign partner slug and tracking:
@@ -251,8 +250,9 @@
 			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">campaign.params.ad</code>.
 		</li>
 		<li>
-			If no partner is associated, use:
-			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">partnerCode = NONE</code>,
+			If no partner is associated, leave
+			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">event.partners</code> empty/omitted and
+			set
 			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">campaign.partner = cambermast</code>.
 		</li>
 	</ol>
@@ -360,7 +360,7 @@
 		</li>
 		<li>
 			Partner alignment rule:
-			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">event.partnerCode</code> should align
+			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">event.partners[].code</code> should align
 			with
 			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">campaign.partner</code> and
 			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">campaign.params.ad</code>.
@@ -454,6 +454,13 @@
 		provided, must use the same format.
 	</p>
 	<p class="mt-2 max-w-3xl text-gray-700">
+		Past-event recap fields: optional
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">links.recordingUrl</code> and
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">links.slidesUrl</code> can be set when assets
+		are available. Recording publication is optional and should only be added when explicitly approved
+		for the event.
+	</p>
+	<p class="mt-2 max-w-3xl text-gray-700">
 		Campaign date/time requirement:
 		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">createdAt</code> must be an ISO
 		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">date-time</code> string.
@@ -475,9 +482,8 @@
 			class="rounded bg-gray-100 px-1 py-0.5 text-xs">campaign.id</code
 		>/<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">utm_content</code> must be kebab-case,
 		and
-		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">partnerCode</code> must be 3-4 uppercase
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">partners[].code</code> must be 3-4 uppercase
 		alphanumeric characters (for example:
-		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">NONE</code>,
 		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">CMB</code>,
 		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">TLB</code>,
 		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">HFC</code>,

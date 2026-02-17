@@ -14,6 +14,7 @@ const staticRoutes = [
 	'/strategy',
 	'/training',
 	'/events',
+	'/events/archive',
 	'/training/table',
 	'/training/print',
 	'/training/terms',

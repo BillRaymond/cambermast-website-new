@@ -41,6 +41,7 @@ These two documents live in the repo root as the source of truth. The SvelteKit 
 
 - `/training-programs` redirects to `/training` to support legacy or marketing links to the catalog.
 - `/events` is the canonical public calendar of events route.
+- `/events/archive` is the public past-events archive route.
 - `/calendar` redirects to `/events` as a legacy alias.
 - `/campaigns` redirects to `/admin/campaigns` (internal registry).
 

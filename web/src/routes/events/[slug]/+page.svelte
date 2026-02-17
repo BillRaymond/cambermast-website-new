@@ -8,7 +8,7 @@
 	export let data: PageData;
 
 	const event = data.event;
-	const partner = data.partner;
+	const partners = data.partners ?? [];
 	const relatedProgram = data.relatedProgram;
 	const pacificTimeZone = 'America/Los_Angeles';
 	const localTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -87,6 +87,8 @@
 	const pageDescription = event.summary;
 	const certificateText = relatedProgram ? getProgramCertificateText(relatedProgram) : undefined;
 	const trailerUrl = relatedProgram?.videoUrl;
+	const recordingUrl = event.links?.recordingUrl;
+	const slidesUrl = event.links?.slidesUrl;
 	const statusLabel = isCanceled
 		? 'Event canceled'
 		: isPastEvent
@@ -260,24 +262,58 @@
 				{/if}
 			</div>
 
-			{#if partner || (event.partnerCode && event.partnerCode !== 'NONE')}
+			{#if partners.length}
 				<div class="mt-6 rounded-2xl border border-slate-200 bg-white p-4">
-					<p class="text-xs font-semibold tracking-[0.2em] text-slate-500 uppercase">Partner</p>
-					<div class="mt-2 flex items-center gap-3">
-						{#if partner?.logo}
-							<img
-								src={partner.logo}
-								alt={`${partner.name} logo`}
-								class="h-10 w-10 rounded object-contain"
-								loading="lazy"
-							/>
-						{/if}
-						<div class="min-w-0">
-							<p class="text-sm font-semibold text-slate-900">
-								{partner?.name ?? event.partnerCode}
-							</p>
-						</div>
-					</div>
+					<p class="text-xs font-semibold tracking-[0.2em] text-slate-500 uppercase">Partners</p>
+					<ul class="mt-2 space-y-3">
+						{#each partners as partner}
+							<li class="flex items-center gap-3">
+								{#if partner.logo}
+									<img
+										src={partner.logo}
+										alt={`${partner.name} logo`}
+										class="h-10 w-10 rounded object-contain"
+										loading="lazy"
+									/>
+								{/if}
+								<div class="min-w-0">
+									<p class="text-sm font-semibold text-slate-900">{partner.name}</p>
+									{#if partner.role}
+										<p class="text-xs tracking-wide text-slate-600 uppercase">{partner.role}</p>
+									{/if}
+								</div>
+							</li>
+						{/each}
+					</ul>
+				</div>
+			{/if}
+
+			{#if event.speakers?.length}
+				<div class="mt-6 rounded-2xl border border-slate-200 bg-white p-4">
+					<p class="text-xs font-semibold tracking-[0.2em] text-slate-500 uppercase">Speakers</p>
+					<ul class="mt-3 space-y-4">
+						{#each event.speakers as speaker}
+							<li class="flex gap-3">
+								{#if speaker.photo}
+									<img
+										src={speaker.photo}
+										alt={speaker.photoAlt ?? speaker.name}
+										class="h-12 w-12 rounded-full object-cover"
+										loading="lazy"
+									/>
+								{/if}
+								<div>
+									<p class="text-sm font-semibold text-slate-900">{speaker.name}</p>
+									<p class="text-xs font-semibold tracking-wide text-slate-600 uppercase">
+										{speaker.title}
+									</p>
+									{#if speaker.shortBio}
+										<p class="mt-1 text-sm text-slate-700">{speaker.shortBio}</p>
+									{/if}
+								</div>
+							</li>
+						{/each}
+					</ul>
 				</div>
 			{/if}
 
@@ -318,6 +354,45 @@
 							<li>{highlight}</li>
 						{/each}
 					</ul>
+				</div>
+			{/if}
+
+			{#if isPastEvent}
+				<div class="mt-8 border-t border-slate-200 pt-6">
+					<h2 class="text-xl font-semibold text-slate-900">Recap and recording policy</h2>
+					<p class="mt-3 text-slate-700">
+						Some past events include recap assets such as recordings or slides. Availability varies by
+						event, and recordings are not guaranteed unless explicitly stated on the original registration
+						page.
+					</p>
+					{#if recordingUrl || slidesUrl}
+						<div class="mt-3 flex flex-wrap gap-3 text-sm">
+							{#if recordingUrl}
+								<a
+									href={recordingUrl}
+									target="_blank"
+									rel="noopener noreferrer"
+									class="inline-flex items-center rounded-full border border-slate-300 px-4 py-2 font-semibold text-slate-700 transition hover:border-slate-500 hover:text-slate-900"
+								>
+									Watch recording ↗
+								</a>
+							{/if}
+							{#if slidesUrl}
+								<a
+									href={slidesUrl}
+									target="_blank"
+									rel="noopener noreferrer"
+									class="inline-flex items-center rounded-full border border-slate-300 px-4 py-2 font-semibold text-slate-700 transition hover:border-slate-500 hover:text-slate-900"
+								>
+									View slides ↗
+								</a>
+							{/if}
+						</div>
+					{:else}
+						<p class="mt-3 text-sm text-slate-600">
+							No recap assets are currently published for this event.
+						</p>
+					{/if}
 				</div>
 			{/if}
 		</article>

@@ -43,8 +43,9 @@ const toApiEvent = (event: PublicEvent, origin: string) => ({
 	speakers: event.speakers,
 	programRef: event.programRef,
 	schedule: event.schedule,
-	partnerCode: event.partnerCode,
+	partners: event.partners,
 	campaignId: event.campaignId,
+	links: event.links,
 	image: event.image,
 	imageAlt: event.imageAlt,
 	url: `${origin}/events/${event.slug}`
@@ -58,8 +59,7 @@ export const buildEventsApiPayload = ({ origin, generatedAt }: BuildEventsApiPay
 export const buildEventsApiExamples = (origin: string) => {
 	const payload = buildEventsApiPayload({ origin, generatedAt: '2026-02-12T18:15:00.000Z' });
 	const first = payload.events.at(0) ?? null;
-	const partner =
-		payload.events.find((event) => event.partnerCode && event.partnerCode !== 'NONE') ?? null;
+	const partner = payload.events.find((event) => (event.partners?.length ?? 0) > 0) ?? null;
 	return {
 		response: payload,
 		example: first ? { generatedAt: payload.generatedAt, events: [first] } : payload,
