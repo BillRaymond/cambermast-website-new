@@ -30,8 +30,11 @@
 
 	$: hideChrome =
 		$page.url.pathname.startsWith('/training/print') || $page.url.pathname.startsWith('/techlab');
+	$: hideSiteHeader = /^\/events\/[^/]+$/.test($page.url.pathname);
 
-	const showAnalyticsDebug = import.meta.env.DEV;
+	const isDevEnvironment = import.meta.env.DEV;
+	const DEV_ANALYTICS_DEBUG_STORAGE_KEY = 'cambermast-dev-analytics-debug-visible-v1';
+	let showAnalyticsDebug = false;
 	$: analyticsDebugLabel =
 		analyticsPreference === 'granted'
 			? 'Granted (cookies)'
@@ -40,6 +43,9 @@
 				: 'Pending';
 
 	onMount(async () => {
+		if (isDevEnvironment) {
+			showAnalyticsDebug = localStorage.getItem(DEV_ANALYTICS_DEBUG_STORAGE_KEY) === 'true';
+		}
 		initConsent();
 		await tick();
 		consentResolved = true;
@@ -50,6 +56,12 @@
 	$: if (browser) {
 		const mode = analyticsPreference === 'granted' ? 'granted' : 'denied';
 		loadAnalytics(mode);
+	}
+
+	function setAnalyticsDebugVisible(nextVisible: boolean) {
+		if (!browser || !isDevEnvironment) return;
+		showAnalyticsDebug = nextVisible;
+		localStorage.setItem(DEV_ANALYTICS_DEBUG_STORAGE_KEY, String(nextVisible));
 	}
 
 	function handleAnalyticsConsent(choice: Exclude<ConsentChoice, 'unknown'>) {
@@ -132,44 +144,46 @@
 			</div>
 		{/if}
 	<a class="skip-link" href="#main-content">Skip to main content</a>
-	<header class="flex flex-col items-center bg-white px-5 py-3">
-		<a
-			href="/"
-			class="mb-2 inline-flex items-center justify-center gap-3 rounded-3xl border border-gray-200 bg-white px-3 py-2 shadow-sm focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:outline-none"
-		>
-			<img
-				src="/images/bill.jpg"
-				alt="Bill Raymond"
-				class="h-11 w-11 rounded-2xl border border-gray-200 object-cover"
-			/>
-			<img
-				src="/images/cambermast-logo-full.png"
-				alt="Cambermast logo"
-				style="width:160px;min-width:160px;height:auto;"
-			/>
-		</a>
-		<div class="relative flex w-full flex-wrap justify-center">
-			<!-- Hamburger for small screens -->
-			<button
-				class="mr-2 flex items-center rounded border border-gray-400 px-3 py-2 text-gray-700 sm:hidden"
-				aria-label="Toggle navigation"
-				aria-expanded={navOpen}
-				aria-controls={navId}
-				on:click={() => (navOpen = !navOpen)}
+	{#if !hideSiteHeader}
+		<header class="flex flex-col items-center bg-white px-5 py-3">
+			<a
+				href="/"
+				class="mb-2 inline-flex items-center justify-center gap-3 rounded-3xl border border-gray-200 bg-white px-3 py-2 shadow-sm focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:outline-none"
 			>
-				<span class="mr-2 text-xl">☰</span> Navigation
-			</button>
-			<!-- Nav: horizontal on sm+, vertical dropdown on mobile when open -->
-			<div class={`w-full sm:w-auto ${navOpen ? '' : 'hidden'} sm:flex`}>
-				<Nav
-					id={navId}
-					ariaLabel="Primary navigation"
-					vertical={navOpen}
-					onNavigate={() => (navOpen = false)}
+				<img
+					src="/images/bill.jpg"
+					alt="Bill Raymond"
+					class="h-11 w-11 rounded-2xl border border-gray-200 object-cover"
 				/>
+				<img
+					src="/images/cambermast-logo-full.png"
+					alt="Cambermast logo"
+					style="width:160px;min-width:160px;height:auto;"
+				/>
+			</a>
+			<div class="relative flex w-full flex-wrap justify-center">
+				<!-- Hamburger for small screens -->
+				<button
+					class="mr-2 flex items-center rounded border border-gray-400 px-3 py-2 text-gray-700 sm:hidden"
+					aria-label="Toggle navigation"
+					aria-expanded={navOpen}
+					aria-controls={navId}
+					on:click={() => (navOpen = !navOpen)}
+				>
+					<span class="mr-2 text-xl">☰</span> Navigation
+				</button>
+				<!-- Nav: horizontal on sm+, vertical dropdown on mobile when open -->
+				<div class={`w-full sm:w-auto ${navOpen ? '' : 'hidden'} sm:flex`}>
+					<Nav
+						id={navId}
+						ariaLabel="Primary navigation"
+						vertical={navOpen}
+						onNavigate={() => (navOpen = false)}
+					/>
+				</div>
 			</div>
-		</div>
-	</header>
+		</header>
+	{/if}
 
 	<!-- Default container for every page -->
 	<main id="main-content" tabindex="-1" class="text-fluid mx-auto max-w-6xl px-4 pb-16">
@@ -206,6 +220,32 @@
 				<p class="text-base font-semibold text-gray-900">
 					{manageConsentOpen ? 'Update your analytics settings' : 'Help us improve cambermast.com'}
 				</p>
+				{#if isDevEnvironment}
+					<div class="rounded-lg border border-gray-200 bg-white p-3">
+						<p class="text-xs font-semibold tracking-wide text-gray-500 uppercase">Developer setting</p>
+						<p class="mt-2 text-gray-700">
+							The analytics status badge (top-right) is hidden by default in local development. Enable it
+							when you need to verify analytics behavior.
+						</p>
+						<div class="mt-3 flex flex-wrap items-center gap-3">
+							<button
+								class={`rounded px-3 py-1.5 text-sm font-semibold transition focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:outline-none ${
+									showAnalyticsDebug
+										? 'bg-slate-900 text-white hover:bg-slate-800'
+										: 'bg-gray-200 text-gray-800 hover:bg-gray-300'
+								}`}
+								type="button"
+								aria-pressed={showAnalyticsDebug}
+								on:click={() => setAnalyticsDebugVisible(!showAnalyticsDebug)}
+							>
+								{showAnalyticsDebug ? 'Hide analytics badge' : 'Show analytics badge'}
+							</button>
+							<p class="text-xs text-gray-600">
+								Status: <span class="font-semibold text-gray-900">{analyticsDebugLabel}</span>
+							</p>
+						</div>
+					</div>
+				{/if}
 				<p class="text-gray-700">
 					We use Google Analytics to understand which pages help visitors most. Analytics cookies
 					only load if you allow them. Review the details any time on our

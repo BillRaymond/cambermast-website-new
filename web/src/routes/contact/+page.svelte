@@ -290,25 +290,35 @@
 			/>
 		</div>
 
-		<div>
-			<label class="block text-sm font-medium text-gray-700" for="contact-program"
-				>What would you like to talk about?
+		<fieldset>
+			<legend class="block text-sm font-medium text-gray-700">
+				What would you like to talk about?
 				<span class="text-red-500" aria-hidden="true">*</span>
-				<span class="sr-only"> required</span></label
-			>
-			<select
-				class="mt-1 w-full rounded-md border bg-white px-3 py-1.5 text-sm outline-none focus:ring-2 focus:ring-blue-500"
-				bind:value={selectedProgram}
-				id="contact-program"
-				name="training"
-				required
-			>
-				<option value="" disabled selected={!selectedProgram}>-- Pick a topic --</option>
-				{#each contactOptions as option}
-					<option value={option.slug}>{option.title}</option>
+				<span class="sr-only"> required</span>
+			</legend>
+			<p class="mt-1 text-sm text-gray-600">Pick a topic.</p>
+			<div class="mt-2 grid gap-2 sm:grid-cols-2">
+				{#each contactOptions as option, index}
+					<label
+						class={`cursor-pointer rounded-md border px-3 py-2 text-sm transition ${
+							selectedProgram === option.slug
+								? 'border-blue-600 bg-blue-50 text-blue-900'
+								: 'border-gray-300 bg-white hover:border-blue-300'
+						}`}
+					>
+						<input
+							class="sr-only"
+							type="radio"
+							name="training"
+							value={option.slug}
+							bind:group={selectedProgram}
+							required={index === 0}
+						/>
+						{option.title}
+					</label>
 				{/each}
-			</select>
-		</div>
+			</div>
+		</fieldset>
 
 		<div>
 			<label class="block text-sm font-medium text-gray-700" for="contact-message"
