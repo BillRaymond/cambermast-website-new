@@ -162,6 +162,51 @@
 		outcome?: string;
 		detailsLines: string[];
 	};
+	type TrustedByOrg = {
+		name: string;
+		url: string;
+		logoSrc: string;
+		logoAlt?: string;
+	};
+
+	const trainer = {
+		name: 'Bill Raymond',
+		title: 'Founder, Cambermast · Lead Instructor',
+		photo: '/images/bill.jpg',
+		photoAlt: 'Bill Raymond',
+		bio: 'Bill helps teams adopt AI in practical, policy-aware ways so people can move faster without sacrificing quality. He leads every session with real examples, hands-on practice, and clear implementation guidance.'
+	};
+	const trustedBy: TrustedByOrg[] = [
+		{
+			name: 'Microsoft',
+			url: 'https://www.microsoft.com/',
+			logoSrc: '/images/trusted-by/microsoft.png'
+		},
+		{ name: 'NASA', url: 'https://www.nasa.gov/', logoSrc: '/images/trusted-by/nasa.png' },
+		{
+			name: 'DocuSign',
+			url: 'https://www.docusign.com/',
+			logoSrc: '/images/trusted-by/docusign.png'
+		},
+		{
+			name: 'Duke Energy',
+			url: 'https://www.duke-energy.com/',
+			logoSrc: '/images/trusted-by/duke-energy.png'
+		},
+		{ name: 'SLB', url: 'https://www.slb.com/', logoSrc: '/images/trusted-by/slb.png' },
+		{ name: 'Moen', url: 'https://www.moen.com/', logoSrc: '/images/trusted-by/moen.png' },
+		{
+			name: 'Digital.ai',
+			url: 'https://digital.ai/',
+			logoSrc: '/images/trusted-by/digital-ai.png'
+		},
+		{
+			name: 'Red Hat',
+			url: 'https://www.redhat.com/',
+			logoSrc: '/images/trusted-by/red-hat.png'
+		}
+	];
+
 	const sessionDatePillFormatter = new Intl.DateTimeFormat('en-US', {
 		timeZone: eventTimeZone,
 		weekday: 'short',
@@ -259,12 +304,37 @@
 	const isExternalCtaUrl = Boolean(event.cta?.url?.startsWith('http'));
 	const eventTimeSummary = Array.isArray(event.time) ? event.time.join(' · ') : event.time;
 	const [multiSessionDateLabel, ...multiSessionSuffixParts] = event.date.split(' · ');
-	const multiSessionCadenceLabel =
-		hasMultipleSessions && multiSessionSuffixParts.length ? multiSessionSuffixParts.join(' · ') : undefined;
+	const fallbackCadenceLabel =
+		hasMultipleSessions && multiSessionSuffixParts.length
+			? multiSessionSuffixParts.join(' · ').replace(/^Every\s+/i, 'Occurs on ')
+			: undefined;
+	const firstSession = normalizedSessions[0];
+	const sessionWeekdayFormatter = new Intl.DateTimeFormat('en-US', {
+		timeZone: eventTimeZone,
+		weekday: 'long'
+	});
+	const firstSessionCadenceLabel =
+		hasMultipleSessions && firstSession
+			? (() => {
+					const weekday = sessionWeekdayFormatter.format(firstSession.startTimestamp);
+					return weekday;
+				})()
+			: undefined;
+	const multiSessionCadenceLabel = firstSessionCadenceLabel ?? fallbackCadenceLabel;
 
 	const durationDays = event.schedule?.durationDays;
 	const sessionCount = normalizedSessions.length;
 	const weeklyHours = event.schedule?.estimatedHoursCommitment;
+	const millisecondsPerDay = 24 * 60 * 60 * 1000;
+	const measuredDurationDays =
+		Number.isFinite(startAtTimestamp) && Number.isFinite(endAtTimestamp)
+			? Math.max(1, Math.ceil(((endAtTimestamp as number) - startAtTimestamp) / millisecondsPerDay))
+			: undefined;
+	const curriculumDurationDays = durationDays ?? measuredDurationDays;
+	const curriculumSectionTitle =
+		curriculumItems.length > 1 && (curriculumDurationDays ?? 0) > 7
+			? 'Weekly curriculum'
+			: 'Curriculum';
 
 	const formatLine = (() => {
 		const parts: string[] = [];
@@ -323,7 +393,9 @@
 />
 
 {#if canRegister}
-	<div class="fixed inset-x-0 top-0 z-40 border-b border-slate-200 bg-white/95 px-4 py-2 backdrop-blur">
+	<div
+		class="fixed inset-x-0 top-0 z-40 hidden border-b border-slate-200 bg-white/95 px-4 py-2 backdrop-blur md:block"
+	>
 		<div class="mx-auto flex max-w-6xl items-center justify-between gap-3">
 			<div class="min-w-0">
 				<a href="/events" class="text-xs font-semibold text-slate-600 hover:text-slate-900">
@@ -344,7 +416,7 @@
 	</div>
 
 	<div
-		class="fixed inset-x-0 bottom-0 z-40 border-t border-slate-200 bg-white/95 px-4 py-3 backdrop-blur"
+		class="fixed inset-x-0 bottom-0 z-40 border-t border-slate-200 bg-white/95 px-3 py-2 backdrop-blur md:px-4 md:py-3"
 	>
 		<div class="mx-auto flex max-w-6xl items-center justify-between gap-3">
 			<div class="min-w-0">
@@ -355,7 +427,7 @@
 			</div>
 			<a
 				href={event.cta.url}
-				class="inline-flex shrink-0 rounded-full bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-700"
+				class="inline-flex shrink-0 rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-700 md:px-5 md:py-2.5"
 				target={isExternalCtaUrl ? '_blank' : undefined}
 				rel={isExternalCtaUrl ? 'noopener noreferrer' : undefined}
 				on:click={() => trackRegistrationClick('sticky')}
@@ -366,11 +438,11 @@
 	</div>
 {/if}
 
-<section class="bg-gradient-to-b from-slate-100 via-white to-white pb-32 pt-24 md:pt-24">
-	<div class="mx-auto max-w-6xl px-5">
+<section class="bg-gradient-to-b from-slate-100 via-white to-white pb-28 pt-6 md:pb-32 md:pt-24">
+	<div class="mx-auto max-w-6xl px-3 sm:px-5">
 		{#if isUpcoming}
 			<div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px]">
-				<article class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm md:p-8">
+				<article class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6 md:rounded-3xl md:p-8">
 					<div class="flex flex-wrap items-center gap-2">
 						<span class="inline-flex rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">
 							{getEventTypeLabelUi(event)}
@@ -513,7 +585,26 @@
 					</div>
 
 					<div class="mt-8 border-t border-slate-200 pt-6">
-						<h2 class="text-xl font-semibold text-slate-900">Schedule and commitment</h2>
+						<h2 class="text-xl font-semibold text-slate-900">About your trainer</h2>
+						<article class="mt-4 rounded-2xl border border-slate-200 bg-gradient-to-br from-slate-50 to-white p-5 md:p-6">
+							<div class="flex flex-col gap-5 sm:flex-row sm:items-start">
+								<img
+									src={trainer.photo}
+									alt={trainer.photoAlt}
+									class="h-24 w-24 shrink-0 rounded-2xl border border-slate-200 object-cover"
+									loading="lazy"
+								/>
+								<div>
+									<h3 class="text-lg font-semibold text-slate-900">{trainer.name}</h3>
+									<p class="text-sm font-semibold text-slate-600">{trainer.title}</p>
+									<p class="mt-3 max-w-3xl text-sm text-slate-700">{trainer.bio}</p>
+								</div>
+							</div>
+						</article>
+					</div>
+
+					<div class="mt-8 border-t border-slate-200 pt-6">
+						<h2 class="text-xl font-semibold text-slate-900">Schedule at-a-glance</h2>
 						{#if hasMultipleSessions}
 							<div class="mt-4 rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700">
 								<p class="font-semibold text-slate-900">Runs {multiSessionDateLabel}</p>
@@ -559,21 +650,51 @@
 								{ticketPriceLabel} USD
 							</p>
 						</div>
+						{#if curriculumItems.length}
+							<a
+								href="#curriculum"
+								class="mt-3 inline-flex items-center text-sm font-semibold text-blue-700 underline decoration-blue-200 underline-offset-4 hover:text-blue-900"
+							>
+								Jump to curriculum ↓
+							</a>
+						{/if}
+					</div>
+
+					<div class="mt-8 border-t border-slate-200 pt-6">
+						<h2 class="text-xl font-semibold text-slate-900">Trusted by</h2>
+						<div class="mt-3 grid grid-cols-4 gap-x-4 gap-y-2">
+							{#each trustedBy as organization}
+								<a
+									href={organization.url}
+									target="_blank"
+									rel="noopener noreferrer"
+									class="flex h-10 items-center justify-center px-1"
+									aria-label={`Visit ${organization.name}`}
+								>
+									<img
+										src={organization.logoSrc}
+										alt={organization.logoAlt ?? `${organization.name} logo`}
+										class="max-h-6 w-auto object-contain opacity-80 transition hover:opacity-100"
+										loading="lazy"
+									/>
+								</a>
+							{/each}
+						</div>
 					</div>
 
 					{#if curriculumItems.length}
-						<div class="mt-8 border-t border-slate-200 pt-6">
-							<h2 class="text-xl font-semibold text-slate-900">Weekly curriculum</h2>
+						<div id="curriculum" class="mt-8 border-t border-slate-200 pt-6 scroll-mt-24">
+							<h2 class="text-xl font-semibold text-slate-900">{curriculumSectionTitle}</h2>
 							<ul class="mt-4 space-y-3">
 								{#each curriculumItems as curriculumItem}
 									<li class="rounded-xl border border-slate-200 bg-slate-50 p-4">
 										<div class="flex flex-wrap items-center gap-2">
-											<p class="text-sm font-semibold text-slate-900">{curriculumItem.title}</p>
 											{#if curriculumItem.startsAtLabel}
 												<span class="rounded-full bg-blue-100 px-2 py-0.5 text-xs font-semibold text-blue-700">
 													{curriculumItem.startsAtLabel}
 												</span>
 											{/if}
+											<p class="text-sm font-semibold text-slate-900">{curriculumItem.title}</p>
 										</div>
 										{#if curriculumItem.outcome}
 											<p class="mt-1 text-sm text-slate-700">{curriculumItem.outcome}</p>
@@ -628,7 +749,9 @@
 					{#if descriptionHtml}
 						<div class="mt-8 border-t border-slate-200 pt-6">
 							<h2 class="text-xl font-semibold text-slate-900">More details</h2>
-							<div class="prose prose-slate mt-3 max-w-none text-slate-700">
+							<div
+								class="mt-3 max-w-none text-slate-700 [&_h2]:mt-5 [&_h2]:text-lg [&_h2]:font-semibold [&_h2]:text-slate-900 [&_h3]:mt-4 [&_h3]:text-base [&_h3]:font-semibold [&_h3]:text-slate-900 [&_p]:my-2 [&_ul]:my-2 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:my-2 [&_ol]:list-decimal [&_ol]:pl-5 [&_li]:my-1"
+							>
 								{@html descriptionHtml}
 							</div>
 						</div>
@@ -735,7 +858,7 @@
 				</aside>
 			</div>
 		{:else}
-			<article class="rounded-3xl border border-slate-200 bg-slate-50 p-6 md:p-8">
+			<article class="rounded-2xl border border-slate-200 bg-slate-50 p-4 sm:p-6 md:rounded-3xl md:p-8">
 				<div class="flex flex-wrap items-center gap-2">
 					<span class="inline-flex rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">
 						{getEventTypeLabelUi(event)}
@@ -805,7 +928,9 @@
 				{#if descriptionHtml}
 					<div class="mt-8 border-t border-slate-200 pt-6">
 						<h2 class="text-xl font-semibold text-slate-900">About this event</h2>
-						<div class="prose prose-slate mt-3 max-w-none text-slate-700">
+						<div
+							class="mt-3 max-w-none text-slate-700 [&_h2]:mt-5 [&_h2]:text-lg [&_h2]:font-semibold [&_h2]:text-slate-900 [&_h3]:mt-4 [&_h3]:text-base [&_h3]:font-semibold [&_h3]:text-slate-900 [&_p]:my-2 [&_ul]:my-2 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:my-2 [&_ol]:list-decimal [&_ol]:pl-5 [&_li]:my-1"
+						>
 							{@html descriptionHtml}
 						</div>
 					</div>
