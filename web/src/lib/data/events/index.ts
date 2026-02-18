@@ -1,5 +1,7 @@
 import eventsData from './events.json';
 import { runtimeDev } from '$lib/utils/runtime-env';
+import { deriveEventDateLabel, deriveEventTimeLabel } from './session-labels';
+import { getEventSessionBounds } from './timeline';
 import type {
 	Event,
 	EventSource,
@@ -32,13 +34,6 @@ const DEFAULT_TYPE_LABELS: Record<string, string> = {
 	other: 'Other'
 };
 
-const pacificDateFormatter = new Intl.DateTimeFormat('en-US', {
-	timeZone: PACIFIC_TIME_ZONE,
-	month: 'long',
-	day: 'numeric',
-	year: 'numeric'
-});
-
 const withDefault = <T>(value: T | undefined, fallback: T): T =>
 	value === undefined ? fallback : value;
 
@@ -62,12 +57,6 @@ const toTimestamp = (value?: string): number => {
 	return parsed.valueOf();
 };
 
-const toPacificDateLabel = (value: string): string => {
-	const parsed = new Date(value);
-	if (Number.isNaN(parsed.valueOf())) return value;
-	return pacificDateFormatter.format(parsed);
-};
-
 const toTypeLabel = (type: EventType, typeLabel?: string): string => {
 	const trimmed = typeLabel?.trim();
 	if (trimmed) return trimmed;
@@ -76,8 +65,9 @@ const toTypeLabel = (type: EventType, typeLabel?: string): string => {
 };
 
 const resolveEvent = (event: EventSource): Event => {
-	const startAtUtc = event.startAtUtc;
-	const endAtUtc = event.endAtUtc;
+	const bounds = getEventSessionBounds(event);
+	const startAtUtc = bounds?.startAtUtc ?? event.sessions[0]?.startAtUtc ?? '';
+	const endAtUtc = bounds?.endAtUtc ?? event.sessions[event.sessions.length - 1]?.endAtUtc ?? startAtUtc;
 	const visibility = coerceVisibility(event);
 	const lifecycleStatus = coerceLifecycleStatus(event.lifecycleStatus);
 	const registrationStatus = coerceRegistrationStatus(event);
@@ -85,7 +75,7 @@ const resolveEvent = (event: EventSource): Event => {
 	const ctaUrl = event.cta?.url ?? '';
 	const typeLabel = toTypeLabel(event.type, event.typeLabel);
 	const timeZoneIana = event.timeZoneIana ?? PACIFIC_TIME_ZONE;
-	const timezoneLabel = event.timezone ?? 'America/Los_Angeles';
+	const timezoneLabel = 'PT';
 
 	return {
 		...event,
@@ -102,8 +92,8 @@ const resolveEvent = (event: EventSource): Event => {
 		locationMeta: event.location,
 		location: event.location.publicLabel,
 		typeLabel,
-		date: event.date ?? toPacificDateLabel(startAtUtc),
-		time: event.time,
+		date: deriveEventDateLabel(event.sessions, timeZoneIana),
+		time: deriveEventTimeLabel(event.sessions, timeZoneIana, timezoneLabel),
 		timezone: timezoneLabel,
 		timeZoneIana
 	};

@@ -295,10 +295,12 @@
 		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">web/src/lib/data/testimonials.json</code>.
 	</p>
 	<p class="mt-2 max-w-3xl text-gray-700">
-		Training events use UTC event timestamps: <code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
-			>startAtUtc</code
+		Training events use canonical session entries: <code
+			class="rounded bg-gray-100 px-1 py-0.5 text-xs">sessions[]</code
 		>
-		required; <code class="rounded bg-gray-100 px-1 py-0.5 text-xs">endAtUtc</code> optional.
+		with required UTC <code class="rounded bg-gray-100 px-1 py-0.5 text-xs">startAtUtc</code> and
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">endAtUtc</code> values for each session.
+		Real event start/end shown in UI/API are derived from this list.
 	</p>
 	<p class="mt-2 max-w-3xl text-gray-700">
 		Status values must stay within schema enums for lifecycle and registration.

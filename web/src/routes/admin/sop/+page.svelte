@@ -461,11 +461,18 @@
 		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">tbd</code>.
 	</p>
 	<p class="mt-2 max-w-3xl text-gray-700">
-		Date/time requirements: <code class="rounded bg-gray-100 px-1 py-0.5 text-xs">startAtUtc</code>
-		is required and must be ISO date-time ending in
-		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">Z</code>
-		(UTC). <code class="rounded bg-gray-100 px-1 py-0.5 text-xs">endAtUtc</code> is optional but, when
-		provided, must use the same format.
+		Date/time requirements: <code class="rounded bg-gray-100 px-1 py-0.5 text-xs">sessions</code>
+		is required and must include one or more objects containing
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">startAtUtc</code> and
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">endAtUtc</code> as ISO date-time values
+		ending in <code class="rounded bg-gray-100 px-1 py-0.5 text-xs">Z</code> (UTC).
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">startAtUtc</code>/<code
+			class="rounded bg-gray-100 px-1 py-0.5 text-xs">endAtUtc</code
+		>
+		are derived convenience fields in <code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
+			>/api/events.json</code
+		>
+		and are not stored in the registry.
 	</p>
 	<p class="mt-2 max-w-3xl text-gray-700">
 		Past-event recap fields: optional
@@ -485,8 +492,27 @@
 		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">programRef.sku</code> and
 		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">schedule.durationDays</code> +
 		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">schedule.estimatedHoursCommitment</code> are
-		required.
+		required. Draft generation derives weekly session entries from these values and writes them to
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">event.sessions[]</code>.
 	</p>
+	<h3 class="mt-6 text-xl font-semibold">Conversion fields</h3>
+	<p class="mt-2 max-w-3xl text-gray-700">
+		Optional conversion-focused fields:
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">audienceBullets</code> (who it’s for) and
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">buildBullets</code> (what attendees build).
+		Use these when you want consistent, scannable decision cards across event pages without parsing markdown.
+	</p>
+	<ul class="mt-3 max-w-3xl list-disc space-y-2 pl-5 text-gray-700">
+		<li>
+			Recommended: 2–4 bullets per field. Maximum allowed by schema:
+			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">6</code>.
+		</li>
+		<li>
+			Do not claim “limited seats” unless
+			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">registrationSettings.capacity.type</code> is
+			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">limited</code>.
+		</li>
+	</ul>
 	<p class="mt-2 max-w-3xl text-gray-700">
 		Pattern constraints:
 		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">event.id</code> must match

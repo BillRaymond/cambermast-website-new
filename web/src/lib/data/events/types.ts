@@ -29,6 +29,11 @@ export type EventLocationMode = 'online' | 'in_person' | 'hybrid';
 
 export type EventLocationDetailsVisibility = 'public' | 'post_signup' | 'tbd';
 
+export type EventSession = {
+	startAtUtc: string;
+	endAtUtc: string;
+};
+
 export type EventSpeaker = {
 	name: string;
 	title: string;
@@ -113,8 +118,7 @@ export type EventSource = {
 	subtitle?: string;
 	type: EventType;
 	summary: string;
-	startAtUtc: string;
-	endAtUtc?: string;
+	sessions: EventSession[];
 	visibility: EventVisibility;
 	lifecycleStatus: EventLifecycleStatus;
 	registrationStatus: EventRegistrationStatus;
@@ -123,6 +127,8 @@ export type EventSource = {
 	tagline?: string;
 	description?: string | EventDescription;
 	highlights?: string[];
+	audienceBullets?: string[];
+	buildBullets?: string[];
 	outcomes?: string[];
 	agenda?: EventAgendaItem[];
 	faq?: EventFaqItem[];
@@ -135,9 +141,6 @@ export type EventSource = {
 	campaignId?: string;
 	links?: EventLinks;
 	typeLabel?: string;
-	date?: string;
-	time?: string | string[];
-	timezone?: string;
 	timeZoneIana?: string;
 	registrationClosesAtUtc?: string;
 	ticketing?: EventTicketing;
@@ -150,6 +153,8 @@ export type Event = Omit<EventSource, 'location'> & {
 	locationMeta: EventLocation;
 	location: string;
 	typeLabel: string;
+	startAtUtc: string;
+	endAtUtc: string;
 	date: string;
 	time?: string | string[];
 	timezone: string;

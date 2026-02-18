@@ -4,6 +4,7 @@ import {
 	isEventUpcoming,
 	listEvents
 } from '$lib/data/events';
+import { getEventOccurrenceState, getEventSessionBounds } from '$lib/data/events/timeline';
 import type { Event } from '$lib/data/events/types';
 import { getTrainingProgramBySku } from '$lib/data/training';
 import type { TrainingProgram } from '$lib/data/training/types';
@@ -40,17 +41,7 @@ export const isTrainingEventHappeningNow = (
 ): boolean => {
 	if (event.type !== 'training_session') return false;
 	if (event.lifecycleStatus === 'canceled' || event.lifecycleStatus === 'completed') return false;
-
-	const startTimestamp = new Date(event.startAtUtc).valueOf();
-	const fallbackEndTimestamp = Number.isFinite(startTimestamp) ? startTimestamp : Number.NaN;
-	const endTimestamp = event.endAtUtc ? new Date(event.endAtUtc).valueOf() : fallbackEndTimestamp;
-
-	return (
-		Number.isFinite(startTimestamp) &&
-		Number.isFinite(endTimestamp) &&
-		startTimestamp <= referenceTimestamp &&
-		endTimestamp >= referenceTimestamp
-	);
+	return getEventOccurrenceState(event, referenceTimestamp).isHappeningNow;
 };
 
 export const toTrainingScheduleEntry = (
@@ -58,7 +49,7 @@ export const toTrainingScheduleEntry = (
 	referenceTimestamp: number = Date.now()
 ): TrainingScheduleEntry => {
 	const startTimestamp = getEventStartTimestamp(event);
-	const endTimestamp = event.endAtUtc ? new Date(event.endAtUtc).valueOf() : startTimestamp;
+	const endTimestamp = getEventSessionBounds(event)?.endTimestamp ?? startTimestamp;
 	const canRegister = isRegisterable(event);
 	const registerLabel = event.cta?.label || 'Register now';
 

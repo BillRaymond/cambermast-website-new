@@ -8,6 +8,7 @@
 		isEventUpcomingUi,
 		listEventUi
 	} from '$lib/view-models/events';
+	import { getEventOccurrenceState, getEventSessionBounds } from '$lib/data/events/timeline';
 	import { getTrainingProgramBySku } from '$lib/data/training';
 	import { getPartnerByCode } from '$lib/data/partners';
 	import { getProgramCertificateText } from '$lib/data/training/program-meta';
@@ -164,16 +165,12 @@
 	$: upcomingEventEntries = listEventUi()
 		.filter((event) => isEventUpcomingUi(event, today))
 		.map((event, index) => {
-			const startAtTimestamp = new Date(event.startAtUtc).valueOf();
-			const endAtTimestamp = event.endAtUtc ? new Date(event.endAtUtc).valueOf() : startAtTimestamp;
-			const isHappening =
-				Number.isFinite(startAtTimestamp) &&
-				Number.isFinite(endAtTimestamp) &&
-				startAtTimestamp <= nowMs &&
-				endAtTimestamp >= nowMs;
-			const isTrainingHappeningNow = isHappening && event.type === 'training_session';
+			const occurrenceState = getEventOccurrenceState(event, nowMs);
+			const bounds = getEventSessionBounds(event);
+			const isHappening = occurrenceState.isHappeningNow;
+			const isTrainingHappeningNow = event.type === 'training_session' && occurrenceState.isInProgress;
 
-			const startTimestamp = toFiniteTimestamp(getEventStartTimestampUi(event));
+			const startTimestamp = toFiniteTimestamp(bounds?.startTimestamp ?? getEventStartTimestampUi(event));
 			const timeLabel = formatTimeLabel(event.time);
 			const locationLabel = event.location ?? defaultLocationLabel;
 			const metaDetails: string[] = [];

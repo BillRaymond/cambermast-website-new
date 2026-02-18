@@ -1,25 +1,23 @@
-import eventsData from '$lib/data/events/events.json';
-import type { EventSource } from '$lib/data/events/types';
+import { listEvents } from '$lib/data/events';
+import type { Event } from '$lib/data/events/types';
 
 type BuildEventsApiPayloadInput = {
 	origin: string;
 	generatedAt?: string;
 };
 
-type PublicEvent = EventSource;
-
-const publicEvents = ((eventsData.events ?? []) as PublicEvent[])
+const publicEvents = listEvents({ includeDrafts: true, includeUnlisted: true })
 	.filter((candidate) => {
 		if (candidate.visibility !== 'public') return false;
 		if (!candidate.startAtUtc) return false;
-		if (!candidate.location) return false;
+		if (!candidate.locationMeta) return false;
 		if (!candidate.cta) return false;
 		if (!candidate.lifecycleStatus || !candidate.registrationStatus) return false;
 		return true;
 	})
-	.sort((a, b) => new Date(a.startAtUtc ?? '').valueOf() - new Date(b.startAtUtc ?? '').valueOf());
+	.sort((a, b) => new Date(a.startAtUtc).valueOf() - new Date(b.startAtUtc).valueOf());
 
-const toApiEvent = (event: PublicEvent, origin: string) => ({
+const toApiEvent = (event: Event, origin: string) => ({
 	id: event.id,
 	slug: event.slug,
 	title: event.title,
@@ -30,6 +28,9 @@ const toApiEvent = (event: PublicEvent, origin: string) => ({
 	summary: event.summary,
 	description: event.description,
 	highlights: event.highlights,
+	audienceBullets: event.audienceBullets,
+	buildBullets: event.buildBullets,
+	sessions: event.sessions,
 	startAtUtc: event.startAtUtc,
 	endAtUtc: event.endAtUtc,
 	date: event.date,
@@ -39,8 +40,8 @@ const toApiEvent = (event: PublicEvent, origin: string) => ({
 	visibility: event.visibility,
 	lifecycleStatus: event.lifecycleStatus,
 	registrationStatus: event.registrationStatus,
-	cta: event.cta!,
-	location: event.location!,
+	cta: event.cta,
+	location: event.locationMeta,
 	ticketing: event.ticketing,
 	registrationSettings: event.registrationSettings,
 	speakers: event.speakers,

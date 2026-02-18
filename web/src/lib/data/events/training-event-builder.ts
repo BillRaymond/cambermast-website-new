@@ -1,4 +1,6 @@
 import type { EventSource, EventRegistrationStatus, EventVisibility } from './types';
+import { deriveEventDateLabel, deriveEventTimeLabel } from './session-labels';
+import { getEventSessionBounds } from './timeline';
 import { getTrainingProgramBySku } from '../training';
 import type { TrainingProgram } from '../training/types';
 
@@ -48,6 +50,8 @@ type TrainingDraftSchedule = {
 };
 
 const EVENT_TIME_ZONE_IANA = 'America/Los_Angeles';
+const DAYS_BETWEEN_SESSIONS = 7;
+const MILLISECONDS_IN_DAY = 24 * 60 * 60 * 1000;
 
 const parseTimeParts = (value: string): { hours: number; minutes: number } => {
 	const trimmed = value.trim().toLowerCase();
@@ -116,41 +120,8 @@ const toZonedTimestamp = (
 	return utcGuess - offsetMinutes * 60 * 1000;
 };
 
-const formatLocalDate = (timestamp: number, timeZone: string): string =>
-	new Intl.DateTimeFormat('en-US', {
-		timeZone,
-		month: 'long',
-		day: 'numeric',
-		year: 'numeric',
-		weekday: 'long'
-	}).format(timestamp);
-
-const formatRangeDate = (startTimestamp: number, endTimestamp: number, timeZone: string): string => {
-	const start = new Date(startTimestamp);
-	const end = new Date(endTimestamp);
-	const formatter = new Intl.DateTimeFormat('en-US', {
-		timeZone,
-		month: 'long',
-		day: 'numeric',
-		year: 'numeric'
-	});
-	return `${formatter.format(start)} - ${formatter.format(end)}`;
-};
-
-const formatTimeRange = (
-	startTimestamp: number,
-	sessionLengthMinutes: number,
-	timeZone: string,
-	timeZoneLabel: string
-): string => {
-	const endTimestamp = startTimestamp + sessionLengthMinutes * 60 * 1000;
-	const formatter = new Intl.DateTimeFormat('en-US', {
-		timeZone,
-		hour: 'numeric',
-		minute: '2-digit'
-	});
-	return `${formatter.format(startTimestamp)} to ${formatter.format(endTimestamp)} ${timeZoneLabel}`;
-};
+const toSessionCount = (durationDays: number): number =>
+	Math.max(1, Math.round(durationDays / DAYS_BETWEEN_SESSIONS));
 
 export const buildTrainingSessionEventFromProgram = (
 	input: BuildTrainingEventInput
@@ -176,21 +147,17 @@ export const buildTrainingSessionEventFromProgram = (
 	if (durationDays < 1) {
 		throw new Error('durationDays must be at least 1.');
 	}
-	const startTimestamp = toZonedTimestamp(startDateParts, startTimeParts, EVENT_TIME_ZONE_IANA);
-
-	const endProgramStartTimestamp = startTimestamp + (durationDays - 1) * 24 * 60 * 60 * 1000;
-	const endTimestamp = endProgramStartTimestamp + sessionDurationMinutes * 60 * 1000;
-
-	const dateText =
-		durationDays > 1
-			? formatRangeDate(startTimestamp, endTimestamp, EVENT_TIME_ZONE_IANA)
-			: formatLocalDate(startTimestamp, EVENT_TIME_ZONE_IANA);
-	const timeText = formatTimeRange(
-		startTimestamp,
-		sessionDurationMinutes,
-		EVENT_TIME_ZONE_IANA,
-		template.defaultTimeZoneLabel
-	);
+	const sessionCount = toSessionCount(durationDays);
+	const firstSessionStartTimestamp = toZonedTimestamp(startDateParts, startTimeParts, EVENT_TIME_ZONE_IANA);
+	const sessions = Array.from({ length: sessionCount }, (_, index) => {
+		const startTimestamp =
+			firstSessionStartTimestamp + index * DAYS_BETWEEN_SESSIONS * MILLISECONDS_IN_DAY;
+		const endTimestamp = startTimestamp + sessionDurationMinutes * 60 * 1000;
+		return {
+			startAtUtc: new Date(startTimestamp).toISOString(),
+			endAtUtc: new Date(endTimestamp).toISOString()
+		};
+	});
 
 	return {
 		id: input.id,
@@ -202,9 +169,8 @@ export const buildTrainingSessionEventFromProgram = (
 		tagline: program.tagline,
 		summary:
 			input.summary ??
-			`${program.title} runs for ${durationDays} day(s), ${sessionDurationMinutes} minutes per session.`,
-		startAtUtc: new Date(startTimestamp).toISOString(),
-		endAtUtc: new Date(endTimestamp).toISOString(),
+			`${program.title} runs for ${sessionCount} session(s), ${sessionDurationMinutes} minutes per session.`,
+		sessions,
 		visibility: input.visibility ?? 'public',
 		lifecycleStatus: 'scheduled',
 		registrationStatus: input.registrationStatus ?? 'open',
@@ -212,9 +178,6 @@ export const buildTrainingSessionEventFromProgram = (
 			label: input.ctaLabel ?? 'Register now',
 			url: input.ctaUrl ?? program.route
 		},
-		date: dateText,
-		time: timeText,
-		timezone: template.defaultTimeZoneLabel,
 		timeZoneIana: EVENT_TIME_ZONE_IANA,
 		location: {
 			mode: 'online',
@@ -276,13 +239,22 @@ export const buildTrainingDraftScheduleFromProgram = (
 		durationDays: input.durationDays,
 		estimatedHoursCommitment: input.estimatedHoursCommitment
 	});
+	const bounds = getEventSessionBounds(event);
+	if (!bounds) {
+		throw new Error('Could not derive draft schedule bounds from event sessions.');
+	}
+	const derivedTimeLabel = deriveEventTimeLabel(
+		event.sessions,
+		EVENT_TIME_ZONE_IANA,
+		template.defaultTimeZoneLabel
+	);
 
 	return {
-		startAtUtc: event.startAtUtc,
-		endAtUtc: event.endAtUtc ?? event.startAtUtc,
-		date: event.date ?? '',
-		time: typeof event.time === 'string' ? event.time : (event.time?.join(', ') ?? ''),
-		timezone: event.timezone ?? template.defaultTimeZoneLabel,
+		startAtUtc: bounds.startAtUtc,
+		endAtUtc: bounds.endAtUtc,
+		date: deriveEventDateLabel(event.sessions, EVENT_TIME_ZONE_IANA),
+		time: typeof derivedTimeLabel === 'string' ? derivedTimeLabel : (derivedTimeLabel?.join(', ') ?? ''),
+		timezone: template.defaultTimeZoneLabel,
 		schedule: {
 			durationDays: event.schedule?.durationDays ?? template.durationDays,
 			estimatedHoursCommitment:
