@@ -3,12 +3,14 @@
 	import SeoHead from '$lib/components/SeoHead.svelte';
 	import AdminRouteChips from '$lib/components/admin/AdminRouteChips.svelte';
 	import { SITE_ORIGIN } from '$lib/config/site';
-	import eventsApiResponseSchema from '$lib/data/api/schemas/events-api.schema.json';
-	import catalogApiResponseSchema from '$lib/data/api/schemas/catalog-api.schema.json';
-	import trainingApiResponseSchema from '$lib/data/api/schemas/training-api.schema.json';
-	import { buildCatalogApiExamples } from '$lib/data/api/catalog';
-	import { buildEventsApiPayload } from '$lib/data/api/events';
-	import { buildTrainingApiExamples } from '$lib/data/api/training';
+import eventsApiResponseSchema from '$lib/data/api/schemas/events-api.schema.json';
+import catalogApiResponseSchema from '$lib/data/api/schemas/catalog-api.schema.json';
+import trainingApiResponseSchema from '$lib/data/api/schemas/training-api.schema.json';
+import faqPresetsApiResponseSchema from '$lib/data/api/schemas/faq-presets-api.schema.json';
+import { buildCatalogApiExamples } from '$lib/data/api/catalog';
+import { buildEventsApiPayload } from '$lib/data/api/events';
+import { buildFaqPresetsApiExamples } from '$lib/data/api/faq-presets';
+import { buildTrainingApiExamples } from '$lib/data/api/training';
 
 	const pageMeta = {
 		title: 'Training SOPs | Admin | Cambermast',
@@ -26,11 +28,12 @@
 	};
 
 	const schemaDemoOrigin = SITE_ORIGIN.replace(/\/$/, '');
-	const catalogApiExamples = buildCatalogApiExamples(schemaDemoOrigin);
-	const trainingApiExamples = buildTrainingApiExamples(schemaDemoOrigin);
-	const eventsApiPayload = buildEventsApiPayload({
-		origin: schemaDemoOrigin,
-		generatedAt: '2026-02-12T18:15:00.000Z'
+const catalogApiExamples = buildCatalogApiExamples(schemaDemoOrigin);
+const trainingApiExamples = buildTrainingApiExamples(schemaDemoOrigin);
+const faqPresetsApiExamples = buildFaqPresetsApiExamples(schemaDemoOrigin);
+const eventsApiPayload = buildEventsApiPayload({
+	origin: schemaDemoOrigin,
+	generatedAt: '2026-02-12T18:15:00.000Z'
 	});
 	const trainingEventsOnly = {
 		generatedAt: eventsApiPayload.generatedAt,
@@ -57,6 +60,13 @@
 			schema: JSON.stringify(trainingApiResponseSchema, null, 2)
 		},
 		{
+			id: 'faq-presets',
+			title: '/api/faq-presets.json (shared FAQ presets)',
+			response: JSON.stringify(faqPresetsApiExamples.response, null, 2),
+			example: JSON.stringify(faqPresetsApiExamples.example, null, 2),
+			schema: JSON.stringify(faqPresetsApiResponseSchema, null, 2)
+		},
+		{
 			id: 'training-events',
 			title: '/api/events.json (filtered to training_session)',
 			response: JSON.stringify(trainingEventsOnly, null, 2),
@@ -68,6 +78,7 @@
 	let activeApiTab: Record<string, ApiTab> = {
 		catalog: 'response',
 		training: 'response',
+		'faq-presets': 'response',
 		'training-events': 'response'
 	};
 	let copiedKey = '';
@@ -227,6 +238,21 @@
 			>
 			with payload builder
 			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">web/src/lib/data/api/training.ts</code>.
+		</li>
+		<li>
+			Reusable FAQ presets live in
+			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
+				>web/src/lib/data/faq-presets/faq-presets.json</code
+			>
+			with schema
+			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
+				>web/src/lib/data/faq-presets/faq-presets.schema.json</code
+			>,
+			API contract
+			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
+				>web/src/lib/data/api/schemas/faq-presets-api.schema.json</code
+			>,
+			and route <code class="rounded bg-gray-100 px-1 py-0.5 text-xs">/api/faq-presets.json</code>.
 		</li>
 		<li>
 			Training session events live in <code class="rounded bg-gray-100 px-1 py-0.5 text-xs"

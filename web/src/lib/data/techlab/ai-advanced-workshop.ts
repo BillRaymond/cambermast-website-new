@@ -159,51 +159,83 @@ export const techlabAiAdvancedWorkshop: TechlabProgram = {
 	},
 	faqs: [
 		{
-			question: 'Will I receive a certificate of completion?',
-			answers: [
-				'Yes. Graduates receive a digital certificate after presenting their final project.'
+			"key": "will_i_receive_a_certificate_of_completion",
+			"question": "Will I receive a certificate of completion?",
+			"blocks": [
+				{
+					"type": "paragraph",
+					"text": "Yes. Graduates receive a digital certificate after presenting their final project."
+				}
 			]
 		},
 		{
-			question: 'Will there be makeup dates?',
-			answers: [
-				'There are no official makeup dates, but Bill accommodates reasonable requests when scheduling conflicts arise.'
+			"key": "will_there_be_makeup_dates",
+			"question": "Will there be makeup dates?",
+			"blocks": [
+				{
+					"type": "paragraph",
+					"text": "There are no official makeup dates, but Bill accommodates reasonable requests when scheduling conflicts arise."
+				}
 			]
 		},
 		{
-			question: 'Do I need anything before the workshop starts?',
-			answers: [
-				'Bring access to a paid generative AI account (ChatGPT, Claude, Gemini, Copilot, etc.) and a project where you can apply the lessons.'
+			"key": "do_i_need_anything_before_the_workshop_starts",
+			"question": "Do I need anything before the workshop starts?",
+			"blocks": [
+				{
+					"type": "paragraph",
+					"text": "Bring access to a paid generative AI account (ChatGPT, Claude, Gemini, Copilot, etc.) and a project where you can apply the lessons."
+				}
 			]
 		},
 		{
-			question: 'Are the meetings virtual or in-person?',
-			answers: [
-				'All cohort sessions are hosted live on Zoom, with optional on-site intensives for private teams.'
+			"key": "are_the_meetings_virtual_or_in_person",
+			"question": "Are the meetings virtual or in-person?",
+			"blocks": [
+				{
+					"type": "paragraph",
+					"text": "All cohort sessions are hosted live on Zoom, with optional on-site intensives for private teams."
+				}
 			]
 		},
 		{
-			question: 'How can I ask questions about the course?',
-			answers: [
-				'Use the "Contact the Host" link on the Lu.ma event page or reach out through the Cambermast contact form.'
+			"key": "how_can_i_ask_questions_about_the_course",
+			"question": "How can I ask questions about the course?",
+			"blocks": [
+				{
+					"type": "paragraph",
+					"text": "Use the \"Contact the Host\" link on the Lu.ma event page or reach out through the Cambermast contact form."
+				}
 			]
 		},
 		{
-			question: 'Will there be exercises and take-home work?',
-			answers: [
-				'Yes. Expect optional take-home exercises and encouragement to apply each lesson directly to your team workflows.'
+			"key": "will_there_be_exercises_and_take_home_work",
+			"question": "Will there be exercises and take-home work?",
+			"blocks": [
+				{
+					"type": "paragraph",
+					"text": "Yes. Expect optional take-home exercises and encouragement to apply each lesson directly to your team workflows."
+				}
 			]
 		},
 		{
-			question: 'Are there scheduled collaboration meetings after each class?',
-			answers: [
-				'Not formally, but Bill hosts weekly office hours and maintains a discussion thread for ongoing peer support.'
+			"key": "are_there_scheduled_collaboration_meetings_after_each_class",
+			"question": "Are there scheduled collaboration meetings after each class?",
+			"blocks": [
+				{
+					"type": "paragraph",
+					"text": "Not formally, but Bill hosts weekly office hours and maintains a discussion thread for ongoing peer support."
+				}
 			]
 		},
 		{
-			question: "I can't take this course. Are there others?",
-			answers: [
-				"Follow Bill's training calendar at https://lu.ma/BillTalksAI and subscribe to the Bill Talks AI newsletter for upcoming offerings."
+			"key": "i_can_t_take_this_course_are_there_others",
+			"question": "I can't take this course. Are there others?",
+			"blocks": [
+				{
+					"type": "paragraph",
+					"text": "Follow Bill's training calendar at https://lu.ma/BillTalksAI and subscribe to the Bill Talks AI newsletter for upcoming offerings."
+				}
 			]
 		}
 	]

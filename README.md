@@ -73,7 +73,7 @@ Output includes:
 
 - `program.scheduleTemplate` (source values)
 - `scheduleDraft` (generated date/time window)
-- `draftEvent` (ready-to-paste event object with explicit `schedule` fields)
+- `draftEvent` (ready-to-paste event object with explicit `schedule` fields and copied FAQ snapshot)
 - `draftCampaign` (ready-to-paste campaign entry for `web/src/lib/data/campaigns.json`)
 
 ## Privacy, GDPR & Cookies
@@ -131,4 +131,5 @@ When publishing significant messaging or offer changes:
 
 - See `SCHEMA-FIRST.md` for the required schema-first workflow, validation gates, and propagation checklist for any data contract changes.
 - Any new registry schema must include a public read-only API contract (API route + API response schema + API payload builder) and admin SOP coverage in a relevant `/admin/sop*` page.
+- FAQ preset registry lives at `web/src/lib/data/faq-presets/faq-presets.json` and publishes at `/api/faq-presets.json` for reusable training and event FAQ starters.
 - Run `npm --prefix web run validate:schema-governance` to enforce schema-to-API-to-SOP coverage.

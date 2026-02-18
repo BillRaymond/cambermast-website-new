@@ -33,11 +33,11 @@
 				"ad": "cambermast"
 			}
 		},
-			{
-				"id": "ltb9nx",
-				"partner": "cambermast",
-				"partnerLabel": "Cambermast",
-				"landingPath": "/events/ai-workshop-for-modern-teams-feb-2026",
+		{
+			"id": "ltb9nx",
+			"partner": "cambermast",
+			"partnerLabel": "Cambermast",
+			"landingPath": "/events/ai-workshop-for-modern-teams-feb-2026",
 			"description": "Campaign short link for the AI Workshop for Modern Teams event page.",
 			"createdAt": "2026-02-11T00:00:00Z",
 			"params": {
@@ -48,11 +48,11 @@
 				"src": "qr",
 				"ad": "cambermast"
 			}
-			},
-			{
-				"id": "3slr4s",
-				"partner": "cambermast",
-				"partnerLabel": "Cambermast",
+		},
+		{
+			"id": "3slr4s",
+			"partner": "cambermast",
+			"partnerLabel": "Cambermast",
 			"landingPath": "/events/ai-automation-with-agents-workshop-feb-2026",
 			"description": "Campaign short link for the AI Automation with Agents Workshop event page.",
 			"createdAt": "2026-02-11T00:00:00Z",
@@ -79,6 +79,22 @@
 				"utm_content": "59v3n2",
 				"src": "qr",
 				"ad": "techlab"
+			}
+		},
+		{
+			"id": "aia262",
+			"partner": "cambermast",
+			"partnerLabel": "Cambermast",
+			"landingPath": "/events/ai-accelerator-workshop-spring-2026-aia262",
+			"description": "Campaign short link for the AI Accelerator Workshop event page.",
+			"createdAt": "2026-02-18T22:38:03.139Z",
+			"params": {
+				"utm_source": "qr",
+				"utm_medium": "offline",
+				"utm_campaign": "events",
+				"utm_content": "aia262",
+				"src": "qr",
+				"ad": "cambermast"
 			}
 		}
 	]

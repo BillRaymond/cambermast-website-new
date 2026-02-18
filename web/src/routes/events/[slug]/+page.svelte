@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onDestroy } from 'svelte';
 	import SeoHead from '$lib/components/SeoHead.svelte';
+	import FaqBlocks from '$lib/components/faq/FaqBlocks.svelte';
 	import { renderMarkdownToSafeHtml } from '$lib/utils/markdown';
 	import { getEventTypeLabelUi } from '$lib/view-models/events';
 	import { getProgramCertificateText } from '$lib/data/training/program-meta';
@@ -174,7 +175,7 @@
 		title: 'Founder, Cambermast · Lead Instructor',
 		photo: '/images/bill.jpg',
 		photoAlt: 'Bill Raymond',
-		bio: 'Bill helps teams adopt AI in practical, policy-aware ways so people can move faster without sacrificing quality. He leads every session with real examples, hands-on practice, and clear implementation guidance.'
+		bio: 'Bill helps teams put AI to work quickly and responsibly. His sessions are hands-on, practical, and focused on clear next steps you can use right away.'
 	};
 	const trustedBy: TrustedByOrg[] = [
 		{
@@ -370,7 +371,7 @@
 
 	const pagePath = `/events/${event.slug}`;
 
-	const trackRegistrationClick = (placement: 'hero' | 'sticky') => {
+	const trackRegistrationClick = (placement: 'hero' | 'sticky' | 'body') => {
 		if (typeof window === 'undefined') return;
 		const gtag = (window as Window & { gtag?: (...args: unknown[]) => void }).gtag;
 		if (typeof gtag !== 'function') return;
@@ -402,6 +403,9 @@
 					&larr; Return to events
 				</a>
 				<p class="truncate text-sm font-semibold text-slate-900">{event.title} · {ticketPriceLabel}</p>
+				{#if Number.isFinite(countdownTargetTimestamp)}
+					<p class="mt-0.5 text-xs text-slate-600">{countdownLabelPrefix}: {countdownLabel}</p>
+				{/if}
 			</div>
 			<a
 				href={event.cta.url}
@@ -494,9 +498,32 @@
 						<div class="grid gap-3 md:grid-cols-3">
 							<div class="rounded-xl border border-slate-200 bg-white p-3">
 								<p class="text-xs font-semibold tracking-wide text-slate-500 uppercase">When</p>
-								<p class="mt-1 font-semibold text-slate-900">
-									{isTimestampValid ? compactOfficialDateTimeFormatter.format(startAtTimestamp) : 'TBD'}
-								</p>
+								{#if hasMultipleSessions}
+									<p class="mt-1 font-semibold text-slate-900">Runs {multiSessionDateLabel}</p>
+									{#if multiSessionCadenceLabel}
+										<p class="mt-1 text-slate-700">{multiSessionCadenceLabel}</p>
+									{/if}
+									{#if eventTimeSummary}
+										<p class="mt-1 text-slate-700">{eventTimeSummary}</p>
+									{/if}
+								{:else}
+									<p class="mt-1 font-semibold text-slate-900">
+										{isTimestampValid ? officialDateTimeFormatter.format(startAtTimestamp) : 'TBD'}
+									</p>
+									{#if Number.isFinite(endAtTimestamp) && endAtTimestamp !== startAtTimestamp}
+										<p class="mt-1 text-slate-600">
+											Ends {officialDateTimeFormatter.format(endAtTimestamp as number)}
+										</p>
+									{/if}
+									<p class="mt-2 text-slate-600">
+										Local: {isTimestampValid ? localDateTimeFormatter.format(startAtTimestamp) : 'TBD'}
+									</p>
+									{#if Number.isFinite(endAtTimestamp) && endAtTimestamp !== startAtTimestamp}
+										<p class="mt-1 text-slate-600">
+											Ends {localDateTimeFormatter.format(endAtTimestamp as number)}
+										</p>
+									{/if}
+								{/if}
 							</div>
 							<div class="rounded-xl border border-slate-200 bg-white p-3">
 								<p class="text-xs font-semibold tracking-wide text-slate-500 uppercase">Commitment</p>
@@ -510,10 +537,20 @@
 										· {weeklyHours} hours/session
 									{/if}
 								</p>
+								{#if hasMultipleSessions && multiSessionCadenceLabel}
+									<p class="mt-1 text-slate-600">{multiSessionCadenceLabel}</p>
+								{/if}
 							</div>
 							<div class="rounded-xl border border-slate-200 bg-white p-3">
 								<p class="text-xs font-semibold tracking-wide text-slate-500 uppercase">Where</p>
 								<p class="mt-1 font-semibold text-slate-900">{deliveryLabel}</p>
+								{#if locationDetailsNote}
+									<p class="mt-1 text-slate-600">{locationDetailsNote}</p>
+								{/if}
+								<p class="mt-2 text-slate-700">
+									<span class="font-semibold text-slate-900">Tickets:</span>
+									{ticketPriceLabel} USD
+								</p>
 							</div>
 						</div>
 					</div>
@@ -583,6 +620,19 @@
 							</article>
 						</div>
 					</div>
+					{#if canRegister}
+						<div class="mt-6 flex flex-wrap items-center gap-3">
+							<a
+								href={event.cta.url}
+								class="inline-flex rounded-full bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-blue-700"
+								target={isExternalCtaUrl ? '_blank' : undefined}
+								rel={isExternalCtaUrl ? 'noopener noreferrer' : undefined}
+								on:click={() => trackRegistrationClick('body')}
+							>
+								{event.cta.label}
+							</a>
+						</div>
+					{/if}
 
 					<div class="mt-8 border-t border-slate-200 pt-6">
 						<h2 class="text-xl font-semibold text-slate-900">About your trainer</h2>
@@ -601,63 +651,6 @@
 								</div>
 							</div>
 						</article>
-					</div>
-
-					<div class="mt-8 border-t border-slate-200 pt-6">
-						<h2 class="text-xl font-semibold text-slate-900">Schedule at-a-glance</h2>
-						{#if hasMultipleSessions}
-							<div class="mt-4 rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700">
-								<p class="font-semibold text-slate-900">Runs {multiSessionDateLabel}</p>
-								{#if multiSessionCadenceLabel}
-									<p class="mt-0.5 text-slate-700">{multiSessionCadenceLabel}</p>
-								{/if}
-								{#if eventTimeSummary}
-									<p class="mt-0.5 text-slate-700">{eventTimeSummary}</p>
-								{/if}
-							</div>
-						{:else}
-							<div class="mt-4 grid gap-3 text-sm text-slate-700 md:grid-cols-2">
-								<div class="rounded-xl border border-slate-200 bg-slate-50 p-3">
-									<p class="font-semibold text-slate-900">Official time (Pacific Time)</p>
-									<p class="mt-1">{isTimestampValid ? officialDateTimeFormatter.format(startAtTimestamp) : 'TBD'}</p>
-									{#if Number.isFinite(endAtTimestamp) && endAtTimestamp !== startAtTimestamp}
-										<p class="mt-1 text-slate-600">
-											Ends {officialDateTimeFormatter.format(endAtTimestamp as number)}
-										</p>
-									{/if}
-								</div>
-								<div class="rounded-xl border border-slate-200 bg-slate-50 p-3">
-									<p class="font-semibold text-slate-900">Local time (based on your browser)</p>
-									<p class="mt-1">{isTimestampValid ? localDateTimeFormatter.format(startAtTimestamp) : 'TBD'}</p>
-									{#if Number.isFinite(endAtTimestamp) && endAtTimestamp !== startAtTimestamp}
-										<p class="mt-1 text-slate-600">
-											Ends {localDateTimeFormatter.format(endAtTimestamp as number)}
-										</p>
-									{/if}
-								</div>
-							</div>
-						{/if}
-						<div class="mt-4 rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700">
-							<p>
-								<span class="font-semibold text-slate-900">Location:</span>
-								{deliveryLabel}
-							</p>
-							{#if locationDetailsNote}
-								<p class="mt-2 text-slate-600">{locationDetailsNote}</p>
-							{/if}
-							<p class="mt-2">
-								<span class="font-semibold text-slate-900">Tickets:</span>
-								{ticketPriceLabel} USD
-							</p>
-						</div>
-						{#if curriculumItems.length}
-							<a
-								href="#curriculum"
-								class="mt-3 inline-flex items-center text-sm font-semibold text-blue-700 underline decoration-blue-200 underline-offset-4 hover:text-blue-900"
-							>
-								Jump to curriculum ↓
-							</a>
-						{/if}
 					</div>
 
 					<div class="mt-8 border-t border-slate-200 pt-6">
@@ -682,10 +675,19 @@
 						</div>
 					</div>
 
-					{#if curriculumItems.length}
-						<div id="curriculum" class="mt-8 border-t border-slate-200 pt-6 scroll-mt-24">
-							<h2 class="text-xl font-semibold text-slate-900">{curriculumSectionTitle}</h2>
-							<ul class="mt-4 space-y-3">
+						{#if curriculumItems.length}
+							<div id="curriculum" class="mt-8 border-t border-slate-200 pt-6 scroll-mt-24">
+								<div class="flex flex-wrap items-center gap-2">
+									<h2 class="text-xl font-semibold text-slate-900">{curriculumSectionTitle}</h2>
+									{#if certificateText}
+										<span
+											class="inline-flex items-center rounded-full border border-slate-300 bg-white px-2 py-0.5 text-[0.65rem] font-semibold tracking-wide text-slate-700 uppercase"
+										>
+											Certificate included
+										</span>
+									{/if}
+								</div>
+								<ul class="mt-4 space-y-3">
 								{#each curriculumItems as curriculumItem}
 									<li class="rounded-xl border border-slate-200 bg-slate-50 p-4">
 										<div class="flex flex-wrap items-center gap-2">
@@ -706,6 +708,19 @@
 								{/each}
 							</ul>
 						</div>
+						{#if canRegister}
+							<div class="mt-6 flex flex-wrap items-center gap-3">
+								<a
+									href={event.cta.url}
+									class="inline-flex rounded-full bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-blue-700"
+									target={isExternalCtaUrl ? '_blank' : undefined}
+									rel={isExternalCtaUrl ? 'noopener noreferrer' : undefined}
+									on:click={() => trackRegistrationClick('body')}
+								>
+									{event.cta.label}
+								</a>
+							</div>
+						{/if}
 					{/if}
 
 					{#if testimonials.length}
@@ -739,16 +754,36 @@
 										<summary class="cursor-pointer text-sm font-semibold text-slate-900">
 											{faqItem.question}
 										</summary>
-										<p class="mt-2 text-sm text-slate-700">{faqItem.answer}</p>
+										<div class="mt-2">
+											<FaqBlocks blocks={faqItem.blocks} />
+										</div>
 									</details>
 								{/each}
 							</div>
 						</div>
+						{#if canRegister}
+							<div class="mt-6 flex flex-wrap items-center gap-3">
+								<a
+									href={event.cta.url}
+									class="inline-flex rounded-full bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-blue-700"
+									target={isExternalCtaUrl ? '_blank' : undefined}
+									rel={isExternalCtaUrl ? 'noopener noreferrer' : undefined}
+									on:click={() => trackRegistrationClick('body')}
+								>
+									{event.cta.label}
+								</a>
+							</div>
+						{/if}
 					{/if}
 
 					{#if descriptionHtml}
 						<div class="mt-8 border-t border-slate-200 pt-6">
 							<h2 class="text-xl font-semibold text-slate-900">More details</h2>
+							{#if certificateText}
+								<p class="mt-2 text-sm font-semibold text-slate-700">
+									This event provides a certificate of completion.
+								</p>
+							{/if}
 							<div
 								class="mt-3 max-w-none text-slate-700 [&_h2]:mt-5 [&_h2]:text-lg [&_h2]:font-semibold [&_h2]:text-slate-900 [&_h3]:mt-4 [&_h3]:text-base [&_h3]:font-semibold [&_h3]:text-slate-900 [&_p]:my-2 [&_ul]:my-2 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:my-2 [&_ol]:list-decimal [&_ol]:pl-5 [&_li]:my-1"
 							>
@@ -794,7 +829,12 @@
 						</a>
 						<p class="text-xs font-semibold tracking-[0.2em] text-slate-500 uppercase">Live cohort training</p>
 						<p class="mt-2 text-2xl font-semibold text-slate-900">{ticketPriceLabel} USD</p>
-						<p class="mt-1 text-sm text-slate-600">{deliveryLabel}</p>
+						<p class="mt-1 text-sm text-slate-600">
+							{deliveryLabel}
+							{#if certificateText}
+								· Certificate
+							{/if}
+						</p>
 
 						<div class="mt-4 space-y-2 rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm">
 							{#if hasMultipleSessions}

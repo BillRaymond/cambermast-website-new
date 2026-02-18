@@ -327,17 +327,158 @@
 			]
 		},
 		{
-			"id": "tstev1",
-			"slug": "event-playground",
-			"title": "AI Accelerator Workshop (dev)",
-			"subtitle": "From core prompting to professional AI systems",
+			"id": "aia262",
+			"slug": "ai-accelerator-workshop-spring-2026-aia262",
+			"title": "AI Accelerator Workshop",
+			"subtitle": "🌷 Spring 2026 Cohort",
 			"type": "training_session",
 			"typeLabel": "Training",
 			"tagline": "Bundle AI Power Prompting with advanced build labs so your team launches repeatable AI workflows that run the business better.",
 			"summary": "The AI Accelerator Workshop includes the AI Power Prompting course and layers on professional AI features so you can run your business more efficiently. You will leave with hands-on practice using custom GPTs, AI projects, and research frameworks tailored to your workflows across four focused weeks.",
+			"sessions": [
+				{
+					"startAtUtc": "2026-03-12T17:00:00.000Z",
+					"endAtUtc": "2026-03-12T19:00:00.000Z"
+				},
+				{
+					"startAtUtc": "2026-03-19T17:00:00.000Z",
+					"endAtUtc": "2026-03-19T19:00:00.000Z"
+				},
+				{
+					"startAtUtc": "2026-03-26T17:00:00.000Z",
+					"endAtUtc": "2026-03-26T19:00:00.000Z"
+				},
+				{
+					"startAtUtc": "2026-04-02T17:00:00.000Z",
+					"endAtUtc": "2026-04-02T19:00:00.000Z"
+				}
+			],
+			"visibility": "draft",
+			"lifecycleStatus": "scheduled",
+			"registrationStatus": "external",
+			"cta": {
+				"label": "Register now",
+				"url": "https://luma.com/rzqd4jj4",
+				"campaignId": "aia262"
+			},
+			"timeZoneIana": "America/Los_Angeles",
+			"location": {
+				"mode": "online",
+				"publicLabel": "Zoom",
+				"detailsVisibility": "post_signup"
+			},
+			"ticketing": {
+				"currency": "USD",
+				"amountUsd": 0
+			},
+			"registrationSettings": {
+				"approvalRequired": false,
+				"capacity": {
+					"type": "unlimited"
+				}
+			},
+			"programRef": {
+				"sku": "CM-TR-002"
+			},
+			"faq": [
+				{
+					"key": "ai_experience_required",
+					"question": "Do I need prior AI experience to join?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "No prior AI experience is required. This training is designed for beginners and is still useful for experienced participants who want a more reliable workflow."
+						}
+					]
+				},
+				{
+					"key": "prework_paid_account",
+					"question": "What do I need before the workshop starts?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "You will need a paid account with at least one major AI platform before the first session. Please also bring a laptop, stable internet, and any internal examples you want to use during hands-on exercises."
+						}
+					]
+				},
+				{
+					"key": "delivery_and_absence",
+					"question": "How is the workshop delivered, and what if I miss a session?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "Cohorts are delivered live using Zoom, Google Meet, Microsoft Teams, or another proven collaboration platform. If you miss a session, contact us and we will share the best available catch-up option."
+						}
+					]
+				},
+				{
+					"key": "outcomes_certificate_work",
+					"question": "What will I get by the end (certificate, exercises, and take-home work)?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "You will complete hands-on exercises and leave with practical take-home materials. Certificate availability may vary by program or event and is listed in the event details."
+						}
+					]
+				},
+				{
+					"key": "post_workshop_support",
+					"question": "Is post-workshop support included?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "Yes. Every participant receives at least one hour of free consultation after the training, plus any additional support listed for that specific program or event."
+						}
+					]
+				},
+				{
+					"key": "questions_and_alternatives",
+					"question": "How can I ask questions before enrolling, and what if I can’t make this cohort?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "If you have questions before enrolling, reach out any time. If this cohort timing does not work, we can share upcoming options."
+						},
+						{
+							"type": "link",
+							"label": "contact",
+							"href": "/contact",
+							"openInNewTab": true
+						}
+					]
+				},
+				{
+					"key": "manager_letter",
+					"question": "📧 Do you have a manager budget-approval letter I can send?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "Yes. Use the email template below, open it in your email client, or copy it with one click."
+						},
+						{
+							"type": "email_template",
+							"subject": "Request for approval: AI training program",
+							"body": "Hi [Manager Name],\n\nI would like approval to attend [Program Name] with Cambermast.\n\nThis training is focused on practical, responsible AI use and includes\nhands-on exercises I can apply directly in my role. I expect this will\nhelp me improve speed and quality in [team/process area], while following\nour policies and quality standards.\n\nProgram: [Program Name]\nDates: [Dates]\nCost: [Cost]\nLink: [Program/Event URL]\n\nAfter the training, I will share key takeaways and specific ways we can\napply what I learned to our team.\n\nThank you for considering this request.\n\nBest,\n[Your Name]",
+							"ctaLabel": "Open in email client",
+							"copyButtonLabel": "Copy email",
+							"copiedButtonLabel": "Copied",
+							"copiedStateMs": 1600
+						}
+					]
+				}
+			],
+			"schedule": {
+				"durationDays": 28,
+				"estimatedHoursCommitment": 2
+			},
+			"heroImage": "/images/ai-accelerator.jpeg",
+			"heroImageAlt": "AI Accelerator Workshop illustration",
+			"image": "/images/cambermast-content-2-ai-accelerator-workshop-og.jpeg",
+			"imageAlt": "Open graph image for the AI Accelerator Workshop training program",
+			"campaignId": "aia262",
 			"description": {
 				"summary": "This blended, four-week program is ideal for teams who want a head start with AI fundamentals and the confidence to operationalize advanced capabilities without reinventing the wheel each time.",
-				"bodyMd": "## Program overview\\n\\nThis four-week workshop combines fundamentals and hands-on implementation. You will practice with real business scenarios so every session produces something useful you can apply right away.\\n\\nBy the end, you will have a repeatable approach for prompting, custom GPT setup, and research workflows that support daily decisions.\\n\\n### What to expect each week\\n\\n1. Learn one core concept with a live walkthrough.\\n2. Apply it to your own business scenario during guided practice.\\n3. Leave with a usable artifact you can continue refining.\\n\\n### Who this is for\\n\\n- Beginners who want a practical starting point with AI.\\n- Operators who need repeatable workflows for support, marketing, and internal documentation.\\n- Team leads who want clear guardrails before scaling AI usage.\\n\\n### What you will build\\n\\n- A custom GPT aligned to your tone, policies, and workflow.\\n- A project workspace that keeps prompts, files, and context organized.\\n- A lightweight research framework for faster, better decisions."
+				"bodyMd": "## Program overview\n\nThis four-week workshop combines fundamentals and hands-on implementation. You will practice with real business scenarios so every session produces something useful you can apply right away.\n\nBy the end, you will have a repeatable approach for prompting, custom GPT setup, and research workflows that support daily decisions.\n\n### What to expect each week\n\n1. Learn one core concept with a live walkthrough.\n2. Apply it to your own business scenario during guided practice.\n3. Leave with a usable artifact you can continue refining.\n\n### Who this is for\n\n- Beginners who want a practical starting point with AI.\n- Operators who need repeatable workflows for support, marketing, and internal documentation.\n- Team leads who want clear guardrails before scaling AI usage.\n\n### What you will build\n\n- A custom GPT aligned to your tone, policies, and workflow.\n- A project workspace that keeps prompts, files, and context organized.\n- A lightweight research framework for faster, better decisions."
 			},
 			"highlights": [
 				"Understand how today's AI models generate answers",
@@ -385,80 +526,7 @@
 					"details": "Package your offering for GPT marketplace listings and discovery."
 				}
 			],
-			"faq": [
-				{
-					"question": "Do we need AI experience before attending?",
-					"answer": "No. The workshop starts with AI Power Prompting to establish the fundamentals and then moves into advanced capabilities with guided practice."
-				},
-				{
-					"question": "Can we tailor the advanced modules?",
-					"answer": "Yes. Private cohorts can swap modules or double down on areas like custom GPTs, AI research, or automation workflows."
-				},
-				{
-					"question": "Is there post-workshop support?",
-					"answer": "You receive office hours and follow-up resources to ensure your custom GPTs and projects keep delivering value."
-				}
-			],
-			"registrationClosesAtUtc": "2026-03-12T16:30:00.000Z",
-			"timeZoneIana": "America/Los_Angeles",
-			"visibility": "draft",
-			"lifecycleStatus": "scheduled",
-			"registrationStatus": "external",
-			"cta": {
-				"label": "Register now",
-				"url": "https://luma.com/rzqd4jj4"
-			},
-			"location": {
-				"mode": "online",
-				"publicLabel": "Zoom",
-				"detailsVisibility": "post_signup"
-			},
-			"ticketing": {
-				"currency": "USD",
-				"amountUsd": 0
-			},
-			"registrationSettings": {
-				"approvalRequired": false,
-				"capacity": {
-					"type": "unlimited"
-				}
-			},
-			"programRef": {
-				"sku": "CM-TR-002"
-			},
-			"schedule": {
-				"durationDays": 28,
-				"estimatedHoursCommitment": 2
-			},
-			"speakers": [
-				{
-					"name": "Bill Raymond",
-					"title": "Lead Instructor",
-					"shortBio": "Bill helps teams adopt AI responsibly, blending foundational skills with advanced automation tactics that stick inside your business."
-				}
-			],
-			"heroImage": "/images/ai-accelerator.jpeg",
-			"heroImageAlt": "AI Accelerator Workshop illustration",
-			"image": "/images/cambermast-content-2-ai-accelerator-workshop-og.jpeg",
-			"imageAlt": "Open graph image for the AI Accelerator Workshop training program",
-			"sessions": [
-				{
-					"startAtUtc": "2026-03-12T17:00:00.000Z",
-					"endAtUtc": "2026-03-12T19:00:00.000Z"
-				},
-				{
-					"startAtUtc": "2026-03-19T17:00:00.000Z",
-					"endAtUtc": "2026-03-19T19:00:00.000Z"
-				},
-				{
-					"startAtUtc": "2026-03-26T17:00:00.000Z",
-					"endAtUtc": "2026-03-26T19:00:00.000Z"
-				},
-				{
-					"startAtUtc": "2026-04-02T17:00:00.000Z",
-					"endAtUtc": "2026-04-02T19:00:00.000Z"
-				}
-			]
+			"registrationClosesAtUtc": "2026-03-12T16:30:00.000Z"
 		}
 	]
 }

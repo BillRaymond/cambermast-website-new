@@ -1,3 +1,5 @@
+import type { FaqItem } from '$lib/data/faq/types';
+
 export type TrainingCta = {
 	label: string;
 	url: string;
@@ -46,11 +48,7 @@ export type TrainingTrainer = {
 	highlights?: string[];
 };
 
-export type TrainingFaq = {
-	question: string;
-	answers?: string[];
-	answer?: string;
-};
+export type TrainingFaq = FaqItem;
 
 export type TrainingScheduleTemplate = {
 	durationDays: number;

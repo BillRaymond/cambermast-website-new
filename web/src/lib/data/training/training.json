@@ -1,1248 +1,1363 @@
 {
-  "programs": [
-    {
-      "slug": "ai-fundamentals",
-      "route": "/training/ai-fundamentals",
-      "sku": "CM-TR-001",
-      "catalog": {
-        "id": "training-ai-fundamentals",
-        "summary": "Primer on prompting that explains how AI works and shows you how to prompt successfully.",
-        "image": "/images/ai-fundamentals.jpeg",
-        "imageAlt": "AI Power Prompting training workshop illustration",
-        "bullets": [
-          "Understand how today’s AI models generate answers",
-          "Learn four core prompt types you can reuse anywhere",
-          "Collaborate with AI to brainstorm and polish ideas"
-        ],
-        "order": 0,
-        "published": true
-      },
-      "title": "AI Power Prompting",
-      "nickname": "Your AI fundamentals • From prompting to productivity",
-      "tagline": "A live primer on prompting: learn how AI works and how to prompt successfully.",
-      "heroImage": "/images/ai-fundamentals.jpeg",
-      "heroImageAlt": "AI Power Prompting training workshop illustration",
-      "ogImage": "/images/cambermast-content-1-ai-fundamentals-ai-power-prompting-og.jpeg",
-      "ogImageAlt": "Open graph image for the AI Power Prompting training program",
-      "description": "AI Power Prompting is a four-hour crash course that explains how modern AI systems work and shows you how to craft prompts that consistently deliver results.",
-      "secondaryDescription": "Build confidence through guided demos and exercises with ChatGPT, Copilot, Claude, and Gemini so you know when to reach for each tool and how to collaborate with it.",
-      "primaryCta": {
-        "label": "Schedule your team",
-        "url": "/contact"
-      },
-      "secondaryCta": {
-        "label": "Talk with Bill",
-        "url": "/contact"
-      },
-      "scheduleTemplate": {
-        "durationDays": 1,
-        "hoursPerDayCommitment": 4,
-        "defaultStartTimeLocal": "13:00",
-        "defaultTimeZone": "America/Los_Angeles",
-        "defaultTimeZoneLabel": "PT",
-        "defaultLocationLabel": "Online"
-      },
-      "stats": [
-        {
-          "label": "Duration",
-          "value": "4-hours"
-        },
-        {
-          "label": "Format",
-          "value": [
-            "🔴 Live online",
-            "🏫 In-person available"
-          ]
-        },
-        {
-          "label": "Cost",
-          "value": "$349 per person (virtual cohort)"
-        },
-        {
-          "label": "Certificate",
-          "value": "📜 Certificate included"
-        },
-        {
-          "label": "Environment",
-          "value": "💙 Learn in a supportive, judgment-free environment"
-        },
-        {
-          "label": "In-person",
-          "value": "Custom pricing for private teams"
-        }
-      ],
-      "audience": [
-        "People just starting with AI who want a solid foundation.",
-        "Professionals who want to feel more confident using AI in daily work.",
-        "Curious learners ready to apply AI in practical, hands-on ways."
-      ],
-      "audienceExamples": [
-        "Team leads helping non-technical staff adopt AI safely.",
-        "Knowledge workers in operations, HR, finance, or customer support.",
-        "Consultants and agency pros creating AI-enhanced deliverables.",
-        "Product managers and analysts pairing AI with existing workflows.",
-        "Educators and L&D leaders building AI literacy programs."
-      ],
-      "objectives": [
-        "Understand how modern AI systems process inputs and generate responses.",
-        "Learn the four core prompt types to improve every AI interaction.",
-        "Collaborate with AI to brainstorm ideas and move work forward faster."
-      ],
-      "prerequisites": [
-        "Access to an AI chatbot (ChatGPT recommended; Claude, Gemini, or Copilot also work).",
-        "Curiosity and openness to experimentation.",
-        "Comfort using a modern web browser."
-      ],
-      "takeaways": [
-        "Explain AI clearly to colleagues and clients.",
-        "Apply four proven prompt techniques with ready-made templates.",
-        "Save hours drafting content and documents.",
-        "Jump-start projects with AI-generated plans and ideas."
-      ],
-      "sessions": [
-        {
-          "name": "🌐 February 3, 2026 Public Cohort",
-          "date": "Tuesday, Feb 3, 2026",
-          "time": [
-            "1:00 pm-5:00 pm PT",
-            "4:00-8:00 pm ET"
-          ],
-          "startDate": "2026-02-03",
-          "endDate": "2026-02-03",
-          "location": "Live on Zoom",
-          "spots": "Open enrollment",
-          "registerUrl": "https://luma.com/rzqd4jj4"
-        },
-        {
-          "name": "Private Team Workshop",
-          "date": "You pick the date",
-          "time": "Half-day or full-day",
-          "location": "On-site or virtual",
-          "spots": "Up to 40 participants",
-          "registerUrl": "/contact"
-        }
-      ],
-      "agenda": [
-        {
-          "title": "1. AI Fundamentals",
-          "details": [
-            "Explain AI in your own words and align on shared language.",
-            "Distinguish how ChatGPT, Copilot, Claude, and Gemini approach tasks.",
-            "Outline responsible-use scenarios and ethical guardrails.",
-            "Explore chatbot interfaces and capture usability wins."
-          ]
-        },
-        {
-          "title": "2. Prompting Basics",
-          "details": [
-            "Break down the anatomy of an effective prompt for clarity and context.",
-            "Practice the four core prompt types: zero-shot, few-shot, chain-of-thought, and chat.",
-            "Rewrite weak prompts and articulate what changed.",
-            "Identify and troubleshoot hallucinations."
-          ]
-        },
-        {
-          "title": "3. Productivity Strategies",
-          "details": [
-            "Draft emails, posts, and documents with AI as your writing partner.",
-            "Build project plans with tasks, owners, and deadlines in minutes.",
-            "Accelerate research and brainstorming for new initiatives.",
-            "Analyze data by asking questions and exporting structured results."
-          ]
-        },
-        {
-          "title": "4. Creative Uses for AI",
-          "details": [
-            "Beat creative blocks with ideation sprints and story prompts.",
-            "Co-develop ideas through conversational refinement.",
-            "Personalize tone and style to fit different audiences."
-          ]
-        },
-        {
-          "title": "5. Advanced Prompting Techniques",
-          "details": [
-            "Design reusable prompt templates for social and marketing assets.",
-            "Experiment with Custom GPTs or assistants tailored to your brand.",
-            "Format outputs into tables, charts, and files ready to ship."
-          ]
-        },
-        {
-          "title": "6. The Future of AI & Wrap Up",
-          "details": [
-            "Experiment with multimodal prompting using images and files.",
-            "Plan the first projects to apply back at work with measurable goals.",
-            "Reflect on the most valuable techniques and share next steps."
-          ]
-        }
-      ],
-      "resources": [
-        "Course workbook with prompt templates and examples.",
-        "Earn a certificate you can showcase with pride.",
-        "A free one-hour follow-up two weeks after the training."
-      ],
-      "aboutTrainer": {
-        "title": "About your trainer",
-        "name": "Bill Raymond",
-        "role": "Founder, Cambermast LLC",
-        "photo": "/images/bill.jpg",
-        "photoAlt": "Bill Raymond",
-        "summary": "Bill focuses on AI learning and development, project management, and leadership initiatives that help teams adopt new technology responsibly.",
-        "highlights": [
-          "Author of the Bill Talks AI newsletter.",
-          "Founding member of the AI Collective.",
-          "NASA award winner.",
-          "Microsoft MVP.",
-          "Host of the Agile in Action podcast with 130+ episodes and 30,000+ listeners."
-        ]
-      },
-      "faqs": [
-        {
-          "question": "How customizable is the agenda?",
-          "answers": [
-            "If you are taking a publicly scheduled course, the agenda is fixed.",
-            "For private team workshops, we can adjust the agenda to focus on specific use cases or tools."
-          ]
-        },
-        {
-          "question": "Do participants need prior AI experience?",
-          "answers": [
-            "No. The course is designed for beginners through intermediate users, mixing demos with guided exercises."
-          ]
-        },
-        {
-          "question": "Can we host the workshop in person?",
-          "answers": [
-            "Yes. On-site sessions include travel in the proposal; virtual cohorts are available worldwide."
-          ]
-        },
-        {
-          "question": "Do you have a letter I can send to my manager for budget approval?",
-          "answers": [
-            "Yes! Here’s a customizable letter you can use:\n\nSubject: Request to Attend AI Training\n\nHi [Manager’s Name],\n\nI’d like to attend the upcoming [Workshop Name] with Bill Raymond. Bill is a founding member of the AI Collective (https://www.aicollective.com) and the author of the popular Bill Talks AI newsletter (https://BillTalksAI.com). His work focuses on helping professionals safely and effectively adopt AI, and this program is designed to build practical skills and confidence in everyday use.\n\nThe workshop also includes a certification that validates the skills I’ll be applying in my role. I believe this will benefit both my growth and the value I bring to our team. The cost is [insert cost]. Thank you for considering this request.\n\nHere is a link to the course: [Insert Training Program URL]\n\nBest,\n[Your Name]"
-          ]
-        }
-      ]
-    },
-    {
-      "slug": "ai-accelerator-workshop",
-      "route": "/training/ai-accelerator-workshop",
-      "sku": "CM-TR-002",
-      "catalog": {
-        "id": "training-ai-accelerator",
-        "summary": "Extends the AI Power prompting course as a multi-week AI workshop so you can tap powerful new AI features to run your business.",
-        "image": "/images/ai-accelerator.jpeg",
-        "imageAlt": "AI Accelerator Workshop illustration",
-        "bullets": [
-          "Understand how today’s AI models generate answers",
-          "Custom GPTs tuned to your workflows",
-          "Organize prompts, files, and research in AI projects"
-        ],
-        "order": 1,
-        "published": true
-      },
-      "title": "AI Accelerator Workshop",
-      "nickname": "From core prompting to professional AI systems",
-      "tagline": "Bundle AI Power Prompting with advanced build labs so your team launches repeatable AI workflows that run the business better.",
-      "heroImage": "/images/ai-accelerator.jpeg",
-      "heroImageAlt": "AI Accelerator Workshop illustration",
-      "ogImage": "/images/cambermast-content-2-ai-accelerator-workshop-og.jpeg",
-      "ogImageAlt": "Open graph image for the AI Accelerator Workshop training program",
-      "description": "The AI Accelerator Workshop includes the AI Power Prompting course and layers on professional AI features so you can run your business more efficiently. You will leave with hands-on practice using custom GPTs, AI projects, and research frameworks tailored to your workflows across four focused weeks.",
-      "secondaryDescription": "This blended, four-week program is ideal for teams who want a head start with AI fundamentals and the confidence to operationalize advanced capabilities without reinventing the wheel each time.",
-      "primaryCta": {
-        "label": "Schedule your team",
-        "url": "/contact"
-      },
-      "secondaryCta": {
-        "label": "Talk with Bill",
-        "url": "/contact"
-      },
-      "scheduleTemplate": {
-        "durationDays": 28,
-        "hoursPerDayCommitment": 2,
-        "defaultStartTimeLocal": "10:00",
-        "defaultTimeZone": "America/Los_Angeles",
-        "defaultTimeZoneLabel": "PT",
-        "defaultLocationLabel": "Online"
-      },
-      "stats": [
-        {
-          "label": "Duration",
-          "value": "Four weeks, 2-hour commitment per week"
-        },
-        {
-          "label": "Format",
-          "value": [
-            "🔴 Live online",
-            "🏫 In-person available"
-          ]
-        },
-        {
-          "label": "Cost",
-          "value": "$849 per person (virtual cohort)"
-        },
-        {
-          "label": "Certificate",
-          "value": "📜 Certificate included"
-        },
-        {
-          "label": "Environment",
-          "value": "💙 Learn in a supportive, judgment-free environment"
-        },
-        {
-          "label": "What’s included",
-          "value": "AI Power Prompting + advanced build labs"
-        },
-        {
-          "label": "In-person",
-          "value": "Custom pricing available for on-site training"
-        }
-      ],
-      "audience": [
-        "Beginners who want to get a head start with AI and immediately apply it to their business.",
-        "Operators eager to save time with repeatable AI processes like customer support, marketing content, and FAQ responses."
-      ],
-      "audienceExamples": [
-        "Small-business owners building their first AI playbooks.",
-        "Customer experience leaders standardizing responses with AI assists.",
-        "Marketing teams accelerating campaign copy and creative briefs.",
-        "Operations managers codifying internal knowledge into reusable AI projects."
-      ],
-      "objectives": [
-        "Master the fundamentals of AI prompting and responsible use.",
-        "Configure custom GPTs that reflect your brand voice and processes.",
-        "Launch AI projects that organize prompts, files, and context for ongoing work.",
-        "Practice deep research techniques to inform strategy, competitor intel, and planning."
-      ],
-      "prerequisites": [
-        "A ChatGPT Plus, Enterprise, or comparable account with access to custom GPTs and projects.",
-        "Willingness to share sample processes or content to tailor exercises.",
-        "Curiosity and a laptop capable of running modern browsers."
-      ],
-      "takeaways": [
-        "Ready-to-use prompt templates covering core and advanced use cases.",
-        "Custom GPTs configured around your business scenarios.",
-        "Project spaces that keep prompts, files, and context organized for future work.",
-        "Research frameworks that turn AI findings into confident decisions."
-      ],
-      "sessions": [
-        {
-          "name": "Private Team Workshop",
-          "date": "Schedule a date that fits your team",
-          "time": "Four weekly 2-hour sessions (virtual) or condensed on-site delivery",
-          "location": "Zoom or on-site",
-          "spots": "Up to 25 participants",
-          "registerUrl": "/contact"
-        }
-      ],
-      "agenda": [
-        {
-          "title": "Week 1: AI Power Prompting Core",
-          "details": [
-            "Cover everything inside the AI Power Prompting curriculum.",
-            "Practice the four core prompt types across writing, analysis, and ideation.",
-            "Adopt responsible-use guardrails that build trust inside your team."
-          ]
-        },
-        {
-          "title": "Week 2: Custom GPT Foundations",
-          "details": [
-            "Map business processes that benefit from custom GPTs.",
-            "Configure custom instructions, knowledge, and actions that keep outputs on brand.",
-            "Test and iterate GPT behaviors with real scenarios from your organization."
-          ]
-        },
-        {
-          "title": "Week 3: AI Projects & Workflow Organization",
-          "details": [
-            "Organize prompts, files, and context inside AI project spaces.",
-            "Create reusable folders for marketing, support, and operations workflows.",
-            "Share project spaces with teammates so everyone stays on the same page."
-          ]
-        },
-        {
-          "title": "Week 4: Market-Ready AI Delivery",
-          "details": [
-            "Use advanced AI research strategies for competitor analysis and market planning.",
-            "Combine AI insights with curated human sources to maintain accuracy.",
-            "Package your offering for GPT marketplace listings and discovery.",
-            "Plan follow-up experiments that keep your automations relevant."
-          ]
-        }
-      ],
-      "resources": [
-        "Workbook that combines AI Power Prompting and accelerator exercises.",
-        "Custom GPT configuration checklists and sample knowledge base templates.",
-        "Research brief template that transforms findings into presentations.",
-        "Post-workshop office hours to refine GPTs and projects."
-      ],
-      "aboutTrainer": {
-        "title": "About your trainer",
-        "name": "Bill Raymond",
-        "role": "Founder, Cambermast LLC",
-        "photo": "/images/bill.jpg",
-        "photoAlt": "Bill Raymond",
-        "summary": "Bill helps teams adopt AI responsibly, blending foundational skills with advanced automation tactics that stick inside your business.",
-        "highlights": [
-          "Author of the Bill Talks AI newsletter.",
-          "Founding member of the AI Collective.",
-          "NASA award winner.",
-          "Microsoft MVP.",
-          "Host of the Agile in Action podcast with 130+ episodes."
-        ]
-      },
-      "faqs": [
-        {
-          "question": "Do we need AI experience before attending?",
-          "answers": [
-            "No. The workshop starts with AI Power Prompting to establish the fundamentals and then moves into advanced capabilities with plenty of guided practice."
-          ]
-        },
-        {
-          "question": "Can we tailor the advanced modules?",
-          "answers": [
-            "Yes. Private cohorts can swap modules or double down on areas like custom GPTs, AI research, or automation workflows."
-          ]
-        },
-        {
-          "question": "Is there post-workshop support?",
-          "answers": [
-            "You receive office hours and follow-up resources to ensure your custom GPTs and projects keep delivering value."
-          ]
-        }
-      ]
-    },
-    {
-      "slug": "ai-advanced-workshop",
-      "route": "/training/ai-advanced-workshop",
-      "sku": "CM-TR-003",
-      "catalog": {
-        "id": "training-ai-advanced",
-        "summary": "Seven-week cohort for cross-functional teams to integrate AI across planning, delivery, and reporting.",
-        "image": "/images/ai-advanced.jpeg",
-        "imageAlt": "AI Workshop for Modern Teams illustration",
-        "bullets": [
-          "Automate repetitive work with reusable AI workflows",
-          "Co-create prompts and playbooks that fit your standards",
-          "Present a final project and adoption roadmap"
-        ],
-        "order": 2,
-        "published": true
-      },
-      "title": "AI Workshop for Modern Teams",
-      "nickname": "Seven-week cohort for cross-functional teams",
-      "tagline": "AI-enhanced team workflows that deliver measurable results in seven weeks.",
-      "heroImage": "/images/ai-advanced.jpeg",
-      "heroImageAlt": "AI Workshop for Modern Teams illustration",
-      "ogImage": "/images/cambermast-content-3-ai-workshop-for-modern-teams-og.jpeg",
-      "ogImageAlt": "Open graph image for the AI Workshop for Modern Teams training program",
-      "description": "The AI Workshop for Modern Teams is a live, seven-week cohort that helps cross-functional teams weave generative AI into everyday planning, delivery, and reporting workflows.",
-      "secondaryDescription": "Each week blends strategic discussions with hands-on practice so your team can automate routine work, improve decision quality, and collaborate with AI responsibly.",
-      "primaryCta": {
-        "label": "Schedule your team",
-        "url": "/contact"
-      },
-      "secondaryCta": {
-        "label": "Talk with Bill",
-        "url": "/contact"
-      },
-      "scheduleTemplate": {
-        "durationDays": 49,
-        "hoursPerDayCommitment": 2,
-        "defaultStartTimeLocal": "10:00",
-        "defaultTimeZone": "America/Los_Angeles",
-        "defaultTimeZoneLabel": "PT",
-        "defaultLocationLabel": "Online"
-      },
-      "stats": [
-        {
-          "label": "Duration",
-          "value": "Seven weeks, 2-hour commitment per week"
-        },
-        {
-          "label": "Format",
-          "value": [
-            "🔴 Live online",
-            "🏫 In-person available"
-          ]
-        },
-        {
-          "label": "Cost",
-          "value": "$1,749 per person (virtual cohort)"
-        },
-        {
-          "label": "Certificate",
-          "value": "📜 Certificate included"
-        },
-        {
-          "label": "Environment",
-          "value": "💙 Learn in a supportive, judgment-free environment"
-        },
-        {
-          "label": "Team size",
-          "value": "Ideal for intact teams of 6-25 participants"
-        }
-      ],
-      "audience": [
-        "Cross-functional teams modernizing operations, product delivery, and customer experiences with AI.",
-        "Managers responsible for scaling AI adoption without sacrificing compliance or brand voice.",
-        "Leaders who want a repeatable system to evaluate, pilot, and scale AI initiatives."
-      ],
-      "audienceExamples": [
-        "Operations leads improving handoffs between departments and tools.",
-        "Product managers coordinating research, planning, and launch communications.",
-        "Customer success and support teams balancing personalization with efficiency.",
-        "Enablement groups building shared playbooks for knowledge workers."
-      ],
-      "objectives": [
-        "Automate repetitive tasks so teams can focus on strategic, human-centered work.",
-        "Co-create prompts, templates, and workflows that reflect your quality standards and guardrails.",
-        "Connect AI experiments to measurable outcomes, dashboards, and handoffs."
-      ],
-      "prerequisites": [
-        "Access to a paid account for a foundational LLM such as ChatGPT, Claude, Gemini, or Copilot.",
-        "Readiness to bring real processes or projects to explore during the cohort.",
-        "Commitment to experimenting within existing policies, compliance requirements, and brand guidelines."
-      ],
-      "takeaways": [
-        "Team-specific workflow maps that pinpoint where AI adds leverage.",
-        "Reusable prompt libraries, playbooks, and decision frameworks.",
-        "A documented adoption plan with checkpoints, owners, and success metrics.",
-        "Digital certificate of completion once the Week 7 project is presented."
-      ],
-      "sessions": [
-        {
-          "name": "Private Team Cohorts",
-          "date": "Schedule a start date that fits your team",
-          "time": "Seven weekly 2-hour sessions (virtual or on-site intensives)",
-          "location": "Zoom or on-site",
-          "spots": "Up to 25 participants",
-          "registerUrl": "/contact"
-        }
-      ],
-      "agenda": [
-        {
-          "title": "Week 1: Adopting the AI Mindset",
-          "details": [
-            "Explore AI foundations for cross-functional teams and align on ethical guardrails.",
-            "Identify quick wins that remove repetitive busywork across departments.",
-            "Practice prompt fundamentals for clarity, context, and accuracy."
-          ]
-        },
-        {
-          "title": "Week 2: Mapping Your Workflows",
-          "details": [
-            "Document end-to-end processes that benefit from AI augmentation.",
-            "Align stakeholders on success metrics, handoffs, and constraints.",
-            "Test AI tools that simulate common scenarios and edge cases."
-          ]
-        },
-        {
-          "title": "Week 3: Personalization at Scale",
-          "details": [
-            "Streamline communication across channels without losing brand consistency.",
-            "Automate tone, style, and format adjustments with controlled prompts.",
-            "Design custom GPT instructions tailored to your team workflows."
-          ]
-        },
-        {
-          "title": "Week 4: Accelerating Value Delivery",
-          "details": [
-            "Standardize production workflows and remove bottlenecks.",
-            "Run AI-powered audits to prioritize improvements and de-risk adoption.",
-            "Plan projects and tasks that increase measurable impact."
-          ]
-        },
-        {
-          "title": "Week 5: Deep Insights and Research",
-          "details": [
-            "Use AI to surface gaps, opportunities, and research angles.",
-            "Co-develop outlines and drafts for upcoming deliverables.",
-            "Define the project you will carry through Weeks 6 and 7."
-          ]
-        },
-        {
-          "title": "Week 6: Data-Driven Decisions",
-          "details": [
-            "Instrument feedback mechanisms to evaluate AI-generated work.",
-            "Apply advanced prompting to sharpen clarity and reduce variance.",
-            "Review progress on team projects and share peer feedback."
-          ]
-        },
-        {
-          "title": "Week 7: Operationalizing Your Roadmap",
-          "details": [
-            "Present final projects and capture stakeholder feedback.",
-            "Codify a long-term roadmap for AI-enabled operations.",
-            "Celebrate wins and finalize support plans for sustained adoption."
-          ]
-        }
-      ],
-      "resources": [
-        "Weekly office hours and a shared workspace for questions and feedback.",
-        "Downloadable templates, prompt libraries, and adoption checklists.",
-        "Digital certification recognizing successful course completion."
-      ],
-      "aboutTrainer": {
-        "title": "About your trainer",
-        "name": "Bill Raymond",
-        "role": "Founder, Cambermast LLC",
-        "photo": "/images/bill.jpg",
-        "photoAlt": "Bill Raymond",
-        "summary": "Bill is a technical content strategist and AI practitioner who helps teams operationalize generative AI with measurable outcomes.",
-        "highlights": [
-          "Author of the Bill Talks AI newsletter.",
-          "Founding member of the AI Collective.",
-          "NASA award winner and Microsoft MVP.",
-          "Host of the Agile in Action podcast with 130+ episodes."
-        ]
-      },
-      "faqs": [
-        {
-          "question": "Will I receive a certificate of completion?",
-          "answers": [
-            "Yes. Graduates receive a digital certificate after presenting their final project."
-          ]
-        },
-        {
-          "question": "Will there be makeup dates?",
-          "answers": [
-            "There are no official makeup dates, but Bill accommodates reasonable requests when scheduling conflicts arise."
-          ]
-        },
-        {
-          "question": "Do I need anything before the workshop starts?",
-          "answers": [
-            "Bring access to a paid generative AI account (ChatGPT, Claude, Gemini, Copilot, etc.) and a project where you can apply the lessons."
-          ]
-        },
-        {
-          "question": "Are the meetings virtual or in-person?",
-          "answers": [
-            "All cohort sessions are hosted live on Zoom, with optional on-site intensives for private teams."
-          ]
-        },
-        {
-          "question": "How can I ask questions about the course?",
-          "answers": [
-            "Use the \"Contact the Host\" link on the Lu.ma event page or reach out through the Cambermast contact form."
-          ]
-        },
-        {
-          "question": "Will there be exercises and take-home work?",
-          "answers": [
-            "Yes. Expect optional take-home exercises and encouragement to apply each lesson directly to your team workflows."
-          ]
-        },
-        {
-          "question": "Are there scheduled collaboration meetings after each class?",
-          "answers": [
-            "Not formally, but Bill hosts weekly office hours and maintains a discussion thread for ongoing peer support."
-          ]
-        },
-        {
-          "question": "I can't take this course. Are there others?",
-          "answers": [
-            "Follow Bill's training calendar at https://lu.ma/BillTalksAI and subscribe to the Bill Talks AI newsletter for upcoming offerings."
-          ]
-        }
-      ]
-    },
-    {
-      "slug": "ai-automation-with-agents",
-      "route": "/training/ai-automation-with-agents",
-      "sku": "CM-TR-004",
-      "catalog": {
-        "id": "training-ai-automation-with-agents",
-        "summary": "Hands-on agent building with n8n, OpenAI, and your internal APIs.",
-        "image": "/images/ai-automation.jpg",
-        "imageAlt": "AI Automation with Agents Workshop illustration",
-        "bullets": [
-          "Design human-in-the-loop automations",
-          "Build working agents in guided labs",
-          "Optimize for reliability and cost"
-        ],
-        "order": 3,
-        "published": true
-      },
-      "title": "AI Automation with Agents Workshop",
-      "nickname": "Six-week cohort for applied agent builders",
-      "tagline": "Automate internal processes with AI agents that act like team members, across six weeks of guided practice.",
-      "heroImage": "/images/ai-automation.jpg",
-      "heroImageAlt": "AI Automation with Agents Workshop illustration",
-      "ogImage": "/images/cambermast-content-4-ai-automation-with-agents-workshop-og.jpeg",
-      "ogImageAlt": "Open graph image for the AI Automation with Agents workshop training program",
-      "description": "The AI Automation with Agents Workshop is a live, six-week cohort on automating internal processes with reliable AI agents. We tackle real-world scenarios where an agent behaves like a teammate, coordinating steps and escalating to people when necessary.",
-      "secondaryDescription": "Across weekly 2-hour sessions you will design, build, and optimize agents using tools like n8n, OpenAI, and best-practice API integrations. That way your team leaves with something running.",
-      "primaryCta": {
-        "label": "Schedule your team",
-        "url": "/contact"
-      },
-      "secondaryCta": {
-        "label": "See more automation work",
-        "url": "/agents"
-      },
-      "scheduleTemplate": {
-        "durationDays": 42,
-        "hoursPerDayCommitment": 2,
-        "defaultStartTimeLocal": "13:00",
-        "defaultTimeZone": "America/Los_Angeles",
-        "defaultTimeZoneLabel": "PT",
-        "defaultLocationLabel": "Online"
-      },
-      "stats": [
-        {
-          "label": "Duration",
-          "value": "Six weeks, 2-hour commitment per week"
-        },
-        {
-          "label": "Format",
-          "value": [
-            "🔴 Live online",
-            "🏫 In-person available"
-          ]
-        },
-        {
-          "label": "Cost",
-          "value": "$1,749 per person (virtual cohort)"
-        },
-        {
-          "label": "Certificate",
-          "value": "📜 Certificate included"
-        },
-        {
-          "label": "Environment",
-          "value": "💙 Learn in a supportive, judgment-free environment"
-        },
-        {
-          "label": "In-person",
-          "value": "Custom fees for SF Bay Area or on-site sessions"
-        },
-        {
-          "label": "Done-for-you option",
-          "value": "Request a quote if you prefer us to build the agents for you"
-        },
-        {
-          "label": "Support",
-          "value": "Includes 30-day coaching and monitoring check-ins"
-        }
-      ],
-      "audience": [
-        "Technically proficient builders who want to automate business processes with AI agents.",
-        "Teams eager to design automations that save hours each week."
-      ],
-      "audienceExamples": [
-        "Operations managers automating intake, triage, and handoffs.",
-        "Automation engineers connecting AI models to internal APIs.",
-        "Consultants delivering managed automations for clients.",
-        "Founders validating AI-powered back-office assistants."
-      ],
-      "objectives": [
-        "Understand what an AI agent is, how it works, and when to keep humans in the loop.",
-        "Build production-ready n8n automations that orchestrate AI models, APIs, and business rules.",
-        "Optimize agents for cost, latency, and reliability, with monitoring plans to match."
-      ],
-      "prerequisites": [
-        "Comfort working with APIs, webhooks, or automation tools like Zapier and n8n.",
-        "Active accounts for the AI providers you plan to use (OpenAI, Anthropic, or Azure OpenAI).",
-        "Access to a realistic process or dataset you want to automate."
-      ],
-      "takeaways": [
-        "A working agent that automates a real scenario from your business.",
-        "Blueprint documenting architecture, prompts, and integration patterns.",
-        "Checklists for human handoffs, escalation, and monitoring.",
-        "Optimization plan to keep usage costs predictable."
-      ],
-      "sessions": [
-        {
-          "name": "Winter 2025-2026 Open Enrollment",
-          "date": "Dec 4, 2025 - Jan 22, 2026 (Wednesdays)",
-          "time": [
-            "10:00 am-12:00 pm PT",
-            "1:00-3:00 pm ET"
-          ],
-          "startDate": "2025-12-04",
-          "endDate": "2026-01-22",
-          "location": "Live on Zoom",
-          "spots": "Open enrollment",
-          "registerUrl": "https://cambermast.com/contact",
-          "draft": true
-        },
-        {
-          "name": "Private Team Cohorts",
-          "date": "Schedule a start date that fits your team",
-          "time": "Six weekly 2-hour sessions or compressed on-site blocks",
-          "location": "Zoom or on-site (SF Bay Area)",
-          "spots": "Up to 15 participants",
-          "registerUrl": "/contact"
-        }
-      ],
-      "agenda": [
-        {
-          "title": "Week 1: Agent Foundations",
-          "details": [
-            "Define what AI agents are, how they orchestrate tools, and where they excel.",
-            "Map a target process, decision points, and human checkpoints.",
-            "Set up secure access to APIs, knowledge bases, and action nodes."
-          ]
-        },
-        {
-          "title": "Week 2: Opportunity Mapping & Scoping",
-          "details": [
-            "Prioritize candidate workloads based on impact, complexity, and data access.",
-            "Design human-in-the-loop checkpoints that keep people informed.",
-            "Draft success metrics and reliability thresholds for your agent."
-          ]
-        },
-        {
-          "title": "Week 3: Build Core Agent Loops",
-          "details": [
-            "Assemble n8n workflows that call AI models, parse responses, and trigger APIs.",
-            "Frame prompts and instructions that make the agent trustworthy.",
-            "Prototype audit trails and safe fallbacks before production."
-          ]
-        },
-        {
-          "title": "Week 4: Guardrails and Human Handoffs",
-          "details": [
-            "Implement routing logic that escalates decisions to the right humans.",
-            "Add validation steps, retries, and structured outputs to reduce errors.",
-            "Document standard operating procedures for exception handling."
-          ]
-        },
-        {
-          "title": "Week 5: Observability & Optimization",
-          "details": [
-            "Run evaluation loops to monitor accuracy, latency, and cost.",
-            "Tune prompts, memory strategies, and caching for efficiency.",
-            "Instrument alerts and dashboards so issues surface fast."
-          ]
-        },
-        {
-          "title": "Week 6: Launch & Scale Roadmap",
-          "details": [
-            "Define rollout plans, SLAs, and documentation for your team.",
-            "Plan additional agent use cases and integrations.",
-            "Schedule follow-up coaching and monitoring checkpoints."
-          ]
-        }
-      ],
-      "resources": [
-        "Agent architecture handbook with reusable modules and prompts.",
-        "Configuration checklists and runbooks for on-call responders.",
-        "30-day support channel to review logs and iterate on automations."
-      ],
-      "aboutTrainer": {
-        "title": "About your trainer",
-        "name": "Bill Raymond",
-        "role": "Founder, Cambermast LLC",
-        "photo": "/images/bill.jpg",
-        "photoAlt": "Bill Raymond",
-        "summary": "Bill has delivered AI automations and agent pilots for startups and enterprises, helping teams balance speed with responsible deployment.",
-        "highlights": [
-          "Author of the Bill Talks AI newsletter.",
-          "Founding member of the AI Collective.",
-          "NASA award winner.",
-          "Microsoft MVP.",
-          "Host of the Agile in Action podcast with 130+ episodes."
-        ]
-      },
-      "faqs": [
-        {
-          "question": "What technical skills should our team have?",
-          "answers": [
-            "A basic understanding of APIs or automation platforms is ideal. We provide pre-work to get everyone on the same page before the workshop."
-          ]
-        },
-        {
-          "question": "Can you build the automation for us?",
-          "answers": [
-            "Yes. If you would rather have the agent delivered for you, request a custom quote and we will scope a build-and-handoff engagement."
-          ]
-        },
-        {
-          "question": "Do you offer on-site workshops?",
-          "answers": [
-            "We regularly run in-person sessions in the SF Bay Area and can travel for private company engagements."
-          ]
-        }
-      ]
-    },
-    {
-      "slug": "ai-workshop-for-content-creators",
-      "route": "/training/ai-workshop-for-content-creators",
-      "sku": "CM-TR-005",
-      "catalog": {
-        "id": "training-ai-workshop-content-creators",
-        "summary": "Seven-week cohort that helps content and documentation teams layer AI into their workflows.",
-        "image": "/images/ai-workshop-for-content-creators.jpeg",
-        "imageAlt": "AI Workshop for Tech Writers and Content Creators illustration",
-        "bullets": [
-          "Automate repetitive content production tasks with AI",
-          "Preserve brand voice with reusable prompts and guardrails",
-          "Ship a final project and earn a completion certificate"
-        ],
-        "order": 4,
-        "published": true
-      },
-      "title": "AI Workshop for Tech Writers and Content Creators",
-      "nickname": "Seven-week cohort for technical communicators",
-      "tagline": "AI-enhanced content workflows that deliver measurable impact in seven weeks.",
-      "heroImage": "/images/ai-workshop-for-content-creators.jpeg",
-      "heroImageAlt": "AI Workshop for Tech Writers and Content Creators illustration",
-      "ogImage": "/images/cambermast-content-5-ai-workshop-for-content-creators-og.jpeg",
-      "ogImageAlt": "Open graph image for the AI Workshop for Tech Writers and Content Creators training program",
-      "videoUrl": "https://www.youtube.com/watch?v=pDMU-xyu8GA",
-      "description": "The AI Workshop for Tech Writers and Content Creators is a live, seven-week cohort that helps technical communicators and content teams weave generative AI into their daily production workflows.",
-      "secondaryDescription": "Across weekly 2-hour sessions, participants combine strategy discussions with hands-on practice to automate repetitive tasks, preserve brand voice, and publish higher-impact content faster.",
-      "primaryCta": {
-        "label": "Find a start date",
-        "url": "https://lu.ma/BillTalksAI?tag=ai%20workshop%20for%20content%20creators"
-      },
-      "secondaryCta": {
-        "label": "Talk with Bill",
-        "url": "/contact"
-      },
-      "presentation": {
-        "partnershipLabel": "In partnership with The Content Wrangler",
-        "trailerLinkLabel": "Watch the trailer"
-      },
-      "scheduleTemplate": {
-        "durationDays": 49,
-        "hoursPerDayCommitment": 2,
-        "defaultStartTimeLocal": "10:00",
-        "defaultTimeZone": "America/Los_Angeles",
-        "defaultTimeZoneLabel": "PT",
-        "defaultLocationLabel": "Online"
-      },
-      "stats": [
-        {
-          "label": "Duration",
-          "value": "Seven weeks, 2-hour commitment per week"
-        },
-        {
-          "label": "Format",
-          "value": [
-            "🔴 Live online",
-            "🏫 In-person available"
-          ]
-        },
-        {
-          "label": "Cost",
-          "value": "$1,749 per person (virtual cohort)"
-        },
-        {
-          "label": "Certificate",
-          "value": "📜 Certificate included"
-        },
-        {
-          "label": "Environment",
-          "value": "💙 Learn in a supportive, judgment-free environment"
-        },
-        {
-          "label": "Partner",
-          "value": "Presented in partnership with The Content Wrangler"
-        }
-      ],
-      "audience": [
-        "Technical communication and documentation specialists modernizing their workflows with AI.",
-        "Content strategists responsible for aligning deliverables to user journeys and business goals.",
-        "Knowledge teams supporting structured and unstructured content across the enterprise."
-      ],
-      "audienceExamples": [
-        "Writers translating complex technical concepts for customer-facing channels.",
-        "Documentation leads maintaining product, support, and compliance libraries.",
-        "Content operations teams coordinating SMEs, editors, and governance stakeholders."
-      ],
-      "objectives": [
-        "Automate repetitive content production tasks and accelerate delivery timelines.",
-        "Tailor generative AI outputs to match established voice, tone, and terminology.",
-        "Connect content decisions to audience journeys, measurable outcomes, and ROI."
-      ],
-      "prerequisites": [
-        "Access to a paid account for a foundational LLM such as ChatGPT, Claude, Gemini, or Copilot.",
-        "Willingness to experiment with prompts inside existing style guides and compliance guardrails.",
-        "A real content initiative to apply across the weekly assignments and final project."
-      ],
-      "takeaways": [
-        "Persona-driven workflows that use AI tools to surface gaps and opportunities.",
-        "Ready-to-use prompt libraries, custom GPT instructions, and evaluation checklists.",
-        "A documented project plan that operationalizes AI-assisted content production.",
-        "Digital certificate of completion once the Week 7 project is presented."
-      ],
-      "sessions": [
-        {
-          "name": "❄️ Winter 2025 Open Enrollment",
-          "date": "Nov 4 - Dec 30, 2025 (Tuesdays)",
-          "time": [
-            "10:00 am-12:00 pm PT",
-            "1:00-3:00 pm ET"
-          ],
-          "partner": "In partnership with The Content Wrangler",
-          "startDate": "2025-11-04",
-          "endDate": "2025-12-30",
-          "location": "Live on Zoom",
-          "spots": "Open enrollment",
-          "registerUrl": "https://luma.com/zw3izjni"
-        },
-        {
-          "name": "🌷 Spring 2026 Open Enrollment",
-          "date": "Jan 27 - Mar 10, 2026 (Tuesdays)",
-          "time": [
-            "10:00 am-12:00 pm PT",
-            "1:00-3:00 pm ET"
-          ],
-          "partner": "In partnership with The Content Wrangler",
-          "startDate": "2026-01-27",
-          "endDate": "2026-03-10",
-          "location": "Live on Zoom",
-          "spots": "Open enrollment",
-          "registerUrl": "https://luma.com/nvd9y1wn"
-        }
-      ],
-      "agenda": [
-        {
-          "title": "Week 1: Adopting the AI Mindset",
-          "details": [
-            "Explore AI foundations for content teams and align on ethical guardrails.",
-            "Map quick wins that remove repetitive production work.",
-            "Practice prompt basics for clarity, structure, and factual rigor."
-          ]
-        },
-        {
-          "title": "Week 2: Mapping Your Audience Journey",
-          "details": [
-            "Build personas and user journeys that guide AI-augmented content.",
-            "Align messaging and assets to each audience touchpoint.",
-            "Test AI tools that simulate reader questions and expectations."
-          ]
-        },
-        {
-          "title": "Week 3: Personalization at Scale",
-          "details": [
-            "Deliver platform-specific versions without sacrificing consistency.",
-            "Automate tone, style, and format adjustments with controlled prompts.",
-            "Design custom GPT instructions to replicate your brand voice."
-          ]
-        },
-        {
-          "title": "Week 4: Accelerating Value Delivery",
-          "details": [
-            "Streamline production workflows and remove bottlenecks.",
-            "Run AI-powered content audits to prioritize improvements.",
-            "Plan projects and tasks that increase overall content ROI."
-          ]
-        },
-        {
-          "title": "Week 5: Deep Content Insights",
-          "details": [
-            "Identify gaps, new opportunities, and research angles with AI.",
-            "Develop outlines and drafts for net-new assets.",
-            "Define the project you will evolve through Week 7."
-          ]
-        },
-        {
-          "title": "Week 6: Data-Driven Prioritization",
-          "details": [
-            "Use customer insights to prioritize content that converts.",
-            "Apply advanced prompting techniques to sharpen clarity.",
-            "Review progress on your individual or team project."
-          ]
-        },
-        {
-          "title": "Week 7: Evolving with AI",
-          "details": [
-            "Present final projects and gather peer plus mentor feedback.",
-            "Codify a long-term roadmap for AI-enabled content operations.",
-            "Operationalize your workflow and celebrate the cohort completion."
-          ]
-        }
-      ],
-      "resources": [
-        "Exclusive discount available through The Content Wrangler newsletter.",
-        "Weekly office hours and a discussion thread to share work and questions.",
-        "Digital certification recognizing successful course completion."
-      ],
-      "aboutTrainer": {
-        "title": "About your trainer",
-        "name": "Bill Raymond",
-        "role": "Founder, Cambermast LLC",
-        "photo": "/images/bill.jpg",
-        "photoAlt": "Bill Raymond",
-        "summary": "Bill is a technical content strategist and AI practitioner who uses generative tools daily to ship human-centered documentation and learning experiences.",
-        "highlights": [
-          "Author of the Bill Talks AI newsletter.",
-          "Founding member of the AI Collective.",
-          "NASA award winner and Microsoft MVP.",
-          "Host of the Agile in Action podcast with 130+ episodes."
-        ]
-      },
-      "faqs": [
-        {
-          "question": "Will I receive a certificate of completion?",
-          "answers": [
-            "Yes. Graduates receive a digital certificate after presenting their final project."
-          ]
-        },
-        {
-          "question": "Will there be makeup dates?",
-          "answers": [
-            "There are no official makeup dates, but Bill accommodates reasonable requests when scheduling conflicts arise."
-          ]
-        },
-        {
-          "question": "Do I need anything before the workshop starts?",
-          "answers": [
-            "Bring access to a paid generative AI account (ChatGPT, Claude, Gemini, Copilot, etc.) and a project where you can apply the lessons."
-          ]
-        },
-        {
-          "question": "Are the meetings virtual or in-person?",
-          "answers": [
-            "All cohort sessions are hosted live on Zoom."
-          ]
-        },
-        {
-          "question": "How can I ask questions about the course?",
-          "answers": [
-            "Use the \"Contact the Host\" link on the Lu.ma event page or reach out through the Cambermast contact form."
-          ]
-        },
-        {
-          "question": "Will there be exercises and take-home work?",
-          "answers": [
-            "Yes. Expect optional take-home exercises and encouragement to apply each lesson directly to your content programs."
-          ]
-        },
-        {
-          "question": "Are there scheduled collaboration meetings after each class?",
-          "answers": [
-            "Not formally, but Bill hosts weekly office hours and maintains a discussion thread for ongoing peer support."
-          ]
-        },
-        {
-          "question": "I can't take this course. Are there others?",
-          "answers": [
-            "Follow Bill's training calendar at https://lu.ma/BillTalksAI and subscribe to the Bill Talks AI newsletter for upcoming offerings."
-          ]
-        },
-        {
-          "question": "What are the benefits of this course?",
-          "answers": [
-            "You will master AI use cases tailored to content creation and gain access to a supportive learning community."
-          ]
-        },
-        {
-          "question": "What makes Bill's training unique?",
-          "answers": [
-            "Bill filters out hype, focuses on realistic outcomes, and delivers a fun, professional learning experience that celebrates individual styles."
-          ]
-        }
-      ]
-    },
-    {
-      "slug": "ai-power-prompting-draft",
-      "route": "/training/ai-power-prompting-draft",
-      "sku": "CM-TR-DRAFT-001",
-      "catalog": {
-        "id": "training-ai-power-prompting-draft",
-        "summary": "Draft program data used for internal review and QA only.",
-        "image": "/images/ai-fundamentals.jpeg",
-        "imageAlt": "AI Power Prompting lab concept art",
-        "bullets": [
-          "Internal-only curriculum review",
-          "Validate layout and content flow",
-          "Capture QA and launch feedback"
-        ],
-        "order": 99,
-        "published": false
-      },
-      "title": "AI Power Prompting Lab (Draft)",
-      "nickname": "Experimental prompt lab for early testers",
-      "tagline": "Preview the next iteration of our AI Power Prompting experience before it launches.",
-      "heroImage": "/images/ai-fundamentals.jpeg",
-      "heroImageAlt": "AI Power Prompting lab concept art",
-      "ogImage": "/images/cambermast-content-1-ai-fundamentals-ai-power-prompting-og.jpeg",
-      "ogImageAlt": "Open graph image for the AI Power Prompting lab training program",
-      "description": "This is a staging version of our AI Power Prompting program that we use to test new exercises, prompts, and formats. Content is subject to change and feedback is encouraged.",
-      "secondaryDescription": "If you are previewing this page, you are likely reviewing copy or flow before launch. Make sure to double-check CTAs, scheduling details, and testimonials prior to removing the draft flag.",
-      "primaryCta": {
-        "label": "Draft CTA (no booking)",
-        "url": "/contact"
-      },
-      "secondaryCta": {
-        "label": "Share feedback",
-        "url": "/contact"
-      },
-      "scheduleTemplate": {
-        "durationDays": 1,
-        "hoursPerDayCommitment": 4,
-        "defaultStartTimeLocal": "13:00",
-        "defaultTimeZone": "America/Los_Angeles",
-        "defaultTimeZoneLabel": "PT",
-        "defaultLocationLabel": "Online"
-      },
-      "stats": [
-        {
-          "label": "Duration",
-          "value": "4 hours (TBD)"
-        },
-        {
-          "label": "Format",
-          "value": [
-            "🔴 Live online (draft)",
-            "🏫 On-site TBD"
-          ]
-        },
-        {
-          "label": "Cost",
-          "value": "$0 (internal review only)"
-        },
-        {
-          "label": "Certificate",
-          "value": "📜 Certificate included"
-        }
-      ],
-      "audience": [
-        "Internal reviewers validating new program structure.",
-        "Therapists of copy, design, and curriculum ensuring everything feels right."
-      ],
-      "objectives": [
-        "Confirm messaging and layout before publishing.",
-        "Gather feedback on proposed exercises and pacing."
-      ],
-      "sessions": [
-        {
-          "name": "Internal Review Cohort",
-          "date": "Pending scheduling",
-          "time": "TBD",
-          "location": "Zoom (internal link to follow)",
-          "spots": "Closed enrollment",
-          "registerUrl": "https://example.com/draft-registration",
-          "draft": true
-        }
-      ],
-      "agenda": [
-        {
-          "title": "Draft Agenda",
-          "details": [
-            "Walk through new prompt templates and exercises.",
-            "Collect reviewer feedback on flow and timing.",
-            "Decide what ships with the production release."
-          ]
-        }
-      ],
-      "resources": [
-        "Draft workbook (placeholder link).",
-        "Feedback template for reviewers."
-      ],
-      "aboutTrainer": {
-        "title": "About your facilitator",
-        "name": "Bill Raymond",
-        "role": "Founder, Cambermast LLC",
-        "summary": "Bill is running this lab to fine-tune the prompts, scripts, and examples ahead of our next release."
-      },
-      "draft": true
-    }
-  ]
+	"programs": [
+		{
+			"slug": "ai-fundamentals",
+			"route": "/training/ai-fundamentals",
+			"sku": "CM-TR-001",
+			"catalog": {
+				"id": "training-ai-fundamentals",
+				"summary": "Primer on prompting that explains how AI works and shows you how to prompt successfully.",
+				"image": "/images/ai-fundamentals.jpeg",
+				"imageAlt": "AI Power Prompting training workshop illustration",
+				"bullets": [
+					"Understand how today’s AI models generate answers",
+					"Learn four core prompt types you can reuse anywhere",
+					"Collaborate with AI to brainstorm and polish ideas"
+				],
+				"order": 0,
+				"published": true
+			},
+			"title": "AI Power Prompting",
+			"nickname": "Your AI fundamentals • From prompting to productivity",
+			"tagline": "A live primer on prompting: learn how AI works and how to prompt successfully.",
+			"heroImage": "/images/ai-fundamentals.jpeg",
+			"heroImageAlt": "AI Power Prompting training workshop illustration",
+			"ogImage": "/images/cambermast-content-1-ai-fundamentals-ai-power-prompting-og.jpeg",
+			"ogImageAlt": "Open graph image for the AI Power Prompting training program",
+			"description": "AI Power Prompting is a four-hour crash course that explains how modern AI systems work and shows you how to craft prompts that consistently deliver results.",
+			"secondaryDescription": "Build confidence through guided demos and exercises with ChatGPT, Copilot, Claude, and Gemini so you know when to reach for each tool and how to collaborate with it.",
+			"primaryCta": {
+				"label": "Schedule your team",
+				"url": "/contact"
+			},
+			"secondaryCta": {
+				"label": "Talk with Bill",
+				"url": "/contact"
+			},
+			"scheduleTemplate": {
+				"durationDays": 1,
+				"hoursPerDayCommitment": 4,
+				"defaultStartTimeLocal": "13:00",
+				"defaultTimeZone": "America/Los_Angeles",
+				"defaultTimeZoneLabel": "PT",
+				"defaultLocationLabel": "Online"
+			},
+			"stats": [
+				{
+					"label": "Duration",
+					"value": "4-hours"
+				},
+				{
+					"label": "Format",
+					"value": [
+						"🔴 Live online",
+						"🏫 In-person available"
+					]
+				},
+				{
+					"label": "Cost",
+					"value": "$349 per person (virtual cohort)"
+				},
+				{
+					"label": "Certificate",
+					"value": "📜 Certificate included"
+				},
+				{
+					"label": "Environment",
+					"value": "💙 Learn in a supportive, judgment-free environment"
+				},
+				{
+					"label": "In-person",
+					"value": "Custom pricing for private teams"
+				}
+			],
+			"audience": [
+				"People just starting with AI who want a solid foundation.",
+				"Professionals who want to feel more confident using AI in daily work.",
+				"Curious learners ready to apply AI in practical, hands-on ways."
+			],
+			"audienceExamples": [
+				"Team leads helping non-technical staff adopt AI safely.",
+				"Knowledge workers in operations, HR, finance, or customer support.",
+				"Consultants and agency pros creating AI-enhanced deliverables.",
+				"Product managers and analysts pairing AI with existing workflows.",
+				"Educators and L&D leaders building AI literacy programs."
+			],
+			"objectives": [
+				"Understand how modern AI systems process inputs and generate responses.",
+				"Learn the four core prompt types to improve every AI interaction.",
+				"Collaborate with AI to brainstorm ideas and move work forward faster."
+			],
+			"prerequisites": [
+				"Access to an AI chatbot (ChatGPT recommended; Claude, Gemini, or Copilot also work).",
+				"Curiosity and openness to experimentation.",
+				"Comfort using a modern web browser."
+			],
+			"takeaways": [
+				"Explain AI clearly to colleagues and clients.",
+				"Apply four proven prompt techniques with ready-made templates.",
+				"Save hours drafting content and documents.",
+				"Jump-start projects with AI-generated plans and ideas."
+			],
+			"sessions": [
+				{
+					"name": "🌐 February 3, 2026 Public Cohort",
+					"date": "Tuesday, Feb 3, 2026",
+					"time": [
+						"1:00 pm-5:00 pm PT",
+						"4:00-8:00 pm ET"
+					],
+					"startDate": "2026-02-03",
+					"endDate": "2026-02-03",
+					"location": "Live on Zoom",
+					"spots": "Open enrollment",
+					"registerUrl": "https://luma.com/rzqd4jj4"
+				},
+				{
+					"name": "Private Team Workshop",
+					"date": "You pick the date",
+					"time": "Half-day or full-day",
+					"location": "On-site or virtual",
+					"spots": "Up to 40 participants",
+					"registerUrl": "/contact"
+				}
+			],
+			"agenda": [
+				{
+					"title": "1. AI Fundamentals",
+					"details": [
+						"Explain AI in your own words and align on shared language.",
+						"Distinguish how ChatGPT, Copilot, Claude, and Gemini approach tasks.",
+						"Outline responsible-use scenarios and ethical guardrails.",
+						"Explore chatbot interfaces and capture usability wins."
+					]
+				},
+				{
+					"title": "2. Prompting Basics",
+					"details": [
+						"Break down the anatomy of an effective prompt for clarity and context.",
+						"Practice the four core prompt types: zero-shot, few-shot, chain-of-thought, and chat.",
+						"Rewrite weak prompts and articulate what changed.",
+						"Identify and troubleshoot hallucinations."
+					]
+				},
+				{
+					"title": "3. Productivity Strategies",
+					"details": [
+						"Draft emails, posts, and documents with AI as your writing partner.",
+						"Build project plans with tasks, owners, and deadlines in minutes.",
+						"Accelerate research and brainstorming for new initiatives.",
+						"Analyze data by asking questions and exporting structured results."
+					]
+				},
+				{
+					"title": "4. Creative Uses for AI",
+					"details": [
+						"Beat creative blocks with ideation sprints and story prompts.",
+						"Co-develop ideas through conversational refinement.",
+						"Personalize tone and style to fit different audiences."
+					]
+				},
+				{
+					"title": "5. Advanced Prompting Techniques",
+					"details": [
+						"Design reusable prompt templates for social and marketing assets.",
+						"Experiment with Custom GPTs or assistants tailored to your brand.",
+						"Format outputs into tables, charts, and files ready to ship."
+					]
+				},
+				{
+					"title": "6. The Future of AI & Wrap Up",
+					"details": [
+						"Experiment with multimodal prompting using images and files.",
+						"Plan the first projects to apply back at work with measurable goals.",
+						"Reflect on the most valuable techniques and share next steps."
+					]
+				}
+			],
+			"resources": [
+				"Course workbook with prompt templates and examples.",
+				"Earn a certificate you can showcase with pride.",
+				"A free one-hour follow-up two weeks after the training."
+			],
+			"aboutTrainer": {
+				"title": "About your trainer",
+				"name": "Bill Raymond",
+				"role": "Founder, Cambermast LLC",
+				"photo": "/images/bill.jpg",
+				"photoAlt": "Bill Raymond",
+				"summary": "Bill focuses on AI learning and development, project management, and leadership initiatives that help teams adopt new technology responsibly.",
+				"highlights": [
+					"Author of the Bill Talks AI newsletter.",
+					"Founding member of the AI Collective.",
+					"NASA award winner.",
+					"Microsoft MVP.",
+					"Host of the Agile in Action podcast with 130+ episodes and 30,000+ listeners."
+				]
+			},
+			"faqs": [
+				{
+					"key": "how_customizable_is_the_agenda",
+					"question": "How customizable is the agenda?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "If you are taking a publicly scheduled course, the agenda is fixed."
+						},
+						{
+							"type": "paragraph",
+							"text": "For private team workshops, we can adjust the agenda to focus on specific use cases or tools."
+						}
+					]
+				},
+				{
+					"key": "do_participants_need_prior_ai_experience",
+					"question": "Do participants need prior AI experience?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "No. The course is designed for beginners through intermediate users, mixing demos with guided exercises."
+						}
+					]
+				},
+				{
+					"key": "can_we_host_the_workshop_in_person",
+					"question": "Can we host the workshop in person?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "Yes. On-site sessions include travel in the proposal; virtual cohorts are available worldwide."
+						}
+					]
+				},
+				{
+					"key": "do_you_have_a_letter_i_can_send_to_my_manager_for_budget_approval",
+					"question": "Do you have a letter I can send to my manager for budget approval?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "Yes! Here’s a customizable letter you can use:\n\nSubject: Request to Attend AI Training\n\nHi [Manager’s Name],\n\nI’d like to attend the upcoming [Workshop Name] with Bill Raymond. Bill is a founding member of the AI Collective (https://www.aicollective.com) and the author of the popular Bill Talks AI newsletter (https://BillTalksAI.com). His work focuses on helping professionals safely and effectively adopt AI, and this program is designed to build practical skills and confidence in everyday use.\n\nThe workshop also includes a certification that validates the skills I’ll be applying in my role. I believe this will benefit both my growth and the value I bring to our team. The cost is [insert cost]. Thank you for considering this request.\n\nHere is a link to the course: [Insert Training Program URL]\n\nBest,\n[Your Name]"
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "ai-accelerator-workshop",
+			"route": "/training/ai-accelerator-workshop",
+			"sku": "CM-TR-002",
+			"catalog": {
+				"id": "training-ai-accelerator",
+				"summary": "Extends the AI Power prompting course as a multi-week AI workshop so you can tap powerful new AI features to run your business.",
+				"image": "/images/ai-accelerator.jpeg",
+				"imageAlt": "AI Accelerator Workshop illustration",
+				"bullets": [
+					"Understand how today’s AI models generate answers",
+					"Custom GPTs tuned to your workflows",
+					"Organize prompts, files, and research in AI projects"
+				],
+				"order": 1,
+				"published": true
+			},
+			"title": "AI Accelerator Workshop",
+			"nickname": "From core prompting to professional AI systems",
+			"tagline": "Bundle AI Power Prompting with advanced build labs so your team launches repeatable AI workflows that run the business better.",
+			"heroImage": "/images/ai-accelerator.jpeg",
+			"heroImageAlt": "AI Accelerator Workshop illustration",
+			"ogImage": "/images/cambermast-content-2-ai-accelerator-workshop-og.jpeg",
+			"ogImageAlt": "Open graph image for the AI Accelerator Workshop training program",
+			"description": "The AI Accelerator Workshop includes the AI Power Prompting course and layers on professional AI features so you can run your business more efficiently. You will leave with hands-on practice using custom GPTs, AI projects, and research frameworks tailored to your workflows across four focused weeks.",
+			"secondaryDescription": "This blended, four-week program is ideal for teams who want a head start with AI fundamentals and the confidence to operationalize advanced capabilities without reinventing the wheel each time.",
+			"primaryCta": {
+				"label": "Schedule your team",
+				"url": "/contact"
+			},
+			"secondaryCta": {
+				"label": "Talk with Bill",
+				"url": "/contact"
+			},
+			"scheduleTemplate": {
+				"durationDays": 28,
+				"hoursPerDayCommitment": 2,
+				"defaultStartTimeLocal": "10:00",
+				"defaultTimeZone": "America/Los_Angeles",
+				"defaultTimeZoneLabel": "PT",
+				"defaultLocationLabel": "Online"
+			},
+			"stats": [
+				{
+					"label": "Duration",
+					"value": "Four weeks, 2-hour commitment per week"
+				},
+				{
+					"label": "Format",
+					"value": [
+						"🔴 Live online",
+						"🏫 In-person available"
+					]
+				},
+				{
+					"label": "Cost",
+					"value": "$849 per person (virtual cohort)"
+				},
+				{
+					"label": "Certificate",
+					"value": "📜 Certificate included"
+				},
+				{
+					"label": "Environment",
+					"value": "💙 Learn in a supportive, judgment-free environment"
+				},
+				{
+					"label": "What’s included",
+					"value": "AI Power Prompting + advanced build labs"
+				},
+				{
+					"label": "In-person",
+					"value": "Custom pricing available for on-site training"
+				}
+			],
+			"audience": [
+				"Beginners who want to get a head start with AI and immediately apply it to their business.",
+				"Operators eager to save time with repeatable AI processes like customer support, marketing content, and FAQ responses."
+			],
+			"audienceExamples": [
+				"Small-business owners building their first AI playbooks.",
+				"Customer experience leaders standardizing responses with AI assists.",
+				"Marketing teams accelerating campaign copy and creative briefs.",
+				"Operations managers codifying internal knowledge into reusable AI projects."
+			],
+			"objectives": [
+				"Master the fundamentals of AI prompting and responsible use.",
+				"Configure custom GPTs that reflect your brand voice and processes.",
+				"Launch AI projects that organize prompts, files, and context for ongoing work.",
+				"Practice deep research techniques to inform strategy, competitor intel, and planning."
+			],
+			"prerequisites": [
+				"A ChatGPT Plus, Enterprise, or comparable account with access to custom GPTs and projects.",
+				"Willingness to share sample processes or content to tailor exercises.",
+				"Curiosity and a laptop capable of running modern browsers."
+			],
+			"takeaways": [
+				"Ready-to-use prompt templates covering core and advanced use cases.",
+				"Custom GPTs configured around your business scenarios.",
+				"Project spaces that keep prompts, files, and context organized for future work.",
+				"Research frameworks that turn AI findings into confident decisions."
+			],
+			"sessions": [
+				{
+					"name": "Private Team Workshop",
+					"date": "Schedule a date that fits your team",
+					"time": "Four weekly 2-hour sessions (virtual) or condensed on-site delivery",
+					"location": "Zoom or on-site",
+					"spots": "Up to 25 participants",
+					"registerUrl": "/contact"
+				}
+			],
+			"agenda": [
+				{
+					"title": "Week 1: AI Power Prompting Core",
+					"details": [
+						"Cover everything inside the AI Power Prompting curriculum.",
+						"Practice the four core prompt types across writing, analysis, and ideation.",
+						"Adopt responsible-use guardrails that build trust inside your team."
+					]
+				},
+				{
+					"title": "Week 2: Custom GPT Foundations",
+					"details": [
+						"Map business processes that benefit from custom GPTs.",
+						"Configure custom instructions, knowledge, and actions that keep outputs on brand.",
+						"Test and iterate GPT behaviors with real scenarios from your organization."
+					]
+				},
+				{
+					"title": "Week 3: AI Projects & Workflow Organization",
+					"details": [
+						"Organize prompts, files, and context inside AI project spaces.",
+						"Create reusable folders for marketing, support, and operations workflows.",
+						"Share project spaces with teammates so everyone stays on the same page."
+					]
+				},
+				{
+					"title": "Week 4: Market-Ready AI Delivery",
+					"details": [
+						"Use advanced AI research strategies for competitor analysis and market planning.",
+						"Combine AI insights with curated human sources to maintain accuracy.",
+						"Package your offering for GPT marketplace listings and discovery.",
+						"Plan follow-up experiments that keep your automations relevant."
+					]
+				}
+			],
+			"resources": [
+				"Workbook that combines AI Power Prompting and accelerator exercises.",
+				"Custom GPT configuration checklists and sample knowledge base templates.",
+				"Research brief template that transforms findings into presentations.",
+				"Post-workshop office hours to refine GPTs and projects."
+			],
+			"aboutTrainer": {
+				"title": "About your trainer",
+				"name": "Bill Raymond",
+				"role": "Founder, Cambermast LLC",
+				"photo": "/images/bill.jpg",
+				"photoAlt": "Bill Raymond",
+				"summary": "Bill helps teams adopt AI responsibly, blending foundational skills with advanced automation tactics that stick inside your business.",
+				"highlights": [
+					"Author of the Bill Talks AI newsletter.",
+					"Founding member of the AI Collective.",
+					"NASA award winner.",
+					"Microsoft MVP.",
+					"Host of the Agile in Action podcast with 130+ episodes."
+				]
+			},
+			"faqs": [
+				{
+					"key": "do_we_need_ai_experience_before_attending",
+					"question": "Do we need AI experience before attending?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "No. The workshop starts with AI Power Prompting to establish the fundamentals and then moves into advanced capabilities with plenty of guided practice."
+						}
+					]
+				},
+				{
+					"key": "can_we_tailor_the_advanced_modules",
+					"question": "Can we tailor the advanced modules?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "Yes. Private cohorts can swap modules or double down on areas like custom GPTs, AI research, or automation workflows."
+						}
+					]
+				},
+				{
+					"key": "is_there_post_workshop_support",
+					"question": "Is there post-workshop support?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "You receive office hours and follow-up resources to ensure your custom GPTs and projects keep delivering value."
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "ai-advanced-workshop",
+			"route": "/training/ai-advanced-workshop",
+			"sku": "CM-TR-003",
+			"catalog": {
+				"id": "training-ai-advanced",
+				"summary": "Seven-week cohort for cross-functional teams to integrate AI across planning, delivery, and reporting.",
+				"image": "/images/ai-advanced.jpeg",
+				"imageAlt": "AI Workshop for Modern Teams illustration",
+				"bullets": [
+					"Automate repetitive work with reusable AI workflows",
+					"Co-create prompts and playbooks that fit your standards",
+					"Present a final project and adoption roadmap"
+				],
+				"order": 2,
+				"published": true
+			},
+			"title": "AI Workshop for Modern Teams",
+			"nickname": "Seven-week cohort for cross-functional teams",
+			"tagline": "AI-enhanced team workflows that deliver measurable results in seven weeks.",
+			"heroImage": "/images/ai-advanced.jpeg",
+			"heroImageAlt": "AI Workshop for Modern Teams illustration",
+			"ogImage": "/images/cambermast-content-3-ai-workshop-for-modern-teams-og.jpeg",
+			"ogImageAlt": "Open graph image for the AI Workshop for Modern Teams training program",
+			"description": "The AI Workshop for Modern Teams is a live, seven-week cohort that helps cross-functional teams weave generative AI into everyday planning, delivery, and reporting workflows.",
+			"secondaryDescription": "Each week blends strategic discussions with hands-on practice so your team can automate routine work, improve decision quality, and collaborate with AI responsibly.",
+			"primaryCta": {
+				"label": "Schedule your team",
+				"url": "/contact"
+			},
+			"secondaryCta": {
+				"label": "Talk with Bill",
+				"url": "/contact"
+			},
+			"scheduleTemplate": {
+				"durationDays": 49,
+				"hoursPerDayCommitment": 2,
+				"defaultStartTimeLocal": "10:00",
+				"defaultTimeZone": "America/Los_Angeles",
+				"defaultTimeZoneLabel": "PT",
+				"defaultLocationLabel": "Online"
+			},
+			"stats": [
+				{
+					"label": "Duration",
+					"value": "Seven weeks, 2-hour commitment per week"
+				},
+				{
+					"label": "Format",
+					"value": [
+						"🔴 Live online",
+						"🏫 In-person available"
+					]
+				},
+				{
+					"label": "Cost",
+					"value": "$1,749 per person (virtual cohort)"
+				},
+				{
+					"label": "Certificate",
+					"value": "📜 Certificate included"
+				},
+				{
+					"label": "Environment",
+					"value": "💙 Learn in a supportive, judgment-free environment"
+				},
+				{
+					"label": "Team size",
+					"value": "Ideal for intact teams of 6-25 participants"
+				}
+			],
+			"audience": [
+				"Cross-functional teams modernizing operations, product delivery, and customer experiences with AI.",
+				"Managers responsible for scaling AI adoption without sacrificing compliance or brand voice.",
+				"Leaders who want a repeatable system to evaluate, pilot, and scale AI initiatives."
+			],
+			"audienceExamples": [
+				"Operations leads improving handoffs between departments and tools.",
+				"Product managers coordinating research, planning, and launch communications.",
+				"Customer success and support teams balancing personalization with efficiency.",
+				"Enablement groups building shared playbooks for knowledge workers."
+			],
+			"objectives": [
+				"Automate repetitive tasks so teams can focus on strategic, human-centered work.",
+				"Co-create prompts, templates, and workflows that reflect your quality standards and guardrails.",
+				"Connect AI experiments to measurable outcomes, dashboards, and handoffs."
+			],
+			"prerequisites": [
+				"Access to a paid account for a foundational LLM such as ChatGPT, Claude, Gemini, or Copilot.",
+				"Readiness to bring real processes or projects to explore during the cohort.",
+				"Commitment to experimenting within existing policies, compliance requirements, and brand guidelines."
+			],
+			"takeaways": [
+				"Team-specific workflow maps that pinpoint where AI adds leverage.",
+				"Reusable prompt libraries, playbooks, and decision frameworks.",
+				"A documented adoption plan with checkpoints, owners, and success metrics.",
+				"Digital certificate of completion once the Week 7 project is presented."
+			],
+			"sessions": [
+				{
+					"name": "Private Team Cohorts",
+					"date": "Schedule a start date that fits your team",
+					"time": "Seven weekly 2-hour sessions (virtual or on-site intensives)",
+					"location": "Zoom or on-site",
+					"spots": "Up to 25 participants",
+					"registerUrl": "/contact"
+				}
+			],
+			"agenda": [
+				{
+					"title": "Week 1: Adopting the AI Mindset",
+					"details": [
+						"Explore AI foundations for cross-functional teams and align on ethical guardrails.",
+						"Identify quick wins that remove repetitive busywork across departments.",
+						"Practice prompt fundamentals for clarity, context, and accuracy."
+					]
+				},
+				{
+					"title": "Week 2: Mapping Your Workflows",
+					"details": [
+						"Document end-to-end processes that benefit from AI augmentation.",
+						"Align stakeholders on success metrics, handoffs, and constraints.",
+						"Test AI tools that simulate common scenarios and edge cases."
+					]
+				},
+				{
+					"title": "Week 3: Personalization at Scale",
+					"details": [
+						"Streamline communication across channels without losing brand consistency.",
+						"Automate tone, style, and format adjustments with controlled prompts.",
+						"Design custom GPT instructions tailored to your team workflows."
+					]
+				},
+				{
+					"title": "Week 4: Accelerating Value Delivery",
+					"details": [
+						"Standardize production workflows and remove bottlenecks.",
+						"Run AI-powered audits to prioritize improvements and de-risk adoption.",
+						"Plan projects and tasks that increase measurable impact."
+					]
+				},
+				{
+					"title": "Week 5: Deep Insights and Research",
+					"details": [
+						"Use AI to surface gaps, opportunities, and research angles.",
+						"Co-develop outlines and drafts for upcoming deliverables.",
+						"Define the project you will carry through Weeks 6 and 7."
+					]
+				},
+				{
+					"title": "Week 6: Data-Driven Decisions",
+					"details": [
+						"Instrument feedback mechanisms to evaluate AI-generated work.",
+						"Apply advanced prompting to sharpen clarity and reduce variance.",
+						"Review progress on team projects and share peer feedback."
+					]
+				},
+				{
+					"title": "Week 7: Operationalizing Your Roadmap",
+					"details": [
+						"Present final projects and capture stakeholder feedback.",
+						"Codify a long-term roadmap for AI-enabled operations.",
+						"Celebrate wins and finalize support plans for sustained adoption."
+					]
+				}
+			],
+			"resources": [
+				"Weekly office hours and a shared workspace for questions and feedback.",
+				"Downloadable templates, prompt libraries, and adoption checklists.",
+				"Digital certification recognizing successful course completion."
+			],
+			"aboutTrainer": {
+				"title": "About your trainer",
+				"name": "Bill Raymond",
+				"role": "Founder, Cambermast LLC",
+				"photo": "/images/bill.jpg",
+				"photoAlt": "Bill Raymond",
+				"summary": "Bill is a technical content strategist and AI practitioner who helps teams operationalize generative AI with measurable outcomes.",
+				"highlights": [
+					"Author of the Bill Talks AI newsletter.",
+					"Founding member of the AI Collective.",
+					"NASA award winner and Microsoft MVP.",
+					"Host of the Agile in Action podcast with 130+ episodes."
+				]
+			},
+			"faqs": [
+				{
+					"key": "will_i_receive_a_certificate_of_completion",
+					"question": "Will I receive a certificate of completion?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "Yes. Graduates receive a digital certificate after presenting their final project."
+						}
+					]
+				},
+				{
+					"key": "will_there_be_makeup_dates",
+					"question": "Will there be makeup dates?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "There are no official makeup dates, but Bill accommodates reasonable requests when scheduling conflicts arise."
+						}
+					]
+				},
+				{
+					"key": "do_i_need_anything_before_the_workshop_starts",
+					"question": "Do I need anything before the workshop starts?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "Bring access to a paid generative AI account (ChatGPT, Claude, Gemini, Copilot, etc.) and a project where you can apply the lessons."
+						}
+					]
+				},
+				{
+					"key": "are_the_meetings_virtual_or_in_person",
+					"question": "Are the meetings virtual or in-person?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "All cohort sessions are hosted live on Zoom, with optional on-site intensives for private teams."
+						}
+					]
+				},
+				{
+					"key": "how_can_i_ask_questions_about_the_course",
+					"question": "How can I ask questions about the course?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "Use the \"Contact the Host\" link on the Lu.ma event page or reach out through the Cambermast contact form."
+						}
+					]
+				},
+				{
+					"key": "will_there_be_exercises_and_take_home_work",
+					"question": "Will there be exercises and take-home work?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "Yes. Expect optional take-home exercises and encouragement to apply each lesson directly to your team workflows."
+						}
+					]
+				},
+				{
+					"key": "are_there_scheduled_collaboration_meetings_after_each_class",
+					"question": "Are there scheduled collaboration meetings after each class?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "Not formally, but Bill hosts weekly office hours and maintains a discussion thread for ongoing peer support."
+						}
+					]
+				},
+				{
+					"key": "i_can_t_take_this_course_are_there_others",
+					"question": "I can't take this course. Are there others?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "Follow Bill's training calendar at https://lu.ma/BillTalksAI and subscribe to the Bill Talks AI newsletter for upcoming offerings."
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "ai-automation-with-agents",
+			"route": "/training/ai-automation-with-agents",
+			"sku": "CM-TR-004",
+			"catalog": {
+				"id": "training-ai-automation-with-agents",
+				"summary": "Hands-on agent building with n8n, OpenAI, and your internal APIs.",
+				"image": "/images/ai-automation.jpg",
+				"imageAlt": "AI Automation with Agents Workshop illustration",
+				"bullets": [
+					"Design human-in-the-loop automations",
+					"Build working agents in guided labs",
+					"Optimize for reliability and cost"
+				],
+				"order": 3,
+				"published": true
+			},
+			"title": "AI Automation with Agents Workshop",
+			"nickname": "Six-week cohort for applied agent builders",
+			"tagline": "Automate internal processes with AI agents that act like team members, across six weeks of guided practice.",
+			"heroImage": "/images/ai-automation.jpg",
+			"heroImageAlt": "AI Automation with Agents Workshop illustration",
+			"ogImage": "/images/cambermast-content-4-ai-automation-with-agents-workshop-og.jpeg",
+			"ogImageAlt": "Open graph image for the AI Automation with Agents workshop training program",
+			"description": "The AI Automation with Agents Workshop is a live, six-week cohort on automating internal processes with reliable AI agents. We tackle real-world scenarios where an agent behaves like a teammate, coordinating steps and escalating to people when necessary.",
+			"secondaryDescription": "Across weekly 2-hour sessions you will design, build, and optimize agents using tools like n8n, OpenAI, and best-practice API integrations. That way your team leaves with something running.",
+			"primaryCta": {
+				"label": "Schedule your team",
+				"url": "/contact"
+			},
+			"secondaryCta": {
+				"label": "See more automation work",
+				"url": "/agents"
+			},
+			"scheduleTemplate": {
+				"durationDays": 42,
+				"hoursPerDayCommitment": 2,
+				"defaultStartTimeLocal": "13:00",
+				"defaultTimeZone": "America/Los_Angeles",
+				"defaultTimeZoneLabel": "PT",
+				"defaultLocationLabel": "Online"
+			},
+			"stats": [
+				{
+					"label": "Duration",
+					"value": "Six weeks, 2-hour commitment per week"
+				},
+				{
+					"label": "Format",
+					"value": [
+						"🔴 Live online",
+						"🏫 In-person available"
+					]
+				},
+				{
+					"label": "Cost",
+					"value": "$1,749 per person (virtual cohort)"
+				},
+				{
+					"label": "Certificate",
+					"value": "📜 Certificate included"
+				},
+				{
+					"label": "Environment",
+					"value": "💙 Learn in a supportive, judgment-free environment"
+				},
+				{
+					"label": "In-person",
+					"value": "Custom fees for SF Bay Area or on-site sessions"
+				},
+				{
+					"label": "Done-for-you option",
+					"value": "Request a quote if you prefer us to build the agents for you"
+				},
+				{
+					"label": "Support",
+					"value": "Includes 30-day coaching and monitoring check-ins"
+				}
+			],
+			"audience": [
+				"Technically proficient builders who want to automate business processes with AI agents.",
+				"Teams eager to design automations that save hours each week."
+			],
+			"audienceExamples": [
+				"Operations managers automating intake, triage, and handoffs.",
+				"Automation engineers connecting AI models to internal APIs.",
+				"Consultants delivering managed automations for clients.",
+				"Founders validating AI-powered back-office assistants."
+			],
+			"objectives": [
+				"Understand what an AI agent is, how it works, and when to keep humans in the loop.",
+				"Build production-ready n8n automations that orchestrate AI models, APIs, and business rules.",
+				"Optimize agents for cost, latency, and reliability, with monitoring plans to match."
+			],
+			"prerequisites": [
+				"Comfort working with APIs, webhooks, or automation tools like Zapier and n8n.",
+				"Active accounts for the AI providers you plan to use (OpenAI, Anthropic, or Azure OpenAI).",
+				"Access to a realistic process or dataset you want to automate."
+			],
+			"takeaways": [
+				"A working agent that automates a real scenario from your business.",
+				"Blueprint documenting architecture, prompts, and integration patterns.",
+				"Checklists for human handoffs, escalation, and monitoring.",
+				"Optimization plan to keep usage costs predictable."
+			],
+			"sessions": [
+				{
+					"name": "Winter 2025-2026 Open Enrollment",
+					"date": "Dec 4, 2025 - Jan 22, 2026 (Wednesdays)",
+					"time": [
+						"10:00 am-12:00 pm PT",
+						"1:00-3:00 pm ET"
+					],
+					"startDate": "2025-12-04",
+					"endDate": "2026-01-22",
+					"location": "Live on Zoom",
+					"spots": "Open enrollment",
+					"registerUrl": "https://cambermast.com/contact",
+					"draft": true
+				},
+				{
+					"name": "Private Team Cohorts",
+					"date": "Schedule a start date that fits your team",
+					"time": "Six weekly 2-hour sessions or compressed on-site blocks",
+					"location": "Zoom or on-site (SF Bay Area)",
+					"spots": "Up to 15 participants",
+					"registerUrl": "/contact"
+				}
+			],
+			"agenda": [
+				{
+					"title": "Week 1: Agent Foundations",
+					"details": [
+						"Define what AI agents are, how they orchestrate tools, and where they excel.",
+						"Map a target process, decision points, and human checkpoints.",
+						"Set up secure access to APIs, knowledge bases, and action nodes."
+					]
+				},
+				{
+					"title": "Week 2: Opportunity Mapping & Scoping",
+					"details": [
+						"Prioritize candidate workloads based on impact, complexity, and data access.",
+						"Design human-in-the-loop checkpoints that keep people informed.",
+						"Draft success metrics and reliability thresholds for your agent."
+					]
+				},
+				{
+					"title": "Week 3: Build Core Agent Loops",
+					"details": [
+						"Assemble n8n workflows that call AI models, parse responses, and trigger APIs.",
+						"Frame prompts and instructions that make the agent trustworthy.",
+						"Prototype audit trails and safe fallbacks before production."
+					]
+				},
+				{
+					"title": "Week 4: Guardrails and Human Handoffs",
+					"details": [
+						"Implement routing logic that escalates decisions to the right humans.",
+						"Add validation steps, retries, and structured outputs to reduce errors.",
+						"Document standard operating procedures for exception handling."
+					]
+				},
+				{
+					"title": "Week 5: Observability & Optimization",
+					"details": [
+						"Run evaluation loops to monitor accuracy, latency, and cost.",
+						"Tune prompts, memory strategies, and caching for efficiency.",
+						"Instrument alerts and dashboards so issues surface fast."
+					]
+				},
+				{
+					"title": "Week 6: Launch & Scale Roadmap",
+					"details": [
+						"Define rollout plans, SLAs, and documentation for your team.",
+						"Plan additional agent use cases and integrations.",
+						"Schedule follow-up coaching and monitoring checkpoints."
+					]
+				}
+			],
+			"resources": [
+				"Agent architecture handbook with reusable modules and prompts.",
+				"Configuration checklists and runbooks for on-call responders.",
+				"30-day support channel to review logs and iterate on automations."
+			],
+			"aboutTrainer": {
+				"title": "About your trainer",
+				"name": "Bill Raymond",
+				"role": "Founder, Cambermast LLC",
+				"photo": "/images/bill.jpg",
+				"photoAlt": "Bill Raymond",
+				"summary": "Bill has delivered AI automations and agent pilots for startups and enterprises, helping teams balance speed with responsible deployment.",
+				"highlights": [
+					"Author of the Bill Talks AI newsletter.",
+					"Founding member of the AI Collective.",
+					"NASA award winner.",
+					"Microsoft MVP.",
+					"Host of the Agile in Action podcast with 130+ episodes."
+				]
+			},
+			"faqs": [
+				{
+					"key": "what_technical_skills_should_our_team_have",
+					"question": "What technical skills should our team have?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "A basic understanding of APIs or automation platforms is ideal. We provide pre-work to get everyone on the same page before the workshop."
+						}
+					]
+				},
+				{
+					"key": "can_you_build_the_automation_for_us",
+					"question": "Can you build the automation for us?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "Yes. If you would rather have the agent delivered for you, request a custom quote and we will scope a build-and-handoff engagement."
+						}
+					]
+				},
+				{
+					"key": "do_you_offer_on_site_workshops",
+					"question": "Do you offer on-site workshops?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "We regularly run in-person sessions in the SF Bay Area and can travel for private company engagements."
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "ai-workshop-for-content-creators",
+			"route": "/training/ai-workshop-for-content-creators",
+			"sku": "CM-TR-005",
+			"catalog": {
+				"id": "training-ai-workshop-content-creators",
+				"summary": "Seven-week cohort that helps content and documentation teams layer AI into their workflows.",
+				"image": "/images/ai-workshop-for-content-creators.jpeg",
+				"imageAlt": "AI Workshop for Tech Writers and Content Creators illustration",
+				"bullets": [
+					"Automate repetitive content production tasks with AI",
+					"Preserve brand voice with reusable prompts and guardrails",
+					"Ship a final project and earn a completion certificate"
+				],
+				"order": 4,
+				"published": true
+			},
+			"title": "AI Workshop for Tech Writers and Content Creators",
+			"nickname": "Seven-week cohort for technical communicators",
+			"tagline": "AI-enhanced content workflows that deliver measurable impact in seven weeks.",
+			"heroImage": "/images/ai-workshop-for-content-creators.jpeg",
+			"heroImageAlt": "AI Workshop for Tech Writers and Content Creators illustration",
+			"ogImage": "/images/cambermast-content-5-ai-workshop-for-content-creators-og.jpeg",
+			"ogImageAlt": "Open graph image for the AI Workshop for Tech Writers and Content Creators training program",
+			"videoUrl": "https://www.youtube.com/watch?v=pDMU-xyu8GA",
+			"description": "The AI Workshop for Tech Writers and Content Creators is a live, seven-week cohort that helps technical communicators and content teams weave generative AI into their daily production workflows.",
+			"secondaryDescription": "Across weekly 2-hour sessions, participants combine strategy discussions with hands-on practice to automate repetitive tasks, preserve brand voice, and publish higher-impact content faster.",
+			"primaryCta": {
+				"label": "Find a start date",
+				"url": "https://lu.ma/BillTalksAI?tag=ai%20workshop%20for%20content%20creators"
+			},
+			"secondaryCta": {
+				"label": "Talk with Bill",
+				"url": "/contact"
+			},
+			"presentation": {
+				"partnershipLabel": "In partnership with The Content Wrangler",
+				"trailerLinkLabel": "Watch the trailer"
+			},
+			"scheduleTemplate": {
+				"durationDays": 49,
+				"hoursPerDayCommitment": 2,
+				"defaultStartTimeLocal": "10:00",
+				"defaultTimeZone": "America/Los_Angeles",
+				"defaultTimeZoneLabel": "PT",
+				"defaultLocationLabel": "Online"
+			},
+			"stats": [
+				{
+					"label": "Duration",
+					"value": "Seven weeks, 2-hour commitment per week"
+				},
+				{
+					"label": "Format",
+					"value": [
+						"🔴 Live online",
+						"🏫 In-person available"
+					]
+				},
+				{
+					"label": "Cost",
+					"value": "$1,749 per person (virtual cohort)"
+				},
+				{
+					"label": "Certificate",
+					"value": "📜 Certificate included"
+				},
+				{
+					"label": "Environment",
+					"value": "💙 Learn in a supportive, judgment-free environment"
+				},
+				{
+					"label": "Partner",
+					"value": "Presented in partnership with The Content Wrangler"
+				}
+			],
+			"audience": [
+				"Technical communication and documentation specialists modernizing their workflows with AI.",
+				"Content strategists responsible for aligning deliverables to user journeys and business goals.",
+				"Knowledge teams supporting structured and unstructured content across the enterprise."
+			],
+			"audienceExamples": [
+				"Writers translating complex technical concepts for customer-facing channels.",
+				"Documentation leads maintaining product, support, and compliance libraries.",
+				"Content operations teams coordinating SMEs, editors, and governance stakeholders."
+			],
+			"objectives": [
+				"Automate repetitive content production tasks and accelerate delivery timelines.",
+				"Tailor generative AI outputs to match established voice, tone, and terminology.",
+				"Connect content decisions to audience journeys, measurable outcomes, and ROI."
+			],
+			"prerequisites": [
+				"Access to a paid account for a foundational LLM such as ChatGPT, Claude, Gemini, or Copilot.",
+				"Willingness to experiment with prompts inside existing style guides and compliance guardrails.",
+				"A real content initiative to apply across the weekly assignments and final project."
+			],
+			"takeaways": [
+				"Persona-driven workflows that use AI tools to surface gaps and opportunities.",
+				"Ready-to-use prompt libraries, custom GPT instructions, and evaluation checklists.",
+				"A documented project plan that operationalizes AI-assisted content production.",
+				"Digital certificate of completion once the Week 7 project is presented."
+			],
+			"sessions": [
+				{
+					"name": "❄️ Winter 2025 Open Enrollment",
+					"date": "Nov 4 - Dec 30, 2025 (Tuesdays)",
+					"time": [
+						"10:00 am-12:00 pm PT",
+						"1:00-3:00 pm ET"
+					],
+					"partner": "In partnership with The Content Wrangler",
+					"startDate": "2025-11-04",
+					"endDate": "2025-12-30",
+					"location": "Live on Zoom",
+					"spots": "Open enrollment",
+					"registerUrl": "https://luma.com/zw3izjni"
+				},
+				{
+					"name": "🌷 Spring 2026 Open Enrollment",
+					"date": "Jan 27 - Mar 10, 2026 (Tuesdays)",
+					"time": [
+						"10:00 am-12:00 pm PT",
+						"1:00-3:00 pm ET"
+					],
+					"partner": "In partnership with The Content Wrangler",
+					"startDate": "2026-01-27",
+					"endDate": "2026-03-10",
+					"location": "Live on Zoom",
+					"spots": "Open enrollment",
+					"registerUrl": "https://luma.com/nvd9y1wn"
+				}
+			],
+			"agenda": [
+				{
+					"title": "Week 1: Adopting the AI Mindset",
+					"details": [
+						"Explore AI foundations for content teams and align on ethical guardrails.",
+						"Map quick wins that remove repetitive production work.",
+						"Practice prompt basics for clarity, structure, and factual rigor."
+					]
+				},
+				{
+					"title": "Week 2: Mapping Your Audience Journey",
+					"details": [
+						"Build personas and user journeys that guide AI-augmented content.",
+						"Align messaging and assets to each audience touchpoint.",
+						"Test AI tools that simulate reader questions and expectations."
+					]
+				},
+				{
+					"title": "Week 3: Personalization at Scale",
+					"details": [
+						"Deliver platform-specific versions without sacrificing consistency.",
+						"Automate tone, style, and format adjustments with controlled prompts.",
+						"Design custom GPT instructions to replicate your brand voice."
+					]
+				},
+				{
+					"title": "Week 4: Accelerating Value Delivery",
+					"details": [
+						"Streamline production workflows and remove bottlenecks.",
+						"Run AI-powered content audits to prioritize improvements.",
+						"Plan projects and tasks that increase overall content ROI."
+					]
+				},
+				{
+					"title": "Week 5: Deep Content Insights",
+					"details": [
+						"Identify gaps, new opportunities, and research angles with AI.",
+						"Develop outlines and drafts for net-new assets.",
+						"Define the project you will evolve through Week 7."
+					]
+				},
+				{
+					"title": "Week 6: Data-Driven Prioritization",
+					"details": [
+						"Use customer insights to prioritize content that converts.",
+						"Apply advanced prompting techniques to sharpen clarity.",
+						"Review progress on your individual or team project."
+					]
+				},
+				{
+					"title": "Week 7: Evolving with AI",
+					"details": [
+						"Present final projects and gather peer plus mentor feedback.",
+						"Codify a long-term roadmap for AI-enabled content operations.",
+						"Operationalize your workflow and celebrate the cohort completion."
+					]
+				}
+			],
+			"resources": [
+				"Exclusive discount available through The Content Wrangler newsletter.",
+				"Weekly office hours and a discussion thread to share work and questions.",
+				"Digital certification recognizing successful course completion."
+			],
+			"aboutTrainer": {
+				"title": "About your trainer",
+				"name": "Bill Raymond",
+				"role": "Founder, Cambermast LLC",
+				"photo": "/images/bill.jpg",
+				"photoAlt": "Bill Raymond",
+				"summary": "Bill is a technical content strategist and AI practitioner who uses generative tools daily to ship human-centered documentation and learning experiences.",
+				"highlights": [
+					"Author of the Bill Talks AI newsletter.",
+					"Founding member of the AI Collective.",
+					"NASA award winner and Microsoft MVP.",
+					"Host of the Agile in Action podcast with 130+ episodes."
+				]
+			},
+			"faqs": [
+				{
+					"key": "will_i_receive_a_certificate_of_completion",
+					"question": "Will I receive a certificate of completion?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "Yes. Graduates receive a digital certificate after presenting their final project."
+						}
+					]
+				},
+				{
+					"key": "will_there_be_makeup_dates",
+					"question": "Will there be makeup dates?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "There are no official makeup dates, but Bill accommodates reasonable requests when scheduling conflicts arise."
+						}
+					]
+				},
+				{
+					"key": "do_i_need_anything_before_the_workshop_starts",
+					"question": "Do I need anything before the workshop starts?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "Bring access to a paid generative AI account (ChatGPT, Claude, Gemini, Copilot, etc.) and a project where you can apply the lessons."
+						}
+					]
+				},
+				{
+					"key": "are_the_meetings_virtual_or_in_person",
+					"question": "Are the meetings virtual or in-person?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "All cohort sessions are hosted live on Zoom."
+						}
+					]
+				},
+				{
+					"key": "how_can_i_ask_questions_about_the_course",
+					"question": "How can I ask questions about the course?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "Use the \"Contact the Host\" link on the Lu.ma event page or reach out through the Cambermast contact form."
+						}
+					]
+				},
+				{
+					"key": "will_there_be_exercises_and_take_home_work",
+					"question": "Will there be exercises and take-home work?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "Yes. Expect optional take-home exercises and encouragement to apply each lesson directly to your content programs."
+						}
+					]
+				},
+				{
+					"key": "are_there_scheduled_collaboration_meetings_after_each_class",
+					"question": "Are there scheduled collaboration meetings after each class?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "Not formally, but Bill hosts weekly office hours and maintains a discussion thread for ongoing peer support."
+						}
+					]
+				},
+				{
+					"key": "i_can_t_take_this_course_are_there_others",
+					"question": "I can't take this course. Are there others?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "Follow Bill's training calendar at https://lu.ma/BillTalksAI and subscribe to the Bill Talks AI newsletter for upcoming offerings."
+						}
+					]
+				},
+				{
+					"key": "what_are_the_benefits_of_this_course",
+					"question": "What are the benefits of this course?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "You will master AI use cases tailored to content creation and gain access to a supportive learning community."
+						}
+					]
+				},
+				{
+					"key": "what_makes_bill_s_training_unique",
+					"question": "What makes Bill's training unique?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "Bill filters out hype, focuses on realistic outcomes, and delivers a fun, professional learning experience that celebrates individual styles."
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "ai-power-prompting-draft",
+			"route": "/training/ai-power-prompting-draft",
+			"sku": "CM-TR-DRAFT-001",
+			"catalog": {
+				"id": "training-ai-power-prompting-draft",
+				"summary": "Draft program data used for internal review and QA only.",
+				"image": "/images/ai-fundamentals.jpeg",
+				"imageAlt": "AI Power Prompting lab concept art",
+				"bullets": [
+					"Internal-only curriculum review",
+					"Validate layout and content flow",
+					"Capture QA and launch feedback"
+				],
+				"order": 99,
+				"published": false
+			},
+			"title": "AI Power Prompting Lab (Draft)",
+			"nickname": "Experimental prompt lab for early testers",
+			"tagline": "Preview the next iteration of our AI Power Prompting experience before it launches.",
+			"heroImage": "/images/ai-fundamentals.jpeg",
+			"heroImageAlt": "AI Power Prompting lab concept art",
+			"ogImage": "/images/cambermast-content-1-ai-fundamentals-ai-power-prompting-og.jpeg",
+			"ogImageAlt": "Open graph image for the AI Power Prompting lab training program",
+			"description": "This is a staging version of our AI Power Prompting program that we use to test new exercises, prompts, and formats. Content is subject to change and feedback is encouraged.",
+			"secondaryDescription": "If you are previewing this page, you are likely reviewing copy or flow before launch. Make sure to double-check CTAs, scheduling details, and testimonials prior to removing the draft flag.",
+			"primaryCta": {
+				"label": "Draft CTA (no booking)",
+				"url": "/contact"
+			},
+			"secondaryCta": {
+				"label": "Share feedback",
+				"url": "/contact"
+			},
+			"scheduleTemplate": {
+				"durationDays": 1,
+				"hoursPerDayCommitment": 4,
+				"defaultStartTimeLocal": "13:00",
+				"defaultTimeZone": "America/Los_Angeles",
+				"defaultTimeZoneLabel": "PT",
+				"defaultLocationLabel": "Online"
+			},
+			"stats": [
+				{
+					"label": "Duration",
+					"value": "4 hours (TBD)"
+				},
+				{
+					"label": "Format",
+					"value": [
+						"🔴 Live online (draft)",
+						"🏫 On-site TBD"
+					]
+				},
+				{
+					"label": "Cost",
+					"value": "$0 (internal review only)"
+				},
+				{
+					"label": "Certificate",
+					"value": "📜 Certificate included"
+				}
+			],
+			"audience": [
+				"Internal reviewers validating new program structure.",
+				"Therapists of copy, design, and curriculum ensuring everything feels right."
+			],
+			"objectives": [
+				"Confirm messaging and layout before publishing.",
+				"Gather feedback on proposed exercises and pacing."
+			],
+			"sessions": [
+				{
+					"name": "Internal Review Cohort",
+					"date": "Pending scheduling",
+					"time": "TBD",
+					"location": "Zoom (internal link to follow)",
+					"spots": "Closed enrollment",
+					"registerUrl": "https://example.com/draft-registration",
+					"draft": true
+				}
+			],
+			"agenda": [
+				{
+					"title": "Draft Agenda",
+					"details": [
+						"Walk through new prompt templates and exercises.",
+						"Collect reviewer feedback on flow and timing.",
+						"Decide what ships with the production release."
+					]
+				}
+			],
+			"resources": [
+				"Draft workbook (placeholder link).",
+				"Feedback template for reviewers."
+			],
+			"aboutTrainer": {
+				"title": "About your facilitator",
+				"name": "Bill Raymond",
+				"role": "Founder, Cambermast LLC",
+				"summary": "Bill is running this lab to fine-tune the prompts, scripts, and examples ahead of our next release."
+			},
+			"draft": true
+		}
+	]
 }

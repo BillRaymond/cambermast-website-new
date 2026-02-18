@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { TrainingFaq, TrainingSession, TrainingStat } from '$lib/data/training/types';
+	import FaqBlocks from '$lib/components/faq/FaqBlocks.svelte';
 	import {
 		hasExternalRegistration,
 		isSessionDraft,
@@ -19,18 +20,23 @@
 	export let program: TechlabProgram;
 	export let backLink: { href: string; label: string } | undefined = undefined;
 
-	const getFaqAnswers = (faq: TrainingFaq): string[] =>
-		faq.answers ?? (faq.answer ? [faq.answer] : []);
-
-	type ExtendedFaq = TrainingFaq & { __isTrainingTerms?: boolean };
-
-	const trainingTermsFaq: ExtendedFaq = {
+	const trainingTermsFaq: TrainingFaq = {
+		key: 'training_terms',
 		question: 'Where can I review the Training Terms & Conditions?',
-		answer: "These answers complement Cambermast's Training Terms & Conditions.",
-		__isTrainingTerms: true
+		blocks: [
+			{
+				type: 'paragraph',
+				text: "These answers complement Cambermast's Training Terms & Conditions."
+			},
+			{
+				type: 'link',
+				label: 'Training Terms & Conditions',
+				href: '/training/terms'
+			}
+		]
 	};
 
-	let faqsWithTerms: ExtendedFaq[] = [];
+	let faqsWithTerms: TrainingFaq[] = [];
 
 	let statsBeforeCta: TrainingStat[] = [];
 	let statsAfterCta: TrainingStat[] = [];
@@ -351,18 +357,7 @@
 				{#each faqsWithTerms as faq}
 					<details class="tlp-faq">
 						<summary>{faq.question}</summary>
-						{#if faq.__isTrainingTerms}
-							<p>
-								These answers complement Cambermast's
-								<a class="font-semibold text-blue-600 underline" href="/training/terms"
-									>Training Terms &amp; Conditions</a
-								>.
-							</p>
-						{:else}
-							{#each getFaqAnswers(faq) as answer}
-								<p>{answer}</p>
-							{/each}
-						{/if}
+						<FaqBlocks blocks={faq.blocks} />
 					</details>
 				{/each}
 			</div>
@@ -730,11 +725,6 @@
 		font-weight: 800;
 		color: #0d1a2b;
 		cursor: pointer;
-	}
-
-	.tlp-faq p {
-		margin: 0.35rem 0 0;
-		color: #24364c;
 	}
 
 	.tlp-cta {

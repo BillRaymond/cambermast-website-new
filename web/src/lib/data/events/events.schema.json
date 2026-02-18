@@ -12,6 +12,65 @@
     }
   },
   "$defs": {
+    "faqParagraphBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "text"],
+      "properties": {
+        "type": { "type": "string", "const": "paragraph" },
+        "text": { "type": "string", "minLength": 1 }
+      }
+    },
+    "faqLinkBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "label", "href"],
+      "properties": {
+        "type": { "type": "string", "const": "link" },
+        "label": { "type": "string", "minLength": 1 },
+        "href": {
+          "type": "string",
+          "pattern": "^(\\/|https?:\\/\\/|mailto:|tel:).+"
+        },
+        "openInNewTab": { "type": "boolean" }
+      }
+    },
+    "faqEmailTemplateBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "subject", "body"],
+      "properties": {
+        "type": { "type": "string", "const": "email_template" },
+        "to": { "type": "string" },
+        "subject": { "type": "string", "minLength": 1 },
+        "body": { "type": "string", "minLength": 1 },
+        "ctaLabel": { "type": "string", "minLength": 1 },
+        "copyButtonLabel": { "type": "string", "minLength": 1 },
+        "copiedButtonLabel": { "type": "string", "minLength": 1 },
+        "copiedStateMs": { "type": "integer", "minimum": 500, "maximum": 10000 }
+      }
+    },
+    "faqBlock": {
+      "oneOf": [
+        { "$ref": "#/$defs/faqParagraphBlock" },
+        { "$ref": "#/$defs/faqLinkBlock" },
+        { "$ref": "#/$defs/faqEmailTemplateBlock" }
+      ]
+    },
+    "faqItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["key", "question", "blocks"],
+      "properties": {
+        "key": { "type": "string", "pattern": "^[a-z0-9]+(?:_[a-z0-9]+)*$" },
+        "question": { "type": "string", "minLength": 1 },
+        "blocks": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/faqBlock" }
+        }
+      }
+    },
     "eventSession": {
       "type": "object",
       "additionalProperties": false,
@@ -130,13 +189,7 @@
         "faq": {
           "type": "array",
           "items": {
-            "type": "object",
-            "additionalProperties": false,
-            "required": ["question", "answer"],
-            "properties": {
-              "question": { "type": "string", "minLength": 1 },
-              "answer": { "type": "string", "minLength": 1 }
-            }
+            "$ref": "#/$defs/faqItem"
           }
         },
         "sessions": {

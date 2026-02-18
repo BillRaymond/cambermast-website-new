@@ -8,6 +8,7 @@ import catalogApiSchema from '../src/lib/data/api/schemas/catalog-api.schema.jso
 import trainingApiSchema from '../src/lib/data/api/schemas/training-api.schema.json';
 import testimonialsApiSchema from '../src/lib/data/api/schemas/testimonials-api.schema.json';
 import toolsApiSchema from '../src/lib/data/api/schemas/tools-api.schema.json';
+import faqPresetsApiSchema from '../src/lib/data/api/schemas/faq-presets-api.schema.json';
 import { buildEventsApiExamples, buildEventsApiPayload } from '../src/lib/data/api/events';
 import { buildCampaignsApiExamples, buildCampaignsApiPayload } from '../src/lib/data/api/campaigns';
 import { buildEnumsApiExamples, buildEnumsApiPayload } from '../src/lib/data/api/enums';
@@ -18,6 +19,10 @@ import {
 	buildTestimonialsApiPayload
 } from '../src/lib/data/api/testimonials';
 import { buildToolsApiExamples, buildToolsApiPayload } from '../src/lib/data/api/tools';
+import {
+	buildFaqPresetsApiExamples,
+	buildFaqPresetsApiPayload
+} from '../src/lib/data/api/faq-presets';
 import { SITE_ORIGIN } from '../src/lib/config/site';
 
 const origin = SITE_ORIGIN.replace(/\/$/, '');
@@ -99,5 +104,13 @@ const toolsPayload = buildToolsApiPayload({
 const toolsExamples = buildToolsApiExamples(origin);
 assertValid('tools api payload', toolsApiSchema as object, toolsPayload);
 assertValid('tools api example', toolsApiSchema as object, toolsExamples.example);
+
+const faqPresetsPayload = buildFaqPresetsApiPayload({
+	origin,
+	generatedAt: '2026-02-18T19:00:00.000Z'
+});
+const faqPresetsExamples = buildFaqPresetsApiExamples(origin);
+assertValid('faq presets api payload', faqPresetsApiSchema as object, faqPresetsPayload);
+assertValid('faq presets api example', faqPresetsApiSchema as object, faqPresetsExamples.example);
 
 console.log('API responses and examples are valid.');

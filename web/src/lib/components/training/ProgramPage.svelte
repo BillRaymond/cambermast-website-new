@@ -1,6 +1,7 @@
 <script lang="ts">
 	import ReviewCard from '$lib/components/ReviewCard.svelte';
 	import SessionCard from '$lib/components/SessionCard.svelte';
+	import FaqBlocks from '$lib/components/faq/FaqBlocks.svelte';
 	import { getEventTypeLabelUi } from '$lib/view-models/events';
 	import type { Event } from '$lib/data/events/types';
 	import type { TrainingFaq, TrainingProgram, TrainingStat } from '$lib/data/training/types';
@@ -24,11 +25,6 @@
 	export let backLink: BackLink | undefined = undefined;
 	export let relatedEvents: Event[] = [];
 
-	const getFaqAnswers = (faq: TrainingFaq): string[] =>
-		faq.answers ?? (faq.answer ? [faq.answer] : []);
-
-	type ExtendedFaq = TrainingFaq & { __isTrainingTerms?: boolean };
-
 	let statsBeforeCta: TrainingStat[] = [];
 	let statsAfterCta: TrainingStat[] = [];
 	let ctaInsertIndex = -1;
@@ -39,7 +35,7 @@
 	let videoEmbedUrl: string | undefined;
 	let certificateText: string | undefined;
 	let programTestimonials: Testimonial[] = [];
-	let faqsWithTerms: ExtendedFaq[] = [];
+	let faqsWithTerms: TrainingFaq[] = [];
 
 	const normalizeLabel = (label?: string): string | undefined => label?.toLowerCase().trim();
 	const scheduleTeamLabel = 'schedule your team';
@@ -110,13 +106,23 @@
 		? [
 				...program.faqs,
 				{
+					key: 'training_terms',
 					question:
 						program.presentation?.termsQuestion ??
 						'Where can I review the Training Terms & Conditions?',
-					answer:
-						program.presentation?.termsAnswer ??
-						"These answers complement Cambermast's Training Terms & Conditions.",
-					__isTrainingTerms: true
+					blocks: [
+						{
+							type: 'paragraph',
+							text:
+								program.presentation?.termsAnswer ??
+								"These answers complement Cambermast's Training Terms & Conditions."
+						},
+						{
+							type: 'link',
+							label: 'Training Terms & Conditions',
+							href: '/training/terms'
+						}
+					]
 				}
 			]
 		: [];
@@ -681,30 +687,9 @@
 						<summary class="cursor-pointer text-lg font-semibold text-gray-900">
 							{faq.question}
 						</summary>
-						{#if faq.__isTrainingTerms}
-							<div class="mt-3 flex items-start gap-2.5 text-gray-700">
-								<span class="mt-0.5 inline-flex h-2 w-2 flex-shrink-0 rounded-full bg-blue-600"
-								></span>
-								<p class="text-gray-700">
-									These answers complement Cambermast's
-									<a class="font-semibold text-blue-600 underline" href="/training/terms"
-										>Training Terms &amp; Conditions</a
-									>.
-								</p>
-							</div>
-						{:else}
-							{#each getFaqAnswers(faq) as answer, index}
-								<div
-									class="flex items-start gap-2.5 text-gray-700"
-									class:mt-3={index === 0}
-									class:mt-2={index > 0}
-								>
-									<span class="mt-0.5 inline-flex h-2 w-2 flex-shrink-0 rounded-full bg-blue-600"
-									></span>
-									<p class="whitespace-pre-line text-gray-700">{answer}</p>
-								</div>
-							{/each}
-						{/if}
+						<div class="mt-3">
+							<FaqBlocks blocks={faq.blocks} />
+						</div>
 					</details>
 				{/each}
 			</div>

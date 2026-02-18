@@ -3,6 +3,7 @@ import { deriveEventDateLabel, deriveEventTimeLabel } from './session-labels';
 import { getEventSessionBounds } from './timeline';
 import { getTrainingProgramBySku } from '../training';
 import type { TrainingProgram } from '../training/types';
+import { getFaqPresetItemsSnapshot } from '../faq-presets';
 
 type BuildTrainingEventInput = {
 	program: TrainingProgram;
@@ -195,6 +196,10 @@ export const buildTrainingSessionEventFromProgram = (
 		programRef: {
 			sku: program.sku
 		},
+		faq:
+			program.faqs && program.faqs.length > 0
+				? JSON.parse(JSON.stringify(program.faqs))
+				: getFaqPresetItemsSnapshot('training-signup-core-v1'),
 		schedule: {
 			durationDays,
 			estimatedHoursCommitment

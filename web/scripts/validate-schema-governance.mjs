@@ -87,6 +87,18 @@ const manifest = {
 				patterns: ['/api/testimonials.json', 'testimonials-api.schema.json']
 			}
 		]
+	},
+	'faq-presets': {
+		registrySchema: 'src/lib/data/faq-presets/faq-presets.schema.json',
+		apiSchema: 'src/lib/data/api/schemas/faq-presets-api.schema.json',
+		apiBuilder: 'src/lib/data/api/faq-presets.ts',
+		apiRoute: 'src/routes/api/faq-presets.json/+server.ts',
+		sopMentions: [
+			{
+				file: 'src/routes/admin/sop-training/+page.svelte',
+				patterns: ['/api/faq-presets.json', 'faq-presets-api.schema.json']
+			}
+		]
 	}
 };
 

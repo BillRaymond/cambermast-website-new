@@ -1,3 +1,5 @@
+import type { FaqItem } from '$lib/data/faq/types';
+
 export type KnownEventType =
 	| 'training_session'
 	| 'webinar'
@@ -100,10 +102,7 @@ export type EventAgendaItem = {
 	details?: string;
 };
 
-export type EventFaqItem = {
-	question: string;
-	answer: string;
-};
+export type EventFaqItem = FaqItem;
 
 export type EventLinks = {
 	recordingUrl?: string;

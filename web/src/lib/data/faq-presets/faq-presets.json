@@ -1,0 +1,172 @@
+{
+	"presets": [
+		{
+			"id": "training-signup-core-v1",
+			"audience": "training",
+			"name": "Training signup core",
+			"description": "Conversion-focused FAQ starter for training cohorts and workshops.",
+			"version": "v1",
+			"items": [
+				{
+					"key": "ai_experience_required",
+					"question": "Do I need prior AI experience to join?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "No prior AI experience is required. This training is designed for beginners and is still useful for experienced participants who want a more reliable workflow."
+						}
+					]
+				},
+				{
+					"key": "prework_paid_account",
+					"question": "What do I need before the workshop starts?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "You will need a paid account with at least one major AI platform before the first session. Please also bring a laptop, stable internet, and any internal examples you want to use during hands-on exercises."
+						}
+					]
+				},
+				{
+					"key": "delivery_and_absence",
+					"question": "How is the workshop delivered, and what if I miss a session?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "Cohorts are delivered live using Zoom, Google Meet, Microsoft Teams, or another proven collaboration platform. If you miss a session, contact us and we will share the best available catch-up option."
+						}
+					]
+				},
+				{
+					"key": "outcomes_certificate_work",
+					"question": "What will I get by the end (certificate, exercises, and take-home work)?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "You will complete hands-on exercises and leave with practical take-home materials. Certificate availability may vary by program or event and is listed in the event details."
+						}
+					]
+				},
+				{
+					"key": "post_workshop_support",
+					"question": "Is post-workshop support included?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "Yes. Every participant receives at least one hour of free consultation after the training, plus any additional support listed for that specific program or event."
+						}
+					]
+				},
+				{
+					"key": "questions_and_alternatives",
+					"question": "How can I ask questions before enrolling, and what if I can’t make this cohort?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "If you have questions before enrolling, reach out any time. If this cohort timing does not work, we can share upcoming options."
+						},
+						{
+							"type": "link",
+							"label": "contact",
+							"href": "/contact",
+							"openInNewTab": true
+						}
+					]
+				},
+				{
+					"key": "manager_letter",
+					"question": "📧 Do you have a manager budget-approval letter I can send?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "Yes. Use the email template below, open it in your email client, or copy it with one click."
+						},
+						{
+							"type": "email_template",
+							"subject": "Request for approval: AI training program",
+							"body": "Hi [Manager Name],\n\nI would like approval to attend [Program Name] with Cambermast.\n\nThis training is focused on practical, responsible AI use and includes\nhands-on exercises I can apply directly in my role. I expect this will\nhelp me improve speed and quality in [team/process area], while following\nour policies and quality standards.\n\nProgram: [Program Name]\nDates: [Dates]\nCost: [Cost]\nLink: [Program/Event URL]\n\nAfter the training, I will share key takeaways and specific ways we can\napply what I learned to our team.\n\nThank you for considering this request.\n\nBest,\n[Your Name]",
+							"ctaLabel": "Open in email client",
+							"copyButtonLabel": "Copy email",
+							"copiedButtonLabel": "Copied",
+							"copiedStateMs": 1600
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "event-signup-core-v1",
+			"audience": "event",
+			"name": "Event signup core",
+			"description": "Conversion-focused FAQ starter for non-training events such as webinars and talks.",
+			"version": "v1",
+			"items": [
+				{
+					"key": "event_fit",
+					"question": "Who is this event for?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "This event is designed for practical professionals who want actionable insights they can apply quickly."
+						}
+					]
+				},
+				{
+					"key": "delivery_and_access",
+					"question": "How is the event delivered, and how do I join?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "The event is delivered live online using Zoom, Google Meet, Microsoft Teams, or a similar proven platform. Joining details are shared after registration."
+						}
+					]
+				},
+				{
+					"key": "recording_policy",
+					"question": "Will a recording or follow-up materials be available?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "Recording and resource availability depends on the event format and partner agreements. Check the event details or contact us for specifics."
+						}
+					]
+				},
+				{
+					"key": "questions_and_alternatives",
+					"question": "How can I ask questions before registering, and what if I can’t attend this date?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "If you have questions before registering, reach out any time. If this date does not work, we can share upcoming options."
+						},
+						{
+							"type": "link",
+							"label": "contact",
+							"href": "/contact",
+							"openInNewTab": true
+						}
+					]
+				},
+				{
+					"key": "manager_letter",
+					"question": "📧 Do you have a manager budget-approval letter I can send?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "Yes. Use the email template below, open it in your email client, or copy it with one click."
+						},
+						{
+							"type": "email_template",
+							"subject": "Request for approval: professional event attendance",
+							"body": "Hi [Manager Name],\n\nI would like approval to attend [Event Name].\n\nThis event is focused on practical insights I can apply directly in my role.\nI expect this will help improve speed and quality in [team/process area],\nwhile aligning with our goals and standards.\n\nEvent: [Event Name]\nDate: [Date]\nCost: [Cost]\nLink: [Event URL]\n\nAfter the event, I will share key takeaways and recommended next steps.\n\nThank you for considering this request.\n\nBest,\n[Your Name]",
+							"ctaLabel": "Open in email client",
+							"copyButtonLabel": "Copy email",
+							"copiedButtonLabel": "Copied",
+							"copiedStateMs": 1600
+						}
+					]
+				}
+			]
+		}
+	]
+}

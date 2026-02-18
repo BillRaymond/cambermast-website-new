@@ -180,29 +180,61 @@
 						"items": {
 							"type": "object",
 							"additionalProperties": false,
-							"required": ["question"],
+							"required": ["key", "question", "blocks"],
 							"properties": {
+								"key": { "type": "string", "pattern": "^[a-z0-9]+(?:_[a-z0-9]+)*$" },
 								"question": { "type": "string", "minLength": 1 },
-								"answers": {
+								"blocks": {
 									"type": "array",
-									"items": { "type": "string", "minLength": 1 }
-								},
-								"answer": { "type": "string", "minLength": 1 }
-							},
-							"anyOf": [
-								{
-									"required": ["answers"],
-									"properties": {
-										"answers": {}
-									}
-								},
-								{
-									"required": ["answer"],
-									"properties": {
-										"answer": {}
+									"minItems": 1,
+									"items": {
+										"oneOf": [
+											{
+												"type": "object",
+												"additionalProperties": false,
+												"required": ["type", "text"],
+												"properties": {
+													"type": { "type": "string", "const": "paragraph" },
+													"text": { "type": "string", "minLength": 1 }
+												}
+											},
+											{
+												"type": "object",
+												"additionalProperties": false,
+												"required": ["type", "label", "href"],
+												"properties": {
+													"type": { "type": "string", "const": "link" },
+													"label": { "type": "string", "minLength": 1 },
+													"href": {
+														"type": "string",
+														"pattern": "^/|^https?://|^mailto:|^tel:"
+													},
+													"openInNewTab": { "type": "boolean" }
+												}
+											},
+											{
+												"type": "object",
+												"additionalProperties": false,
+												"required": ["type", "subject", "body"],
+												"properties": {
+													"type": { "type": "string", "const": "email_template" },
+													"to": { "type": "string" },
+													"subject": { "type": "string", "minLength": 1 },
+													"body": { "type": "string", "minLength": 1 },
+													"ctaLabel": { "type": "string", "minLength": 1 },
+													"copyButtonLabel": { "type": "string", "minLength": 1 },
+													"copiedButtonLabel": { "type": "string", "minLength": 1 },
+													"copiedStateMs": {
+														"type": "integer",
+														"minimum": 500,
+														"maximum": 10000
+													}
+												}
+											}
+										]
 									}
 								}
-							]
+							}
 						}
 					},
 					"presentation": {

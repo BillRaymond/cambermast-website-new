@@ -189,6 +189,8 @@
 			const baseRegisterLabel =
 				isTrainingHappeningNow
 					? 'Enrollment closed'
+					: event.visibility === 'draft' && event.registrationStatus === 'none'
+					? event.cta?.label || 'Draft'
 					: event.registrationStatus === 'none'
 					? 'Enrollment closed'
 					: event.cta?.label || 'Register now';
@@ -735,7 +737,7 @@
 												<span
 													class="inline-flex items-center rounded-full bg-amber-100 px-2 py-0.5 text-[0.65rem] font-semibold tracking-wide text-amber-800 uppercase"
 												>
-													Enrollment closed
+													{entry.registerLabel || 'Enrollment closed'}
 												</span>
 													{#if entry.certificateText}
 														<span
@@ -782,16 +784,16 @@
 											{#if entry.speakerText}
 												<p class="mt-1 text-xs text-gray-600">Speakers: {entry.speakerText}</p>
 											{/if}
-											{#if entry.registerUrl || entry.learnMoreUrl}
+											{#if entry.registerLabel || entry.learnMoreUrl}
 												<div
 													class="mt-3 grid gap-3 sm:grid-cols-[12rem_minmax(0,1fr)] sm:items-center"
 												>
-													{#if entry.registerUrl}
+													{#if entry.registerLabel}
 														<span
 															aria-disabled="true"
 															class="inline-flex w-full cursor-not-allowed items-center justify-center rounded-lg bg-gray-200 px-4 py-1.5 text-sm font-semibold text-gray-600 shadow-sm"
 														>
-															Enrollment closed
+															{entry.registerLabel}
 														</span>
 													{:else}
 														<div class="hidden sm:block" aria-hidden="true"></div>

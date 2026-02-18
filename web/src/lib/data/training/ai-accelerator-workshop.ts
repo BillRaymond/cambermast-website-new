@@ -151,21 +151,33 @@ export const aiAcceleratorWorkshop = {
 	},
 	faqs: [
 		{
-			question: 'Do we need AI experience before attending?',
-			answers: [
-				'No. The workshop starts with AI Power Prompting to establish the fundamentals and then moves into advanced capabilities with plenty of guided practice.'
+			"key": "do_we_need_ai_experience_before_attending",
+			"question": "Do we need AI experience before attending?",
+			"blocks": [
+				{
+					"type": "paragraph",
+					"text": "No. The workshop starts with AI Power Prompting to establish the fundamentals and then moves into advanced capabilities with plenty of guided practice."
+				}
 			]
 		},
 		{
-			question: 'Can we tailor the advanced modules?',
-			answers: [
-				'Yes. Private cohorts can swap modules or double down on areas like custom GPTs, AI research, or automation workflows.'
+			"key": "can_we_tailor_the_advanced_modules",
+			"question": "Can we tailor the advanced modules?",
+			"blocks": [
+				{
+					"type": "paragraph",
+					"text": "Yes. Private cohorts can swap modules or double down on areas like custom GPTs, AI research, or automation workflows."
+				}
 			]
 		},
 		{
-			question: 'Is there post-workshop support?',
-			answers: [
-				'You receive office hours and follow-up resources to ensure your custom GPTs and projects keep delivering value.'
+			"key": "is_there_post_workshop_support",
+			"question": "Is there post-workshop support?",
+			"blocks": [
+				{
+					"type": "paragraph",
+					"text": "You receive office hours and follow-up resources to ensure your custom GPTs and projects keep delivering value."
+				}
 			]
 		}
 	]

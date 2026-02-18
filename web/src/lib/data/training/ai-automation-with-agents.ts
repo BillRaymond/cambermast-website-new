@@ -178,21 +178,33 @@ export const aiAutomationWithAgents = {
 	},
 	faqs: [
 		{
-			question: 'What technical skills should our team have?',
-			answers: [
-				'A basic understanding of APIs or automation platforms is ideal. We provide pre-work to get everyone on the same page before the workshop.'
+			"key": "what_technical_skills_should_our_team_have",
+			"question": "What technical skills should our team have?",
+			"blocks": [
+				{
+					"type": "paragraph",
+					"text": "A basic understanding of APIs or automation platforms is ideal. We provide pre-work to get everyone on the same page before the workshop."
+				}
 			]
 		},
 		{
-			question: 'Can you build the automation for us?',
-			answers: [
-				'Yes. If you would rather have the agent delivered for you, request a custom quote and we will scope a build-and-handoff engagement.'
+			"key": "can_you_build_the_automation_for_us",
+			"question": "Can you build the automation for us?",
+			"blocks": [
+				{
+					"type": "paragraph",
+					"text": "Yes. If you would rather have the agent delivered for you, request a custom quote and we will scope a build-and-handoff engagement."
+				}
 			]
 		},
 		{
-			question: 'Do you offer on-site workshops?',
-			answers: [
-				'We regularly run in-person sessions in the SF Bay Area and can travel for private company engagements.'
+			"key": "do_you_offer_on_site_workshops",
+			"question": "Do you offer on-site workshops?",
+			"blocks": [
+				{
+					"type": "paragraph",
+					"text": "We regularly run in-person sessions in the SF Bay Area and can travel for private company engagements."
+				}
 			]
 		}
 	]

@@ -1,0 +1,93 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://cambermast.com/schemas/faq-presets.schema.json",
+	"title": "Cambermast FAQ Preset Registry",
+	"type": "object",
+	"additionalProperties": false,
+	"required": ["presets"],
+	"properties": {
+		"presets": {
+			"type": "array",
+			"items": { "$ref": "#/$defs/faqPreset" }
+		}
+	},
+	"$defs": {
+		"urlOrPath": {
+			"type": "string",
+			"pattern": "^(\\/|https?:\\/\\/|mailto:|tel:).+"
+		},
+		"faqParagraphBlock": {
+			"type": "object",
+			"additionalProperties": false,
+			"required": ["type", "text"],
+			"properties": {
+				"type": { "type": "string", "const": "paragraph" },
+				"text": { "type": "string", "minLength": 1 }
+			}
+		},
+		"faqLinkBlock": {
+			"type": "object",
+			"additionalProperties": false,
+			"required": ["type", "label", "href"],
+			"properties": {
+				"type": { "type": "string", "const": "link" },
+				"label": { "type": "string", "minLength": 1 },
+				"href": { "$ref": "#/$defs/urlOrPath" },
+				"openInNewTab": { "type": "boolean" }
+			}
+		},
+		"faqEmailTemplateBlock": {
+			"type": "object",
+			"additionalProperties": false,
+			"required": ["type", "subject", "body"],
+			"properties": {
+				"type": { "type": "string", "const": "email_template" },
+				"to": { "type": "string" },
+				"subject": { "type": "string", "minLength": 1 },
+				"body": { "type": "string", "minLength": 1 },
+				"ctaLabel": { "type": "string", "minLength": 1 },
+				"copyButtonLabel": { "type": "string", "minLength": 1 },
+				"copiedButtonLabel": { "type": "string", "minLength": 1 },
+				"copiedStateMs": { "type": "integer", "minimum": 500, "maximum": 10000 }
+			}
+		},
+		"faqBlock": {
+			"oneOf": [
+				{ "$ref": "#/$defs/faqParagraphBlock" },
+				{ "$ref": "#/$defs/faqLinkBlock" },
+				{ "$ref": "#/$defs/faqEmailTemplateBlock" }
+			]
+		},
+		"faqItem": {
+			"type": "object",
+			"additionalProperties": false,
+			"required": ["key", "question", "blocks"],
+			"properties": {
+				"key": { "type": "string", "pattern": "^[a-z0-9]+(?:_[a-z0-9]+)*$" },
+				"question": { "type": "string", "minLength": 1 },
+				"blocks": {
+					"type": "array",
+					"minItems": 1,
+					"items": { "$ref": "#/$defs/faqBlock" }
+				}
+			}
+		},
+		"faqPreset": {
+			"type": "object",
+			"additionalProperties": false,
+			"required": ["id", "audience", "name", "items", "version"],
+			"properties": {
+				"id": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*-v[0-9]+$" },
+				"audience": { "type": "string", "enum": ["training", "event"] },
+				"name": { "type": "string", "minLength": 1 },
+				"description": { "type": "string", "minLength": 1 },
+				"items": {
+					"type": "array",
+					"minItems": 1,
+					"items": { "$ref": "#/$defs/faqItem" }
+				},
+				"version": { "type": "string", "pattern": "^v[0-9]+$" }
+			}
+		}
+	}
+}
