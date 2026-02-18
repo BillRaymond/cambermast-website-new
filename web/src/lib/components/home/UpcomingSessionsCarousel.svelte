@@ -354,7 +354,7 @@
 												<span
 													class="inline-flex items-center justify-center rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-[0.65rem] font-semibold text-amber-800"
 												>
-													Enrollment closed, running now
+													Enrollment closed
 												</span>
 											{:else}
 												<a

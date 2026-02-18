@@ -52,7 +52,7 @@
 				date: entry.date,
 				time: entry.time,
 				location: entry.location,
-				statusLabel: 'Enrollment closed, running now'
+				statusLabel: 'Enrollment closed'
 			}));
 
 			return {

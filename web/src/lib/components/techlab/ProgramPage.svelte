@@ -219,7 +219,7 @@
 						date={session.date}
 						time={session.time}
 						location={session.location}
-						statusLabel="Enrollment closed, running now"
+						statusLabel="Enrollment closed"
 						tone="happening"
 					/>
 				{/each}

@@ -188,7 +188,7 @@
 										date={session.date}
 										time={session.time}
 										location={session.location}
-										statusLabel={session.statusLabel ?? 'Enrollment closed, running now'}
+										statusLabel={session.statusLabel ?? 'Enrollment closed'}
 										tone="happening"
 									/>
 								</li>
