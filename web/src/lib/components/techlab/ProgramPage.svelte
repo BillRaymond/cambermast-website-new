@@ -42,9 +42,7 @@
 	let statsAfterCta: TrainingStat[] = [];
 	let ctaInsertIndex = -1;
 	const today = normalizeToday();
-	const now = new Date();
 	let registerableSessions: TrainingSession[] = [];
-	let happeningSessions: TrainingSession[] = [];
 	let programTestimonials: Testimonial[] = [];
 
 	const normalizeLabel = (label?: string): string | undefined => label?.toLowerCase().trim();
@@ -73,10 +71,7 @@
 				session.startDate &&
 				hasExternalRegistration(session) &&
 				isSessionUpcoming(session, today) &&
-				!isSessionHappeningNow(session, now)
-		);
-		happeningSessions = sessions.filter((session) =>
-			session.startDate ? isSessionHappeningNow(session, now) : false
+				!isSessionHappeningNow(session, new Date())
 		);
 	}
 
@@ -204,7 +199,7 @@
 		</section>
 	{/if}
 
-	{#if registerableSessions.length || happeningSessions.length}
+	{#if registerableSessions.length}
 		<section class="tlp-panel">
 			<h2 class="tlp-section-title">Upcoming dates</h2>
 			<div class="tlp-session-grid">
@@ -218,17 +213,6 @@
 						registerUrl={session.registerUrl}
 						registerLabel="Register ↗"
 						tone="upcoming"
-					/>
-				{/each}
-				{#each happeningSessions as session ((session.registerUrl ?? '') + session.name + session.date)}
-					<EventCard
-						title={session.name}
-						date={session.date}
-						time={session.time}
-						location={session.location}
-						typeLabel="Training"
-						statusLabel="Enrollment closed"
-						tone="happening"
 					/>
 				{/each}
 			</div>

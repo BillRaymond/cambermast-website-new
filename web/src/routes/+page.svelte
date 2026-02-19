@@ -351,7 +351,7 @@ import { getProgramCertificateText } from '$lib/data/training/program-meta';
 	};
 
 	const upcomingSlides = [...upcomingEventEntries]
-		.sort((a, b) => a.startTimestamp - b.startTimestamp)
+		.sort((a, b) => b.startTimestamp - a.startTimestamp)
 		.map((entry, index) => buildEventSlide(entry, index));
 
 	const pageMeta = getSeo('/');

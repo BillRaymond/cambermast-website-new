@@ -5,7 +5,6 @@
 	import { getEventTypeLabelUi } from '$lib/view-models/events';
 	import type { TrainingFaq, TrainingProgram, TrainingStat } from '$lib/data/training/types';
 	import {
-		listHappeningTrainingEntriesForProgram,
 		listUpcomingTrainingEntriesForProgram,
 		type TrainingScheduleEntry
 	} from '$lib/data/training/schedule';
@@ -27,7 +26,6 @@
 	let statsAfterCta: TrainingStat[] = [];
 	let ctaInsertIndex = -1;
 	let upcomingSessions: TrainingScheduleEntry[] = [];
-	let happeningSessions: TrainingScheduleEntry[] = [];
 	let registerableSessions: TrainingScheduleEntry[] = [];
 	let featuredRegistrationSession: TrainingScheduleEntry | undefined;
 	let videoEmbedUrl: string | undefined;
@@ -93,7 +91,6 @@
 	}
 
 	$: upcomingSessions = listUpcomingTrainingEntriesForProgram(program?.sku);
-	$: happeningSessions = listHappeningTrainingEntriesForProgram(program?.sku);
 	$: registerableSessions = upcomingSessions.filter((session) => Boolean(session.registerUrl));
 	$: videoEmbedUrl = getVideoEmbedUrl(program?.videoUrl);
 	$: certificateText = toStatText(getStatByLabel(program?.stats, 'certificate')?.value);
@@ -381,31 +378,6 @@
 		</div>
 	</section>
 
-	{#if happeningSessions.length}
-		<section class="rounded-2xl border border-blue-200 bg-white p-5 shadow">
-			<h2 class="text-2xl font-semibold text-gray-900">Happening now</h2>
-			<div class="mt-3.5 grid gap-3 md:grid-cols-2">
-				{#each happeningSessions as session (session.id)}
-					<EventCard
-						title={session.title}
-						subtitle={session.subtitle}
-						date={session.date}
-						time={session.time}
-						location={session.location}
-						image={session.event.image ?? program.heroImage}
-						imageAlt={session.event.imageAlt ?? program.heroImageAlt ?? session.title}
-						certificateText={certificateText}
-						videoUrl={program.videoUrl}
-						typeLabel={getEventTypeLabelUi(session.event)}
-						statusLabel={session.statusLabel ?? 'Enrollment closed'}
-						learnMoreUrl={`/events/${session.event.slug}`}
-						tone="happening"
-					/>
-				{/each}
-			</div>
-		</section>
-	{/if}
-
 	{#if programTestimonials.length}
 		<section class="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
 			{#each programTestimonials as testimonial}
@@ -469,7 +441,7 @@
 		</section>
 	{/if}
 
-	{#if program.takeaways?.length || registerableSessions.length || happeningSessions.length}
+	{#if program.takeaways?.length || registerableSessions.length}
 		<section class="grid gap-6 md:grid-cols-2">
 			{#if program.takeaways?.length}
 				<div class="rounded-2xl border border-blue-100 bg-white p-5 shadow">
@@ -512,7 +484,7 @@
 		</section>
 	{/if}
 
-	{#if (registerableSessions.length || happeningSessions.length) && program.primaryCta}
+	{#if registerableSessions.length && program.primaryCta}
 		<div
 			class="rounded-2xl border border-blue-100 bg-gradient-to-r from-blue-50 to-white p-5 shadow md:flex md:items-center md:justify-between"
 		>
