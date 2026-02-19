@@ -1,30 +1,9 @@
 <script lang="ts">
 	import { onDestroy, onMount } from 'svelte';
+	import EventCard from '$lib/components/events/EventCard.svelte';
+	import type { EventCardModel } from '$lib/view-models/event-card';
 
-	type UpcomingSessionSlide = {
-		id: string;
-		kind?: 'training' | 'event' | 'external';
-		kindLabel?: string;
-		programTitle: string;
-		sessionLabel?: string | null;
-		date: string;
-		timeLines: string[];
-		location?: string;
-		partner?: string;
-		spots?: string;
-		urgency?: string | null;
-		startTimestampMs?: number;
-		registerUrl: string;
-		image?: string;
-		imageAlt?: string;
-		certificateText?: string;
-		videoUrl?: string;
-		isHappeningNow?: boolean;
-		registerLabel?: string;
-		registrationClosed?: boolean;
-	};
-
-	export let slides: UpcomingSessionSlide[] = [];
+	export let slides: EventCardModel[] = [];
 
 	const AUTOPLAY_INTERVAL = 10000;
 
@@ -35,10 +14,8 @@
 
 	let carouselEl: HTMLDivElement | null = null;
 	let autoTimer: ReturnType<typeof setInterval> | null = null;
-	let countdownTimer: ReturnType<typeof setInterval> | null = null;
 	let isPointerOver = false;
 	let hasFocus = false;
-	let nowEpochMs = Date.now();
 
 	const goToSlide = (index: number): void => {
 		if (!totalSlides) return;
@@ -123,86 +100,15 @@
 		}
 	};
 
-	const getStatusLabel = (slide: UpcomingSessionSlide): string => {
-		if (isHappeningNow(slide)) return 'Happening now';
-		if (slide.registrationClosed) return 'Enrollment closed';
-		if (slide.kindLabel) return `Upcoming ${slide.kindLabel.toLowerCase()}`;
-		if (slide.kind === 'event' || slide.kind === 'external') return 'Upcoming event';
-		return 'Upcoming session';
-	};
-
-	const isHappeningNow = (slide: UpcomingSessionSlide): boolean => {
-		if (slide.isHappeningNow || slide.urgency === 'Happening now') return true;
-		if (typeof slide.startTimestampMs !== 'number') return false;
-		return slide.startTimestampMs <= nowEpochMs;
-	};
-
-	const getCountdownLabel = (slide: UpcomingSessionSlide): string | null => {
-		if (typeof slide.startTimestampMs !== 'number') return null;
-		const diffMs = slide.startTimestampMs - nowEpochMs;
-		if (diffMs <= 0) return null;
-		const totalSeconds = Math.floor(diffMs / 1000);
-		const days = Math.floor(totalSeconds / 86400);
-		const hours = Math.floor((totalSeconds % 86400) / 3600);
-		const minutes = Math.floor((totalSeconds % 3600) / 60);
-		const seconds = totalSeconds % 60;
-		if (days > 0) return `Starts in ${days}d ${hours}h ${minutes}m ${seconds}s`;
-		if (hours > 0) return `Starts in ${hours}h ${minutes}m ${seconds}s`;
-		return `Starts in ${minutes}m ${seconds}s`;
-	};
-
-	const getAvailabilityLabel = (slide: UpcomingSessionSlide): string => {
-		if (isHappeningNow(slide) || slide.registrationClosed) {
-			return 'Enrollment closed';
-		}
-		const countdownLabel = getCountdownLabel(slide);
-		if (countdownLabel) return countdownLabel;
-		return slide.urgency ?? slide.spots ?? 'Open for registration';
-	};
-
-	const getBadge = (slide: UpcomingSessionSlide): { label: string; className: string } => {
-		if (slide.kindLabel) {
-			const normalized = slide.kindLabel.trim().toLowerCase();
-			const isTrainingLike = normalized === 'training' || normalized === 'training session';
-			return {
-				label: slide.kindLabel,
-				className: isTrainingLike
-					? 'border-blue-200 bg-blue-600/10 text-blue-700'
-					: 'border-emerald-200 bg-emerald-600/10 text-emerald-700'
-			};
-		}
-		if (slide.kind === 'event' || slide.kind === 'external') {
-			return {
-				label: 'Event',
-				className: 'border-emerald-200 bg-emerald-600/10 text-emerald-700'
-			};
-		}
-		return {
-			label: 'Training',
-			className: 'border-blue-200 bg-blue-600/10 text-blue-700'
-		};
-	};
-
 	onMount(() => {
 		restartAutoplay();
-		countdownTimer = setInterval(() => {
-			nowEpochMs = Date.now();
-		}, 1000);
 		return () => {
 			pauseAutoplay();
-			if (countdownTimer) {
-				clearInterval(countdownTimer);
-				countdownTimer = null;
-			}
 		};
 	});
 
 	onDestroy(() => {
 		pauseAutoplay();
-		if (countdownTimer) {
-			clearInterval(countdownTimer);
-			countdownTimer = null;
-		}
 	});
 </script>
 
@@ -232,197 +138,30 @@
 				style={`transform: translateX(-${currentIndex * 100}%);`}
 			>
 				{#each slides as slide (slide.id)}
-					{@const badge = getBadge(slide)}
 					<article
-						class={`flex w-full shrink-0 basis-full flex-col gap-4 p-3 md:flex-row md:items-center md:gap-4 md:p-5 ${
-							slide.isHappeningNow ? 'bg-amber-50/70' : 'bg-white/0'
-						}`}
+						class={`w-full shrink-0 basis-full p-3 md:p-5 ${slide.tone === 'happening' ? 'bg-amber-50/70' : 'bg-white/0'}`}
 					>
-						<div
-							class={`flex w-full items-center justify-center rounded-2xl p-3 md:max-w-[340px] md:flex-shrink-0 md:basis-[40%] md:self-center md:p-4 ${
-								slide.isHappeningNow ? 'bg-transparent' : 'bg-white'
-							}`}
-						>
-							{#if slide.image}
-								<img
-									src={slide.image}
-									alt={slide.imageAlt ?? slide.programTitle}
-									class="h-auto w-full max-w-full rounded-xl object-contain"
-									loading="lazy"
-								/>
-							{:else}
-								<span
-									class={`text-sm font-semibold ${
-										slide.isHappeningNow ? 'text-amber-700' : 'text-blue-500'
-									}`}
-								>
-									Upcoming session
-								</span>
-							{/if}
-						</div>
-						<div
-							class={`flex w-full min-w-0 flex-1 flex-col justify-between gap-3 rounded-2xl p-3 md:basis-[60%] md:p-4 ${
-								slide.isHappeningNow ? 'bg-amber-50/80' : 'bg-white/70'
-							}`}
-						>
-							<div class="w-full">
-								<div
-									class={`rounded-lg border p-3 text-left ${
-										slide.isHappeningNow
-											? 'border-amber-200 bg-amber-50/80'
-											: 'border-blue-100 bg-blue-50/70'
-									}`}
-								>
-									<div class="mb-2 flex flex-wrap items-center gap-2">
-										<span
-											class={`inline-flex items-center gap-1.5 rounded-full border px-2 py-0.5 text-[0.6rem] font-semibold tracking-wide uppercase ${badge.className}`}
-										>
-											{#if badge.label === 'Training'}
-												<svg
-													viewBox="0 0 24 24"
-													aria-hidden="true"
-													class="h-3 w-3"
-													fill="currentColor"
-												>
-													<path
-														d="M12 3l10 5-10 5-10-5 10-5zm0 7l6-3v4.5c0 2.5-4 4.5-6 4.5s-6-2-6-4.5V7l6 3zm7 4.5v4a1 1 0 01-2 0v-4h2z"
-													/>
-												</svg>
-											{:else}
-												<svg
-													viewBox="0 0 24 24"
-													aria-hidden="true"
-													class="h-3 w-3"
-													fill="currentColor"
-												>
-													<path
-														d="M9 3a3 3 0 00-3 3v5a3 3 0 006 0V6a3 3 0 00-3-3zm7 1a1 1 0 011 1v6a5 5 0 01-4 4.9V19h3a1 1 0 110 2H8a1 1 0 110-2h3v-3.1A5 5 0 017 11V5a1 1 0 112 0v6a3 3 0 006 0V5a1 1 0 011-1z"
-													/>
-												</svg>
-											{/if}
-											{badge.label}
-										</span>
-										{#if slide.isHappeningNow}
-											<span
-												class="inline-flex items-center rounded-full bg-amber-100 px-2 py-0.5 text-[0.6rem] font-semibold tracking-wide text-amber-700 uppercase"
-											>
-												Live
-											</span>
-										{/if}
-										{#if slide.certificateText}
-											<span
-												class={`inline-flex items-center rounded-full border px-2 py-0.5 text-[0.6rem] font-semibold tracking-wide uppercase ${
-													slide.isHappeningNow
-														? 'border-amber-100 bg-amber-100/70 text-amber-800'
-														: 'border-blue-100 bg-blue-50 text-blue-700/80'
-												}`}
-											>
-												📜 Certificate included
-											</span>
-										{/if}
-									</div>
-									<div class="flex flex-wrap items-end gap-3">
-										<div class="min-w-[14rem] flex-1">
-											<div class="flex flex-wrap items-center gap-2">
-												<p
-													class={`text-[0.6rem] font-semibold tracking-wide uppercase ${
-														slide.isHappeningNow ? 'text-amber-700' : 'text-blue-600'
-													}`}
-												>
-													{getStatusLabel(slide)}
-												</p>
-												<span
-													class={`inline-flex items-center gap-1.5 rounded-lg bg-white px-2.5 py-1 text-[0.6rem] font-semibold ${
-														slide.isHappeningNow ? 'text-amber-700' : 'text-blue-700'
-													}`}
-												>
-													{getAvailabilityLabel(slide)}
-												</span>
-											</div>
-											<a
-												href={slide.registerUrl}
-												target="_blank"
-												rel="noopener"
-												class={`mt-2 inline-flex text-sm font-semibold transition ${
-													slide.isHappeningNow
-														? 'text-amber-950 hover:text-amber-600'
-														: 'text-blue-950 hover:text-blue-500'
-												}`}
-											>
-												{slide.programTitle}
-											</a>
-											{#if slide.sessionLabel}
-												<p
-													class={`text-xs font-medium ${
-														slide.isHappeningNow ? 'text-amber-800' : 'text-blue-800'
-													}`}
-												>
-													{slide.sessionLabel}
-												</p>
-											{/if}
-											<p
-												class={`mt-2 text-sm ${slide.isHappeningNow ? 'text-amber-900' : 'text-blue-900'}`}
-											>
-												{slide.date}
-											</p>
-											{#each slide.timeLines.slice(0, 2) as timeLine}
-												<p
-													class={`text-xs ${slide.isHappeningNow ? 'text-amber-700' : 'text-blue-700'}`}
-												>
-													{timeLine}
-												</p>
-											{/each}
-											{#if slide.location}
-												<p
-													class={`text-xs ${slide.isHappeningNow ? 'text-amber-700' : 'text-blue-700'}`}
-												>
-													{slide.location}
-												</p>
-											{/if}
-											{#if slide.videoUrl && !slide.isHappeningNow}
-												<a
-													href={slide.videoUrl}
-													target="_blank"
-													rel="noopener noreferrer"
-													class="mt-2 inline-flex items-center rounded-full border border-blue-100 bg-blue-50 px-2.5 py-0.5 text-[0.7rem] font-medium text-blue-700/80 normal-case transition hover:border-blue-200 hover:bg-blue-100"
-												>
-													🎬 Watch the trailer
-												</a>
-											{/if}
-											{#if slide.partner && !slide.isHappeningNow}
-												<p class="mt-2 text-[0.6rem] tracking-wide text-blue-600 uppercase">
-													In partnership with {slide.partner}
-												</p>
-											{/if}
-										</div>
-										<div class="ml-auto text-[0.65rem]">
-											{#if slide.isHappeningNow}
-												<span
-													class="inline-flex items-center justify-center rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-[0.65rem] font-semibold text-amber-800"
-												>
-													Enrollment closed
-												</span>
-											{:else if slide.registrationClosed}
-												<span
-													class="inline-flex items-center justify-center rounded-lg border border-blue-200 bg-blue-50 px-3 py-2 text-[0.65rem] font-semibold text-blue-800"
-												>
-													Enrollment closed
-												</span>
-											{:else}
-												<a
-													href={slide.registerUrl}
-													target="_blank"
-													rel="noopener"
-													class="inline-flex items-center justify-center rounded-lg bg-blue-600 px-3 py-2 text-[0.65rem] font-semibold text-white transition hover:bg-blue-700 focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-blue-50 focus-visible:outline-none"
-												>
-													{slide.registerLabel ?? 'Register now'}
-												</a>
-											{/if}
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
+						<EventCard
+							title={slide.title}
+							subtitle={slide.subtitle}
+							date={slide.date}
+							time={slide.time}
+							location={slide.location}
+							image={slide.image}
+							imageAlt={slide.imageAlt}
+							certificateText={slide.certificateText}
+							videoUrl={slide.videoUrl}
+							typeLabel={slide.typeLabel}
+							statusLabel={slide.statusLabel}
+							registerUrl={slide.registerUrl}
+							registerLabel={slide.registerLabel ?? 'Register now'}
+							learnMoreUrl={slide.learnMoreUrl}
+							hostText={slide.hostText}
+							partnerText={slide.partnerText}
+							speakerText={slide.speakerText}
+							tone={slide.tone}
+							variant="carousel"
+						/>
 					</article>
 				{/each}
 			</div>
@@ -431,7 +170,7 @@
 		{#if totalSlides > 1}
 			<button
 				type="button"
-				class="absolute top-1/2 left-1 inline-flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border border-blue-200 bg-white/95 text-base font-semibold text-blue-700 shadow-sm transition hover:bg-white focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white focus-visible:outline-none sm:left-1.5 md:left-2"
+				class="absolute top-1/2 left-1 hidden h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border border-blue-200 bg-white/95 text-base font-semibold text-blue-700 shadow-sm transition hover:bg-white focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white focus-visible:outline-none sm:inline-flex sm:left-1.5 md:left-2"
 				on:click={() => goPrevious(true)}
 				aria-label="Show previous session"
 			>
@@ -439,7 +178,7 @@
 			</button>
 			<button
 				type="button"
-				class="absolute top-1/2 right-1 inline-flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border border-blue-200 bg-white/95 text-base font-semibold text-blue-700 shadow-sm transition hover:bg-white focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white focus-visible:outline-none sm:right-1.5 md:right-2"
+				class="absolute top-1/2 right-1 hidden h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border border-blue-200 bg-white/95 text-base font-semibold text-blue-700 shadow-sm transition hover:bg-white focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white focus-visible:outline-none sm:inline-flex sm:right-1.5 md:right-2"
 				on:click={() => goNext(true)}
 				aria-label="Show next session"
 			>

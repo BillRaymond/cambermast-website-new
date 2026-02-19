@@ -56,10 +56,10 @@
 			target={isExternalLearnMoreUrl ? '_blank' : undefined}
 			rel={isExternalLearnMoreUrl ? 'noopener noreferrer' : undefined}
 			aria-label={`Learn more about ${title}`}
-			class="absolute inset-0 z-10 rounded-2xl"
+			class="absolute inset-0 z-20 rounded-2xl"
 		></a>
 	{/if}
-	<div class="pointer-events-none relative z-20 flex flex-col gap-4 sm:flex-row sm:items-start sm:gap-5">
+	<div class="relative z-10 flex flex-col gap-4 sm:flex-row sm:items-start sm:gap-5">
 		{#if image}
 			<div class={imageWrapClass}>
 				<img src={image} alt={imageAlt ?? title} class={imageClass} loading="lazy" />
@@ -104,7 +104,7 @@
 						href={videoUrl}
 						target="_blank"
 						rel="noopener noreferrer"
-						class="pointer-events-auto inline-flex items-center rounded-full border border-blue-100 bg-blue-50 px-2 py-0.5 text-[0.65rem] font-semibold text-blue-700 transition hover:bg-blue-100"
+						class="pointer-events-auto relative z-30 inline-flex items-center rounded-full border border-blue-100 bg-blue-50 px-2 py-0.5 text-[0.65rem] font-semibold text-blue-700 transition hover:bg-blue-100"
 					>
 						▶ Trailer ↗
 					</a>
@@ -132,7 +132,7 @@
 						href={registerUrl}
 						target={isExternalRegisterUrl ? '_blank' : undefined}
 						rel={isExternalRegisterUrl ? 'noopener noreferrer' : undefined}
-						class="pointer-events-auto inline-flex rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700"
+						class="pointer-events-auto relative z-30 inline-flex rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700"
 					>
 						{registerLabel}
 					</a>
@@ -142,7 +142,7 @@
 						href={learnMoreUrl!}
 						target={isExternalLearnMoreUrl ? '_blank' : undefined}
 						rel={isExternalLearnMoreUrl ? 'noopener noreferrer' : undefined}
-						class="pointer-events-auto ml-auto text-sm font-semibold text-blue-700 underline decoration-blue-200 underline-offset-4 transition hover:text-blue-900"
+						class="pointer-events-auto relative z-30 ml-auto text-sm font-semibold text-blue-700 underline decoration-blue-200 underline-offset-4 transition hover:text-blue-900"
 					>
 						Learn more →
 					</a>
