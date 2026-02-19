@@ -83,3 +83,20 @@ export const deriveEventTimeLabel = (
 		return `${dayLabel} - ${rangeLabels[index]}`;
 	});
 };
+
+export const toConciseEventTimeLabel = (
+	value?: string | string[]
+): string | undefined => {
+	if (!value) return undefined;
+	if (!Array.isArray(value)) return value;
+
+	const normalize = (item: string): string => {
+		const dashIndex = item.indexOf(' - ');
+		return dashIndex >= 0 ? item.slice(dashIndex + 3).trim() : item.trim();
+	};
+
+	const unique = Array.from(new Set(value.map(normalize).filter(Boolean)));
+	if (!unique.length) return undefined;
+	if (unique.length === 1) return unique[0];
+	return `${unique[0]} (times vary by date)`;
+};

@@ -279,7 +279,10 @@ const eventsApiPayload = buildEventsApiPayload({
 				>type = training_session</code
 			>
 			and include <code class="rounded bg-gray-100 px-1 py-0.5 text-xs">programRef.sku</code> plus
-			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">schedule</code>.
+			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">schedule</code> and
+			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
+				>template.kind = training_event_v1</code
+			>.
 		</li>
 		<li>
 			Program route values should stay under <code class="rounded bg-gray-100 px-1 py-0.5 text-xs"

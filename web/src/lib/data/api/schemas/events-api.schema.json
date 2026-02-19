@@ -36,6 +36,7 @@
           "slug": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
           "title": { "type": "string", "minLength": 1 },
           "subtitle": { "type": "string", "minLength": 1 },
+          "formatLineOverride": { "type": "string", "minLength": 1 },
           "type": { "type": "string", "minLength": 1 },
           "typeLabel": { "type": "string" },
           "tagline": { "type": "string" },
@@ -281,6 +282,26 @@
               "estimatedHoursCommitment": { "type": "number", "exclusiveMinimum": 0 }
             }
           },
+          "template": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["kind"],
+            "properties": {
+              "kind": {
+                "type": "string",
+                "enum": ["training_event_v1", "webinar_event_v1"]
+              },
+              "sourceProgramSku": { "type": "string", "pattern": "^CM-TR-[0-9]{3}$" },
+              "sourceProgramSlug": {
+                "type": "string",
+                "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+              },
+              "sourceProgramRoute": {
+                "type": "string",
+                "pattern": "^/training/[a-z0-9]+(?:-[a-z0-9]+)*$"
+              }
+            }
+          },
           "partners": {
             "type": "array",
             "items": {
@@ -307,6 +328,7 @@
               "conferenceUrl": { "type": "string" }
             }
           },
+          "videoUrl": { "type": "string" },
           "image": { "type": "string" },
           "imageAlt": { "type": "string" },
           "heroImage": { "type": "string" },
@@ -321,10 +343,18 @@
               }
             },
             "then": {
-              "required": ["programRef", "schedule"],
+              "required": ["programRef", "schedule", "template"],
               "properties": {
                 "programRef": { "type": "object" },
-                "schedule": { "type": "object" }
+                "schedule": { "type": "object" },
+                "template": {
+                  "type": "object",
+                  "required": ["kind", "sourceProgramSku"],
+                  "properties": {
+                    "kind": { "const": "training_event_v1" },
+                    "sourceProgramSku": { "type": "string", "pattern": "^CM-TR-[0-9]{3}$" }
+                  }
+                }
               }
             }
           }

@@ -64,6 +64,11 @@ const toTypeLabel = (type: EventType, typeLabel?: string): string => {
 	return type.charAt(0).toUpperCase() + type.slice(1);
 };
 
+const toPublicLocationLabel = (event: EventSource): string => {
+	if (event.type === 'training_session' && event.location.mode === 'online') return 'Online';
+	return event.location.publicLabel;
+};
+
 const resolveEvent = (event: EventSource): Event => {
 	const bounds = getEventSessionBounds(event);
 	const startAtUtc = bounds?.startAtUtc ?? event.sessions[0]?.startAtUtc ?? '';
@@ -90,7 +95,7 @@ const resolveEvent = (event: EventSource): Event => {
 			campaignId: event.cta?.campaignId
 		},
 		locationMeta: event.location,
-		location: event.location.publicLabel,
+		location: toPublicLocationLabel(event),
 		typeLabel,
 		date: deriveEventDateLabel(event.sessions, timeZoneIana),
 		time: deriveEventTimeLabel(event.sessions, timeZoneIana, timezoneLabel),
@@ -144,9 +149,11 @@ export const getEventTypeLabel = (event: Event): string => event.typeLabel;
 export const getEventRegistrationUrl = (
 	event: Pick<Event, 'campaignId' | 'cta'>
 ): string | undefined => {
+	const ctaUrl = event.cta?.url?.trim();
+	if (ctaUrl && /^https?:\/\//i.test(ctaUrl)) return ctaUrl;
 	const campaignId = event.campaignId ?? event.cta?.campaignId;
 	if (campaignId) return `/c/${campaignId}`;
-	return event.cta?.url;
+	return ctaUrl;
 };
 
 export {

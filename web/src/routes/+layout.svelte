@@ -5,6 +5,7 @@
 	import { browser } from '$app/environment';
 	import { onMount, tick } from 'svelte';
 	import { GA_MEASUREMENT_ID, SITE_ORIGIN } from '$lib/config/site';
+	import { getEventOccurrenceState } from '$lib/data/events/timeline';
 	import {
 		consentState,
 		initConsent,
@@ -30,7 +31,37 @@
 
 	$: hideChrome =
 		$page.url.pathname.startsWith('/training/print') || $page.url.pathname.startsWith('/techlab');
-	$: hideSiteHeader = /^\/events\/[^/]+$/.test($page.url.pathname);
+	$: isEventDetailRoute = /^\/events\/[^/]+$/.test($page.url.pathname);
+	$: hideSiteHeader = (() => {
+		if (!isEventDetailRoute) return false;
+		const pageEvent = $page.data?.event as
+			| {
+					type?: string;
+					lifecycleStatus?: string;
+					registrationStatus?: string;
+					cta?: { url?: string };
+					sessions?: Array<unknown>;
+			  }
+			| undefined;
+		if (!pageEvent) return true;
+
+		const occurrenceState = getEventOccurrenceState(pageEvent);
+		const isPastEvent =
+			pageEvent.lifecycleStatus === 'canceled' ||
+			pageEvent.lifecycleStatus === 'completed' ||
+			occurrenceState.hasEnded;
+		const isTrainingInProgress =
+			pageEvent.type === 'training_session' && occurrenceState.isInProgress;
+		const canRegister =
+			Boolean(pageEvent.cta?.url) &&
+			!isPastEvent &&
+			!isTrainingInProgress &&
+			pageEvent.registrationStatus !== 'closed' &&
+			pageEvent.registrationStatus !== 'none' &&
+			pageEvent.registrationStatus !== 'sold_out';
+
+		return canRegister;
+	})();
 
 	const isDevEnvironment = import.meta.env.DEV;
 	const DEV_ANALYTICS_DEBUG_STORAGE_KEY = 'cambermast-dev-analytics-debug-visible-v1';

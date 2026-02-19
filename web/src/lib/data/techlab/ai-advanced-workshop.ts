@@ -234,7 +234,7 @@ export const techlabAiAdvancedWorkshop: TechlabProgram = {
 			"blocks": [
 				{
 					"type": "paragraph",
-					"text": "Follow Bill's training calendar at https://lu.ma/BillTalksAI and subscribe to the Bill Talks AI newsletter for upcoming offerings."
+					"text": "Browse the events calendar at /events and subscribe to the Bill Talks AI newsletter for upcoming offerings."
 				}
 			]
 		}

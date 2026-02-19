@@ -5,6 +5,12 @@ export type CatalogScheduleEntry = {
 	date: string;
 	time?: string | string[];
 	location?: string;
+	image?: string;
+	imageAlt?: string;
+	certificateText?: string;
+	videoUrl?: string;
+	learnMoreUrl?: string;
+	typeLabel?: string;
 	registerUrl?: string;
 	registerLabel?: string;
 	statusLabel?: string;

@@ -586,12 +586,10 @@ import { getProgramCertificateText } from '$lib/data/training/program-meta';
 	</h2>
 	<div class="mb-4 flex justify-center">
 		<a
-			href="https://luma.com/BillTalksAI?k=c"
-			target="_blank"
-			rel="noopener"
+			href="/events"
 			class="rounded-lg bg-blue-600 px-5 py-2.5 font-semibold text-white shadow transition hover:bg-blue-700"
 		>
-			View Events on Lu.ma
+			View Events Calendar
 		</a>
 	</div>
 	<div class="w-full max-w-5xl">

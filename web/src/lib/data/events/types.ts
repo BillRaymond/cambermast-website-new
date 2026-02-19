@@ -90,6 +90,15 @@ export type EventSchedule = {
 	estimatedHoursCommitment: number;
 };
 
+export type EventTemplateKind = 'training_event_v1' | 'webinar_event_v1';
+
+export type EventTemplate = {
+	kind: EventTemplateKind;
+	sourceProgramSku?: string;
+	sourceProgramSlug?: string;
+	sourceProgramRoute?: string;
+};
+
 export type EventDescription = {
 	summary?: string;
 	bodyMd?: string;
@@ -115,6 +124,7 @@ export type EventSource = {
 	slug: string;
 	title: string;
 	subtitle?: string;
+	formatLineOverride?: string;
 	type: EventType;
 	summary: string;
 	sessions: EventSession[];
@@ -136,9 +146,11 @@ export type EventSource = {
 	speakers?: EventSpeaker[];
 	programRef?: EventProgramRef;
 	schedule?: EventSchedule;
+	template?: EventTemplate;
 	partners?: EventPartner[];
 	campaignId?: string;
 	links?: EventLinks;
+	videoUrl?: string;
 	typeLabel?: string;
 	timeZoneIana?: string;
 	registrationClosesAtUtc?: string;

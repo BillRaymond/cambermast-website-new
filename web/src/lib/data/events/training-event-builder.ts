@@ -124,6 +124,64 @@ const toZonedTimestamp = (
 const toSessionCount = (durationDays: number): number =>
 	Math.max(1, Math.round(durationDays / DAYS_BETWEEN_SESSIONS));
 
+const parseUsdAmount = (value?: string | string[]): number | undefined => {
+	const raw = Array.isArray(value) ? value.join(' ') : value;
+	if (!raw) return undefined;
+	const match = raw.match(/\$([0-9][0-9,]*(?:\.[0-9]{1,2})?)/);
+	if (!match) return undefined;
+	const normalized = match[1].replace(/,/g, '');
+	const amount = Number.parseFloat(normalized);
+	return Number.isFinite(amount) ? amount : undefined;
+};
+
+const getProgramTicketPriceUsd = (program: TrainingProgram): number =>
+	parseUsdAmount(program.stats?.find((stat) => stat.label.toLowerCase() === 'cost')?.value) ?? 0;
+
+const toClonedArray = <T>(items?: T[]): T[] | undefined =>
+	items?.length ? JSON.parse(JSON.stringify(items)) : undefined;
+
+const toTrainingEventAgenda = (
+	agenda: TrainingProgram['agenda']
+): EventSource['agenda'] | undefined => {
+	if (!(agenda && agenda.length > 0)) return undefined;
+
+	return agenda.map((block) => {
+		const details = block.details ?? [];
+		const [outcome, ...rest] = details;
+		return {
+			title: block.title,
+			...(outcome ? { outcome } : {}),
+			...(rest.length ? { details: rest.join(' ') } : {})
+		};
+	});
+};
+
+const toTrainingEventDescription = (program: TrainingProgram): EventSource['description'] => {
+	const summary = program.secondaryDescription ?? program.description;
+	const sections: string[] = [];
+
+	if (program.description) sections.push(program.description);
+
+	if (program.objectives?.length) {
+		sections.push(
+			['## Outcomes', ...program.objectives.map((item) => `- ${item}`)].join('\n')
+		);
+	}
+	if (program.takeaways?.length) {
+		sections.push(
+			['## What You Will Build', ...program.takeaways.map((item) => `- ${item}`)].join('\n')
+		);
+	}
+	if (program.audience?.length) {
+		sections.push(['## Who This Is For', ...program.audience.map((item) => `- ${item}`)].join('\n'));
+	}
+
+	return {
+		summary,
+		bodyMd: sections.join('\n\n')
+	};
+};
+
 export const buildTrainingSessionEventFromProgram = (
 	input: BuildTrainingEventInput
 ): EventSource => {
@@ -170,6 +228,7 @@ export const buildTrainingSessionEventFromProgram = (
 		tagline: program.tagline,
 		summary:
 			input.summary ??
+			program.description ??
 			`${program.title} runs for ${sessionCount} session(s), ${sessionDurationMinutes} minutes per session.`,
 		sessions,
 		visibility: input.visibility ?? 'public',
@@ -187,7 +246,7 @@ export const buildTrainingSessionEventFromProgram = (
 		},
 		ticketing: {
 			currency: 'USD',
-			amountUsd: 0
+			amountUsd: getProgramTicketPriceUsd(program)
 		},
 		registrationSettings: {
 			approvalRequired: false,
@@ -195,6 +254,12 @@ export const buildTrainingSessionEventFromProgram = (
 		},
 		programRef: {
 			sku: program.sku
+		},
+		template: {
+			kind: 'training_event_v1',
+			sourceProgramSku: program.sku,
+			sourceProgramSlug: program.slug,
+			sourceProgramRoute: program.route
 		},
 		faq:
 			program.faqs && program.faqs.length > 0
@@ -204,7 +269,14 @@ export const buildTrainingSessionEventFromProgram = (
 			durationDays,
 			estimatedHoursCommitment
 		},
+		description: toTrainingEventDescription(program),
+		highlights: toClonedArray(program.catalog?.bullets) ?? toClonedArray(program.objectives),
+		audienceBullets: toClonedArray(program.audience),
+		buildBullets: toClonedArray(program.takeaways),
+		outcomes: toClonedArray(program.objectives),
+		agenda: toTrainingEventAgenda(program.agenda),
 		partners: input.partnerCodes?.map((code) => ({ code })),
+		videoUrl: program.videoUrl,
 		heroImage: program.heroImage ?? program.ogImage,
 		heroImageAlt: program.heroImageAlt ?? program.ogImageAlt ?? program.title,
 		image: program.ogImage ?? program.heroImage,

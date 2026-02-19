@@ -9,7 +9,7 @@
 		normalizeToday
 	} from '$lib/data/training/session-utils';
 	import ReviewCard from '$lib/components/ReviewCard.svelte';
-	import SessionCard from '$lib/components/SessionCard.svelte';
+	import EventCard from '$lib/components/events/EventCard.svelte';
 	import type { TechlabProgram } from '$lib/data/techlab/types';
 	import {
 		listTestimonialsForSku,
@@ -209,22 +209,24 @@
 			<h2 class="tlp-section-title">Upcoming dates</h2>
 			<div class="tlp-session-grid">
 				{#each registerableSessions as session ((session.registerUrl ?? '') + session.name + session.date)}
-					<SessionCard
+					<EventCard
 						title={session.name}
 						date={session.date}
 						time={session.time}
 						location={session.location}
-						ctaUrl={session.registerUrl}
-						ctaLabel="Register ↗"
+						typeLabel="Training"
+						registerUrl={session.registerUrl}
+						registerLabel="Register ↗"
 						tone="upcoming"
 					/>
 				{/each}
 				{#each happeningSessions as session ((session.registerUrl ?? '') + session.name + session.date)}
-					<SessionCard
+					<EventCard
 						title={session.name}
 						date={session.date}
 						time={session.time}
 						location={session.location}
+						typeLabel="Training"
 						statusLabel="Enrollment closed"
 						tone="happening"
 					/>

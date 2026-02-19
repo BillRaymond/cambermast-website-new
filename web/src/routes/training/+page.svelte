@@ -42,6 +42,13 @@
 				date: entry.date,
 				time: entry.time,
 				location: entry.location,
+				image: entry.event.image,
+				imageAlt: entry.event.imageAlt,
+				certificateText: getProgramCertificateText(program),
+				videoUrl: program.videoUrl,
+				typeLabel: 'Training',
+				learnMoreUrl: `/events/${entry.event.slug}`,
+				statusLabel: entry.statusLabel,
 				registerUrl: entry.registerUrl,
 				registerLabel: entry.registerLabel
 			}));
@@ -52,7 +59,13 @@
 				date: entry.date,
 				time: entry.time,
 				location: entry.location,
-				statusLabel: 'Enrollment closed'
+				image: entry.event.image,
+				imageAlt: entry.event.imageAlt,
+				certificateText: getProgramCertificateText(program),
+				videoUrl: program.videoUrl,
+				typeLabel: 'Training',
+				learnMoreUrl: `/events/${entry.event.slug}`,
+				statusLabel: entry.statusLabel
 			}));
 
 			return {

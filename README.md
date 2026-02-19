@@ -73,7 +73,7 @@ Output includes:
 
 - `program.scheduleTemplate` (source values)
 - `scheduleDraft` (generated date/time window)
-- `draftEvent` (ready-to-paste event object with explicit `schedule` fields and copied FAQ snapshot)
+- `draftEvent` (ready-to-paste event object with locked `template.kind = training_event_v1`, explicit `schedule`, and copied program content for description/highlights/audience/build/outcomes/agenda/FAQ/images/videoUrl)
 - `draftCampaign` (ready-to-paste campaign entry for `web/src/lib/data/campaigns.json`)
 
 ## Privacy, GDPR & Cookies

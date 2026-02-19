@@ -50,22 +50,6 @@
 			}
 		},
 		{
-			"id": "3slr4s",
-			"partner": "cambermast",
-			"partnerLabel": "Cambermast",
-			"landingPath": "/events/ai-automation-with-agents-workshop-feb-2026",
-			"description": "Campaign short link for the AI Automation with Agents Workshop event page.",
-			"createdAt": "2026-02-11T00:00:00Z",
-			"params": {
-				"utm_source": "qr",
-				"utm_medium": "offline",
-				"utm_campaign": "events",
-				"utm_content": "3slr4s",
-				"src": "qr",
-				"ad": "cambermast"
-			}
-		},
-		{
 			"id": "59v3n2",
 			"partner": "techlab",
 			"partnerLabel": "TechLAB",
@@ -82,17 +66,17 @@
 			}
 		},
 		{
-			"id": "aia262",
+			"id": "s6twc1",
 			"partner": "cambermast",
 			"partnerLabel": "Cambermast",
-			"landingPath": "/events/ai-accelerator-workshop-spring-2026-aia262",
-			"description": "Campaign short link for the AI Accelerator Workshop event page.",
-			"createdAt": "2026-02-18T22:38:03.139Z",
+			"landingPath": "/events/ai-workshop-for-tech-writers-and-content-creators-summer-2026-s6twc1",
+			"description": "Campaign short link for the AI Workshop for Tech Writers and Content Creators event page.",
+			"createdAt": "2026-02-19T00:06:15.327Z",
 			"params": {
 				"utm_source": "qr",
 				"utm_medium": "offline",
 				"utm_campaign": "events",
-				"utm_content": "aia262",
+				"utm_content": "s6twc1",
 				"src": "qr",
 				"ad": "cambermast"
 			}

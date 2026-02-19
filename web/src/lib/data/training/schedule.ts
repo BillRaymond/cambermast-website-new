@@ -4,6 +4,7 @@ import {
 	isEventUpcoming,
 	listEvents
 } from '$lib/data/events';
+import { toConciseEventTimeLabel } from '$lib/data/events/session-labels';
 import { getEventOccurrenceState, getEventSessionBounds } from '$lib/data/events/timeline';
 import type { Event } from '$lib/data/events/types';
 import { getTrainingProgramBySku } from '$lib/data/training';
@@ -16,6 +17,7 @@ export type TrainingScheduleEntry = {
 	date: string;
 	time?: string | string[];
 	location: string;
+	statusLabel?: string;
 	registerUrl?: string;
 	registerLabel?: string;
 	isHappeningNow: boolean;
@@ -27,6 +29,36 @@ export type TrainingScheduleEntry = {
 export type TrainingEventWithProgram = {
 	program: TrainingProgram;
 	entry: TrainingScheduleEntry;
+};
+
+const formatCountdown = (diffMs: number): string => {
+	const totalSeconds = Math.max(0, Math.floor(diffMs / 1000));
+	const seconds = totalSeconds % 60;
+	const totalMinutes = Math.floor(totalSeconds / 60);
+	const minutes = totalMinutes % 60;
+	const totalHours = Math.floor(totalMinutes / 60);
+	const hours = totalHours % 24;
+	const days = Math.floor(totalHours / 24);
+	const pad = (value: number) => value.toString().padStart(2, '0');
+	if (days > 0) return `${days}d ${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+	if (hours > 0) return `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+	if (minutes > 0) return `${pad(minutes)}:${pad(seconds)}`;
+	return `${seconds}s`;
+};
+
+const getStatusLabel = (
+	input: {
+		startTimestamp: number;
+		referenceTimestamp: number;
+		canRegister: boolean;
+		isTrainingInProgress: boolean;
+	}
+): string | undefined => {
+	if (input.isTrainingInProgress) return 'Enrollment closed';
+	if (!input.canRegister) return 'Enrollment closed';
+	const diffMs = input.startTimestamp - input.referenceTimestamp;
+	if (diffMs <= 0) return undefined;
+	return `Starts in ${formatCountdown(diffMs)}`;
 };
 
 const isRegisterable = (event: Event): boolean =>
@@ -41,7 +73,7 @@ export const isTrainingEventHappeningNow = (
 ): boolean => {
 	if (event.type !== 'training_session') return false;
 	if (event.lifecycleStatus === 'canceled' || event.lifecycleStatus === 'completed') return false;
-	return getEventOccurrenceState(event, referenceTimestamp).isHappeningNow;
+	return getEventOccurrenceState(event, referenceTimestamp).isInProgress;
 };
 
 export const toTrainingScheduleEntry = (
@@ -52,17 +84,25 @@ export const toTrainingScheduleEntry = (
 	const endTimestamp = getEventSessionBounds(event)?.endTimestamp ?? startTimestamp;
 	const canRegister = isRegisterable(event);
 	const registerLabel = event.cta?.label || 'Register now';
+	const isTrainingInProgress = isTrainingEventHappeningNow(event, referenceTimestamp);
+	const statusLabel = getStatusLabel({
+		startTimestamp,
+		referenceTimestamp,
+		canRegister,
+		isTrainingInProgress
+	});
 
 	return {
 		id: `${event.id}-${event.slug}`,
 		title: event.title,
 		subtitle: event.subtitle ?? event.tagline ?? undefined,
 		date: event.date,
-		time: event.time,
+		time: toConciseEventTimeLabel(event.time),
 		location: event.location,
+		statusLabel,
 		registerUrl: canRegister ? getEventRegistrationUrl(event) : undefined,
 		registerLabel,
-		isHappeningNow: isTrainingEventHappeningNow(event, referenceTimestamp),
+		isHappeningNow: isTrainingInProgress,
 		startTimestamp,
 		endTimestamp,
 		event

@@ -11,6 +11,7 @@
 		getEventSessionBounds,
 		normalizeEventSessions
 	} from '$lib/data/events/timeline';
+	import { toConciseEventTimeLabel } from '$lib/data/events/session-labels';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
@@ -95,8 +96,11 @@
 
 	const getClosedLabel = (): string => {
 		if (isPastEvent) return 'This event has ended';
+		if (isHappeningNow || isTrainingInProgress) return 'Enrollment closed';
 		if (event.registrationStatus === 'none') return 'Enrollment closed';
-		return event.cta?.label ?? 'Enrollment closed';
+		if (event.registrationStatus === 'closed') return 'Enrollment closed';
+		if (event.registrationStatus === 'sold_out') return 'Enrollment closed';
+		return 'Enrollment closed';
 	};
 
 	const getLocationModeLabel = (): string => {
@@ -260,7 +264,7 @@
 	const pageTitle = `${event.title} | Cambermast Events`;
 	const pageDescription = event.summary;
 	const certificateText = relatedProgram ? getProgramCertificateText(relatedProgram) : undefined;
-	const trailerUrl = relatedProgram?.videoUrl;
+	const trailerUrl = event.videoUrl ?? relatedProgram?.videoUrl;
 	const recordingUrl = event.links?.recordingUrl;
 	const slidesUrl = event.links?.slidesUrl;
 	const heroImage = event.heroImage ?? event.image;
@@ -300,10 +304,20 @@
 		!isPastEvent &&
 		!isTrainingInProgress &&
 		event.registrationStatus !== 'closed' &&
-		event.registrationStatus !== 'none';
+		event.registrationStatus !== 'none' &&
+		event.registrationStatus !== 'sold_out';
+
+	const shouldShowClosedCountdownState =
+		isHappeningNow || isTrainingInProgress || !canRegister;
+	const countdownPanelLabel = shouldShowClosedCountdownState
+		? 'Status'
+		: countdownLabelPrefix;
+	const countdownPanelValue = shouldShowClosedCountdownState
+		? 'Enrollment closed'
+		: countdownLabel;
 
 	const isExternalCtaUrl = Boolean(event.cta?.url?.startsWith('http'));
-	const eventTimeSummary = Array.isArray(event.time) ? event.time.join(' · ') : event.time;
+	const eventTimeSummary = toConciseEventTimeLabel(event.time);
 	const [multiSessionDateLabel, ...multiSessionSuffixParts] = event.date.split(' · ');
 	const fallbackCadenceLabel =
 		hasMultipleSessions && multiSessionSuffixParts.length
@@ -337,7 +351,7 @@
 			? 'Weekly curriculum'
 			: 'Curriculum';
 
-	const formatLine = (() => {
+	const computedFormatLine = (() => {
 		const parts: string[] = [];
 		if (sessionCount > 1) parts.push(`${sessionCount}-session live series`);
 		if (sessionCount === 1) parts.push('Single live session');
@@ -347,6 +361,7 @@
 		}
 		return parts.join(' · ');
 	})();
+	const formatLine = event.formatLineOverride?.trim() || computedFormatLine;
 
 	const learnBullets = (outcomes ?? []).slice(0, 3).filter(Boolean);
 	const audienceBulletsSource =
@@ -569,11 +584,19 @@
 								</a>
 							</div>
 						{:else}
-							<span
-								class="inline-flex rounded-full border border-slate-300 px-6 py-3 text-sm font-semibold text-slate-600"
-							>
-								{getClosedLabel()}
-							</span>
+							<div class="flex flex-wrap items-center gap-3">
+								<span
+									class="inline-flex rounded-full border border-slate-300 px-6 py-3 text-sm font-semibold text-slate-600"
+								>
+									{getClosedLabel()}
+								</span>
+								<a
+									href="/events"
+									class="inline-flex rounded-full border border-slate-300 px-6 py-3 text-sm font-semibold text-slate-700 transition hover:border-slate-400 hover:text-slate-900"
+								>
+									View event calendar
+								</a>
+							</div>
 						{/if}
 					</div>
 
@@ -875,21 +898,40 @@
 							{/if}
 						</div>
 
-						<div class="mt-4 rounded-xl border border-blue-200 bg-blue-50 px-3 py-2">
-							<p class="text-xs font-semibold tracking-[0.2em] text-blue-700 uppercase">{countdownLabelPrefix}</p>
-							<p class="mt-1 text-lg font-semibold text-slate-900">{countdownLabel}</p>
-						</div>
-						{#if canRegister}
-							<a
-								href={event.cta.url}
-								class="mt-3 inline-flex w-full items-center justify-center rounded-full bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-700"
+							<div
+								class={`mt-4 rounded-xl px-3 py-2 ${
+									shouldShowClosedCountdownState
+										? 'border border-amber-200 bg-amber-50'
+										: 'border border-blue-200 bg-blue-50'
+								}`}
+							>
+								<p
+									class={`text-xs font-semibold tracking-[0.2em] uppercase ${
+										shouldShowClosedCountdownState ? 'text-amber-700' : 'text-blue-700'
+									}`}
+								>
+									{countdownPanelLabel}
+								</p>
+								<p class="mt-1 text-lg font-semibold text-slate-900">{countdownPanelValue}</p>
+							</div>
+							{#if canRegister}
+								<a
+									href={event.cta.url}
+									class="mt-3 inline-flex w-full items-center justify-center rounded-full bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-700"
 								target={isExternalCtaUrl ? '_blank' : undefined}
 								rel={isExternalCtaUrl ? 'noopener noreferrer' : undefined}
 								on:click={() => trackRegistrationClick('sticky')}
-							>
-								{event.cta.label}
-							</a>
-						{/if}
+								>
+									{event.cta.label}
+								</a>
+							{:else}
+								<a
+									href="/events"
+									class="mt-3 inline-flex w-full items-center justify-center rounded-full border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:border-slate-400 hover:text-slate-900"
+								>
+									View event calendar
+								</a>
+							{/if}
 
 						{#if locationDetailsNote}
 							<p class="mt-4 text-sm text-slate-600">{locationDetailsNote}</p>

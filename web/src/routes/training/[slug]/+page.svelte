@@ -66,4 +66,4 @@
 	</script>
 </svelte:head>
 
-<ProgramPage program={data.program} {backLink} relatedEvents={data.relatedEvents} />
+<ProgramPage program={data.program} {backLink} />

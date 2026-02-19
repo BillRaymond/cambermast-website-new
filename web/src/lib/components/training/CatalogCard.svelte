@@ -1,5 +1,5 @@
 <script lang="ts">
-	import SessionCard from '$lib/components/SessionCard.svelte';
+	import EventCard from '$lib/components/events/EventCard.svelte';
 	import type { CatalogCardData } from './catalog-card-data';
 	export let item: CatalogCardData;
 	export let scheduleTeamLabel: string;
@@ -140,14 +140,21 @@
 				<ul class="mt-2 space-y-2.5">
 					{#each item.upcomingSessions as session (session.id)}
 						<li>
-							<SessionCard
+							<EventCard
 								title={session.title}
 								subtitle={session.subtitle}
 								date={session.date}
 								time={session.time}
 								location={session.location}
-								ctaUrl={session.registerUrl}
-								ctaLabel={session.registerLabel ?? 'Register now'}
+								image={session.image ?? item.image}
+								imageAlt={session.imageAlt ?? item.imageAlt ?? session.title}
+								certificateText={session.certificateText ?? item.certificateText}
+								videoUrl={session.videoUrl ?? item.videoUrl}
+								typeLabel={session.typeLabel ?? 'Training'}
+								statusLabel={session.statusLabel}
+								registerUrl={session.registerUrl}
+								registerLabel={session.registerLabel ?? 'Register now'}
+								learnMoreUrl={session.learnMoreUrl ?? item.route}
 								tone="upcoming"
 							/>
 						</li>
@@ -182,13 +189,19 @@
 						<ul class="mt-2 space-y-2.5">
 							{#each item.happeningSessions as session (session.id)}
 								<li>
-									<SessionCard
+									<EventCard
 										title={session.title}
 										subtitle={session.subtitle}
 										date={session.date}
 										time={session.time}
 										location={session.location}
+										image={session.image ?? item.image}
+										imageAlt={session.imageAlt ?? item.imageAlt ?? session.title}
+										certificateText={session.certificateText ?? item.certificateText}
+										videoUrl={session.videoUrl ?? item.videoUrl}
+										typeLabel={session.typeLabel ?? 'Training'}
 										statusLabel={session.statusLabel ?? 'Enrollment closed'}
+										learnMoreUrl={session.learnMoreUrl ?? item.route}
 										tone="happening"
 									/>
 								</li>

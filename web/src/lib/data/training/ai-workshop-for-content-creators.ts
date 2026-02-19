@@ -33,7 +33,7 @@ export const aiWorkshopForContentCreators = {
 		'Across weekly 2-hour sessions, participants combine strategy discussions with hands-on practice to automate repetitive tasks, preserve brand voice, and publish higher-impact content faster.',
 	primaryCta: {
 		label: 'Find a start date',
-		url: 'https://lu.ma/BillTalksAI?tag=ai%20workshop%20for%20content%20creators'
+		url: '/events'
 	},
 	secondaryCta: {
 		label: 'Talk with Bill',
@@ -264,7 +264,7 @@ export const aiWorkshopForContentCreators = {
 			"blocks": [
 				{
 					"type": "paragraph",
-					"text": "Follow Bill's training calendar at https://lu.ma/BillTalksAI and subscribe to the Bill Talks AI newsletter for upcoming offerings."
+					"text": "Browse the events calendar at /events and subscribe to the Bill Talks AI newsletter for upcoming offerings."
 				}
 			]
 		},

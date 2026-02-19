@@ -1,6 +1,6 @@
 <script lang="ts">
 	import ReviewCard from '$lib/components/ReviewCard.svelte';
-	import SessionCard from '$lib/components/SessionCard.svelte';
+	import EventCard from '$lib/components/events/EventCard.svelte';
 
 	type UpcomingSession = {
 		programTitle: string;
@@ -9,6 +9,7 @@
 		timeLines?: string[];
 		location?: string;
 		registerUrl?: string;
+		learnMoreUrl?: string;
 	};
 
 	type TestimonialCta = {
@@ -79,14 +80,16 @@
 							</p>
 							<div class="mt-3 space-y-3">
 								{#each upcomingSessions as session}
-									<SessionCard
+									<EventCard
 										title={session.programTitle}
 										subtitle={session.sessionTitle}
 										date={session.date}
 										time={session.timeLines}
 										location={session.location}
-										ctaUrl={session.registerUrl}
-										ctaLabel="Register now"
+										typeLabel="Training"
+										registerUrl={session.registerUrl}
+										registerLabel="Register now"
+										learnMoreUrl={session.learnMoreUrl ?? route}
 										tone="upcoming"
 									/>
 								{/each}
