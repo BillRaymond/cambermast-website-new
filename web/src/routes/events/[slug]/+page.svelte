@@ -373,6 +373,11 @@
 		event.buildBullets?.length ? event.buildBullets : (relatedProgram?.takeaways ?? []);
 	const audienceBullets = audienceBulletsSource.slice(0, 3).filter(Boolean);
 	const buildBullets = buildBulletsSource.slice(0, 3).filter(Boolean);
+	const partnerSummary = partners.map((partner) => partner.name).join(' + ');
+	const hostSpeakers = (event.speakers ?? []).filter((speaker) => /host/i.test(speaker.title ?? ''));
+	const hostSummary = (hostSpeakers.length ? hostSpeakers : (event.speakers ?? []).slice(0, 1))
+		.map((speaker) => speaker.name)
+		.join(' + ');
 
 	const testimonials = (() => {
 		const sku = relatedProgram?.sku;
@@ -506,6 +511,24 @@
 					<h1 class="mb-6 mt-6 text-3xl font-bold text-slate-900 md:text-4xl">{event.title}</h1>
 					{#if event.subtitle}
 						<p class="mt-2 text-sm font-semibold tracking-wide text-slate-600 uppercase">{event.subtitle}</p>
+					{/if}
+					{#if partnerSummary || hostSummary}
+						<div class="mt-3 flex flex-wrap items-center gap-2">
+							{#if partnerSummary}
+								<span
+									class="inline-flex shrink-0 items-center rounded-full border border-blue-100 bg-blue-50 px-2 py-0.5 text-[0.65rem] font-semibold whitespace-nowrap text-blue-700"
+								>
+									Partner: {partnerSummary}
+								</span>
+							{/if}
+							{#if hostSummary}
+								<span
+									class="inline-flex shrink-0 items-center rounded-full border border-blue-100 bg-blue-50 px-2 py-0.5 text-[0.65rem] font-semibold whitespace-nowrap text-blue-700"
+								>
+									Host: {hostSummary}
+								</span>
+							{/if}
+						</div>
 					{/if}
 					{#if formatLine}
 						<p class="mt-3 text-sm font-semibold text-slate-700">{formatLine}</p>
@@ -845,21 +868,6 @@
 						</div>
 					{/if}
 
-					{#if partners.length}
-						<div class="mt-8 border-t border-slate-200 pt-6">
-							<h2 class="text-xl font-semibold text-slate-900">Partners</h2>
-							<ul class="mt-4 grid gap-3 sm:grid-cols-2">
-								{#each partners as partner}
-									<li class="rounded-xl border border-slate-200 bg-slate-50 p-4">
-										<p class="text-sm font-semibold text-slate-900">{partner.name}</p>
-										{#if partner.role}
-											<p class="mt-1 text-xs text-slate-600">{partner.role.toUpperCase()}</p>
-										{/if}
-									</li>
-								{/each}
-							</ul>
-						</div>
-					{/if}
 				</article>
 
 				<aside class="hidden lg:block">
@@ -994,6 +1002,24 @@
 				<h1 class="mb-6 mt-6 text-3xl font-bold text-slate-900 md:text-4xl">{event.title}</h1>
 				{#if event.subtitle}
 					<p class="mt-2 text-sm font-semibold tracking-wide text-slate-600 uppercase">{event.subtitle}</p>
+				{/if}
+				{#if partnerSummary || hostSummary}
+					<div class="mt-3 flex flex-wrap items-center gap-2">
+						{#if partnerSummary}
+							<span
+								class="inline-flex shrink-0 items-center rounded-full border border-blue-100 bg-blue-50 px-2 py-0.5 text-[0.65rem] font-semibold whitespace-nowrap text-blue-700"
+							>
+								Partner: {partnerSummary}
+							</span>
+						{/if}
+						{#if hostSummary}
+							<span
+								class="inline-flex shrink-0 items-center rounded-full border border-blue-100 bg-blue-50 px-2 py-0.5 text-[0.65rem] font-semibold whitespace-nowrap text-blue-700"
+							>
+								Host: {hostSummary}
+							</span>
+						{/if}
+					</div>
 				{/if}
 				<p class="mt-4 text-base text-slate-700 md:text-lg">{event.summary}</p>
 
