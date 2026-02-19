@@ -47,10 +47,16 @@
 				"estimatedHoursCommitment": 2
 			},
 			"campaignId": "7iu8p4",
+			"partners": [
+				{
+					"code": "TCW",
+					"role": "community"
+				}
+			],
 			"speakers": [
 				{
 					"name": "Bill Raymond",
-					"title": "Lead Instructor",
+					"title": "Host",
 					"shortBio": "Cambermast founder and hands-on trainer focused on practical AI adoption."
 				}
 			],
@@ -58,36 +64,36 @@
 			"heroImageAlt": "AI Workshop for Tech Writers and Content Creators",
 			"image": "/images/cambermast-content-5-ai-workshop-for-content-creators-og.jpeg",
 			"imageAlt": "AI Workshop for Tech Writers and Content Creators",
-			"sessions": [
-				{
-					"startAtUtc": "2026-01-27T18:00:00.000Z",
-					"endAtUtc": "2026-01-27T20:00:00.000Z"
-				},
-				{
-					"startAtUtc": "2026-02-03T18:00:00.000Z",
-					"endAtUtc": "2026-02-03T20:00:00.000Z"
-				},
-				{
-					"startAtUtc": "2026-02-10T18:00:00.000Z",
-					"endAtUtc": "2026-02-10T20:00:00.000Z"
-				},
-				{
-					"startAtUtc": "2026-02-17T18:00:00.000Z",
-					"endAtUtc": "2026-02-17T20:00:00.000Z"
-				},
-				{
-					"startAtUtc": "2026-02-24T18:00:00.000Z",
-					"endAtUtc": "2026-02-24T20:00:00.000Z"
-				},
-				{
-					"startAtUtc": "2026-03-03T18:00:00.000Z",
-					"endAtUtc": "2026-03-03T20:00:00.000Z"
-				},
-				{
-					"startAtUtc": "2026-03-10T18:00:00.000Z",
-					"endAtUtc": "2026-03-10T20:00:00.000Z"
-				}
-			],
+				"sessions": [
+					{
+						"startAtUtc": "2026-01-27T18:00:00.000Z",
+						"endAtUtc": "2026-01-27T19:30:00.000Z"
+					},
+					{
+						"startAtUtc": "2026-02-03T18:00:00.000Z",
+						"endAtUtc": "2026-02-03T19:30:00.000Z"
+					},
+					{
+						"startAtUtc": "2026-02-10T18:00:00.000Z",
+						"endAtUtc": "2026-02-10T19:30:00.000Z"
+					},
+					{
+						"startAtUtc": "2026-02-17T18:00:00.000Z",
+						"endAtUtc": "2026-02-17T19:30:00.000Z"
+					},
+					{
+						"startAtUtc": "2026-02-24T18:00:00.000Z",
+						"endAtUtc": "2026-02-24T19:30:00.000Z"
+					},
+					{
+						"startAtUtc": "2026-03-03T18:00:00.000Z",
+						"endAtUtc": "2026-03-03T19:30:00.000Z"
+					},
+					{
+						"startAtUtc": "2026-03-10T17:00:00.000Z",
+						"endAtUtc": "2026-03-10T18:30:00.000Z"
+					}
+				],
 			"template": {
 				"kind": "training_event_v1",
 				"sourceProgramSku": "CM-TR-005",
@@ -261,7 +267,7 @@
 		{
 			"id": "s6twc1",
 			"slug": "ai-workshop-for-tech-writers-and-content-creators-summer-2026-s6twc1",
-			"title": "AI Workshop for Content Creators (Summer 2026 ☀️)",
+			"title": "AI Workshop for Tech Writers and Content Creators",
 			"subtitle": "☀️ Summer 2026 Cohort • Tuesdays, 120-minutes, April 14 - June 9, 2026",
 			"type": "training_session",
 			"typeLabel": "Training",
@@ -324,6 +330,19 @@
 			"programRef": {
 				"sku": "CM-TR-005"
 			},
+			"partners": [
+				{
+					"code": "TCW",
+					"role": "community"
+				}
+			],
+			"speakers": [
+				{
+					"name": "Bill Raymond",
+					"title": "Host",
+					"shortBio": "Bill is a technical content strategist and AI practitioner who uses generative tools daily to ship human-centered documentation and learning experiences."
+				}
+			],
 			"template": {
 				"kind": "training_event_v1",
 				"sourceProgramSku": "CM-TR-005",

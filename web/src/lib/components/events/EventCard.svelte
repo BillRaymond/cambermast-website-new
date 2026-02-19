@@ -1,39 +1,68 @@
 <script lang="ts">
 	export let title: string;
-	export let subtitle: string | undefined;
-	export let date: string | undefined;
-	export let time: string | string[] | undefined;
-	export let location: string | undefined;
-	export let image: string | undefined;
-	export let imageAlt: string | undefined;
-	export let certificateText: string | undefined;
-	export let videoUrl: string | undefined;
+	export let subtitle: string | undefined = undefined;
+	export let date: string | undefined = undefined;
+	export let time: string | string[] | undefined = undefined;
+	export let location: string | undefined = undefined;
+	export let hostText: string | undefined = undefined;
+	export let image: string | undefined = undefined;
+	export let imageAlt: string | undefined = undefined;
+	export let certificateText: string | undefined = undefined;
+	export let videoUrl: string | undefined = undefined;
 	export let typeLabel = 'Training';
-	export let registerUrl: string | undefined;
+	export let registerUrl: string | undefined = undefined;
 	export let registerLabel = 'Register now';
-	export let statusLabel: string | undefined;
-	export let learnMoreUrl: string | undefined;
+	export let statusLabel: string | undefined = undefined;
+	export let learnMoreUrl: string | undefined = undefined;
+	export let partnerText: string | undefined = undefined;
+	export let speakerText: string | undefined = undefined;
 	export let tone: 'upcoming' | 'happening' = 'upcoming';
+	export let variant: 'calendar' | 'carousel' | 'catalog' = 'calendar';
 
 	$: timeText = Array.isArray(time) ? time.join(' · ') : time;
 	$: isExternalRegisterUrl = Boolean(registerUrl?.startsWith('http'));
 	$: isExternalLearnMoreUrl = Boolean(learnMoreUrl?.startsWith('http'));
+	$: hasCardNavigation = Boolean(learnMoreUrl);
+	$: showLearnMoreLink = Boolean(learnMoreUrl) && tone !== 'happening';
 	$: panelClasses =
-		tone === 'happening'
-			? 'border-amber-200 bg-amber-50/70'
-			: 'border-blue-100 bg-white';
+		tone === 'happening' ? 'border-amber-200 bg-amber-50/70' : 'border-blue-100 bg-white';
+	$: hoverClasses = hasCardNavigation
+		? tone === 'happening'
+			? 'cursor-pointer transition-colors hover:bg-amber-100/80 focus-within:bg-amber-100/80'
+			: 'cursor-pointer transition-colors hover:bg-blue-50 focus-within:bg-blue-50'
+		: 'transition-colors';
+	$: paddingClass = variant === 'carousel' ? 'p-3 md:p-4' : 'p-4';
+	$: imageWrapClass = variant === 'carousel' ? 'w-full sm:w-44' : 'w-full sm:w-48';
+	$: imageClass =
+		variant === 'carousel'
+			? 'h-32 w-full rounded-xl border border-slate-200 object-cover'
+			: 'h-36 w-full rounded-xl border border-slate-200 object-cover';
+	$: hostLabel = hostText?.includes(' + ') ? 'Hosts' : 'Host';
+	$: speakerLabel = speakerText?.includes(' + ') ? 'Speakers' : 'Speaker';
+	$: locationMetaParts = [
+		location,
+		hostText ? `${hostLabel}: ${hostText}` : undefined,
+		speakerText ? `${speakerLabel}: ${speakerText}` : undefined
+	].filter((part): part is string => Boolean(part?.trim()));
+	$: locationMetaText = locationMetaParts.join(' • ');
 </script>
 
-<article class={`rounded-2xl border p-4 shadow-sm ${panelClasses}`}>
-	<div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:gap-5">
+<article
+	class={`relative rounded-2xl border shadow-sm ${panelClasses} ${hoverClasses} ${paddingClass}`}
+>
+	{#if hasCardNavigation}
+		<a
+			href={learnMoreUrl!}
+			target={isExternalLearnMoreUrl ? '_blank' : undefined}
+			rel={isExternalLearnMoreUrl ? 'noopener noreferrer' : undefined}
+			aria-label={`Learn more about ${title}`}
+			class="absolute inset-0 z-10 rounded-2xl"
+		></a>
+	{/if}
+	<div class="pointer-events-none relative z-20 flex flex-col gap-4 sm:flex-row sm:items-start sm:gap-5">
 		{#if image}
-			<div class="w-full sm:w-48">
-				<img
-					src={image}
-					alt={imageAlt ?? title}
-					class="h-36 w-full rounded-xl border border-slate-200 object-cover"
-					loading="lazy"
-				/>
+			<div class={imageWrapClass}>
+				<img src={image} alt={imageAlt ?? title} class={imageClass} loading="lazy" />
 			</div>
 		{/if}
 		<div class="min-w-0 flex-1">
@@ -47,8 +76,8 @@
 			{#if timeText}
 				<p class="text-xs text-gray-600">{timeText}</p>
 			{/if}
-			{#if location}
-				<p class="text-xs text-gray-500">{location}</p>
+			{#if locationMetaText}
+				<p class="text-xs text-gray-500">{locationMetaText}</p>
 			{/if}
 
 			<div class="mt-2 flex flex-wrap items-center gap-2">
@@ -75,7 +104,7 @@
 						href={videoUrl}
 						target="_blank"
 						rel="noopener noreferrer"
-						class="inline-flex items-center rounded-full border border-blue-100 bg-blue-50 px-2 py-0.5 text-[0.65rem] font-semibold text-blue-700 transition hover:bg-blue-100"
+						class="pointer-events-auto inline-flex items-center rounded-full border border-blue-100 bg-blue-50 px-2 py-0.5 text-[0.65rem] font-semibold text-blue-700 transition hover:bg-blue-100"
 					>
 						▶ Trailer ↗
 					</a>
@@ -87,23 +116,33 @@
 				</span>
 			</div>
 
+			{#if partnerText}
+				<div class="mt-2 space-y-1">
+					{#if partnerText}
+						<p class="text-[0.65rem] tracking-wide text-gray-500 uppercase">
+							In partnership with {partnerText}
+						</p>
+					{/if}
+				</div>
+			{/if}
+
 			<div class="mt-3 flex w-full items-center gap-3">
 				{#if registerUrl}
 					<a
 						href={registerUrl}
 						target={isExternalRegisterUrl ? '_blank' : undefined}
 						rel={isExternalRegisterUrl ? 'noopener noreferrer' : undefined}
-						class="inline-flex rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700"
+						class="pointer-events-auto inline-flex rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700"
 					>
 						{registerLabel}
 					</a>
 				{/if}
-				{#if learnMoreUrl}
+				{#if showLearnMoreLink}
 					<a
-						href={learnMoreUrl}
+						href={learnMoreUrl!}
 						target={isExternalLearnMoreUrl ? '_blank' : undefined}
 						rel={isExternalLearnMoreUrl ? 'noopener noreferrer' : undefined}
-						class="ml-auto text-sm font-semibold text-blue-700 underline decoration-blue-200 underline-offset-4 transition hover:text-blue-900"
+						class="pointer-events-auto ml-auto text-sm font-semibold text-blue-700 underline decoration-blue-200 underline-offset-4 transition hover:text-blue-900"
 					>
 						Learn more →
 					</a>

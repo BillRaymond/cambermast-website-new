@@ -318,6 +318,9 @@
 
 	const isExternalCtaUrl = Boolean(event.cta?.url?.startsWith('http'));
 	const eventTimeSummary = toConciseEventTimeLabel(event.time);
+	const sectionSpacingClass = canRegister
+		? 'pb-28 pt-6 md:pb-32 md:pt-24'
+		: 'pb-28 pt-6 md:pb-32 md:pt-6';
 	const [multiSessionDateLabel, ...multiSessionSuffixParts] = event.date.split(' · ');
 	const fallbackCadenceLabel =
 		hasMultipleSessions && multiSessionSuffixParts.length
@@ -457,7 +460,7 @@
 	</div>
 {/if}
 
-<section class="bg-gradient-to-b from-slate-100 via-white to-white pb-28 pt-6 md:pb-32 md:pt-24">
+<section class={`bg-gradient-to-b from-slate-100 via-white to-white ${sectionSpacingClass}`}>
 	<div class="mx-auto max-w-6xl px-3 sm:px-5">
 		{#if isUpcoming}
 			<div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px]">
