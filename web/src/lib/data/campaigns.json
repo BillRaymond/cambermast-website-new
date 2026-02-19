@@ -50,22 +50,6 @@
 			}
 		},
 		{
-			"id": "59v3n2",
-			"partner": "techlab",
-			"partnerLabel": "TechLAB",
-			"landingPath": "/events/vibe-coding-webinar-feb-2026",
-			"description": "Campaign short link for the Vibe Coding Webinar event page.",
-			"createdAt": "2026-02-11T00:00:00Z",
-			"params": {
-				"utm_source": "qr",
-				"utm_medium": "offline",
-				"utm_campaign": "events",
-				"utm_content": "59v3n2",
-				"src": "qr",
-				"ad": "techlab"
-			}
-		},
-		{
 			"id": "s6twc1",
 			"partner": "cambermast",
 			"partnerLabel": "Cambermast",
