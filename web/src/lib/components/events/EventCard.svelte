@@ -25,8 +25,7 @@
 	$: isExternalLearnMoreUrl = Boolean(learnMoreUrl?.startsWith('http'));
 	$: hasCardNavigation = Boolean(learnMoreUrl);
 	$: showLearnMoreLink = Boolean(learnMoreUrl) && tone !== 'happening';
-	$: showTrailerChip = Boolean(videoUrl) && !isCarousel;
-	$: showTrailerCta = Boolean(videoUrl) && isCarousel;
+	$: showTrailerChip = Boolean(videoUrl);
 	$: isCountdownStatus = Boolean(statusLabel?.startsWith('Starts in'));
 	$: panelClasses =
 		tone === 'happening' ? 'border-amber-200 bg-amber-50/70' : 'border-blue-100 bg-white';
@@ -153,16 +152,6 @@
 			{/if}
 
 			<div class={ctaWrapClass}>
-				{#if showTrailerCta}
-					<a
-						href={videoUrl!}
-						target="_blank"
-						rel="noopener noreferrer"
-						class="pointer-events-auto relative z-30 inline-flex min-h-11 items-center justify-center rounded-lg border border-blue-100 bg-blue-50 px-4 py-2 text-sm font-semibold text-blue-700 transition hover:bg-blue-100 sm:min-h-0 sm:justify-start"
-					>
-						▶ Watch trailer ↗
-					</a>
-				{/if}
 				{#if registerUrl}
 					<a
 						href={registerUrl}

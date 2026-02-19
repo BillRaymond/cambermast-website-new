@@ -268,7 +268,10 @@
 
 	const upcomingSlides: EventCardModel[] = [...upcomingEventEntries]
 		.map((event) => toEventCardModel(event))
-		.sort((a, b) => (a.startTimestamp ?? Infinity) - (b.startTimestamp ?? Infinity));
+		.sort((a, b) => {
+			if (a.tone !== b.tone) return a.tone === 'happening' ? 1 : -1;
+			return (a.startTimestamp ?? Infinity) - (b.startTimestamp ?? Infinity);
+		});
 
 	const pageMeta = getSeo('/');
 </script>
