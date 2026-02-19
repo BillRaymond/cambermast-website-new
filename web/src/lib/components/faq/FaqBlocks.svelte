@@ -3,21 +3,33 @@
 	import type { FaqBlock } from '$lib/data/faq/types';
 
 	export let blocks: FaqBlock[] = [];
+	export let templateVariables: Record<string, string> = {};
 
 	let copiedIndex: number | null = null;
 
+	const encodeMailtoField = (value: string): string =>
+		encodeURIComponent(value.replace(/\r?\n/g, '\r\n'));
+
+	const applyTemplateVariables = (value: string): string => {
+		let result = value;
+		for (const [token, replacement] of Object.entries(templateVariables)) {
+			if (!token || !replacement) continue;
+			result = result.split(token).join(replacement);
+		}
+		return result;
+	};
+
 	const toMailtoHref = (block: Extract<FaqBlock, { type: 'email_template' }>): string => {
-		const params = new URLSearchParams();
-		params.set('subject', block.subject);
-		params.set('body', block.body);
 		const toValue = block.to?.trim() ?? '';
-		return `mailto:${encodeURIComponent(toValue)}?${params.toString()}`;
+		const subject = encodeMailtoField(applyTemplateVariables(block.subject));
+		const body = encodeMailtoField(applyTemplateVariables(block.body));
+		return `mailto:${encodeURIComponent(toValue)}?subject=${subject}&body=${body}`;
 	};
 
 	const copyTemplate = async (index: number, block: Extract<FaqBlock, { type: 'email_template' }>) => {
 		if (!browser) return;
 		try {
-			await navigator.clipboard.writeText(block.body);
+			await navigator.clipboard.writeText(applyTemplateVariables(block.body));
 			copiedIndex = index;
 			setTimeout(() => {
 				if (copiedIndex === index) copiedIndex = null;
@@ -68,7 +80,7 @@
 				</div>
 				<pre
 					class="overflow-x-auto whitespace-pre-wrap break-words rounded-lg border border-slate-200 bg-slate-50 p-3 text-xs leading-5 text-slate-700"
-				><code>{block.body}</code></pre>
+				><code>{applyTemplateVariables(block.body)}</code></pre>
 			</div>
 		{/if}
 	{/each}

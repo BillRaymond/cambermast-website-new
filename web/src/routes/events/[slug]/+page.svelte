@@ -1,8 +1,10 @@
 <script lang="ts">
 	import { onDestroy } from 'svelte';
+	import { page } from '$app/stores';
 	import SeoHead from '$lib/components/SeoHead.svelte';
 	import FaqBlocks from '$lib/components/faq/FaqBlocks.svelte';
 	import { renderMarkdownToSafeHtml } from '$lib/utils/markdown';
+	import { getCampaignShortPath } from '$lib/data/campaigns';
 	import { getEventTypeLabelUi } from '$lib/view-models/events';
 	import { getProgramCertificateText } from '$lib/data/training/program-meta';
 	import { listTestimonialsForSku } from '$lib/data/testimonials';
@@ -393,6 +395,16 @@
 	})();
 
 	const pagePath = `/events/${event.slug}`;
+	const campaignId = event.campaignId ?? event.cta?.campaignId;
+	const campaignShortPath = campaignId ? getCampaignShortPath(campaignId) : pagePath;
+	$: siteOrigin = $page.url.origin;
+	$: programEventUrl = `${siteOrigin}${campaignShortPath}`;
+	$: faqTemplateVariables = {
+		'[Program Name]': event.title,
+		'[Dates]': event.date,
+		'[Cost]': `${ticketPriceLabel} USD`,
+		'[Program/Event URL]': programEventUrl
+	};
 
 	const trackRegistrationClick = (placement: 'hero' | 'sticky' | 'body') => {
 		if (typeof window === 'undefined') return;
@@ -831,7 +843,7 @@
 											{faqItem.question}
 										</summary>
 										<div class="mt-2">
-											<FaqBlocks blocks={faqItem.blocks} />
+											<FaqBlocks blocks={faqItem.blocks} templateVariables={faqTemplateVariables} />
 										</div>
 									</details>
 								{/each}
