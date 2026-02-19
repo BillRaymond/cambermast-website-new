@@ -131,7 +131,7 @@
 		</span>
 
 		<div
-			class="mx-4 overflow-hidden rounded-3xl border border-blue-100 bg-white/90 shadow-md shadow-blue-100/60 sm:mx-5 md:mx-10"
+			class="mx-3 overflow-hidden rounded-3xl border border-blue-100 bg-white/90 shadow-md shadow-blue-100/60 sm:mx-5 md:mx-10"
 		>
 			<div
 				class="flex transition-transform duration-500 ease-out"
@@ -139,7 +139,7 @@
 			>
 				{#each slides as slide (slide.id)}
 					<article
-						class={`w-full shrink-0 basis-full p-3 md:p-5 ${slide.tone === 'happening' ? 'bg-amber-50/70' : 'bg-white/0'}`}
+						class={`w-full shrink-0 basis-full p-2 md:p-5 ${slide.tone === 'happening' ? 'bg-amber-50/70' : 'bg-white/0'}`}
 					>
 						<EventCard
 							title={slide.title}
