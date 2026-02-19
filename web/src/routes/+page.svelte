@@ -2,15 +2,9 @@
 	import catalog from '$lib/data/catalog.json';
 	import Card from '$lib/components/ServiceCard.svelte';
 	import UpcomingSessionsCarousel from '$lib/components/home/UpcomingSessionsCarousel.svelte';
-	import {
-		getEventStartTimestampUi,
-		getEventTypeLabelUi,
-		isEventUpcomingUi,
-		listEventUi
-	} from '$lib/view-models/events';
-	import type { EventUiModel } from '$lib/view-models/events';
-import { getTrainingProgramBySku, listTrainingPrograms } from '$lib/data/training';
-import { getProgramCertificateText } from '$lib/data/training/program-meta';
+	import { isEventUpcomingUi, listEventUi } from '$lib/view-models/events';
+	import { toEventCardModel, type EventCardModel } from '$lib/view-models/event-card';
+	import { listTrainingPrograms } from '$lib/data/training';
 	import type { TrainingProgram } from '$lib/data/training/types';
 	import { listTestimonials, type Testimonial } from '$lib/data/testimonials';
 	import { getSeo } from '$lib/seo';
@@ -158,14 +152,6 @@ import { getProgramCertificateText } from '$lib/data/training/program-meta';
 		startTimestamp: number;
 	};
 
-	type UpcomingEventEntry = {
-		type: 'event';
-		event: EventUiModel;
-		startTimestamp: number;
-	};
-
-	type UpcomingEntry = UpcomingTrainingEntry | HappeningTrainingEntry | UpcomingEventEntry;
-
 	const toTimeLines = (value?: string | string[]): string[] =>
 		Array.isArray(value) ? value : value ? [value] : [];
 
@@ -219,27 +205,7 @@ import { getProgramCertificateText } from '$lib/data/training/program-meta';
 			startTimestamp: entry.startTimestamp
 		}));
 
-	const upcomingEventEntries: UpcomingEventEntry[] = listEventUi()
-		.filter((event) => isEventUpcomingUi(event, today))
-		.map((event) => ({
-			type: 'event' as const,
-			event,
-			startTimestamp: getEventStartTimestampUi(event)
-		}));
-
-	const happeningItems: HappeningTrainingEntry[] = happeningTrainingEntries.map(
-		({ program, entry }) => ({
-			type: 'happening',
-			program,
-			entry,
-			startTimestamp: entry.startTimestamp
-		})
-	);
-
-	const getUpcomingSortKey = (item: UpcomingEntry): { priority: number; timestamp: number } => {
-		const priority = item.type === 'happening' ? 1 : 0;
-		return { priority, timestamp: item.startTimestamp };
-	};
+	const upcomingEventEntries = listEventUi().filter((event) => isEventUpcomingUi(event, today));
 
 	const programRoutesWithUpcoming = new Set(
 		upcomingTrainingEntries.map(({ program }) => program.route)
@@ -300,59 +266,9 @@ import { getProgramCertificateText } from '$lib/data/training/program-meta';
 		};
 	});
 
-	const MILLISECONDS_IN_HOUR = 1000 * 60 * 60;
-	const MILLISECONDS_IN_DAY = 24 * MILLISECONDS_IN_HOUR;
-
-	const getUrgencyLabel = (startTimestamp: number | null): string | null => {
-		if (startTimestamp === null || !Number.isFinite(startTimestamp)) return null;
-		const diffMs = startTimestamp - Date.now();
-		if (diffMs <= 0) return 'Happening now';
-		if (diffMs < MILLISECONDS_IN_HOUR) return 'Starting soon';
-		if (diffMs < 2 * MILLISECONDS_IN_HOUR) return 'Starts in about an hour';
-		if (diffMs < MILLISECONDS_IN_DAY) {
-			const hours = Math.floor(diffMs / MILLISECONDS_IN_HOUR);
-			return `Starts in ${hours} hours`;
-		}
-		const diffDays = Math.ceil(diffMs / MILLISECONDS_IN_DAY);
-		if (diffDays === 1) return 'Starts tomorrow';
-		return `Starts in ${diffDays} days`;
-	};
-
-	const buildEventSlide = (entry: UpcomingEventEntry, index: number) => {
-		const relatedProgram = entry.event.programRef?.sku
-			? getTrainingProgramBySku(entry.event.programRef.sku)
-			: undefined;
-		const ctaLabel = entry.event.cta?.label?.trim();
-		const registrationClosed =
-			entry.event.registrationStatus === 'closed' ||
-			(ctaLabel ? ctaLabel.toLowerCase().includes('closed') : false);
-		return {
-			id: `${entry.event.id}-${entry.event.startAtUtc ?? index.toString(10)}`,
-			kind: 'event' as const,
-			kindLabel: getEventTypeLabelUi(entry.event),
-			programTitle: entry.event.title,
-			sessionLabel:
-				entry.event.subtitle ??
-				`${getEventTypeLabelUi(entry.event)}${entry.event.visibility === 'draft' ? ' · Draft' : ''}`,
-			date: entry.event.date,
-			timeLines: toTimeLines(entry.event.time),
-			location: entry.event.location,
-			urgency: getUrgencyLabel(entry.startTimestamp),
-			startTimestampMs: Number.isFinite(entry.startTimestamp) ? entry.startTimestamp : undefined,
-			registerUrl: entry.event.cta?.url ?? `/events/${entry.event.slug}`,
-			registerLabel: ctaLabel,
-			registrationClosed,
-			image: entry.event.image,
-			imageAlt: entry.event.imageAlt ?? entry.event.title,
-			certificateText: relatedProgram ? getProgramCertificateText(relatedProgram) : undefined,
-			videoUrl: relatedProgram?.videoUrl,
-			isHappeningNow: false
-		};
-	};
-
-	const upcomingSlides = [...upcomingEventEntries]
-		.sort((a, b) => b.startTimestamp - a.startTimestamp)
-		.map((entry, index) => buildEventSlide(entry, index));
+	const upcomingSlides: EventCardModel[] = [...upcomingEventEntries]
+		.map((event) => toEventCardModel(event))
+		.sort((a, b) => (a.startTimestamp ?? Infinity) - (b.startTimestamp ?? Infinity));
 
 	const pageMeta = getSeo('/');
 </script>

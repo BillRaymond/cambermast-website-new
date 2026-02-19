@@ -2,7 +2,8 @@
 	import ReviewCard from '$lib/components/ReviewCard.svelte';
 	import EventCard from '$lib/components/events/EventCard.svelte';
 	import FaqBlocks from '$lib/components/faq/FaqBlocks.svelte';
-	import { getEventTypeLabelUi } from '$lib/view-models/events';
+	import { toEventCardModel, type EventCardModel } from '$lib/view-models/event-card';
+	import { toEventUiModel } from '$lib/view-models/events';
 	import type { TrainingFaq, TrainingProgram, TrainingStat } from '$lib/data/training/types';
 	import {
 		listUpcomingTrainingEntriesForProgram,
@@ -27,6 +28,7 @@
 	let ctaInsertIndex = -1;
 	let upcomingSessions: TrainingScheduleEntry[] = [];
 	let registerableSessions: TrainingScheduleEntry[] = [];
+	let registerableSessionCards: EventCardModel[] = [];
 	let featuredRegistrationSession: TrainingScheduleEntry | undefined;
 	let videoEmbedUrl: string | undefined;
 	let certificateText: string | undefined;
@@ -92,6 +94,13 @@
 
 	$: upcomingSessions = listUpcomingTrainingEntriesForProgram(program?.sku);
 	$: registerableSessions = upcomingSessions.filter((session) => Boolean(session.registerUrl));
+	$: registerableSessionCards = registerableSessions.map((session) =>
+		toEventCardModel(toEventUiModel(session.event), {
+			program,
+			referenceTimestamp: Date.now(),
+			forceTone: 'upcoming'
+		})
+	);
 	$: videoEmbedUrl = getVideoEmbedUrl(program?.videoUrl);
 	$: certificateText = toStatText(getStatByLabel(program?.stats, 'certificate')?.value);
 	$: faqsWithTerms = program?.faqs?.length
@@ -160,7 +169,9 @@
 						{program.presentation.heroEyebrow}
 					</p>
 				{:else}
-					<p class="text-sm font-semibold tracking-wide text-blue-600 uppercase">Training Program</p>
+					<p class="text-sm font-semibold tracking-wide text-blue-600 uppercase">
+						Training Program
+					</p>
 				{/if}
 				{#if program.sku}
 					<p class="mt-1 text-xs font-semibold tracking-wide text-gray-500 uppercase">
@@ -229,23 +240,27 @@
 							Upcoming dates
 						</p>
 						<div class="mt-3 grid gap-3">
-							{#each registerableSessions as session (session.id)}
+							{#each registerableSessionCards as session (session.id)}
 								<EventCard
 									title={session.title}
 									subtitle={session.subtitle}
 									date={session.date}
 									time={session.time}
 									location={session.location}
-									image={session.event.image ?? program.heroImage}
-									imageAlt={session.event.imageAlt ?? program.heroImageAlt ?? session.title}
-									certificateText={certificateText}
-									videoUrl={program.videoUrl}
-									typeLabel={getEventTypeLabelUi(session.event)}
+									image={session.image}
+									imageAlt={session.imageAlt}
+									certificateText={session.certificateText}
+									videoUrl={session.videoUrl}
+									typeLabel={session.typeLabel}
 									statusLabel={session.statusLabel}
 									registerUrl={session.registerUrl}
 									registerLabel={session.registerLabel ?? 'Register now'}
-									learnMoreUrl={`/events/${session.event.slug}`}
-									tone="upcoming"
+									learnMoreUrl={session.learnMoreUrl}
+									hostText={session.hostText}
+									partnerText={session.partnerText}
+									speakerText={session.speakerText}
+									tone={session.tone}
+									variant="catalog"
 								/>
 							{/each}
 						</div>
@@ -457,7 +472,7 @@
 				<div class="rounded-2xl bg-white p-5 shadow">
 					<h3 class="text-lg font-semibold text-gray-900">Upcoming dates</h3>
 					<ul class="mt-3.5 space-y-4">
-						{#each registerableSessions as session (session.id)}
+						{#each registerableSessionCards as session (session.id)}
 							<li>
 								<EventCard
 									title={session.title}
@@ -465,16 +480,20 @@
 									date={session.date}
 									time={session.time}
 									location={session.location}
-									image={session.event.image ?? program.heroImage}
-									imageAlt={session.event.imageAlt ?? program.heroImageAlt ?? session.title}
-									certificateText={certificateText}
-									videoUrl={program.videoUrl}
-									typeLabel={getEventTypeLabelUi(session.event)}
+									image={session.image}
+									imageAlt={session.imageAlt}
+									certificateText={session.certificateText}
+									videoUrl={session.videoUrl}
+									typeLabel={session.typeLabel}
 									statusLabel={session.statusLabel}
 									registerUrl={session.registerUrl}
 									registerLabel={session.registerLabel ?? 'Register now'}
-									learnMoreUrl={`/events/${session.event.slug}`}
-									tone="upcoming"
+									learnMoreUrl={session.learnMoreUrl}
+									hostText={session.hostText}
+									partnerText={session.partnerText}
+									speakerText={session.speakerText}
+									tone={session.tone}
+									variant="catalog"
 								/>
 							</li>
 						{/each}

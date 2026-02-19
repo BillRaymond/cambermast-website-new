@@ -48,6 +48,19 @@ export type TrainingTrainer = {
 	highlights?: string[];
 };
 
+export type TrainingEventDefaultHost = {
+	name: string;
+	title: 'Host' | 'Guest Host';
+	shortBio?: string;
+	photo?: string;
+	photoAlt?: string;
+};
+
+export type TrainingEventDefaults = {
+	hosts: TrainingEventDefaultHost[];
+	partnerCodes?: string[];
+};
+
 export type TrainingFaq = FaqItem;
 
 export type TrainingScheduleTemplate = {
@@ -102,6 +115,7 @@ export type TrainingProgram = {
 	agenda?: TrainingAgendaBlock[];
 	resources?: string[];
 	aboutTrainer?: TrainingTrainer;
+	eventDefaults?: TrainingEventDefaults;
 	faqs?: TrainingFaq[];
 	presentation?: TrainingProgramPresentation;
 };

@@ -4,6 +4,8 @@
 	import type { TrainingProgram } from '$lib/data/training/types';
 	import CatalogCard from '$lib/components/training/CatalogCard.svelte';
 	import type { CatalogCardData } from '$lib/components/training/catalog-card-data';
+	import { toEventCardModel } from '$lib/view-models/event-card';
+	import { toEventUiModel } from '$lib/view-models/events';
 	import { getSeo } from '$lib/seo';
 	import SeoHead from '$lib/components/SeoHead.svelte';
 	import { findProgramStat, getProgramCertificateText } from '$lib/data/training/program-meta';
@@ -50,38 +52,20 @@
 		.map((item) => {
 			const program = getProgram(item.route);
 			const durationStat = findProgramStat(program, 'duration');
-			const upcomingSessions = listUpcomingTrainingEntriesForProgram(program?.sku).map((entry) => ({
-				id: entry.id,
-				title: program?.title ?? entry.title,
-				subtitle: entry.subtitle,
-				date: entry.date,
-				time: entry.time,
-				location: entry.location,
-				image: entry.event.image,
-				imageAlt: entry.event.imageAlt,
-				certificateText: getProgramCertificateText(program),
-				videoUrl: program?.videoUrl,
-				typeLabel: 'Training',
-				learnMoreUrl: `/events/${entry.event.slug}`,
-				statusLabel: entry.statusLabel,
-				registerUrl: entry.registerUrl,
-				registerLabel: entry.registerLabel
-			}));
-			const happeningSessions = listHappeningTrainingEntriesForProgram(program?.sku).map((entry) => ({
-				id: entry.id,
-				title: program?.title ?? entry.title,
-				subtitle: entry.subtitle,
-				date: entry.date,
-				time: entry.time,
-				location: entry.location,
-				image: entry.event.image,
-				imageAlt: entry.event.imageAlt,
-				certificateText: getProgramCertificateText(program),
-				videoUrl: program?.videoUrl,
-				typeLabel: 'Training',
-				learnMoreUrl: `/events/${entry.event.slug}`,
-				statusLabel: entry.statusLabel
-			}));
+			const upcomingSessions = listUpcomingTrainingEntriesForProgram(program?.sku).map((entry) =>
+				toEventCardModel(toEventUiModel(entry.event), {
+					program,
+					referenceTimestamp: Date.now(),
+					forceTone: 'upcoming'
+				})
+			);
+			const happeningSessions = listHappeningTrainingEntriesForProgram(program?.sku).map((entry) =>
+				toEventCardModel(toEventUiModel(entry.event), {
+					program,
+					referenceTimestamp: Date.now(),
+					forceTone: 'happening'
+				})
+			);
 
 			return {
 				...item,

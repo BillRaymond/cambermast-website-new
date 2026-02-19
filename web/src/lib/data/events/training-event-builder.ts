@@ -163,9 +163,7 @@ const toTrainingEventDescription = (program: TrainingProgram): EventSource['desc
 	if (program.description) sections.push(program.description);
 
 	if (program.objectives?.length) {
-		sections.push(
-			['## Outcomes', ...program.objectives.map((item) => `- ${item}`)].join('\n')
-		);
+		sections.push(['## Outcomes', ...program.objectives.map((item) => `- ${item}`)].join('\n'));
 	}
 	if (program.takeaways?.length) {
 		sections.push(
@@ -173,7 +171,9 @@ const toTrainingEventDescription = (program: TrainingProgram): EventSource['desc
 		);
 	}
 	if (program.audience?.length) {
-		sections.push(['## Who This Is For', ...program.audience.map((item) => `- ${item}`)].join('\n'));
+		sections.push(
+			['## Who This Is For', ...program.audience.map((item) => `- ${item}`)].join('\n')
+		);
 	}
 
 	return {
@@ -193,12 +193,25 @@ export const buildTrainingSessionEventFromProgram = (
 	if (!program.sku) {
 		throw new Error(`Program "${program.slug}" is missing sku.`);
 	}
+	const eventDefaultHosts = program.eventDefaults?.hosts ?? [];
+	if (!eventDefaultHosts.length) {
+		throw new Error(
+			`Program "${program.slug}" is missing eventDefaults.hosts. Add at least one host before generating training events.`
+		);
+	}
+	const eventSpeakers: EventSource['speakers'] = eventDefaultHosts.map((host) => ({
+		name: host.name,
+		title: host.title,
+		shortBio: host.shortBio,
+		photo: host.photo,
+		photoAlt: host.photoAlt
+	}));
+	const partnerCodes = input.partnerCodes ?? program.eventDefaults?.partnerCodes;
 
 	const startDateParts = parseDateParts(input.startDate);
 	const startTimeParts = parseTimeParts(input.startTimeLocal ?? template.defaultStartTimeLocal);
 	const durationDays = input.durationDays ?? template.durationDays;
-	const estimatedHoursCommitment =
-		input.estimatedHoursCommitment ?? template.hoursPerDayCommitment;
+	const estimatedHoursCommitment = input.estimatedHoursCommitment ?? template.hoursPerDayCommitment;
 	const sessionDurationMinutes = Math.round(estimatedHoursCommitment * 60);
 	if (sessionDurationMinutes <= 0) {
 		throw new Error('estimatedHoursCommitment must be greater than zero.');
@@ -207,7 +220,11 @@ export const buildTrainingSessionEventFromProgram = (
 		throw new Error('durationDays must be at least 1.');
 	}
 	const sessionCount = toSessionCount(durationDays);
-	const firstSessionStartTimestamp = toZonedTimestamp(startDateParts, startTimeParts, EVENT_TIME_ZONE_IANA);
+	const firstSessionStartTimestamp = toZonedTimestamp(
+		startDateParts,
+		startTimeParts,
+		EVENT_TIME_ZONE_IANA
+	);
 	const sessions = Array.from({ length: sessionCount }, (_, index) => {
 		const startTimestamp =
 			firstSessionStartTimestamp + index * DAYS_BETWEEN_SESSIONS * MILLISECONDS_IN_DAY;
@@ -275,7 +292,8 @@ export const buildTrainingSessionEventFromProgram = (
 		buildBullets: toClonedArray(program.takeaways),
 		outcomes: toClonedArray(program.objectives),
 		agenda: toTrainingEventAgenda(program.agenda),
-		partners: input.partnerCodes?.map((code) => ({ code })),
+		speakers: eventSpeakers,
+		partners: partnerCodes?.map((code) => ({ code })),
 		videoUrl: program.videoUrl,
 		heroImage: program.heroImage ?? program.ogImage,
 		heroImageAlt: program.heroImageAlt ?? program.ogImageAlt ?? program.title,
@@ -330,7 +348,10 @@ export const buildTrainingDraftScheduleFromProgram = (
 		startAtUtc: bounds.startAtUtc,
 		endAtUtc: bounds.endAtUtc,
 		date: deriveEventDateLabel(event.sessions, EVENT_TIME_ZONE_IANA),
-		time: typeof derivedTimeLabel === 'string' ? derivedTimeLabel : (derivedTimeLabel?.join(', ') ?? ''),
+		time:
+			typeof derivedTimeLabel === 'string'
+				? derivedTimeLabel
+				: (derivedTimeLabel?.join(', ') ?? ''),
 		timezone: template.defaultTimeZoneLabel,
 		schedule: {
 			durationDays: event.schedule?.durationDays ?? template.durationDays,

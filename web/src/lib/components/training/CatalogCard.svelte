@@ -150,12 +150,16 @@
 								imageAlt={session.imageAlt ?? item.imageAlt ?? session.title}
 								certificateText={session.certificateText ?? item.certificateText}
 								videoUrl={session.videoUrl ?? item.videoUrl}
-								typeLabel={session.typeLabel ?? 'Training'}
+								typeLabel={session.typeLabel}
 								statusLabel={session.statusLabel}
 								registerUrl={session.registerUrl}
 								registerLabel={session.registerLabel ?? 'Register now'}
 								learnMoreUrl={session.learnMoreUrl ?? item.route}
-								tone="upcoming"
+								hostText={session.hostText}
+								partnerText={session.partnerText}
+								speakerText={session.speakerText}
+								tone={session.tone}
+								variant="catalog"
 							/>
 						</li>
 					{/each}
@@ -199,10 +203,14 @@
 										imageAlt={session.imageAlt ?? item.imageAlt ?? session.title}
 										certificateText={session.certificateText ?? item.certificateText}
 										videoUrl={session.videoUrl ?? item.videoUrl}
-										typeLabel={session.typeLabel ?? 'Training'}
-										statusLabel={session.statusLabel ?? 'Enrollment closed'}
+										typeLabel={session.typeLabel}
+										statusLabel={session.statusLabel}
 										learnMoreUrl={session.learnMoreUrl ?? item.route}
-										tone="happening"
+										hostText={session.hostText}
+										partnerText={session.partnerText}
+										speakerText={session.speakerText}
+										tone={session.tone}
+										variant="catalog"
 									/>
 								</li>
 							{/each}

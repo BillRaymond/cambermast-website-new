@@ -45,6 +45,13 @@ These two documents live in the repo root as the source of truth. The SvelteKit 
 - `/calendar` redirects to `/events` as a legacy alias.
 - `/campaigns` redirects to `/admin/campaigns` (internal registry).
 
+## Event Card Canonical Contract
+
+- `web/src/lib/view-models/event-card.ts` is the canonical source for event card display data (`EventCardModel` + `toEventCardModel(...)`).
+- The `/events` calendar card contract is the baseline for all event card surfaces, including home carousel and training/agents card embeds.
+- Event data is authoritative. Training program data is fallback-only for card image, certificate label, and trailer URL when event values are missing.
+- `web/src/lib/components/events/EventCard.svelte` supports constrained visual variants (`calendar`, `carousel`, `catalog`). Variants may change density/layout only and must not change the canonical field set.
+
 ## Creating Events from Training Programs
 
 When creating a new training event, use this strict flow:
