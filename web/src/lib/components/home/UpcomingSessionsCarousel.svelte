@@ -13,12 +13,15 @@
 		partner?: string;
 		spots?: string;
 		urgency?: string | null;
+		startTimestampMs?: number;
 		registerUrl: string;
 		image?: string;
 		imageAlt?: string;
 		certificateText?: string;
 		videoUrl?: string;
 		isHappeningNow?: boolean;
+		registerLabel?: string;
+		registrationClosed?: boolean;
 	};
 
 	export let slides: UpcomingSessionSlide[] = [];
@@ -32,8 +35,10 @@
 
 	let carouselEl: HTMLDivElement | null = null;
 	let autoTimer: ReturnType<typeof setInterval> | null = null;
+	let countdownTimer: ReturnType<typeof setInterval> | null = null;
 	let isPointerOver = false;
 	let hasFocus = false;
+	let nowEpochMs = Date.now();
 
 	const goToSlide = (index: number): void => {
 		if (!totalSlides) return;
@@ -119,10 +124,40 @@
 	};
 
 	const getStatusLabel = (slide: UpcomingSessionSlide): string => {
-		if (slide.isHappeningNow) return 'Happening now';
+		if (isHappeningNow(slide)) return 'Happening now';
+		if (slide.registrationClosed) return 'Enrollment closed';
 		if (slide.kindLabel) return `Upcoming ${slide.kindLabel.toLowerCase()}`;
 		if (slide.kind === 'event' || slide.kind === 'external') return 'Upcoming event';
 		return 'Upcoming session';
+	};
+
+	const isHappeningNow = (slide: UpcomingSessionSlide): boolean => {
+		if (slide.isHappeningNow || slide.urgency === 'Happening now') return true;
+		if (typeof slide.startTimestampMs !== 'number') return false;
+		return slide.startTimestampMs <= nowEpochMs;
+	};
+
+	const getCountdownLabel = (slide: UpcomingSessionSlide): string | null => {
+		if (typeof slide.startTimestampMs !== 'number') return null;
+		const diffMs = slide.startTimestampMs - nowEpochMs;
+		if (diffMs <= 0) return null;
+		const totalSeconds = Math.floor(diffMs / 1000);
+		const days = Math.floor(totalSeconds / 86400);
+		const hours = Math.floor((totalSeconds % 86400) / 3600);
+		const minutes = Math.floor((totalSeconds % 3600) / 60);
+		const seconds = totalSeconds % 60;
+		if (days > 0) return `Starts in ${days}d ${hours}h ${minutes}m ${seconds}s`;
+		if (hours > 0) return `Starts in ${hours}h ${minutes}m ${seconds}s`;
+		return `Starts in ${minutes}m ${seconds}s`;
+	};
+
+	const getAvailabilityLabel = (slide: UpcomingSessionSlide): string => {
+		if (isHappeningNow(slide) || slide.registrationClosed) {
+			return 'Enrollment closed';
+		}
+		const countdownLabel = getCountdownLabel(slide);
+		if (countdownLabel) return countdownLabel;
+		return slide.urgency ?? slide.spots ?? 'Open for registration';
 	};
 
 	const getBadge = (slide: UpcomingSessionSlide): { label: string; className: string } => {
@@ -150,13 +185,24 @@
 
 	onMount(() => {
 		restartAutoplay();
+		countdownTimer = setInterval(() => {
+			nowEpochMs = Date.now();
+		}, 1000);
 		return () => {
 			pauseAutoplay();
+			if (countdownTimer) {
+				clearInterval(countdownTimer);
+				countdownTimer = null;
+			}
 		};
 	});
 
 	onDestroy(() => {
 		pauseAutoplay();
+		if (countdownTimer) {
+			clearInterval(countdownTimer);
+			countdownTimer = null;
+		}
 	});
 </script>
 
@@ -290,7 +336,7 @@
 														slide.isHappeningNow ? 'text-amber-700' : 'text-blue-700'
 													}`}
 												>
-													{slide.urgency ?? slide.spots ?? 'Open for registration'}
+													{getAvailabilityLabel(slide)}
 												</span>
 											</div>
 											<a
@@ -356,6 +402,12 @@
 												>
 													Enrollment closed
 												</span>
+											{:else if slide.registrationClosed}
+												<span
+													class="inline-flex items-center justify-center rounded-lg border border-blue-200 bg-blue-50 px-3 py-2 text-[0.65rem] font-semibold text-blue-800"
+												>
+													Enrollment closed
+												</span>
 											{:else}
 												<a
 													href={slide.registerUrl}
@@ -363,7 +415,7 @@
 													rel="noopener"
 													class="inline-flex items-center justify-center rounded-lg bg-blue-600 px-3 py-2 text-[0.65rem] font-semibold text-white transition hover:bg-blue-700 focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-blue-50 focus-visible:outline-none"
 												>
-													Register now
+													{slide.registerLabel ?? 'Register now'}
 												</a>
 											{/if}
 										</div>

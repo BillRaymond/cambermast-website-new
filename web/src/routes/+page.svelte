@@ -322,6 +322,10 @@ import { getProgramCertificateText } from '$lib/data/training/program-meta';
 		const relatedProgram = entry.event.programRef?.sku
 			? getTrainingProgramBySku(entry.event.programRef.sku)
 			: undefined;
+		const ctaLabel = entry.event.cta?.label?.trim();
+		const registrationClosed =
+			entry.event.registrationStatus === 'closed' ||
+			(ctaLabel ? ctaLabel.toLowerCase().includes('closed') : false);
 		return {
 			id: `${entry.event.id}-${entry.event.startAtUtc ?? index.toString(10)}`,
 			kind: 'event' as const,
@@ -334,7 +338,10 @@ import { getProgramCertificateText } from '$lib/data/training/program-meta';
 			timeLines: toTimeLines(entry.event.time),
 			location: entry.event.location,
 			urgency: getUrgencyLabel(entry.startTimestamp),
+			startTimestampMs: Number.isFinite(entry.startTimestamp) ? entry.startTimestamp : undefined,
 			registerUrl: entry.event.cta?.url ?? `/events/${entry.event.slug}`,
+			registerLabel: ctaLabel,
+			registrationClosed,
 			image: entry.event.image,
 			imageAlt: entry.event.imageAlt ?? entry.event.title,
 			certificateText: relatedProgram ? getProgramCertificateText(relatedProgram) : undefined,
