@@ -32,11 +32,13 @@
 <!-- Hero Section -->
 <section class="mb-6">
 	<div class="mx-auto max-w-7xl space-y-1">
-		<div class="inline-block rounded-full bg-blue-100 px-3 py-0.5 text-[10px] font-bold uppercase tracking-widest text-blue-700">
+		<div
+			class="inline-block rounded-full bg-blue-100 px-3 py-0.5 text-[10px] font-bold tracking-widest text-blue-700 uppercase"
+		>
 			Cambermast ROI Engine
 		</div>
 		<h1 class="text-3xl font-black tracking-tight text-slate-900 md:text-4xl">
-			Stop Paying the <span class="italic text-blue-600">Manual Tax</span>
+			Stop Paying the <span class="text-blue-600 italic">Manual Tax</span>
 			<span class="mt-1 block text-base font-semibold text-slate-600 md:text-lg">
 				Quantify the ROI of AI Agents and Automation.
 			</span>
@@ -56,14 +58,12 @@
 
 		<div class="prose prose-blue max-w-none">
 			<p class="text-lg text-gray-700">
-				Every team pays an invisible tax: the <strong>operational overhead</strong> that consumes
-				productive capacity without delivering real progress. We call this the "Manual Tax."
+				Every team pays an invisible tax: the <strong>operational overhead</strong> that consumes productive
+				capacity without delivering real progress. We call this the "Manual Tax."
 			</p>
 
 			<h3 class="mt-8 text-xl font-bold text-gray-900">What is Manual Tax?</h3>
-			<p class="text-gray-700">
-				Manual Tax is the percentage of your team's time consumed by:
-			</p>
+			<p class="text-gray-700">Manual Tax is the percentage of your team's time consumed by:</p>
 			<ul class="list-disc space-y-2 pl-6 text-gray-700">
 				<li>
 					<strong>Repetitive Tasks:</strong> Copy-paste operations, data entry, status updates, routine
@@ -78,8 +78,8 @@
 					compiling reports
 				</li>
 				<li>
-					<strong>Manual Handoffs:</strong> Briefing colleagues, re-explaining context, duplicating
-					work across teams
+					<strong>Manual Handoffs:</strong> Briefing colleagues, re-explaining context, duplicating work
+					across teams
 				</li>
 			</ul>
 
@@ -103,9 +103,9 @@
 
 			<h3 class="mt-8 text-xl font-bold text-gray-900">Why Capacity, Not Cost Reduction?</h3>
 			<p class="text-gray-700">
-				This calculator frames results as <strong>capacity expansion</strong>, not headcount reduction.
-				The goal isn't to cut jobs—it's to redirect 40% of your team's "busy work" into higher-value
-				activities like strategic thinking, customer work, and innovation.
+				This calculator frames results as <strong>capacity expansion</strong>, not headcount
+				reduction. The goal isn't to cut jobs—it's to redirect 40% of your team's "busy work" into
+				higher-value activities like strategic thinking, customer work, and innovation.
 			</p>
 			<p class="text-gray-700">
 				Teams that approach AI automation as a <strong>capacity multiplier</strong> see higher adoption
@@ -118,13 +118,13 @@
 <!-- FAQ Section -->
 <section class="mb-12">
 	<div class="mx-auto max-w-4xl">
-		<h2 class="mb-6 text-3xl font-bold text-gray-900">
-			Frequently Asked Questions
-		</h2>
+		<h2 class="mb-6 text-3xl font-bold text-gray-900">Frequently Asked Questions</h2>
 
 		<div class="space-y-6">
 			<div class="rounded-lg border border-gray-200 bg-white p-6">
-				<h3 class="text-lg font-bold text-gray-900">How is this different from the other ROI calculator?</h3>
+				<h3 class="text-lg font-bold text-gray-900">
+					How is this different from the other ROI calculator?
+				</h3>
 				<p class="mt-2 text-gray-700">
 					The standard ROI calculator focuses on <strong>team size and hours saved</strong>. This
 					Agentic ROI Calculator focuses on <strong>operational friction percentages</strong> and uses
@@ -138,8 +138,9 @@
 				<p class="mt-2 text-gray-700">
 					Conservative assumptions are critical for building confidence. The 40% efficiency accounts
 					for human review time, edge cases, change management friction, and tasks that genuinely
-					require human judgment. When teams overpromise (80-100% automation), credibility drops fast.
-					With 40%, you're more likely to <strong>exceed expectations</strong>, not fall short.
+					require human judgment. When teams overpromise (80-100% automation), credibility drops
+					fast. With 40%, you're more likely to <strong>exceed expectations</strong>, not fall
+					short.
 				</p>
 			</div>
 
@@ -171,8 +172,8 @@
 	<div class="mx-auto max-w-4xl rounded-2xl bg-gray-900 p-8 text-center text-white">
 		<h2 class="mb-4 text-3xl font-bold">Stop Paying the Manual Tax</h2>
 		<p class="mb-6 text-lg text-gray-300">
-			Your team is already spending the hours—on busy work, context switching, and manual
-			handoffs. Learn how to reclaim 40% of that capacity and redirect it toward high-impact work.
+			Your team is already spending the hours—on busy work, context switching, and manual handoffs.
+			Learn how to reclaim 40% of that capacity and redirect it toward high-impact work.
 		</p>
 		<a
 			href="/training/ai-automation-with-agents"

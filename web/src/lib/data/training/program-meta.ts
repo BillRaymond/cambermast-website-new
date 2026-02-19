@@ -11,5 +11,8 @@ export const findProgramStat = (
 export const statValueToText = (value?: string | string[]): string | undefined =>
 	Array.isArray(value) ? value.join(', ') : value;
 
+export const statValueToArray = (value?: string | string[]): string[] =>
+	!value ? [] : Array.isArray(value) ? value : [value];
+
 export const getProgramCertificateText = (program?: TrainingProgram): string | undefined =>
 	statValueToText(findProgramStat(program, 'certificate')?.value);

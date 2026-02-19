@@ -1,0 +1,261 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://cambermast.com/schemas/training-api.schema.json",
+	"title": "Training API Response",
+	"type": "object",
+	"additionalProperties": false,
+	"required": ["generatedAt", "programs"],
+	"properties": {
+		"generatedAt": { "type": "string", "format": "date-time" },
+		"programs": {
+			"type": "array",
+			"items": {
+				"type": "object",
+				"additionalProperties": false,
+				"required": [
+					"slug",
+					"route",
+					"catalog",
+					"title",
+					"tagline",
+					"description",
+					"primaryCta",
+					"secondaryCta",
+					"scheduleTemplate"
+				],
+				"properties": {
+					"slug": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+					"route": { "type": "string", "pattern": "^https?://" },
+					"sku": { "type": "string", "pattern": "^CM-TR-(?:[0-9]{3}|DRAFT-[0-9]{3})$" },
+					"catalog": {
+						"type": "object",
+						"additionalProperties": false,
+						"required": ["id", "summary", "order"],
+						"properties": {
+							"id": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+							"summary": { "type": "string", "minLength": 1 },
+							"image": { "type": "string", "pattern": "^https?://" },
+							"imageAlt": { "type": "string", "minLength": 1 },
+							"bullets": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+							"order": { "type": "integer", "minimum": 0 },
+							"published": { "type": "boolean" }
+						}
+					},
+					"title": { "type": "string", "minLength": 1 },
+					"nickname": { "type": "string", "minLength": 1 },
+					"tagline": { "type": "string", "minLength": 1 },
+					"heroImage": { "type": "string", "pattern": "^https?://" },
+					"heroImageAlt": { "type": "string", "minLength": 1 },
+					"ogImage": { "type": "string", "pattern": "^https?://" },
+					"ogImageAlt": { "type": "string", "minLength": 1 },
+					"videoUrl": { "type": "string", "pattern": "^https?://" },
+					"description": { "type": "string", "minLength": 1 },
+					"secondaryDescription": { "type": "string", "minLength": 1 },
+					"primaryCta": {
+						"type": "object",
+						"additionalProperties": false,
+						"required": ["label", "url"],
+						"properties": {
+							"label": { "type": "string", "minLength": 1 },
+							"url": { "type": "string", "pattern": "^https?://|^mailto:|^tel:" }
+						}
+					},
+					"secondaryCta": {
+						"type": "object",
+						"additionalProperties": false,
+						"required": ["label", "url"],
+						"properties": {
+							"label": { "type": "string", "minLength": 1 },
+							"url": { "type": "string", "pattern": "^https?://|^mailto:|^tel:" }
+						}
+					},
+					"scheduleTemplate": {
+						"type": "object",
+						"additionalProperties": false,
+						"required": [
+							"durationDays",
+							"hoursPerDayCommitment",
+							"defaultStartTimeLocal",
+							"defaultTimeZone",
+							"defaultTimeZoneLabel"
+						],
+						"properties": {
+							"durationDays": { "type": "integer", "minimum": 1 },
+							"hoursPerDayCommitment": { "type": "number", "exclusiveMinimum": 0 },
+							"defaultStartTimeLocal": { "type": "string", "pattern": "^\\d{2}:\\d{2}$" },
+							"defaultTimeZone": { "type": "string", "minLength": 1 },
+							"defaultTimeZoneLabel": { "type": "string", "minLength": 1 },
+							"defaultLocationLabel": { "type": "string", "minLength": 1 }
+						}
+					},
+					"stats": {
+						"type": "array",
+						"items": {
+							"type": "object",
+							"additionalProperties": false,
+							"required": ["label", "value"],
+							"properties": {
+								"label": { "type": "string", "minLength": 1 },
+								"value": {
+									"oneOf": [
+										{ "type": "string", "minLength": 1 },
+										{ "type": "array", "items": { "type": "string", "minLength": 1 } }
+									]
+								}
+							}
+						}
+					},
+					"audience": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+					"audienceExamples": {
+						"type": "array",
+						"items": { "type": "string", "minLength": 1 }
+					},
+					"objectives": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+					"prerequisites": {
+						"type": "array",
+						"items": { "type": "string", "minLength": 1 }
+					},
+					"takeaways": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+					"sessions": {
+						"type": "array",
+						"items": {
+							"type": "object",
+							"additionalProperties": false,
+							"required": ["name", "date", "location", "spots", "registerUrl"],
+							"properties": {
+								"name": { "type": "string", "minLength": 1 },
+								"date": { "type": "string", "minLength": 1 },
+								"time": {
+									"oneOf": [
+										{ "type": "string", "minLength": 1 },
+										{ "type": "array", "items": { "type": "string", "minLength": 1 } }
+									]
+								},
+								"partner": { "type": "string", "minLength": 1 },
+								"startDate": { "type": "string", "format": "date" },
+								"endDate": { "type": "string", "format": "date" },
+								"location": { "type": "string", "minLength": 1 },
+								"spots": { "type": "string", "minLength": 1 },
+								"registerUrl": { "type": "string", "pattern": "^https?://|^mailto:|^tel:" },
+								"draft": { "type": "boolean" }
+							}
+						}
+					},
+					"draft": { "type": "boolean" },
+					"agenda": {
+						"type": "array",
+						"items": {
+							"type": "object",
+							"additionalProperties": false,
+							"required": ["title", "details"],
+							"properties": {
+								"title": { "type": "string", "minLength": 1 },
+								"details": {
+									"type": "array",
+									"items": { "type": "string", "minLength": 1 }
+								}
+							}
+						}
+					},
+					"resources": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+					"aboutTrainer": {
+						"type": "object",
+						"additionalProperties": false,
+						"required": ["title", "name", "role", "summary"],
+						"properties": {
+							"title": { "type": "string", "minLength": 1 },
+							"name": { "type": "string", "minLength": 1 },
+							"role": { "type": "string", "minLength": 1 },
+							"summary": { "type": "string", "minLength": 1 },
+							"photo": { "type": "string", "pattern": "^https?://" },
+							"photoAlt": { "type": "string", "minLength": 1 },
+							"highlights": {
+								"type": "array",
+								"items": { "type": "string", "minLength": 1 }
+							}
+						}
+					},
+					"faqs": {
+						"type": "array",
+						"items": {
+							"type": "object",
+							"additionalProperties": false,
+							"required": ["key", "question", "blocks"],
+							"properties": {
+								"key": { "type": "string", "pattern": "^[a-z0-9]+(?:_[a-z0-9]+)*$" },
+								"question": { "type": "string", "minLength": 1 },
+								"blocks": {
+									"type": "array",
+									"minItems": 1,
+									"items": {
+										"oneOf": [
+											{
+												"type": "object",
+												"additionalProperties": false,
+												"required": ["type", "text"],
+												"properties": {
+													"type": { "type": "string", "const": "paragraph" },
+													"text": { "type": "string", "minLength": 1 }
+												}
+											},
+											{
+												"type": "object",
+												"additionalProperties": false,
+												"required": ["type", "label", "href"],
+												"properties": {
+													"type": { "type": "string", "const": "link" },
+													"label": { "type": "string", "minLength": 1 },
+													"href": {
+														"type": "string",
+														"pattern": "^/|^https?://|^mailto:|^tel:"
+													},
+													"openInNewTab": { "type": "boolean" }
+												}
+											},
+											{
+												"type": "object",
+												"additionalProperties": false,
+												"required": ["type", "subject", "body"],
+												"properties": {
+													"type": { "type": "string", "const": "email_template" },
+													"to": { "type": "string" },
+													"subject": { "type": "string", "minLength": 1 },
+													"body": { "type": "string", "minLength": 1 },
+													"ctaLabel": { "type": "string", "minLength": 1 },
+													"copyButtonLabel": { "type": "string", "minLength": 1 },
+													"copiedButtonLabel": { "type": "string", "minLength": 1 },
+													"copiedStateMs": {
+														"type": "integer",
+														"minimum": 500,
+														"maximum": 10000
+													}
+												}
+											}
+										]
+									}
+								}
+							}
+						}
+					},
+					"presentation": {
+						"type": "object",
+						"additionalProperties": false,
+						"properties": {
+							"heroEyebrow": { "type": "string", "minLength": 1 },
+							"partnershipLabel": { "type": "string", "minLength": 1 },
+							"trailerLinkLabel": { "type": "string", "minLength": 1 },
+							"lockInSeatTitle": { "type": "string", "minLength": 1 },
+							"lockInSeatDescription": { "type": "string", "minLength": 1 },
+							"agendaCtaTitle": { "type": "string", "minLength": 1 },
+							"agendaCtaDescription": { "type": "string", "minLength": 1 },
+							"finalCtaTitle": { "type": "string", "minLength": 1 },
+							"finalCtaDescription": { "type": "string", "minLength": 1 },
+							"termsQuestion": { "type": "string", "minLength": 1 },
+							"termsAnswer": { "type": "string", "minLength": 1 }
+						}
+					}
+				}
+			}
+		}
+	}
+}

@@ -1,11 +1,9 @@
 <script lang="ts">
-	import CalendarPage from '$lib/components/CalendarPage.svelte';
-	import { getSeo } from '$lib/seo';
 	import SeoHead from '$lib/components/SeoHead.svelte';
-
-	const pageMeta = getSeo('/calendar');
 </script>
 
-<SeoHead title={pageMeta.title} description={pageMeta.description} path="/calendar" />
-
-<CalendarPage />
+<SeoHead
+	title="Redirecting to Events | Cambermast"
+	description="This route now points to the single Calendar of Events view."
+	path="/calendar"
+/>

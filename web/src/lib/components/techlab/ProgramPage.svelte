@@ -1,56 +1,63 @@
 <script lang="ts">
-import type { TrainingFaq, TrainingSession, TrainingStat } from '$lib/data/training/types';
-import {
-	hasExternalRegistration,
-	isSessionDraft,
-	isSessionHappeningNow,
-	isSessionUpcoming,
-	normalizeToday
-} from '$lib/data/training/session-utils';
+	import type { TrainingFaq, TrainingSession, TrainingStat } from '$lib/data/training/types';
+	import FaqBlocks from '$lib/components/faq/FaqBlocks.svelte';
+	import {
+		hasExternalRegistration,
+		isSessionDraft,
+		isSessionHappeningNow,
+		isSessionUpcoming,
+		normalizeToday
+	} from '$lib/data/training/session-utils';
 	import ReviewCard from '$lib/components/ReviewCard.svelte';
-	import SessionCard from '$lib/components/SessionCard.svelte';
-import type { TechlabProgram } from '$lib/data/techlab/types';
-import {
-	listTestimonialsForSku,
-	listTestimonialsForSlug,
-	type Testimonial
-} from '$lib/data/testimonials';
+	import EventCard from '$lib/components/events/EventCard.svelte';
+	import type { TechlabProgram } from '$lib/data/techlab/types';
+	import {
+		listTestimonialsForSku,
+		listTestimonialsForSlug,
+		type Testimonial
+	} from '$lib/data/testimonials';
 
 	export let program: TechlabProgram;
 	export let backLink: { href: string; label: string } | undefined = undefined;
 
-const getFaqAnswers = (faq: TrainingFaq): string[] =>
-	faq.answers ?? (faq.answer ? [faq.answer] : []);
+	const trainingTermsFaq: TrainingFaq = {
+		key: 'training_terms',
+		question: 'Where can I review the Training Terms & Conditions?',
+		blocks: [
+			{
+				type: 'paragraph',
+				text: "These answers complement Cambermast's Training Terms & Conditions."
+			},
+			{
+				type: 'link',
+				label: 'Training Terms & Conditions',
+				href: '/training/terms'
+			}
+		]
+	};
 
-type ExtendedFaq = TrainingFaq & { __isTrainingTerms?: boolean };
+	let faqsWithTerms: TrainingFaq[] = [];
 
-const trainingTermsFaq: ExtendedFaq = {
-	question: 'Where can I review the Training Terms & Conditions?',
-	answer: "These answers complement Cambermast's Training Terms & Conditions.",
-	__isTrainingTerms: true
-};
+	let statsBeforeCta: TrainingStat[] = [];
+	let statsAfterCta: TrainingStat[] = [];
+	let ctaInsertIndex = -1;
+	const today = normalizeToday();
+	const now = new Date();
+	let registerableSessions: TrainingSession[] = [];
+	let happeningSessions: TrainingSession[] = [];
+	let programTestimonials: Testimonial[] = [];
 
-let faqsWithTerms: ExtendedFaq[] = [];
+	const normalizeLabel = (label?: string): string | undefined => label?.toLowerCase().trim();
+	const scheduleTeamLabel = 'schedule your team';
+	const isScheduleTeamLabel = (label?: string): boolean =>
+		normalizeLabel(label) === scheduleTeamLabel;
 
-let statsBeforeCta: TrainingStat[] = [];
-let statsAfterCta: TrainingStat[] = [];
-let ctaInsertIndex = -1;
-const today = normalizeToday();
-const now = new Date();
-let registerableSessions: TrainingSession[] = [];
-let happeningSessions: TrainingSession[] = [];
-let programTestimonials: Testimonial[] = [];
-
-const normalizeLabel = (label?: string): string | undefined => label?.toLowerCase().trim();
-const scheduleTeamLabel = 'schedule your team';
-const isScheduleTeamLabel = (label?: string): boolean => normalizeLabel(label) === scheduleTeamLabel;
-
-const formatTestimonialRole = (testimonial: Testimonial): string => {
-	if (testimonial.jobTitle && testimonial.company) {
-		return `${testimonial.jobTitle}, ${testimonial.company}`;
-	}
-	return testimonial.jobTitle ?? testimonial.company ?? '';
-};
+	const formatTestimonialRole = (testimonial: Testimonial): string => {
+		if (testimonial.jobTitle && testimonial.company) {
+			return `${testimonial.jobTitle}, ${testimonial.company}`;
+		}
+		return testimonial.jobTitle ?? testimonial.company ?? '';
+	};
 
 	$: {
 		const stats = program?.stats ?? [];
@@ -60,8 +67,7 @@ const formatTestimonialRole = (testimonial: Testimonial): string => {
 	}
 
 	$: {
-		const sessions =
-			program?.sessions?.filter((session) => !isSessionDraft(session)) ?? [];
+		const sessions = program?.sessions?.filter((session) => !isSessionDraft(session)) ?? [];
 		registerableSessions = sessions.filter(
 			(session) =>
 				session.startDate &&
@@ -84,7 +90,7 @@ const formatTestimonialRole = (testimonial: Testimonial): string => {
 		}
 	}
 
-$: faqsWithTerms = program?.faqs?.length ? [...program.faqs, trainingTermsFaq] : [];
+	$: faqsWithTerms = program?.faqs?.length ? [...program.faqs, trainingTermsFaq] : [];
 </script>
 
 {#if backLink}
@@ -203,23 +209,25 @@ $: faqsWithTerms = program?.faqs?.length ? [...program.faqs, trainingTermsFaq] :
 			<h2 class="tlp-section-title">Upcoming dates</h2>
 			<div class="tlp-session-grid">
 				{#each registerableSessions as session ((session.registerUrl ?? '') + session.name + session.date)}
-					<SessionCard
+					<EventCard
 						title={session.name}
 						date={session.date}
 						time={session.time}
 						location={session.location}
-						ctaUrl={session.registerUrl}
-						ctaLabel="Register ↗"
+						typeLabel="Training"
+						registerUrl={session.registerUrl}
+						registerLabel="Register ↗"
 						tone="upcoming"
 					/>
 				{/each}
 				{#each happeningSessions as session ((session.registerUrl ?? '') + session.name + session.date)}
-					<SessionCard
+					<EventCard
 						title={session.name}
 						date={session.date}
 						time={session.time}
 						location={session.location}
-						statusLabel="Enrollment closed, running now"
+						typeLabel="Training"
+						statusLabel="Enrollment closed"
 						tone="happening"
 					/>
 				{/each}
@@ -351,18 +359,7 @@ $: faqsWithTerms = program?.faqs?.length ? [...program.faqs, trainingTermsFaq] :
 				{#each faqsWithTerms as faq}
 					<details class="tlp-faq">
 						<summary>{faq.question}</summary>
-						{#if faq.__isTrainingTerms}
-							<p>
-								These answers complement Cambermast's
-								<a class="font-semibold text-blue-600 underline" href="/training/terms"
-									>Training Terms &amp; Conditions</a
-								>.
-							</p>
-						{:else}
-							{#each getFaqAnswers(faq) as answer}
-								<p>{answer}</p>
-							{/each}
-						{/if}
+						<FaqBlocks blocks={faq.blocks} />
 					</details>
 				{/each}
 			</div>
@@ -620,38 +617,6 @@ $: faqsWithTerms = program?.faqs?.length ? [...program.faqs, trainingTermsFaq] :
 		gap: 0.75rem;
 	}
 
-	.tlp-session {
-		border: 1px solid #e4ecf5;
-		border-radius: 12px;
-		padding: 0.9rem;
-		background: #f7fafc;
-		display: flex;
-		flex-direction: column;
-		gap: 0.4rem;
-	}
-
-	.tlp-session__name {
-		margin: 0;
-		font-weight: 800;
-		color: #0d1a2b;
-	}
-
-	.tlp-session__date {
-		margin: 0;
-		color: #26405a;
-		font-weight: 600;
-	}
-
-	.tlp-session__time {
-		margin: 0.1rem 0;
-		color: #3c526d;
-	}
-
-	.tlp-session__location {
-		color: #3c526d;
-		margin: 0.1rem 0;
-		font-size: 0.95rem;
-	}
 
 	.tlp-list {
 		list-style: disc;
@@ -710,21 +675,6 @@ $: faqsWithTerms = program?.faqs?.length ? [...program.faqs, trainingTermsFaq] :
 		border: 1px solid #e1ebf4;
 	}
 
-	.tlp-quote {
-		background: linear-gradient(135deg, #0d1a2b 0%, #0b6fbf 100%);
-		color: #e8f2fb;
-		border-radius: 14px;
-		padding: 1rem;
-		margin: 0;
-		display: grid;
-		gap: 0.4rem;
-	}
-
-	.tlp-quote cite {
-		font-weight: 800;
-		color: #ffffff;
-	}
-
 	.tlp-review-grid {
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -777,11 +727,6 @@ $: faqsWithTerms = program?.faqs?.length ? [...program.faqs, trainingTermsFaq] :
 		font-weight: 800;
 		color: #0d1a2b;
 		cursor: pointer;
-	}
-
-	.tlp-faq p {
-		margin: 0.35rem 0 0;
-		color: #24364c;
 	}
 
 	.tlp-cta {

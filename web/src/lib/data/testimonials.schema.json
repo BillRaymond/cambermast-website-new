@@ -1,0 +1,63 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://cambermast.com/schemas/testimonials.schema.json",
+	"title": "Cambermast Testimonials Registry",
+	"type": "array",
+	"items": {
+		"type": "object",
+		"additionalProperties": false,
+		"required": [
+			"id",
+			"programSku",
+			"programSlug",
+			"programRoute",
+			"displayName",
+			"rating",
+			"quote",
+			"allowPublicUse",
+			"source",
+			"createdAt"
+		],
+		"properties": {
+			"id": {
+				"type": "string",
+				"pattern": "^tm-[a-z0-9]+(?:-[a-z0-9]+)*$"
+			},
+			"programSku": {
+				"type": "string",
+				"pattern": "^CM-TR-[0-9]{3}$"
+			},
+			"programSlug": {
+				"type": "string",
+				"pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+			},
+			"programRoute": {
+				"type": "string",
+				"pattern": "^/training/[a-z0-9]+(?:-[a-z0-9]+)*$"
+			},
+			"displayName": { "type": "string", "minLength": 1 },
+			"jobTitle": { "type": "string", "minLength": 1 },
+			"company": { "type": "string", "minLength": 1 },
+			"photoUrl": {
+				"type": ["string", "null"],
+				"pattern": "^/.*"
+			},
+			"rating": {
+				"type": "integer",
+				"minimum": 1,
+				"maximum": 5
+			},
+			"quote": { "type": "string", "minLength": 1 },
+			"allowPublicUse": { "type": "boolean" },
+			"featured": { "type": "boolean" },
+			"source": {
+				"type": "string",
+				"enum": ["form", "manual", "import", "training-testimonial"]
+			},
+			"createdAt": {
+				"type": "string",
+				"anyOf": [{ "format": "date" }, { "format": "date-time" }]
+			}
+		}
+	}
+}

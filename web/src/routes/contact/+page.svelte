@@ -93,7 +93,6 @@
 	};
 
 	const webhook = 'https://n8n.cambermast.com/webhook/0095b76c-c32c-49ce-a59d-de6435af2b3e';
-	const calBookingUrl = 'https://cal.com/billraymond/15min';
 
 	const getProgramTitle = (slug: string): string =>
 		contactOptions.find((option) => option.slug === slug)?.title ??
@@ -291,25 +290,35 @@
 			/>
 		</div>
 
-		<div>
-			<label class="block text-sm font-medium text-gray-700" for="contact-program"
-				>What would you like to talk about?
+		<fieldset>
+			<legend class="block text-sm font-medium text-gray-700">
+				What would you like to talk about?
 				<span class="text-red-500" aria-hidden="true">*</span>
-				<span class="sr-only"> required</span></label
-			>
-			<select
-				class="mt-1 w-full rounded-md border bg-white px-3 py-1.5 text-sm outline-none focus:ring-2 focus:ring-blue-500"
-				bind:value={selectedProgram}
-				id="contact-program"
-				name="training"
-				required
-			>
-				<option value="" disabled selected={!selectedProgram}>-- Pick a topic --</option>
-				{#each contactOptions as option}
-					<option value={option.slug}>{option.title}</option>
+				<span class="sr-only"> required</span>
+			</legend>
+			<p class="mt-1 text-sm text-gray-600">Pick a topic.</p>
+			<div class="mt-2 grid gap-2 sm:grid-cols-2">
+				{#each contactOptions as option, index}
+					<label
+						class={`cursor-pointer rounded-md border px-3 py-2 text-sm transition ${
+							selectedProgram === option.slug
+								? 'border-blue-600 bg-blue-50 text-blue-900'
+								: 'border-gray-300 bg-white hover:border-blue-300'
+						}`}
+					>
+						<input
+							class="sr-only"
+							type="radio"
+							name="training"
+							value={option.slug}
+							bind:group={selectedProgram}
+							required={index === 0}
+						/>
+						{option.title}
+					</label>
 				{/each}
-			</select>
-		</div>
+			</div>
+		</fieldset>
 
 		<div>
 			<label class="block text-sm font-medium text-gray-700" for="contact-message"
@@ -351,29 +360,28 @@
 			{status === 'sending' ? 'Sending…' : 'Send message'}
 		</button>
 
-		<p class="text-xs font-medium uppercase tracking-wide text-gray-500">
+		<p class="text-xs font-medium tracking-wide text-gray-500 uppercase">
 			Fields marked <span class="text-red-500" aria-hidden="true">*</span> are required.
 		</p>
 		<p class="text-xs text-gray-500">
-			We use your details only to respond to this inquiry and plan services you request. Learn more in
-			our <a class="font-semibold text-blue-600 underline" href="/gdpr">GDPR & privacy overview</a>.
+			We use your details only to respond to this inquiry and plan services you request. Learn more
+			in our <a class="font-semibold text-blue-600 underline" href="/gdpr"
+				>GDPR & privacy overview</a
+			>.
 		</p>
 	</form>
 
 	<div class="space-y-5">
 		<section class="rounded-2xl border bg-blue-50 p-6 text-blue-900 shadow">
-			<h2 class="text-xl font-semibold">Or, book a 15-minute training consult</h2>
+			<h2 class="text-xl font-semibold">Need a live consult?</h2>
 			<p class="mt-2 text-sm text-blue-900">
-				Pick a time that works for you. Bring your questions about AI training, private team
-				workshops, or custom AI enablement plans.
+				See paid consultation options with Bill and pick the time that matches your needs.
 			</p>
 			<a
 				class="mt-4 inline-flex w-full items-center justify-center rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow transition hover:bg-blue-700"
-				href={calBookingUrl}
-				target="_blank"
-				rel="noreferrer"
+				href="/connect"
 			>
-				Book a 15-minute call
+				View consultation options
 			</a>
 		</section>
 

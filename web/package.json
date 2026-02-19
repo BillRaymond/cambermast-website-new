@@ -4,19 +4,30 @@
 	"version": "0.0.1",
 	"type": "module",
 	"scripts": {
-		"prebuild": "node ./scripts/sync-site-metadata.mjs",
+		"prebuild": "node ./scripts/sync-site-metadata.mjs && npm run validate:events && npm run validate:campaigns && npm run validate:registries && npm run validate:api && npm run validate:schema-governance && npm run validate:ui-adapters",
 		"dev": "vite dev",
-		"predev": "node ./scripts/sync-site-metadata.mjs",
+		"predev": "node ./scripts/sync-site-metadata.mjs && npm run validate:events && npm run validate:campaigns && npm run validate:registries && npm run validate:api && npm run validate:schema-governance && npm run validate:ui-adapters",
 		"dev:host": "vite dev --host 0.0.0.0 --port 5173",
 		"build": "vite build",
 		"preview": "vite preview",
-		"prepreview": "node ./scripts/sync-site-metadata.mjs",
+		"prepreview": "node ./scripts/sync-site-metadata.mjs && npm run validate:events && npm run validate:campaigns && npm run validate:registries && npm run validate:api && npm run validate:schema-governance && npm run validate:ui-adapters",
 		"prepare": "svelte-kit sync || echo ''",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+		"events:draft": "tsx ./scripts/generate-training-event-draft.ts",
 		"format": "prettier --write .",
 		"lint": "prettier --check . && eslint .",
-		"validate:qr": "node ./scripts/validate-qr-campaigns.mjs"
+		"validate:campaigns": "node ./scripts/validate-campaigns.mjs",
+		"validate:events": "node ./scripts/validate-events.mjs",
+		"validate:catalog": "node ./scripts/validate-catalog.mjs",
+		"validate:training": "node ./scripts/validate-training.mjs",
+		"validate:faq-presets": "node ./scripts/validate-faq-presets.mjs",
+		"validate:tools": "node ./scripts/validate-tools.mjs",
+		"validate:testimonials": "node ./scripts/validate-testimonials.mjs",
+		"validate:registries": "npm run validate:catalog && npm run validate:training && npm run validate:faq-presets && npm run validate:tools && npm run validate:testimonials",
+		"validate:api": "tsx ./scripts/validate-api-responses.ts",
+		"validate:schema-governance": "node ./scripts/validate-schema-governance.mjs",
+		"validate:ui-adapters": "tsx ./scripts/validate-ui-adapters.ts"
 	},
 	"devDependencies": {
 		"@eslint/compat": "^1.2.5",
@@ -29,6 +40,7 @@
 		"@tailwindcss/typography": "^0.5.15",
 		"@tailwindcss/vite": "^4.0.0",
 		"@types/qrcode": "^1.5.6",
+		"@types/sanitize-html": "^2.16.0",
 		"ajv": "^8.17.1",
 		"ajv-formats": "^3.0.1",
 		"autoprefixer": "^10.4.21",
@@ -43,11 +55,14 @@
 		"svelte": "^5.0.0",
 		"svelte-check": "^4.0.0",
 		"tailwindcss": "^4.1.13",
+		"tsx": "^4.20.6",
 		"typescript": "^5.0.0",
 		"typescript-eslint": "^8.20.0",
 		"vite": "^7.0.4"
 	},
 	"dependencies": {
-		"qrcode": "^1.5.4"
+		"marked": "^17.0.3",
+		"qrcode": "^1.5.4",
+		"sanitize-html": "^2.17.0"
 	}
 }

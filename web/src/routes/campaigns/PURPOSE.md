@@ -1,13 +1,15 @@
-# Purpose: Campaigns + Partner QR Registry
+# Purpose: Campaign and Partner Registry
 
-This area documents how Cambermast manages QR campaigns and partner-facing QR pages.
+This area documents how Cambermast manages campaigns and partner-facing pages.
+The canonical internal UI reference for this guidance lives at:
+`/admin/sop`.
 
 ## What we're doing here
 
-- Maintain a single source of truth for QR campaigns, including partner ownership and tracking parameters.
+- Maintain a single source of truth for campaigns, including partner ownership and tracking parameters.
 - Render an internal campaigns registry for operational tracking.
 - Render partner-friendly QR pages that only show production links and downloadable QR assets.
-- Serve the same data through a JSON endpoint for internal tooling.
+- Serve campaign data through canonical JSON and API contracts.
 
 ## How to add or update a campaign
 
@@ -29,9 +31,9 @@ If you need a “proper name” (casing, spacing) for display in the UI, set `pa
 
 ## Schema reference
 
-Use `qr-campaigns.schema.json` as the JSON Schema reference for field names, types, and validation rules.
+Use `campaigns.schema.json` as the JSON Schema reference for field names, types, and validation rules.
 
 ## Where the data lives
 
-- Campaign data JSON: `web/src/lib/data/qr-campaigns.json`
-- Schema: `web/src/lib/data/qr-campaigns.schema.json`
+- Campaign data JSON: `web/src/lib/data/campaigns.json`
+- Schema: `web/src/lib/data/campaigns.schema.json`

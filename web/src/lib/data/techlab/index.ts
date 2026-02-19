@@ -16,7 +16,9 @@ const techlabAllPrograms: TechlabProgram[] = [
 	techlabAiPowerPromptingDraft
 ];
 
-const techlabPublishedPrograms: TechlabProgram[] = techlabAllPrograms.filter((program) => !program.draft);
+const techlabPublishedPrograms: TechlabProgram[] = techlabAllPrograms.filter(
+	(program) => !program.draft
+);
 
 export const techlabPrograms: Record<string, TechlabProgram> = techlabAllPrograms.reduce(
 	(acc, program) => {
@@ -30,11 +32,10 @@ type ListTechlabProgramsOptions = {
 	includeDrafts?: boolean;
 };
 
-export const listTechlabPrograms = (
-	options: ListTechlabProgramsOptions = {}
-): TechlabProgram[] => {
+export const listTechlabPrograms = (options: ListTechlabProgramsOptions = {}): TechlabProgram[] => {
 	const { includeDrafts = false } = options;
 	return includeDrafts ? [...techlabAllPrograms] : [...techlabPublishedPrograms];
 };
 
-export const getTechlabProgram = (slug: string): TechlabProgram | undefined => techlabPrograms[slug];
+export const getTechlabProgram = (slug: string): TechlabProgram | undefined =>
+	techlabPrograms[slug];

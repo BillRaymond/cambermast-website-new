@@ -3,17 +3,16 @@
 <script lang="ts">
 	import { page } from '$app/state';
 	import catalog from '$lib/data/catalog.json';
-	import { listTrainingPrograms } from '$lib/data/training';
-	import { normalizeToday, isSessionUpcoming, hasExternalRegistration } from '$lib/data/training/session-utils';
+	import { listUpcomingTrainingScheduleEntries } from '$lib/data/training/schedule';
 
-	const today = normalizeToday();
-	const upcomingExists = listTrainingPrograms().some((program) =>
-		(program.sessions ?? []).some(
-			(session) => hasExternalRegistration(session) && isSessionUpcoming(session, today)
-		)
-	);
+	const upcomingExists = listUpcomingTrainingScheduleEntries().length > 0;
 
-	const { vertical = false, onNavigate, id, ariaLabel = 'Primary navigation' } = $props<{
+	const {
+		vertical = false,
+		onNavigate,
+		id,
+		ariaLabel = 'Primary navigation'
+	} = $props<{
 		vertical?: boolean;
 		onNavigate?: () => void;
 		id?: string;
@@ -48,7 +47,7 @@
 </script>
 
 <nav
-	id={id}
+	{id}
 	aria-label={ariaLabel}
 	class={`flex gap-6 ${
 		vertical
@@ -56,14 +55,6 @@
 			: 'flex-row items-center'
 	}`}
 >
-	<a
-		href="/"
-		onclick={handleNavClick}
-		class={pathname === '/' ? 'font-semibold text-blue-600' : 'hover:text-blue-600'}
-		aria-current={pathname === '/' ? 'page' : undefined}
-	>
-		Home
-	</a>
 	{#each navLinks as link}
 		{@const isActive = pathname === link.href || pathname.startsWith(`${link.href}/`)}
 		<a
@@ -76,7 +67,9 @@
 		>
 			{#if link.href === '/calendar' && upcomingExists}
 				<span class="relative flex h-2.5 w-2.5">
-					<span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue-400/80 opacity-75"></span>
+					<span
+						class="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue-400/80 opacity-75"
+					></span>
 					<span class="relative inline-flex h-full w-full rounded-full bg-blue-600"></span>
 				</span>
 			{/if}

@@ -4,6 +4,20 @@ export const aiFundamentals = {
 	slug: 'ai-fundamentals',
 	route: '/training/ai-fundamentals',
 	sku: 'CM-TR-001',
+	catalog: {
+		id: 'training-ai-fundamentals',
+		summary:
+			'Primer on prompting that explains how AI works and shows you how to prompt successfully.',
+		image: '/images/ai-fundamentals.jpeg',
+		imageAlt: 'AI Power Prompting training workshop illustration',
+		bullets: [
+			'Understand how today’s AI models generate answers',
+			'Learn four core prompt types you can reuse anywhere',
+			'Collaborate with AI to brainstorm and polish ideas'
+		],
+		order: 0,
+		published: true
+	},
 	title: 'AI Power Prompting',
 	nickname: 'Your AI fundamentals • From prompting to productivity',
 	tagline: 'A live primer on prompting: learn how AI works and how to prompt successfully.',
@@ -25,12 +39,20 @@ export const aiFundamentals = {
 		label: 'Talk with Bill',
 		url: '/contact'
 	},
+	scheduleTemplate: {
+		durationDays: 1,
+		hoursPerDayCommitment: 4,
+		defaultStartTimeLocal: '13:00',
+		defaultTimeZone: 'America/Los_Angeles',
+		defaultTimeZoneLabel: 'PT',
+		defaultLocationLabel: 'Online'
+	},
 	// Keep pricing + duration aligned with the sales one-pager before publishing updates.
 	stats: [
 		{ label: 'Duration', value: '4-hours' },
 		{ label: 'Format', value: ['🔴 Live online', '🏫 In-person available'] },
 		{ label: 'Cost', value: '$349 per person (virtual cohort)' },
-		{ label: 'Certificate', value: '📜 Personalized certificate included' },
+		{ label: 'Certificate', value: '📜 Certificate included' },
 		{ label: 'Environment', value: '💙 Learn in a supportive, judgment-free environment' },
 		{ label: 'In-person', value: 'Custom pricing for private teams' }
 	],
@@ -144,11 +166,6 @@ export const aiFundamentals = {
 		'Earn a certificate you can showcase with pride.',
 		'A free one-hour follow-up two weeks after the training.'
 	],
-	testimonial: {
-		quote:
-			"Bill guided our leadership team through what's possible with AI while keeping us realistic about the risks.",
-		author: 'Elena P., VP of Operations'
-	},
 	aboutTrainer: {
 		title: 'About your trainer',
 		name: 'Bill Raymond',
@@ -167,28 +184,47 @@ export const aiFundamentals = {
 	},
 	faqs: [
 		{
-			question: 'How customizable is the agenda?',
-			answers: [
-				'If you are taking a publicly scheduled course, the agenda is fixed.',
-				'For private team workshops, we can adjust the agenda to focus on specific use cases or tools.'
+			"key": "how_customizable_is_the_agenda",
+			"question": "How customizable is the agenda?",
+			"blocks": [
+				{
+					"type": "paragraph",
+					"text": "If you are taking a publicly scheduled course, the agenda is fixed."
+				},
+				{
+					"type": "paragraph",
+					"text": "For private team workshops, we can adjust the agenda to focus on specific use cases or tools."
+				}
 			]
 		},
 		{
-			question: 'Do participants need prior AI experience?',
-			answers: [
-				'No. The course is designed for beginners through intermediate users, mixing demos with guided exercises.'
+			"key": "do_participants_need_prior_ai_experience",
+			"question": "Do participants need prior AI experience?",
+			"blocks": [
+				{
+					"type": "paragraph",
+					"text": "No. The course is designed for beginners through intermediate users, mixing demos with guided exercises."
+				}
 			]
 		},
 		{
-			question: 'Can we host the workshop in person?',
-			answers: [
-				'Yes. On-site sessions include travel in the proposal; virtual cohorts are available worldwide.'
+			"key": "can_we_host_the_workshop_in_person",
+			"question": "Can we host the workshop in person?",
+			"blocks": [
+				{
+					"type": "paragraph",
+					"text": "Yes. On-site sessions include travel in the proposal; virtual cohorts are available worldwide."
+				}
 			]
 		},
 		{
-			question: 'Do you have a letter I can send to my manager for budget approval?',
-			answers: [
-				'Yes! Here’s a customizable letter you can use:\n\nSubject: Request to Attend AI Training\n\nHi [Manager’s Name],\n\nI’d like to attend the upcoming [Workshop Name] with Bill Raymond. Bill is a founding member of the AI Collective (https://www.aicollective.com) and the author of the popular Bill Talks AI newsletter (https://BillTalksAI.com). His work focuses on helping professionals safely and effectively adopt AI, and this program is designed to build practical skills and confidence in everyday use.\n\nThe workshop also includes a certification that validates the skills I’ll be applying in my role. I believe this will benefit both my growth and the value I bring to our team. The cost is [insert cost]. Thank you for considering this request.\n\nHere is a link to the course: [Insert Training Program URL]\n\nBest,\n[Your Name]'
+			"key": "do_you_have_a_letter_i_can_send_to_my_manager_for_budget_approval",
+			"question": "Do you have a letter I can send to my manager for budget approval?",
+			"blocks": [
+				{
+					"type": "paragraph",
+					"text": "Yes! Here’s a customizable letter you can use:\n\nSubject: Request to Attend AI Training\n\nHi [Manager’s Name],\n\nI’d like to attend the upcoming [Workshop Name] with Bill Raymond. Bill is a founding member of the AI Collective (https://www.aicollective.com) and the author of the popular Bill Talks AI newsletter (https://BillTalksAI.com). His work focuses on helping professionals safely and effectively adopt AI, and this program is designed to build practical skills and confidence in everyday use.\n\nThe workshop also includes a certification that validates the skills I’ll be applying in my role. I believe this will benefit both my growth and the value I bring to our team. The cost is [insert cost]. Thank you for considering this request.\n\nHere is a link to the course: [Insert Training Program URL]\n\nBest,\n[Your Name]"
+				}
 			]
 		}
 	]

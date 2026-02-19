@@ -30,7 +30,7 @@ export const pageSeo: SeoOverrides = {
 	'/connect': {
 		title: 'Book a Consultation with Bill Raymond | Cambermast',
 		description:
-			'Pick a paid consultation time with Bill Raymond, or start with a free 15-minute chat.'
+			'Pick a paid consultation time with Bill Raymond for training, advisory, and workflow decisions.'
 	},
 	'/training': {
 		title: 'AI Training Programs | Cambermast',
@@ -43,14 +43,18 @@ export const pageSeo: SeoOverrides = {
 			'Compare Cambermast AI workshops side by side with duration, format, and cost details for proposals and planning.'
 	},
 	'/calendar': {
-		title: 'AI Training & Events Calendar | Cambermast',
-		description:
-			'Review upcoming AI workshops, public cohorts, and event sessions, then register or schedule a session for your team.'
+		title: 'Calendar of Events Redirect | Cambermast',
+		description: 'This legacy route redirects to the single Calendar of Events at /events.'
 	},
 	'/events': {
-		title: 'Events & Webinars | Cambermast',
+		title: 'Calendar of Events | Cambermast',
 		description:
-			'Browse upcoming Cambermast events, webinars, talks, and workshops with registration links and related training.'
+			'Review upcoming Cambermast workshops, webinars, and speaking events in one calendar with filters, countdowns, and registration links.'
+	},
+	'/events/archive': {
+		title: 'Past Events Archive | Cambermast',
+		description:
+			'Browse completed and canceled Cambermast events, including recap assets such as recordings and slides when available.'
 	},
 	'/training/print': {
 		title: 'Cambermast Training Programs | Print View',
@@ -109,8 +113,7 @@ export const pageSeo: SeoOverrides = {
 	},
 	'/tools/ai-tool-comparison': {
 		title: 'AI Tool Fit Comparison | Cambermast Tools',
-		description:
-			'Compare AI tools by role fit, learning curve, and workflow readiness.'
+		description: 'Compare AI tools by role fit, learning curve, and workflow readiness.'
 	},
 	'/gdpr': {
 		title: 'GDPR & Privacy at Cambermast',

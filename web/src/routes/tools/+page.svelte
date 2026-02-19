@@ -18,8 +18,8 @@
 			AI Tools & Calculators
 		</h1>
 		<p class="mt-4 text-lg text-gray-600">
-			Free, research-backed tools to help you learn AI, understand impact, and build confidence
-			with automation.
+			Free, research-backed tools to help you learn AI, understand impact, and build confidence with
+			automation.
 		</p>
 	</div>
 </section>
@@ -56,7 +56,9 @@
 
 					<!-- Category Badge -->
 					<div class="mb-3">
-						<span class="inline-block rounded bg-blue-50 px-2 py-1 text-xs font-semibold text-blue-700">
+						<span
+							class="inline-block rounded bg-blue-50 px-2 py-1 text-xs font-semibold text-blue-700"
+						>
 							{tool.category}
 						</span>
 					</div>
@@ -130,8 +132,8 @@
 	<div class="mx-auto max-w-4xl rounded-2xl bg-gray-900 p-8 text-center text-white">
 		<h2 class="mb-4 text-3xl font-bold">Need Help Building Your AI Strategy?</h2>
 		<p class="mb-6 text-lg text-gray-300">
-			Tools provide the data. Training provides the execution. Let's help your team turn
-			projections into production-ready agents.
+			Tools provide the data. Training provides the execution. Let's help your team turn projections
+			into production-ready agents.
 		</p>
 		<div class="flex flex-col gap-3 sm:flex-row sm:justify-center">
 			<a

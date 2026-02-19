@@ -1,0 +1,4 @@
+
+> web@0.0.1 dev:host
+> vite dev --host 0.0.0.0 --port 5173
+

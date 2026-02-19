@@ -1,6 +1,18 @@
+import type { FaqItem } from '$lib/data/faq/types';
+
 export type TrainingCta = {
 	label: string;
 	url: string;
+};
+
+export type TrainingCatalogMeta = {
+	id: string;
+	summary: string;
+	image?: string;
+	imageAlt?: string;
+	bullets?: string[];
+	order: number;
+	published?: boolean;
 };
 
 export type TrainingStat = {
@@ -26,11 +38,6 @@ export type TrainingAgendaBlock = {
 	details: string[];
 };
 
-export type TrainingTestimonial = {
-	quote: string;
-	author: string;
-};
-
 export type TrainingTrainer = {
 	title: string;
 	name: string;
@@ -41,22 +48,36 @@ export type TrainingTrainer = {
 	highlights?: string[];
 };
 
-export type TrainingFaq = {
-	question: string;
-	answers?: string[];
-	answer?: string;
+export type TrainingFaq = FaqItem;
+
+export type TrainingScheduleTemplate = {
+	durationDays: number;
+	hoursPerDayCommitment: number;
+	defaultStartTimeLocal: string;
+	defaultTimeZone: string;
+	defaultTimeZoneLabel: string;
+	defaultLocationLabel?: string;
 };
 
-export type TrainingReview = {
-	quote: string;
-	author: string;
-	role?: string;
+export type TrainingProgramPresentation = {
+	heroEyebrow?: string;
+	partnershipLabel?: string;
+	trailerLinkLabel?: string;
+	lockInSeatTitle?: string;
+	lockInSeatDescription?: string;
+	agendaCtaTitle?: string;
+	agendaCtaDescription?: string;
+	finalCtaTitle?: string;
+	finalCtaDescription?: string;
+	termsQuestion?: string;
+	termsAnswer?: string;
 };
 
 export type TrainingProgram = {
 	slug: string;
 	route: string;
 	sku?: string;
+	catalog?: TrainingCatalogMeta;
 	title: string;
 	nickname?: string;
 	tagline: string;
@@ -69,6 +90,7 @@ export type TrainingProgram = {
 	secondaryDescription?: string;
 	primaryCta: TrainingCta;
 	secondaryCta: TrainingCta;
+	scheduleTemplate: TrainingScheduleTemplate;
 	stats?: TrainingStat[];
 	audience?: string[];
 	audienceExamples?: string[];
@@ -79,8 +101,11 @@ export type TrainingProgram = {
 	draft?: boolean;
 	agenda?: TrainingAgendaBlock[];
 	resources?: string[];
-	reviews?: TrainingReview[];
-	testimonial?: TrainingTestimonial;
 	aboutTrainer?: TrainingTrainer;
 	faqs?: TrainingFaq[];
+	presentation?: TrainingProgramPresentation;
+};
+
+export type TrainingRegistry = {
+	programs: TrainingProgram[];
 };

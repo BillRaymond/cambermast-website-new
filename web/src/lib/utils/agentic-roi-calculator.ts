@@ -1,6 +1,6 @@
 /**
  * Agentic ROI Calculation Engine
- * 
+ *
  * Calculates "Manual Tax" (operational overhead) and capacity reclaimed
  * by implementing AI agents using conservative, research-backed assumptions.
  */
@@ -18,18 +18,18 @@ export interface AgenticROIResults {
 	// Baseline metrics
 	totalCapacityHours: number;
 	hourlyRate: number;
-	
+
 	// Manual tax calculations
 	manualTaxPercentage: number;
 	hoursPerPersonPerWeek: number;
 	totalTeamHoursPerWeek: number;
-	
+
 	// Reclamation metrics
 	timeReclaimedAnnual: number; // hours
 	valueReclaimedAnnual: number; // dollars
 	valueReclaimedMonthly: number; // dollars
 	paybackDays: number;
-	
+
 	// Distribution for visualization
 	currentDistribution: {
 		overhead: number;
@@ -45,7 +45,7 @@ export interface AgenticROIResults {
 // Constants
 const PRODUCTIVE_CAPACITY_HOURS = 1850; // hours per person per year
 const HOURLY_RATE_DIVISOR = 2000; // standard annual hours for salary calculation
-const AGENTIC_EFFICIENCY = 0.40; // 40% of manual friction can be reclaimed
+const AGENTIC_EFFICIENCY = 0.4; // 40% of manual friction can be reclaimed
 const HOURS_PER_WEEK = 40;
 const WORK_WEEKS_PER_YEAR = 48;
 const WORKING_DAYS_PER_YEAR = 240;
@@ -103,10 +103,7 @@ export function calculateReclaimedHours(
 /**
  * Calculate annual dollar value of reclaimed time
  */
-export function calculateReclaimedValue(
-	reclaimedHours: number,
-	hourlyRate: number
-): number {
+export function calculateReclaimedValue(reclaimedHours: number, hourlyRate: number): number {
 	return reclaimedHours * hourlyRate;
 }
 
@@ -128,11 +125,11 @@ export function calculateDistribution(manualTaxPercentage: number): {
 } {
 	const overhead = manualTaxPercentage;
 	const highValue = 100 - manualTaxPercentage;
-	
+
 	// Future distribution: 60% of manual tax remains, 40% is reclaimed
 	const remainingOverhead = overhead * (1 - AGENTIC_EFFICIENCY);
 	const reclaimed = overhead * AGENTIC_EFFICIENCY;
-	
+
 	return {
 		current: {
 			overhead,
@@ -153,31 +150,28 @@ export function calculateDistribution(manualTaxPercentage: number): {
 export function calculateAgenticROI(inputs: AgenticROIInputs): AgenticROIResults {
 	const hourlyRate = calculateHourlyRate(inputs.annualSalary);
 	const totalCapacityHours = inputs.peopleImpacted * PRODUCTIVE_CAPACITY_HOURS;
-	
+
 	const manualTaxPercentage = calculateManualTaxPercentage(
 		inputs.repetitiveTasks,
 		inputs.focusLoss,
 		inputs.manualResearch,
 		inputs.manualHandoffs
 	);
-	
+
 	const hoursPerPersonPerWeek = calculateHoursPerPersonPerWeek(manualTaxPercentage);
 	const totalTeamHoursPerWeek = calculateTotalTeamHours(
 		inputs.peopleImpacted,
 		hoursPerPersonPerWeek
 	);
-	
-	const timeReclaimedAnnual = calculateReclaimedHours(
-		inputs.peopleImpacted,
-		manualTaxPercentage
-	);
-	
+
+	const timeReclaimedAnnual = calculateReclaimedHours(inputs.peopleImpacted, manualTaxPercentage);
+
 	const valueReclaimedAnnual = calculateReclaimedValue(timeReclaimedAnnual, hourlyRate);
 	const valueReclaimedMonthly = valueReclaimedAnnual / 12;
 	const paybackDays = calculatePaybackDays(valueReclaimedAnnual);
-	
+
 	const distributions = calculateDistribution(manualTaxPercentage);
-	
+
 	return {
 		totalCapacityHours,
 		hourlyRate,

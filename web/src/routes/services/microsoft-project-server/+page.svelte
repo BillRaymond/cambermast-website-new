@@ -153,44 +153,47 @@
 	<section class="rounded-3xl border border-green-200 bg-white p-8 shadow-sm">
 		<div class="flex flex-col gap-6 lg:flex-row lg:items-center">
 			<div class="lg:w-7/12">
-				<p class="text-sm font-semibold uppercase tracking-wide text-green-700">
+				<p class="text-sm font-semibold tracking-wide text-green-700 uppercase">
 					Microsoft Project Server Migration Support
 				</p>
-					<h1 class="mt-2 text-4xl font-bold text-gray-900">
-						Keep Microsoft Project Server running with hosted support
-					</h1>
-					<p class="mt-4 text-lg text-gray-700">
-						Microsoft has set a July 14, 2026 end-of-support date for Project Server 2019 and older releases.
-						Cambermast and <a
-							href="https://projecthosts.com/"
-							target="_blank"
-							rel="noopener"
-							class="font-semibold text-green-700 underline decoration-green-200 underline-offset-4"
-						>
-							Project Hosts
-						</a>
-						provide a path from Microsoft-operated infrastructure to a secure hosted platform so your teams
-						can keep using Project Server with confidence.
-					</p>
-					<div class="mt-6 flex flex-wrap gap-3">
-						<a
-							href="/contact"
-							class="inline-flex items-center justify-center rounded-xl bg-green-600 px-5 py-2.5 font-semibold text-white shadow transition hover:bg-green-700"
-						>
-							Contact us with your migration goals
-						</a>
-					</div>
+				<h1 class="mt-2 text-4xl font-bold text-gray-900">
+					Keep Microsoft Project Server running with hosted support
+				</h1>
+				<p class="mt-4 text-lg text-gray-700">
+					Microsoft has set a July 14, 2026 end-of-support date for Project Server 2019 and older
+					releases. Cambermast and <a
+						href="https://projecthosts.com/"
+						target="_blank"
+						rel="noopener"
+						class="font-semibold text-green-700 underline decoration-green-200 underline-offset-4"
+					>
+						Project Hosts
+					</a>
+					provide a path from Microsoft-operated infrastructure to a secure hosted platform so your teams
+					can keep using Project Server with confidence.
+				</p>
+				<div class="mt-6 flex flex-wrap gap-3">
+					<a
+						href="/contact"
+						class="inline-flex items-center justify-center rounded-xl bg-green-600 px-5 py-2.5 font-semibold text-white shadow transition hover:bg-green-700"
+					>
+						Contact us with your migration goals
+					</a>
+				</div>
 			</div>
 			<div class="lg:w-5/12">
 				<div class="rounded-2xl border border-green-200 bg-green-50 p-5 text-sm text-green-900">
-					<h2 class="text-base font-semibold uppercase tracking-wide">Timeline snapshot</h2>
+					<h2 class="text-base font-semibold tracking-wide uppercase">Timeline snapshot</h2>
 					<ul class="mt-3 list-disc space-y-2 pl-5">
 						<li>Project Server 2019: security updates end July 14, 2026.</li>
-						<li>Project Server 2016: same July 14, 2026 cutoff, no mainstream support since 2021.</li>
+						<li>
+							Project Server 2016: same July 14, 2026 cutoff, no mainstream support since 2021.
+						</li>
 						<li>Project Server 2013: unsupported since April 11, 2023.</li>
 					</ul>
 					<p class="mt-4 text-xs text-green-800">
-						After those dates, Microsoft no longer issues patches, compliance fixes, or security responses.
+						After those dates, Microsoft no longer issues patches, compliance fixes, or security
+						responses.
 					</p>
 				</div>
 			</div>
@@ -201,29 +204,42 @@
 		<div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
 			<div class="flex flex-wrap items-center justify-center gap-6 md:gap-10">
 				{#each partnerLogos as logo}
-					<div class="flex w-full max-w-[220px] items-center justify-center rounded-xl border border-gray-100 bg-gray-50 px-4 py-2 shadow-sm sm:w-auto">
+					<div
+						class="flex w-full max-w-[220px] items-center justify-center rounded-xl border border-gray-100 bg-gray-50 px-4 py-2 shadow-sm sm:w-auto"
+					>
 						<img src={logo.src} alt={logo.alt} loading="lazy" class="h-12 w-auto object-contain" />
 					</div>
 				{/each}
 			</div>
 		</div>
 		<section class="rounded-3xl border border-green-100 bg-white p-6 shadow-sm">
-			<p class="text-sm font-semibold uppercase tracking-wide text-green-700">Execution signals</p>
-			<h2 class="mt-2 text-2xl font-bold text-gray-900">How we lead Microsoft Project Server migrations</h2>
+			<p class="text-sm font-semibold tracking-wide text-green-700 uppercase">Execution signals</p>
+			<h2 class="mt-2 text-2xl font-bold text-gray-900">
+				How we lead Microsoft Project Server migrations
+			</h2>
 			<p class="mt-3 text-gray-700">
-				Cambermast brings veteran Microsoft Project leadership, and Project Hosts brings Microsoft-backed
-				hosting capabilities. Together we give PMOs auditable proof that their migration is anchored in the
-				Microsoft ecosystem.
+				Cambermast brings veteran Microsoft Project leadership, and Project Hosts brings
+				Microsoft-backed hosting capabilities. Together we give PMOs auditable proof that their
+				migration is anchored in the Microsoft ecosystem.
 			</p>
 			<div class="mt-6 grid gap-5 md:grid-cols-2">
 				{#each credibilitySignals as signal}
 					<article class="rounded-2xl border border-gray-200 bg-gray-50 p-5">
 						<div class="flex items-center gap-4">
-							<div class="flex h-16 w-16 items-center justify-center rounded-xl border border-gray-200 bg-white">
-								<img src={signal.logo} alt={signal.alt} class="h-12 w-auto object-contain" loading="lazy" />
+							<div
+								class="flex h-16 w-16 items-center justify-center rounded-xl border border-gray-200 bg-white"
+							>
+								<img
+									src={signal.logo}
+									alt={signal.alt}
+									class="h-12 w-auto object-contain"
+									loading="lazy"
+								/>
 							</div>
 							<div>
-								<p class="text-xs font-semibold uppercase tracking-wide text-green-700">{signal.name}</p>
+								<p class="text-xs font-semibold tracking-wide text-green-700 uppercase">
+									{signal.name}
+								</p>
 								<h3 class="text-lg font-semibold text-gray-900">{signal.headline}</h3>
 							</div>
 						</div>
@@ -243,15 +259,19 @@
 			</div>
 		</section>
 		<div>
-			<h2 class="text-2xl font-bold text-gray-900">Facts about Microsoft's Project Server wind-down</h2>
+			<h2 class="text-2xl font-bold text-gray-900">
+				Facts about Microsoft's Project Server wind-down
+			</h2>
 			<p class="mt-3 text-gray-700">
-				Microsoft's lifecycle data shows exactly when support ends. These are the dates your PMO and IT teams
-				need to plan around.
+				Microsoft's lifecycle data shows exactly when support ends. These are the dates your PMO and
+				IT teams need to plan around.
 			</p>
 		</div>
 		<div class="grid gap-5 md:grid-cols-2">
 			{#each facts as fact}
-				<article class="flex h-full flex-col rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+				<article
+					class="flex h-full flex-col rounded-2xl border border-gray-200 bg-white p-5 shadow-sm"
+				>
 					<h3 class="text-lg font-semibold text-gray-900">{fact.title}</h3>
 					<p class="mt-3 flex-1 text-gray-700">{fact.detail}</p>
 					<div class="mt-4 text-sm">
@@ -284,33 +304,33 @@
 		<div class="grid gap-6 md:grid-cols-2">
 			<div>
 				<h2 class="text-2xl font-bold text-gray-900">Your migration checklist</h2>
-					<p class="mt-3 text-gray-700">
-						We turn a stressful deadline into a structured program plan. Use this checklist to gauge your
-						readiness, and we'll help you fill the gaps.
-					</p>
-				</div>
-				<ul class="list-disc space-y-3 pl-5 text-gray-700">
-					{#each readinessChecklist as item}
-						<li>{item}</li>
-					{/each}
-				</ul>
+				<p class="mt-3 text-gray-700">
+					We turn a stressful deadline into a structured program plan. Use this checklist to gauge
+					your readiness, and we'll help you fill the gaps.
+				</p>
 			</div>
-		</section>
+			<ul class="list-disc space-y-3 pl-5 text-gray-700">
+				{#each readinessChecklist as item}
+					<li>{item}</li>
+				{/each}
+			</ul>
+		</div>
+	</section>
 
 	<section class="mt-12 grid gap-6 lg:grid-cols-2">
 		<article class="rounded-3xl border border-green-200 bg-white p-6 shadow-sm">
 			<h2 class="text-2xl font-bold text-gray-900">Why Project Hosts?</h2>
-				<p class="mt-3 text-gray-700">
-					Project Hosts describes itself as delivering secure, compliant cloud environments with FedRAMP,
-					DoD IL, and HITRUST expertise (<a
-						href="https://projecthosts.com/"
-						target="_blank"
-						rel="noopener"
+			<p class="mt-3 text-gray-700">
+				Project Hosts describes itself as delivering secure, compliant cloud environments with
+				FedRAMP, DoD IL, and HITRUST expertise (<a
+					href="https://projecthosts.com/"
+					target="_blank"
+					rel="noopener"
 					class="font-semibold text-green-700 underline decoration-green-200 underline-offset-4"
 				>
 					projecthosts.com
-				</a
-				>). That makes them an ideal landing zone for regulated teams who still depend on Project Server.
+				</a>). That makes them an ideal landing zone for regulated teams who still depend on Project
+				Server.
 			</p>
 			<ul class="mt-4 list-disc space-y-2 pl-5 text-gray-700">
 				{#each projectHostsHighlights as highlight}
@@ -320,12 +340,12 @@
 		</article>
 		<article class="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">
 			<h2 class="text-2xl font-bold text-gray-900">What Cambermast delivers</h2>
-				<ul class="mt-4 space-y-4 text-gray-700">
-					{#each processSteps as step}
-						<li class="rounded-2xl border border-gray-200 p-4">
-							<h3 class="text-lg font-semibold text-gray-900">{step.title}</h3>
-							<p class="mt-1">{step.detail}</p>
-						</li>
+			<ul class="mt-4 space-y-4 text-gray-700">
+				{#each processSteps as step}
+					<li class="rounded-2xl border border-gray-200 p-4">
+						<h3 class="text-lg font-semibold text-gray-900">{step.title}</h3>
+						<p class="mt-1">{step.detail}</p>
+					</li>
 				{/each}
 			</ul>
 		</article>
@@ -337,7 +357,8 @@
 				<h2 class="text-3xl font-bold">Ready to secure Project Server on a hosted platform?</h2>
 				<p class="mt-3 text-green-50">
 					We'll review your current farm, recommend a migration path onto Project Hosts' secure
-					infrastructure, and keep Project Server running with the integrations and governance you need.
+					infrastructure, and keep Project Server running with the integrations and governance you
+					need.
 				</p>
 			</div>
 			<div class="flex flex-wrap gap-3">

@@ -40,12 +40,41 @@ These two documents live in the repo root as the source of truth. The SvelteKit 
 ## URL Aliases & Redirects
 
 - `/training-programs` redirects to `/training` to support legacy or marketing links to the catalog.
-- `/training/calendar` is an alias for `/calendar` so existing links land on the canonical calendar.
-- `/calendar` is the public hub for training sessions and event listings.
+- `/events` is the canonical public calendar of events route.
+- `/events/archive` is the public past-events archive route.
+- `/calendar` redirects to `/events` as a legacy alias.
+- `/campaigns` redirects to `/admin/campaigns` (internal registry).
 
-## Dev-Only Routes
+## Creating Events from Training Programs
 
-- `/events` and `/events/[slug]` are currently for internal development and are not published in production builds or listed in the sitemap. Treat them as a private tool suite until events become a public-facing offering.
+When creating a new training event, use this strict flow:
+
+1. Pick the training program (by `sku`).
+2. Pull duration + daily time commitment from the program `scheduleTemplate`.
+3. Generate a draft event schedule, then copy the resulting `draftEvent` into `web/src/lib/data/events/events.json`.
+
+Run:
+
+`npm --prefix web run events:draft -- --program-sku CM-TR-005 --start-date 2026-03-17 --id 7iu8p4 --slug ai-workshop-for-tech-writers-and-content-creators-spring-2026 --subtitle "🌷 Spring 2026 Cohort"`
+
+By default, the generated event page slug is suffixed with the campaign id (example: `ai-workshop-for-tech-writers-and-content-creators-spring-2026-7iu8p4`) to prevent accidental overwrites.
+
+Optional overrides:
+
+- `--id` (6-char base36; auto-generated if omitted)
+- `--campaign-id` (6-char base36; defaults to `--id` when omitted)
+- `--start-time` (example `13:00`)
+- `--duration-days` (overrides training default)
+- `--hours-per-day` (overrides training default)
+- `--overwrite` (allow collisions with existing event/campaign ids or slugs)
+- `--no-slug-suffix` (skip the `-<campaignId>` slug suffix; not recommended)
+
+Output includes:
+
+- `program.scheduleTemplate` (source values)
+- `scheduleDraft` (generated date/time window)
+- `draftEvent` (ready-to-paste event object with locked `template.kind = training_event_v1`, explicit `schedule`, and copied program content for description/highlights/audience/build/outcomes/agenda/FAQ/images/videoUrl)
+- `draftCampaign` (ready-to-paste campaign entry for `web/src/lib/data/campaigns.json`)
 
 ## Privacy, GDPR & Cookies
 
@@ -83,9 +112,24 @@ When publishing significant messaging or offer changes:
 4. Keep structural metadata current: update `web/static/robots.txt` and `web/src/routes/sitemap.xml/+server.ts` whenever routes, slugs, or canonical URLs change so crawlers pick up the new paths.
 5. Ensure the training [worksheet](https://docs.google.com/spreadsheets/d/1KmPBGD2_6RVGvnvK9d26zuvbxCfkbBCx9Fs816z7YhA/edit?gid=0#gid=0) updates.
 
+## Standard Page Layout
+
+- Use `web/src/routes/about/+page.svelte` as the default page scaffold for new standard pages.
+- Keep top-level content aligned to the shared layout container; avoid extra nested `mx-auto max-w-*` wrappers around the page heading block unless intentionally designing a custom layout.
+- Use this heading baseline by default:
+  - `h1`: `mb-6 text-3xl font-bold`
+  - Intro copy: `max-w-3xl text-gray-700`
+
 ## Testimonial Photos
 
 - Store approved headshots under `web/static/images/testimonials/`.
 - Crop uploads to a square (1:1) at roughly **300×300px** so they render crisply inside the circular avatar treatment.
 - Save as optimized `.jpg` or `.png` (WebP is fine too) and keep files under ~150 KB to avoid bloating static pages.
 - Update `photoUrl` in `web/src/lib/data/testimonials.json` to point at `/images/testimonials/<filename>` whenever you add or replace a photo.
+
+## Schema-First Rule
+
+- See `SCHEMA-FIRST.md` for the required schema-first workflow, validation gates, and propagation checklist for any data contract changes.
+- Any new registry schema must include a public read-only API contract (API route + API response schema + API payload builder) and admin SOP coverage in a relevant `/admin/sop*` page.
+- FAQ preset registry lives at `web/src/lib/data/faq-presets/faq-presets.json` and publishes at `/api/faq-presets.json` for reusable training and event FAQ starters.
+- Run `npm --prefix web run validate:schema-governance` to enforce schema-to-API-to-SOP coverage.

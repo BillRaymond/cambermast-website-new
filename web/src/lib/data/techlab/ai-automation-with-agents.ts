@@ -24,13 +24,24 @@ export const techlabAiAutomationWithAgents = {
 		label: 'See more automation work',
 		url: '/agents'
 	},
+	scheduleTemplate: {
+		durationDays: 42,
+		hoursPerDayCommitment: 2,
+		defaultStartTimeLocal: '13:00',
+		defaultTimeZone: 'America/Los_Angeles',
+		defaultTimeZoneLabel: 'PT',
+		defaultLocationLabel: 'Online'
+	},
 	stats: [
 		{ label: 'Duration', value: 'Six weeks, 2-hour commitment per week' },
 		{ label: 'Format', value: ['🔴 Live online', '🏫 In-person available'] },
 		{ label: 'Cost', value: '$1,749 per person (virtual cohort)' },
 		{ label: 'Environment', value: '💙 Learn in a supportive, judgment-free environment' },
 		{ label: 'In-person', value: 'Custom fees for SF Bay Area or on-site sessions' },
-		{ label: 'Done-for-you option', value: 'Request a quote if you prefer us to build the agents for you' },
+		{
+			label: 'Done-for-you option',
+			value: 'Request a quote if you prefer us to build the agents for you'
+		},
 		{ label: 'Support', value: 'Includes 30-day coaching and monitoring check-ins' }
 	],
 	audience: [
@@ -157,21 +168,33 @@ export const techlabAiAutomationWithAgents = {
 	},
 	faqs: [
 		{
-			question: 'What technical skills should our team have?',
-			answers: [
-				'A basic understanding of APIs or automation platforms is ideal. We provide pre-work to get everyone on the same page before the workshop.'
+			"key": "what_technical_skills_should_our_team_have",
+			"question": "What technical skills should our team have?",
+			"blocks": [
+				{
+					"type": "paragraph",
+					"text": "A basic understanding of APIs or automation platforms is ideal. We provide pre-work to get everyone on the same page before the workshop."
+				}
 			]
 		},
 		{
-			question: 'Can you build the automation for us?',
-			answers: [
-				'Yes. If you would rather have the agent delivered for you, request a custom quote and we will scope a build-and-handoff engagement.'
+			"key": "can_you_build_the_automation_for_us",
+			"question": "Can you build the automation for us?",
+			"blocks": [
+				{
+					"type": "paragraph",
+					"text": "Yes. If you would rather have the agent delivered for you, request a custom quote and we will scope a build-and-handoff engagement."
+				}
 			]
 		},
 		{
-			question: 'Do you offer on-site workshops?',
-			answers: [
-				'We regularly run in-person sessions in the SF Bay Area and can travel for private company engagements.'
+			"key": "do_you_offer_on_site_workshops",
+			"question": "Do you offer on-site workshops?",
+			"blocks": [
+				{
+					"type": "paragraph",
+					"text": "We regularly run in-person sessions in the SF Bay Area and can travel for private company engagements."
+				}
 			]
 		}
 	]

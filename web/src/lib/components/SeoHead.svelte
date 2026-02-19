@@ -19,7 +19,7 @@
 			: `${origin}${resolvedImage}`
 		: undefined;
 	const resolvedImageAlt =
-		resolvedImage === DEFAULT_OG_IMAGE ? imageAlt ?? DEFAULT_OG_IMAGE_ALT : imageAlt;
+		resolvedImage === DEFAULT_OG_IMAGE ? (imageAlt ?? DEFAULT_OG_IMAGE_ALT) : imageAlt;
 	const twitterCard = absoluteImage ? 'summary_large_image' : 'summary';
 </script>
 

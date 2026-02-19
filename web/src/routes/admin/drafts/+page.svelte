@@ -1,0 +1,145 @@
+<script lang="ts">
+	import type { PageData } from './$types';
+	import { isExternalUrl } from '$lib/data/training/session-utils';
+	import AdminRouteChips from '$lib/components/admin/AdminRouteChips.svelte';
+
+	export let data: PageData;
+
+	const programs = data.trainingPrograms;
+	const trainingEvents = data.trainingEvents;
+
+	const draftPrograms = programs.filter((program) => program.draft);
+
+	const draftTrainingEvents = trainingEvents
+		.filter((entry) => entry.event.visibility === 'draft')
+		.sort((a, b) => {
+			const aValue = a.startTimestamp;
+			const bValue = b.startTimestamp;
+			return aValue - bValue;
+		});
+
+	const formatTime = (value?: string | string[]): string[] => {
+		if (!value) return [];
+		return Array.isArray(value) ? value : [value];
+	};
+</script>
+
+<header class="flex flex-col">
+	<h1 class="mb-6 text-3xl font-bold">Internal draft overview</h1>
+	<AdminRouteChips />
+	<p class="max-w-3xl text-gray-700">
+		This route (<code class="rounded bg-gray-100 px-1 py-0.5 text-xs text-gray-700">/admin/drafts</code
+		>) is intentionally hidden from navigation, marketing pages, and the sitemap. Use it to review
+		draft training programs, sessions, and events before they launch.
+	</p>
+</header>
+
+<section class="mt-12 flex flex-col gap-4">
+		<div class="flex items-center gap-3">
+			<h2 class="text-xl font-semibold text-gray-900">Draft training programs</h2>
+			{#if draftPrograms.length > 0}
+				<span
+					class="rounded-full bg-amber-100 px-2.5 py-1 text-xs font-semibold tracking-wide text-amber-700 uppercase"
+				>
+					{draftPrograms.length} draft{draftPrograms.length === 1 ? '' : 's'}
+				</span>
+			{/if}
+		</div>
+		{#if draftPrograms.length > 0}
+			<ul class="grid gap-4">
+				{#each draftPrograms as program}
+					<li
+						class="rounded-2xl border border-amber-100 bg-white p-4 shadow-sm shadow-amber-100/40"
+					>
+						<div class="flex flex-col gap-2">
+							<div class="flex flex-wrap items-center gap-2">
+								<a
+									class="text-base font-semibold text-blue-700 hover:text-blue-900 hover:underline"
+									href={program.route}
+								>
+									{program.title}
+								</a>
+								<span
+									class="rounded-full bg-amber-100 px-2 py-0.5 text-xs font-semibold tracking-wide text-amber-700 uppercase"
+								>
+									Program draft
+								</span>
+							</div>
+							{#if program.tagline}
+								<p class="text-sm text-gray-600">{program.tagline}</p>
+							{/if}
+						</div>
+
+					</li>
+				{/each}
+			</ul>
+		{:else}
+			<p class="rounded-xl border border-gray-200 bg-white px-4 py-5 text-sm text-gray-600">
+				All training programs are currently published.
+			</p>
+		{/if}
+	</section>
+
+	<section class="mt-12 flex flex-col gap-4">
+		<div class="flex flex-wrap items-center gap-3">
+			<h2 class="text-xl font-semibold text-gray-900">Draft training events</h2>
+			{#if draftTrainingEvents.length > 0}
+				<span
+					class="rounded-full bg-amber-100 px-2.5 py-1 text-xs font-semibold tracking-wide text-amber-700 uppercase"
+				>
+					{draftTrainingEvents.length} pending
+				</span>
+			{/if}
+		</div>
+		{#if draftTrainingEvents.length > 0}
+			<div class="grid gap-3">
+				{#each draftTrainingEvents as entry}
+					<article class="rounded-2xl border border-amber-100 bg-amber-50/40 p-4">
+						<header class="flex flex-wrap items-center gap-2 text-sm font-semibold text-amber-900">
+							{#if entry.event.programRef?.sku}
+								<span>
+									<code class="rounded bg-amber-100 px-1 py-0.5 text-[0.65rem]">
+										{entry.event.programRef.sku}
+									</code>
+								</span>
+							{/if}
+							<span>· {entry.title}</span>
+						</header>
+						<div class="mt-2 space-y-1 text-xs text-amber-900/90">
+							<p>{entry.date}</p>
+							{#each formatTime(entry.time) as timeLine}
+								<p>{timeLine}</p>
+							{/each}
+							<p>{entry.location}</p>
+						</div>
+						{#if entry.registerUrl}
+							<div class="mt-3">
+								<a
+									class="text-xs font-semibold text-blue-700 hover:text-blue-900 hover:underline"
+									href={entry.registerUrl}
+									rel={isExternalUrl(entry.registerUrl) ? 'noopener noreferrer' : undefined}
+									target={isExternalUrl(entry.registerUrl) ? '_blank' : undefined}
+								>
+									{isExternalUrl(entry.registerUrl)
+										? 'External registration link'
+										: 'Internal registration link'}
+								</a>
+							</div>
+						{/if}
+					</article>
+				{/each}
+			</div>
+		{:else}
+			<p class="rounded-xl border border-gray-200 bg-white px-4 py-5 text-sm text-gray-600">
+				No draft training events are currently defined.
+			</p>
+		{/if}
+	</section>
+
+<footer class="mt-16 border-t border-gray-200 pt-6 text-xs text-gray-500">
+		<p>
+			Keep this link unlisted. If you ever need it removed from a production build, delete the
+			<code class="rounded bg-gray-100 px-1 py-0.5 text-[0.7rem] text-gray-700">/admin/drafts</code>
+			route before exporting the site.
+		</p>
+	</footer>

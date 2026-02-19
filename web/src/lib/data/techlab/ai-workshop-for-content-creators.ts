@@ -18,11 +18,19 @@ export const techlabAiWorkshopForContentCreators = {
 		'Across weekly 2-hour sessions, participants combine strategy discussions with hands-on practice to automate repetitive tasks, preserve brand voice, and publish higher-impact content faster.',
 	primaryCta: {
 		label: 'Find a start date',
-		url: 'https://lu.ma/BillTalksAI?tag=ai%20workshop%20for%20content%20creators'
+		url: '/events'
 	},
 	secondaryCta: {
 		label: 'Talk with Bill',
 		url: '/contact'
+	},
+	scheduleTemplate: {
+		durationDays: 49,
+		hoursPerDayCommitment: 2,
+		defaultStartTimeLocal: '10:00',
+		defaultTimeZone: 'America/Los_Angeles',
+		defaultTimeZoneLabel: 'PT',
+		defaultLocationLabel: 'Online'
 	},
 	stats: [
 		{ label: 'Duration', value: 'Seven weeks, 2-hour commitment per week' },
@@ -161,59 +169,103 @@ export const techlabAiWorkshopForContentCreators = {
 	},
 	faqs: [
 		{
-			question: 'Will I receive a certificate of completion?',
-			answers: ['Yes. Graduates receive a digital certificate after presenting their final project.']
-		},
-		{
-			question: 'Will there be makeup dates?',
-			answers: [
-				'There are no official makeup dates, but Bill accommodates reasonable requests when scheduling conflicts arise.'
+			"key": "will_i_receive_a_certificate_of_completion",
+			"question": "Will I receive a certificate of completion?",
+			"blocks": [
+				{
+					"type": "paragraph",
+					"text": "Yes. Graduates receive a digital certificate after presenting their final project."
+				}
 			]
 		},
 		{
-			question: 'Do I need anything before the workshop starts?',
-			answers: [
-				'Bring access to a paid generative AI account (ChatGPT, Claude, Gemini, Copilot, etc.) and a project where you can apply the lessons.'
+			"key": "will_there_be_makeup_dates",
+			"question": "Will there be makeup dates?",
+			"blocks": [
+				{
+					"type": "paragraph",
+					"text": "There are no official makeup dates, but Bill accommodates reasonable requests when scheduling conflicts arise."
+				}
 			]
 		},
 		{
-			question: 'Are the meetings virtual or in-person?',
-			answers: ['All cohort sessions are hosted live on Zoom.']
-		},
-		{
-			question: 'How can I ask questions about the course?',
-			answers: [
-				'Use the "Contact the Host" link on the Lu.ma event page or reach out through the Cambermast contact form.'
+			"key": "do_i_need_anything_before_the_workshop_starts",
+			"question": "Do I need anything before the workshop starts?",
+			"blocks": [
+				{
+					"type": "paragraph",
+					"text": "Bring access to a paid generative AI account (ChatGPT, Claude, Gemini, Copilot, etc.) and a project where you can apply the lessons."
+				}
 			]
 		},
 		{
-			question: 'Will there be exercises and take-home work?',
-			answers: [
-				'Yes. Expect optional take-home exercises and encouragement to apply each lesson directly to your content programs.'
+			"key": "are_the_meetings_virtual_or_in_person",
+			"question": "Are the meetings virtual or in-person?",
+			"blocks": [
+				{
+					"type": "paragraph",
+					"text": "All cohort sessions are hosted live on Zoom."
+				}
 			]
 		},
 		{
-			question: 'Are there scheduled collaboration meetings after each class?',
-			answers: [
-				'Not formally, but Bill hosts weekly office hours and maintains a discussion thread for ongoing peer support.'
+			"key": "how_can_i_ask_questions_about_the_course",
+			"question": "How can I ask questions about the course?",
+			"blocks": [
+				{
+					"type": "paragraph",
+					"text": "Use the \"Contact the Host\" link on the Lu.ma event page or reach out through the Cambermast contact form."
+				}
 			]
 		},
 		{
-			question: "I can't take this course. Are there others?",
-			answers: [
-				"Follow Bill's training calendar at https://lu.ma/BillTalksAI and subscribe to the Bill Talks AI newsletter for upcoming offerings."
+			"key": "will_there_be_exercises_and_take_home_work",
+			"question": "Will there be exercises and take-home work?",
+			"blocks": [
+				{
+					"type": "paragraph",
+					"text": "Yes. Expect optional take-home exercises and encouragement to apply each lesson directly to your content programs."
+				}
 			]
 		},
 		{
-			question: 'What are the benefits of this course?',
-			answers: [
-				'You will master AI use cases tailored to content creation and gain access to a supportive learning community.'
+			"key": "are_there_scheduled_collaboration_meetings_after_each_class",
+			"question": "Are there scheduled collaboration meetings after each class?",
+			"blocks": [
+				{
+					"type": "paragraph",
+					"text": "Not formally, but Bill hosts weekly office hours and maintains a discussion thread for ongoing peer support."
+				}
 			]
 		},
 		{
-			question: "What makes Bill's training unique?",
-			answers: [
-				'Bill filters out hype, focuses on realistic outcomes, and delivers a fun, professional learning experience that celebrates individual styles.'
+			"key": "i_can_t_take_this_course_are_there_others",
+			"question": "I can't take this course. Are there others?",
+			"blocks": [
+				{
+					"type": "paragraph",
+					"text": "Browse the events calendar at /events and subscribe to the Bill Talks AI newsletter for upcoming offerings."
+				}
+			]
+		},
+		{
+			"key": "what_are_the_benefits_of_this_course",
+			"question": "What are the benefits of this course?",
+			"blocks": [
+				{
+					"type": "paragraph",
+					"text": "You will master AI use cases tailored to content creation and gain access to a supportive learning community."
+				}
+			]
+		},
+		{
+			"key": "what_makes_bill_s_training_unique",
+			"question": "What makes Bill's training unique?",
+			"blocks": [
+				{
+					"type": "paragraph",
+					"text": "Bill filters out hype, focuses on realistic outcomes, and delivers a fun, professional learning experience that celebrates individual styles."
+				}
 			]
 		}
 	]

@@ -1,49 +1,489 @@
 {
 	"events": [
 		{
-			"id": "evt-leadership-ai-accelerating-teams",
-			"slug": "leadership-in-the-age-of-ai-accelerating-how-teams-work",
-			"title": "Leadership in the Age of AI: Accelerating how Teams Work",
-			"type": "webinar",
-			"typeLabel": "Webinar",
-			"tagline": "Live session on leadership habits that make AI an accelerator",
-			"summary": "A free, 1-hour webinar on leading high-performing teams in the age of AI, with real examples from leaders using AI automation to deliver results faster.",
-			"description": "What does it take to lead high-performing teams in the age of AI? In this live session, three industry leaders who leverage AI automation to increase productivity and deliver results faster will share their experiences and discuss how you can build high-performance teams. You will hear real stories, experience from the field, tough questions to ask yourself, and takeaways you can apply with your teams immediately.",
+			"id": "7iu8p4",
+			"slug": "ai-workshop-for-tech-writers-and-content-creators-winter-2026",
+			"title": "AI Workshop for Tech Writers and Content Creators",
+			"subtitle": "🌷 Spring 2026 Cohort",
+			"type": "training_session",
+			"typeLabel": "Training",
+			"tagline": "This is a 7-week course that meets on Tuesdays.",
+			"summary": "This is a 7-week course that meets on Tuesdays. January 27 - March 10, 2026, from 10 am PT to 11:30 am PT",
+			"description": "This multi-session workshop combines strategy and hands-on implementation. Participants build repeatable workflows for research, drafting, editing, and quality checks while preserving voice, review standards, and governance expectations.",
 			"highlights": [
-				"How to build psychological safety and trust so your teams are empowered to do their best",
-				"Practical leadership habits that drive AI as an accelerator",
-				"The new AI fluency skills every manager needs to stay relevant",
-				"Real-world examples of what a 10x manager looks like today"
+				"Structured prompting systems for high-quality first drafts",
+				"Editorial quality controls and policy-aligned review loops",
+				"Reusable workflow templates for documentation teams"
 			],
-			"date": "February 9, 2026",
-			"time": "2:00 PM – 3:00 PM PT",
-			"timezone": "PT",
-			"startAt": "2026-02-09T22:00:00.000Z",
-			"endAt": "2026-02-09T23:00:00.000Z",
-			"location": "Zoom",
-			"registerUrl": "https://luma.com/aic-sf-9-18",
-			"registerLabel": "Request to Join",
-			"image": "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,dpr=2,background=white,quality=75,width=400,height=400/event-covers/7i/e51cbe3a-a57d-458b-8753-f56be560c265.png",
-			"imageAlt": "Leadership in the Age of AI: Accelerating how Teams Work webinar cover art",
+			"visibility": "public",
+			"lifecycleStatus": "scheduled",
+			"registrationStatus": "closed",
+			"cta": {
+				"label": "Enrollment closed",
+				"url": "/training/ai-workshop-for-content-creators",
+				"campaignId": "7iu8p4"
+			},
+			"timeZoneIana": "America/Los_Angeles",
+			"location": {
+				"mode": "online",
+				"publicLabel": "Online",
+				"detailsVisibility": "public"
+			},
+			"ticketing": {
+				"currency": "USD",
+				"amountUsd": 1749
+			},
+			"registrationSettings": {
+				"approvalRequired": false,
+				"capacity": {
+					"type": "unlimited"
+				}
+			},
+			"programRef": {
+				"sku": "CM-TR-005"
+			},
+			"schedule": {
+				"durationDays": 49,
+				"estimatedHoursCommitment": 2
+			},
+			"campaignId": "7iu8p4",
 			"speakers": [
 				{
-					"name": "Adelina Martiniuc",
-					"title": "Founder & CEO @ RoryPlans.ai"
-				},
-				{
 					"name": "Bill Raymond",
-					"title": "CEO, Cambermast LLC & Author at BillTalksAI.com"
-				},
-				{
-					"name": "Magda Jary",
-					"title": "Doctoral researcher; former Google professional"
-				},
-				{
-					"name": "AJ Green",
-					"title": "Host"
+					"title": "Lead Instructor",
+					"shortBio": "Cambermast founder and hands-on trainer focused on practical AI adoption."
 				}
 			],
-			"draft": true
+			"heroImage": "/images/cambermast-content-5-ai-workshop-for-content-creators-og.jpeg",
+			"heroImageAlt": "AI Workshop for Tech Writers and Content Creators",
+			"image": "/images/cambermast-content-5-ai-workshop-for-content-creators-og.jpeg",
+			"imageAlt": "AI Workshop for Tech Writers and Content Creators",
+			"sessions": [
+				{
+					"startAtUtc": "2026-01-27T18:00:00.000Z",
+					"endAtUtc": "2026-01-27T20:00:00.000Z"
+				},
+				{
+					"startAtUtc": "2026-02-03T18:00:00.000Z",
+					"endAtUtc": "2026-02-03T20:00:00.000Z"
+				},
+				{
+					"startAtUtc": "2026-02-10T18:00:00.000Z",
+					"endAtUtc": "2026-02-10T20:00:00.000Z"
+				},
+				{
+					"startAtUtc": "2026-02-17T18:00:00.000Z",
+					"endAtUtc": "2026-02-17T20:00:00.000Z"
+				},
+				{
+					"startAtUtc": "2026-02-24T18:00:00.000Z",
+					"endAtUtc": "2026-02-24T20:00:00.000Z"
+				},
+				{
+					"startAtUtc": "2026-03-03T18:00:00.000Z",
+					"endAtUtc": "2026-03-03T20:00:00.000Z"
+				},
+				{
+					"startAtUtc": "2026-03-10T18:00:00.000Z",
+					"endAtUtc": "2026-03-10T20:00:00.000Z"
+				}
+			],
+			"template": {
+				"kind": "training_event_v1",
+				"sourceProgramSku": "CM-TR-005",
+				"sourceProgramSlug": "ai-workshop-for-content-creators",
+				"sourceProgramRoute": "/training/ai-workshop-for-content-creators"
+			}
+		},
+		{
+			"id": "ltb9nx",
+			"slug": "ai-workshop-for-modern-teams-feb-2026",
+			"title": "AI Workshop for Modern Teams",
+			"type": "training_session",
+			"typeLabel": "Training",
+			"tagline": "AI-enhanced team workflows that deliver measurable results in seven weeks.",
+			"summary": "AI Workshop for Modern Teams runs for 49 day(s), 120 minutes per session.",
+			"visibility": "draft",
+			"lifecycleStatus": "canceled",
+			"registrationStatus": "none",
+			"cta": {
+				"label": "Draft",
+				"url": "/training/ai-advanced-workshop",
+				"campaignId": "ltb9nx"
+			},
+			"timeZoneIana": "America/Los_Angeles",
+			"location": {
+				"mode": "online",
+				"publicLabel": "Online",
+				"detailsVisibility": "public"
+			},
+			"ticketing": {
+				"currency": "USD",
+				"amountUsd": 1749
+			},
+			"registrationSettings": {
+				"approvalRequired": false,
+				"capacity": {
+					"type": "unlimited"
+				}
+			},
+			"programRef": {
+				"sku": "CM-TR-003"
+			},
+			"schedule": {
+				"durationDays": 49,
+				"estimatedHoursCommitment": 2
+			},
+			"heroImage": "/images/cambermast-content-3-ai-workshop-for-modern-teams-og.jpeg",
+			"heroImageAlt": "AI Workshop for Modern Teams",
+			"image": "/images/cambermast-content-3-ai-workshop-for-modern-teams-og.jpeg",
+			"imageAlt": "Open graph image for the AI Workshop for Modern Teams training program",
+			"campaignId": "ltb9nx",
+			"sessions": [
+				{
+					"startAtUtc": "2026-02-12T17:00:00.000Z",
+					"endAtUtc": "2026-02-12T19:00:00.000Z"
+				},
+				{
+					"startAtUtc": "2026-02-19T17:00:00.000Z",
+					"endAtUtc": "2026-02-19T19:00:00.000Z"
+				},
+				{
+					"startAtUtc": "2026-02-26T17:00:00.000Z",
+					"endAtUtc": "2026-02-26T19:00:00.000Z"
+				},
+				{
+					"startAtUtc": "2026-03-05T17:00:00.000Z",
+					"endAtUtc": "2026-03-05T19:00:00.000Z"
+				},
+				{
+					"startAtUtc": "2026-03-12T17:00:00.000Z",
+					"endAtUtc": "2026-03-12T19:00:00.000Z"
+				},
+				{
+					"startAtUtc": "2026-03-19T17:00:00.000Z",
+					"endAtUtc": "2026-03-19T19:00:00.000Z"
+				},
+				{
+					"startAtUtc": "2026-03-26T17:00:00.000Z",
+					"endAtUtc": "2026-03-26T19:00:00.000Z"
+				}
+			],
+			"template": {
+				"kind": "training_event_v1",
+				"sourceProgramSku": "CM-TR-003",
+				"sourceProgramSlug": "ai-advanced-workshop",
+				"sourceProgramRoute": "/training/ai-advanced-workshop"
+			}
+		},
+		{
+			"id": "59v3n2",
+			"slug": "vibe-coding-webinar-feb-2026",
+			"title": "Vibe Coding Webinar",
+			"subtitle": "With Codex",
+			"type": "webinar",
+			"typeLabel": "Webinar",
+			"tagline": "Practical demos for modern vibe coding workflows",
+			"summary": "A focused webinar on building and debugging vibe coding workflows that are practical for cross-functional teams.",
+			"description": "Join this live session for a practical walk-through of vibe coding methods, demo patterns, and implementation mistakes to avoid. We will cover workflow setup, review checkpoints, and rollout guidance for real teams.",
+			"highlights": [
+				"Practical workflow patterns you can apply immediately",
+				"Prompt-to-production handoff techniques",
+				"Operational guardrails for team adoption"
+			],
+			"timeZoneIana": "America/Los_Angeles",
+			"visibility": "public",
+			"lifecycleStatus": "completed",
+			"registrationStatus": "external",
+			"cta": {
+				"label": "Register now",
+				"url": "https://luma.com/your-event",
+				"campaignId": "59v3n2"
+			},
+			"location": {
+				"mode": "online",
+				"publicLabel": "Google Meet",
+				"detailsVisibility": "public"
+			},
+			"ticketing": {
+				"currency": "USD",
+				"amountUsd": 0
+			},
+			"registrationSettings": {
+				"approvalRequired": false,
+				"capacity": {
+					"type": "unlimited"
+				}
+			},
+			"schedule": {
+				"durationDays": 1,
+				"estimatedHoursCommitment": 1
+			},
+			"partners": [
+				{
+					"code": "TLB",
+					"role": "sponsor"
+				},
+				{
+					"code": "TCW",
+					"role": "community"
+				}
+			],
+			"speakers": [
+				{
+					"name": "Bill Raymond",
+					"title": "Host",
+					"shortBio": "Cambermast founder who leads practical AI workshops and live team demos."
+				},
+				{
+					"name": "Jennifer Hufnagel",
+					"title": "Guest Speaker",
+					"shortBio": "Consulting leader focused on measurable AI transformation outcomes."
+				},
+				{
+					"name": "Jaden Fath",
+					"title": "Guest Speaker",
+					"shortBio": "Workflow designer specializing in modern vibe coding practices."
+				}
+			],
+			"campaignId": "59v3n2",
+			"heroImage": "/images/events/vibe-coding-webinar-feb-2026.svg",
+			"heroImageAlt": "Vibe Coding Webinar event artwork",
+			"image": "/images/events/vibe-coding-webinar-feb-2026.svg",
+			"imageAlt": "Vibe Coding Webinar event artwork",
+			"sessions": [
+				{
+					"startAtUtc": "2026-02-14T21:00:00.000Z",
+					"endAtUtc": "2026-02-14T22:00:00.000Z"
+				}
+			]
+		},
+		{
+			"id": "s6twc1",
+			"slug": "ai-workshop-for-tech-writers-and-content-creators-summer-2026-s6twc1",
+			"title": "AI Workshop for Content Creators (Summer 2026 ☀️)",
+			"subtitle": "☀️ Summer 2026 Cohort • Tuesdays, 120-minutes, April 14 - June 9, 2026",
+			"type": "training_session",
+			"typeLabel": "Training",
+			"tagline": "AI-enhanced content workflows that deliver measurable impact in seven weeks.",
+			"summary": "The AI Workshop for Tech Writers and Content Creators is a live, seven-week cohort that helps technical communicators and content teams weave generative AI into their daily production workflows.",
+			"sessions": [
+				{
+					"startAtUtc": "2026-04-14T17:00:00.000Z",
+					"endAtUtc": "2026-04-14T19:00:00.000Z"
+				},
+				{
+					"startAtUtc": "2026-04-21T17:00:00.000Z",
+					"endAtUtc": "2026-04-21T19:00:00.000Z"
+				},
+				{
+					"startAtUtc": "2026-04-28T17:00:00.000Z",
+					"endAtUtc": "2026-04-28T19:00:00.000Z"
+				},
+				{
+					"startAtUtc": "2026-05-05T17:00:00.000Z",
+					"endAtUtc": "2026-05-05T19:00:00.000Z"
+				},
+				{
+					"startAtUtc": "2026-05-12T17:00:00.000Z",
+					"endAtUtc": "2026-05-12T19:00:00.000Z"
+				},
+				{
+					"startAtUtc": "2026-05-19T17:00:00.000Z",
+					"endAtUtc": "2026-05-19T19:00:00.000Z"
+				},
+				{
+					"startAtUtc": "2026-06-09T17:00:00.000Z",
+					"endAtUtc": "2026-06-09T19:00:00.000Z"
+				}
+			],
+			"visibility": "public",
+			"lifecycleStatus": "scheduled",
+			"registrationStatus": "external",
+			"cta": {
+				"label": "Register now",
+				"url": "https://luma.com/rw0virsv",
+				"campaignId": "s6twc1"
+			},
+			"timeZoneIana": "America/Los_Angeles",
+			"location": {
+				"mode": "online",
+				"publicLabel": "Online",
+				"detailsVisibility": "public"
+			},
+			"ticketing": {
+				"currency": "USD",
+				"amountUsd": 1749
+			},
+			"registrationSettings": {
+				"approvalRequired": false,
+				"capacity": {
+					"type": "unlimited"
+				}
+			},
+			"programRef": {
+				"sku": "CM-TR-005"
+			},
+			"template": {
+				"kind": "training_event_v1",
+				"sourceProgramSku": "CM-TR-005",
+				"sourceProgramSlug": "ai-workshop-for-content-creators",
+				"sourceProgramRoute": "/training/ai-workshop-for-content-creators"
+			},
+			"faq": [
+				{
+					"key": "ai_experience_required",
+					"question": "Do I need prior AI experience to join?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "No prior AI experience is required. This training is designed for beginners and is still useful for experienced participants who want a more reliable workflow."
+						}
+					]
+				},
+				{
+					"key": "do_i_need_anything_before_the_workshop_starts",
+					"question": "Do I need anything before the workshop starts?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "By the time you take this course, you must have a paid AI account from ChatGPT, Claude, Gemini, or Microsoft 365 Copilot."
+						}
+					]
+				},
+				{
+					"key": "delivery_and_absence",
+					"question": "How is the workshop delivered, and what if I miss a session?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "Sessions are hosted live on Zoom. If you miss a session, there are no official makeup dates, but Bill accommodates reasonable scheduling-conflict requests when possible and shares the best available catch-up option."
+						}
+					]
+				},
+				{
+					"key": "outcomes_certificate_work",
+					"question": "What will I get by the end (certificate, exercises, and take-home work)?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "You will complete hands-on exercises, receive practical take-home materials, and earn a digital certificate of completion after presenting your final project."
+						}
+					]
+				},
+				{
+					"key": "questions_and_alternatives",
+					"question": "How can I ask questions before enrolling, and what if I can’t make this cohort?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "If you have questions before enrolling, use the Cambermast contact form. If this cohort timing does not work, we can share upcoming options on the events calendar."
+						},
+						{
+							"type": "link",
+							"label": "contact",
+							"href": "/contact",
+							"openInNewTab": true
+						},
+						{
+							"type": "link",
+							"label": "events calendar",
+							"href": "/events",
+							"openInNewTab": false
+						}
+					]
+				},
+				{
+					"key": "manager_letter",
+					"question": "📧 Do you have a manager budget-approval letter I can send?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "Yes. Use the email template below, open it in your email client, or copy it with one click."
+						},
+						{
+							"type": "email_template",
+							"subject": "Request for approval: AI training program",
+							"body": "Hi [Manager Name],\n\nI would like approval to attend [Program Name] with Cambermast.\n\nThis training is focused on practical, responsible AI use and includes\nhands-on exercises I can apply directly in my role. I expect this will\nhelp me improve speed and quality in [team/process area], while following\nour policies and quality standards.\n\nProgram: [Program Name]\nDates: [Dates]\nCost: [Cost]\nLink: [Program/Event URL]\n\nAfter the training, I will share key takeaways and specific ways we can\napply what I learned to our team.\n\nThank you for considering this request.\n\nBest,\n[Your Name]",
+							"ctaLabel": "Open in email client",
+							"copyButtonLabel": "Copy email",
+							"copiedButtonLabel": "Copied",
+							"copiedStateMs": 1600
+						}
+					]
+				}
+			],
+			"schedule": {
+				"durationDays": 56,
+				"estimatedHoursCommitment": 2
+			},
+			"description": {
+				"summary": "Across weekly 2-hour sessions, participants combine strategy discussions with hands-on practice to automate repetitive tasks, preserve brand voice, and publish higher-impact content faster.",
+				"bodyMd": "The AI Workshop for Tech Writers and Content Creators is a live, seven-week cohort that helps technical communicators and content teams weave generative AI into their daily production workflows.\n\n## Outcomes\n- Automate repetitive content production tasks and accelerate delivery timelines.\n- Tailor generative AI outputs to match established voice, tone, and terminology.\n- Connect content decisions to audience journeys, measurable outcomes, and ROI.\n\n## What You Will Build\n- Persona-driven workflows that use AI tools to surface gaps and opportunities.\n- Ready-to-use prompt libraries, custom GPT instructions, and evaluation checklists.\n- A documented project plan that operationalizes AI-assisted content production.\n- Digital certificate of completion once the Week 7 project is presented.\n\n## Who This Is For\n- Technical communication and documentation specialists modernizing their workflows with AI.\n- Content strategists responsible for aligning deliverables to user journeys and business goals.\n- Knowledge teams supporting structured and unstructured content across the enterprise."
+			},
+			"highlights": [
+				"Automate repetitive content production tasks with AI",
+				"Preserve brand voice with reusable prompts and guardrails",
+				"Ship a final project and earn a completion certificate"
+			],
+			"audienceBullets": [
+				"Technical communication and documentation specialists modernizing their workflows with AI.",
+				"Content strategists responsible for aligning deliverables to user journeys and business goals.",
+				"Knowledge teams supporting structured and unstructured content across the enterprise."
+			],
+			"buildBullets": [
+				"Persona-driven workflows that use AI tools to surface gaps and opportunities.",
+				"Ready-to-use prompt libraries, custom GPT instructions, and evaluation checklists.",
+				"A documented project plan that operationalizes AI-assisted content production.",
+				"Digital certificate of completion once the Week 7 project is presented."
+			],
+			"outcomes": [
+				"Automate repetitive content production tasks and accelerate delivery timelines.",
+				"Tailor generative AI outputs to match established voice, tone, and terminology.",
+				"Connect content decisions to audience journeys, measurable outcomes, and ROI."
+			],
+			"agenda": [
+				{
+					"title": "Week 1: Adopting the AI Mindset",
+					"outcome": "Explore AI foundations for content teams and align on ethical guardrails.",
+					"details": "Map quick wins that remove repetitive production work. Practice prompt basics for clarity, structure, and factual rigor."
+				},
+				{
+					"title": "Week 2: Mapping Your Audience Journey",
+					"outcome": "Build personas and user journeys that guide AI-augmented content.",
+					"details": "Align messaging and assets to each audience touchpoint. Test AI tools that simulate reader questions and expectations."
+				},
+				{
+					"title": "Week 3: Personalization at Scale",
+					"outcome": "Deliver platform-specific versions without sacrificing consistency.",
+					"details": "Automate tone, style, and format adjustments with controlled prompts. Design custom GPT instructions to replicate your brand voice."
+				},
+				{
+					"title": "Week 4: Accelerating Value Delivery",
+					"outcome": "Streamline production workflows and remove bottlenecks.",
+					"details": "Run AI-powered content audits to prioritize improvements. Plan projects and tasks that increase overall content ROI."
+				},
+				{
+					"title": "Week 5: Deep Content Insights",
+					"outcome": "Identify gaps, new opportunities, and research angles with AI.",
+					"details": "Develop outlines and drafts for net-new assets. Define the project you will evolve through Week 7."
+				},
+				{
+					"title": "Week 6: Data-Driven Prioritization",
+					"outcome": "Use customer insights to prioritize content that converts.",
+					"details": "Apply advanced prompting techniques to sharpen clarity. Review progress on your individual or team project."
+				},
+				{
+					"title": "Week 7: Evolving with AI",
+					"outcome": "Present final projects and gather peer plus mentor feedback.",
+					"details": "Codify a long-term roadmap for AI-enabled content operations. Operationalize your workflow and celebrate the cohort completion."
+				}
+			],
+			"heroImage": "/images/ai-workshop-for-content-creators.jpeg",
+			"heroImageAlt": "AI Workshop for Tech Writers and Content Creators illustration",
+			"image": "/images/cambermast-content-5-ai-workshop-for-content-creators-og.jpeg",
+			"imageAlt": "Open graph image for the AI Workshop for Tech Writers and Content Creators training program",
+			"campaignId": "s6twc1"
 		}
 	]
 }

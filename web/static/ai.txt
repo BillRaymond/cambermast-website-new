@@ -1,11 +1,11 @@
 Cambermast LLC
 AI Usage Policy (ai.txt)
-Last updated: 2026-02-03
+Last updated: 2026-02-12
 ----------------------------------------
 Scope:
 - Applies to content hosted on cambermast.com and subdomains managed by Cambermast LLC.
 - Covers text, audio, video, imagery, and downloadable assets unless a specific page states otherwise.
-- Development-only routes (for example, `/events`) are not published in production and should not be treated as public sources.
+- Internal-only routes (for example, `/internal` and `/admin`) are not published in production and should not be treated as public sources.
 
 Intent:
 - Support responsible AI summarization and retrieval that accurately represents Cambermast's services.

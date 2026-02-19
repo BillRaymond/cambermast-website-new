@@ -5,12 +5,10 @@
 	import { listTechlabPrograms } from '$lib/data/techlab';
 	import type { TechlabProgram } from '$lib/data/techlab/types';
 	import {
-		hasExternalRegistration,
-		isSessionDraft,
-		isSessionHappeningNow,
-		isSessionUpcoming,
+		isExternalUrl,
 		normalizeToday
 	} from '$lib/data/training/session-utils';
+	import { listUpcomingTrainingScheduleEntries } from '$lib/data/training/schedule';
 
 	const programs: TechlabProgram[] = listTechlabPrograms();
 
@@ -149,16 +147,11 @@
 	};
 
 	const today = normalizeToday();
-	const now = new Date();
+	const upcomingTrainingEvents = listUpcomingTrainingScheduleEntries({}, today);
 	const scheduleEntries: ScheduleEntry[] = programs.flatMap((program) => {
 		const session =
-			program.sessions?.find(
-				(entry) =>
-					!isSessionDraft(entry) &&
-					entry.startDate &&
-					hasExternalRegistration(entry) &&
-					isSessionUpcoming(entry, today) &&
-					!isSessionHappeningNow(entry, now)
+			upcomingTrainingEvents.find(
+				(entry) => entry.event.programRef?.sku === program.sku && isExternalUrl(entry.registerUrl)
 			) ?? null;
 
 		if (!session) return [];
@@ -170,11 +163,11 @@
 				route: program.route ?? `/techlab/${program.slug}`,
 				heroImage: program.heroImage,
 				heroImageAlt: program.heroImage ? (program.heroImageAlt ?? program.title) : undefined,
-				sessionName: session.name,
+				sessionName: session.title,
 				date: session.date,
 				timeText,
 				location: session.location ?? undefined,
-				registerUrl: session.registerUrl,
+				registerUrl: session.registerUrl ?? '/contact',
 				ctaLabel: 'Register'
 			}
 		];
@@ -228,88 +221,95 @@
 	</header>
 
 	<main class="techlab-main">
-	<section class="hero">
-		<div class="hero__content">
-			<p class="eyebrow">Official AI Education Partner</p>
-			<h1>TechLAB × Cambermast</h1>
-			<p class="lead">
-				TechLAB and Cambermast partnered to provide AI training, agentic AI automations, and
-				hands-on practice for founders and operators. Bill Raymond leads every session with
-				TechLAB’s builders, operators, and technical teams.
-			</p>
-			<div class="hero__cta">
-				<a class="btn btn--primary" href={ctaPrimary.url}>{ctaPrimary.label}</a>
-				<a class="btn btn--ghost" href={ctaSecondary.url}>{ctaSecondary.label}</a>
-			</div>
-			<div class="hero__meta">
-				<span>Bill Raymond • Founder, Cambermast</span>
-				<span class="dot" aria-hidden="true"></span>
-				<span>Delivered with TechLAB</span>
-			</div>
-		</div>
-		<div class="hero__card">
-			<h3>Built for fast-moving teams</h3>
-			<ul>
-				<li>Founders leave each week with investor-ready narratives, prompts, and proof points.</li>
-				<li>Operators co-build agentic automations with Cambermast guardrails to stay reliable.</li>
-				<li>Tap TechLAB’s mentor network plus Cambermast delivery experience to move fast with confidence.</li>
-			</ul>
-		</div>
-	</section>
-
-		{#if scheduleEntries.length}
-		<section class="schedule">
-			<div class="schedule__header">
-				<div>
-					<p class="eyebrow">TechLAB schedule preview</p>
-					<h2>Upcoming sessions & private cohorts</h2>
-					<p class="schedule__lede">
-						A quick look at what’s running now. Hover to pause or tap for details.
-					</p>
+		<section class="hero">
+			<div class="hero__content">
+				<p class="eyebrow">Official AI Education Partner</p>
+				<h1>TechLAB × Cambermast</h1>
+				<p class="lead">
+					TechLAB and Cambermast partnered to provide AI training, agentic AI automations, and
+					hands-on practice for founders and operators. Bill Raymond leads every session with
+					TechLAB’s builders, operators, and technical teams.
+				</p>
+				<div class="hero__cta">
+					<a class="btn btn--primary" href={ctaPrimary.url}>{ctaPrimary.label}</a>
+					<a class="btn btn--ghost" href={ctaSecondary.url}>{ctaSecondary.label}</a>
 				</div>
-				<a class="btn btn--ghost" href="/contact">
-					<span>Request a private date</span>
-					<span class="arrow">→</span>
-				</a>
-			</div>
-			<div class="schedule-marquee" aria-label="Upcoming TechLAB programs">
-				<div class="schedule-track">
-					{#each animatedSchedule as entry, index}
-						<a class="schedule-card" aria-label={entry.programTitle} href={entry.route}>
-							{#if entry.heroImage}
-								<div class="schedule-card__image-wrap">
-									<img
-										src={entry.heroImage}
-										alt={entry.heroImageAlt ?? entry.programTitle}
-										loading="lazy"
-									/>
-								</div>
-							{/if}
-							<div class="schedule-card__top">
-								<p class="eyebrow eyebrow--small">Next up</p>
-								<p class="schedule-card__date">{entry.date}</p>
-								{#if entry.timeText}<p class="schedule-card__time">{entry.timeText}</p>{/if}
-							</div>
-							<div class="schedule-card__body">
-								<div class="schedule-card__meta">
-									<h3>{entry.programTitle}</h3>
-									<p class="schedule-card__session">{entry.sessionName}</p>
-									{#if entry.location}
-										<p class="schedule-card__location">{entry.location}</p>
-									{/if}
-								</div>
-							</div>
-							<div class="schedule-card__actions">
-								<span class="btn btn--primary">
-									Register
-									<span class="arrow arrow--animate">→</span>
-								</span>
-							</div>
-						</a>
-					{/each}
+				<div class="hero__meta">
+					<span>Bill Raymond • Founder, Cambermast</span>
+					<span class="dot" aria-hidden="true"></span>
+					<span>Delivered with TechLAB</span>
 				</div>
+			</div>
+			<div class="hero__card">
+				<h3>Built for fast-moving teams</h3>
+				<ul>
+					<li>
+						Founders leave each week with investor-ready narratives, prompts, and proof points.
+					</li>
+					<li>
+						Operators co-build agentic automations with Cambermast guardrails to stay reliable.
+					</li>
+					<li>
+						Tap TechLAB’s mentor network plus Cambermast delivery experience to move fast with
+						confidence.
+					</li>
+				</ul>
 			</div>
 		</section>
+
+		{#if scheduleEntries.length}
+			<section class="schedule">
+				<div class="schedule__header">
+					<div>
+						<p class="eyebrow">TechLAB schedule preview</p>
+						<h2>Upcoming sessions & private cohorts</h2>
+						<p class="schedule__lede">
+							A quick look at what’s running now. Hover to pause or tap for details.
+						</p>
+					</div>
+					<a class="btn btn--ghost" href="/contact">
+						<span>Request a private date</span>
+						<span class="arrow">→</span>
+					</a>
+				</div>
+				<div class="schedule-marquee" aria-label="Upcoming TechLAB programs">
+					<div class="schedule-track">
+						{#each animatedSchedule as entry, index}
+							<a class="schedule-card" aria-label={entry.programTitle} href={entry.route}>
+								{#if entry.heroImage}
+									<div class="schedule-card__image-wrap">
+										<img
+											src={entry.heroImage}
+											alt={entry.heroImageAlt ?? entry.programTitle}
+											loading="lazy"
+										/>
+									</div>
+								{/if}
+								<div class="schedule-card__top">
+									<p class="eyebrow eyebrow--small">Next up</p>
+									<p class="schedule-card__date">{entry.date}</p>
+									{#if entry.timeText}<p class="schedule-card__time">{entry.timeText}</p>{/if}
+								</div>
+								<div class="schedule-card__body">
+									<div class="schedule-card__meta">
+										<h3>{entry.programTitle}</h3>
+										<p class="schedule-card__session">{entry.sessionName}</p>
+										{#if entry.location}
+											<p class="schedule-card__location">{entry.location}</p>
+										{/if}
+									</div>
+								</div>
+								<div class="schedule-card__actions">
+									<span class="btn btn--primary">
+										Register
+										<span class="arrow arrow--animate">→</span>
+									</span>
+								</div>
+							</a>
+						{/each}
+					</div>
+				</div>
+			</section>
 		{/if}
 
 		<section class="stats">
@@ -321,20 +321,21 @@
 			{/each}
 		</section>
 
-	<section class="panel">
-		<div class="panel__content">
-			<h2>About the collaboration</h2>
-			<p>
-				TechLAB and Cambermast partnered to provide AI training, agentic AI automations, and
-				hands-on practice for founders and operators. Every program is led by Bill Raymond with
-				content tuned for TechLAB’s community, which is fast-moving, pragmatic, and ready to launch.
-			</p>
-			<div class="pill-row">
-				<span class="techlab-pill">AI training</span>
-				<span class="techlab-pill">Agentic automations</span>
-				<span class="techlab-pill">Hands-on founder labs</span>
+		<section class="panel">
+			<div class="panel__content">
+				<h2>About the collaboration</h2>
+				<p>
+					TechLAB and Cambermast partnered to provide AI training, agentic AI automations, and
+					hands-on practice for founders and operators. Every program is led by Bill Raymond with
+					content tuned for TechLAB’s community, which is fast-moving, pragmatic, and ready to
+					launch.
+				</p>
+				<div class="pill-row">
+					<span class="techlab-pill">AI training</span>
+					<span class="techlab-pill">Agentic automations</span>
+					<span class="techlab-pill">Hands-on founder labs</span>
+				</div>
 			</div>
-		</div>
 			<div class="panel__content panel__content--alt">
 				<h3>Why it works</h3>
 				<ul class="bullet">
@@ -424,7 +425,7 @@
 								{/if}
 							</div>
 							<ul class="catalog-card__bullets">
-								{#each (program.objectives?.slice(0, 3) ?? []) as objective}
+								{#each program.objectives?.slice(0, 3) ?? [] as objective}
 									<li>{objective}</li>
 								{/each}
 							</ul>
@@ -442,9 +443,7 @@
 			<div>
 				<p class="eyebrow">Ready to move</p>
 				<h2>Bring TechLAB + Cambermast into your next sprint</h2>
-				<p>
-					Set dates for your team, or ask about automation pilots built alongside the training.
-				</p>
+				<p>Set dates for your team, or ask about automation pilots built alongside the training.</p>
 			</div>
 			<div class="cta-block__actions">
 				<a class="btn btn--primary" href={ctaPrimary.url}>Schedule your team</a>
@@ -455,7 +454,11 @@
 
 	<footer class="techlab-footer">
 		<div class="footer__brand">
-			<img src="/images/techlab-logo.png" alt="TechLAB logo" class="techlab-logo techlab-logo--small" />
+			<img
+				src="/images/techlab-logo.png"
+				alt="TechLAB logo"
+				class="techlab-logo techlab-logo--small"
+			/>
 			<div>
 				<p class="footer__title">TechLAB</p>
 				<p class="footer__subtitle">In collaboration with Cambermast</p>
@@ -471,7 +474,8 @@
 	.techlab-shell {
 		font-family: 'Lato', 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
 		color: #0d1a2b;
-		background: radial-gradient(circle at 12% 18%, rgba(0, 136, 201, 0.09), transparent 32%),
+		background:
+			radial-gradient(circle at 12% 18%, rgba(0, 136, 201, 0.09), transparent 32%),
 			radial-gradient(circle at 88% 12%, rgba(0, 136, 201, 0.08), transparent 28%),
 			linear-gradient(180deg, #f9fbff 0%, #eef3f9 100%);
 		min-height: 100vh;
@@ -986,7 +990,8 @@
 		content: '';
 		position: absolute;
 		inset: 0;
-		background: radial-gradient(circle at 18% 20%, rgba(0, 165, 227, 0.12), transparent 35%),
+		background:
+			radial-gradient(circle at 18% 20%, rgba(0, 165, 227, 0.12), transparent 35%),
 			radial-gradient(circle at 82% 12%, rgba(13, 26, 43, 0.08), transparent 28%);
 		pointer-events: none;
 	}

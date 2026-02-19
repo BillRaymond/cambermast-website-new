@@ -1,0 +1,429 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cambermast.com/schemas/events.schema.json",
+  "title": "Cambermast Event Registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["events"],
+  "properties": {
+    "events": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/event" }
+    }
+  },
+  "$defs": {
+    "faqParagraphBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "text"],
+      "properties": {
+        "type": { "type": "string", "const": "paragraph" },
+        "text": { "type": "string", "minLength": 1 }
+      }
+    },
+    "faqLinkBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "label", "href"],
+      "properties": {
+        "type": { "type": "string", "const": "link" },
+        "label": { "type": "string", "minLength": 1 },
+        "href": {
+          "type": "string",
+          "pattern": "^(\\/|https?:\\/\\/|mailto:|tel:).+"
+        },
+        "openInNewTab": { "type": "boolean" }
+      }
+    },
+    "faqEmailTemplateBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "subject", "body"],
+      "properties": {
+        "type": { "type": "string", "const": "email_template" },
+        "to": { "type": "string" },
+        "subject": { "type": "string", "minLength": 1 },
+        "body": { "type": "string", "minLength": 1 },
+        "ctaLabel": { "type": "string", "minLength": 1 },
+        "copyButtonLabel": { "type": "string", "minLength": 1 },
+        "copiedButtonLabel": { "type": "string", "minLength": 1 },
+        "copiedStateMs": { "type": "integer", "minimum": 500, "maximum": 10000 }
+      }
+    },
+    "faqBlock": {
+      "oneOf": [
+        { "$ref": "#/$defs/faqParagraphBlock" },
+        { "$ref": "#/$defs/faqLinkBlock" },
+        { "$ref": "#/$defs/faqEmailTemplateBlock" }
+      ]
+    },
+    "faqItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["key", "question", "blocks"],
+      "properties": {
+        "key": { "type": "string", "pattern": "^[a-z0-9]+(?:_[a-z0-9]+)*$" },
+        "question": { "type": "string", "minLength": 1 },
+        "blocks": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/faqBlock" }
+        }
+      }
+    },
+    "eventSession": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["startAtUtc", "endAtUtc"],
+      "properties": {
+        "startAtUtc": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "Z$"
+        },
+        "endAtUtc": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "Z$"
+        }
+      }
+    },
+    "event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "slug",
+        "title",
+        "type",
+        "summary",
+        "sessions",
+        "visibility",
+        "lifecycleStatus",
+        "registrationStatus",
+        "cta",
+        "location",
+        "timeZoneIana",
+        "heroImage",
+        "image"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Event identifier. Standard: 6-char base36 (^[a-z0-9]{6}$), immutable once created.",
+          "pattern": "^[a-z0-9]{6}$"
+        },
+        "slug": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "subtitle": {
+          "type": "string",
+          "minLength": 1
+        },
+        "formatLineOverride": {
+          "type": "string",
+          "minLength": 1
+        },
+        "type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "typeLabel": {
+          "type": "string"
+        },
+        "tagline": {
+          "type": "string"
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "oneOf": [
+            { "type": "string" },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "summary": { "type": "string" },
+                "bodyMd": { "type": "string" }
+              }
+            }
+          ]
+        },
+        "highlights": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "audienceBullets": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 6,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "buildBullets": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 6,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "outcomes": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "agenda": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["title"],
+            "properties": {
+              "title": { "type": "string", "minLength": 1 },
+              "startsAtLabel": { "type": "string" },
+              "outcome": { "type": "string" },
+              "details": { "type": "string" }
+            }
+          }
+        },
+        "faq": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/faqItem"
+          }
+        },
+        "sessions": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/eventSession" }
+        },
+        "registrationClosesAtUtc": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "Z$"
+        },
+        "timeZoneIana": {
+          "type": "string",
+          "const": "America/Los_Angeles"
+        },
+        "visibility": {
+          "type": "string",
+          "enum": ["public", "unlisted", "draft"]
+        },
+        "lifecycleStatus": {
+          "type": "string",
+          "enum": ["scheduled", "postponed", "canceled", "completed"]
+        },
+        "registrationStatus": {
+          "type": "string",
+          "enum": ["open", "closed", "external", "none", "waitlist", "sold_out"]
+        },
+        "cta": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["label"],
+          "properties": {
+            "label": { "type": "string", "minLength": 1 },
+            "url": { "type": "string" },
+            "campaignId": {
+              "type": "string",
+              "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+            }
+          }
+        },
+        "location": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["mode", "publicLabel", "detailsVisibility"],
+          "properties": {
+            "mode": {
+              "type": "string",
+              "enum": ["online", "in_person", "hybrid"]
+            },
+            "publicLabel": {
+              "type": "string",
+              "minLength": 1
+            },
+            "detailsVisibility": {
+              "type": "string",
+              "enum": ["public", "post_signup", "tbd"]
+            },
+            "joinUrl": {
+              "type": "string"
+            },
+            "mapUrl": {
+              "type": "string"
+            },
+            "venueName": {
+              "type": "string"
+            }
+          }
+        },
+        "ticketing": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["currency", "amountUsd"],
+          "properties": {
+            "currency": { "type": "string", "const": "USD" },
+            "amountUsd": { "type": "number", "minimum": 0 }
+          }
+        },
+        "registrationSettings": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "approvalRequired": { "type": "boolean" },
+            "capacity": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["type"],
+              "properties": {
+                "type": { "type": "string", "enum": ["unlimited", "limited"] },
+                "limit": { "type": "integer", "minimum": 1 }
+              },
+              "allOf": [
+                {
+                  "if": {
+                    "properties": {
+                      "type": { "const": "limited" }
+                    }
+                  },
+                  "then": {
+                    "required": ["limit"],
+                    "properties": {
+                      "limit": { "type": "integer", "minimum": 1 }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "speakers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["name", "title"],
+            "properties": {
+              "name": { "type": "string" },
+              "title": { "type": "string" },
+              "shortBio": { "type": "string" },
+              "photo": { "type": "string" },
+              "photoAlt": { "type": "string" }
+            }
+          }
+        },
+        "programRef": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["sku"],
+          "properties": {
+            "sku": { "type": "string", "pattern": "^CM-TR-[0-9]{3}$" }
+          }
+        },
+        "schedule": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["durationDays", "estimatedHoursCommitment"],
+          "properties": {
+            "durationDays": { "type": "integer", "minimum": 1 },
+            "estimatedHoursCommitment": { "type": "number", "exclusiveMinimum": 0 }
+          }
+        },
+        "template": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind"],
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": ["training_event_v1", "webinar_event_v1"]
+            },
+            "sourceProgramSku": { "type": "string", "pattern": "^CM-TR-[0-9]{3}$" },
+            "sourceProgramSlug": {
+              "type": "string",
+              "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+            },
+            "sourceProgramRoute": {
+              "type": "string",
+              "pattern": "^/training/[a-z0-9]+(?:-[a-z0-9]+)*$"
+            }
+          }
+        },
+        "partners": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["code"],
+            "properties": {
+              "code": { "type": "string", "pattern": "^[A-Z0-9]{3,4}$" },
+              "role": {
+                "type": "string",
+                "enum": ["host", "sponsor", "community", "media", "partner"]
+              }
+            }
+          },
+          "uniqueItems": true
+        },
+        "campaignId": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+        },
+        "links": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "recordingUrl": { "type": "string" },
+            "slidesUrl": { "type": "string" },
+            "conferenceUrl": { "type": "string" }
+          }
+        },
+        "videoUrl": {
+          "type": "string"
+        },
+        "image": {
+          "type": "string"
+        },
+        "imageAlt": {
+          "type": "string"
+        },
+        "heroImage": {
+          "type": "string"
+        },
+        "heroImageAlt": {
+          "type": "string"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "type": { "const": "training_session" }
+            }
+          },
+          "then": {
+            "required": ["programRef", "schedule", "template"],
+            "properties": {
+              "programRef": { "type": "object" },
+              "schedule": { "type": "object" },
+              "template": {
+                "type": "object",
+                "required": ["kind", "sourceProgramSku"],
+                "properties": {
+                  "kind": { "const": "training_event_v1" },
+                  "sourceProgramSku": { "type": "string", "pattern": "^CM-TR-[0-9]{3}$" }
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

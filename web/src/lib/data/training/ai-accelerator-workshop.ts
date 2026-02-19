@@ -4,6 +4,20 @@ export const aiAcceleratorWorkshop = {
 	slug: 'ai-accelerator-workshop',
 	route: '/training/ai-accelerator-workshop',
 	sku: 'CM-TR-002',
+	catalog: {
+		id: 'training-ai-accelerator',
+		summary:
+			'Extends the AI Power prompting course as a multi-week AI workshop so you can tap powerful new AI features to run your business.',
+		image: '/images/ai-accelerator.jpeg',
+		imageAlt: 'AI Accelerator Workshop illustration',
+		bullets: [
+			'Understand how today’s AI models generate answers',
+			'Custom GPTs tuned to your workflows',
+			'Organize prompts, files, and research in AI projects'
+		],
+		order: 1,
+		published: true
+	},
 	title: 'AI Accelerator Workshop',
 	nickname: 'From core prompting to professional AI systems',
 	tagline:
@@ -24,11 +38,19 @@ export const aiAcceleratorWorkshop = {
 		label: 'Talk with Bill',
 		url: '/contact'
 	},
+	scheduleTemplate: {
+		durationDays: 28,
+		hoursPerDayCommitment: 2,
+		defaultStartTimeLocal: '10:00',
+		defaultTimeZone: 'America/Los_Angeles',
+		defaultTimeZoneLabel: 'PT',
+		defaultLocationLabel: 'Online'
+	},
 	stats: [
 		{ label: 'Duration', value: 'Four weeks, 2-hour commitment per week' },
 		{ label: 'Format', value: ['🔴 Live online', '🏫 In-person available'] },
 		{ label: 'Cost', value: '$849 per person (virtual cohort)' },
-		{ label: 'Certificate', value: '📜 Personalized certificate included' },
+		{ label: 'Certificate', value: '📜 Certificate included' },
 		{ label: 'Environment', value: '💙 Learn in a supportive, judgment-free environment' },
 		{ label: 'What’s included', value: 'AI Power Prompting + advanced build labs' },
 		{ label: 'In-person', value: 'Custom pricing available for on-site training' }
@@ -111,11 +133,6 @@ export const aiAcceleratorWorkshop = {
 		'Research brief template that transforms findings into presentations.',
 		'Post-workshop office hours to refine GPTs and projects.'
 	],
-	testimonial: {
-		quote:
-			'Our small business now has reusable AI assets that save hours each week, and we no longer start from scratch.',
-		author: 'Nia F., Founder'
-	},
 	aboutTrainer: {
 		title: 'About your trainer',
 		name: 'Bill Raymond',
@@ -134,21 +151,33 @@ export const aiAcceleratorWorkshop = {
 	},
 	faqs: [
 		{
-			question: 'Do we need AI experience before attending?',
-			answers: [
-				'No. The workshop starts with AI Power Prompting to establish the fundamentals and then moves into advanced capabilities with plenty of guided practice.'
+			"key": "do_we_need_ai_experience_before_attending",
+			"question": "Do we need AI experience before attending?",
+			"blocks": [
+				{
+					"type": "paragraph",
+					"text": "No. The workshop starts with AI Power Prompting to establish the fundamentals and then moves into advanced capabilities with plenty of guided practice."
+				}
 			]
 		},
 		{
-			question: 'Can we tailor the advanced modules?',
-			answers: [
-				'Yes. Private cohorts can swap modules or double down on areas like custom GPTs, AI research, or automation workflows.'
+			"key": "can_we_tailor_the_advanced_modules",
+			"question": "Can we tailor the advanced modules?",
+			"blocks": [
+				{
+					"type": "paragraph",
+					"text": "Yes. Private cohorts can swap modules or double down on areas like custom GPTs, AI research, or automation workflows."
+				}
 			]
 		},
 		{
-			question: 'Is there post-workshop support?',
-			answers: [
-				'You receive office hours and follow-up resources to ensure your custom GPTs and projects keep delivering value.'
+			"key": "is_there_post_workshop_support",
+			"question": "Is there post-workshop support?",
+			"blocks": [
+				{
+					"type": "paragraph",
+					"text": "You receive office hours and follow-up resources to ensure your custom GPTs and projects keep delivering value."
+				}
 			]
 		}
 	]

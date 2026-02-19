@@ -1,0 +1,14 @@
+.git
+.github
+.vscode
+.devcontainer
+.continue
+
+**/.DS_Store
+**/*.log
+
+web/node_modules
+web/.svelte-kit
+web/build
+web/build 2
+web/.vite

@@ -1,13 +1,8 @@
-import { listExternalEvents } from '$lib/data/external-events';
-import { listTrainingPrograms } from '$lib/data/training';
-
+import { redirect } from '@sveltejs/kit';
 import type { PageLoad } from './$types';
 
 export const prerender = true;
 
 export const load: PageLoad = () => {
-	return {
-		trainingPrograms: listTrainingPrograms({ includeDrafts: true }),
-		externalEvents: listExternalEvents()
-	};
+	throw redirect(308, '/admin/drafts');
 };

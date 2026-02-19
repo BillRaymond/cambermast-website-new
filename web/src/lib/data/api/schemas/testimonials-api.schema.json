@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cambermast.com/schemas/testimonials-api.schema.json",
+  "title": "Testimonials API Response",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["generatedAt", "testimonials"],
+  "properties": {
+    "generatedAt": { "type": "string", "format": "date-time" },
+    "testimonials": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "programSku",
+          "programSlug",
+          "programRoute",
+          "programUrl",
+          "displayName",
+          "rating",
+          "quote",
+          "allowPublicUse",
+          "source",
+          "createdAt"
+        ],
+        "properties": {
+          "id": { "type": "string", "pattern": "^tm-[a-z0-9]+(?:-[a-z0-9]+)*$" },
+          "programSku": { "type": "string", "pattern": "^CM-TR-[0-9]{3}$" },
+          "programSlug": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+          "programRoute": { "type": "string", "pattern": "^/training/[a-z0-9]+(?:-[a-z0-9]+)*$" },
+          "programUrl": { "type": "string", "pattern": "^https?://" },
+          "displayName": { "type": "string", "minLength": 1 },
+          "jobTitle": { "type": "string", "minLength": 1 },
+          "company": { "type": "string", "minLength": 1 },
+          "photoUrl": {
+            "type": ["string", "null"],
+            "pattern": "^https?://"
+          },
+          "rating": { "type": "integer", "minimum": 1, "maximum": 5 },
+          "quote": { "type": "string", "minLength": 1 },
+          "allowPublicUse": { "type": "boolean", "const": true },
+          "featured": { "type": "boolean" },
+          "source": {
+            "type": "string",
+            "enum": ["form", "manual", "import", "training-testimonial"]
+          },
+          "createdAt": {
+            "type": "string",
+            "anyOf": [{ "format": "date" }, { "format": "date-time" }]
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,85 @@
+{
+	"version": 1,
+	"campaigns": [
+		{
+			"id": "techlab-go",
+			"partner": "techlab",
+			"partnerLabel": "TechLAB",
+			"landingPath": "/techlab",
+			"description": "Standing and portable signage promoting TechLAB and Cambermast that can also be used on the go.",
+			"createdAt": "2026-01-23T00:00:00Z",
+			"params": {
+				"utm_source": "qr",
+				"utm_medium": "offline",
+				"utm_campaign": "techlab",
+				"utm_content": "techlab-go",
+				"src": "qr",
+				"ad": "techlab"
+			}
+		},
+		{
+			"id": "7iu8p4",
+			"partner": "cambermast",
+			"partnerLabel": "Cambermast",
+			"landingPath": "/events/ai-workshop-for-tech-writers-and-content-creators-winter-2026",
+			"description": "Campaign short link for the AI Workshop for Tech Writers and Content Creators event page.",
+			"createdAt": "2026-02-11T00:00:00Z",
+			"params": {
+				"utm_source": "qr",
+				"utm_medium": "offline",
+				"utm_campaign": "events",
+				"utm_content": "7iu8p4",
+				"src": "qr",
+				"ad": "cambermast"
+			}
+		},
+		{
+			"id": "ltb9nx",
+			"partner": "cambermast",
+			"partnerLabel": "Cambermast",
+			"landingPath": "/events/ai-workshop-for-modern-teams-feb-2026",
+			"description": "Campaign short link for the AI Workshop for Modern Teams event page.",
+			"createdAt": "2026-02-11T00:00:00Z",
+			"params": {
+				"utm_source": "qr",
+				"utm_medium": "offline",
+				"utm_campaign": "events",
+				"utm_content": "ltb9nx",
+				"src": "qr",
+				"ad": "cambermast"
+			}
+		},
+		{
+			"id": "59v3n2",
+			"partner": "techlab",
+			"partnerLabel": "TechLAB",
+			"landingPath": "/events/vibe-coding-webinar-feb-2026",
+			"description": "Campaign short link for the Vibe Coding Webinar event page.",
+			"createdAt": "2026-02-11T00:00:00Z",
+			"params": {
+				"utm_source": "qr",
+				"utm_medium": "offline",
+				"utm_campaign": "events",
+				"utm_content": "59v3n2",
+				"src": "qr",
+				"ad": "techlab"
+			}
+		},
+		{
+			"id": "s6twc1",
+			"partner": "cambermast",
+			"partnerLabel": "Cambermast",
+			"landingPath": "/events/ai-workshop-for-tech-writers-and-content-creators-summer-2026-s6twc1",
+			"description": "Campaign short link for the AI Workshop for Tech Writers and Content Creators event page.",
+			"createdAt": "2026-02-19T00:06:15.327Z",
+			"params": {
+				"utm_source": "qr",
+				"utm_medium": "offline",
+				"utm_campaign": "events",
+				"utm_content": "s6twc1",
+				"src": "qr",
+				"ad": "cambermast"
+			}
+		}
+	]
+}

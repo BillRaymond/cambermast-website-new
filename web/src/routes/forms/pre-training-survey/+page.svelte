@@ -730,7 +730,7 @@
 				id="name"
 				name="name"
 				type="text"
-				placeholder='William Raymond. Call me "Bill, like the Dollar" (he/him)'
+				placeholder={'William Raymond. Call me "Bill, like the Dollar" (he/him)'}
 				required
 			/>
 		</div>

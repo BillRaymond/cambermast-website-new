@@ -13,7 +13,11 @@
 			<span class="sr-only"> required</span>
 		{/if}
 	</span>
-	<div class="mt-1 rounded-md border bg-white px-3 py-2" bind:this={containerRef} aria-live="polite">
+	<div
+		class="mt-1 rounded-md border bg-white px-3 py-2"
+		bind:this={containerRef}
+		aria-live="polite"
+	>
 		<noscript>Enable JavaScript to complete the verification step.</noscript>
 	</div>
 </div>
