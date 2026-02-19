@@ -768,6 +768,33 @@
 									</figure>
 								{/each}
 							</div>
+							{#if partners.length}
+								<article class="mt-4 rounded-2xl border border-slate-200 bg-gradient-to-br from-slate-50 to-white p-5 md:p-6">
+									<h3 class="text-lg font-semibold text-slate-900">In partnership with</h3>
+									<div class="mt-3 grid gap-3 sm:grid-cols-2">
+										{#each partners as partner}
+											<div class="rounded-xl border border-slate-200 bg-white p-4">
+												<div class="flex items-start gap-3">
+													{#if partner.logo}
+														<img
+															src={partner.logo}
+															alt={`${partner.name} logo`}
+															class="h-10 w-10 shrink-0 rounded-lg border border-slate-200 object-contain p-1"
+															loading="lazy"
+														/>
+													{/if}
+													<div>
+														<p class="text-sm font-semibold text-slate-900">{partner.name}</p>
+														{#if partner.role}
+															<p class="mt-1 text-xs text-slate-600">{partner.role.toUpperCase()}</p>
+														{/if}
+													</div>
+												</div>
+											</div>
+										{/each}
+									</div>
+								</article>
+							{/if}
 						</div>
 					{/if}
 
@@ -826,7 +853,7 @@
 									<li class="rounded-xl border border-slate-200 bg-slate-50 p-4">
 										<p class="text-sm font-semibold text-slate-900">{partner.name}</p>
 										{#if partner.role}
-											<p class="mt-1 text-xs text-slate-600">{partner.role}</p>
+											<p class="mt-1 text-xs text-slate-600">{partner.role.toUpperCase()}</p>
 										{/if}
 									</li>
 								{/each}
