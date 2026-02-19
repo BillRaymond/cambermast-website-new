@@ -380,76 +380,77 @@
 	<div class="mx-auto max-w-5xl">
 		<h2 class="mb-4 text-2xl font-bold text-gray-900">Campaigns</h2>
 		{#if activeCampaigns.length}
-			<div class="space-y-6">
+			<div class="space-y-3">
 				{#each activeCampaigns as campaign}
-					<article
+					<details
 						id={`campaign-${campaign.id}`}
-						class="scroll-mt-24 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm"
+						class="scroll-mt-24 rounded-2xl border border-gray-200 bg-white p-4 shadow-sm md:p-5"
 					>
-						<div class="flex flex-wrap items-start justify-between gap-4">
-							<div class="min-w-0">
-								<p class="text-xs tracking-wide text-gray-500 uppercase">Campaign</p>
-								<p class="mt-1 text-lg font-semibold text-gray-900">{campaign.displayTitle}</p>
-								<p class="mt-2 flex flex-wrap items-center gap-2 text-sm text-gray-700">
-									<span class="font-semibold">ID</span>
-									<span
-										class="rounded-full bg-gray-100 px-2 py-0.5 font-mono text-xs text-gray-800"
-									>
-										{campaign.id}
-									</span>
-									{#if campaign.partner}
+						<summary class="cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+							<div class="flex flex-wrap items-start justify-between gap-3">
+								<div class="min-w-0">
+									<p class="text-[11px] tracking-wide text-gray-500 uppercase">Campaign</p>
+									<p class="mt-1 text-base font-semibold text-gray-900 md:text-lg">
+										{campaign.displayTitle}
+									</p>
+									<p class="mt-2 flex flex-wrap items-center gap-2 text-xs text-gray-700">
+										<span class="font-semibold">ID</span>
+										<span
+											class="rounded-full bg-gray-100 px-2 py-0.5 font-mono text-xs text-gray-800"
+										>
+											{campaign.id}
+										</span>
+										{#if campaign.partner}
+											<span class="text-gray-400">•</span>
+											<span class="font-semibold">Partner</span>
+											<span>{campaign.partnerLabel ?? campaign.partner}</span>
+										{/if}
 										<span class="text-gray-400">•</span>
-										<span class="font-semibold">Partner</span>
-										<span>{campaign.partnerLabel ?? campaign.partner}</span>
-									{/if}
-								</p>
-								{#if campaign.description}
-									<p class="mt-2 text-sm text-gray-600">{campaign.description}</p>
-								{/if}
-								<div class="mt-3 flex flex-wrap gap-2 text-xs text-gray-600">
-									{#if campaign.partner}
-										<a
-											href={`/admin/campaigns/partners/${campaign.partner}`}
-											class="rounded-full bg-blue-50 px-2 py-1 font-semibold text-blue-700 transition hover:bg-blue-100"
-										>
-											Partner page: {campaign.partner}
-										</a>
-									{/if}
-									{#if campaign.event}
-										<a
-											href={campaign.landingPath}
-											class="rounded-full bg-indigo-50 px-2 py-1 font-semibold text-indigo-700 transition hover:bg-indigo-100"
-										>
-											Event page
-										</a>
-									{/if}
-									<span class="rounded-full bg-gray-100 px-2 py-1">
-										Type: {campaign.category === 'event' ? 'Event' : 'Landing page'}
-									</span>
-									<span class="rounded-full bg-gray-100 px-2 py-1"
-										>Landing: {campaign.landingPath}</span
-									>
-									<span class="rounded-full bg-gray-100 px-2 py-1"
-										>Created: {campaign.createdAt}</span
-									>
+										<span class="font-semibold">Type</span>
+										<span>{campaign.category === 'event' ? 'Event' : 'Landing'}</span>
+									</p>
+									<p class="mt-2 truncate text-xs text-gray-600">
+										<span class="font-semibold">Short:</span>
+										<code class="rounded bg-gray-100 px-1 py-0.5 text-xs text-gray-800">
+											{campaign.shortUrlProd}
+										</code>
+									</p>
 								</div>
+								<span
+									class="inline-flex items-center rounded-full border border-gray-200 bg-gray-50 px-3 py-1 text-xs font-semibold text-gray-700"
+								>
+									Expand
+								</span>
 							</div>
-							{#if campaign.category === 'event'}
-								<span
-									class="rounded-full bg-indigo-100 px-3 py-1 text-xs font-semibold text-indigo-700"
-								>
-									Event
-								</span>
-							{:else}
-								<span
-									class="rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-700"
-								>
-									Landing
-								</span>
-							{/if}
-						</div>
+						</summary>
 
-						<div class="mt-5 grid gap-5">
+						<div class="mt-4 grid gap-5 border-t border-gray-100 pt-4">
+							{#if campaign.description}
+								<p class="text-sm text-gray-600">{campaign.description}</p>
+							{/if}
+							<div class="flex flex-wrap gap-2 text-xs text-gray-600">
+								{#if campaign.partner}
+									<a
+										href={`/admin/campaigns/partners/${campaign.partner}`}
+										class="rounded-full bg-blue-50 px-2 py-1 font-semibold text-blue-700 transition hover:bg-blue-100"
+									>
+										Partner page: {campaign.partner}
+									</a>
+								{/if}
+								{#if campaign.event}
+									<a
+										href={campaign.landingPath}
+										class="rounded-full bg-indigo-50 px-2 py-1 font-semibold text-indigo-700 transition hover:bg-indigo-100"
+									>
+										Event page
+									</a>
+								{/if}
+								<span class="rounded-full bg-gray-100 px-2 py-1">
+									Type: {campaign.category === 'event' ? 'Event' : 'Landing page'}
+								</span>
+								<span class="rounded-full bg-gray-100 px-2 py-1">Landing: {campaign.landingPath}</span>
+								<span class="rounded-full bg-gray-100 px-2 py-1">Created: {campaign.createdAt}</span>
+							</div>
 							<div class="rounded-xl border border-gray-200 bg-gray-50 px-4 py-3">
 								<p class="text-xs font-semibold tracking-wide text-gray-500 uppercase">
 									Primary URLs
@@ -867,7 +868,7 @@
 								</div>
 							</div>
 						</div>
-					</article>
+					</details>
 				{/each}
 			</div>
 		{:else}
