@@ -34,22 +34,6 @@
 			}
 		},
 		{
-			"id": "ltb9nx",
-			"partner": "cambermast",
-			"partnerLabel": "Cambermast",
-			"landingPath": "/events/ai-workshop-for-modern-teams-feb-2026",
-			"description": "Campaign short link for the AI Workshop for Modern Teams event page.",
-			"createdAt": "2026-02-11T00:00:00Z",
-			"params": {
-				"utm_source": "qr",
-				"utm_medium": "offline",
-				"utm_campaign": "events",
-				"utm_content": "ltb9nx",
-				"src": "qr",
-				"ad": "cambermast"
-			}
-		},
-		{
 			"id": "s6twc1",
 			"partner": "cambermast",
 			"partnerLabel": "Cambermast",
