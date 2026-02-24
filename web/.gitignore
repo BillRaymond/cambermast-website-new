@@ -7,6 +7,10 @@ node_modules
 .wrangler
 /.svelte-kit
 /build
+/build [0-9]*
+/build/* [0-9]*
+/build/**/* [0-9]*
+.vite-dev [0-9]*.log
 
 # OS
 .DS_Store

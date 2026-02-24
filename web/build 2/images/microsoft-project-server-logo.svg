@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 80" role="img" aria-label="Microsoft Project Server logo">
-  <rect width="260" height="80" fill="none" />
-  <rect x="0" y="10" width="30" height="30" fill="#f35325" rx="4" />
-  <rect x="35" y="10" width="30" height="30" fill="#81bc06" rx="4" />
-  <rect x="0" y="45" width="30" height="30" fill="#05a6f0" rx="4" />
-  <rect x="35" y="45" width="30" height="30" fill="#ffba08" rx="4" />
-  <text x="80" y="36" font-size="20" font-family="'Segoe UI', 'Inter', Arial, sans-serif" fill="#111827" font-weight="600">Microsoft</text>
-  <text x="80" y="60" font-size="22" font-family="'Segoe UI', 'Inter', Arial, sans-serif" fill="#111827" font-weight="700">Project Server</text>
-</svg>
