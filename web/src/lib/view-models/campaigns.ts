@@ -32,3 +32,6 @@ export const listCampaignUi = (origin: string): CampaignUiModel[] =>
 
 export const getCampaignUi = (campaignId: string, origin: string): CampaignUiModel | undefined =>
 	listCampaignUi(origin).find((campaign) => campaign.id === campaignId);
+
+export const getCampaignShortPathUi = (campaignId: string): string =>
+	getCampaignShortPath(campaignId);
