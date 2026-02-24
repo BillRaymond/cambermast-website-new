@@ -92,7 +92,16 @@
 			: { siteKey: developmentTurnstileSiteKey, isDevelopment: true };
 	};
 
-	const webhook = 'https://n8n.cambermast.com/webhook/0095b76c-c32c-49ce-a59d-de6435af2b3e';
+	const productionWebhook =
+		'https://n8n.cambermast.com/webhook/0095b76c-c32c-49ce-a59d-de6435af2b3e';
+	const developmentWebhook =
+		'https://n8n.cambermast.com/webhook-test/0095b76c-c32c-49ce-a59d-de6435af2b3e';
+
+	const getWebhookUrl = (): string => {
+		const turnstileWindow = getTurnstileWindow();
+		const host = turnstileWindow?.location.hostname;
+		return host && !isProductionHost(host) ? developmentWebhook : productionWebhook;
+	};
 
 	const getProgramTitle = (slug: string): string =>
 		contactOptions.find((option) => option.slug === slug)?.title ??
@@ -184,7 +193,7 @@
 				return;
 			}
 
-			const res = await fetch(webhook, {
+			const res = await fetch(getWebhookUrl(), {
 				method: 'POST',
 				mode: 'cors',
 				headers: { 'Content-Type': 'application/json' },
@@ -290,35 +299,27 @@
 			/>
 		</div>
 
-		<fieldset>
-			<legend class="block text-sm font-medium text-gray-700">
-				What would you like to talk about?
+		<div>
+			<label class="block text-sm font-medium text-gray-700" for="contact-topic"
+				>What would you like to talk about?
 				<span class="text-red-500" aria-hidden="true">*</span>
-				<span class="sr-only"> required</span>
-			</legend>
-			<p class="mt-1 text-sm text-gray-600">Pick a topic.</p>
-			<div class="mt-2 grid gap-2 sm:grid-cols-2">
-				{#each contactOptions as option, index}
-					<label
-						class={`cursor-pointer rounded-md border px-3 py-2 text-sm transition ${
-							selectedProgram === option.slug
-								? 'border-blue-600 bg-blue-50 text-blue-900'
-								: 'border-gray-300 bg-white hover:border-blue-300'
-						}`}
-					>
-						<input
-							class="sr-only"
-							type="radio"
-							name="training"
-							value={option.slug}
-							bind:group={selectedProgram}
-							required={index === 0}
-						/>
-						{option.title}
-					</label>
+				<span class="sr-only"> required</span></label
+			>
+			<p class="mt-1 text-sm text-gray-600" id="contact-topic-help">Pick a topic.</p>
+			<select
+				class="mt-2 w-full rounded-md border bg-white px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500"
+				bind:value={selectedProgram}
+				id="contact-topic"
+				name="topic"
+				aria-describedby="contact-topic-help"
+				required
+			>
+				<option value="" disabled>Select a topic</option>
+				{#each contactOptions as option}
+					<option value={option.slug}>{option.title}</option>
 				{/each}
-			</div>
-		</fieldset>
+			</select>
+		</div>
 
 		<div>
 			<label class="block text-sm font-medium text-gray-700" for="contact-message"
@@ -338,7 +339,7 @@
 
 		<TurnstileField bind:containerRef={turnstileContainer} />
 
-		<div aria-live="polite">
+		<div>
 			{#if status === 'sent'}
 				<p class="text-sm text-green-600" role="status">Thanks! We’ll get back to you soon.</p>
 			{:else if status === 'error'}

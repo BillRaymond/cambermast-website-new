@@ -16,7 +16,8 @@
 	<div
 		class="mt-1 rounded-md border bg-white px-3 py-2"
 		bind:this={containerRef}
-		aria-live="polite"
+		role="group"
+		aria-label={required ? `${label} (required)` : label}
 	>
 		<noscript>Enable JavaScript to complete the verification step.</noscript>
 	</div>
