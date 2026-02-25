@@ -1,16 +1,23 @@
 <script lang="ts">
+	import catalog from '$lib/data/catalog.json';
+	import Card from '$lib/components/ServiceCard.svelte';
 	import SeoHead from '$lib/components/SeoHead.svelte';
 	import { browser } from '$app/environment';
 	import { page } from '$app/stores';
 	import { listTechlabPrograms } from '$lib/data/techlab';
 	import type { TechlabProgram } from '$lib/data/techlab/types';
-	import {
-		isExternalUrl,
-		normalizeToday
-	} from '$lib/data/training/session-utils';
-	import { listUpcomingTrainingScheduleEntries } from '$lib/data/training/schedule';
 
 	const programs: TechlabProgram[] = listTechlabPrograms();
+	type HomeServiceCard = {
+		icon?: string;
+		label?: string;
+		headline?: string;
+		route?: string;
+	};
+	const serviceCardOrder = ['training', 'agents', 'strategy'] as const;
+	const homeServiceCards: HomeServiceCard[] = serviceCardOrder
+		.map((key) => (catalog as Record<string, HomeServiceCard>)[key])
+		.filter((card): card is HomeServiceCard => Boolean(card));
 
 	const pageTitle = 'TechLAB × Cambermast | AI Training & Automation with Bill Raymond';
 	const pageDescription =
@@ -133,47 +140,6 @@
 		'Hands-on sessions, clear templates, and real TechLAB build examples—not theory.'
 	];
 
-	type ScheduleEntry = {
-		programTitle: string;
-		route: string;
-		heroImage: string | undefined;
-		heroImageAlt: string | undefined;
-		sessionName: string;
-		date: string;
-		timeText: string | undefined;
-		location: string | undefined;
-		registerUrl: string;
-		ctaLabel: string;
-	};
-
-	const today = normalizeToday();
-	const upcomingTrainingEvents = listUpcomingTrainingScheduleEntries({}, today);
-	const scheduleEntries: ScheduleEntry[] = programs.flatMap((program) => {
-		const session =
-			upcomingTrainingEvents.find(
-				(entry) => entry.event.programRef?.sku === program.sku && isExternalUrl(entry.registerUrl)
-			) ?? null;
-
-		if (!session) return [];
-
-		const timeText = Array.isArray(session.time) ? session.time.join(' • ') : session.time;
-		return [
-			{
-				programTitle: program.title,
-				route: program.route ?? `/techlab/${program.slug}`,
-				heroImage: program.heroImage,
-				heroImageAlt: program.heroImage ? (program.heroImageAlt ?? program.title) : undefined,
-				sessionName: session.title,
-				date: session.date,
-				timeText,
-				location: session.location ?? undefined,
-				registerUrl: session.registerUrl ?? '/contact',
-				ctaLabel: 'Register'
-			}
-		];
-	});
-	const animatedSchedule = [...scheduleEntries, ...scheduleEntries];
-
 	const formatStat = (program: TechlabProgram): string | undefined =>
 		program.stats?.find((item) => item.label.toLowerCase() === 'format')?.value?.toString();
 	const durationStat = (program: TechlabProgram): string | undefined =>
@@ -257,60 +223,18 @@
 			</div>
 		</section>
 
-		{#if scheduleEntries.length}
-			<section class="schedule">
-				<div class="schedule__header">
-					<div>
-						<p class="eyebrow">TechLAB schedule preview</p>
-						<h2>Upcoming sessions & private cohorts</h2>
-						<p class="schedule__lede">
-							A quick look at what’s running now. Hover to pause or tap for details.
-						</p>
-					</div>
-					<a class="btn btn--ghost" href="/contact">
-						<span>Request a private date</span>
-						<span class="arrow">→</span>
-					</a>
-				</div>
-				<div class="schedule-marquee" aria-label="Upcoming TechLAB programs">
-					<div class="schedule-track">
-						{#each animatedSchedule as entry, index}
-							<a class="schedule-card" aria-label={entry.programTitle} href={entry.route}>
-								{#if entry.heroImage}
-									<div class="schedule-card__image-wrap">
-										<img
-											src={entry.heroImage}
-											alt={entry.heroImageAlt ?? entry.programTitle}
-											loading="lazy"
-										/>
-									</div>
-								{/if}
-								<div class="schedule-card__top">
-									<p class="eyebrow eyebrow--small">Next up</p>
-									<p class="schedule-card__date">{entry.date}</p>
-									{#if entry.timeText}<p class="schedule-card__time">{entry.timeText}</p>{/if}
-								</div>
-								<div class="schedule-card__body">
-									<div class="schedule-card__meta">
-										<h3>{entry.programTitle}</h3>
-										<p class="schedule-card__session">{entry.sessionName}</p>
-										{#if entry.location}
-											<p class="schedule-card__location">{entry.location}</p>
-										{/if}
-									</div>
-								</div>
-								<div class="schedule-card__actions">
-									<span class="btn btn--primary">
-										Register
-										<span class="arrow arrow--animate">→</span>
-									</span>
-								</div>
-							</a>
-						{/each}
-					</div>
-				</div>
-			</section>
-		{/if}
+		<section class="mt-7 grid items-start gap-4 md:grid-cols-3">
+			{#each homeServiceCards as card}
+				<Card
+					icon={card.icon}
+					label={card.label}
+					headline={card.headline}
+					route={card.route}
+					hasUpcomingSessions={false}
+					upcomingSessions={[]}
+				/>
+			{/each}
+		</section>
 
 		<section class="stats">
 			{#each statBlocks as stat}
@@ -925,190 +849,6 @@
 		color: #0d1a2b;
 		border-color: #c7daee;
 		background: #ffffff;
-	}
-
-	.schedule {
-		background: #ffffff;
-		border-radius: 22px;
-		padding: 1.5rem;
-		border: 1px solid #e4ecf5;
-		box-shadow: 0 12px 32px -22px rgba(13, 26, 43, 0.4);
-		margin: 2rem 0;
-	}
-
-	.schedule__header {
-		display: flex;
-		align-items: flex-start;
-		justify-content: space-between;
-		gap: 1rem;
-		flex-wrap: wrap;
-	}
-
-	.schedule__lede {
-		margin: 0.35rem 0 0.5rem;
-		color: #2c3e52;
-		max-width: 640px;
-		font-size: 1rem;
-	}
-
-	.schedule-marquee {
-		margin-top: 1.1rem;
-		overflow: hidden;
-		position: relative;
-		border-radius: 16px;
-	}
-
-	.schedule-track {
-		display: flex;
-		gap: 1rem;
-		min-width: max-content;
-		padding-right: 1rem;
-		animation: scheduleScroll 80s linear infinite;
-	}
-
-	.schedule-marquee:hover .schedule-track,
-	.schedule-marquee:focus-within .schedule-track {
-		animation-play-state: paused;
-	}
-
-	.schedule-card {
-		border-radius: 16px;
-		overflow: hidden;
-		display: flex;
-		flex-direction: column;
-		background: linear-gradient(145deg, #f6f9fd 0%, #eef4fb 100%);
-		border: 1px solid #dde7f4;
-		box-shadow: 0 14px 36px -24px rgba(13, 26, 43, 0.45);
-		position: relative;
-		min-width: 260px;
-		width: 260px;
-		text-decoration: none;
-		color: inherit;
-	}
-
-	.schedule-card::after {
-		content: '';
-		position: absolute;
-		inset: 0;
-		background:
-			radial-gradient(circle at 18% 20%, rgba(0, 165, 227, 0.12), transparent 35%),
-			radial-gradient(circle at 82% 12%, rgba(13, 26, 43, 0.08), transparent 28%);
-		pointer-events: none;
-	}
-
-	.schedule-card__top {
-		padding: 1rem 1rem 0.5rem;
-	}
-
-	.schedule-card__date {
-		margin: 0.25rem 0 0;
-		font-weight: 800;
-		color: #0d1a2b;
-	}
-
-	.schedule-card__time {
-		margin: 0.15rem 0 0;
-		color: #34506c;
-		font-weight: 600;
-	}
-
-	.schedule-card__body {
-		display: grid;
-		grid-template-columns: 1fr;
-		gap: 0.75rem;
-		padding: 0 1rem 0.75rem;
-		align-items: center;
-	}
-
-	.schedule-card__meta h3 {
-		margin: 0 0 0.35rem;
-		font-size: 1.05rem;
-	}
-
-	.schedule-card__session {
-		margin: 0 0 0.2rem;
-		color: #0b6fbf;
-		font-weight: 700;
-	}
-
-	.schedule-card__location {
-		margin: 0;
-		color: #2d4055;
-		font-weight: 600;
-	}
-
-	.schedule-card__image-wrap {
-		width: 100%;
-		height: 100%;
-		border-radius: 12px;
-		overflow: hidden;
-		border: 1px solid #d8e4f2;
-		box-shadow: 0 10px 24px -18px rgba(13, 26, 43, 0.35);
-	}
-
-	.schedule-card__image-wrap img {
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-		display: block;
-	}
-
-	.schedule-card__actions {
-		display: flex;
-		justify-content: flex-start;
-		align-items: flex-end;
-		gap: 0.5rem;
-		padding: 0 1rem 1rem;
-		flex: 1 1 auto;
-	}
-
-	.schedule-card__actions .btn {
-		margin-top: auto;
-	}
-
-	.arrow {
-		display: inline-block;
-		margin-left: 0.35rem;
-		transition: transform 0.2s ease;
-	}
-
-	.btn:hover .arrow {
-		transform: translateX(3px);
-	}
-
-	.arrow--animate {
-		animation: arrowPulse 1.4s ease-in-out infinite;
-	}
-
-	@keyframes arrowPulse {
-		0% {
-			transform: translateX(0);
-			opacity: 1;
-		}
-		60% {
-			transform: translateX(4px);
-			opacity: 0.85;
-		}
-		100% {
-			transform: translateX(0);
-			opacity: 1;
-		}
-	}
-
-	@keyframes scheduleScroll {
-		0% {
-			transform: translateX(0);
-		}
-		100% {
-			transform: translateX(-50%);
-		}
-	}
-
-	@media (max-width: 640px) {
-		.schedule-card {
-			min-width: 240px;
-			width: 240px;
-		}
 	}
 
 	.cta-block {
