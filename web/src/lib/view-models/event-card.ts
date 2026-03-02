@@ -158,8 +158,12 @@ export const toEventCardModel = (
 		time: toConciseEventTimeLabel(event.time) ?? undefined,
 		location: event.location ?? defaultLocationLabel,
 		hostText: hostText || undefined,
-		image: event.image ?? relatedProgram?.heroImage,
-		imageAlt: event.imageAlt ?? relatedProgram?.heroImageAlt ?? event.title,
+		image: event.image ?? relatedProgram?.ogImage ?? relatedProgram?.heroImage,
+		imageAlt:
+			event.imageAlt ??
+			relatedProgram?.ogImageAlt ??
+			relatedProgram?.heroImageAlt ??
+			event.title,
 		typeLabel: event.type === 'training_session' ? 'Training' : eventTypeLabel,
 		statusLabel: options.statusLabelOverride ?? statusLabelDefault,
 		certificateText: relatedProgram ? getProgramCertificateText(relatedProgram) : undefined,

@@ -52,9 +52,8 @@
 					<img
 						src={item.image}
 						alt={item.imageAlt ?? item.title}
-						class="catalog-card__image w-full rounded-xl object-cover transition group-hover:opacity-95"
+						class="catalog-card__image aspect-[3/2] w-full rounded-xl object-cover transition group-hover:opacity-95"
 						class:mb-3={!isRowLayout}
-						class:h-full={isRowLayout}
 						loading="lazy"
 					/>
 				</a>
@@ -62,9 +61,8 @@
 				<img
 					src={item.image}
 					alt={item.imageAlt ?? item.title}
-					class="catalog-card__image w-full rounded-xl object-cover"
+					class="catalog-card__image aspect-[3/2] w-full rounded-xl object-cover"
 					class:mb-3={!isRowLayout}
-					class:h-full={isRowLayout}
 					loading="lazy"
 				/>
 			{/if}
@@ -298,9 +296,6 @@
 			width: 200px;
 		}
 
-		.catalog-card--row .catalog-card__image {
-			height: 100%;
-		}
 	}
 
 	.catalog-card__cta-row {

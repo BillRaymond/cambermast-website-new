@@ -33,8 +33,8 @@
 	$: canonicalPath = data.program.route ?? `/training/${data.program.slug}`;
 	$: seoTitle = `${data.program.title} Training | Cambermast`;
 	$: seoDescription = data.program.tagline ?? data.program.description;
-	$: seoImage = data.program.ogImage;
-	$: seoImageAlt = data.program.ogImageAlt ?? data.program.title;
+	$: seoImage = data.program.ogImage ?? data.program.heroImage;
+	$: seoImageAlt = data.program.ogImageAlt ?? data.program.heroImageAlt ?? data.program.title;
 	$: courseJsonLd = JSON.stringify({
 		'@context': 'https://schema.org',
 		'@type': 'Course',
@@ -57,6 +57,8 @@
 	path={canonicalPath}
 	image={seoImage}
 	imageAlt={seoImageAlt}
+	imageWidth={1536}
+	imageHeight={1024}
 	type="article"
 />
 

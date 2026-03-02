@@ -33,6 +33,8 @@
 	path={canonicalPath}
 	image={seoImage}
 	imageAlt={seoImageAlt}
+	imageWidth={1536}
+	imageHeight={1024}
 	type="article"
 	siteName="TechLAB × Cambermast"
 />

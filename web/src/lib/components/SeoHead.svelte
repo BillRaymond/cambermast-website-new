@@ -6,6 +6,8 @@
 	export let path: string | undefined = undefined;
 	export let image: string | undefined = undefined;
 	export let imageAlt: string | undefined = undefined;
+	export let imageWidth: number | undefined = undefined;
+	export let imageHeight: number | undefined = undefined;
 	export let type: string = 'website';
 	export let siteName: string | undefined = 'Cambermast';
 	export let useDefaultImage: boolean = true;
@@ -42,6 +44,10 @@
 	{/if}
 	{#if absoluteImage}
 		<meta property="og:image" content={absoluteImage} />
+		{#if imageWidth && imageHeight}
+			<meta property="og:image:width" content={imageWidth.toString()} />
+			<meta property="og:image:height" content={imageHeight.toString()} />
+		{/if}
 		{#if resolvedImageAlt}
 			<meta property="og:image:alt" content={resolvedImageAlt} />
 		{/if}

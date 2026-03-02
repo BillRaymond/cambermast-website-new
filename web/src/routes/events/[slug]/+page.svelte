@@ -423,8 +423,10 @@
 	title={pageTitle}
 	description={pageDescription}
 	path={pagePath}
-	image={event.image}
-	imageAlt={event.imageAlt}
+	image={event.image ?? heroImage}
+	imageAlt={event.imageAlt ?? heroImageAlt}
+	imageWidth={1536}
+	imageHeight={1024}
 	type="article"
 />
 
@@ -515,7 +517,7 @@
 						<img
 							src={heroImage}
 							alt={heroImageAlt}
-							class="mt-5 h-56 w-full rounded-2xl border border-slate-200 object-cover md:h-72"
+							class="mt-5 aspect-[3/2] w-full rounded-2xl border border-slate-200 object-cover"
 							loading="lazy"
 						/>
 					{/if}
@@ -1006,7 +1008,7 @@
 					<img
 						src={heroImage}
 						alt={heroImageAlt}
-						class="mt-5 h-56 w-full rounded-2xl border border-slate-200 object-cover md:h-72"
+						class="mt-5 aspect-[3/2] w-full rounded-2xl border border-slate-200 object-cover"
 						loading="lazy"
 					/>
 				{/if}
