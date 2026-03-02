@@ -13,6 +13,7 @@
 		{ href: '/admin/forms', label: '🧾 Forms' }
 	] as const;
 	const devChips = [
+		{ href: '/admin/events/create', label: '🧪 Create Event (Dev)' },
 		{ href: '/admin/image-gen', label: '🖼️ Image Gen (Dev)' },
 		{ href: '/admin/sop-image-gen', label: '🧩 Image Gen SOP (Dev)' }
 	] as const;

@@ -161,7 +161,11 @@
 <div class="techlab-shell">
 	<header class="techlab-header">
 		<div class="techlab-header__brand">
-			<img src="/images/techlab-logo.png" alt="TechLAB logo" class="techlab-logo" />
+			<img
+				src="/images/techlab-logo.png"
+				alt="TechLAB Innovation Center LLC logo"
+				class="techlab-logo"
+			/>
 			<div class="techlab-pair">
 				<a
 					class="techlab-pill"
@@ -169,7 +173,7 @@
 					target="_blank"
 					rel="noreferrer noopener"
 				>
-					TechLAB
+					TechLAB Innovation Center LLC
 				</a>
 				<a
 					class="techlab-pill techlab-pill--light"
@@ -192,9 +196,10 @@
 				<p class="eyebrow">Official AI Education Partner</p>
 				<h1>TechLAB × Cambermast</h1>
 				<p class="lead">
-					TechLAB and Cambermast partnered to provide AI training, agentic AI automations, and
-					hands-on practice for founders and operators. Bill Raymond leads every session with
-					TechLAB’s builders, operators, and technical teams.
+					TechLAB Innovation Center LLC and Cambermast partnered to provide AI training, agentic
+					AI automations, and hands-on practice for founders and operators. Bill Raymond leads
+					every session with TechLAB Innovation Center LLC's builders, operators, and technical
+					teams.
 				</p>
 				<div class="hero__cta">
 					<a class="btn btn--primary" href={ctaPrimary.url}>{ctaPrimary.label}</a>
@@ -203,7 +208,7 @@
 				<div class="hero__meta">
 					<span>Bill Raymond • Founder, Cambermast</span>
 					<span class="dot" aria-hidden="true"></span>
-					<span>Delivered with TechLAB</span>
+					<span>Delivered with TechLAB Innovation Center LLC</span>
 				</div>
 			</div>
 			<div class="hero__card">
@@ -216,8 +221,8 @@
 						Operators co-build agentic automations with Cambermast guardrails to stay reliable.
 					</li>
 					<li>
-						Tap TechLAB’s mentor network plus Cambermast delivery experience to move fast with
-						confidence.
+						Tap TechLAB Innovation Center LLC's mentor network plus Cambermast delivery
+						experience to move fast with confidence.
 					</li>
 				</ul>
 			</div>
@@ -249,10 +254,10 @@
 			<div class="panel__content">
 				<h2>About the collaboration</h2>
 				<p>
-					TechLAB and Cambermast partnered to provide AI training, agentic AI automations, and
-					hands-on practice for founders and operators. Every program is led by Bill Raymond with
-					content tuned for TechLAB’s community, which is fast-moving, pragmatic, and ready to
-					launch.
+					TechLAB Innovation Center LLC and Cambermast partnered to provide AI training, agentic
+					AI automations, and hands-on practice for founders and operators. Every program is led
+					by Bill Raymond with content tuned for TechLAB Innovation Center LLC's community, which
+					is fast-moving, pragmatic, and ready to launch.
 				</p>
 				<div class="pill-row">
 					<span class="techlab-pill">AI training</span>
@@ -380,11 +385,11 @@
 		<div class="footer__brand">
 			<img
 				src="/images/techlab-logo.png"
-				alt="TechLAB logo"
+				alt="TechLAB Innovation Center LLC logo"
 				class="techlab-logo techlab-logo--small"
 			/>
 			<div>
-				<p class="footer__title">TechLAB</p>
+				<p class="footer__title">TechLAB Innovation Center LLC</p>
 				<p class="footer__subtitle">In collaboration with Cambermast</p>
 			</div>
 		</div>

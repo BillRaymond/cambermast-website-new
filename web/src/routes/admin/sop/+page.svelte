@@ -259,6 +259,31 @@
 </section>
 
 <section class="mt-8">
+	<h2 class="text-2xl font-semibold">Image Generation Entry Points (Dev)</h2>
+	<p class="mt-2 max-w-3xl text-gray-700">
+		The image-generation workflow is available in two places and both use the same server endpoints.
+	</p>
+	<ul class="mt-3 max-w-3xl list-disc space-y-2 pl-5 text-gray-700">
+		<li>
+			Standalone: <code class="rounded bg-gray-100 px-1 py-0.5 text-xs">/admin/image-gen</code>
+			for asset-only generation and saving.
+		</li>
+		<li>
+			Embedded:
+			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">/admin/events/create</code> for event
+			creation with inline image generation and automatic event image field population.
+		</li>
+	</ul>
+	<p class="mt-2 max-w-3xl text-gray-700">
+		Canonical image endpoints:
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">GET /admin/image-gen/api/templates</code>,
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">POST /admin/image-gen/api/generate</code>,
+		and
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">POST /admin/image-gen/api/save-selected</code>.
+	</p>
+</section>
+
+<section class="mt-8">
 	<h2 class="text-2xl font-semibold">AI/Developer Contract (Machine Readable Rules)</h2>
 	<p class="mt-2 max-w-3xl text-gray-700">
 		An AI agent or script may perform this workflow by editing JSON directly or by inspecting APIs.

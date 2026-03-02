@@ -6,6 +6,7 @@
 	import { onMount, tick } from 'svelte';
 	import { GA_MEASUREMENT_ID, SITE_ORIGIN } from '$lib/config/site';
 	import { getEventOccurrenceState } from '$lib/data/events/timeline';
+	import type { EventSession } from '$lib/data/events/types';
 	import {
 		consentState,
 		initConsent,
@@ -40,12 +41,12 @@
 					lifecycleStatus?: string;
 					registrationStatus?: string;
 					cta?: { url?: string };
-					sessions?: Array<unknown>;
+					sessions?: EventSession[];
 			  }
 			| undefined;
 		if (!pageEvent) return true;
 
-		const occurrenceState = getEventOccurrenceState(pageEvent);
+		const occurrenceState = getEventOccurrenceState({ sessions: pageEvent.sessions ?? [] });
 		const isPastEvent =
 			pageEvent.lifecycleStatus === 'canceled' ||
 			pageEvent.lifecycleStatus === 'completed' ||

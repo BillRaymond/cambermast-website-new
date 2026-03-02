@@ -1,6 +1,7 @@
 import type { EventSource, EventRegistrationStatus, EventVisibility } from './types';
 import { deriveEventDateLabel, deriveEventTimeLabel } from './session-labels';
 import { getEventSessionBounds } from './timeline';
+import { toTrainingEventAgenda } from './agenda';
 import { getTrainingProgramBySku } from '../training';
 import type { TrainingProgram } from '../training/types';
 import { getFaqPresetItemsSnapshot } from '../faq-presets';
@@ -139,22 +140,6 @@ const getProgramTicketPriceUsd = (program: TrainingProgram): number =>
 
 const toClonedArray = <T>(items?: T[]): T[] | undefined =>
 	items?.length ? JSON.parse(JSON.stringify(items)) : undefined;
-
-const toTrainingEventAgenda = (
-	agenda: TrainingProgram['agenda']
-): EventSource['agenda'] | undefined => {
-	if (!(agenda && agenda.length > 0)) return undefined;
-
-	return agenda.map((block) => {
-		const details = block.details ?? [];
-		const [outcome, ...rest] = details;
-		return {
-			title: block.title,
-			...(outcome ? { outcome } : {}),
-			...(rest.length ? { details: rest.join(' ') } : {})
-		};
-	});
-};
 
 const toTrainingEventDescription = (program: TrainingProgram): EventSource['description'] => {
 	const summary = program.secondaryDescription ?? program.description;
