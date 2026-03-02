@@ -1,9 +1,10 @@
 import { dev } from '$app/environment';
+import { SITE_ORIGIN } from '$lib/config/site';
 import { listPartners } from '$lib/data/partners';
 import { listTrainingPrograms } from '$lib/data/training';
-import { listCampaigns } from '$lib/data/campaigns';
-import { listEvents } from '$lib/data/events';
 import { toTrainingEventAgenda } from '$lib/data/events/agenda';
+import { listCampaignUi } from '$lib/view-models/campaigns';
+import { listEventUi } from '$lib/view-models/events';
 import {
 	DEFAULT_LANDSCAPE_PROMPT,
 	DEFAULT_PORTRAIT_PROMPT,
@@ -17,6 +18,7 @@ import { getDraftPageDefaults } from '$lib/server/admin-event-drafts';
 import type { PageServerLoad } from './$types';
 
 export const prerender = false;
+const origin = SITE_ORIGIN.replace(/\/$/, '');
 
 export const load: PageServerLoad = async () => {
 	const defaults = getDraftPageDefaults();
@@ -43,7 +45,7 @@ export const load: PageServerLoad = async () => {
 		}))
 		.sort((a, b) => (a.sku ?? '').localeCompare(b.sku ?? ''));
 
-	const existingEvents = listEvents({ includeDrafts: true, includeUnlisted: true })
+	const existingEvents = listEventUi({ includeDrafts: true, includeUnlisted: true })
 		.map((event) => ({
 			id: event.id,
 			slug: event.slug,
@@ -86,7 +88,7 @@ export const load: PageServerLoad = async () => {
 		trainingPrograms,
 		partners,
 		existingEvents,
-		existingCampaignIds: listCampaigns().map((campaign) => campaign.id).sort(),
+		existingCampaignIds: listCampaignUi(origin).map((campaign) => campaign.id).sort(),
 		defaultTemplateUrl: DEFAULT_TEMPLATE_URL,
 		defaultPrompts: {
 			square: DEFAULT_SQUARE_PROMPT,
