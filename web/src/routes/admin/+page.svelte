@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { dev } from '$app/environment';
 	import SeoHead from '$lib/components/SeoHead.svelte';
 	import AdminRouteChips from '$lib/components/admin/AdminRouteChips.svelte';
 </script>
@@ -76,6 +77,21 @@
 			Pre-training, post-training, and testimonial form links.
 		</p>
 	</a>
+
+	{#if dev}
+		<a
+			href="/admin/image-gen"
+			class="group rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition hover:border-gray-300"
+		>
+			<p class="text-xs font-semibold tracking-wide text-gray-500 uppercase">Dev tool</p>
+			<p class="mt-2 text-lg font-semibold text-gray-900 group-hover:text-blue-900">
+				Image Gen mini app
+			</p>
+			<p class="mt-1 text-sm text-gray-600">
+				Generate square/landscape/portrait assets with OpenAI and back up all outputs to MinIO.
+			</p>
+		</a>
+	{/if}
 
 	<a
 		href="/admin/sop"

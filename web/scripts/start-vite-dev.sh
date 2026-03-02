@@ -14,8 +14,9 @@ fi
 # Keep published metadata files in sync before running dev
 npm run predev
 
-if ! pgrep -f "vite dev" >/dev/null; then
-  exec npm run dev:host
+if ! pgrep -f "vite dev --host 0.0.0.0 --port 5173" >/dev/null; then
+  nohup npm run dev:host >/tmp/cambermast-dev.log 2>&1 &
+  echo "Started Vite dev server in background (logs: /tmp/cambermast-dev.log)."
 else
   echo "Vite dev already running."
 fi

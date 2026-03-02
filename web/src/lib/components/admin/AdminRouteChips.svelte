@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { page } from '$app/state';
+	import { dev } from '$app/environment';
 
-	const chips = [
+	const baseChips = [
 		{ href: '/admin', label: '🧭 Admin' },
 		{ href: '/admin/sop', label: '📚 Event SOPs' },
 		{ href: '/admin/sop-training', label: '🎓 Training SOPs' },
@@ -11,6 +12,11 @@
 		{ href: '/admin/campaigns', label: '📣 Campaigns' },
 		{ href: '/admin/forms', label: '🧾 Forms' }
 	] as const;
+	const devChips = [
+		{ href: '/admin/image-gen', label: '🖼️ Image Gen (Dev)' },
+		{ href: '/admin/sop-image-gen', label: '🧩 Image Gen SOP (Dev)' }
+	] as const;
+	const chips = [...baseChips, ...(dev ? devChips : [])] as const;
 
 	const pathname = $derived(page.url.pathname);
 </script>

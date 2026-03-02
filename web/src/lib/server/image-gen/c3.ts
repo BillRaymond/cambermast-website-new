@@ -1,0 +1,69 @@
+import type { MinioUploadResult } from '$lib/server/image-gen/types';
+import { Buffer } from 'node:buffer';
+
+const DEFAULT_C3_API_BASE = 'https://django-on-hstgr-11.tail8a5127.ts.net/api/c3';
+
+const trimTrailingSlash = (value: string): string => value.replace(/\/+$/, '');
+
+export const getC3ApiBase = (configuredApiBase?: string): string =>
+	trimTrailingSlash(configuredApiBase ?? DEFAULT_C3_API_BASE);
+
+const toErrorText = (value: unknown): string => {
+	if (typeof value === 'string') return value;
+	if (value instanceof Error) return value.message;
+	if (value === null || value === undefined) return '';
+	try {
+		return JSON.stringify(value);
+	} catch {
+		return String(value);
+	}
+};
+
+export const uploadToC3 = async (input: {
+	apiKey: string;
+	apiBase: string;
+	key: string;
+	dataUrl: string;
+}): Promise<MinioUploadResult> => {
+	const [meta, base64] = input.dataUrl.split(',');
+	if (!meta || !base64 || !meta.includes(';base64')) {
+		throw new Error('Invalid data URL format for C3 upload');
+	}
+
+	const mime = meta.replace(/^data:/, '').replace(/;base64$/, '') || 'image/png';
+	const ext = mime.includes('jpeg') ? 'jpg' : mime.includes('webp') ? 'webp' : 'png';
+	const bytes = Buffer.from(base64, 'base64');
+	const fileName = input.key.split('/').pop() ?? `candidate.${ext}`;
+	const form = new FormData();
+	form.append('key', input.key);
+	form.append('file', new Blob([bytes], { type: mime }), fileName);
+
+	const response = await fetch(`${trimTrailingSlash(input.apiBase)}/upload`, {
+		method: 'POST',
+		headers: {
+			'X-C3-API-Key': input.apiKey
+		},
+		body: form
+	});
+
+	const json = (await response.json().catch(() => null)) as
+		| {
+				key?: string;
+				url?: string;
+				error?: unknown;
+				message?: unknown;
+		  }
+		| null;
+
+	if (!response.ok) {
+		const messageText = toErrorText(json?.message);
+		const errorText = toErrorText(json?.error);
+		const detail = messageText || errorText || 'No response body';
+		throw new Error(`C3 upload failed (${response.status.toString()}): ${detail}`);
+	}
+
+	return {
+		key: json?.key ?? input.key,
+		url: json?.url
+	};
+};
