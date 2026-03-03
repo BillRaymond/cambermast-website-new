@@ -33,8 +33,10 @@ const toSafeSlug = (value: string): string => value.trim().toLowerCase();
 
 export const validateSlugOrThrow = (slug: string): string => {
 	const normalized = toSafeSlug(slug);
-	if (!/^[a-z0-9][a-z0-9-]*$/.test(normalized)) {
-		throw new Error('Slug must use lowercase letters, numbers, and hyphens only.');
+	if (!/^[a-z0-9][a-z0-9-]*(\/[a-z0-9][a-z0-9-]*)*$/.test(normalized)) {
+		throw new Error(
+			'Slug must use lowercase letters, numbers, and hyphens, with optional "/" for subfolders.'
+		);
 	}
 	return normalized;
 };

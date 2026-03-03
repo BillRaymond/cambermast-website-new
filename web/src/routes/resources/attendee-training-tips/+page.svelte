@@ -4,7 +4,7 @@
 	import { getSeo } from '$lib/seo';
 
 	const pageMeta = getSeo('/resources/attendee-training-tips');
-	const heroImage = '/images/cambermast-content-7-attendee-training-tips-og.jpeg';
+	const heroImage = '/images/generated/resources/get-ready-for-training/hero-landscape.jpg';
 	const heroImageAlt = 'Attendee training tips hero image with title text.';
 </script>
 

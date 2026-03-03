@@ -13,7 +13,7 @@
 			description:
 				'Select from AMAs we can deliver right now or schedule a tailor-made Ask Me Anything (AMA) event.',
 			href: '/resources/ask-me-anything-pricing',
-			imageSrc: '/images/generated/ama/hero-square.jpg',
+			imageSrc: '/images/generated/resources/ama/hero-square.jpg',
 			imageAlt: 'Ask Me Anything Pricing featured image.'
 		},
 		{
@@ -21,7 +21,7 @@
 			description:
 				'Quick preparation steps that help everyone stay focused and get more from our live workshops.',
 			href: '/resources/attendee-training-tips',
-			imageSrc: '/images/cambermast-content-7-attendee-training-tips-og.jpeg',
+			imageSrc: '/images/generated/resources/get-ready-for-training/hero-square.jpg',
 			imageAlt: 'Attendee training tips featured image.'
 		},
 		{
@@ -29,7 +29,7 @@
 			description:
 				'Practical guidance on when to personalize, how to do it, and the exact preferences I use.',
 			href: '/resources/ai-personalization',
-			imageSrc: '/images/cambermast-content-6-ai-personalization-og.jpeg',
+			imageSrc: '/images/generated/resources/ai-personalization/hero-square.jpg',
 			imageAlt: 'AI Personalization featured image.'
 		}
 	];

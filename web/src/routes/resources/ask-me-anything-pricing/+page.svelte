@@ -3,7 +3,7 @@
 	import { getSeo } from '$lib/seo';
 
 	const pageMeta = getSeo('/resources/ask-me-anything-pricing');
-	const heroImage = '/images/generated/ama/hero-landscape.jpg';
+	const heroImage = '/images/generated/resources/ama/hero-landscape.jpg';
 	const heroImageAlt = 'Ask Me Anything Pricing hero image.';
 </script>
 

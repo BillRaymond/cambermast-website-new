@@ -473,16 +473,17 @@ STRICT AVOIDANCE RULES
 
 		<div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
 			<h2 class="text-xl font-semibold">Run Settings</h2>
-			<label class="mt-3 block text-sm font-semibold text-gray-800" for={`slug-${mode}`}>Program/Event slug</label>
+			<label class="mt-3 block text-sm font-semibold text-gray-800" for={`slug-${mode}`}>Program/Event slug path</label>
 			<input
 				id={`slug-${mode}`}
 				type="text"
-				placeholder="example: ai-workshop-spring-2026"
+				placeholder="example: resources/ama or ai-workshop-spring-2026"
 				bind:value={slug}
 				class="mt-2 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
 			/>
 			<p class="mt-1 text-xs text-gray-500">
-				Used for final save path and backup object key. If empty, generation backups use <code>unspecified</code>.
+				Use lowercase letters, numbers, hyphens, and optional <code>/</code> subfolders. If
+				empty, generation backups use <code>unspecified</code>.
 			</p>
 		</div>
 
@@ -742,7 +743,7 @@ STRICT AVOIDANCE RULES
 			<h2 class="text-xl font-semibold">Final Save</h2>
 			<p class="mt-2 text-sm text-gray-600">
 				Save selected square, landscape, and portrait files to
-				<code>/web/static/images/generated/&lt;slug&gt;/</code>.
+				<code>/web/static/images/generated/&lt;slug-or-path&gt;/</code>.
 			</p>
 			<button
 				class="mt-4 rounded-xl bg-emerald-600 px-5 py-2 text-sm font-semibold text-white hover:bg-emerald-700 disabled:opacity-50"
