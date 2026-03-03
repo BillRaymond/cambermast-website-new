@@ -7,6 +7,62 @@
 	const NO_TEMPLATE_OPTION = '__no-template__';
 	const NO_TEMPLATE_SQUARE_PROMPT =
 		'Abstract geometric background inspired by a modern sail or forward motion shape, using deep navy #012072 as the dominant base with layered bold blue #0037BE, bright blue #0063F2, mint green #8BD8BD, and a subtle orange #F49F1C accent. Clean, overlapping angular panels with smooth blended transitions and very soft, fine grain texture. Composition should frame the edges and corners, leaving a calm, open negative space in the center for text placement. Professional, training-focused, confident corporate style. No white, no glow, no light beams, no dark vignette, no clutter. Balanced contrast to support overlay text.';
+	type StageAPromptPreset = {
+		label: string;
+		prompt: string;
+	};
+	const STAGE_A_PROMPT_PRESETS: StageAPromptPreset[] = [
+		{
+			label: 'With Template',
+			prompt: `Use the provided template image as a visual style and composition reference. Create a new image of the same type.
+
+Generate the text "TITLE, TAGLINE, MONTH, ETC" and a modern, sophisticated, clean image that represents the title. Avoid: dark backgrounds, visual cliches, and imagery that anthropomorphizes AI.
+
+Avoid the top and bottom 25%.`
+		},
+		{
+			label: 'BG + Text + Symbol',
+			prompt: `Abstract geometric background inspired by a modern sail or forward motion shape, using deep navy #012072 as the dominant base with layered bold blue #0037BE, bright blue #0063F2, mint green #8BD8BD, and a subtle orange #F49F1C accent. Clean, overlapping angular panels with smooth, blended transitions and a very soft, fine-grained texture. Composition should frame the edges and corners, leaving a calm, open negative space in the center for text placement. Professional, training-focused, confident corporate style. No white, no glow, no light beams, no dark vignette, no clutter. Balanced contrast to support overlay text.
+
+Create a webinar hero treatment for "AI POWER PROMPTING" and "MARCH 2026". Generate two separate elements: (1) the headline text and (2) a simple icon/symbol. The composition should feel open and integrated into the existing background, not like a title card. Keep overall styling bright and clean, with minimal effects and strong thumbnail legibility.
+
+Focus on placing text and elements in the center of the image.
+
+STRICT AVOIDANCE RULES
+* Visual cliches like AI brains and circuits.
+* Imagery that anthropomorphizes AI.`
+		},
+		{
+			label: 'BG + Text + People',
+			prompt: `Abstract geometric background inspired by a modern sail or forward motion shape, using deep navy #012072 as the dominant base with layered bold blue #0037BE, bright blue #0063F2, mint green #8BD8BD, and a subtle orange #F49F1C accent. Clean, overlapping angular panels with smooth, blended transitions and a very soft, fine-grained texture. Composition should frame the edges and corners, leaving a calm, open negative space in the center for text placement. Professional, training-focused, confident corporate style. No white, no glow, no light beams, no dark vignette, no clutter. Balanced contrast to support overlay text.
+
+Create a webinar hero treatment for "AI POWER PROMPTING" and "MARCH 2026". Generate two separate elements: (1) the headline text and (2) a photorealistic image of a diverse group of happy people learning how to prompt together that is integrated into the overall design. The composition should feel open and integrated into the existing background, not like a title card. Keep overall styling bright and clean, with minimal effects with a strong focus on legibility.
+
+Focus on placing text and elements in the center of the image.
+
+STRICT AVOIDANCE RULES
+* Visual cliches like AI brains and circuits.
+* Imagery that anthropomorphizes AI.`
+		},
+		{
+			label: 'BG + Text + People + Symbols',
+			prompt: `GENERATE A BACKGROUND
+Abstract geometric background inspired by a modern sail or forward motion shape, using deep navy #012072 as the dominant base with layered bold blue #0037BE, bright blue #0063F2, mint green #8BD8BD, and a subtle orange #F49F1C accent. Clean, overlapping angular panels with smooth, blended transitions and a very soft, fine-grained texture. Composition should frame the edges and corners, leaving a calm, open negative space in the center for text placement. Professional, training-focused, confident corporate style. No white, no glow, no light beams, no dark vignette, no clutter. Balanced contrast to support overlay text.
+
+OVERLAY TEXT
+Add the text "AI POWER PROMPTING" and "MARCH 2026".
+
+OVERLAY ELEMENTS
+Incorporate a photorealistic image of a diverse group of happy people learning to prompt together, integrated into the overall design. The composition should feel open and integrated into the existing background, not like a title card. Keep overall styling bright and clean, with minimal effects, with a strong focus on legibility. Add hints about what good prompts are like in a unique way.
+
+STRICT OVERLAY RULES
+Focus on placing text and elements in the center of the image.
+
+STRICT AVOIDANCE RULES
+* Visual cliches like AI brains and circuits.
+* Imagery that anthropomorphizes AI.`
+		}
+	];
 
 	const STAGE_SIZE_MAP: Record<ImageGenStage, '1024x1024' | '1536x1024' | '1024x1536'> = {
 		square: '1024x1024',
@@ -151,6 +207,9 @@
 
 	const toStageLabel = (stage: ImageGenStage): string =>
 		stage === 'square' ? 'Square' : stage === 'landscape' ? 'Landscape' : 'Portrait';
+	const applyStageAPromptPreset = (prompt: string) => {
+		squarePrompt = prompt;
+	};
 
 	const getSelectedSquareCandidate = (): Candidate | undefined =>
 		squareCandidates.find((candidate) => candidate.id === selectedSquareCandidateId);
@@ -429,6 +488,21 @@
 
 			<div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
 				<h2 class="text-xl font-semibold">Stage A: Square (1024x1024)</h2>
+				<div class="mt-3 flex flex-wrap gap-2">
+					{#each STAGE_A_PROMPT_PRESETS as preset}
+						<button
+							type="button"
+							class={`rounded-full border px-3 py-1 text-xs font-semibold transition ${
+								squarePrompt.trim() === preset.prompt.trim()
+									? 'border-blue-300 bg-blue-50 text-blue-700'
+									: 'border-gray-300 bg-white text-gray-700 hover:border-gray-400'
+							}`}
+							on:click={() => applyStageAPromptPreset(preset.prompt)}
+						>
+							{preset.label}
+						</button>
+					{/each}
+				</div>
 				<textarea bind:value={squarePrompt} rows={8} class="mt-3 w-full rounded-lg border border-gray-300 p-3 text-sm"></textarea>
 				<div class="mt-3">
 					<div class="flex items-center justify-between gap-3">
