@@ -95,7 +95,11 @@
 		</p>
 		<p class="mt-2 max-w-3xl text-gray-700">
 			Key pattern:
-			<code>c3/cambermast/image-gen/{"<slug-or-unspecified>"}/{"<stage>"}/{"<run-id>"}/candidate-{"<index>"}.png</code>
+			<code>cambermastweb/{"<events-or-training>"}/image-gen/{"<slug-or-unspecified>"}/{"<stage>"}/{"<run-id>"}/candidate-{"<index>"}.png</code>
+		</p>
+		<p class="mt-2 max-w-3xl text-gray-700">
+			Embedded event creation maps scope automatically: training mode uses <code>training</code>,
+			external mode uses <code>events</code>.
 		</p>
 	</div>
 

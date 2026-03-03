@@ -1,7 +1,7 @@
 import eventsData from './events.json';
 import { runtimeDev } from '$lib/utils/runtime-env';
 import { deriveEventDateLabel, deriveEventTimeLabel } from './session-labels';
-import { getEventSessionBounds } from './timeline';
+import { deriveEventScheduleFromSessions, getEventSessionBounds } from './timeline';
 import type {
 	Event,
 	EventSource,
@@ -100,7 +100,8 @@ const resolveEvent = (event: EventSource): Event => {
 		date: deriveEventDateLabel(event.sessions, timeZoneIana),
 		time: deriveEventTimeLabel(event.sessions, timeZoneIana, timezoneLabel),
 		timezone: timezoneLabel,
-		timeZoneIana
+		timeZoneIana,
+		schedule: event.schedule ?? deriveEventScheduleFromSessions(event.sessions)
 	};
 };
 

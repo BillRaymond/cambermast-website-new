@@ -1,13 +1,14 @@
 import {
-	buildTrainingDraftScheduleFromProgramSku,
-	buildTrainingSessionEventFromProgramSku
+	buildTrainingDraftScheduleFromProgramSku
 } from '../src/lib/data/events/training-event-builder';
 import { getPartnerByCode } from '../src/lib/data/partners';
 import { getTrainingProgramBySku } from '../src/lib/data/training';
+import {
+	BASE36_ID_PATTERN,
+	SLUG_PATTERN,
+	buildTrainingDraftArtifacts
+} from '../src/lib/server/admin-event-drafts';
 import crypto from 'node:crypto';
-import fs from 'node:fs';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 
 type CliOptions = {
 	programSku?: string;
@@ -110,9 +111,7 @@ const parseArgs = (argv: string[]): CliOptions => {
 	return options;
 };
 
-const BASE36_ID_PATTERN = /^[a-z0-9]{6}$/;
 const BASE36_ALPHABET = '0123456789abcdefghijklmnopqrstuvwxyz';
-const SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 const createBase36Id = (): string => {
 	const bytes = crypto.randomBytes(6);
@@ -157,35 +156,7 @@ const createDefaultSubtitle = (input: {
 	return `${dateText} • ${timeText} ${input.timeZoneLabel}`;
 };
 
-const loadExistingEventsIndex = (): { ids: Set<string>; slugs: Set<string> } => {
-	const __dirname = path.dirname(fileURLToPath(import.meta.url));
-	const dataPath = path.resolve(__dirname, '../src/lib/data/events/events.json');
-	const raw = fs.readFileSync(dataPath, 'utf-8');
-	const data = JSON.parse(raw) as { events?: Array<{ id?: string; slug?: string }> };
-	const ids = new Set<string>();
-	const slugs = new Set<string>();
-	for (const event of data.events ?? []) {
-		if (event.id) ids.add(event.id);
-		if (event.slug) slugs.add(event.slug);
-	}
-	return { ids, slugs };
-};
-
-const loadExistingCampaignIndex = (): { ids: Set<string>; landingPaths: Set<string> } => {
-	const __dirname = path.dirname(fileURLToPath(import.meta.url));
-	const dataPath = path.resolve(__dirname, '../src/lib/data/campaigns.json');
-	const raw = fs.readFileSync(dataPath, 'utf-8');
-	const data = JSON.parse(raw) as { campaigns?: Array<{ id?: string; landingPath?: string }> };
-	const ids = new Set<string>();
-	const landingPaths = new Set<string>();
-	for (const campaign of data.campaigns ?? []) {
-		if (campaign.id) ids.add(campaign.id);
-		if (campaign.landingPath) landingPaths.add(campaign.landingPath);
-	}
-	return { ids, landingPaths };
-};
-
-const run = (): void => {
+const run = async (): Promise<void> => {
 	const options = parseArgs(process.argv.slice(2));
 	const programSku = options.programSku?.trim();
 	const startDate = options.startDate?.trim();
@@ -233,42 +204,12 @@ const run = (): void => {
 		durationDays: options.durationDays,
 		estimatedHoursCommitment: options.hoursPerDayCommitment
 	});
-
-	if (!options.overwrite) {
-		const existingEvents = loadExistingEventsIndex();
-		const existingCampaigns = loadExistingCampaignIndex();
-		const landingPath = `/events/${finalSlug}`;
-
-		if (existingEvents.ids.has(eventId)) {
-			throw new Error(
-				`Event id "${eventId}" already exists in events.json. Refusing to overwrite without --overwrite.`
-			);
-		}
-		if (existingEvents.slugs.has(finalSlug)) {
-			throw new Error(
-				`Event slug "${finalSlug}" already exists in events.json. Refusing to overwrite without --overwrite.`
-			);
-		}
-		if (existingCampaigns.ids.has(campaignId)) {
-			throw new Error(
-				`Campaign id "${campaignId}" already exists in campaigns.json. Refusing to overwrite without --overwrite.`
-			);
-		}
-		if (existingCampaigns.landingPaths.has(landingPath)) {
-			throw new Error(
-				`Campaign landingPath "${landingPath}" already exists in campaigns.json. Refusing to overwrite without --overwrite.`
-			);
-		}
-	}
-
-	const draftEventBase = buildTrainingSessionEventFromProgramSku({
+	const { eventDraft: draftEvent, campaignDraft } = await buildTrainingDraftArtifacts({
 		programSku,
-		id: eventId,
-		slug: finalSlug,
 		startDate,
-		startTimeLocal: options.startTimeLocal,
-		durationDays: options.durationDays,
-		estimatedHoursCommitment: options.hoursPerDayCommitment,
+		id: eventId,
+		campaignId,
+		slug: finalSlug,
 		subtitle:
 			options.subtitle ??
 			createDefaultSubtitle({
@@ -276,20 +217,11 @@ const run = (): void => {
 				timeZone: program.scheduleTemplate?.defaultTimeZone ?? 'America/Los_Angeles',
 				timeZoneLabel: program.scheduleTemplate?.defaultTimeZoneLabel ?? 'PT'
 			}),
-		visibility: 'draft',
-		registrationStatus: 'none',
-		ctaLabel: 'Draft',
-		ctaUrl: program.route
+		startTimeLocal: options.startTimeLocal,
+		durationDays: options.durationDays,
+		estimatedHoursCommitment: options.hoursPerDayCommitment,
+		overwrite: options.overwrite
 	});
-
-	const draftEvent = {
-		...draftEventBase,
-		campaignId,
-		cta: {
-			...draftEventBase.cta,
-			campaignId
-		}
-	};
 
 	const primaryPartnerCode = draftEvent.partners?.[0]?.code;
 	const partner = getPartnerByCode(primaryPartnerCode);
@@ -302,7 +234,7 @@ const run = (): void => {
 			? partner.name
 			: (getPartnerByCode('CMB')?.name ?? 'Cambermast');
 
-	const draftCampaign = {
+	const draftCampaign = campaignDraft ?? {
 		id: campaignId,
 		partner: campaignPartnerSlug,
 		partnerLabel: campaignPartnerLabel,
@@ -338,4 +270,7 @@ const run = (): void => {
 	);
 };
 
-run();
+run().catch((error) => {
+	console.error(error instanceof Error ? error.message : String(error));
+	process.exit(1);
+});

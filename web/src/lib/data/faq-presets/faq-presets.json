@@ -102,67 +102,54 @@
 			"version": "v1",
 			"items": [
 				{
-					"key": "event_fit",
-					"question": "Who is this event for?",
+					"key": "recording_playback",
+					"question": "Will there be a recording I can play back later?",
 					"blocks": [
 						{
 							"type": "paragraph",
-							"text": "This event is designed for practical professionals who want actionable insights they can apply quickly."
+							"text": "Bill may record the session for quality assurance, but live recordings are not released. Please be on time so you do not miss anything."
 						}
 					]
 				},
 				{
-					"key": "delivery_and_access",
-					"question": "How is the event delivered, and how do I join?",
+					"key": "live_or_in_person",
+					"question": "Is the event live or in person?",
 					"blocks": [
 						{
 							"type": "paragraph",
-							"text": "The event is delivered live online using Zoom, Google Meet, Microsoft Teams, or a similar proven platform. Joining details are shared after registration."
+							"text": "Unless otherwise specified, events are live online using Zoom, Meet, Teams, or a similar platform."
 						}
 					]
 				},
 				{
-					"key": "recording_policy",
-					"question": "Will a recording or follow-up materials be available?",
+					"key": "future_event_offers",
+					"question": "Will you offer this event again?",
 					"blocks": [
 						{
 							"type": "paragraph",
-							"text": "Recording and resource availability depends on the event format and partner agreements. Check the event details or contact us for specifics."
-						}
-					]
-				},
-				{
-					"key": "questions_and_alternatives",
-					"question": "How can I ask questions before registering, and what if I can’t attend this date?",
-					"blocks": [
-						{
-							"type": "paragraph",
-							"text": "If you have questions before registering, reach out any time. If this date does not work, we can share upcoming options."
+							"text": "It may be. Subscribe to Bill's calendar on Luma here:"
 						},
 						{
 							"type": "link",
-							"label": "contact",
-							"href": "/contact",
+							"label": "luma.com/BillTalksAI",
+							"href": "https://luma.com/BillTalksAI",
 							"openInNewTab": true
 						}
 					]
 				},
 				{
-					"key": "manager_letter",
-					"question": "📧 Do you have a manager budget-approval letter I can send?",
+					"key": "refund_policy",
+					"question": "I paid for this event but cannot attend. Do you provide refunds?",
 					"blocks": [
 						{
 							"type": "paragraph",
-							"text": "Yes. Use the email template below, open it in your email client, or copy it with one click."
+							"text": "Please review our terms and conditions here:"
 						},
 						{
-							"type": "email_template",
-							"subject": "Request for approval: professional event attendance",
-							"body": "Hi [Manager Name],\n\nI would like approval to attend [Event Name].\n\nThis event is focused on practical insights I can apply directly in my role.\nI expect this will help improve speed and quality in [team/process area],\nwhile aligning with our goals and standards.\n\nEvent: [Event Name]\nDate: [Date]\nCost: [Cost]\nLink: [Event URL]\n\nAfter the event, I will share key takeaways and recommended next steps.\n\nThank you for considering this request.\n\nBest,\n[Your Name]",
-							"ctaLabel": "Open in email client",
-							"copyButtonLabel": "Copy email",
-							"copiedButtonLabel": "Copied",
-							"copiedStateMs": 1600
+							"type": "link",
+							"label": "cambermast.com/training/terms",
+							"href": "/training/terms",
+							"openInNewTab": true
 						}
 					]
 				}

@@ -22,7 +22,14 @@ export type EventOccurrenceState = {
 	sessionsCount: number;
 };
 
+export type DerivedEventSchedule = {
+	durationDays: number;
+	estimatedHoursCommitment: number;
+};
+
 const toTimestamp = (value: string): number => new Date(value).valueOf();
+const MILLISECONDS_IN_DAY = 24 * 60 * 60 * 1000;
+const roundToTwoDecimals = (value: number): number => Math.round(value * 100) / 100;
 
 export const normalizeEventSessions = (sessions: EventSession[]): NormalizedEventSession[] =>
 	sessions
@@ -105,5 +112,27 @@ export const getEventOccurrenceState = (
 		nextSessionStartTimestamp: nextSession?.startTimestamp,
 		currentSessionEndTimestamp: currentSession?.endTimestamp,
 		sessionsCount: sessions.length
+	};
+};
+
+export const deriveEventScheduleFromSessions = (
+	sessions: EventSession[]
+): DerivedEventSchedule | undefined => {
+	const normalized = normalizeEventSessions(sessions ?? []);
+	if (!normalized.length) return undefined;
+	const first = normalized[0];
+	const last = normalized[normalized.length - 1];
+	const durationDays = Math.max(
+		1,
+		Math.ceil((last.endTimestamp - first.startTimestamp) / MILLISECONDS_IN_DAY)
+	);
+	const totalHours = normalized.reduce(
+		(total, session) => total + (session.endTimestamp - session.startTimestamp) / (60 * 60 * 1000),
+		0
+	);
+	const estimatedHoursCommitment = Math.max(0.25, roundToTwoDecimals(totalHours / normalized.length));
+	return {
+		durationDays,
+		estimatedHoursCommitment
 	};
 };

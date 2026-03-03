@@ -7,6 +7,7 @@ import {
 	IMAGE_GEN_MAX_COUNT,
 	IMAGE_GEN_MIN_COUNT,
 	STAGE_SIZE_MAP,
+	type ImageGenBlobScope,
 	type GenerateRequest,
 	type ImageGenStage
 } from '$lib/server/image-gen/types';
@@ -16,6 +17,8 @@ export const prerender = false;
 
 const getErrorMessage = (error: unknown): string =>
 	error instanceof Error ? error.message : 'Unknown error';
+const getBlobScope = (scope: GenerateRequest['blobScope']): ImageGenBlobScope =>
+	scope === 'training' ? 'training' : 'events';
 
 export const POST = async ({ request }) => {
 	if (!import.meta.env.DEV) {
@@ -53,7 +56,13 @@ export const POST = async ({ request }) => {
 	if (typeof body.prompt !== 'string' || body.prompt.trim().length === 0) {
 		return json({ error: 'Prompt is required' }, { status: 400 });
 	}
-	if (typeof body.templateImageDataUrl !== 'string' || !body.templateImageDataUrl.startsWith('data:image/')) {
+	const templateImageDataUrl =
+		typeof body.templateImageDataUrl === 'string' ? body.templateImageDataUrl.trim() : '';
+	if (stage === 'square') {
+		if (templateImageDataUrl.length > 0 && !templateImageDataUrl.startsWith('data:image/')) {
+			return json({ error: 'templateImageDataUrl must be an image data URL when provided' }, { status: 400 });
+		}
+	} else if (!templateImageDataUrl.startsWith('data:image/')) {
 		return json({ error: 'templateImageDataUrl must be an image data URL' }, { status: 400 });
 	}
 
@@ -66,6 +75,7 @@ export const POST = async ({ request }) => {
 	} catch (error) {
 		return json({ error: getErrorMessage(error) }, { status: 400 });
 	}
+	const blobScope = getBlobScope(body.blobScope);
 
 	const runId = randomUUID();
 	console.info('[image-gen] generate start', { runId, stage, n, slug: slugSegment });
@@ -76,13 +86,13 @@ export const POST = async ({ request }) => {
 			prompt: body.prompt,
 			size: body.size,
 			n,
-			templateImageDataUrl: body.templateImageDataUrl
+			templateImageDataUrl: templateImageDataUrl || undefined
 		});
 
 		const candidates = await Promise.all(
 			generated.dataUrls.map(async (dataUrl, index) => {
 				const id = `${stage}-${runId}-${(index + 1).toString()}`;
-				const minioKey = `c3/cambermast/image-gen/${slugSegment}/${stage}/${runId}/candidate-${(index + 1).toString()}.png`;
+				const minioKey = `cambermastweb/${blobScope}/image-gen/${slugSegment}/${stage}/${runId}/candidate-${(index + 1).toString()}.png`;
 
 				try {
 					const uploaded = await uploadToC3({

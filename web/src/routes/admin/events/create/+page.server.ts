@@ -1,5 +1,6 @@
 import { dev } from '$app/environment';
 import { SITE_ORIGIN } from '$lib/config/site';
+import { getFaqPreset } from '$lib/data/faq-presets';
 import { listPartners } from '$lib/data/partners';
 import { listTrainingPrograms } from '$lib/data/training';
 import { toTrainingEventAgenda } from '$lib/data/events/agenda';
@@ -37,6 +38,7 @@ export const load: PageServerLoad = async () => {
 			takeaways: program.takeaways ?? [],
 			audience: program.audience ?? [],
 			agenda: toTrainingEventAgenda(program.agenda) ?? [],
+			faqs: program.faqs ?? [],
 			heroImage: program.heroImage,
 			heroImageAlt: program.heroImageAlt,
 			ogImage: program.ogImage,
@@ -44,6 +46,10 @@ export const load: PageServerLoad = async () => {
 			eventDefaults: program.eventDefaults
 		}))
 		.sort((a, b) => (a.sku ?? '').localeCompare(b.sku ?? ''));
+	const eventFaqDefaults = (getFaqPreset('event-signup-core-v1')?.items ?? []).map((item) => ({
+		key: item.key,
+		question: item.question
+	}));
 
 	const existingEvents = listEventUi({ includeDrafts: true, includeUnlisted: true })
 		.map((event) => ({
@@ -81,14 +87,22 @@ export const load: PageServerLoad = async () => {
 	const partners = listPartners()
 		.filter((partner) => partner.code !== 'NONE')
 		.map((partner) => ({ code: partner.code, name: partner.name }));
+	const existingCampaignOptions = listCampaignUi(origin)
+		.map((campaign) => ({
+			id: campaign.id,
+			label: campaign.description?.trim() || campaign.landingPath
+		}))
+		.sort((a, b) => a.id.localeCompare(b.id));
 
 	return {
 		isDev: dev,
 		defaults,
 		trainingPrograms,
 		partners,
+		eventFaqDefaults,
 		existingEvents,
-		existingCampaignIds: listCampaignUi(origin).map((campaign) => campaign.id).sort(),
+		existingCampaignIds: existingCampaignOptions.map((campaign) => campaign.id),
+		existingCampaignOptions,
 		defaultTemplateUrl: DEFAULT_TEMPLATE_URL,
 		defaultPrompts: {
 			square: DEFAULT_SQUARE_PROMPT,

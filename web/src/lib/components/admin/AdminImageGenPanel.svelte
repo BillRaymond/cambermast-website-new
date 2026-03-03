@@ -2,7 +2,11 @@
 	import { createEventDispatcher, onMount } from 'svelte';
 
 	type ImageGenStage = 'square' | 'landscape' | 'portrait';
+	type BlobScope = 'events' | 'training';
 	type Mode = 'embedded' | 'standalone';
+	const NO_TEMPLATE_OPTION = '__no-template__';
+	const NO_TEMPLATE_SQUARE_PROMPT =
+		'Abstract geometric background inspired by a modern sail or forward motion shape, using deep navy #012072 as the dominant base with layered bold blue #0037BE, bright blue #0063F2, mint green #8BD8BD, and a subtle orange #F49F1C accent. Clean, overlapping angular panels with smooth blended transitions and very soft, fine grain texture. Composition should frame the edges and corners, leaving a calm, open negative space in the center for text placement. Professional, training-focused, confident corporate style. No white, no glow, no light beams, no dark vignette, no clutter. Balanced contrast to support overlay text.';
 
 	const STAGE_SIZE_MAP: Record<ImageGenStage, '1024x1024' | '1536x1024' | '1024x1536'> = {
 		square: '1024x1024',
@@ -39,6 +43,7 @@
 	export let defaultN = 4;
 	export let minN = 1;
 	export let maxN = 10;
+	export let blobScope: BlobScope = 'events';
 
 	const dispatch = createEventDispatcher<{
 		imagessaved: {
@@ -64,6 +69,7 @@
 	let templateImageDataUrl = '';
 	let uploadedTemplateName = '';
 	let templatesLoading = false;
+	let noTemplateSelected = false;
 
 	let squareCandidates: Candidate[] = [];
 	let landscapeCandidates: Candidate[] = [];
@@ -77,6 +83,11 @@
 	let portraitPayloadPreview = '';
 
 	let generatingStage: ImageGenStage | null = null;
+	let stageGenerationToken: Record<ImageGenStage, number> = {
+		square: 0,
+		landscape: 0,
+		portrait: 0
+	};
 	let stageNotices: Record<ImageGenStage, string> = {
 		square: '',
 		landscape: '',
@@ -107,6 +118,16 @@
 		const blob = await response.blob();
 		templateImageDataUrl = await readFileAsDataUrl(blob);
 		selectedTemplateUrl = url;
+		uploadedTemplateName = '';
+		noTemplateSelected = false;
+	};
+
+	const setNoTemplateMode = () => {
+		noTemplateSelected = true;
+		selectedTemplateUrl = NO_TEMPLATE_OPTION;
+		templateImageDataUrl = '';
+		uploadedTemplateName = '';
+		squarePrompt = NO_TEMPLATE_SQUARE_PROMPT;
 	};
 
 	const loadTemplates = async () => {
@@ -116,6 +137,7 @@
 			const json = await response.json();
 			if (!response.ok) throw new Error(json?.error ?? 'Unable to load templates');
 			templates = Array.isArray(json.templates) ? json.templates : [];
+			if (noTemplateSelected) return;
 			if (templates.length > 0 && !templates.includes(selectedTemplateUrl)) {
 				selectedTemplateUrl = templates[0];
 			}
@@ -143,6 +165,10 @@
 	};
 
 	const validateCount = (n: number): number => Math.min(maxN, Math.max(minN, Math.round(n)));
+	const getPendingCount = (stage: ImageGenStage): number =>
+		validateCount(stage === 'square' ? squareN : stage === 'landscape' ? landscapeN : portraitN);
+	const buildPlaceholderKeys = (stage: ImageGenStage, count: number): string[] =>
+		Array.from({ length: count }, (_, index) => `${stage}-${stageGenerationToken[stage].toString()}-${index.toString()}`);
 	const MIN_GENERATE_SPINNER_MS = 900;
 
 	const generateForStage = async (stage: ImageGenStage) => {
@@ -150,8 +176,10 @@
 		saveMessage = '';
 		stageNotices = { ...stageNotices, [stage]: '' };
 		const templateForStage =
-			stage === 'square' ? templateImageDataUrl : (getSelectedSquareCandidate()?.dataUrl ?? '');
-		if (!templateForStage) {
+			stage === 'square'
+				? (noTemplateSelected ? '' : templateImageDataUrl)
+				: (getSelectedSquareCandidate()?.dataUrl ?? '');
+		if (!templateForStage && !(stage === 'square' && noTemplateSelected)) {
 			errorMessage =
 				stage === 'square'
 					? 'Select or upload a template image first.'
@@ -167,6 +195,10 @@
 		if (stage === 'portrait') portraitN = n;
 
 		const startedAt = Date.now();
+		stageGenerationToken = {
+			...stageGenerationToken,
+			[stage]: stageGenerationToken[stage] + 1
+		};
 		generatingStage = stage;
 		stageNotices = { ...stageNotices, [stage]: 'Sending request...' };
 		try {
@@ -179,7 +211,8 @@
 					n,
 					size: STAGE_SIZE_MAP[stage],
 					templateImageDataUrl: templateForStage,
-					slug: slug || undefined
+					slug: slug || undefined,
+					blobScope
 				})
 			});
 			const json = await response.json();
@@ -189,15 +222,15 @@
 
 			const nextCandidates = Array.isArray(json.candidates) ? (json.candidates as Candidate[]) : [];
 			if (stage === 'square') {
-				squareCandidates = [...squareCandidates, ...nextCandidates];
+				squareCandidates = [...nextCandidates, ...squareCandidates];
 				squarePayloadPreview = JSON.stringify(json.payloadPreview, null, 2);
 			}
 			if (stage === 'landscape') {
-				landscapeCandidates = [...landscapeCandidates, ...nextCandidates];
+				landscapeCandidates = [...nextCandidates, ...landscapeCandidates];
 				landscapePayloadPreview = JSON.stringify(json.payloadPreview, null, 2);
 			}
 			if (stage === 'portrait') {
-				portraitCandidates = [...portraitCandidates, ...nextCandidates];
+				portraitCandidates = [...nextCandidates, ...portraitCandidates];
 				portraitPayloadPreview = JSON.stringify(json.payloadPreview, null, 2);
 			}
 			stageNotices = {
@@ -317,6 +350,16 @@
 				<p class="mt-3 text-sm text-gray-500">Loading templates...</p>
 			{:else}
 				<div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+					<button
+						class={`rounded-xl border p-2 text-left ${noTemplateSelected ? 'border-blue-400 bg-blue-50' : 'border-gray-200 bg-white'}`}
+						type="button"
+						on:click={() => setNoTemplateMode()}
+					>
+						<div class="flex aspect-square w-full items-center justify-center rounded bg-gray-100 text-sm font-semibold text-gray-700">
+							No template
+						</div>
+						<p class="mt-2 text-xs text-gray-700">Generate Stage A from prompt only</p>
+					</button>
 					{#each templates as template}
 						<button
 							class={`rounded-xl border p-2 text-left ${selectedTemplateUrl === template ? 'border-blue-400 bg-blue-50' : 'border-gray-200 bg-white'}`}
@@ -356,11 +399,15 @@
 						uploadedTemplateName = file.name;
 						templateImageDataUrl = uploadedTemplateDataUrl;
 						selectedTemplateUrl = '';
+						noTemplateSelected = false;
 					}}
 					class="block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
 				/>
 				{#if uploadedTemplateName}
 					<p class="mt-2 text-xs text-gray-600">Using uploaded template: {uploadedTemplateName}</p>
+				{/if}
+				{#if noTemplateSelected}
+					<p class="mt-2 text-xs text-gray-600">No template mode selected for Stage A.</p>
 				{/if}
 			</div>
 		</div>
@@ -376,20 +423,34 @@
 				class="mt-2 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
 			/>
 			<p class="mt-1 text-xs text-gray-500">
-				Used for final save path and MinIO prefix. If empty, generation backups use <code>unspecified</code>.
+				Used for final save path and backup object key. If empty, generation backups use <code>unspecified</code>.
 			</p>
 		</div>
 
-		<div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
-			<h2 class="text-xl font-semibold">Stage A: Square (1024x1024)</h2>
-			<textarea bind:value={squarePrompt} rows={4} class="mt-3 w-full rounded-lg border border-gray-300 p-3 text-sm"></textarea>
-			<div class="mt-3 flex flex-wrap items-center gap-3">
-				<label class="text-sm" for={`square-count-${mode}`}>n</label>
-				<input id={`square-count-${mode}`} type="number" min={minN} max={maxN} bind:value={squareN} class="w-24 rounded border border-gray-300 px-2 py-1 text-sm" />
-				<button
-					class="rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
-					type="button"
-					disabled={generatingStage !== null || templatesLoading || !templateImageDataUrl}
+			<div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+				<h2 class="text-xl font-semibold">Stage A: Square (1024x1024)</h2>
+				<textarea bind:value={squarePrompt} rows={4} class="mt-3 w-full rounded-lg border border-gray-300 p-3 text-sm"></textarea>
+				<div class="mt-3">
+					<div class="flex items-center justify-between gap-3">
+						<label class="text-sm font-semibold text-gray-800" for={`square-count-${mode}`}>Number of images to batch</label>
+						<span class="text-sm font-semibold text-gray-800">{squareN}</span>
+					</div>
+					<input
+						id={`square-count-${mode}`}
+						type="range"
+						min={minN}
+						max={maxN}
+						step="1"
+						bind:value={squareN}
+						class="mt-2 w-full"
+					/>
+					<p class="mt-1 text-xs text-gray-500">Range: {minN}-{maxN}. Default: {defaultN}.</p>
+				</div>
+				<div class="mt-3 flex flex-wrap items-center gap-3">
+					<button
+						class="rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
+						type="button"
+					disabled={generatingStage !== null || templatesLoading || (!noTemplateSelected && !templateImageDataUrl)}
 					on:click={() => generateForStage('square')}
 				>
 					{generatingStage === 'square' ? 'Generating...' : squareCandidates.length ? 'Generate More' : 'Generate'}
@@ -410,6 +471,16 @@
 				{/if}
 			</details>
 
+			{#if generatingStage === 'square'}
+				<div class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+					{#each buildPlaceholderKeys('square', getPendingCount('square')) as placeholderKey (placeholderKey)}
+						<div class="animate-pulse rounded-xl border border-blue-100 bg-blue-50 p-2">
+							<div class="aspect-square w-full rounded bg-blue-100"></div>
+							<div class="mt-2 h-3 w-2/3 rounded bg-blue-100"></div>
+						</div>
+					{/each}
+				</div>
+			{/if}
 			{#if squareCandidates.length > 0}
 				<div class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
 					{#each squareCandidates as candidate}
@@ -437,15 +508,29 @@
 			{/if}
 		</div>
 
-		<div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
-			<h2 class="text-xl font-semibold">Stage B: Landscape (1536x1024)</h2>
-			<textarea bind:value={landscapePrompt} rows={3} class="mt-3 w-full rounded-lg border border-gray-300 p-3 text-sm"></textarea>
-			<div class="mt-3 flex flex-wrap items-center gap-3">
-				<label class="text-sm" for={`landscape-count-${mode}`}>n</label>
-				<input id={`landscape-count-${mode}`} type="number" min={minN} max={maxN} bind:value={landscapeN} class="w-24 rounded border border-gray-300 px-2 py-1 text-sm" />
-				<button
-					class="rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700 disabled:opacity-50"
-					type="button"
+			<div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+				<h2 class="text-xl font-semibold">Stage B: Landscape (1536x1024)</h2>
+				<textarea bind:value={landscapePrompt} rows={3} class="mt-3 w-full rounded-lg border border-gray-300 p-3 text-sm"></textarea>
+				<div class="mt-3">
+					<div class="flex items-center justify-between gap-3">
+						<label class="text-sm font-semibold text-gray-800" for={`landscape-count-${mode}`}>Number of images to batch</label>
+						<span class="text-sm font-semibold text-gray-800">{landscapeN}</span>
+					</div>
+					<input
+						id={`landscape-count-${mode}`}
+						type="range"
+						min={minN}
+						max={maxN}
+						step="1"
+						bind:value={landscapeN}
+						class="mt-2 w-full"
+					/>
+					<p class="mt-1 text-xs text-gray-500">Range: {minN}-{maxN}. Default: {defaultN}.</p>
+				</div>
+				<div class="mt-3 flex flex-wrap items-center gap-3">
+					<button
+						class="rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700 disabled:opacity-50"
+						type="button"
 					disabled={generatingStage !== null || !selectedSquareCandidateId}
 					on:click={() => generateForStage('landscape')}
 				>
@@ -467,6 +552,16 @@
 				{/if}
 			</details>
 
+			{#if generatingStage === 'landscape'}
+				<div class="mt-5 grid gap-4 sm:grid-cols-2">
+					{#each buildPlaceholderKeys('landscape', getPendingCount('landscape')) as placeholderKey (placeholderKey)}
+						<div class="animate-pulse rounded-xl border border-blue-100 bg-blue-50 p-2">
+							<div class="aspect-[3/2] w-full rounded bg-blue-100"></div>
+							<div class="mt-2 h-3 w-2/3 rounded bg-blue-100"></div>
+						</div>
+					{/each}
+				</div>
+			{/if}
 			{#if landscapeCandidates.length > 0}
 				<div class="mt-5 grid gap-4 sm:grid-cols-2">
 					{#each landscapeCandidates as candidate}
@@ -491,15 +586,29 @@
 			{/if}
 		</div>
 
-		<div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
-			<h2 class="text-xl font-semibold">Stage C: Portrait (1024x1536)</h2>
-			<textarea bind:value={portraitPrompt} rows={3} class="mt-3 w-full rounded-lg border border-gray-300 p-3 text-sm"></textarea>
-			<div class="mt-3 flex flex-wrap items-center gap-3">
-				<label class="text-sm" for={`portrait-count-${mode}`}>n</label>
-				<input id={`portrait-count-${mode}`} type="number" min={minN} max={maxN} bind:value={portraitN} class="w-24 rounded border border-gray-300 px-2 py-1 text-sm" />
-				<button
-					class="rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700 disabled:opacity-50"
-					type="button"
+			<div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+				<h2 class="text-xl font-semibold">Stage C: Portrait (1024x1536)</h2>
+				<textarea bind:value={portraitPrompt} rows={3} class="mt-3 w-full rounded-lg border border-gray-300 p-3 text-sm"></textarea>
+				<div class="mt-3">
+					<div class="flex items-center justify-between gap-3">
+						<label class="text-sm font-semibold text-gray-800" for={`portrait-count-${mode}`}>Number of images to batch</label>
+						<span class="text-sm font-semibold text-gray-800">{portraitN}</span>
+					</div>
+					<input
+						id={`portrait-count-${mode}`}
+						type="range"
+						min={minN}
+						max={maxN}
+						step="1"
+						bind:value={portraitN}
+						class="mt-2 w-full"
+					/>
+					<p class="mt-1 text-xs text-gray-500">Range: {minN}-{maxN}. Default: {defaultN}.</p>
+				</div>
+				<div class="mt-3 flex flex-wrap items-center gap-3">
+					<button
+						class="rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700 disabled:opacity-50"
+						type="button"
 					disabled={generatingStage !== null || !selectedSquareCandidateId}
 					on:click={() => generateForStage('portrait')}
 				>
@@ -521,6 +630,16 @@
 				{/if}
 			</details>
 
+			{#if generatingStage === 'portrait'}
+				<div class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+					{#each buildPlaceholderKeys('portrait', getPendingCount('portrait')) as placeholderKey (placeholderKey)}
+						<div class="animate-pulse rounded-xl border border-blue-100 bg-blue-50 p-2">
+							<div class="aspect-[2/3] w-full rounded bg-blue-100"></div>
+							<div class="mt-2 h-3 w-2/3 rounded bg-blue-100"></div>
+						</div>
+					{/each}
+				</div>
+			{/if}
 			{#if portraitCandidates.length > 0}
 				<div class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
 					{#each portraitCandidates as candidate}

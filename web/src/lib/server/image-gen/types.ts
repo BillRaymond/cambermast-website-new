@@ -1,6 +1,7 @@
 export type ImageGenStage = 'square' | 'landscape' | 'portrait';
 
 export type ImageGenSize = '1024x1024' | '1536x1024' | '1024x1536';
+export type ImageGenBlobScope = 'events' | 'training';
 
 export const IMAGE_GEN_MODEL = 'gpt-image-1.5';
 
@@ -30,8 +31,9 @@ export type GenerateRequest = {
 	prompt: string;
 	n: number;
 	size: ImageGenSize;
-	templateImageDataUrl: string;
+	templateImageDataUrl?: string;
 	slug?: string;
+	blobScope?: ImageGenBlobScope;
 };
 
 export type CandidateRequestPayload = {

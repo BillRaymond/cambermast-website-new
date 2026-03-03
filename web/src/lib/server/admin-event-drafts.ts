@@ -4,7 +4,11 @@ import { promises as fs } from 'node:fs';
 import crypto from 'node:crypto';
 import Ajv from 'ajv/dist/2020.js';
 import addFormats from 'ajv-formats';
-import { buildTrainingSessionEventFromProgramSku } from '$lib/data/events';
+import {
+	buildTrainingDraftScheduleFromProgramSku,
+	buildTrainingSessionEventFromProgramSku
+} from '$lib/data/events';
+import { getFaqPresetItemsSnapshot } from '$lib/data/faq-presets';
 import { getTrainingProgramBySku } from '$lib/data/training';
 import type { Campaign } from '$lib/data/campaigns';
 import { getPartnerByCode } from '$lib/data/partners';
@@ -92,8 +96,8 @@ export type DraftResponse = {
 type EventRegistry = { events: EventSource[] };
 type CampaignRegistry = { version: number; campaigns: Campaign[] };
 
-const BASE36_ID_PATTERN = /^[a-z0-9]{6}$/;
-const SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+export const BASE36_ID_PATTERN = /^[a-z0-9]{6}$/;
+export const SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 const toTrimmed = (value: unknown): string => (typeof value === 'string' ? value.trim() : '');
 
@@ -234,7 +238,7 @@ const toExternalEvent = (payload: DraftRequestPayload): EventSource => {
 		audienceBullets: audienceBullets.length ? audienceBullets : undefined,
 		outcomes: outcomes.length ? outcomes : undefined,
 		agenda: agenda.length ? agenda : undefined,
-		faq: faq.length ? faq : undefined,
+		faq: faq.length ? faq : getFaqPresetItemsSnapshot('event-signup-core-v1'),
 		timeZoneIana: 'America/Los_Angeles',
 		location: {
 			mode: input.locationMode ?? 'online',
@@ -255,7 +259,8 @@ const toTrainingEvent = (payload: DraftRequestPayload): EventSource => {
 	const startDate = toTrimmed(input.startDate);
 	if (!programSku) throw new Error('programSku is required for training events.');
 	if (!startDate) throw new Error('startDate is required for training events.');
-	if (!getTrainingProgramBySku(programSku)) throw new Error(`Training program ${programSku} not found.`);
+	if (!getTrainingProgramBySku(programSku))
+		throw new Error(`Training program ${programSku} not found.`);
 
 	const event = buildTrainingSessionEventFromProgramSku({
 		programSku,
@@ -268,7 +273,8 @@ const toTrainingEvent = (payload: DraftRequestPayload): EventSource => {
 				? input.durationDays
 				: undefined,
 		estimatedHoursCommitment:
-			typeof input.estimatedHoursCommitment === 'number' && Number.isFinite(input.estimatedHoursCommitment)
+			typeof input.estimatedHoursCommitment === 'number' &&
+			Number.isFinite(input.estimatedHoursCommitment)
 				? input.estimatedHoursCommitment
 				: undefined,
 		subtitle: toTrimmed(input.subtitle) || undefined,
@@ -319,6 +325,15 @@ const toTrainingEvent = (payload: DraftRequestPayload): EventSource => {
 	if (toTrimmed(input.image)) event.image = toTrimmed(input.image);
 	if (toTrimmed(input.heroImageAlt)) event.heroImageAlt = toTrimmed(input.heroImageAlt);
 	if (toTrimmed(input.imageAlt)) event.imageAlt = toTrimmed(input.imageAlt);
+	if (input.sessions?.length) {
+		event.sessions = input.sessions.map((session, index) => {
+			const startAtUtc = toTrimmed(session.startAtUtc);
+			const endAtUtc = toTrimmed(session.endAtUtc);
+			assertUtcTimestamp(startAtUtc, `sessions[${index.toString()}].startAtUtc`);
+			assertUtcTimestamp(endAtUtc, `sessions[${index.toString()}].endAtUtc`);
+			return { startAtUtc, endAtUtc };
+		});
+	}
 	if (input.locationMode || input.locationPublicLabel || input.locationDetailsVisibility) {
 		event.location = {
 			...event.location,
@@ -417,13 +432,26 @@ const getCollisions = (
 };
 
 const throwOnCollision = (collisions: DraftResponse['validation']): void => {
-	if (collisions.eventIdExists) throw new Error('Event id already exists.');
-	if (collisions.eventSlugExists) throw new Error('Event slug already exists.');
-	if (collisions.campaignIdExists) throw new Error('Campaign id already exists.');
-	if (collisions.campaignLandingPathExists) throw new Error('Campaign landingPath already exists.');
+	if (collisions.eventIdExists) {
+		throw new Error('Event ID already exists in events.json. Choose a different 6-char ID.');
+	}
+	if (collisions.eventSlugExists) {
+		throw new Error('Event slug already exists in events.json. Choose a unique slug.');
+	}
+	if (collisions.campaignIdExists) {
+		throw new Error('Campaign ID already exists in campaigns.json. Choose a unique campaign ID.');
+	}
+	if (collisions.campaignLandingPathExists) {
+		throw new Error(
+			'Campaign landingPath already exists in campaigns.json. Use a different event slug or campaign.'
+		);
+	}
 };
 
-const validateRegistries = async (eventRegistry: EventRegistry, campaignRegistry: CampaignRegistry) => {
+const validateRegistries = async (
+	eventRegistry: EventRegistry,
+	campaignRegistry: CampaignRegistry
+) => {
 	const validateEvents = await ensureEventValidator();
 	const eventsValid = validateEvents(eventRegistry);
 	if (!eventsValid) {
@@ -433,7 +461,9 @@ const validateRegistries = async (eventRegistry: EventRegistry, campaignRegistry
 	const validateCampaigns = await ensureCampaignValidator();
 	const campaignsValid = validateCampaigns(campaignRegistry);
 	if (!campaignsValid) {
-		throw new Error(`Campaigns schema validation failed: ${ajv.errorsText(validateCampaigns.errors)}`);
+		throw new Error(
+			`Campaigns schema validation failed: ${ajv.errorsText(validateCampaigns.errors)}`
+		);
 	}
 };
 
@@ -464,16 +494,29 @@ export const buildDrafts = async (payload: DraftRequestPayload): Promise<DraftRe
 	const eventRegistry = await loadEventRegistry();
 	const campaignRegistry = await loadCampaignRegistry();
 
-	let eventDraft = payload.mode === 'training' ? toTrainingEvent(payload) : toExternalEvent(payload);
+	let eventDraft =
+		payload.mode === 'training' ? toTrainingEvent(payload) : toExternalEvent(payload);
 	const campaignDraft = buildCampaignDraft(payload, eventDraft, campaignRegistry.campaigns);
-	eventDraft = withCampaignLinkage(eventDraft, campaignDraft, payload.campaignInput?.mode ?? 'auto');
+	eventDraft = withCampaignLinkage(
+		eventDraft,
+		campaignDraft,
+		payload.campaignInput?.mode ?? 'auto'
+	);
 	eventDraft = applyImageSelection(eventDraft, payload);
 
 	if (!eventDraft.heroImage || !eventDraft.image) {
-		throw new Error('heroImage and image are required. Generate/select images or set URLs manually.');
+		throw new Error(
+			'heroImage and image are required. Generate/select images or set URLs manually.'
+		);
 	}
 
-	const validation = getCollisions(eventDraft, campaignDraft, eventRegistry, campaignRegistry, payload);
+	const validation = getCollisions(
+		eventDraft,
+		campaignDraft,
+		eventRegistry,
+		campaignRegistry,
+		payload
+	);
 
 	if (payload.action === 'save') {
 		if (!payload.confirmWrite) throw new Error('confirmWrite must be true for save action.');
@@ -512,6 +555,71 @@ export const buildDrafts = async (payload: DraftRequestPayload): Promise<DraftRe
 	}
 
 	return { eventDraft, campaignDraft, validation };
+};
+
+type TrainingDraftArtifactsInput = {
+	programSku: string;
+	startDate: string;
+	id: string;
+	campaignId: string;
+	slug: string;
+	subtitle?: string;
+	startTimeLocal?: string;
+	durationDays?: number;
+	estimatedHoursCommitment?: number;
+	overwrite?: boolean;
+};
+
+type TrainingDraftArtifactsResult = {
+	scheduleDraft: ReturnType<typeof buildTrainingDraftScheduleFromProgramSku>;
+	eventDraft: EventSource;
+	campaignDraft: Campaign | null;
+	validation: DraftResponse['validation'];
+};
+
+export const buildTrainingDraftArtifacts = async (
+	input: TrainingDraftArtifactsInput
+): Promise<TrainingDraftArtifactsResult> => {
+	const scheduleDraft = buildTrainingDraftScheduleFromProgramSku({
+		programSku: input.programSku,
+		startDate: input.startDate,
+		startTimeLocal: input.startTimeLocal,
+		durationDays: input.durationDays,
+		estimatedHoursCommitment: input.estimatedHoursCommitment
+	});
+
+	const draft = await buildDrafts({
+		action: 'preview',
+		mode: 'training',
+		eventInput: {
+			id: input.id,
+			slug: input.slug,
+			programSku: input.programSku,
+			startDate: input.startDate,
+			startTimeLocal: input.startTimeLocal,
+			durationDays: input.durationDays,
+			estimatedHoursCommitment: input.estimatedHoursCommitment,
+			subtitle: input.subtitle,
+			visibility: 'draft',
+			registrationStatus: 'none',
+			ctaLabel: 'Draft'
+		},
+		campaignInput: {
+			mode: 'auto',
+			campaignId: input.campaignId
+		}
+	});
+
+	if (!input.overwrite) {
+		throwOnCollision(draft.validation);
+	}
+
+	return {
+		scheduleDraft,
+		eventDraft: draft.eventDraft,
+		campaignDraft: draft.campaignDraft,
+		validation: draft.validation
+	};
 };
 
 export const getDraftPageDefaults = () => {
