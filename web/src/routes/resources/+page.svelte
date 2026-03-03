@@ -9,6 +9,14 @@
 
 	const resources = [
 		{
+			title: 'Quickly learn an important AI topic with Bill and your team',
+			description:
+				'Select from AMAs we can deliver right now or schedule a tailor-made Ask Me Anything (AMA) event.',
+			href: '/resources/ask-me-anything-pricing',
+			imageSrc: '/images/generated/ama/hero-square.jpg',
+			imageAlt: 'Ask Me Anything Pricing featured image.'
+		},
+		{
 			title: 'Attendee training tips for live sessions',
 			description:
 				'Quick preparation steps that help everyone stay focused and get more from our live workshops.',

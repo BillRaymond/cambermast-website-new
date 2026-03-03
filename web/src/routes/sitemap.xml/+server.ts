@@ -23,6 +23,7 @@ const staticRoutes = [
 	'/testimonials',
 	'/resources',
 	'/resources/ai-personalization',
+	'/resources/ask-me-anything-pricing',
 	'/resources/attendee-training-tips',
 	'/gdpr',
 	'/services/microsoft-project-server'

@@ -45,6 +45,7 @@
 	];
 
 	const contactOptions = [
+		{ slug: 'schedule-an-ask-me-anything', title: 'Schedule an Ask Me Anything' },
 		...trainingPrograms,
 		...serviceTopics,
 		{ slug: 'other', title: 'Something else' }

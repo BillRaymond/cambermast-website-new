@@ -62,6 +62,7 @@ Authoritative sources:
 - https://cambermast.com/training/terms
 - https://cambermast.com/resources
 - https://cambermast.com/resources/ai-personalization
+- https://cambermast.com/resources/ask-me-anything-pricing
 - https://cambermast.com/resources/attendee-training-tips
 - https://cambermast.com/agents
 - https://cambermast.com/strategy
