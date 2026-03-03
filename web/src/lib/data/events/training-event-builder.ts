@@ -14,7 +14,6 @@ type BuildTrainingEventInput = {
 	durationDays?: number;
 	estimatedHoursCommitment?: number;
 	startTimeLocal?: string;
-	subtitle?: string;
 	summary?: string;
 	visibility?: EventVisibility;
 	registrationStatus?: EventRegistrationStatus;
@@ -224,7 +223,6 @@ export const buildTrainingSessionEventFromProgram = (
 		id: input.id,
 		slug: input.slug,
 		title: program.title,
-		subtitle: input.subtitle,
 		type: 'training_session',
 		typeLabel: 'Training',
 		tagline: program.tagline,

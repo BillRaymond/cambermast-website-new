@@ -62,7 +62,7 @@ When creating a new training event, use this strict flow:
 
 Run:
 
-`npm --prefix web run events:draft -- --program-sku CM-TR-005 --start-date 2026-03-17 --id 7iu8p4 --slug ai-workshop-for-tech-writers-and-content-creators-spring-2026 --subtitle "🌷 Spring 2026 Cohort"`
+`npm --prefix web run events:draft -- --program-sku CM-TR-005 --start-date 2026-03-17 --id 7iu8p4 --slug ai-workshop-for-tech-writers-and-content-creators-spring-2026`
 
 By default, the generated event page slug is suffixed with the campaign id (example: `ai-workshop-for-tech-writers-and-content-creators-spring-2026-7iu8p4`) to prevent accidental overwrites.
 

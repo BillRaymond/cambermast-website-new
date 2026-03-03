@@ -82,7 +82,7 @@
 								{#each upcomingSessions as session}
 									<EventCard
 										title={session.programTitle}
-										subtitle={session.sessionTitle}
+										tagline={session.sessionTitle}
 										date={session.date}
 										time={session.timeLines}
 										location={session.location}

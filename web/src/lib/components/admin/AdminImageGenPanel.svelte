@@ -429,7 +429,7 @@
 
 			<div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
 				<h2 class="text-xl font-semibold">Stage A: Square (1024x1024)</h2>
-				<textarea bind:value={squarePrompt} rows={4} class="mt-3 w-full rounded-lg border border-gray-300 p-3 text-sm"></textarea>
+				<textarea bind:value={squarePrompt} rows={8} class="mt-3 w-full rounded-lg border border-gray-300 p-3 text-sm"></textarea>
 				<div class="mt-3">
 					<div class="flex items-center justify-between gap-3">
 						<label class="text-sm font-semibold text-gray-800" for={`square-count-${mode}`}>Number of images to batch</label>

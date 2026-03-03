@@ -523,8 +523,8 @@
 					{/if}
 
 					<h1 class="mb-6 mt-6 text-3xl font-bold text-slate-900 md:text-4xl">{event.title}</h1>
-					{#if event.subtitle}
-						<p class="mt-2 text-sm font-semibold tracking-wide text-slate-600 uppercase">{event.subtitle}</p>
+					{#if event.tagline}
+						<p class="mt-2 text-sm font-semibold tracking-wide text-slate-600 uppercase">{event.tagline}</p>
 					{/if}
 					{#if partnerSummary || hostSummary}
 						<div class="mt-3 flex flex-wrap items-center gap-2">
@@ -1014,8 +1014,8 @@
 				{/if}
 
 				<h1 class="mb-6 mt-6 text-3xl font-bold text-slate-900 md:text-4xl">{event.title}</h1>
-				{#if event.subtitle}
-					<p class="mt-2 text-sm font-semibold tracking-wide text-slate-600 uppercase">{event.subtitle}</p>
+				{#if event.tagline}
+					<p class="mt-2 text-sm font-semibold tracking-wide text-slate-600 uppercase">{event.tagline}</p>
 				{/if}
 				{#if partnerSummary || hostSummary}
 					<div class="mt-3 flex flex-wrap items-center gap-2">

@@ -21,7 +21,6 @@ const toApiEvent = (event: Event, origin: string) => ({
 	id: event.id,
 	slug: event.slug,
 	title: event.title,
-	subtitle: event.subtitle,
 	formatLineOverride: event.formatLineOverride,
 	type: event.type,
 	typeLabel: event.typeLabel,

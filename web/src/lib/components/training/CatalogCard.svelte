@@ -140,7 +140,7 @@
 						<li>
 							<EventCard
 								title={session.title}
-								subtitle={session.subtitle}
+								tagline={session.tagline}
 								date={session.date}
 								time={session.time}
 								location={session.location}
@@ -193,7 +193,7 @@
 								<li>
 									<EventCard
 										title={session.title}
-										subtitle={session.subtitle}
+										tagline={session.tagline}
 										date={session.date}
 										time={session.time}
 										location={session.location}

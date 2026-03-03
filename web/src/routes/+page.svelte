@@ -222,7 +222,7 @@
 		const upcomingSession: UpcomingSessionCard = {
 			id: `${program.slug}-${entry.event.id}-${index}`,
 			programTitle: program.title,
-			sessionTitle: entry.subtitle,
+			sessionTitle: entry.tagline,
 			date: entry.date,
 			timeLines: toTimeLines(entry.time),
 			location: entry.location,
@@ -358,7 +358,7 @@
 				>
 					Upcoming sessions & events
 				</h1>
-				<p class="sessions-strip-subtitle text-sm text-gray-700">
+				<p class="sessions-strip-tagline text-sm text-gray-700">
 					Register for public cohorts, workshops, and upcoming partner events.
 				</p>
 			</div>
@@ -722,7 +722,7 @@
 			font-size: 1.05rem;
 		}
 
-		.sessions-strip-subtitle {
+		.sessions-strip-tagline {
 			font-size: 0.85rem;
 		}
 

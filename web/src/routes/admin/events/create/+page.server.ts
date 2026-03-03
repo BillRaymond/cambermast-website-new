@@ -58,7 +58,6 @@ export const load: PageServerLoad = async () => {
 			title: event.title,
 			type: event.type,
 			typeLabel: event.typeLabel,
-			subtitle: event.subtitle,
 			tagline: event.tagline,
 			summary: event.summary,
 			description: event.description,

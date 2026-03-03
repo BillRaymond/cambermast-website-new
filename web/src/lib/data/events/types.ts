@@ -123,7 +123,6 @@ export type EventSource = {
 	id: string;
 	slug: string;
 	title: string;
-	subtitle?: string;
 	formatLineOverride?: string;
 	type: EventType;
 	summary: string;
@@ -133,7 +132,7 @@ export type EventSource = {
 	registrationStatus: EventRegistrationStatus;
 	cta: EventCta;
 	location: EventLocation;
-	tagline?: string;
+	tagline: string;
 	description?: string | EventDescription;
 	highlights?: string[];
 	audienceBullets?: string[];

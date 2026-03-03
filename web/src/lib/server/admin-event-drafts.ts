@@ -26,7 +26,6 @@ export type DraftRequestPayload = {
 		id: string;
 		slug: string;
 		title?: string;
-		subtitle?: string;
 		tagline?: string;
 		summary?: string;
 		type?: string;
@@ -180,6 +179,7 @@ const toExternalEvent = (payload: DraftRequestPayload): EventSource => {
 	const id = toTrimmed(input.id);
 	const slug = toTrimmed(input.slug);
 	const title = toTrimmed(input.title);
+	const tagline = toTrimmed(input.tagline);
 	const summary = toTrimmed(input.summary);
 	const ctaLabel = toTrimmed(input.ctaLabel) || 'Learn more';
 	const locationPublicLabel = toTrimmed(input.locationPublicLabel) || 'Online';
@@ -192,6 +192,7 @@ const toExternalEvent = (payload: DraftRequestPayload): EventSource => {
 	});
 
 	if (!title) throw new Error('title is required for external events.');
+	if (!tagline) throw new Error('tagline is required for external events.');
 	if (!summary) throw new Error('summary is required for external events.');
 	if (!sessions.length) throw new Error('At least one session is required for external events.');
 
@@ -220,8 +221,7 @@ const toExternalEvent = (payload: DraftRequestPayload): EventSource => {
 		id,
 		slug,
 		title,
-		subtitle: toTrimmed(input.subtitle) || undefined,
-		tagline: toTrimmed(input.tagline) || undefined,
+		tagline,
 		type: toTrimmed(input.type) || 'event',
 		typeLabel: toTrimmed(input.typeLabel) || undefined,
 		summary,
@@ -277,7 +277,6 @@ const toTrainingEvent = (payload: DraftRequestPayload): EventSource => {
 			Number.isFinite(input.estimatedHoursCommitment)
 				? input.estimatedHoursCommitment
 				: undefined,
-		subtitle: toTrimmed(input.subtitle) || undefined,
 		summary: toTrimmed(input.summary) || undefined,
 		visibility: input.visibility ?? 'draft',
 		registrationStatus: input.registrationStatus ?? 'closed',
@@ -563,7 +562,6 @@ type TrainingDraftArtifactsInput = {
 	id: string;
 	campaignId: string;
 	slug: string;
-	subtitle?: string;
 	startTimeLocal?: string;
 	durationDays?: number;
 	estimatedHoursCommitment?: number;
@@ -599,7 +597,6 @@ export const buildTrainingDraftArtifacts = async (
 			startTimeLocal: input.startTimeLocal,
 			durationDays: input.durationDays,
 			estimatedHoursCommitment: input.estimatedHoursCommitment,
-			subtitle: input.subtitle,
 			visibility: 'draft',
 			registrationStatus: 'none',
 			ctaLabel: 'Draft'

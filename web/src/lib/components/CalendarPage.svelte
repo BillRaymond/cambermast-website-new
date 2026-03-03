@@ -184,7 +184,7 @@
 										<li id={entry.id}>
 											<EventCard
 												title={entry.title}
-												subtitle={entry.subtitle}
+												tagline={entry.tagline}
 												date={entry.date}
 												time={entry.time}
 												location={entry.location}
@@ -262,7 +262,7 @@
 						<li>
 							<EventCard
 								title={entry.title}
-								subtitle={entry.subtitle}
+								tagline={entry.tagline}
 								date={entry.date}
 								time={entry.time}
 								location={entry.location}

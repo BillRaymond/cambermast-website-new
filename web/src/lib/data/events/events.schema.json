@@ -95,6 +95,7 @@
         "id",
         "slug",
         "title",
+        "tagline",
         "type",
         "summary",
         "sessions",
@@ -121,10 +122,6 @@
           "type": "string",
           "minLength": 1
         },
-        "subtitle": {
-          "type": "string",
-          "minLength": 1
-        },
         "formatLineOverride": {
           "type": "string",
           "minLength": 1
@@ -137,7 +134,8 @@
           "type": "string"
         },
         "tagline": {
-          "type": "string"
+          "type": "string",
+          "minLength": 1
         },
         "summary": {
           "type": "string",

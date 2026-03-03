@@ -16,6 +16,7 @@
           "id",
           "slug",
           "title",
+          "tagline",
           "type",
           "summary",
           "sessions",
@@ -35,11 +36,10 @@
           "id": { "type": "string", "pattern": "^[a-z0-9]{6}$" },
           "slug": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
           "title": { "type": "string", "minLength": 1 },
-          "subtitle": { "type": "string", "minLength": 1 },
           "formatLineOverride": { "type": "string", "minLength": 1 },
           "type": { "type": "string", "minLength": 1 },
           "typeLabel": { "type": "string" },
-          "tagline": { "type": "string" },
+          "tagline": { "type": "string", "minLength": 1 },
           "summary": { "type": "string", "minLength": 1 },
           "description": {
             "oneOf": [

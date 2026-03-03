@@ -13,7 +13,7 @@ import type { TrainingProgram } from '$lib/data/training/types';
 export type TrainingScheduleEntry = {
 	id: string;
 	title: string;
-	subtitle?: string;
+	tagline?: string;
 	date: string;
 	time?: string | string[];
 	location: string;
@@ -95,7 +95,7 @@ export const toTrainingScheduleEntry = (
 	return {
 		id: `${event.id}-${event.slug}`,
 		title: event.title,
-		subtitle: event.subtitle ?? event.tagline ?? undefined,
+		tagline: event.tagline,
 		date: event.date,
 		time: toConciseEventTimeLabel(event.time),
 		location: event.location,

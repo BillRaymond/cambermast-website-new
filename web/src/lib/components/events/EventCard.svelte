@@ -1,6 +1,6 @@
 <script lang="ts">
 	export let title: string;
-	export let subtitle: string | undefined = undefined;
+	export let tagline: string | undefined = undefined;
 	export let date: string | undefined = undefined;
 	export let time: string | string[] | undefined = undefined;
 	export let location: string | undefined = undefined;
@@ -43,7 +43,7 @@
 	$: titleClass = isCarousel
 		? 'line-clamp-2 text-base leading-tight font-semibold text-gray-900'
 		: 'text-sm font-semibold text-gray-900';
-	$: subtitleClass = isCarousel
+	$: taglineClass = isCarousel
 		? 'line-clamp-1 text-sm font-semibold text-gray-600'
 		: 'text-xs font-semibold text-gray-600';
 	$: metaDateClass = isCarousel ? 'mt-1 text-base text-gray-700' : 'mt-1 text-sm text-gray-700';
@@ -89,8 +89,8 @@
 		{/if}
 		<div class="min-w-0 flex-1">
 			<p class={titleClass}>{title}</p>
-			{#if subtitle}
-				<p class={subtitleClass}>{subtitle}</p>
+			{#if tagline}
+				<p class={taglineClass}>{tagline}</p>
 			{/if}
 			{#if date}
 				<p class={metaDateClass}>{date}</p>

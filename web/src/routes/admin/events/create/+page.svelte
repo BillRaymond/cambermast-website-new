@@ -67,7 +67,6 @@
 	let slug = '';
 	let title = '';
 	let summary = '';
-	let subtitle = '';
 	let tagline = '';
 	let descriptionBodyMd = '';
 	let highlightsText = '';
@@ -397,6 +396,9 @@
 		if (!summary.trim()) {
 			issues.push('Summary is required. Used on the /events card and API payload.');
 		}
+		if (!tagline.trim()) {
+			issues.push('Tagline is required. Events now use title + tagline only.');
+		}
 		if (!ctaLabel.trim()) {
 			issues.push('CTA label is required. Used for registration button text.');
 		}
@@ -457,7 +459,6 @@
 
 		title = source.title ?? '';
 		slug = source.slug ?? '';
-		subtitle = source.subtitle ?? '';
 		tagline = source.tagline ?? '';
 		summary = source.summary ?? '';
 		descriptionBodyMd = extractDescriptionBodyMd(source.description);
@@ -601,7 +602,6 @@
 				id: eventId,
 				slug,
 				title,
-				subtitle,
 				tagline,
 				summary,
 				descriptionBodyMd,
@@ -1173,10 +1173,6 @@
 			<summary class="cursor-pointer text-xl font-semibold">Advanced Content</summary>
 			<p class="mt-2 text-sm text-gray-600">Optional content enrichment for event detail pages and richer API payloads.</p>
 			<div class="mt-4 grid gap-4 sm:grid-cols-2">
-				<label class="text-sm font-semibold text-gray-800">
-					Subtitle
-					<input class="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm" bind:value={subtitle} />
-				</label>
 				<label class="text-sm font-semibold text-gray-800">
 					Tagline
 					<input class="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm" bind:value={tagline} />

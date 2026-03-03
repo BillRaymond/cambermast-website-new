@@ -19,7 +19,6 @@ type CliOptions = {
 	id?: string;
 	campaignId?: string;
 	slug?: string;
-	subtitle?: string;
 	overwrite?: boolean;
 	noSlugSuffix?: boolean;
 };
@@ -34,7 +33,6 @@ const printUsage = (): void => {
 			'    [--id 7iu8p4] \\',
 			'    [--campaign-id 7iu8p4] \\',
 			'    --slug ai-workshop-for-tech-writers-and-content-creators-spring-2026 \\',
-			"    [--subtitle '🌷 Spring 2026 Cohort'] \\",
 			'    [--start-time 10:00] \\',
 			'    [--duration-days 49] \\',
 			'    [--hours-per-day 2] \\',
@@ -90,10 +88,6 @@ const parseArgs = (argv: string[]): CliOptions => {
 				options.slug = next;
 				i += 1;
 				break;
-			case '--subtitle':
-				options.subtitle = next;
-				i += 1;
-				break;
 			case '--overwrite':
 				options.overwrite = true;
 				break;
@@ -133,27 +127,6 @@ const toFallbackSlug = (programTitle: string, startDate: string): string => {
 const ensureSlugSuffix = (slug: string, suffixId: string): string => {
 	const suffix = `-${suffixId}`;
 	return slug.endsWith(suffix) ? slug : `${slug}${suffix}`;
-};
-
-const createDefaultSubtitle = (input: {
-	startAtUtc: string;
-	timeZone: string;
-	timeZoneLabel: string;
-}): string => {
-	const start = new Date(input.startAtUtc);
-	const dateText = new Intl.DateTimeFormat('en-US', {
-		timeZone: input.timeZone,
-		weekday: 'short',
-		month: 'short',
-		day: 'numeric',
-		year: 'numeric'
-	}).format(start);
-	const timeText = new Intl.DateTimeFormat('en-US', {
-		timeZone: input.timeZone,
-		hour: 'numeric',
-		minute: '2-digit'
-	}).format(start);
-	return `${dateText} • ${timeText} ${input.timeZoneLabel}`;
 };
 
 const run = async (): Promise<void> => {
@@ -210,13 +183,6 @@ const run = async (): Promise<void> => {
 		id: eventId,
 		campaignId,
 		slug: finalSlug,
-		subtitle:
-			options.subtitle ??
-			createDefaultSubtitle({
-				startAtUtc: scheduleDraft.startAtUtc,
-				timeZone: program.scheduleTemplate?.defaultTimeZone ?? 'America/Los_Angeles',
-				timeZoneLabel: program.scheduleTemplate?.defaultTimeZoneLabel ?? 'PT'
-			}),
 		startTimeLocal: options.startTimeLocal,
 		durationDays: options.durationDays,
 		estimatedHoursCommitment: options.hoursPerDayCommitment,

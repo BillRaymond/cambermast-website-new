@@ -4,7 +4,6 @@ export type EventAiDraftRequest = {
 	mode: 'training' | 'external';
 	eventContext: {
 		title?: string;
-		subtitle?: string;
 		type?: string;
 		ctaUrl?: string;
 		partnerCodes?: string[];
@@ -26,7 +25,6 @@ export type EventAiDraftRequest = {
 export type EventAiDraftResponse = {
 	title?: string;
 	slug?: string;
-	subtitle?: string;
 	tagline?: string;
 	summary?: string;
 	ctaLabel?: string;
@@ -127,7 +125,6 @@ const toSafeDraft = (raw: Record<string, unknown>): EventAiDraftResponse => ({
 		const fromTitle = toSlug(toTrimmed(raw.title));
 		return fromTitle || undefined;
 	})(),
-	subtitle: toTrimmed(raw.subtitle) || undefined,
 	tagline: toTrimmed(raw.tagline) || undefined,
 	summary: toTrimmed(raw.summary) || undefined,
 	ctaLabel: toTrimmed(raw.ctaLabel) || undefined,
@@ -153,7 +150,7 @@ export const generateEventAiDraft = async (
 		'Do not invent partners, credentials, prices, dates, or claims not present in user context.',
 		'If unknown, keep fields concise or omit.',
 		'Tone should be practical, clear, non-hype.',
-		'JSON keys allowed: title, slug, subtitle, tagline, summary, ctaLabel, descriptionBodyMd, highlights, audienceBullets, outcomes, agenda, faq.',
+		'JSON keys allowed: title, slug, tagline, summary, ctaLabel, descriptionBodyMd, highlights, audienceBullets, outcomes, agenda, faq.',
 		'slug must be lowercase URL-safe with hyphens.',
 		'agenda items: {title, outcome?, details?}; faq items: {question, answer}.',
 		'Keep arrays short and useful.'

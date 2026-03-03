@@ -143,7 +143,7 @@
 					>
 						<EventCard
 							title={slide.title}
-							subtitle={slide.subtitle}
+							tagline={slide.tagline}
 							date={slide.date}
 							time={slide.time}
 							location={slide.location}

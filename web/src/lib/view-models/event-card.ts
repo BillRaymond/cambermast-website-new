@@ -17,7 +17,7 @@ export type EventCardTone = 'upcoming' | 'happening';
 export type EventCardModel = {
 	id: string;
 	title: string;
-	subtitle?: string;
+	tagline?: string;
 	date: string;
 	time?: string;
 	location?: string;
@@ -102,8 +102,8 @@ export const toEventCardModel = (
 	const isHappeningNow = occurrenceState.isHappeningNow || isTrainingHappeningNow;
 	const tone = options.forceTone ?? (isHappeningNow ? 'happening' : 'upcoming');
 	const eventTypeLabel = getEventTypeLabelUi(event);
-	const subtitle =
-		event.subtitle ?? `${eventTypeLabel}${event.visibility === 'draft' ? ' · Draft' : ''}`;
+	const tagline =
+		event.tagline?.trim() || `${eventTypeLabel}${event.visibility === 'draft' ? ' · Draft' : ''}`;
 	const startTimestamp = toFiniteTimestamp(
 		bounds?.startTimestamp ?? getEventStartTimestampUi(event)
 	);
@@ -153,7 +153,7 @@ export const toEventCardModel = (
 	return {
 		id: `event-${event.id ?? event.slug}`,
 		title: event.title,
-		subtitle,
+		tagline,
 		date: toDateLabel(event, startTimestamp),
 		time: toConciseEventTimeLabel(event.time) ?? undefined,
 		location: event.location ?? defaultLocationLabel,
