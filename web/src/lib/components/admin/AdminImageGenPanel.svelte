@@ -80,6 +80,14 @@ STRICT AVOIDANCE RULES
 		minioBackupError?: string;
 	};
 
+	type TrainingReference = {
+		programSku?: string;
+		programTitle: string;
+		field: 'generatedSquare' | 'generatedLandscape' | 'heroImage' | 'ogImage';
+		url: string;
+		label: string;
+	};
+
 	type WriteResult = {
 		variant: string;
 		absolutePath: string;
@@ -121,11 +129,14 @@ STRICT AVOIDANCE RULES
 	let portraitN = defaultN;
 
 	let templates: string[] = [];
+	let trainingReferences: TrainingReference[] = [];
 	let selectedTemplateUrl = defaultTemplateUrl;
 	let templateImageDataUrl = '';
 	let uploadedTemplateName = '';
 	let templatesLoading = false;
+	let trainingReferencesLoading = false;
 	let noTemplateSelected = false;
+	let trainingReferenceError = '';
 
 	let squareCandidates: Candidate[] = [];
 	let landscapeCandidates: Candidate[] = [];
@@ -153,6 +164,9 @@ STRICT AVOIDANCE RULES
 	let errorMessage = '';
 	let saveMessage = '';
 	let saveWrites: WriteResult[] = [];
+	let previewCandidate: Candidate | null = null;
+
+	const MINIO_BROWSER_BASE = 'https://minio-on-hstgr.tail8a5127.ts.net/browser/blobs/';
 
 	const readFileAsDataUrl = (file: Blob): Promise<string> =>
 		new Promise((resolve, reject) => {
@@ -202,6 +216,57 @@ STRICT AVOIDANCE RULES
 			}
 		} finally {
 			templatesLoading = false;
+		}
+	};
+
+	const loadTrainingReferences = async () => {
+		trainingReferencesLoading = true;
+		trainingReferenceError = '';
+		try {
+			const response = await fetch('/admin/image-gen/api/training-references');
+			const json = await response.json();
+			if (!response.ok) throw new Error(json?.error ?? 'Unable to load training references');
+			trainingReferences = Array.isArray(json.references)
+				? (json.references as TrainingReference[])
+				: [];
+		} catch (error) {
+			trainingReferenceError =
+				error instanceof Error ? error.message : 'Unable to load training references';
+		} finally {
+			trainingReferencesLoading = false;
+		}
+	};
+
+	const getBlobBrowserUrl = (minioKey: string): string =>
+		`${MINIO_BROWSER_BASE}${minioKey.replace(/^\/+/, '')}`;
+
+	const openPreview = (candidate: Candidate) => {
+		previewCandidate = candidate;
+	};
+
+	const openSelectedTemplatePreview = () => {
+		if (!templateImageDataUrl) return;
+		const sourceLabel =
+			uploadedTemplateName ||
+			(selectedTemplateUrl && selectedTemplateUrl !== NO_TEMPLATE_OPTION
+				? selectedTemplateUrl
+				: 'Selected template');
+		openPreview({
+			id: 'selected-template',
+			dataUrl: templateImageDataUrl,
+			width: '',
+			height: '',
+			minioKey: sourceLabel
+		});
+	};
+
+	const closePreview = () => {
+		previewCandidate = null;
+	};
+
+	const handleWindowKeydown = (event: KeyboardEvent) => {
+		if (event.key === 'Escape' && previewCandidate) {
+			closePreview();
 		}
 	};
 
@@ -280,6 +345,8 @@ STRICT AVOIDANCE RULES
 			}
 
 			const nextCandidates = Array.isArray(json.candidates) ? (json.candidates as Candidate[]) : [];
+			const promptBackupError =
+				typeof json.promptBackupError === 'string' ? json.promptBackupError : '';
 			if (stage === 'square') {
 				squareCandidates = [...nextCandidates, ...squareCandidates];
 				squarePayloadPreview = JSON.stringify(json.payloadPreview, null, 2);
@@ -294,7 +361,9 @@ STRICT AVOIDANCE RULES
 			}
 			stageNotices = {
 				...stageNotices,
-				[stage]: `Generated ${nextCandidates.length.toString()} candidate${nextCandidates.length === 1 ? '' : 's'}.`
+				[stage]: promptBackupError
+					? `Generated ${nextCandidates.length.toString()} candidate${nextCandidates.length === 1 ? '' : 's'} (prompt backup failed: ${promptBackupError}).`
+					: `Generated ${nextCandidates.length.toString()} candidate${nextCandidates.length === 1 ? '' : 's'}.`
 			};
 		} catch (error) {
 			const message = error instanceof Error ? error.message : 'Generation failed';
@@ -381,12 +450,14 @@ STRICT AVOIDANCE RULES
 	onMount(async () => {
 		if (!isDev) return;
 		try {
-			await loadTemplates();
+			await Promise.all([loadTemplates(), loadTrainingReferences()]);
 		} catch (error) {
 			errorMessage = error instanceof Error ? error.message : 'Unable to load templates';
 		}
 	});
 </script>
+
+<svelte:window on:keydown={handleWindowKeydown} />
 
 {#if !isDev}
 	<section class="mt-8 rounded-2xl border border-amber-200 bg-amber-50 p-5">
@@ -408,20 +479,20 @@ STRICT AVOIDANCE RULES
 			{#if templatesLoading}
 				<p class="mt-3 text-sm text-gray-500">Loading templates...</p>
 			{:else}
-				<div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+				<div class="mt-4 flex flex-wrap gap-2">
 					<button
-						class={`rounded-xl border p-2 text-left ${noTemplateSelected ? 'border-blue-400 bg-blue-50' : 'border-gray-200 bg-white'}`}
+						class={`w-24 rounded-lg border p-1.5 text-left ${noTemplateSelected ? 'border-blue-400 bg-blue-50' : 'border-gray-200 bg-white'}`}
 						type="button"
 						on:click={() => setNoTemplateMode()}
 					>
-						<div class="flex aspect-square w-full items-center justify-center rounded bg-gray-100 text-sm font-semibold text-gray-700">
+						<div class="flex h-16 w-full items-center justify-center rounded bg-gray-100 text-[10px] font-semibold text-gray-700">
 							No template
 						</div>
-						<p class="mt-2 text-xs text-gray-700">Generate Stage A from prompt only</p>
+						<p class="mt-1 text-[10px] leading-tight text-gray-700">Prompt only</p>
 					</button>
 					{#each templates as template}
 						<button
-							class={`rounded-xl border p-2 text-left ${selectedTemplateUrl === template ? 'border-blue-400 bg-blue-50' : 'border-gray-200 bg-white'}`}
+							class={`w-24 rounded-lg border p-1.5 text-left ${selectedTemplateUrl === template ? 'border-blue-400 bg-blue-50' : 'border-gray-200 bg-white'}`}
 							type="button"
 							on:click={async () => {
 								try {
@@ -431,12 +502,57 @@ STRICT AVOIDANCE RULES
 								}
 							}}
 						>
-							<img class="aspect-square w-full rounded object-cover" src={template} alt={template} />
-							<p class="mt-2 text-xs text-gray-700">{template.split('/').pop()}</p>
+							<img class="h-16 w-full rounded object-cover" src={template} alt={template} />
+							<p class="mt-1 truncate text-[10px] text-gray-700">{template.split('/').pop()}</p>
 						</button>
 					{/each}
 				</div>
 			{/if}
+
+			<div class="mt-5">
+				<h3 class="text-sm font-semibold text-gray-800">Training Program References</h3>
+				<p class="mt-1 text-xs text-gray-600">
+					Each program defaults to generated square, then generated landscape when square is unavailable.
+				</p>
+				{#if trainingReferencesLoading}
+					<p class="mt-3 text-sm text-gray-500">Loading training references...</p>
+				{:else if trainingReferenceError}
+					<p class="mt-3 text-sm font-semibold text-rose-700">{trainingReferenceError}</p>
+				{:else if trainingReferences.length === 0}
+					<p class="mt-3 text-sm text-gray-500">No training references found.</p>
+				{:else}
+					<div class="mt-3 flex flex-wrap gap-2">
+						{#each trainingReferences as reference}
+							<button
+								type="button"
+								class={`w-24 rounded-lg border p-1.5 text-left ${
+									selectedTemplateUrl === reference.url && !noTemplateSelected
+										? 'border-blue-400 bg-blue-50'
+										: 'border-gray-200 bg-white hover:border-gray-300'
+								}`}
+								on:click={async () => {
+									try {
+										await setTemplateFromUrl(reference.url);
+									} catch (error) {
+										errorMessage =
+											error instanceof Error
+												? error.message
+												: 'Unable to load training reference image';
+									}
+								}}
+							>
+								<img
+									src={reference.url}
+									alt={reference.programTitle}
+									class="h-16 w-full rounded object-cover"
+									loading="lazy"
+								/>
+								<p class="mt-1 truncate text-[10px] text-gray-700">{reference.programTitle}</p>
+							</button>
+						{/each}
+					</div>
+				{/if}
+			</div>
 
 			<div class="mt-5">
 				<label class="mb-2 block text-sm font-semibold text-gray-800" for={`template-upload-${mode}`}>
@@ -467,6 +583,35 @@ STRICT AVOIDANCE RULES
 				{/if}
 				{#if noTemplateSelected}
 					<p class="mt-2 text-xs text-gray-600">No template mode selected for Stage A.</p>
+				{/if}
+				{#if !noTemplateSelected && templateImageDataUrl}
+					<div class="mt-4 rounded-xl border border-gray-200 bg-gray-50 p-3">
+						<div class="flex items-center justify-between gap-2">
+							<p class="text-sm font-semibold text-gray-800">Selected template preview</p>
+							<button
+								type="button"
+								class="inline-flex items-center gap-1 rounded border border-gray-300 bg-white px-2 py-1 text-[11px] font-semibold text-gray-700 hover:border-gray-400"
+								on:click={openSelectedTemplatePreview}
+								aria-label="Preview selected template"
+							>
+								<svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+									<path d="M10 4c-3.9 0-7.2 2.3-8.7 5.6a1 1 0 0 0 0 .8C2.8 13.7 6.1 16 10 16s7.2-2.3 8.7-5.6a1 1 0 0 0 0-.8C17.2 6.3 13.9 4 10 4Zm0 10c-2.2 0-4-1.8-4-4s1.8-4 4-4 4 1.8 4 4-1.8 4-4 4Z" />
+								</svg>
+								Preview
+							</button>
+						</div>
+						<img
+							class="mt-3 max-h-80 w-full rounded bg-white object-contain"
+							src={templateImageDataUrl}
+							alt="Selected template"
+						/>
+						<p class="mt-2 truncate text-xs text-gray-600">
+							{uploadedTemplateName ||
+								(selectedTemplateUrl && selectedTemplateUrl !== NO_TEMPLATE_OPTION
+									? selectedTemplateUrl
+									: 'Template selected')}
+						</p>
+					</div>
 				{/if}
 			</div>
 		</div>
@@ -559,25 +704,50 @@ STRICT AVOIDANCE RULES
 			{#if squareCandidates.length > 0}
 				<div class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
 					{#each squareCandidates as candidate}
-						<label class={`rounded-xl border p-2 ${selectedSquareCandidateId === candidate.id ? 'border-blue-400 bg-blue-50' : 'border-gray-200 bg-white'}`}>
-							<input
-								type="radio"
-								name={`square-selection-${mode}`}
-								value={candidate.id}
-								checked={selectedSquareCandidateId === candidate.id}
-								on:change={() => {
-									selectedSquareCandidateId = candidate.id;
-									clearDownstreamFromSquare();
-								}}
-							/>
-							<img class="mt-2 aspect-square w-full rounded object-cover" src={candidate.dataUrl} alt={candidate.id} />
-							<p class="mt-2 text-[11px] text-gray-600">{candidate.minioKey}</p>
+						<div class={`rounded-xl border p-2 ${selectedSquareCandidateId === candidate.id ? 'border-blue-400 bg-blue-50' : 'border-gray-200 bg-white'}`}>
+							<label>
+								<input
+									type="radio"
+									name={`square-selection-${mode}`}
+									value={candidate.id}
+									checked={selectedSquareCandidateId === candidate.id}
+									on:change={() => {
+										selectedSquareCandidateId = candidate.id;
+										clearDownstreamFromSquare();
+									}}
+								/>
+								<img class="mt-2 aspect-square w-full rounded object-cover" src={candidate.dataUrl} alt={candidate.id} />
+							</label>
+							<div class="mt-2 flex flex-wrap items-center gap-2">
+								<button
+									type="button"
+									class="inline-flex items-center gap-1 rounded border border-gray-300 bg-white px-2 py-1 text-[11px] font-semibold text-gray-700 hover:border-gray-400"
+									on:click={() => openPreview(candidate)}
+									aria-label="Preview image"
+								>
+									<svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+										<path d="M10 4c-3.9 0-7.2 2.3-8.7 5.6a1 1 0 0 0 0 .8C2.8 13.7 6.1 16 10 16s7.2-2.3 8.7-5.6a1 1 0 0 0 0-.8C17.2 6.3 13.9 4 10 4Zm0 10c-2.2 0-4-1.8-4-4s1.8-4 4-4 4 1.8 4 4-1.8 4-4 4Z" />
+									</svg>
+									Preview
+								</button>
+								{#if candidate.minioKey && !candidate.minioBackupError}
+									<a
+										class="inline-flex items-center gap-1 rounded border border-gray-300 bg-white px-2 py-1 text-[11px] font-semibold text-gray-700 hover:border-gray-400"
+										href={getBlobBrowserUrl(candidate.minioKey)}
+										target="_blank"
+										rel="noopener noreferrer"
+									>
+										Original in blob
+									</a>
+								{/if}
+							</div>
+							<p class="mt-2 break-all text-[11px] text-gray-600">{candidate.minioKey}</p>
 							{#if candidate.minioBackupError}
 								<p class="text-[11px] font-semibold text-rose-700">
 									Backup failed: {candidate.minioBackupError}
 								</p>
 							{/if}
-						</label>
+						</div>
 					{/each}
 				</div>
 			{/if}
@@ -640,22 +810,47 @@ STRICT AVOIDANCE RULES
 			{#if landscapeCandidates.length > 0}
 				<div class="mt-5 grid gap-4 sm:grid-cols-2">
 					{#each landscapeCandidates as candidate}
-						<label class={`rounded-xl border p-2 ${selectedLandscapeCandidateId === candidate.id ? 'border-blue-400 bg-blue-50' : 'border-gray-200 bg-white'}`}>
-							<input
-								type="radio"
-								name={`landscape-selection-${mode}`}
-								value={candidate.id}
-								checked={selectedLandscapeCandidateId === candidate.id}
-								on:change={() => (selectedLandscapeCandidateId = candidate.id)}
-							/>
-							<img class="mt-2 aspect-[3/2] w-full rounded object-cover" src={candidate.dataUrl} alt={candidate.id} />
-							<p class="mt-2 text-[11px] text-gray-600">{candidate.minioKey}</p>
+						<div class={`rounded-xl border p-2 ${selectedLandscapeCandidateId === candidate.id ? 'border-blue-400 bg-blue-50' : 'border-gray-200 bg-white'}`}>
+							<label>
+								<input
+									type="radio"
+									name={`landscape-selection-${mode}`}
+									value={candidate.id}
+									checked={selectedLandscapeCandidateId === candidate.id}
+									on:change={() => (selectedLandscapeCandidateId = candidate.id)}
+								/>
+								<img class="mt-2 aspect-[3/2] w-full rounded object-cover" src={candidate.dataUrl} alt={candidate.id} />
+							</label>
+							<div class="mt-2 flex flex-wrap items-center gap-2">
+								<button
+									type="button"
+									class="inline-flex items-center gap-1 rounded border border-gray-300 bg-white px-2 py-1 text-[11px] font-semibold text-gray-700 hover:border-gray-400"
+									on:click={() => openPreview(candidate)}
+									aria-label="Preview image"
+								>
+									<svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+										<path d="M10 4c-3.9 0-7.2 2.3-8.7 5.6a1 1 0 0 0 0 .8C2.8 13.7 6.1 16 10 16s7.2-2.3 8.7-5.6a1 1 0 0 0 0-.8C17.2 6.3 13.9 4 10 4Zm0 10c-2.2 0-4-1.8-4-4s1.8-4 4-4 4 1.8 4 4-1.8 4-4 4Z" />
+									</svg>
+									Preview
+								</button>
+								{#if candidate.minioKey && !candidate.minioBackupError}
+									<a
+										class="inline-flex items-center gap-1 rounded border border-gray-300 bg-white px-2 py-1 text-[11px] font-semibold text-gray-700 hover:border-gray-400"
+										href={getBlobBrowserUrl(candidate.minioKey)}
+										target="_blank"
+										rel="noopener noreferrer"
+									>
+										Original in blob
+									</a>
+								{/if}
+							</div>
+							<p class="mt-2 break-all text-[11px] text-gray-600">{candidate.minioKey}</p>
 							{#if candidate.minioBackupError}
 								<p class="text-[11px] font-semibold text-rose-700">
 									Backup failed: {candidate.minioBackupError}
 								</p>
 							{/if}
-						</label>
+						</div>
 					{/each}
 				</div>
 			{/if}
@@ -718,22 +913,47 @@ STRICT AVOIDANCE RULES
 			{#if portraitCandidates.length > 0}
 				<div class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
 					{#each portraitCandidates as candidate}
-						<label class={`rounded-xl border p-2 ${selectedPortraitCandidateId === candidate.id ? 'border-blue-400 bg-blue-50' : 'border-gray-200 bg-white'}`}>
-							<input
-								type="radio"
-								name={`portrait-selection-${mode}`}
-								value={candidate.id}
-								checked={selectedPortraitCandidateId === candidate.id}
-								on:change={() => (selectedPortraitCandidateId = candidate.id)}
-							/>
-							<img class="mt-2 aspect-[2/3] w-full rounded object-cover" src={candidate.dataUrl} alt={candidate.id} />
-							<p class="mt-2 text-[11px] text-gray-600">{candidate.minioKey}</p>
+						<div class={`rounded-xl border p-2 ${selectedPortraitCandidateId === candidate.id ? 'border-blue-400 bg-blue-50' : 'border-gray-200 bg-white'}`}>
+							<label>
+								<input
+									type="radio"
+									name={`portrait-selection-${mode}`}
+									value={candidate.id}
+									checked={selectedPortraitCandidateId === candidate.id}
+									on:change={() => (selectedPortraitCandidateId = candidate.id)}
+								/>
+								<img class="mt-2 aspect-[2/3] w-full rounded object-cover" src={candidate.dataUrl} alt={candidate.id} />
+							</label>
+							<div class="mt-2 flex flex-wrap items-center gap-2">
+								<button
+									type="button"
+									class="inline-flex items-center gap-1 rounded border border-gray-300 bg-white px-2 py-1 text-[11px] font-semibold text-gray-700 hover:border-gray-400"
+									on:click={() => openPreview(candidate)}
+									aria-label="Preview image"
+								>
+									<svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+										<path d="M10 4c-3.9 0-7.2 2.3-8.7 5.6a1 1 0 0 0 0 .8C2.8 13.7 6.1 16 10 16s7.2-2.3 8.7-5.6a1 1 0 0 0 0-.8C17.2 6.3 13.9 4 10 4Zm0 10c-2.2 0-4-1.8-4-4s1.8-4 4-4 4 1.8 4 4-1.8 4-4 4Z" />
+									</svg>
+									Preview
+								</button>
+								{#if candidate.minioKey && !candidate.minioBackupError}
+									<a
+										class="inline-flex items-center gap-1 rounded border border-gray-300 bg-white px-2 py-1 text-[11px] font-semibold text-gray-700 hover:border-gray-400"
+										href={getBlobBrowserUrl(candidate.minioKey)}
+										target="_blank"
+										rel="noopener noreferrer"
+									>
+										Original in blob
+									</a>
+								{/if}
+							</div>
+							<p class="mt-2 break-all text-[11px] text-gray-600">{candidate.minioKey}</p>
 							{#if candidate.minioBackupError}
 								<p class="text-[11px] font-semibold text-rose-700">
 									Backup failed: {candidate.minioBackupError}
 								</p>
 							{/if}
-						</label>
+						</div>
 					{/each}
 				</div>
 			{/if}
@@ -771,4 +991,38 @@ STRICT AVOIDANCE RULES
 			{/if}
 		</div>
 	</section>
+
+	{#if previewCandidate}
+		<div
+			class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4"
+			role="presentation"
+			on:click={(event) => {
+				if (event.target === event.currentTarget) closePreview();
+			}}
+		>
+			<div
+				class="w-full max-w-6xl rounded-xl bg-white p-3 shadow-2xl"
+				role="dialog"
+				aria-modal="true"
+				aria-label="Image preview"
+				tabindex="-1"
+			>
+				<div class="mb-3 flex items-center justify-between gap-2">
+					<p class="truncate text-sm font-semibold text-gray-800">{previewCandidate.minioKey}</p>
+					<button
+						type="button"
+						class="rounded border border-gray-300 bg-white px-3 py-1 text-xs font-semibold text-gray-700 hover:border-gray-400"
+						on:click={closePreview}
+					>
+						Close
+					</button>
+				</div>
+				<img
+					class="max-h-[80vh] w-full rounded object-contain"
+					src={previewCandidate.dataUrl}
+					alt={previewCandidate.id}
+				/>
+			</div>
+		</div>
+	{/if}
 {/if}

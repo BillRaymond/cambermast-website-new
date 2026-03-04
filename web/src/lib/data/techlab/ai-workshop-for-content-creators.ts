@@ -7,9 +7,9 @@ export const techlabAiWorkshopForContentCreators = {
 	title: 'AI Workshop for Tech Writers and Content Creators',
 	nickname: 'Seven-week cohort for technical communicators',
 	tagline: 'AI-enhanced content workflows that deliver measurable impact in seven weeks.',
-	heroImage: '/images/ai-workshop-for-content-creators.jpeg',
+	heroImage: '/images/generated/ai-workshop-for-content-creators/hero-landscape.jpg',
 	heroImageAlt: 'AI Workshop for Tech Writers and Content Creators illustration',
-	ogImage: '/images/cambermast-content-5-ai-workshop-for-content-creators-og.jpeg',
+	ogImage: '/images/generated/ai-workshop-for-content-creators/hero-landscape.jpg',
 	ogImageAlt:
 		'Open graph image for the AI Workshop for Tech Writers and Content Creators training program',
 	description:

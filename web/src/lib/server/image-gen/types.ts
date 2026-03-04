@@ -55,3 +55,23 @@ export type MinioUploadResult = {
 	key: string;
 	url?: string;
 };
+
+export type ImageGenCandidateResponse = {
+	id: string;
+	dataUrl: string;
+	width: string;
+	height: string;
+	minioKey: string;
+	minioUrl?: string;
+	minioBackupError?: string;
+};
+
+export type ImageGenGenerateResponse = {
+	runId: string;
+	stage: ImageGenStage;
+	payloadPreview: Record<string, unknown>;
+	candidates: ImageGenCandidateResponse[];
+	promptBackupKey?: string;
+	promptBackupUrl?: string;
+	promptBackupError?: string;
+};

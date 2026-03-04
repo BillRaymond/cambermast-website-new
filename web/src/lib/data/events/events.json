@@ -59,9 +59,9 @@
 					"shortBio": "Cambermast founder and hands-on trainer focused on practical AI adoption."
 				}
 			],
-			"heroImage": "/images/cambermast-content-5-ai-workshop-for-content-creators-og.jpeg",
+			"heroImage": "/images/generated/ai-workshop-for-content-creators/hero-landscape.jpg",
 			"heroImageAlt": "AI Workshop for Tech Writers and Content Creators",
-			"image": "/images/cambermast-content-5-ai-workshop-for-content-creators-og.jpeg",
+			"image": "/images/generated/ai-workshop-for-content-creators/hero-landscape.jpg",
 			"imageAlt": "AI Workshop for Tech Writers and Content Creators",
 				"sessions": [
 					{
@@ -333,9 +333,9 @@
 					"details": "Codify a long-term roadmap for AI-enabled content operations. Operationalize your workflow and celebrate the cohort completion."
 				}
 			],
-			"heroImage": "/images/ai-workshop-for-content-creators.jpeg",
+			"heroImage": "/images/generated/ai-workshop-for-content-creators/hero-landscape.jpg",
 			"heroImageAlt": "AI Workshop for Tech Writers and Content Creators illustration",
-			"image": "/images/cambermast-content-5-ai-workshop-for-content-creators-og.jpeg",
+			"image": "/images/generated/ai-workshop-for-content-creators/hero-landscape.jpg",
 			"imageAlt": "Open graph image for the AI Workshop for Tech Writers and Content Creators training program",
 			"campaignId": "s6twc1"
 		}

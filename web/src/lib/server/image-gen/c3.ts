@@ -34,9 +34,31 @@ export const uploadToC3 = async (input: {
 	const ext = mime.includes('jpeg') ? 'jpg' : mime.includes('webp') ? 'webp' : 'png';
 	const bytes = Buffer.from(base64, 'base64');
 	const fileName = input.key.split('/').pop() ?? `candidate.${ext}`;
+	return uploadBytesToC3({
+		apiBase: input.apiBase,
+		apiKey: input.apiKey,
+		key: input.key,
+		bytes,
+		contentType: mime,
+		fileName
+	});
+};
+
+export const uploadBytesToC3 = async (input: {
+	apiKey: string;
+	apiBase: string;
+	key: string;
+	bytes: Uint8Array;
+	contentType: string;
+	fileName: string;
+}): Promise<MinioUploadResult> => {
 	const form = new FormData();
 	form.append('key', input.key);
-	form.append('file', new Blob([bytes], { type: mime }), fileName);
+	form.append(
+		'file',
+		new Blob([Buffer.from(input.bytes)], { type: input.contentType }),
+		input.fileName
+	);
 
 	const response = await fetch(`${trimTrailingSlash(input.apiBase)}/upload`, {
 		method: 'POST',

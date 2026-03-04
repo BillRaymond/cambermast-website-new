@@ -56,6 +56,14 @@
 				<code>web/static/images/admin/image-gen/templates/01-template-1x1-square.jpg</code>
 			</li>
 			<li>Folder-based template previews from the same template directory</li>
+			<li>
+				Training program references from
+				<code>heroImage</code>
+				and
+				<code>ogImage</code>
+				via
+				<code>GET /admin/image-gen/api/training-references</code>
+			</li>
 			<li>Ad hoc local template upload from the browser</li>
 		</ul>
 	</div>
@@ -98,8 +106,21 @@
 			<code>cambermastweb/{"<events-or-training>"}/image-gen/{"<slug-or-unspecified>"}/{"<stage>"}/{"<run-id>"}/candidate-{"<index>"}.png</code>
 		</p>
 		<p class="mt-2 max-w-3xl text-gray-700">
+			Prompt artifact key pattern:
+			<code>cambermastweb/{"<events-or-training>"}/image-gen/{"<slug-or-unspecified>"}/{"<stage>"}/{"<run-id>"}/prompt.json</code>
+		</p>
+		<p class="mt-2 max-w-3xl text-gray-700">
+			Each <code>prompt.json</code> stores <code>runId</code>, <code>stage</code>,
+			<code>blobScope</code>, <code>slug</code>, <code>size</code>, <code>n</code>,
+			<code>prompt</code>, and <code>createdAt</code>.
+		</p>
+		<p class="mt-2 max-w-3xl text-gray-700">
 			Embedded event creation maps scope automatically: training mode uses <code>training</code>,
 			external mode uses <code>events</code>.
+		</p>
+		<p class="mt-2 max-w-3xl text-gray-700">
+			Each candidate card also links to the MinIO browser path in a new tab:
+			<code>https://minio-on-hstgr.tail8a5127.ts.net/browser/blobs/{"<key>"}</code>.
 		</p>
 	</div>
 
@@ -128,7 +149,11 @@
 			</li>
 			<li>
 				<code>POST /admin/image-gen/api/generate</code> runs OpenAI image generation and uploads all
-				candidates to MinIO.
+				candidates to MinIO, plus one <code>prompt.json</code> artifact per stage run.
+			</li>
+			<li>
+				<code>GET /admin/image-gen/api/training-references</code> lists deduplicated training
+				<code>heroImage</code> and <code>ogImage</code> URLs for template reference selection.
 			</li>
 			<li>
 				<code>POST /admin/image-gen/api/save-selected</code> saves chosen variants into static site

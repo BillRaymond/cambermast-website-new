@@ -1,7 +1,8 @@
 import { json } from '@sveltejs/kit';
 import { randomUUID } from 'node:crypto';
+import { Buffer } from 'node:buffer';
 import { env } from '$env/dynamic/private';
-import { getC3ApiBase, uploadToC3 } from '$lib/server/image-gen/c3';
+import { getC3ApiBase, uploadBytesToC3, uploadToC3 } from '$lib/server/image-gen/c3';
 import { generateImagesWithOpenAi } from '$lib/server/image-gen/openai';
 import {
 	IMAGE_GEN_MAX_COUNT,
@@ -78,6 +79,7 @@ export const POST = async ({ request }) => {
 	const blobScope = getBlobScope(body.blobScope);
 
 	const runId = randomUUID();
+	const createdAt = new Date().toISOString();
 	console.info('[image-gen] generate start', { runId, stage, n, slug: slugSegment });
 
 	try {
@@ -88,6 +90,41 @@ export const POST = async ({ request }) => {
 			n,
 			templateImageDataUrl: templateImageDataUrl || undefined
 		});
+		const promptBackupKey = `cambermastweb/${blobScope}/image-gen/${slugSegment}/${stage}/${runId}/prompt.json`;
+		let promptBackupUrl: string | undefined;
+		let promptBackupError: string | undefined;
+		try {
+			const promptBackupPayload = JSON.stringify(
+				{
+					runId,
+					stage,
+					blobScope,
+					slug: slugSegment,
+					size: body.size,
+					n,
+					prompt: body.prompt,
+					createdAt
+				},
+				null,
+				2
+			);
+			const uploadedPrompt = await uploadBytesToC3({
+				apiBase: c3Base,
+				apiKey: c3Key,
+				key: promptBackupKey,
+				bytes: Buffer.from(promptBackupPayload, 'utf8'),
+				contentType: 'application/json',
+				fileName: 'prompt.json'
+			});
+			promptBackupUrl = uploadedPrompt.url;
+		} catch (error) {
+			promptBackupError = getErrorMessage(error);
+			console.error('[image-gen] prompt backup failed', {
+				runId,
+				stage,
+				error: promptBackupError
+			});
+		}
 
 		const candidates = await Promise.all(
 			generated.dataUrls.map(async (dataUrl, index) => {
@@ -133,7 +170,10 @@ export const POST = async ({ request }) => {
 			runId,
 			stage,
 			payloadPreview: generated.payloadPreview,
-			candidates
+			candidates,
+			promptBackupKey,
+			promptBackupUrl,
+			promptBackupError
 		});
 	} catch (error) {
 		const message = getErrorMessage(error);
