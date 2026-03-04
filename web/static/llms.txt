@@ -1,6 +1,6 @@
 Cambermast LLC
 llms.txt – Guidance for Language Models
-Last updated: 2026-02-17
+Last updated: 2026-03-04
 ----------------------------------------
 Mission summary:
 Cambermast helps organizations adopt AI with confidence through hands-on training, production-ready agents, and advisory programs that align experimentation with measurable business outcomes.
@@ -71,6 +71,7 @@ Authoritative sources:
 - https://cambermast.com/api/faq-presets.json
 - https://cambermast.com/api/testimonials.json
 - https://cambermast.com/api/tools.json
+- https://cambermast.com/api/image-gen-standards.json
 - https://cambermast.com/news and https://cambermast.com/news/ai-adoption-playbook
 - https://cambermast.com/gdpr
 - https://cambermast.com/contact

@@ -59,40 +59,40 @@
 					"shortBio": "Cambermast founder and hands-on trainer focused on practical AI adoption."
 				}
 			],
-			"heroImage": "/images/generated/ai-workshop-for-content-creators/hero-landscape.jpg",
+			"heroImage": "/images/generated/events/ai-workshop-for-content-creators-winter-2026/hero-landscape.jpg",
 			"heroImageAlt": "AI Workshop for Tech Writers and Content Creators",
-			"image": "/images/generated/ai-workshop-for-content-creators/hero-landscape.jpg",
+			"image": "/images/generated/events/ai-workshop-for-content-creators-winter-2026/hero-landscape.jpg",
 			"imageAlt": "AI Workshop for Tech Writers and Content Creators",
-				"sessions": [
-					{
-						"startAtUtc": "2026-01-27T18:00:00.000Z",
-						"endAtUtc": "2026-01-27T19:30:00.000Z"
-					},
-					{
-						"startAtUtc": "2026-02-03T18:00:00.000Z",
-						"endAtUtc": "2026-02-03T19:30:00.000Z"
-					},
-					{
-						"startAtUtc": "2026-02-10T18:00:00.000Z",
-						"endAtUtc": "2026-02-10T19:30:00.000Z"
-					},
-					{
-						"startAtUtc": "2026-02-17T18:00:00.000Z",
-						"endAtUtc": "2026-02-17T19:30:00.000Z"
-					},
-					{
-						"startAtUtc": "2026-02-24T18:00:00.000Z",
-						"endAtUtc": "2026-02-24T19:30:00.000Z"
-					},
-					{
-						"startAtUtc": "2026-03-03T18:00:00.000Z",
-						"endAtUtc": "2026-03-03T19:30:00.000Z"
-					},
-					{
-						"startAtUtc": "2026-03-10T17:00:00.000Z",
-						"endAtUtc": "2026-03-10T18:30:00.000Z"
-					}
-				],
+			"sessions": [
+				{
+					"startAtUtc": "2026-01-27T18:00:00.000Z",
+					"endAtUtc": "2026-01-27T19:30:00.000Z"
+				},
+				{
+					"startAtUtc": "2026-02-03T18:00:00.000Z",
+					"endAtUtc": "2026-02-03T19:30:00.000Z"
+				},
+				{
+					"startAtUtc": "2026-02-10T18:00:00.000Z",
+					"endAtUtc": "2026-02-10T19:30:00.000Z"
+				},
+				{
+					"startAtUtc": "2026-02-17T18:00:00.000Z",
+					"endAtUtc": "2026-02-17T19:30:00.000Z"
+				},
+				{
+					"startAtUtc": "2026-02-24T18:00:00.000Z",
+					"endAtUtc": "2026-02-24T19:30:00.000Z"
+				},
+				{
+					"startAtUtc": "2026-03-03T18:00:00.000Z",
+					"endAtUtc": "2026-03-03T19:30:00.000Z"
+				},
+				{
+					"startAtUtc": "2026-03-10T17:00:00.000Z",
+					"endAtUtc": "2026-03-10T18:30:00.000Z"
+				}
+			],
 			"template": {
 				"kind": "training_event_v1",
 				"sourceProgramSku": "CM-TR-005",
@@ -333,11 +333,207 @@
 					"details": "Codify a long-term roadmap for AI-enabled content operations. Operationalize your workflow and celebrate the cohort completion."
 				}
 			],
-			"heroImage": "/images/generated/ai-workshop-for-content-creators/hero-landscape.jpg",
+			"heroImage": "/images/generated/events/ai-workshop-for-content-creators-summer-2026/hero-landscape.jpg",
 			"heroImageAlt": "AI Workshop for Tech Writers and Content Creators illustration",
-			"image": "/images/generated/ai-workshop-for-content-creators/hero-landscape.jpg",
+			"image": "/images/generated/events/ai-workshop-for-content-creators-summer-2026/hero-landscape.jpg",
 			"imageAlt": "Open graph image for the AI Workshop for Tech Writers and Content Creators training program",
 			"campaignId": "s6twc1"
+		},
+		{
+			"title": "AI Workshop for Tech Writers and Content Creators",
+			"type": "training_session",
+			"typeLabel": "Training",
+			"visibility": "public",
+			"lifecycleStatus": "scheduled",
+			"registrationStatus": "open",
+			"cta": {
+				"label": "Register now",
+				"url": "/training/ai-workshop-for-content-creators"
+			},
+			"timeZoneIana": "America/Los_Angeles",
+			"location": {
+				"mode": "online",
+				"publicLabel": "Online",
+				"detailsVisibility": "public"
+			},
+			"ticketing": {
+				"currency": "USD",
+				"amountUsd": 1749
+			},
+			"registrationSettings": {
+				"approvalRequired": false,
+				"capacity": {
+					"type": "unlimited"
+				}
+			},
+			"programRef": {
+				"sku": "CM-TR-005"
+			},
+			"partners": [
+				{
+					"code": "TCW",
+					"role": "community"
+				}
+			],
+			"speakers": [
+				{
+					"name": "Bill Raymond",
+					"title": "Host",
+					"shortBio": "Bill is a technical content strategist and AI practitioner who uses generative tools daily to ship human-centered documentation and learning experiences."
+				}
+			],
+			"description": "This multi-session workshop combines strategy and hands-on implementation. Participants build repeatable workflows for research, drafting, editing, and quality checks while preserving voice, review standards, and governance expectations.",
+			"highlights": [
+				"Structured prompting systems for high-quality first drafts",
+				"Editorial quality controls and policy-aligned review loops",
+				"Reusable workflow templates for documentation teams"
+			],
+			"template": {
+				"kind": "training_event_v1",
+				"sourceProgramSku": "CM-TR-005",
+				"sourceProgramSlug": "ai-workshop-for-content-creators",
+				"sourceProgramRoute": "/training/ai-workshop-for-content-creators"
+			},
+			"id": "k4f8n1",
+			"slug": "ai-workshop-for-tech-writers-and-content-creators-fall-2026-k4f8n1",
+			"tagline": "This is a 7-week course that meets on Tuesdays.",
+			"summary": "This is a 7-week course that meets on Tuesdays. July 14 - August 25, 2026, from 10 am PT to 12 pm PT.",
+			"sessions": [
+				{
+					"startAtUtc": "2026-07-14T17:00:00.000Z",
+					"endAtUtc": "2026-07-14T19:00:00.000Z"
+				},
+				{
+					"startAtUtc": "2026-07-21T17:00:00.000Z",
+					"endAtUtc": "2026-07-21T19:00:00.000Z"
+				},
+				{
+					"startAtUtc": "2026-07-28T17:00:00.000Z",
+					"endAtUtc": "2026-07-28T19:00:00.000Z"
+				},
+				{
+					"startAtUtc": "2026-08-04T17:00:00.000Z",
+					"endAtUtc": "2026-08-04T19:00:00.000Z"
+				},
+				{
+					"startAtUtc": "2026-08-11T17:00:00.000Z",
+					"endAtUtc": "2026-08-11T19:00:00.000Z"
+				},
+				{
+					"startAtUtc": "2026-08-18T17:00:00.000Z",
+					"endAtUtc": "2026-08-18T19:00:00.000Z"
+				},
+				{
+					"startAtUtc": "2026-08-25T17:00:00.000Z",
+					"endAtUtc": "2026-08-25T19:00:00.000Z"
+				}
+			],
+			"schedule": {
+				"durationDays": 42,
+				"estimatedHoursCommitment": 2
+			},
+			"heroImage": "/images/generated/events/ai-workshop-for-content-creators-fall-2026/hero-landscape.jpg",
+			"heroImageAlt": "AI Workshop for Tech Writers and Content Creators illustration",
+			"image": "/images/generated/events/ai-workshop-for-content-creators-fall-2026/hero-landscape.jpg",
+			"imageAlt": "Open graph image for the AI Workshop for Tech Writers and Content Creators training program"
+		},
+		{
+			"title": "AI Workshop for Tech Writers and Content Creators",
+			"type": "training_session",
+			"typeLabel": "Training",
+			"visibility": "public",
+			"lifecycleStatus": "scheduled",
+			"registrationStatus": "open",
+			"cta": {
+				"label": "Register now",
+				"url": "/training/ai-workshop-for-content-creators"
+			},
+			"timeZoneIana": "America/Los_Angeles",
+			"location": {
+				"mode": "online",
+				"publicLabel": "Online",
+				"detailsVisibility": "public"
+			},
+			"ticketing": {
+				"currency": "USD",
+				"amountUsd": 1749
+			},
+			"registrationSettings": {
+				"approvalRequired": false,
+				"capacity": {
+					"type": "unlimited"
+				}
+			},
+			"programRef": {
+				"sku": "CM-TR-005"
+			},
+			"partners": [
+				{
+					"code": "TCW",
+					"role": "community"
+				}
+			],
+			"speakers": [
+				{
+					"name": "Bill Raymond",
+					"title": "Host",
+					"shortBio": "Bill is a technical content strategist and AI practitioner who uses generative tools daily to ship human-centered documentation and learning experiences."
+				}
+			],
+			"description": "This multi-session workshop combines strategy and hands-on implementation. Participants build repeatable workflows for research, drafting, editing, and quality checks while preserving voice, review standards, and governance expectations.",
+			"highlights": [
+				"Structured prompting systems for high-quality first drafts",
+				"Editorial quality controls and policy-aligned review loops",
+				"Reusable workflow templates for documentation teams"
+			],
+			"template": {
+				"kind": "training_event_v1",
+				"sourceProgramSku": "CM-TR-005",
+				"sourceProgramSlug": "ai-workshop-for-content-creators",
+				"sourceProgramRoute": "/training/ai-workshop-for-content-creators"
+			},
+			"id": "m7w2q5",
+			"slug": "ai-workshop-for-tech-writers-and-content-creators-winter-2026-m7w2q5",
+			"tagline": "This is a 7-week course that meets on Tuesdays.",
+			"summary": "This is a 7-week course that meets on Tuesdays. August 18 - October 6, 2026, from 10 am PT to 12 pm PT. No class the week of Labor Day.",
+			"sessions": [
+				{
+					"startAtUtc": "2026-08-18T17:00:00.000Z",
+					"endAtUtc": "2026-08-18T19:00:00.000Z"
+				},
+				{
+					"startAtUtc": "2026-08-25T17:00:00.000Z",
+					"endAtUtc": "2026-08-25T19:00:00.000Z"
+				},
+				{
+					"startAtUtc": "2026-09-08T17:00:00.000Z",
+					"endAtUtc": "2026-09-08T19:00:00.000Z"
+				},
+				{
+					"startAtUtc": "2026-09-15T17:00:00.000Z",
+					"endAtUtc": "2026-09-15T19:00:00.000Z"
+				},
+				{
+					"startAtUtc": "2026-09-22T17:00:00.000Z",
+					"endAtUtc": "2026-09-22T19:00:00.000Z"
+				},
+				{
+					"startAtUtc": "2026-09-29T17:00:00.000Z",
+					"endAtUtc": "2026-09-29T19:00:00.000Z"
+				},
+				{
+					"startAtUtc": "2026-10-06T17:00:00.000Z",
+					"endAtUtc": "2026-10-06T19:00:00.000Z"
+				}
+			],
+			"schedule": {
+				"durationDays": 49,
+				"estimatedHoursCommitment": 2
+			},
+			"heroImage": "/images/generated/events/ai-workshop-for-content-creators-winter-2026/hero-landscape.jpg",
+			"heroImageAlt": "AI Workshop for Tech Writers and Content Creators illustration",
+			"image": "/images/generated/events/ai-workshop-for-content-creators-winter-2026/hero-landscape.jpg",
+			"imageAlt": "Open graph image for the AI Workshop for Tech Writers and Content Creators training program"
 		}
 	]
 }

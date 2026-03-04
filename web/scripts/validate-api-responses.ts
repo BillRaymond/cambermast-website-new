@@ -9,6 +9,7 @@ import trainingApiSchema from '../src/lib/data/api/schemas/training-api.schema.j
 import testimonialsApiSchema from '../src/lib/data/api/schemas/testimonials-api.schema.json';
 import toolsApiSchema from '../src/lib/data/api/schemas/tools-api.schema.json';
 import faqPresetsApiSchema from '../src/lib/data/api/schemas/faq-presets-api.schema.json';
+import imageGenStandardsApiSchema from '../src/lib/data/api/schemas/image-gen-standards-api.schema.json';
 import { buildEventsApiExamples, buildEventsApiPayload } from '../src/lib/data/api/events';
 import { buildCampaignsApiExamples, buildCampaignsApiPayload } from '../src/lib/data/api/campaigns';
 import { buildEnumsApiExamples, buildEnumsApiPayload } from '../src/lib/data/api/enums';
@@ -23,6 +24,10 @@ import {
 	buildFaqPresetsApiExamples,
 	buildFaqPresetsApiPayload
 } from '../src/lib/data/api/faq-presets';
+import {
+	buildImageGenStandardsApiExamples,
+	buildImageGenStandardsApiPayload
+} from '../src/lib/data/api/image-gen-standards';
 import { SITE_ORIGIN } from '../src/lib/config/site';
 
 const origin = SITE_ORIGIN.replace(/\/$/, '');
@@ -112,5 +117,21 @@ const faqPresetsPayload = buildFaqPresetsApiPayload({
 const faqPresetsExamples = buildFaqPresetsApiExamples(origin);
 assertValid('faq presets api payload', faqPresetsApiSchema as object, faqPresetsPayload);
 assertValid('faq presets api example', faqPresetsApiSchema as object, faqPresetsExamples.example);
+
+const imageGenStandardsPayload = buildImageGenStandardsApiPayload({
+	origin,
+	generatedAt: '2026-03-04T19:00:00.000Z'
+});
+const imageGenStandardsExamples = buildImageGenStandardsApiExamples(origin);
+assertValid(
+	'image gen standards api payload',
+	imageGenStandardsApiSchema as object,
+	imageGenStandardsPayload
+);
+assertValid(
+	'image gen standards api example',
+	imageGenStandardsApiSchema as object,
+	imageGenStandardsExamples.example
+);
 
 console.log('API responses and examples are valid.');

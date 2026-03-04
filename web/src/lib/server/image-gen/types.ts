@@ -43,6 +43,12 @@ export type CandidateRequestPayload = {
 
 export type SaveSelectedRequest = {
 	slug: string;
+	blobScope?: ImageGenBlobScope;
+	prompts?: {
+		square: string;
+		landscape: string;
+		portrait: string;
+	};
 	selected: {
 		squareCandidateId: string;
 		landscapeCandidateId: string;

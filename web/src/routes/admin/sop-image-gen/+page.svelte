@@ -141,6 +141,20 @@
 	</div>
 
 	<div>
+		<h2 class="text-2xl font-semibold">Prompt Standards Registry Contract</h2>
+		<p class="mt-2 max-w-3xl text-gray-700">
+			Prompt standards are site-owned and stored in
+			<code>web/src/lib/data/image-gen-standards.json</code> with schema
+			<code>web/src/lib/data/image-gen-standards.schema.json</code>.
+		</p>
+		<p class="mt-2 max-w-3xl text-gray-700">
+			Public read-only API endpoint:
+			<code>/api/image-gen-standards.json</code>. API response schema:
+			<code>web/src/lib/data/api/schemas/image-gen-standards-api.schema.json</code>.
+		</p>
+	</div>
+
+	<div>
 		<h2 class="text-2xl font-semibold">Server Endpoints</h2>
 		<ul class="mt-3 list-disc space-y-2 pl-5 text-gray-700">
 			<li>
@@ -157,7 +171,11 @@
 			</li>
 			<li>
 				<code>POST /admin/image-gen/api/save-selected</code> saves chosen variants into static site
-				image folders.
+				image folders and appends prompt standards into the image-gen standards registry.
+			</li>
+			<li>
+				<code>GET /api/image-gen-standards.json</code> publishes read-only prompt standards for
+				automation and admin tooling.
 			</li>
 		</ul>
 	</div>

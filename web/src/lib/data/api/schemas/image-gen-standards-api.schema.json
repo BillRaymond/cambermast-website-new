@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cambermast.com/schemas/image-gen-standards-api.schema.json",
+  "title": "Image Gen Standards API Response",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["generatedAt", "version", "updatedAt", "standards"],
+  "properties": {
+    "generatedAt": { "type": "string", "format": "date-time" },
+    "version": { "type": "integer", "const": 1 },
+    "updatedAt": { "type": "string", "format": "date-time" },
+    "standards": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "createdAt", "blobScope", "slug", "assetKeys", "assetUrls", "prompts"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9]{8,64}$" },
+          "createdAt": { "type": "string", "format": "date-time" },
+          "blobScope": { "type": "string", "enum": ["events", "training"] },
+          "slug": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9-]*(?:/[a-z0-9][a-z0-9-]*)*$"
+          },
+          "assetKeys": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["square", "landscape", "portrait"],
+            "properties": {
+              "square": {
+                "type": "string",
+                "pattern": "^[a-z0-9][a-z0-9-]*(?:/[a-z0-9][a-z0-9-]*)*/[^/]+$"
+              },
+              "landscape": {
+                "type": "string",
+                "pattern": "^[a-z0-9][a-z0-9-]*(?:/[a-z0-9][a-z0-9-]*)*/[^/]+$"
+              },
+              "portrait": {
+                "type": "string",
+                "pattern": "^[a-z0-9][a-z0-9-]*(?:/[a-z0-9][a-z0-9-]*)*/[^/]+$"
+              }
+            }
+          },
+          "assetUrls": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["square", "landscape", "portrait"],
+            "properties": {
+              "square": { "type": "string", "pattern": "^https?://" },
+              "landscape": { "type": "string", "pattern": "^https?://" },
+              "portrait": { "type": "string", "pattern": "^https?://" }
+            }
+          },
+          "prompts": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["square", "landscape", "portrait"],
+            "properties": {
+              "square": { "type": "string", "minLength": 1 },
+              "landscape": { "type": "string", "minLength": 1 },
+              "portrait": { "type": "string", "minLength": 1 }
+            }
+          }
+        }
+      }
+    }
+  }
+}

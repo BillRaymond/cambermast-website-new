@@ -99,6 +99,18 @@ const manifest = {
 				patterns: ['/api/faq-presets.json', 'faq-presets-api.schema.json']
 			}
 		]
+	},
+	'image-gen-standards': {
+		registrySchema: 'src/lib/data/image-gen-standards.schema.json',
+		apiSchema: 'src/lib/data/api/schemas/image-gen-standards-api.schema.json',
+		apiBuilder: 'src/lib/data/api/image-gen-standards.ts',
+		apiRoute: 'src/routes/api/image-gen-standards.json/+server.ts',
+		sopMentions: [
+			{
+				file: 'src/routes/admin/sop-image-gen/+page.svelte',
+				patterns: ['/api/image-gen-standards.json', 'image-gen-standards-api.schema.json']
+			}
+		]
 	}
 };
 

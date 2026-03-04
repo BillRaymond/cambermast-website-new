@@ -89,10 +89,35 @@ STRICT AVOIDANCE RULES
 	};
 
 	type WriteResult = {
-		variant: string;
+		variant: ImageGenStage;
 		absolutePath: string;
 		publicUrl: string;
 		version: number;
+		fileName?: string;
+	};
+
+	type PromptHistoryEntry = {
+		id: string;
+		createdAt: string;
+		blobScope: BlobScope;
+		slug: string;
+		assetKeys: Record<ImageGenStage, string>;
+		prompts: {
+			square: string;
+			landscape: string;
+			portrait: string;
+		};
+	};
+
+	type PromptStandardsApiResponse = {
+		standards?: Array<{
+			id?: unknown;
+			createdAt?: unknown;
+			blobScope?: unknown;
+			slug?: unknown;
+			assetKeys?: Partial<Record<ImageGenStage, unknown>>;
+			prompts?: Partial<Record<ImageGenStage, unknown>>;
+		}>;
 	};
 
 	export let isDev = false;
@@ -165,8 +190,12 @@ STRICT AVOIDANCE RULES
 	let saveMessage = '';
 	let saveWrites: WriteResult[] = [];
 	let previewCandidate: Candidate | null = null;
+	let promptHistory: PromptHistoryEntry[] = [];
+	let promptHistorySearch = '';
+	let filteredPromptHistory: PromptHistoryEntry[] = [];
 
 	const MINIO_BROWSER_BASE = 'https://minio-on-hstgr.tail8a5127.ts.net/browser/blobs/';
+	const PROMPT_HISTORY_MAX_ITEMS = 150;
 
 	const readFileAsDataUrl = (file: Blob): Promise<string> =>
 		new Promise((resolve, reject) => {
@@ -262,6 +291,125 @@ STRICT AVOIDANCE RULES
 
 	const closePreview = () => {
 		previewCandidate = null;
+	};
+
+	const getFileNameFromPublicUrl = (publicUrl: string): string => {
+		const parts = publicUrl.split('/');
+		return parts[parts.length - 1] || '';
+	};
+
+	const formatHistoryDate = (value: string): string => {
+		const date = new Date(value);
+		if (Number.isNaN(date.getTime())) return value;
+		return date.toLocaleString();
+	};
+
+	const getHistoryChipLabel = (entry: PromptHistoryEntry, stage: ImageGenStage): string => {
+		return entry.assetKeys[stage];
+	};
+
+	const applyHistoryPrompts = (entry: PromptHistoryEntry) => {
+		squarePrompt = entry.prompts.square;
+		landscapePrompt = entry.prompts.landscape;
+		portraitPrompt = entry.prompts.portrait;
+		saveMessage = `Loaded prompts from ${entry.slug}.`;
+	};
+
+	const applyHistoryPromptForStage = (entry: PromptHistoryEntry, stage: ImageGenStage) => {
+		const prompt = entry.prompts[stage];
+		if (stage === 'square') squarePrompt = prompt;
+		if (stage === 'landscape') landscapePrompt = prompt;
+		if (stage === 'portrait') portraitPrompt = prompt;
+		saveMessage = `Loaded ${toStageLabel(stage)} prompt from ${entry.slug}.`;
+	};
+
+	const parseWriteResults = (value: unknown): WriteResult[] => {
+		if (!Array.isArray(value)) return [];
+		const mapped: Array<WriteResult | null> = value.map((item) => {
+				if (!item || typeof item !== 'object') return null;
+				const row = item as Record<string, unknown>;
+				const variant = row.variant;
+				if (variant !== 'square' && variant !== 'landscape' && variant !== 'portrait') return null;
+				const absolutePath = typeof row.absolutePath === 'string' ? row.absolutePath : '';
+				const publicUrl = typeof row.publicUrl === 'string' ? row.publicUrl : '';
+				const version =
+					typeof row.version === 'number' && Number.isFinite(row.version) ? row.version : 1;
+				const fileName =
+					typeof row.fileName === 'string' && row.fileName.length > 0
+						? row.fileName
+						: getFileNameFromPublicUrl(publicUrl);
+				return {
+					variant,
+					absolutePath,
+					publicUrl,
+					version,
+					fileName
+				};
+			});
+		return mapped.filter((value): value is WriteResult => value !== null);
+	};
+
+	const parsePromptHistoryResponse = (value: unknown): PromptHistoryEntry[] => {
+		const body = value as PromptStandardsApiResponse | null;
+		const rows = Array.isArray(body?.standards) ? body.standards : [];
+		return rows
+			.map((entry): PromptHistoryEntry | null => {
+				if (!entry || typeof entry !== 'object') return null;
+				const id = typeof entry.id === 'string' ? entry.id : '';
+				const createdAt = typeof entry.createdAt === 'string' ? entry.createdAt : '';
+				const slugValue = typeof entry.slug === 'string' ? entry.slug : '';
+				const scope = entry.blobScope === 'training' ? 'training' : entry.blobScope === 'events' ? 'events' : null;
+				const prompts = entry.prompts;
+				const assetKeys = entry.assetKeys;
+				if (
+					!id ||
+					!createdAt ||
+					!slugValue ||
+					!scope ||
+					!prompts ||
+					typeof prompts.square !== 'string' ||
+					typeof prompts.landscape !== 'string' ||
+					typeof prompts.portrait !== 'string' ||
+					!assetKeys ||
+					typeof assetKeys.square !== 'string' ||
+					typeof assetKeys.landscape !== 'string' ||
+					typeof assetKeys.portrait !== 'string'
+				) {
+					return null;
+				}
+				return {
+					id,
+					createdAt,
+					blobScope: scope,
+					slug: slugValue,
+					assetKeys: {
+						square: assetKeys.square,
+						landscape: assetKeys.landscape,
+						portrait: assetKeys.portrait
+					},
+					prompts: {
+						square: prompts.square,
+						landscape: prompts.landscape,
+						portrait: prompts.portrait
+					}
+				};
+			})
+			.filter((entry): entry is PromptHistoryEntry => entry !== null)
+			.filter((entry) => entry.blobScope === blobScope)
+			.slice(0, PROMPT_HISTORY_MAX_ITEMS);
+	};
+
+	const loadPromptHistory = async () => {
+		try {
+			const response = await fetch('/api/image-gen-standards.json');
+			const json = (await response.json()) as unknown;
+			if (!response.ok) throw new Error('Unable to load prompt standards.');
+			promptHistory = parsePromptHistoryResponse(json);
+		} catch (error) {
+			errorMessage =
+				error instanceof Error ? error.message : 'Unable to load prompt standards.';
+			promptHistory = [];
+		}
 	};
 
 	const handleWindowKeydown = (event: KeyboardEvent) => {
@@ -416,6 +564,12 @@ STRICT AVOIDANCE RULES
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({
 					slug: slug.trim().toLowerCase(),
+					blobScope,
+					prompts: {
+						square: squarePrompt,
+						landscape: landscapePrompt,
+						portrait: portraitPrompt
+					},
 					selected: {
 						squareCandidateId: selectedSquareCandidateId,
 						landscapeCandidateId: selectedLandscapeCandidateId,
@@ -427,8 +581,9 @@ STRICT AVOIDANCE RULES
 			const json = await response.json();
 			if (!response.ok) throw new Error(json?.error ?? 'Save failed');
 
-			saveWrites = Array.isArray(json.writes) ? json.writes : [];
+			saveWrites = parseWriteResults(json.writes);
 			saveMessage = `Saved selected images for slug "${json.slug}".`;
+			await loadPromptHistory();
 
 			const urls = {
 				square: saveWrites.find((write) => write.variant === 'square')?.publicUrl,
@@ -450,11 +605,27 @@ STRICT AVOIDANCE RULES
 	onMount(async () => {
 		if (!isDev) return;
 		try {
-			await Promise.all([loadTemplates(), loadTrainingReferences()]);
+			await Promise.all([loadTemplates(), loadTrainingReferences(), loadPromptHistory()]);
 		} catch (error) {
 			errorMessage = error instanceof Error ? error.message : 'Unable to load templates';
 		}
 	});
+
+	$: {
+		const search = promptHistorySearch.trim().toLowerCase();
+		filteredPromptHistory = promptHistory.filter((entry) => {
+			if (!search) return true;
+			const searchTargets = [
+				entry.slug,
+				entry.assetKeys.square,
+				entry.assetKeys.landscape,
+				entry.assetKeys.portrait
+			]
+				.join(' ')
+				.toLowerCase();
+			return searchTargets.includes(search);
+		});
+	}
 </script>
 
 <svelte:window on:keydown={handleWindowKeydown} />
@@ -980,7 +1151,7 @@ STRICT AVOIDANCE RULES
 				<ul class="mt-3 space-y-2 text-sm text-gray-700">
 					{#each saveWrites as write}
 						<li class="rounded-lg border border-gray-200 bg-gray-50 p-2">
-							<p><strong>{toStageLabel(write.variant as ImageGenStage)}</strong> → {write.publicUrl}</p>
+							<p><strong>{toStageLabel(write.variant)}</strong> → {write.publicUrl}</p>
 							<p class="text-xs text-gray-500">{write.absolutePath}</p>
 							{#if write.version > 1}
 								<p class="text-xs font-semibold text-amber-700">Versioned as v{write.version}</p>
@@ -989,6 +1160,77 @@ STRICT AVOIDANCE RULES
 					{/each}
 				</ul>
 			{/if}
+
+			<div class="mt-5 rounded-xl border border-gray-200 bg-gray-50 p-3">
+				<div class="flex flex-wrap items-center justify-between gap-2">
+					<h3 class="text-sm font-semibold text-gray-800">Prompt History Chips</h3>
+					<button
+						type="button"
+						class="rounded border border-gray-300 bg-white px-2 py-1 text-xs font-semibold text-gray-700 hover:border-gray-400"
+						on:click={loadPromptHistory}
+					>
+						Refresh
+					</button>
+				</div>
+				<p class="mt-1 text-xs text-gray-600">
+					Each saved run stores prompts for square, landscape, and portrait, keyed by final <code>slug/filename</code>.
+				</p>
+				<input
+					type="text"
+					class="mt-3 w-full rounded border border-gray-300 bg-white px-2 py-1.5 text-xs"
+					placeholder="Filter by slug or filename..."
+					bind:value={promptHistorySearch}
+				/>
+				{#if filteredPromptHistory.length === 0}
+					<p class="mt-3 text-xs text-gray-500">No saved prompt chips yet.</p>
+				{:else}
+					<div class="mt-3 max-h-72 space-y-2 overflow-auto">
+						{#each filteredPromptHistory as entry (entry.id)}
+							<div class="rounded-lg border border-gray-200 bg-white p-2">
+								<div class="flex flex-wrap items-center justify-between gap-2">
+									<p class="text-xs font-semibold text-gray-800">{entry.slug}</p>
+									<div class="flex items-center gap-2">
+										<p class="text-[11px] text-gray-500">{formatHistoryDate(entry.createdAt)}</p>
+										<button
+											type="button"
+											class="rounded border border-gray-300 bg-white px-2 py-1 text-[11px] font-semibold text-gray-700 hover:border-gray-400"
+											on:click={() => applyHistoryPrompts(entry)}
+										>
+											Use all prompts
+										</button>
+									</div>
+								</div>
+								<div class="mt-2 flex flex-wrap gap-2">
+									<button
+										type="button"
+										class="rounded-full border border-gray-300 bg-white px-2 py-1 text-[11px] font-semibold text-gray-700 hover:border-gray-400"
+										on:click={() => applyHistoryPromptForStage(entry, 'square')}
+										title="Use square prompt"
+									>
+										Square: {getHistoryChipLabel(entry, 'square')}
+									</button>
+									<button
+										type="button"
+										class="rounded-full border border-gray-300 bg-white px-2 py-1 text-[11px] font-semibold text-gray-700 hover:border-gray-400"
+										on:click={() => applyHistoryPromptForStage(entry, 'landscape')}
+										title="Use landscape prompt"
+									>
+										Landscape: {getHistoryChipLabel(entry, 'landscape')}
+									</button>
+									<button
+										type="button"
+										class="rounded-full border border-gray-300 bg-white px-2 py-1 text-[11px] font-semibold text-gray-700 hover:border-gray-400"
+										on:click={() => applyHistoryPromptForStage(entry, 'portrait')}
+										title="Use portrait prompt"
+									>
+										Portrait: {getHistoryChipLabel(entry, 'portrait')}
+									</button>
+								</div>
+							</div>
+						{/each}
+					</div>
+				{/if}
+			</div>
 		</div>
 	</section>
 
