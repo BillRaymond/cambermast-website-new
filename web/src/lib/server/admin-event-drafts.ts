@@ -287,7 +287,6 @@ const toTrainingEvent = (payload: DraftRequestPayload): EventSource => {
 
 	if (input.lifecycleStatus) event.lifecycleStatus = input.lifecycleStatus;
 	if (toTrimmed(input.title)) event.title = toTrimmed(input.title);
-	if (toTrimmed(input.tagline)) event.tagline = toTrimmed(input.tagline);
 	if (toTrimmed(input.typeLabel)) event.typeLabel = toTrimmed(input.typeLabel);
 	if (toTrimmed(input.descriptionBodyMd)) {
 		const summary = toTrimmed(input.summary) || event.summary;

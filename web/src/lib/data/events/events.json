@@ -6,7 +6,7 @@
 			"title": "AI Workshop for Tech Writers and Content Creators",
 			"type": "training_session",
 			"typeLabel": "Training",
-			"tagline": "This is a 7-week course that meets on Tuesdays.",
+			"tagline": "AI-enhanced content workflows that deliver measurable impact in seven weeks.",
 			"summary": "This is a 7-week course that meets on Tuesdays. January 27 - March 10, 2026, from 10 am PT to 11:30 am PT",
 			"description": "This multi-session workshop combines strategy and hands-on implementation. Participants build repeatable workflows for research, drafting, editing, and quality checks while preserving voice, review standards, and governance expectations.",
 			"highlights": [
@@ -103,20 +103,12 @@
 		{
 			"id": "s6twc1",
 			"slug": "ai-workshop-for-tech-writers-and-content-creators-summer-2026-s6twc1",
-			"title": "AI Workshop for Tech Writers and Content Creators",
+			"title": "AI Workshop for Content Creators (Summer 2026 🌻)",
 			"type": "training_session",
 			"typeLabel": "Training",
 			"tagline": "AI-enhanced content workflows that deliver measurable impact in seven weeks.",
-			"summary": "The AI Workshop for Tech Writers and Content Creators is a live, seven-week cohort that helps technical communicators and content teams weave generative AI into their daily production workflows.",
+			"summary": "7-Weeks, Tuesdays, 120-minutes, April 28 - June 9, 2026",
 			"sessions": [
-				{
-					"startAtUtc": "2026-04-14T17:00:00.000Z",
-					"endAtUtc": "2026-04-14T19:00:00.000Z"
-				},
-				{
-					"startAtUtc": "2026-04-21T17:00:00.000Z",
-					"endAtUtc": "2026-04-21T19:00:00.000Z"
-				},
 				{
 					"startAtUtc": "2026-04-28T17:00:00.000Z",
 					"endAtUtc": "2026-04-28T19:00:00.000Z"
@@ -134,6 +126,14 @@
 					"endAtUtc": "2026-05-19T19:00:00.000Z"
 				},
 				{
+					"startAtUtc": "2026-05-26T17:00:00.000Z",
+					"endAtUtc": "2026-05-26T19:00:00.000Z"
+				},
+				{
+					"startAtUtc": "2026-06-02T17:00:00.000Z",
+					"endAtUtc": "2026-06-02T19:00:00.000Z"
+				},
+				{
 					"startAtUtc": "2026-06-09T17:00:00.000Z",
 					"endAtUtc": "2026-06-09T19:00:00.000Z"
 				}
@@ -143,7 +143,7 @@
 			"registrationStatus": "external",
 			"cta": {
 				"label": "Register now",
-				"url": "https://luma.com/rw0virsv",
+				"url": "https://lu.ma/nvd9y1wn",
 				"campaignId": "s6twc1"
 			},
 			"timeZoneIana": "America/Los_Angeles",
@@ -340,10 +340,10 @@
 			"campaignId": "s6twc1"
 		},
 		{
-			"title": "AI Workshop for Tech Writers and Content Creators",
+			"title": "AI Workshop for Content Creators (Fall 2026 🍁)",
 			"type": "training_session",
 			"typeLabel": "Training",
-			"visibility": "public",
+			"visibility": "draft",
 			"lifecycleStatus": "scheduled",
 			"registrationStatus": "open",
 			"cta": {
@@ -396,7 +396,7 @@
 			},
 			"id": "k4f8n1",
 			"slug": "ai-workshop-for-tech-writers-and-content-creators-fall-2026-k4f8n1",
-			"tagline": "This is a 7-week course that meets on Tuesdays.",
+			"tagline": "AI-enhanced content workflows that deliver measurable impact in seven weeks.",
 			"summary": "This is a 7-week course that meets on Tuesdays. July 14 - August 25, 2026, from 10 am PT to 12 pm PT.",
 			"sessions": [
 				{
@@ -438,10 +438,10 @@
 			"imageAlt": "Open graph image for the AI Workshop for Tech Writers and Content Creators training program"
 		},
 		{
-			"title": "AI Workshop for Tech Writers and Content Creators",
+			"title": "AI Workshop for Content Creators (Winter 2026 ❄️)",
 			"type": "training_session",
 			"typeLabel": "Training",
-			"visibility": "public",
+			"visibility": "draft",
 			"lifecycleStatus": "scheduled",
 			"registrationStatus": "open",
 			"cta": {
@@ -494,7 +494,7 @@
 			},
 			"id": "m7w2q5",
 			"slug": "ai-workshop-for-tech-writers-and-content-creators-winter-2026-m7w2q5",
-			"tagline": "This is a 7-week course that meets on Tuesdays.",
+			"tagline": "AI-enhanced content workflows that deliver measurable impact in seven weeks.",
 			"summary": "This is a 7-week course that meets on Tuesdays. August 18 - October 6, 2026, from 10 am PT to 12 pm PT. No class the week of Labor Day.",
 			"sessions": [
 				{
