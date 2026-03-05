@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { browser } from '$app/environment';
+	import { onMount } from 'svelte';
 	import EventRegisterButton from '$lib/components/events/EventRegisterButton.svelte';
 
 	export let title: string;
@@ -15,11 +17,31 @@
 	export let registerUrl: string | undefined = undefined;
 	export let registerLabel = 'Register now';
 	export let statusLabel: string | undefined = undefined;
+	export let startTimestamp: number | null = null;
 	export let learnMoreUrl: string | undefined = undefined;
 	export let partnerText: string | undefined = undefined;
 	export let speakerText: string | undefined = undefined;
 	export let tone: 'upcoming' | 'happening' = 'upcoming';
 	export let variant: 'calendar' | 'carousel' | 'catalog' = 'calendar';
+	export let enableLiveCountdown = false;
+
+	const formatCountdown = (diffMs: number): string => {
+		const totalSeconds = Math.max(0, Math.floor(diffMs / 1000));
+		const seconds = totalSeconds % 60;
+		const totalMinutes = Math.floor(totalSeconds / 60);
+		const minutes = totalMinutes % 60;
+		const totalHours = Math.floor(totalMinutes / 60);
+		const hours = totalHours % 24;
+		const days = Math.floor(totalHours / 24);
+		const pad = (value: number) => value.toString().padStart(2, '0');
+		if (days > 0) return `${days}d ${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+		if (hours > 0) return `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+		if (minutes > 0) return `${pad(minutes)}:${pad(seconds)}`;
+		return `${seconds}s`;
+	};
+
+	let nowTimestamp = Date.now();
+	let liveStatusLabel: string | undefined;
 
 	$: timeText = Array.isArray(time) ? time.join(' · ') : time;
 	$: cadenceMatch = date?.match(/^(.*)\s·\s((?:Every|Occurs on)\s.+)$/i);
@@ -30,7 +52,22 @@
 	$: hasCardNavigation = Boolean(learnMoreUrl);
 	$: showLearnMoreLink = Boolean(learnMoreUrl) && tone !== 'happening';
 	$: showTrailerChip = Boolean(videoUrl);
-	$: isCountdownStatus = Boolean(statusLabel?.startsWith('Starts in'));
+	$: hasCountdownLabel = Boolean(statusLabel?.startsWith('Starts in'));
+	$: canLiveCountdown =
+		enableLiveCountdown &&
+		hasCountdownLabel &&
+		tone !== 'happening' &&
+		typeof startTimestamp === 'number' &&
+		Number.isFinite(startTimestamp);
+	$: countdownMs =
+		canLiveCountdown && typeof startTimestamp === 'number' ? startTimestamp - nowTimestamp : null;
+	$: liveStatusLabel =
+		countdownMs !== null && countdownMs > 0
+			? `Starts in ${formatCountdown(countdownMs)}`
+			: undefined;
+	$: shouldRunLiveCountdown = countdownMs !== null && countdownMs > 0;
+	$: displayedStatusLabel = liveStatusLabel ?? statusLabel;
+	$: isCountdownStatus = Boolean(displayedStatusLabel?.startsWith('Starts in'));
 	$: panelClasses =
 		tone === 'happening' ? 'border-amber-200 bg-amber-50/70' : 'border-blue-100 bg-white';
 	$: hoverClasses = hasCardNavigation
@@ -73,6 +110,14 @@
 		!isCarousel && speakerText ? `${speakerLabel}: ${speakerText}` : undefined
 	].filter((part): part is string => Boolean(part?.trim()));
 	$: locationMetaText = locationMetaParts.join(' • ');
+
+	onMount(() => {
+		if (!browser || !enableLiveCountdown) return;
+		const timer = setInterval(() => {
+			nowTimestamp = Date.now();
+		}, 1000);
+		return () => clearInterval(timer);
+	});
 </script>
 
 <article
@@ -132,7 +177,7 @@
 			{/if}
 
 			<div class={chipsWrapClass}>
-				{#if statusLabel}
+				{#if displayedStatusLabel}
 					<span
 						class={`inline-flex shrink-0 rounded-full border px-2 py-0.5 text-[0.65rem] font-semibold whitespace-nowrap ${
 							tone === 'happening'
@@ -140,7 +185,7 @@
 								: 'border-blue-100 bg-blue-50 text-blue-700'
 						} ${isCountdownStatus ? 'min-w-[18ch] tabular-nums' : ''}`}
 					>
-						{statusLabel}
+						{displayedStatusLabel}
 					</span>
 				{/if}
 				{#if certificateText}

@@ -108,6 +108,10 @@
 				showBullets={true}
 				showDuration={false}
 				layout="row"
+				enableUpcomingShowAll={true}
+				upcomingSessionsInitialLimit={1}
+				hideHappeningWhenUpcoming={true}
+				enableLiveCountdown={true}
 			/>
 		{/each}
 	</div>

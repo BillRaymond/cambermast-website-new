@@ -6,6 +6,10 @@
 	export let showBullets = false;
 	export let showDuration = true;
 	export let layout: 'column' | 'row' = 'column';
+	export let enableUpcomingShowAll = false;
+	export let upcomingSessionsInitialLimit: number | null = null;
+	export let hideHappeningWhenUpcoming = false;
+	export let enableLiveCountdown = false;
 
 	const hasScheduleButton = (scheduleUrl?: string): boolean => Boolean(scheduleUrl);
 	const isScheduleTeamButton = (label?: string): boolean =>
@@ -17,10 +21,31 @@
 	let isRowLayout: boolean;
 	let hasHappeningSessions: boolean;
 	let hasUpcomingOrHappening: boolean;
+	let showHappeningSessions: boolean;
+	let displayedHappeningSessions: NonNullable<CatalogCardData['happeningSessions']>;
+	let displayedUpcomingSessions: NonNullable<CatalogCardData['upcomingSessions']>;
+	let canToggleUpcomingSessions: boolean;
+	let showAllUpcomingSessions = false;
 
 	$: hasUpcomingSessions = Boolean(item.upcomingSessions?.length);
 	$: hasHappeningSessions = Boolean(item.happeningSessions?.length);
+	$: showHappeningSessions =
+		hasHappeningSessions && (!hideHappeningWhenUpcoming || !hasUpcomingSessions);
 	$: hasUpcomingOrHappening = hasUpcomingSessions || hasHappeningSessions;
+	$: displayedHappeningSessions = showHappeningSessions ? (item.happeningSessions ?? []) : [];
+	$: upcomingSessionsLimit =
+		typeof upcomingSessionsInitialLimit === 'number' && upcomingSessionsInitialLimit > 0
+			? upcomingSessionsInitialLimit
+			: null;
+	$: canToggleUpcomingSessions =
+		Boolean(enableUpcomingShowAll) &&
+		Boolean(upcomingSessionsLimit) &&
+		(item.upcomingSessions?.length ?? 0) > (upcomingSessionsLimit ?? 0);
+	$: displayedUpcomingSessions = canToggleUpcomingSessions
+		? showAllUpcomingSessions
+			? (item.upcomingSessions ?? [])
+			: (item.upcomingSessions ?? []).slice(0, upcomingSessionsLimit ?? 0)
+		: (item.upcomingSessions ?? []);
 	$: rawTitle = item.title ?? '';
 	$: titleSlug = rawTitle
 		.toLowerCase()
@@ -129,14 +154,22 @@
 				id={sessionsSectionId}
 				class="mt-2 w-full rounded-2xl border border-blue-100 bg-blue-50 p-3 text-left"
 			>
-				<p
-					class="inline-flex items-center gap-2 text-xs font-semibold tracking-wide text-blue-600 uppercase"
-				>
+				<div class="flex items-center gap-2 text-xs font-semibold tracking-wide text-blue-600 uppercase">
 					<span class="h-2 w-2 rounded-full bg-blue-500"></span>
-					Upcoming sessions
-				</p>
+					<span>Upcoming sessions</span>
+					{#if canToggleUpcomingSessions}
+						<span aria-hidden="true">•</span>
+						<button
+							type="button"
+							class="cursor-pointer text-xs font-semibold text-blue-700 uppercase underline decoration-blue-200 underline-offset-4 transition hover:text-blue-900"
+							on:click={() => (showAllUpcomingSessions = !showAllUpcomingSessions)}
+						>
+							{showAllUpcomingSessions ? 'Show fewer' : `Show all (${item.upcomingSessions.length})`}
+						</button>
+					{/if}
+				</div>
 				<ul class="mt-2 space-y-2.5">
-					{#each item.upcomingSessions as session (session.id)}
+					{#each displayedUpcomingSessions as session (session.id)}
 						<li>
 							<EventCard
 								title={session.title}
@@ -150,6 +183,7 @@
 								videoUrl={session.videoUrl ?? item.videoUrl}
 								typeLabel={session.typeLabel}
 								statusLabel={session.statusLabel}
+								startTimestamp={session.startTimestamp}
 								registerUrl={session.registerUrl}
 								registerLabel={session.registerLabel ?? 'Register now'}
 								learnMoreUrl={session.learnMoreUrl ?? item.route}
@@ -158,6 +192,7 @@
 								speakerText={session.speakerText}
 								tone={session.tone}
 								variant="catalog"
+								enableLiveCountdown={enableLiveCountdown}
 							/>
 						</li>
 					{/each}
@@ -180,7 +215,7 @@
 						{/if}
 					</p>
 				{/if}
-				{#if item.happeningSessions?.length}
+				{#if displayedHappeningSessions.length}
 					<div
 						id={sessionsSectionId}
 						class="w-full rounded-2xl border border-amber-200 bg-amber-50/70 p-3 text-left"
@@ -189,7 +224,7 @@
 							Happening now
 						</p>
 						<ul class="mt-2 space-y-2.5">
-							{#each item.happeningSessions as session (session.id)}
+							{#each displayedHappeningSessions as session (session.id)}
 								<li>
 									<EventCard
 										title={session.title}
@@ -203,12 +238,14 @@
 										videoUrl={session.videoUrl ?? item.videoUrl}
 										typeLabel={session.typeLabel}
 										statusLabel={session.statusLabel}
+										startTimestamp={session.startTimestamp}
 										learnMoreUrl={session.learnMoreUrl ?? item.route}
 										hostText={session.hostText}
 										partnerText={session.partnerText}
 										speakerText={session.speakerText}
 										tone={session.tone}
 										variant="catalog"
+										enableLiveCountdown={enableLiveCountdown}
 									/>
 								</li>
 							{/each}
