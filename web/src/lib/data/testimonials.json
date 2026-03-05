@@ -149,18 +149,5 @@
     "allowPublicUse": true,
     "source": "training-testimonial",
     "createdAt": "2026-02-04T20:56:42.792Z"
-  },
-  {
-    "id": "tm-cm-tr-002-005",
-    "programSku": "CM-TR-002",
-    "programSlug": "ai-accelerator-workshop",
-    "programRoute": "/training/ai-accelerator-workshop",
-    "displayName": "Terri",
-    "jobTitle": "Product Owner",
-    "rating": 5,
-    "quote": "This was a great course and I finally know how to prompt!",
-    "source": "training-testimonial",
-    "createdAt": "2026-03-05T02:54:22.443Z",
-    "allowPublicUse": true
   }
 ]
