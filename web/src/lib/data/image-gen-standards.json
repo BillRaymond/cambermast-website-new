@@ -1,5 +1,38 @@
 {
 	"version": 1,
-	"updatedAt": "2026-03-04T00:00:00.000Z",
-	"standards": []
+	"updatedAt": "2026-03-05T03:19:13.504Z",
+	"standards": [
+		{
+			"id": "fe0b7144757c49d7",
+			"createdAt": "2026-03-05T03:19:13.503Z",
+			"blobScope": "events",
+			"slug": "events/ai-workshop-for-content-creators-fall-2026",
+			"assetKeys": {
+				"square": "events/ai-workshop-for-content-creators-fall-2026/hero-square-v2.jpg",
+				"landscape": "events/ai-workshop-for-content-creators-fall-2026/hero-landscape-v2.jpg",
+				"portrait": "events/ai-workshop-for-content-creators-fall-2026/hero-portrait-v2.jpg"
+			},
+			"prompts": {
+				"square": "Use the provided template image as a visual style and composition reference. Create a new image of the same type. Add the subtitle \"SPRING 2026\". Add subtle spring-related elements and a background with items like tulips. Make it a little less grainy. Avoid: dark backgrounds, visual clichés, and imagery that anthropomorphizes AI. Avoid the top and bottom 25%.",
+				"landscape": "Recreate the provided template image as a landscape. Avoid the top and bottom 25%.",
+				"portrait": "Recreate the provided template image in portrait format. Avoid the top and bottom 25%."
+			}
+		},
+		{
+			"id": "50cf2bd944984af4",
+			"createdAt": "2026-03-05T03:07:55.273Z",
+			"blobScope": "events",
+			"slug": "events/ai-workshop-for-content-creators-winter-2025",
+			"assetKeys": {
+				"square": "events/ai-workshop-for-content-creators-winter-2025/hero-square.jpg",
+				"landscape": "events/ai-workshop-for-content-creators-winter-2025/hero-landscape.jpg",
+				"portrait": "events/ai-workshop-for-content-creators-winter-2025/hero-portrait.jpg"
+			},
+			"prompts": {
+				"square": "Use the provided template image as a visual style and composition reference. Create a new image of the same type. Add the subtitle \"WINTER, 2025\". Add some subtle hints and background that represent winter. Avoid the top and bottom 25%.",
+				"landscape": "Recreate the provided template image as a landscape. Avoid the top and bottom 25%.",
+				"portrait": "Recreate the provided template image in portrait format. Avoid the top and bottom 25%."
+			}
+		}
+	]
 }
