@@ -14,9 +14,38 @@ export type EventUiModel = Event & {
 	location: string;
 	cta: {
 		label: string;
+		labelWithPrice: string;
 		url?: string;
 		campaignId?: string;
 	};
+};
+
+const usdFormatter = new Intl.NumberFormat('en-US', {
+	style: 'currency',
+	currency: 'USD',
+	minimumFractionDigits: 0,
+	maximumFractionDigits: 2
+});
+
+const getPriceBadgeLabel = (event: Event): string | undefined => {
+	const amountUsd = event.ticketing?.amountUsd;
+	if (!Number.isFinite(amountUsd) || amountUsd === undefined || amountUsd < 0) return undefined;
+	if (amountUsd === 0) return 'Free';
+	return usdFormatter.format(amountUsd);
+};
+
+const withPricingInRegisterLabel = (registerLabel: string, event: Event): string => {
+	const trimmed = registerLabel.trim();
+	if (!trimmed) return registerLabel;
+	if (!/^register\b/i.test(trimmed)) return registerLabel;
+	if (/\$\d|free/i.test(trimmed)) return registerLabel;
+	const priceBadgeLabel = getPriceBadgeLabel(event);
+	if (!priceBadgeLabel) return registerLabel;
+	if (priceBadgeLabel === 'Free') {
+		if (/^register now$/i.test(trimmed)) return 'Register free';
+		return `${registerLabel} · Free`;
+	}
+	return `${registerLabel} · ${priceBadgeLabel}`;
 };
 
 export const toEventUiModel = (event: Event): EventUiModel => {
@@ -32,6 +61,7 @@ export const toEventUiModel = (event: Event): EventUiModel => {
 		location,
 		cta: {
 			label: ctaLabel,
+			labelWithPrice: withPricingInRegisterLabel(ctaLabel, event),
 			url: ctaUrl,
 			campaignId: event.cta?.campaignId ?? event.campaignId
 		}

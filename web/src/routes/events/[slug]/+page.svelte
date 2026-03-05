@@ -309,6 +309,7 @@
 		event.registrationStatus !== 'closed' &&
 		event.registrationStatus !== 'none' &&
 		event.registrationStatus !== 'sold_out';
+	const registerCtaLabel = event.cta.labelWithPrice ?? event.cta.label;
 
 	const shouldShowClosedCountdownState =
 		isHappeningNow || isTrainingInProgress || !canRegister;
@@ -447,7 +448,7 @@
 			</div>
 			<EventRegisterButton
 				href={event.cta.url!}
-				label={event.cta.label}
+				label={registerCtaLabel}
 				theme="slate"
 				size="md"
 				className="shrink-0"
@@ -468,7 +469,7 @@
 			</div>
 			<EventRegisterButton
 				href={event.cta.url!}
-				label={event.cta.label}
+				label={registerCtaLabel}
 				theme="slate"
 				size="sm"
 				className="shrink-0 md:px-5 md:py-2.5"
@@ -614,7 +615,7 @@
 							<div class="flex flex-wrap items-center gap-3">
 								<EventRegisterButton
 									href={event.cta.url!}
-									label={event.cta.label}
+									label={registerCtaLabel}
 									size="lg"
 									onClick={() => trackRegistrationClick('hero')}
 								/>
@@ -683,7 +684,7 @@
 						<div class="mt-6 flex flex-wrap items-center gap-3">
 							<EventRegisterButton
 								href={event.cta.url!}
-								label={event.cta.label}
+								label={registerCtaLabel}
 								size="lg"
 								onClick={() => trackRegistrationClick('body')}
 							/>
@@ -768,7 +769,7 @@
 							<div class="mt-6 flex flex-wrap items-center gap-3">
 								<EventRegisterButton
 									href={event.cta.url!}
-									label={event.cta.label}
+									label={registerCtaLabel}
 									size="lg"
 									onClick={() => trackRegistrationClick('body')}
 								/>
@@ -845,7 +846,7 @@
 							<div class="mt-6 flex flex-wrap items-center gap-3">
 								<EventRegisterButton
 									href={event.cta.url!}
-									label={event.cta.label}
+									label={registerCtaLabel}
 									size="lg"
 									onClick={() => trackRegistrationClick('body')}
 								/>
@@ -956,7 +957,7 @@
 							{#if canRegister}
 								<EventRegisterButton
 									href={event.cta.url!}
-									label={event.cta.label}
+									label={registerCtaLabel}
 									theme="slate"
 									size="sm"
 									fullWidth={true}
