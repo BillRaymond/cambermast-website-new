@@ -52,7 +52,7 @@ export const aiFundamentals = {
 		{ label: 'Duration', value: '4-hours' },
 		{ label: 'Format', value: ['🔴 Live online', '🏫 In-person available'] },
 		{ label: 'Cost', value: '$349 per person (virtual cohort)' },
-		{ label: 'Certificate', value: '📜 Certificate included' },
+		{ label: 'Certificate', value: '📜 Certificate' },
 		{ label: 'Environment', value: '💙 Learn in a supportive, judgment-free environment' },
 		{ label: 'In-person', value: 'Custom pricing for private teams' }
 	],

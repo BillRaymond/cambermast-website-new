@@ -37,6 +37,25 @@ const DEFAULT_TYPE_LABELS: Record<string, string> = {
 const withDefault = <T>(value: T | undefined, fallback: T): T =>
 	value === undefined ? fallback : value;
 
+const isLumaHostname = (hostname: string): boolean => {
+	const normalized = hostname.trim().toLowerCase();
+	return (
+		normalized === 'luma.com' ||
+		normalized === 'www.luma.com' ||
+		normalized === 'lu.ma' ||
+		normalized === 'www.lu.ma'
+	);
+};
+
+export const isLumaRegistrationUrl = (url: string): boolean => {
+	if (!/^https?:\/\//i.test(url)) return false;
+	try {
+		return isLumaHostname(new URL(url).hostname);
+	} catch {
+		return false;
+	}
+};
+
 const coerceVisibility = (event: EventSource): EventVisibility => {
 	return withDefault(event.visibility, 'public');
 };
@@ -151,10 +170,8 @@ export const getEventRegistrationUrl = (
 	event: Pick<Event, 'campaignId' | 'cta'>
 ): string | undefined => {
 	const ctaUrl = event.cta?.url?.trim();
-	if (ctaUrl && /^https?:\/\//i.test(ctaUrl)) return ctaUrl;
-	const campaignId = event.campaignId ?? event.cta?.campaignId;
-	if (campaignId) return `/c/${campaignId}`;
-	return ctaUrl;
+	if (ctaUrl && isLumaRegistrationUrl(ctaUrl)) return ctaUrl;
+	return undefined;
 };
 
 export {

@@ -20,7 +20,7 @@ export const aiWorkshopForContentCreators = {
 	},
 	title: 'AI Workshop for Tech Writers and Content Creators',
 	nickname: 'Seven-week cohort for technical communicators',
-	tagline: 'AI-enhanced content workflows that deliver measurable impact in seven weeks.',
+	tagline: 'Get real results from your content with AI-powered workflows in just seven weeks.',
 	heroImage: '/images/generated/ai-workshop-for-content-creators/hero-landscape.jpg',
 	heroImageAlt: 'AI Workshop for Tech Writers and Content Creators illustration',
 	ogImage: '/images/generated/ai-workshop-for-content-creators/hero-landscape.jpg',
@@ -55,7 +55,7 @@ export const aiWorkshopForContentCreators = {
 		{ label: 'Duration', value: 'Seven weeks, 2-hour commitment per week' },
 		{ label: 'Format', value: ['🔴 Live online', '🏫 In-person available'] },
 		{ label: 'Cost', value: '$1,749 per person (virtual cohort)' },
-		{ label: 'Certificate', value: '📜 Certificate included' },
+		{ label: 'Certificate', value: '📜 Certificate' },
 		{ label: 'Environment', value: '💙 Learn in a supportive, judgment-free environment' },
 		{ label: 'Partner', value: 'Presented in partnership with The Content Wrangler' }
 	],

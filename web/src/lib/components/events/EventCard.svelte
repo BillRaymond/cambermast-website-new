@@ -1,4 +1,6 @@
 <script lang="ts">
+	import EventRegisterButton from '$lib/components/events/EventRegisterButton.svelte';
+
 	export let title: string;
 	export let tagline: string | undefined = undefined;
 	export let date: string | undefined = undefined;
@@ -20,8 +22,10 @@
 	export let variant: 'calendar' | 'carousel' | 'catalog' = 'calendar';
 
 	$: timeText = Array.isArray(time) ? time.join(' · ') : time;
+	$: cadenceMatch = date?.match(/^(.*)\s·\s((?:Every|Occurs on)\s.+)$/i);
+	$: displayDate = cadenceMatch ? cadenceMatch[1] : date;
+	$: cadenceLabel = cadenceMatch ? cadenceMatch[2] : undefined;
 	$: isCarousel = variant === 'carousel';
-	$: isExternalRegisterUrl = Boolean(registerUrl?.startsWith('http'));
 	$: isExternalLearnMoreUrl = Boolean(learnMoreUrl?.startsWith('http'));
 	$: hasCardNavigation = Boolean(learnMoreUrl);
 	$: showLearnMoreLink = Boolean(learnMoreUrl) && tone !== 'happening';
@@ -38,15 +42,16 @@
 	$: imageWrapClass = variant === 'carousel' ? 'w-full sm:w-44' : 'w-full sm:w-48';
 	$: imageClass = 'aspect-[3/2] w-full rounded-xl border border-slate-200 object-cover';
 	$: contentWrapClass = isCarousel
-		? 'relative z-10 flex flex-col gap-3 sm:flex-row sm:items-start sm:gap-5'
-		: 'relative z-10 flex flex-col gap-4 sm:flex-row sm:items-start sm:gap-5';
+		? 'relative flex flex-col gap-3 sm:flex-row sm:items-start sm:gap-5'
+		: 'relative flex flex-col gap-4 sm:flex-row sm:items-start sm:gap-5';
 	$: titleClass = isCarousel
 		? 'line-clamp-2 text-base leading-tight font-semibold text-gray-900'
 		: 'text-sm font-semibold text-gray-900';
 	$: taglineClass = isCarousel
 		? 'line-clamp-1 text-sm font-semibold text-gray-600'
 		: 'text-xs font-semibold text-gray-600';
-	$: metaDateClass = isCarousel ? 'mt-1 text-base text-gray-700' : 'mt-1 text-sm text-gray-700';
+	$: metaDateRowClass = 'mt-1 flex flex-wrap items-center gap-2';
+	$: metaDateTextClass = isCarousel ? 'text-base text-gray-700' : 'text-sm text-gray-700';
 	$: metaTimeClass = isCarousel ? 'text-sm text-gray-700' : 'text-xs text-gray-600';
 	$: metaLocationClass = isCarousel ? 'text-sm text-gray-700' : 'text-xs text-gray-500';
 	$: chipsWrapClass = isCarousel ? 'mt-1.5 flex flex-wrap items-center gap-2' : 'mt-2 flex flex-wrap items-center gap-2';
@@ -63,6 +68,7 @@
 	$: speakerLabel = speakerText?.includes(' + ') ? 'Speakers' : 'Speaker';
 	$: locationMetaParts = [
 		location,
+		cadenceLabel,
 		!isCarousel && hostText ? `${hostLabel}: ${hostText}` : undefined,
 		!isCarousel && speakerText ? `${speakerLabel}: ${speakerText}` : undefined
 	].filter((part): part is string => Boolean(part?.trim()));
@@ -85,6 +91,13 @@
 		{#if image}
 			<div class={imageWrapClass}>
 				<img src={image} alt={imageAlt ?? title} class={imageClass} loading="lazy" />
+				{#if typeLabel}
+					<span
+						class="mt-2 inline-flex w-full items-center justify-center rounded-full border border-blue-100 bg-blue-50 px-2 py-0.5 text-[0.65rem] font-semibold whitespace-nowrap text-blue-700 uppercase"
+					>
+						{typeLabel}
+					</span>
+				{/if}
 			</div>
 		{/if}
 		<div class="min-w-0 flex-1">
@@ -92,8 +105,24 @@
 			{#if tagline}
 				<p class={taglineClass}>{tagline}</p>
 			{/if}
-			{#if date}
-				<p class={metaDateClass}>{date}</p>
+			{#if partnerText}
+				<p class="mt-1 text-[0.65rem] tracking-wide text-gray-500 uppercase">
+					In partnership with {partnerText}
+				</p>
+			{/if}
+			{#if displayDate || (!image && typeLabel)}
+				<div class={metaDateRowClass}>
+					{#if displayDate}
+						<p class={metaDateTextClass}>{displayDate}</p>
+					{/if}
+					{#if !image && typeLabel}
+						<span
+							class="inline-flex shrink-0 items-center rounded-full border border-blue-100 bg-blue-50 px-2 py-0.5 text-[0.65rem] font-semibold whitespace-nowrap text-blue-700 uppercase"
+						>
+							{typeLabel}
+						</span>
+					{/if}
+				</div>
 			{/if}
 			{#if timeText}
 				<p class={metaTimeClass}>{timeText}</p>
@@ -131,33 +160,16 @@
 						▶ Trailer ↗
 					</a>
 				{/if}
-				<span
-					class={`inline-flex shrink-0 items-center rounded-full border border-blue-100 bg-blue-50 px-2 py-0.5 text-[0.65rem] font-semibold whitespace-nowrap text-blue-700 uppercase ${isCarousel ? 'hidden sm:inline-flex' : ''}`}
-				>
-					{typeLabel}
-				</span>
 			</div>
-
-			{#if partnerText}
-				<div class={`mt-2 space-y-1 ${isCarousel ? 'hidden sm:block' : ''}`}>
-					{#if partnerText}
-						<p class="text-[0.65rem] tracking-wide text-gray-500 uppercase">
-							In partnership with {partnerText}
-						</p>
-					{/if}
-				</div>
-			{/if}
 
 			<div class={ctaWrapClass}>
 				{#if registerUrl}
-					<a
+					<EventRegisterButton
 						href={registerUrl}
-						target={isExternalRegisterUrl ? '_blank' : undefined}
-						rel={isExternalRegisterUrl ? 'noopener noreferrer' : undefined}
-						class={registerButtonClass}
-					>
-						{registerLabel}
-					</a>
+						label={registerLabel}
+						shape="rounded"
+						className={registerButtonClass}
+					/>
 				{/if}
 				{#if showLearnMoreLink}
 					<a

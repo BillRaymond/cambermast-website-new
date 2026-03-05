@@ -105,7 +105,7 @@
 										<span
 											class="inline-flex items-center rounded-full border border-blue-100 bg-blue-50 px-2.5 py-0.5 text-[0.7rem] font-medium text-blue-700/80 normal-case"
 										>
-											📜 Certificate included
+											📜 Certificate
 										</span>
 									{/if}
 									{#if program.videoUrl}

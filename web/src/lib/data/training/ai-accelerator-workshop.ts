@@ -50,7 +50,7 @@ export const aiAcceleratorWorkshop = {
 		{ label: 'Duration', value: 'Four weeks, 2-hour commitment per week' },
 		{ label: 'Format', value: ['🔴 Live online', '🏫 In-person available'] },
 		{ label: 'Cost', value: '$849 per person (virtual cohort)' },
-		{ label: 'Certificate', value: '📜 Certificate included' },
+		{ label: 'Certificate', value: '📜 Certificate' },
 		{ label: 'Environment', value: '💙 Learn in a supportive, judgment-free environment' },
 		{ label: 'What’s included', value: 'AI Power Prompting + advanced build labs' },
 		{ label: 'In-person', value: 'Custom pricing available for on-site training' }

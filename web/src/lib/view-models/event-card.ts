@@ -56,6 +56,12 @@ const dateFormatter = new Intl.DateTimeFormat('en-US', {
 	day: 'numeric',
 	year: 'numeric'
 });
+const usdFormatter = new Intl.NumberFormat('en-US', {
+	style: 'currency',
+	currency: 'USD',
+	minimumFractionDigits: 0,
+	maximumFractionDigits: 2
+});
 
 const formatCountdown = (diffMs: number): string => {
 	const totalSeconds = Math.max(0, Math.floor(diffMs / 1000));
@@ -89,6 +95,26 @@ const getCountdownLabel = (
 	const diffMs = startTimestamp - referenceTimestamp;
 	if (diffMs <= 0) return null;
 	return `Starts in ${formatCountdown(diffMs)}`;
+};
+
+const getPriceBadgeLabel = (event: EventUiModel): string | undefined => {
+	const amountUsd = event.ticketing?.amountUsd;
+	if (!Number.isFinite(amountUsd) || amountUsd === undefined || amountUsd < 0) return undefined;
+	if (amountUsd === 0) return 'Free';
+	return usdFormatter.format(amountUsd);
+};
+
+const withPricingInRegisterLabel = (registerLabel: string, event: EventUiModel): string => {
+	const trimmed = registerLabel.trim();
+	if (!trimmed) return registerLabel;
+	if (/\$\d|free/i.test(trimmed)) return registerLabel;
+	const priceBadgeLabel = getPriceBadgeLabel(event);
+	if (!priceBadgeLabel) return registerLabel;
+	if (priceBadgeLabel === 'Free') {
+		if (/^register now$/i.test(trimmed)) return 'Register free';
+		return `${registerLabel} · Free`;
+	}
+	return `${registerLabel} · ${priceBadgeLabel}`;
 };
 
 export const toEventCardModel = (
@@ -125,6 +151,9 @@ export const toEventCardModel = (
 			: event.registrationStatus === 'none' || isTrainingHappeningNow
 				? 'Enrollment closed'
 				: event.cta?.label || 'Register now');
+	const pricedRegisterLabel = registerDisabled
+		? registerLabel
+		: withPricingInRegisterLabel(registerLabel, event);
 	const countdownLabel = getCountdownLabel(startTimestamp, referenceTimestamp);
 	const statusLabelDefault =
 		tone === 'happening'
@@ -171,7 +200,7 @@ export const toEventCardModel = (
 		partnerText: partnerText || undefined,
 		speakerText: speakerText || undefined,
 		registerUrl: registerDisabled ? undefined : event.cta?.url,
-		registerLabel,
+		registerLabel: pricedRegisterLabel,
 		learnMoreUrl: `/events/${event.slug}`,
 		tone,
 		eventType: event.type,

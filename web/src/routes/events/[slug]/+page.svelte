@@ -2,6 +2,7 @@
 	import { onDestroy } from 'svelte';
 	import { page } from '$app/stores';
 	import SeoHead from '$lib/components/SeoHead.svelte';
+	import EventRegisterButton from '$lib/components/events/EventRegisterButton.svelte';
 	import FaqBlocks from '$lib/components/faq/FaqBlocks.svelte';
 	import { renderMarkdownToSafeHtml } from '$lib/utils/markdown';
 	import { getCampaignShortPathUi } from '$lib/view-models/campaigns';
@@ -444,15 +445,14 @@
 					<p class="mt-0.5 text-xs text-slate-600">{countdownLabelPrefix}: {countdownLabel}</p>
 				{/if}
 			</div>
-			<a
-				href={event.cta.url}
-				class="inline-flex shrink-0 rounded-full bg-slate-900 px-5 py-2 text-sm font-semibold text-white transition hover:bg-slate-700"
-				target={isExternalCtaUrl ? '_blank' : undefined}
-				rel={isExternalCtaUrl ? 'noopener noreferrer' : undefined}
-				on:click={() => trackRegistrationClick('sticky')}
-			>
-				{event.cta.label}
-			</a>
+			<EventRegisterButton
+				href={event.cta.url!}
+				label={event.cta.label}
+				theme="slate"
+				size="md"
+				className="shrink-0"
+				onClick={() => trackRegistrationClick('sticky')}
+			/>
 		</div>
 	</div>
 
@@ -466,15 +466,14 @@
 					<p class="mt-0.5 text-xs text-slate-600">{countdownLabelPrefix}: {countdownLabel}</p>
 				{/if}
 			</div>
-			<a
-				href={event.cta.url}
-				class="inline-flex shrink-0 rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-700 md:px-5 md:py-2.5"
-				target={isExternalCtaUrl ? '_blank' : undefined}
-				rel={isExternalCtaUrl ? 'noopener noreferrer' : undefined}
-				on:click={() => trackRegistrationClick('sticky')}
-			>
-				{event.cta.label}
-			</a>
+			<EventRegisterButton
+				href={event.cta.url!}
+				label={event.cta.label}
+				theme="slate"
+				size="sm"
+				className="shrink-0 md:px-5 md:py-2.5"
+				onClick={() => trackRegistrationClick('sticky')}
+			/>
 		</div>
 	</div>
 {/if}
@@ -497,7 +496,7 @@
 							<span
 								class="inline-flex items-center rounded-full border border-slate-300 bg-white px-2 py-0.5 text-[0.65rem] font-semibold tracking-wide text-slate-700 uppercase"
 							>
-								Certificate included
+								📜 Certificate
 							</span>
 						{/if}
 						{#if trailerUrl}
@@ -613,15 +612,12 @@
 					<div class="mt-6">
 						{#if canRegister}
 							<div class="flex flex-wrap items-center gap-3">
-								<a
-									href={event.cta.url}
-									class="inline-flex rounded-full bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-blue-700"
-									target={isExternalCtaUrl ? '_blank' : undefined}
-									rel={isExternalCtaUrl ? 'noopener noreferrer' : undefined}
-									on:click={() => trackRegistrationClick('hero')}
-								>
-									{event.cta.label}
-								</a>
+								<EventRegisterButton
+									href={event.cta.url!}
+									label={event.cta.label}
+									size="lg"
+									onClick={() => trackRegistrationClick('hero')}
+								/>
 							</div>
 						{:else}
 							<div class="flex flex-wrap items-center gap-3">
@@ -685,15 +681,12 @@
 					</div>
 					{#if canRegister}
 						<div class="mt-6 flex flex-wrap items-center gap-3">
-							<a
-								href={event.cta.url}
-								class="inline-flex rounded-full bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-blue-700"
-								target={isExternalCtaUrl ? '_blank' : undefined}
-								rel={isExternalCtaUrl ? 'noopener noreferrer' : undefined}
-								on:click={() => trackRegistrationClick('body')}
-							>
-								{event.cta.label}
-							</a>
+							<EventRegisterButton
+								href={event.cta.url!}
+								label={event.cta.label}
+								size="lg"
+								onClick={() => trackRegistrationClick('body')}
+							/>
 						</div>
 					{/if}
 
@@ -746,7 +739,7 @@
 										<span
 											class="inline-flex items-center rounded-full border border-slate-300 bg-white px-2 py-0.5 text-[0.65rem] font-semibold tracking-wide text-slate-700 uppercase"
 										>
-											Certificate included
+											📜 Certificate
 										</span>
 									{/if}
 								</div>
@@ -773,15 +766,12 @@
 						</div>
 						{#if canRegister}
 							<div class="mt-6 flex flex-wrap items-center gap-3">
-								<a
-									href={event.cta.url}
-									class="inline-flex rounded-full bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-blue-700"
-									target={isExternalCtaUrl ? '_blank' : undefined}
-									rel={isExternalCtaUrl ? 'noopener noreferrer' : undefined}
-									on:click={() => trackRegistrationClick('body')}
-								>
-									{event.cta.label}
-								</a>
+								<EventRegisterButton
+									href={event.cta.url!}
+									label={event.cta.label}
+									size="lg"
+									onClick={() => trackRegistrationClick('body')}
+								/>
 							</div>
 						{/if}
 					{/if}
@@ -853,15 +843,12 @@
 						</div>
 						{#if canRegister}
 							<div class="mt-6 flex flex-wrap items-center gap-3">
-								<a
-									href={event.cta.url}
-									class="inline-flex rounded-full bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-blue-700"
-									target={isExternalCtaUrl ? '_blank' : undefined}
-									rel={isExternalCtaUrl ? 'noopener noreferrer' : undefined}
-									on:click={() => trackRegistrationClick('body')}
-								>
-									{event.cta.label}
-								</a>
+								<EventRegisterButton
+									href={event.cta.url!}
+									label={event.cta.label}
+									size="lg"
+									onClick={() => trackRegistrationClick('body')}
+								/>
 							</div>
 						{/if}
 					{/if}
@@ -967,15 +954,15 @@
 								<p class="mt-1 text-lg font-semibold text-slate-900">{countdownPanelValue}</p>
 							</div>
 							{#if canRegister}
-								<a
-									href={event.cta.url}
-									class="mt-3 inline-flex w-full items-center justify-center rounded-full bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-700"
-								target={isExternalCtaUrl ? '_blank' : undefined}
-								rel={isExternalCtaUrl ? 'noopener noreferrer' : undefined}
-								on:click={() => trackRegistrationClick('sticky')}
-								>
-									{event.cta.label}
-								</a>
+								<EventRegisterButton
+									href={event.cta.url!}
+									label={event.cta.label}
+									theme="slate"
+									size="sm"
+									fullWidth={true}
+									className="mt-3 py-2.5"
+									onClick={() => trackRegistrationClick('sticky')}
+								/>
 							{:else}
 								<a
 									href="/events"

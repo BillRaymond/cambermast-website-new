@@ -65,7 +65,7 @@ const isRegisterable = (event: Event): boolean =>
 	event.registrationStatus !== 'closed' &&
 	event.registrationStatus !== 'none' &&
 	event.registrationStatus !== 'sold_out' &&
-	Boolean(event.cta?.url);
+	Boolean(getEventRegistrationUrl(event));
 
 export const isTrainingEventHappeningNow = (
 	event: Event,
@@ -83,6 +83,7 @@ export const toTrainingScheduleEntry = (
 	const startTimestamp = getEventStartTimestamp(event);
 	const endTimestamp = getEventSessionBounds(event)?.endTimestamp ?? startTimestamp;
 	const canRegister = isRegisterable(event);
+	const registrationUrl = canRegister ? getEventRegistrationUrl(event) : undefined;
 	const registerLabel = event.cta?.label || 'Register now';
 	const isTrainingInProgress = isTrainingEventHappeningNow(event, referenceTimestamp);
 	const statusLabel = getStatusLabel({
@@ -100,7 +101,7 @@ export const toTrainingScheduleEntry = (
 		time: toConciseEventTimeLabel(event.time),
 		location: event.location,
 		statusLabel,
-		registerUrl: canRegister ? getEventRegistrationUrl(event) : undefined,
+		registerUrl: registrationUrl,
 		registerLabel,
 		isHappeningNow: isTrainingInProgress,
 		startTimestamp,

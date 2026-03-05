@@ -6,7 +6,7 @@ export const techlabAiWorkshopForContentCreators = {
 	sku: 'CM-TR-005',
 	title: 'AI Workshop for Tech Writers and Content Creators',
 	nickname: 'Seven-week cohort for technical communicators',
-	tagline: 'AI-enhanced content workflows that deliver measurable impact in seven weeks.',
+	tagline: 'Get real results from your content with AI-powered workflows in just seven weeks.',
 	heroImage: '/images/generated/ai-workshop-for-content-creators/hero-landscape.jpg',
 	heroImageAlt: 'AI Workshop for Tech Writers and Content Creators illustration',
 	ogImage: '/images/generated/ai-workshop-for-content-creators/hero-landscape.jpg',
