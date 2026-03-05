@@ -8,6 +8,16 @@ type SaveImageInput = {
 	squareDataUrl: string;
 	landscapeDataUrl: string;
 	portraitDataUrl: string;
+	selectedSources: {
+		square?: { minioKey?: string; minioUrl?: string };
+		landscape?: { minioKey?: string; minioUrl?: string };
+		portrait?: { minioKey?: string; minioUrl?: string };
+	};
+	prompts: {
+		square: string;
+		landscape: string;
+		portrait: string;
+	};
 };
 
 type WritePlanEntry = {
@@ -17,6 +27,7 @@ type WritePlanEntry = {
 };
 
 const TEMPLATE_PUBLIC_PREFIX = '/images/admin/image-gen/templates/';
+const MINIO_BROWSER_BASE = 'https://minio-on-hstgr.tail8a5127.ts.net/browser/blobs/';
 
 const resolveWebRoot = (): string => {
 	const cwd = process.cwd();
@@ -95,12 +106,22 @@ export const saveSelectedImagesToWebsite = async (input: SaveImageInput) => {
 		fileName: string;
 		version: number;
 	}> = [];
+	const writtenPaths: string[] = [];
+
+	const getMinioLocation = (entry?: { minioKey?: string; minioUrl?: string }): string => {
+		if (entry?.minioUrl?.trim()) return entry.minioUrl.trim();
+		if (entry?.minioKey?.trim()) {
+			return `${MINIO_BROWSER_BASE}${entry.minioKey.trim().replace(/^\/+/, '')}`;
+		}
+		return 'not-available';
+	};
 
 	try {
 		for (const item of writePlan) {
 			const { fileName, version } = await buildVersionedPath(targetDir, item.baseFileName);
 			const absolutePath = path.join(targetDir, fileName);
 			await fs.writeFile(absolutePath, decodeDataUrlToBuffer(item.dataUrl));
+			writtenPaths.push(absolutePath);
 			writes.push({
 				variant: item.variant,
 				absolutePath,
@@ -109,11 +130,35 @@ export const saveSelectedImagesToWebsite = async (input: SaveImageInput) => {
 				version
 			});
 		}
+
+		const minioLocationsPath = path.join(targetDir, 'selected-minio-locations.txt');
+		const minioLocationsText = [
+			`slug: ${safeSlug}`,
+			`square: ${getMinioLocation(input.selectedSources.square)}`,
+			`landscape: ${getMinioLocation(input.selectedSources.landscape)}`,
+			`portrait: ${getMinioLocation(input.selectedSources.portrait)}`
+		].join('\n');
+		await fs.writeFile(minioLocationsPath, `${minioLocationsText}\n`, 'utf8');
+		writtenPaths.push(minioLocationsPath);
+
+		const promptsPath = path.join(targetDir, 'stage-prompts.txt');
+		const promptsText = [
+			'Square prompt:',
+			input.prompts.square,
+			'',
+			'Landscape prompt:',
+			input.prompts.landscape,
+			'',
+			'Portrait prompt:',
+			input.prompts.portrait
+		].join('\n');
+		await fs.writeFile(promptsPath, `${promptsText}\n`, 'utf8');
+		writtenPaths.push(promptsPath);
 	} catch (error) {
 		await Promise.all(
-			writes.map((entry) =>
-				fs.unlink(entry.absolutePath).catch(() => {
-					console.warn('Failed to roll back image write', entry.absolutePath);
+			writtenPaths.map((absolutePath) =>
+				fs.unlink(absolutePath).catch(() => {
+					console.warn('Failed to roll back generated file write', absolutePath);
 				})
 			)
 		);

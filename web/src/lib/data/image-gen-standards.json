@@ -1,10 +1,26 @@
 {
 	"version": 1,
-	"updatedAt": "2026-03-05T03:19:13.504Z",
+	"updatedAt": "2026-03-05T23:29:21.061Z",
 	"standards": [
 		{
-			"id": "fe0b7144757c49d7",
-			"createdAt": "2026-03-05T03:19:13.503Z",
+			"id": "989bcb444d674e3e",
+			"createdAt": "2026-03-05T23:29:21.058Z",
+			"blobScope": "events",
+			"slug": "featured-images/cambermast-default",
+			"assetKeys": {
+				"square": "featured-images/cambermast-default/hero-square.jpg",
+				"landscape": "featured-images/cambermast-default/hero-landscape.jpg",
+				"portrait": "featured-images/cambermast-default/hero-portrait.jpg"
+			},
+			"prompts": {
+				"square": "Abstract geometric background inspired by a modern sail or sense of forward motion, filling the entire image. Bright blue #0063F2 as the dominant base with layered shapes of bold blue #0037BE, mint green #8BD8BD, orange #F49F1C, and subtle deep navy #012072 accents.\n\nDesign should feel light, airy, and background-oriented. Shapes should appear semi-transparent with low opacity, softly blended into one another. Use reduced contrast and slightly desaturated colors so the composition remains calm and unobtrusive.\n\nClean overlapping angular panels with very soft edges and smooth gradients. Extremely subtle layering and depth, with a faint fine-grained texture.\n\nMaintain a quiet visual hierarchy so the background does not compete with foreground text or imagery. No sharp edges, no high contrast areas, no focal point. The composition should feel soft, diffused, and atmospheric.",
+				"landscape": "Recreate the provided template image as a landscape. Avoid the top and bottom 25%.",
+				"portrait": "Recreate the provided template image in portrait format. Avoid the top and bottom 25%."
+			}
+		},
+		{
+			"id": "2239e57a51aa41a0",
+			"createdAt": "2026-03-05T16:24:57.445Z",
 			"blobScope": "events",
 			"slug": "events/ai-workshop-for-content-creators-fall-2026",
 			"assetKeys": {
@@ -13,7 +29,39 @@
 				"portrait": "events/ai-workshop-for-content-creators-fall-2026/hero-portrait-v2.jpg"
 			},
 			"prompts": {
-				"square": "Use the provided template image as a visual style and composition reference. Create a new image of the same type. Add the subtitle \"SPRING 2026\". Add subtle spring-related elements and a background with items like tulips. Make it a little less grainy. Avoid: dark backgrounds, visual clichés, and imagery that anthropomorphizes AI. Avoid the top and bottom 25%.",
+				"square": "Use the provided template image as a visual style and composition reference. Create a new image of the same type and capitalize all text. Add the subtitle \"FALL 2026\" and make it stand out. Keep the current borders, but add light flourishes of fall around the border, and add a fall scene behind the people. Avoid: dark backgrounds, visual clichés, and imagery that anthropomorphizes AI. Avoid the top and bottom 25%.",
+				"landscape": "Recreate the provided template image as a landscape. Avoid the top and bottom 25%.",
+				"portrait": "Recreate the provided template image in portrait format. Avoid the top and bottom 25%."
+			}
+		},
+		{
+			"id": "b540428664464e61",
+			"createdAt": "2026-03-05T15:42:34.414Z",
+			"blobScope": "events",
+			"slug": "events/ai-workshop-for-content-creators-fall-2026",
+			"assetKeys": {
+				"square": "events/ai-workshop-for-content-creators-fall-2026/hero-square.jpg",
+				"landscape": "events/ai-workshop-for-content-creators-fall-2026/hero-landscape.jpg",
+				"portrait": "events/ai-workshop-for-content-creators-fall-2026/hero-portrait.jpg"
+			},
+			"prompts": {
+				"square": "Abstract geometric background inspired by a modern sail or forward motion shape, using deep navy #012072 as the dominant base with layered bold blue #0037BE, bright blue #0063F2, mint green #8BD8BD, and a subtle orange #F49F1C accent. Clean, overlapping angular panels with smooth, blended transitions and a very soft, fine-grained texture. Composition should frame the edges and corners, leaving a calm, open negative space in the center for text placement. Professional, training-focused, confident corporate style. No white, no glow, no light beams, no dark vignette, no clutter. Balanced contrast to support overlay text.\n\nCreate a webinar hero treatment for \"AI POWER PROMPTING\" and \"MARCH 2026\". Generate two separate elements: (1) the headline text and (2) a photorealistic image of a diverse group of happy people learning how to prompt together that is integrated into the overall design. The composition should feel open and integrated into the existing background, not like a title card. Keep overall styling bright and clean, with minimal effects with a strong focus on legibility.\n\nFocus on placing text and elements in the center of the image.\n\nSTRICT AVOIDANCE RULES\n* Visual cliches like AI brains and circuits.\n* Imagery that anthropomorphizes AI.",
+				"landscape": "Recreate the provided template image as a landscape. Avoid the top and bottom 25%.",
+				"portrait": "Recreate the provided template image in portrait format. Avoid the top and bottom 25%."
+			}
+		},
+		{
+			"id": "65827f434bd44d92",
+			"createdAt": "2026-03-05T15:24:12.524Z",
+			"blobScope": "events",
+			"slug": "events/ai-workshop-for-content-creators-summer-2026",
+			"assetKeys": {
+				"square": "events/ai-workshop-for-content-creators-summer-2026/hero-square.jpg",
+				"landscape": "events/ai-workshop-for-content-creators-summer-2026/hero-landscape.jpg",
+				"portrait": "events/ai-workshop-for-content-creators-summer-2026/hero-portrait.jpg"
+			},
+			"prompts": {
+				"square": "Use the provided template image as a visual style and composition reference. Create a new image of the same type with all letters capitalized. Add the subtitle \"SUMMER 2026\" and make it stand out for more attention. Include subtle imagery around the outside that represents summer. In the background, include a summery scene with the sun shining at the top-right. Slightly reduce the graininess. Avoid: dark backgrounds, visual clichés, and imagery that anthropomorphizes AI. Avoid the top and bottom 25%.",
 				"landscape": "Recreate the provided template image as a landscape. Avoid the top and bottom 25%.",
 				"portrait": "Recreate the provided template image in portrait format. Avoid the top and bottom 25%."
 			}

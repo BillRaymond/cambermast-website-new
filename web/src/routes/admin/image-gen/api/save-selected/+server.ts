@@ -39,7 +39,13 @@ export const POST = async ({ request }) => {
 			slug: body.slug,
 			squareDataUrl: square.dataUrl,
 			landscapeDataUrl: landscape.dataUrl,
-			portraitDataUrl: portrait.dataUrl
+			portraitDataUrl: portrait.dataUrl,
+			selectedSources: {
+				square: { minioKey: square.minioKey, minioUrl: square.minioUrl },
+				landscape: { minioKey: landscape.minioKey, minioUrl: landscape.minioUrl },
+				portrait: { minioKey: portrait.minioKey, minioUrl: portrait.minioUrl }
+			},
+			prompts: body.prompts
 		});
 		const promptStandard = await appendImageGenPromptStandard({
 			slug: result.slug,

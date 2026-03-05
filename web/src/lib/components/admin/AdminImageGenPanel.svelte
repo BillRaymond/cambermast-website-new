@@ -5,8 +5,6 @@
 	type BlobScope = 'events' | 'training';
 	type Mode = 'embedded' | 'standalone';
 	const NO_TEMPLATE_OPTION = '__no-template__';
-	const NO_TEMPLATE_SQUARE_PROMPT =
-		'Abstract geometric background inspired by a modern sail or forward motion shape, using deep navy #012072 as the dominant base with layered bold blue #0037BE, bright blue #0063F2, mint green #8BD8BD, and a subtle orange #F49F1C accent. Clean, overlapping angular panels with smooth blended transitions and very soft, fine grain texture. Composition should frame the edges and corners, leaving a calm, open negative space in the center for text placement. Professional, training-focused, confident corporate style. No white, no glow, no light beams, no dark vignette, no clutter. Balanced contrast to support overlay text.';
 	type StageAPromptPreset = {
 		label: string;
 		prompt: string;
@@ -193,9 +191,15 @@ STRICT AVOIDANCE RULES
 	let promptHistory: PromptHistoryEntry[] = [];
 	let promptHistorySearch = '';
 	let filteredPromptHistory: PromptHistoryEntry[] = [];
+	let visiblePromptHistory: PromptHistoryEntry[] = [];
+	let showAllRecentHistory = false;
 
 	const MINIO_BROWSER_BASE = 'https://minio-on-hstgr.tail8a5127.ts.net/browser/blobs/';
 	const PROMPT_HISTORY_MAX_ITEMS = 150;
+	const PROMPT_HISTORY_RECENT_VISIBLE = 1;
+	const applyDefaultSquarePrompt = () => {
+		squarePrompt = defaultPrompts.square;
+	};
 
 	const readFileAsDataUrl = (file: Blob): Promise<string> =>
 		new Promise((resolve, reject) => {
@@ -219,6 +223,7 @@ STRICT AVOIDANCE RULES
 		selectedTemplateUrl = url;
 		uploadedTemplateName = '';
 		noTemplateSelected = false;
+		applyDefaultSquarePrompt();
 	};
 
 	const setNoTemplateMode = () => {
@@ -226,7 +231,7 @@ STRICT AVOIDANCE RULES
 		selectedTemplateUrl = NO_TEMPLATE_OPTION;
 		templateImageDataUrl = '';
 		uploadedTemplateName = '';
-		squarePrompt = NO_TEMPLATE_SQUARE_PROMPT;
+		squarePrompt = '';
 	};
 
 	const loadTemplates = async () => {
@@ -401,7 +406,9 @@ STRICT AVOIDANCE RULES
 
 	const loadPromptHistory = async () => {
 		try {
-			const response = await fetch('/api/image-gen-standards.json');
+			const response = await fetch(`/api/image-gen-standards.json?t=${Date.now().toString()}`, {
+				cache: 'no-store'
+			});
 			const json = (await response.json()) as unknown;
 			if (!response.ok) throw new Error('Unable to load prompt standards.');
 			promptHistory = parsePromptHistoryResponse(json);
@@ -553,9 +560,14 @@ STRICT AVOIDANCE RULES
 		const candidateMap = Object.fromEntries(
 			allCandidates().map((candidate) => [
 				candidate.id,
-				{ dataUrl: candidate.dataUrl, minioKey: candidate.minioKey }
+				{ dataUrl: candidate.dataUrl, minioKey: candidate.minioKey, minioUrl: candidate.minioUrl }
 			])
 		);
+		const promptSnapshot = {
+			square: squarePrompt,
+			landscape: landscapePrompt,
+			portrait: portraitPrompt
+		};
 
 		saving = true;
 		try {
@@ -565,11 +577,7 @@ STRICT AVOIDANCE RULES
 				body: JSON.stringify({
 					slug: slug.trim().toLowerCase(),
 					blobScope,
-					prompts: {
-						square: squarePrompt,
-						landscape: landscapePrompt,
-						portrait: portraitPrompt
-					},
+					prompts: promptSnapshot,
 					selected: {
 						squareCandidateId: selectedSquareCandidateId,
 						landscapeCandidateId: selectedLandscapeCandidateId,
@@ -625,6 +633,10 @@ STRICT AVOIDANCE RULES
 				.toLowerCase();
 			return searchTargets.includes(search);
 		});
+		visiblePromptHistory =
+			search || showAllRecentHistory
+				? filteredPromptHistory
+				: filteredPromptHistory.slice(0, PROMPT_HISTORY_RECENT_VISIBLE);
 	}
 </script>
 
@@ -746,6 +758,7 @@ STRICT AVOIDANCE RULES
 						templateImageDataUrl = uploadedTemplateDataUrl;
 						selectedTemplateUrl = '';
 						noTemplateSelected = false;
+						applyDefaultSquarePrompt();
 					}}
 					class="block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
 				/>
@@ -788,59 +801,148 @@ STRICT AVOIDANCE RULES
 		</div>
 
 		<div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
-			<h2 class="text-xl font-semibold">Run Settings</h2>
+			<h2 class="text-xl font-semibold">Location Settings</h2>
 			<label class="mt-3 block text-sm font-semibold text-gray-800" for={`slug-${mode}`}>Program/Event slug path</label>
 			<input
 				id={`slug-${mode}`}
 				type="text"
-				placeholder="example: resources/ama or ai-workshop-spring-2026"
+				placeholder="example: events/event-name or resources/ama"
 				bind:value={slug}
 				class="mt-2 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
 			/>
 			<p class="mt-1 text-xs text-gray-500">
 				Use lowercase letters, numbers, hyphens, and optional <code>/</code> subfolders. If
-				empty, generation backups use <code>unspecified</code>.
+				empty, generation backups use <code>unspecified</code>. For events, use paths like
+				<code>events/event-name</code>.
 			</p>
 		</div>
 
-			<div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
-				<h2 class="text-xl font-semibold">Stage A: Square (1024x1024)</h2>
-				<div class="mt-3 flex flex-wrap gap-2">
-					{#each STAGE_A_PROMPT_PRESETS as preset}
-						<button
-							type="button"
-							class={`rounded-full border px-3 py-1 text-xs font-semibold transition ${
-								squarePrompt.trim() === preset.prompt.trim()
-									? 'border-blue-300 bg-blue-50 text-blue-700'
-									: 'border-gray-300 bg-white text-gray-700 hover:border-gray-400'
-							}`}
-							on:click={() => applyStageAPromptPreset(preset.prompt)}
-						>
-							{preset.label}
-						</button>
+		<div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+			<div class="flex flex-wrap items-center justify-between gap-2">
+				<h3 class="text-sm font-semibold text-gray-800">Prompt History Chips</h3>
+				<button
+					type="button"
+					class="rounded border border-gray-300 bg-white px-2 py-1 text-xs font-semibold text-gray-700 hover:border-gray-400"
+					on:click={loadPromptHistory}
+				>
+					Refresh
+				</button>
+			</div>
+			<p class="mt-1 text-xs text-gray-600">
+				Each saved run stores prompts for square, landscape, and portrait, keyed by final <code>slug/filename</code>.
+			</p>
+				<input
+					type="text"
+					class="mt-3 w-full rounded border border-gray-300 bg-white px-2 py-1.5 text-xs"
+					placeholder="Filter by slug or filename..."
+					bind:value={promptHistorySearch}
+					on:input={() => {
+						if (promptHistorySearch.trim()) showAllRecentHistory = false;
+					}}
+				/>
+				{#if filteredPromptHistory.length === 0}
+					<p class="mt-3 text-xs text-gray-500">No saved prompt chips yet.</p>
+				{:else}
+					{#if !promptHistorySearch.trim() && filteredPromptHistory.length > PROMPT_HISTORY_RECENT_VISIBLE}
+						<div class="mt-3 flex flex-wrap items-center justify-between gap-2">
+							<p class="text-xs text-gray-500">
+								Showing latest entry. Search to expand, or show all recent.
+							</p>
+							<button
+								type="button"
+								class="rounded border border-gray-300 bg-white px-2 py-1 text-xs font-semibold text-gray-700 hover:border-gray-400"
+								on:click={() => (showAllRecentHistory = !showAllRecentHistory)}
+							>
+								{showAllRecentHistory ? 'Show latest only' : 'Show all recent'}
+							</button>
+						</div>
+					{/if}
+					<div class="mt-3 max-h-72 space-y-2 overflow-auto">
+						{#each visiblePromptHistory as entry (entry.id)}
+						<div class="rounded-lg border border-gray-200 bg-white p-2">
+							<div class="flex flex-wrap items-center justify-between gap-2">
+								<p class="text-xs font-semibold text-gray-800">{entry.slug}</p>
+								<div class="flex items-center gap-2">
+									<p class="text-[11px] text-gray-500">{formatHistoryDate(entry.createdAt)}</p>
+									<button
+										type="button"
+										class="rounded border border-gray-300 bg-white px-2 py-1 text-[11px] font-semibold text-gray-700 hover:border-gray-400"
+										on:click={() => applyHistoryPrompts(entry)}
+									>
+										Use all prompts
+									</button>
+								</div>
+							</div>
+							<div class="mt-2 flex flex-wrap gap-2">
+								<button
+									type="button"
+									class="rounded-full border border-gray-300 bg-white px-2 py-1 text-[11px] font-semibold text-gray-700 hover:border-gray-400"
+									on:click={() => applyHistoryPromptForStage(entry, 'square')}
+									title="Use square prompt"
+								>
+									Square: {getHistoryChipLabel(entry, 'square')}
+								</button>
+								<button
+									type="button"
+									class="rounded-full border border-gray-300 bg-white px-2 py-1 text-[11px] font-semibold text-gray-700 hover:border-gray-400"
+									on:click={() => applyHistoryPromptForStage(entry, 'landscape')}
+									title="Use landscape prompt"
+								>
+									Landscape: {getHistoryChipLabel(entry, 'landscape')}
+								</button>
+								<button
+									type="button"
+									class="rounded-full border border-gray-300 bg-white px-2 py-1 text-[11px] font-semibold text-gray-700 hover:border-gray-400"
+									on:click={() => applyHistoryPromptForStage(entry, 'portrait')}
+									title="Use portrait prompt"
+								>
+									Portrait: {getHistoryChipLabel(entry, 'portrait')}
+								</button>
+							</div>
+						</div>
 					{/each}
 				</div>
-				<textarea bind:value={squarePrompt} rows={8} class="mt-3 w-full rounded-lg border border-gray-300 p-3 text-sm"></textarea>
-				<div class="mt-3">
-					<div class="flex items-center justify-between gap-3">
-						<label class="text-sm font-semibold text-gray-800" for={`square-count-${mode}`}>Number of images to batch</label>
-						<span class="text-sm font-semibold text-gray-800">{squareN}</span>
-					</div>
-					<input
-						id={`square-count-${mode}`}
-						type="range"
-						min={minN}
-						max={maxN}
-						step="1"
-						bind:value={squareN}
-						class="mt-2 w-full"
-					/>
-					<p class="mt-1 text-xs text-gray-500">Range: {minN}-{maxN}. Default: {defaultN}.</p>
-				</div>
-				<div class="mt-3 flex flex-wrap items-center gap-3">
+			{/if}
+		</div>
+
+		<div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+			<h2 class="text-xl font-semibold">Stage A: Square (1024x1024)</h2>
+			<div class="mt-3 flex flex-wrap gap-2">
+				{#each STAGE_A_PROMPT_PRESETS as preset}
 					<button
-						class="rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
 						type="button"
+						class={`rounded-full border px-3 py-1 text-xs font-semibold transition ${
+							squarePrompt.trim() === preset.prompt.trim()
+								? 'border-blue-300 bg-blue-50 text-blue-700'
+								: 'border-gray-300 bg-white text-gray-700 hover:border-gray-400'
+						}`}
+						on:click={() => applyStageAPromptPreset(preset.prompt)}
+					>
+						{preset.label}
+					</button>
+				{/each}
+			</div>
+			<textarea bind:value={squarePrompt} rows={8} class="mt-3 w-full rounded-lg border border-gray-300 p-3 text-sm"></textarea>
+			<div class="mt-3">
+				<div class="flex items-center justify-between gap-3">
+					<label class="text-sm font-semibold text-gray-800" for={`square-count-${mode}`}>Number of images to batch</label>
+					<span class="text-sm font-semibold text-gray-800">{squareN}</span>
+				</div>
+				<input
+					id={`square-count-${mode}`}
+					type="range"
+					min={minN}
+					max={maxN}
+					step="1"
+					bind:value={squareN}
+					class="mt-2 w-full"
+				/>
+				<p class="mt-1 text-xs text-gray-500">Range: {minN}-{maxN}. Default: {defaultN}.</p>
+			</div>
+			<div class="mt-3 flex flex-wrap items-center gap-3">
+				<button
+					class="rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
+					type="button"
 					disabled={generatingStage !== null || templatesLoading || (!noTemplateSelected && !templateImageDataUrl)}
 					on:click={() => generateForStage('square')}
 				>
@@ -1131,6 +1233,24 @@ STRICT AVOIDANCE RULES
 		</div>
 
 		<div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+			<h2 class="text-xl font-semibold">Location Settings (Final Check Before Save)</h2>
+			<label class="mt-3 block text-sm font-semibold text-gray-800" for={`slug-final-${mode}`}>
+				Program/Event slug path
+			</label>
+			<input
+				id={`slug-final-${mode}`}
+				type="text"
+				placeholder="example: events/event-name or resources/ama"
+				bind:value={slug}
+				class="mt-2 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
+			/>
+			<p class="mt-1 text-xs text-gray-500">
+				Use lowercase letters, numbers, hyphens, and optional <code>/</code> subfolders. For events,
+				use paths like <code>events/event-name</code>.
+			</p>
+		</div>
+
+		<div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
 			<h2 class="text-xl font-semibold">Final Save</h2>
 			<p class="mt-2 text-sm text-gray-600">
 				Save selected square, landscape, and portrait files to
@@ -1160,77 +1280,6 @@ STRICT AVOIDANCE RULES
 					{/each}
 				</ul>
 			{/if}
-
-			<div class="mt-5 rounded-xl border border-gray-200 bg-gray-50 p-3">
-				<div class="flex flex-wrap items-center justify-between gap-2">
-					<h3 class="text-sm font-semibold text-gray-800">Prompt History Chips</h3>
-					<button
-						type="button"
-						class="rounded border border-gray-300 bg-white px-2 py-1 text-xs font-semibold text-gray-700 hover:border-gray-400"
-						on:click={loadPromptHistory}
-					>
-						Refresh
-					</button>
-				</div>
-				<p class="mt-1 text-xs text-gray-600">
-					Each saved run stores prompts for square, landscape, and portrait, keyed by final <code>slug/filename</code>.
-				</p>
-				<input
-					type="text"
-					class="mt-3 w-full rounded border border-gray-300 bg-white px-2 py-1.5 text-xs"
-					placeholder="Filter by slug or filename..."
-					bind:value={promptHistorySearch}
-				/>
-				{#if filteredPromptHistory.length === 0}
-					<p class="mt-3 text-xs text-gray-500">No saved prompt chips yet.</p>
-				{:else}
-					<div class="mt-3 max-h-72 space-y-2 overflow-auto">
-						{#each filteredPromptHistory as entry (entry.id)}
-							<div class="rounded-lg border border-gray-200 bg-white p-2">
-								<div class="flex flex-wrap items-center justify-between gap-2">
-									<p class="text-xs font-semibold text-gray-800">{entry.slug}</p>
-									<div class="flex items-center gap-2">
-										<p class="text-[11px] text-gray-500">{formatHistoryDate(entry.createdAt)}</p>
-										<button
-											type="button"
-											class="rounded border border-gray-300 bg-white px-2 py-1 text-[11px] font-semibold text-gray-700 hover:border-gray-400"
-											on:click={() => applyHistoryPrompts(entry)}
-										>
-											Use all prompts
-										</button>
-									</div>
-								</div>
-								<div class="mt-2 flex flex-wrap gap-2">
-									<button
-										type="button"
-										class="rounded-full border border-gray-300 bg-white px-2 py-1 text-[11px] font-semibold text-gray-700 hover:border-gray-400"
-										on:click={() => applyHistoryPromptForStage(entry, 'square')}
-										title="Use square prompt"
-									>
-										Square: {getHistoryChipLabel(entry, 'square')}
-									</button>
-									<button
-										type="button"
-										class="rounded-full border border-gray-300 bg-white px-2 py-1 text-[11px] font-semibold text-gray-700 hover:border-gray-400"
-										on:click={() => applyHistoryPromptForStage(entry, 'landscape')}
-										title="Use landscape prompt"
-									>
-										Landscape: {getHistoryChipLabel(entry, 'landscape')}
-									</button>
-									<button
-										type="button"
-										class="rounded-full border border-gray-300 bg-white px-2 py-1 text-[11px] font-semibold text-gray-700 hover:border-gray-400"
-										on:click={() => applyHistoryPromptForStage(entry, 'portrait')}
-										title="Use portrait prompt"
-									>
-										Portrait: {getHistoryChipLabel(entry, 'portrait')}
-									</button>
-								</div>
-							</div>
-						{/each}
-					</div>
-				{/if}
-			</div>
 		</div>
 	</section>
 

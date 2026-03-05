@@ -7,6 +7,9 @@
 	import { SITE_ORIGIN } from '$lib/config/site';
 	import { listCampaignUi } from '$lib/view-models/campaigns';
 	import { listEventUi } from '$lib/view-models/events';
+	import type { PageData } from './$types';
+
+	export let data: PageData;
 
 	type CampaignCategory = 'event' | 'landing';
 
@@ -16,6 +19,8 @@
 		loading?: boolean;
 		error?: string;
 	};
+
+	type GeneratedCampaignAsset = PageData['campaignGeneratedAssets'][string][number];
 
 	const pageTitle = 'Campaigns | Cambermast';
 	const pageDescription = 'Internal campaign registry for Cambermast marketing initiatives.';
@@ -76,6 +81,7 @@
 	let filter: 'all' | 'events' | 'landing' = 'all';
 	let copiedKey = '';
 	let qrAssets: Record<string, { prod: QrAsset; dev: QrAsset }> = {};
+	let previewAsset: GeneratedCampaignAsset | null = null;
 
 	const qrSize = 512;
 
@@ -196,6 +202,32 @@
 				: 'border-gray-200 bg-white text-gray-600 hover:border-gray-300 hover:text-gray-800'
 		} ${copiedKey === key ? 'scale-[1.02]' : 'scale-100'} motion-safe:transition-transform`;
 
+	const getCampaignAssets = (campaignId: string): GeneratedCampaignAsset[] =>
+		data.campaignGeneratedAssets?.[campaignId] ?? [];
+
+	const hasPreview = (asset: GeneratedCampaignAsset): boolean =>
+		asset.kind === 'image' || asset.kind === 'video';
+
+	const openAssetPreview = (asset: GeneratedCampaignAsset) => {
+		previewAsset = asset;
+	};
+
+	const closeAssetPreview = () => {
+		previewAsset = null;
+	};
+
+	const formatBytes = (bytes: number): string => {
+		if (!Number.isFinite(bytes) || bytes <= 0) return '0 B';
+		const units = ['B', 'KB', 'MB', 'GB'];
+		let value = bytes;
+		let unitIndex = 0;
+		while (value >= 1024 && unitIndex < units.length - 1) {
+			value /= 1024;
+			unitIndex += 1;
+		}
+		return `${value.toFixed(unitIndex === 0 ? 0 : 1)} ${units[unitIndex]}`;
+	};
+
 	let qrActionWidths: Record<string, number> = {};
 
 	const trackQrActionWidth = (node: HTMLElement, key: string) => {
@@ -240,6 +272,64 @@
 		</p>
 	</div>
 </section>
+
+{#if previewAsset}
+	<div
+		class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4"
+		role="dialog"
+		aria-modal="true"
+		aria-label={`Preview ${previewAsset.name}`}
+		tabindex="0"
+		on:click|self={closeAssetPreview}
+		on:keydown={(event) => {
+			if (event.key === 'Escape') closeAssetPreview();
+		}}
+	>
+		<div class="w-full max-w-5xl rounded-xl bg-white p-4 shadow-xl" role="document" tabindex="-1">
+			<div class="mb-3 flex items-center justify-between gap-4">
+				<div class="min-w-0">
+					<p class="truncate text-sm font-semibold text-gray-900">{previewAsset.name}</p>
+					<p class="text-xs text-gray-600">
+						{previewAsset.relativePath} • {formatBytes(previewAsset.sizeBytes)}
+					</p>
+				</div>
+				<div class="flex items-center gap-2">
+					<a
+						href={previewAsset.url}
+						download={previewAsset.name}
+						class="inline-flex items-center rounded border border-gray-200 bg-white px-3 py-1.5 text-xs font-semibold text-gray-700 transition hover:border-gray-300 hover:text-gray-900"
+					>
+						Download
+					</a>
+					<button
+						type="button"
+						class="inline-flex items-center rounded border border-gray-200 bg-white px-3 py-1.5 text-xs font-semibold text-gray-700 transition hover:border-gray-300 hover:text-gray-900"
+						on:click={closeAssetPreview}
+					>
+						Close
+					</button>
+				</div>
+			</div>
+			{#if previewAsset.kind === 'image'}
+				<img
+					src={previewAsset.url}
+					alt={previewAsset.name}
+					class="max-h-[75vh] w-full rounded border border-gray-100 object-contain"
+				/>
+			{:else if previewAsset.kind === 'video'}
+				<video
+					src={previewAsset.url}
+					class="max-h-[75vh] w-full rounded border border-gray-100 bg-black"
+					controls
+					autoplay
+					preload="metadata"
+				>
+					<track kind="captions" />
+				</video>
+			{/if}
+		</div>
+	</div>
+{/if}
 
 <section class="mb-10">
 	<div
@@ -779,6 +869,78 @@
 									</div>
 								</div>
 							</div>
+
+							<div class="rounded-2xl border border-gray-200/80 bg-gray-50/40 p-5">
+								<div class="flex flex-wrap items-center justify-between gap-3">
+									<div>
+										<p class="text-xs font-semibold tracking-wide text-gray-500 uppercase">
+											Generated assets
+										</p>
+										<p class="mt-1 text-xs text-gray-600">
+											Images, videos, and files from
+											<code>/static/images/generated/events/*</code>.
+										</p>
+									</div>
+									<span class="rounded-full bg-white px-3 py-1 text-xs text-gray-700">
+										{getCampaignAssets(campaign.id).length} file(s)
+									</span>
+								</div>
+								{#if getCampaignAssets(campaign.id).length}
+									<div class="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+										{#each getCampaignAssets(campaign.id) as asset}
+											<div class="rounded-xl border border-gray-200 bg-white p-3">
+												{#if asset.kind === 'image'}
+													<img
+														src={asset.url}
+														alt={asset.name}
+														class="h-24 w-full rounded border border-gray-100 object-cover"
+														loading="lazy"
+													/>
+												{:else if asset.kind === 'video'}
+													<video
+														src={asset.url}
+														class="h-24 w-full rounded border border-gray-100 bg-black object-cover"
+														controls={false}
+														muted
+														preload="metadata"
+													></video>
+												{:else}
+													<div
+														class="flex h-24 w-full items-center justify-center rounded border border-dashed border-gray-300 bg-gray-50 text-xs font-semibold text-gray-500 uppercase"
+													>
+														{asset.extension || 'file'}
+													</div>
+												{/if}
+
+												<p class="mt-2 truncate text-xs font-semibold text-gray-900">{asset.name}</p>
+												<p class="mt-1 text-[11px] text-gray-600">
+													{asset.relativePath} • {formatBytes(asset.sizeBytes)}
+												</p>
+												<div class="mt-3 flex flex-wrap gap-2">
+													{#if hasPreview(asset)}
+														<button
+															type="button"
+															class="inline-flex items-center rounded border border-gray-200 bg-white px-2 py-1 text-[11px] font-semibold text-gray-700 transition hover:border-gray-300 hover:text-gray-900"
+															on:click={() => openAssetPreview(asset)}
+														>
+															Preview
+														</button>
+													{/if}
+													<a
+														href={asset.url}
+														download={asset.name}
+														class="inline-flex items-center rounded border border-gray-200 bg-white px-2 py-1 text-[11px] font-semibold text-gray-700 transition hover:border-gray-300 hover:text-gray-900"
+													>
+														Download
+													</a>
+												</div>
+											</div>
+										{/each}
+									</div>
+								{:else}
+									<p class="mt-4 text-xs text-gray-500">No generated files found for this campaign.</p>
+								{/if}
+							</div>
 						</div>
 					</details>
 				{/each}
@@ -939,7 +1101,7 @@
 									</div>
 								</div>
 
-								<div class="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
+									<div class="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
 									<div class="flex flex-wrap items-center justify-between gap-3">
 										<div>
 											<p class="text-xs font-semibold tracking-wide text-gray-500 uppercase">
@@ -968,7 +1130,7 @@
 										</div>
 									</div>
 
-									<div class="mt-4 grid gap-4 md:grid-cols-2">
+										<div class="mt-4 grid gap-4 md:grid-cols-2">
 										<div class="rounded-xl border border-gray-200 bg-gray-50 p-4">
 											<p class="text-xs font-semibold text-gray-700">Prod QR</p>
 											{#if qrAssets[campaign.id]?.prod?.pngDataUrl}
@@ -999,11 +1161,84 @@
 												<p class="mt-2 text-xs text-gray-500">Not generated.</p>
 											{/if}
 										</div>
+										</div>
+									</div>
+
+									<div class="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
+										<div class="flex flex-wrap items-center justify-between gap-3">
+											<div>
+												<p class="text-xs font-semibold tracking-wide text-gray-500 uppercase">
+													Generated assets
+												</p>
+												<p class="mt-1 text-xs text-gray-600">
+													Images, videos, and files from
+													<code>/static/images/generated/events/*</code>.
+												</p>
+											</div>
+											<span class="rounded-full bg-gray-100 px-3 py-1 text-xs text-gray-700">
+												{getCampaignAssets(campaign.id).length} file(s)
+											</span>
+										</div>
+										{#if getCampaignAssets(campaign.id).length}
+											<div class="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+												{#each getCampaignAssets(campaign.id) as asset}
+													<div class="rounded-xl border border-gray-200 bg-gray-50 p-3">
+														{#if asset.kind === 'image'}
+															<img
+																src={asset.url}
+																alt={asset.name}
+																class="h-24 w-full rounded border border-gray-100 object-cover"
+																loading="lazy"
+															/>
+														{:else if asset.kind === 'video'}
+															<video
+																src={asset.url}
+																class="h-24 w-full rounded border border-gray-100 bg-black object-cover"
+																controls={false}
+																muted
+																preload="metadata"
+															></video>
+														{:else}
+															<div
+																class="flex h-24 w-full items-center justify-center rounded border border-dashed border-gray-300 bg-white text-xs font-semibold text-gray-500 uppercase"
+															>
+																{asset.extension || 'file'}
+															</div>
+														{/if}
+														<p class="mt-2 truncate text-xs font-semibold text-gray-900">{asset.name}</p>
+														<p class="mt-1 text-[11px] text-gray-600">
+															{asset.relativePath} • {formatBytes(asset.sizeBytes)}
+														</p>
+														<div class="mt-3 flex flex-wrap gap-2">
+															{#if hasPreview(asset)}
+																<button
+																	type="button"
+																	class="inline-flex items-center rounded border border-gray-200 bg-white px-2 py-1 text-[11px] font-semibold text-gray-700 transition hover:border-gray-300 hover:text-gray-900"
+																	on:click={() => openAssetPreview(asset)}
+																>
+																	Preview
+																</button>
+															{/if}
+															<a
+																href={asset.url}
+																download={asset.name}
+																class="inline-flex items-center rounded border border-gray-200 bg-white px-2 py-1 text-[11px] font-semibold text-gray-700 transition hover:border-gray-300 hover:text-gray-900"
+															>
+																Download
+															</a>
+														</div>
+													</div>
+												{/each}
+											</div>
+										{:else}
+											<p class="mt-4 text-xs text-gray-500">
+												No generated files found for this campaign.
+											</p>
+										{/if}
 									</div>
 								</div>
-							</div>
-						</article>
-					{/each}
+							</article>
+						{/each}
 				{/if}
 			</div>
 		</details>

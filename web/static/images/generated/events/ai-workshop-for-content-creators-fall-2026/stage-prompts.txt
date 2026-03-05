@@ -1,0 +1,8 @@
+Square prompt:
+Use the provided template image as a visual style and composition reference. Create a new image of the same type and capitalize all text. Add the subtitle "FALL 2026" and make it stand out. Keep the current borders, but add light flourishes of fall around the border, and add a fall scene behind the people. Avoid: dark backgrounds, visual clichés, and imagery that anthropomorphizes AI. Avoid the top and bottom 25%.
+
+Landscape prompt:
+Recreate the provided template image as a landscape. Avoid the top and bottom 25%.
+
+Portrait prompt:
+Recreate the provided template image in portrait format. Avoid the top and bottom 25%.

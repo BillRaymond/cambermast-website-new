@@ -29,7 +29,8 @@
 		"validate:api": "tsx ./scripts/validate-api-responses.ts",
 		"validate:no-duplicate-files": "node ./scripts/validate-no-duplicate-suffix-files.mjs",
 		"validate:schema-governance": "node ./scripts/validate-schema-governance.mjs",
-		"validate:ui-adapters": "tsx ./scripts/validate-ui-adapters.ts"
+		"validate:ui-adapters": "tsx ./scripts/validate-ui-adapters.ts",
+		"featured:compose-default": "node ./scripts/compose-featured-images.mjs"
 	},
 	"devDependencies": {
 		"@eslint/compat": "^1.2.5",
@@ -65,6 +66,7 @@
 	"dependencies": {
 		"marked": "^17.0.3",
 		"qrcode": "^1.5.4",
-		"sanitize-html": "^2.17.0"
+		"sanitize-html": "^2.17.0",
+		"sharp": "^0.34.4"
 	}
 }

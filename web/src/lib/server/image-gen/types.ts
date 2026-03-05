@@ -39,6 +39,7 @@ export type GenerateRequest = {
 export type CandidateRequestPayload = {
 	dataUrl: string;
 	minioKey?: string;
+	minioUrl?: string;
 };
 
 export type SaveSelectedRequest = {
