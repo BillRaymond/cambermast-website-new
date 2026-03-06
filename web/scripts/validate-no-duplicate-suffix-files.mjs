@@ -6,6 +6,7 @@ const IGNORED_DIRS = new Set([
 	'.git',
 	'node_modules',
 	'.svelte-kit',
+	'build',
 	'.output',
 	'.vercel',
 	'.netlify',
