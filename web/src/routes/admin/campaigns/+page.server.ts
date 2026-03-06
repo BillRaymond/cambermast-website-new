@@ -1,10 +1,12 @@
 import { access, readdir, stat } from 'node:fs/promises';
 import path from 'node:path';
-import { listCampaigns } from '$lib/data/campaigns';
-import { listEvents } from '$lib/data/events';
+import { SITE_ORIGIN } from '$lib/config/site';
+import { listCampaignUi } from '$lib/view-models/campaigns';
+import { listEventUi } from '$lib/view-models/events';
 import type { PageServerLoad } from './$types';
 
 export const prerender = false;
+const origin = SITE_ORIGIN.replace(/\/$/, '');
 
 const IMAGE_EXTENSIONS = new Set(['.jpg', '.jpeg', '.png', '.gif', '.webp', '.avif', '.svg']);
 const VIDEO_EXTENSIONS = new Set(['.mp4', '.webm', '.mov', '.m4v', '.ogv', '.ogg']);
@@ -107,8 +109,8 @@ const listAssetsRecursively = async (
 };
 
 export const load: PageServerLoad = async () => {
-	const campaigns = listCampaigns();
-	const events = listEvents({ includeDrafts: true, includeUnlisted: true });
+	const campaigns = listCampaignUi(origin);
+	const events = listEventUi({ includeDrafts: true, includeUnlisted: true });
 	const generatedSlugByCampaignId = new Map<string, string>();
 	for (const event of events) {
 		if (!event.campaignId) continue;
