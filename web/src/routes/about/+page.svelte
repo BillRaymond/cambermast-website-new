@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { getSeo } from '$lib/seo';
 	import SeoHead from '$lib/components/SeoHead.svelte';
+	import TrustedByMarquee from '$lib/components/TrustedByMarquee.svelte';
+	import { trustedByOrganizations } from '$lib/data/trusted-by';
 
 	const partners = [
 		{
@@ -33,15 +35,6 @@
 			imageAlt: 'Project Hosts logo',
 			imageFit: 'contain'
 		}
-	];
-
-	const clients = [
-		'Duke Energy',
-		'Microsoft',
-		'Red Hat',
-		'Moen',
-		'Office Depot',
-		'Blue Cross Blue Shield'
 	];
 
 	const pageMeta = getSeo('/about');
@@ -196,18 +189,5 @@
 </section>
 
 <section class="rounded-2xl border bg-white p-6 shadow-sm">
-	<h3 class="text-lg font-semibold">Trusted by global teams delivering complex work</h3>
-	<p class="mt-2 max-w-3xl text-gray-700">
-		From midsize to enterprise, we help teams weave AI into daily operations while protecting
-		quality and compliance.
-	</p>
-	<div class="mt-6 grid gap-4 sm:grid-cols-2 md:grid-cols-3">
-		{#each clients as client}
-			<div
-				class="flex h-24 items-center justify-center rounded-xl border border-blue-100 bg-blue-50 text-center text-base font-semibold text-blue-700 shadow-sm"
-			>
-				{client}
-			</div>
-		{/each}
-	</div>
+	<TrustedByMarquee organizations={trustedByOrganizations} />
 </section>
