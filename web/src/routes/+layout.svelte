@@ -1,6 +1,7 @@
 <script lang="ts">
 	import '../app.css';
 	import Nav from '$lib/components/Nav.svelte';
+	import { afterNavigate } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { browser } from '$app/environment';
 	import { onMount, tick } from 'svelte';
@@ -81,6 +82,10 @@
 		initConsent();
 		await tick();
 		consentResolved = true;
+	});
+
+	afterNavigate(() => {
+		navOpen = false;
 	});
 
 	$: analyticsPreference = $consentState.analytics;
@@ -210,7 +215,6 @@
 						id={navId}
 						ariaLabel="Primary navigation"
 						vertical={navOpen}
-						onNavigate={() => (navOpen = false)}
 					/>
 				</div>
 			</div>

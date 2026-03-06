@@ -9,12 +9,10 @@
 
 	const {
 		vertical = false,
-		onNavigate,
 		id,
 		ariaLabel = 'Primary navigation'
 	} = $props<{
 		vertical?: boolean;
-		onNavigate?: () => void;
 		id?: string;
 		ariaLabel?: string;
 	}>();
@@ -38,12 +36,6 @@
 
 	const pathname = $derived(page.url.pathname);
 
-	const handleNavClick = (event: MouseEvent) => {
-		if (event.defaultPrevented) return;
-		if (event.button !== 0) return;
-		if (event.metaKey || event.altKey || event.ctrlKey || event.shiftKey) return;
-		onNavigate?.();
-	};
 </script>
 
 <nav
@@ -59,7 +51,6 @@
 		{@const isActive = pathname === link.href || pathname.startsWith(`${link.href}/`)}
 		<a
 			href={link.href}
-			onclick={handleNavClick}
 			class={`flex items-center gap-2 ${
 				isActive ? 'font-semibold text-blue-600' : 'hover:text-blue-600'
 			}`}
