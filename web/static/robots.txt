@@ -1,9 +1,5 @@
 User-agent: *
-Disallow: /internal/
-Disallow: /admin/
-Disallow: /forms/
 Disallow: /tools/
-Disallow: /techlab/
-Disallow: /campaigns/
+# TODO(seo): Keep /tools blocked for now. Revisit when tools pages are ready for indexing.
 
 Sitemap: https://www.cambermast.com/sitemap.xml
