@@ -107,7 +107,7 @@
 			"type": "training_session",
 			"typeLabel": "Training",
 			"tagline": "Get real results from your content with AI-powered workflows.",
-			"summary": "7-Weeks, Tuesdays, 120-minutes, April 28 - June 9, 2026",
+			"summary": "7-Weeks, Tuesdays, 120-minutes, April 28 - June 16, 2026",
 			"sessions": [
 				{
 					"startAtUtc": "2026-04-28T17:00:00.000Z",
@@ -136,6 +136,10 @@
 				{
 					"startAtUtc": "2026-06-09T17:00:00.000Z",
 					"endAtUtc": "2026-06-09T19:00:00.000Z"
+				},
+				{
+					"startAtUtc": "2026-06-16T17:00:00.000Z",
+					"endAtUtc": "2026-06-16T19:00:00.000Z"
 				}
 			],
 			"visibility": "public",
@@ -340,15 +344,262 @@
 			"campaignId": "s6twc1"
 		},
 		{
-			"title": "🌻 AI Workshop for Content Creators (Summer 2026)",
+			"id": "aicd26",
+			"slug": "ai-assisted-coding-workshop-april-2026",
+			"title": "🌸 AI-Assisted Coding Workshop (April 2026)",
 			"type": "training_session",
 			"typeLabel": "Training",
-			"visibility": "draft",
+			"tagline": "Build practical scripts, tools, automations, and lightweight applications with AI as your coding partner.",
+			"summary": "4-Weeks, Thursdays, 120-minutes, April 2 - April 23, 2026",
+			"sessions": [
+				{
+					"startAtUtc": "2026-04-02T17:00:00.000Z",
+					"endAtUtc": "2026-04-02T19:00:00.000Z"
+				},
+				{
+					"startAtUtc": "2026-04-09T17:00:00.000Z",
+					"endAtUtc": "2026-04-09T19:00:00.000Z"
+				},
+				{
+					"startAtUtc": "2026-04-16T17:00:00.000Z",
+					"endAtUtc": "2026-04-16T19:00:00.000Z"
+				},
+				{
+					"startAtUtc": "2026-04-23T17:00:00.000Z",
+					"endAtUtc": "2026-04-23T19:00:00.000Z"
+				}
+			],
+			"visibility": "public",
 			"lifecycleStatus": "scheduled",
 			"registrationStatus": "open",
 			"cta": {
+				"label": "Talk with Bill",
+				"url": "/contact",
+				"campaignId": "aicd26"
+			},
+			"timeZoneIana": "America/Los_Angeles",
+			"location": {
+				"mode": "online",
+				"publicLabel": "Online",
+				"detailsVisibility": "public"
+			},
+			"ticketing": {
+				"currency": "USD",
+				"amountUsd": 849
+			},
+			"registrationSettings": {
+				"approvalRequired": false,
+				"capacity": {
+					"type": "unlimited"
+				}
+			},
+			"programRef": {
+				"sku": "CM-TR-006"
+			},
+			"template": {
+				"kind": "training_event_v1",
+				"sourceProgramSku": "CM-TR-006",
+				"sourceProgramSlug": "ai-assisted-coding-workshop",
+				"sourceProgramRoute": "/training/ai-assisted-coding-workshop"
+			},
+			"faq": [
+				{
+					"key": "ai_experience_required",
+					"question": "Do I need prior AI experience to join?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "No prior AI experience is required. This training is designed for beginners and is still useful for experienced participants who want a more reliable workflow."
+						}
+					]
+				},
+				{
+					"key": "prework_paid_account",
+					"question": "What do I need before the workshop starts?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "You will need a paid account with at least one major AI platform before the first session. Please also bring a laptop, stable internet, and any internal examples you want to use during hands-on exercises."
+						}
+					]
+				},
+				{
+					"key": "delivery_and_absence",
+					"question": "How is the workshop delivered, and what if I miss a session?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "Cohorts are delivered live using Zoom, Google Meet, Microsoft Teams, or another proven collaboration platform. If you miss a session, contact us and we will share the best available catch-up option."
+						}
+					]
+				},
+				{
+					"key": "outcomes_certificate_work",
+					"question": "What will I get by the end (certificate, exercises, and take-home work)?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "You will complete hands-on exercises and leave with practical take-home materials. Certificate availability may vary by program or event and is listed in the event details."
+						}
+					]
+				},
+				{
+					"key": "post_workshop_support",
+					"question": "Is post-workshop support included?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "Yes. Every participant receives at least one hour of free consultation after the training, plus any additional support listed for that specific program or event."
+						}
+					]
+				},
+				{
+					"key": "questions_and_alternatives",
+					"question": "How can I ask questions before enrolling, and what if I can’t make this cohort?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "If you have questions before enrolling, reach out any time. If this cohort timing does not work, we can share upcoming options."
+						},
+						{
+							"type": "link",
+							"label": "contact",
+							"href": "/contact",
+							"openInNewTab": true
+						}
+					]
+				},
+				{
+					"key": "manager_letter",
+					"question": "📧 Do you have a manager budget-approval letter I can send?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "Yes. Use the email template below, open it in your email client, or copy it with one click."
+						},
+						{
+							"type": "email_template",
+							"subject": "Request for approval: AI training program",
+							"body": "Hi [Manager Name],\n\nI would like approval to attend [Program Name] with Cambermast.\n\nThis training is focused on practical, responsible AI use and includes\nhands-on exercises I can apply directly in my role. I expect this will\nhelp me improve speed and quality in [team/process area], while following\nour policies and quality standards.\n\nProgram: [Program Name]\nDates: [Dates]\nCost: [Cost]\nLink: [Program/Event URL]\n\nAfter the training, I will share key takeaways and specific ways we can\napply what I learned to our team.\n\nThank you for considering this request.\n\nBest,\n[Your Name]",
+							"ctaLabel": "Open in email client",
+							"copyButtonLabel": "Copy email",
+							"copiedButtonLabel": "Copied",
+							"copiedStateMs": 1600
+						}
+					]
+				},
+				{
+					"key": "prior_coding_experience_needed",
+					"question": "Do I need prior coding experience to join?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "No formal developer background is required. This workshop is designed for semi-technical participants, including IT professionals, aspiring developers, and people who want to build practical tools with guidance."
+						}
+					]
+				},
+				{
+					"key": "coding_products_or_platform_lock_in",
+					"question": "Is this workshop tied to one coding product or platform?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "No. The workshop teaches transferable skills and workflows that can be applied across AI coding tools, chat interfaces, editor integrations, and future platforms."
+						}
+					]
+				},
+				{
+					"key": "what_kind_of_project_can_i_build",
+					"question": "What kind of project can I build during the cohort?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "Most participants build a practical script, automation, lightweight application, integration helper, or internal tool that supports a real workflow they already care about."
+						}
+					]
+				}
+			],
+			"schedule": {
+				"durationDays": 28,
+				"estimatedHoursCommitment": 2
+			},
+			"description": {
+				"summary": "Across weekly 2-hour sessions, participants learn how to turn plain-language ideas into working scripts, automations, and lightweight applications without tying their workflow to one specific product or platform. You will work through guided exercises, apply what you learn to a real use case, and leave with a repeatable workflow you can use long after the cohort ends.",
+				"bodyMd": "The AI-Assisted Coding Workshop is a live, four-week cohort that helps semi-technical professionals use AI to plan, write, test, and improve practical software projects.\n\n## Outcomes\n- Understand how AI-assisted coding works and where it fits into real-world workflows.\n- Turn plain-language requests into clear technical instructions that lead to usable code.\n- Build scripts, tools, automations, and lightweight applications with guided support.\n- Improve AI-generated code through testing, debugging, refactoring, and review.\n- Apply practical guardrails that make AI-assisted coding more reliable and maintainable.\n\n## What You Will Build\n- A repeatable workflow for planning, writing, testing, and improving code with AI.\n- Prompt patterns and review habits that help you get better coding results.\n- A practical project such as a script, automation, lightweight app, or internal tool.\n- Greater confidence using AI to support technical work without relying on one platform.\n- A digital certificate of completion after presenting your final project.\n\n## Who This Is For\n- Builders who want to move faster with AI-assisted coding workflows.\n- Operators looking to create internal tools, scripts, and automations.\n- Consultants who want to prototype solutions for client and internal work.\n- IT professionals exploring practical ways to use AI for coding and technical problem solving.\n- Aspiring developers who want guided practice building with AI."
+			},
+			"highlights": [
+				"Turn plain-language ideas into working scripts and lightweight apps",
+				"Practice debugging, refactoring, and testing AI-generated code",
+				"Ship a practical final project and earn a completion certificate"
+			],
+			"audienceBullets": [
+				"Builders who want to move faster with AI-assisted coding workflows.",
+				"Operators looking to create internal tools, scripts, and automations.",
+				"Consultants who want to prototype solutions for client and internal work.",
+				"IT professionals exploring practical ways to use AI for coding and technical problem solving.",
+				"Aspiring developers who want guided practice building with AI."
+			],
+			"buildBullets": [
+				"A repeatable workflow for planning, writing, testing, and improving code with AI.",
+				"Prompt patterns and review habits that help you get better coding results.",
+				"A practical project such as a script, automation, lightweight app, or internal tool.",
+				"Greater confidence using AI to support technical work without relying on one platform.",
+				"A digital certificate of completion after presenting your final project."
+			],
+			"outcomes": [
+				"Understand how AI-assisted coding works and where it fits into real-world workflows.",
+				"Turn plain-language requests into clear technical instructions that lead to usable code.",
+				"Build scripts, tools, automations, and lightweight applications with guided support.",
+				"Improve AI-generated code through testing, debugging, refactoring, and review.",
+				"Apply practical guardrails that make AI-assisted coding more reliable and maintainable."
+			],
+			"agenda": [
+				{
+					"title": "Week 1: Foundations of AI-Assisted Coding",
+					"outcome": "Define what AI-assisted coding is and where it works well.",
+					"details": "Compare common AI coding workflows across chat and editor-based tools. Learn how to describe coding tasks clearly using plain language. Generate and review simple scripts with a focus on readability and structure."
+				},
+				{
+					"title": "Week 2: Building Useful Tools with AI",
+					"outcome": "Scope practical projects that can be built during the cohort.",
+					"details": "Use AI to generate code for scripts, helpers, and lightweight applications. Practice revising requests when the first output is incomplete or off track. Build working examples tied to real operational or business needs."
+				},
+				{
+					"title": "Week 3: Debugging, Refactoring, and Guardrails",
+					"outcome": "Use AI to explain code, identify errors, and troubleshoot issues.",
+					"details": "Refactor generated code so it is easier to understand and maintain. Add validation, edge-case handling, and simple testing habits. Document assumptions, dependencies, and next steps."
+				},
+				{
+					"title": "Week 4: Final Project and Practical Next Steps",
+					"outcome": "Finalize a real project built during the cohort.",
+					"details": "Present your project and receive feedback. Review how to evaluate code quality, maintainability, and fit for use. Leave with a roadmap for continuing your AI-assisted coding practice."
+				}
+			],
+			"speakers": [
+				{
+					"name": "Bill Raymond",
+					"title": "Host",
+					"shortBio": "Bill helps teams adopt AI in practical, responsible ways that improve day-to-day work.",
+					"photo": "/images/bill.jpg",
+					"photoAlt": "Bill Raymond"
+				}
+			],
+			"heroImage": "/images/generated/events/ai-assisted-coding-workshop-april-2026/hero-landscape.jpg",
+			"heroImageAlt": "AI-Assisted Coding Workshop illustration",
+			"image": "/images/generated/events/ai-assisted-coding-workshop-april-2026/hero-landscape.jpg",
+			"imageAlt": "Open graph image for the AI-Assisted Coding Workshop training program",
+			"campaignId": "aicd26"
+		},
+		{
+			"title": "🌻 AI Workshop for Content Creators (Summer 2026)",
+			"type": "training_session",
+			"typeLabel": "Training",
+			"visibility": "public",
+			"lifecycleStatus": "scheduled",
+			"registrationStatus": "external",
+			"cta": {
 				"label": "Register now",
-				"url": "/training/ai-workshop-for-content-creators"
+				"url": "https://luma.com/g2c21nco"
 			},
 			"timeZoneIana": "America/Los_Angeles",
 			"location": {
@@ -441,6 +692,104 @@
 			"title": "🍁 AI Workshop for Content Creators (Fall 2026)",
 			"type": "training_session",
 			"typeLabel": "Training",
+			"visibility": "public",
+			"lifecycleStatus": "scheduled",
+			"registrationStatus": "external",
+			"cta": {
+				"label": "Register now",
+				"url": "https://luma.com/10s1ulun"
+			},
+			"timeZoneIana": "America/Los_Angeles",
+			"location": {
+				"mode": "online",
+				"publicLabel": "Online",
+				"detailsVisibility": "public"
+			},
+			"ticketing": {
+				"currency": "USD",
+				"amountUsd": 1749
+			},
+			"registrationSettings": {
+				"approvalRequired": false,
+				"capacity": {
+					"type": "unlimited"
+				}
+			},
+			"programRef": {
+				"sku": "CM-TR-005"
+			},
+			"partners": [
+				{
+					"code": "TCW",
+					"role": "community"
+				}
+			],
+			"speakers": [
+				{
+					"name": "Bill Raymond",
+					"title": "Host",
+					"shortBio": "Bill is a technical content strategist and AI practitioner who uses generative tools daily to ship human-centered documentation and learning experiences."
+				}
+			],
+			"description": "This multi-session workshop combines strategy and hands-on implementation. Participants build repeatable workflows for research, drafting, editing, and quality checks while preserving voice, review standards, and governance expectations.",
+			"highlights": [
+				"Structured prompting systems for high-quality first drafts",
+				"Editorial quality controls and policy-aligned review loops",
+				"Reusable workflow templates for documentation teams"
+			],
+			"template": {
+				"kind": "training_event_v1",
+				"sourceProgramSku": "CM-TR-005",
+				"sourceProgramSlug": "ai-workshop-for-content-creators",
+				"sourceProgramRoute": "/training/ai-workshop-for-content-creators"
+			},
+			"id": "m7w2q5",
+			"slug": "ai-workshop-for-tech-writers-and-content-creators-fall-2026-m7w2q5",
+			"tagline": "Get real results from your content with AI-powered workflows.",
+			"summary": "This is a 7-week course that meets on Tuesdays. September 15 - October 27, 2026, from 10 am PT to 12 pm PT.",
+			"sessions": [
+				{
+					"startAtUtc": "2026-09-15T17:00:00.000Z",
+					"endAtUtc": "2026-09-15T19:00:00.000Z"
+				},
+				{
+					"startAtUtc": "2026-09-22T17:00:00.000Z",
+					"endAtUtc": "2026-09-22T19:00:00.000Z"
+				},
+				{
+					"startAtUtc": "2026-09-29T17:00:00.000Z",
+					"endAtUtc": "2026-09-29T19:00:00.000Z"
+				},
+				{
+					"startAtUtc": "2026-10-06T17:00:00.000Z",
+					"endAtUtc": "2026-10-06T19:00:00.000Z"
+				},
+				{
+					"startAtUtc": "2026-10-13T17:00:00.000Z",
+					"endAtUtc": "2026-10-13T19:00:00.000Z"
+				},
+				{
+					"startAtUtc": "2026-10-20T17:00:00.000Z",
+					"endAtUtc": "2026-10-20T19:00:00.000Z"
+				},
+				{
+					"startAtUtc": "2026-10-27T17:00:00.000Z",
+					"endAtUtc": "2026-10-27T19:00:00.000Z"
+				}
+			],
+			"schedule": {
+				"durationDays": 49,
+				"estimatedHoursCommitment": 2
+			},
+			"heroImage": "/images/generated/events/ai-workshop-for-content-creators-fall-2026/hero-landscape.jpg",
+			"heroImageAlt": "AI Workshop for Tech Writers and Content Creators illustration",
+			"image": "/images/generated/events/ai-workshop-for-content-creators-fall-2026/hero-landscape.jpg",
+			"imageAlt": "Open graph image for the AI Workshop for Tech Writers and Content Creators training program"
+		},
+		{
+			"title": "❄️ AI Workshop for Content Creators (Winter 2026)",
+			"type": "training_session",
+			"typeLabel": "Training",
 			"visibility": "draft",
 			"lifecycleStatus": "scheduled",
 			"registrationStatus": "open",
@@ -492,47 +841,47 @@
 				"sourceProgramSlug": "ai-workshop-for-content-creators",
 				"sourceProgramRoute": "/training/ai-workshop-for-content-creators"
 			},
-			"id": "m7w2q5",
-			"slug": "ai-workshop-for-tech-writers-and-content-creators-fall-2026-m7w2q5",
+			"id": "w26cc1",
+			"slug": "ai-workshop-for-tech-writers-and-content-creators-winter-2026-w26cc1",
 			"tagline": "Get real results from your content with AI-powered workflows.",
-			"summary": "This is a 7-week course that meets on Tuesdays. August 18 - October 6, 2026, from 10 am PT to 12 pm PT. No class the week of Labor Day.",
+			"summary": "This is a 7-week course that meets on Tuesdays. November 3 - December 22, 2026, from 10 am PT to 12 pm PT. No class the week of Thanksgiving.",
 			"sessions": [
 				{
-					"startAtUtc": "2026-08-18T17:00:00.000Z",
-					"endAtUtc": "2026-08-18T19:00:00.000Z"
+					"startAtUtc": "2026-11-03T18:00:00.000Z",
+					"endAtUtc": "2026-11-03T20:00:00.000Z"
 				},
 				{
-					"startAtUtc": "2026-08-25T17:00:00.000Z",
-					"endAtUtc": "2026-08-25T19:00:00.000Z"
+					"startAtUtc": "2026-11-10T18:00:00.000Z",
+					"endAtUtc": "2026-11-10T20:00:00.000Z"
 				},
 				{
-					"startAtUtc": "2026-09-08T17:00:00.000Z",
-					"endAtUtc": "2026-09-08T19:00:00.000Z"
+					"startAtUtc": "2026-11-17T18:00:00.000Z",
+					"endAtUtc": "2026-11-17T20:00:00.000Z"
 				},
 				{
-					"startAtUtc": "2026-09-15T17:00:00.000Z",
-					"endAtUtc": "2026-09-15T19:00:00.000Z"
+					"startAtUtc": "2026-12-01T18:00:00.000Z",
+					"endAtUtc": "2026-12-01T20:00:00.000Z"
 				},
 				{
-					"startAtUtc": "2026-09-22T17:00:00.000Z",
-					"endAtUtc": "2026-09-22T19:00:00.000Z"
+					"startAtUtc": "2026-12-08T18:00:00.000Z",
+					"endAtUtc": "2026-12-08T20:00:00.000Z"
 				},
 				{
-					"startAtUtc": "2026-09-29T17:00:00.000Z",
-					"endAtUtc": "2026-09-29T19:00:00.000Z"
+					"startAtUtc": "2026-12-15T18:00:00.000Z",
+					"endAtUtc": "2026-12-15T20:00:00.000Z"
 				},
 				{
-					"startAtUtc": "2026-10-06T17:00:00.000Z",
-					"endAtUtc": "2026-10-06T19:00:00.000Z"
+					"startAtUtc": "2026-12-22T18:00:00.000Z",
+					"endAtUtc": "2026-12-22T20:00:00.000Z"
 				}
 			],
 			"schedule": {
 				"durationDays": 49,
 				"estimatedHoursCommitment": 2
 			},
-			"heroImage": "/images/generated/events/ai-workshop-for-content-creators-fall-2026/hero-landscape.jpg",
+			"heroImage": "/images/generated/events/ai-workshop-for-content-creators-winter-2026/hero-landscape.jpg",
 			"heroImageAlt": "AI Workshop for Tech Writers and Content Creators illustration",
-			"image": "/images/generated/events/ai-workshop-for-content-creators-fall-2026/hero-landscape.jpg",
+			"image": "/images/generated/events/ai-workshop-for-content-creators-winter-2026/hero-landscape.jpg",
 			"imageAlt": "Open graph image for the AI Workshop for Tech Writers and Content Creators training program"
 		}
 	]

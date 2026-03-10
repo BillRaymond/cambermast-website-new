@@ -4,7 +4,7 @@
 
 ## What We Do
 
-- **AI Training:** Interactive workshops that teach modern prompting techniques, collaboration patterns, and governance frameworks your teams can apply immediately.
+- **AI Training:** Interactive workshops that teach modern prompting techniques, AI-assisted coding, collaboration patterns, and governance frameworks your teams can apply immediately.
 - **AI Agents:** Design and delivery of custom AI assistants that automate knowledge work, streamline operations, and integrate with the tools you already use.
 - **AI Advisory:** Executive coaching and strategic roadmaps that connect AI opportunities to measurable business outcomes.
 

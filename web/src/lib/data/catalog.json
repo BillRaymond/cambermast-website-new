@@ -84,6 +84,21 @@
 				"route": "/training/ai-workshop-for-content-creators",
 				"order": 4,
 				"published": true
+			},
+			{
+				"id": "training-ai-assisted-coding-workshop",
+				"title": "AI-Assisted Coding Workshop",
+				"summary": "Four-week cohort that helps builders, operators, consultants, IT professionals, and aspiring developers use AI to build scripts, tools, automations, and lightweight applications.",
+				"image": "/images/generated/ai-assisted-coding-workshop/hero-landscape.jpg",
+				"imageAlt": "AI-Assisted Coding Workshop illustration",
+				"bullets": [
+					"Turn plain-language ideas into working scripts and lightweight apps",
+					"Practice debugging, refactoring, and testing AI-generated code",
+					"Ship a practical final project and earn a completion certificate"
+				],
+				"route": "/training/ai-assisted-coding-workshop",
+				"order": 5,
+				"published": true
 			}
 		]
 	},
@@ -110,6 +125,21 @@
 				],
 				"route": "/training/ai-automation-with-agents",
 				"order": 0,
+				"published": true
+			},
+			{
+				"id": "agents-ai-assisted-coding-workshop",
+				"title": "AI-Assisted Coding Workshop",
+				"summary": "Four-week cohort for builders who want to use AI to build scripts, tools, automations, and lightweight applications.",
+				"image": "/images/generated/ai-assisted-coding-workshop/hero-landscape.jpg",
+				"imageAlt": "AI-Assisted Coding Workshop illustration",
+				"bullets": [
+					"Turn plain-language ideas into working scripts and lightweight apps",
+					"Practice debugging, refactoring, and testing AI-generated code",
+					"Build practical internal tools and automations with AI"
+				],
+				"route": "/training/ai-assisted-coding-workshop",
+				"order": 1,
 				"published": true
 			}
 		]

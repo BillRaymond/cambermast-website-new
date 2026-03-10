@@ -1,7 +1,55 @@
 {
 	"version": 1,
-	"updatedAt": "2026-03-05T23:29:21.061Z",
+	"updatedAt": "2026-03-10T20:34:00.000Z",
 	"standards": [
+		{
+			"id": "a6909598429f4254",
+			"createdAt": "2026-03-10T20:29:56.001Z",
+			"blobScope": "events",
+			"slug": "events/ai-workshop-for-content-creators-winter-2026",
+			"assetKeys": {
+				"square": "events/ai-workshop-for-content-creators-winter-2026/hero-square.jpg",
+				"landscape": "events/ai-workshop-for-content-creators-winter-2026/hero-landscape.jpg",
+				"portrait": "events/ai-workshop-for-content-creators-winter-2026/hero-portrait.jpg"
+			},
+			"prompts": {
+				"square": "Use the provided template image as a visual style and composition reference. Create a new image of the same type. Change the subtitle to \"WINTER 2026\". Avoid the top and bottom 25%.",
+				"landscape": "Recreate the provided template image as a landscape. Avoid the top and bottom 25%.",
+				"portrait": "Recreate the provided template image in portrait format. Avoid the top and bottom 25%."
+			}
+		},
+		{
+			"id": "d0ce8dc4328a415e",
+			"createdAt": "2026-03-10T16:59:41.641Z",
+			"blobScope": "events",
+			"slug": "events/ai-assisted-coding-workshop-april-2026",
+			"assetKeys": {
+				"square": "events/ai-assisted-coding-workshop-april-2026/hero-square.jpg",
+				"landscape": "events/ai-assisted-coding-workshop-april-2026/hero-landscape.jpg",
+				"portrait": "events/ai-assisted-coding-workshop-april-2026/hero-portrait.jpg"
+			},
+			"prompts": {
+				"square": "Use the provided template image as a visual style and composition reference with the same title. Keep the border, but feel free to add flourishes. Add the subtitle \"APRIL 2026 COHORT\" and include a background and imagery that evokes that month. Avoid: dark backgrounds, visual clichés, and imagery that anthropomorphizes AI. Avoid the top and bottom 25%.",
+				"landscape": "Recreate the provided template image as a landscape. Avoid the top and bottom 25%.",
+				"portrait": "Recreate the provided template image in portrait format. Avoid the top and bottom 25%."
+			}
+		},
+		{
+			"id": "1255fe207bb74d22",
+			"createdAt": "2026-03-10T16:47:05.198Z",
+			"blobScope": "events",
+			"slug": "ai-assisted-coding-workshop",
+			"assetKeys": {
+				"square": "ai-assisted-coding-workshop/hero-square.jpg",
+				"landscape": "ai-assisted-coding-workshop/hero-landscape.jpg",
+				"portrait": "ai-assisted-coding-workshop/hero-portrait.jpg"
+			},
+			"prompts": {
+				"square": "GENERATE A BACKGROUND\nAbstract geometric background inspired by a modern sail or forward motion shape, using orange #F49F1C as the dominant base with layered bold blue #0037BE, bright blue #0063F2, mint green #8BD8BD, and a subtle deep navy #012072 accent. Clean, overlapping angular panels with smooth, blended transitions and a very soft, fine-grained texture. Composition should frame the edges and corners, leaving a calm, open negative space in the center for text placement. Professional, training-focused, confident corporate style. No white, no glow, no light beams, no dark vignette, no clutter. Balanced contrast to support overlay text.\n\nOVERLAY TEXT\nAdd the text \"AI-ASSISTED CODING WORKSHOP\".\n\nOVERLAY ELEMENTS\nIncorporate a photorealistic image of a diverse group of happy people learning to code witha AI together, integrated into the overall design. The composition should feel open and integrated into the existing background, not like a title card. Keep overall styling bright and clean, with minimal effects, with a strong focus on legibility. Add hints about what good prompts are like in a unique way.\n\nSTRICT OVERLAY RULES\nFocus on placing text and elements in the center of the image.\n\nSTRICT AVOIDANCE RULES\n* Visual cliches like AI brains and circuits.\n* Imagery that anthropomorphizes AI.",
+				"landscape": "Recreate the provided template image as a landscape. Avoid the top and bottom 25%.",
+				"portrait": "Recreate the provided template image in portrait format. Avoid the top and bottom 25%."
+			}
+		},
 		{
 			"id": "989bcb444d674e3e",
 			"createdAt": "2026-03-05T23:29:21.058Z",

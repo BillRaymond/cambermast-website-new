@@ -1,0 +1,22 @@
+Square prompt:
+GENERATE A BACKGROUND
+Abstract geometric background inspired by a modern sail or forward motion shape, using orange #F49F1C as the dominant base with layered bold blue #0037BE, bright blue #0063F2, mint green #8BD8BD, and a subtle deep navy #012072 accent. Clean, overlapping angular panels with smooth, blended transitions and a very soft, fine-grained texture. Composition should frame the edges and corners, leaving a calm, open negative space in the center for text placement. Professional, training-focused, confident corporate style. No white, no glow, no light beams, no dark vignette, no clutter. Balanced contrast to support overlay text.
+
+OVERLAY TEXT
+Add the text "AI-ASSISTED CODING WORKSHOP".
+
+OVERLAY ELEMENTS
+Incorporate a photorealistic image of a diverse group of happy people learning to code witha AI together, integrated into the overall design. The composition should feel open and integrated into the existing background, not like a title card. Keep overall styling bright and clean, with minimal effects, with a strong focus on legibility. Add hints about what good prompts are like in a unique way.
+
+STRICT OVERLAY RULES
+Focus on placing text and elements in the center of the image.
+
+STRICT AVOIDANCE RULES
+* Visual cliches like AI brains and circuits.
+* Imagery that anthropomorphizes AI.
+
+Landscape prompt:
+Recreate the provided template image as a landscape. Avoid the top and bottom 25%.
+
+Portrait prompt:
+Recreate the provided template image in portrait format. Avoid the top and bottom 25%.

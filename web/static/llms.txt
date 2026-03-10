@@ -21,6 +21,7 @@ AI training catalog (https://cambermast.com/training):
 - AI Workshop for Modern Teams (https://cambermast.com/training/ai-advanced-workshop): seven-week cohort for intact teams (6–25 people, $1,749 virtual) that maps workflows, co-builds prompt libraries, and delivers a measurable adoption roadmap.
 - AI Automation with Agents Workshop (https://cambermast.com/training/ai-automation-with-agents): six-week cohort for technical builders ($1,749 virtual) who want production-ready agents using n8n, OpenAI/Anthropic, APIs, guardrails, monitoring, and 30-day coaching.
 - AI Workshop for Tech Writers and Content Creators (https://cambermast.com/training/ai-workshop-for-content-creators): seven-week cohort delivered with The Content Wrangler for documentation and content teams; blends persona-driven prompts, content audits, and publishing workflows ($1,749 virtual, Lu.ma registration links).
+- AI-Assisted Coding Workshop (https://cambermast.com/training/ai-assisted-coding-workshop): four-week certificate cohort ($849 virtual) for builders, operators, consultants, IT professionals, and aspiring developers who want to build scripts, tools, automations, and lightweight applications with AI.
 - Each program page documents objectives, prerequisites, agendas, resources, testimonials, certificates, pricing, delivery formats (live online + optional on-site), and CTA routes (usually /contact or Lu.ma).
 
 Events routes:
@@ -59,6 +60,7 @@ Authoritative sources:
 - https://cambermast.com/training/ai-advanced-workshop
 - https://cambermast.com/training/ai-automation-with-agents
 - https://cambermast.com/training/ai-workshop-for-content-creators
+- https://cambermast.com/training/ai-assisted-coding-workshop
 - https://cambermast.com/training/terms
 - https://cambermast.com/resources
 - https://cambermast.com/resources/ai-personalization

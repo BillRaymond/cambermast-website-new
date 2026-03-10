@@ -1285,6 +1285,217 @@
 			}
 		},
 		{
+			"slug": "ai-assisted-coding-workshop",
+			"route": "/training/ai-assisted-coding-workshop",
+			"sku": "CM-TR-006",
+			"catalog": {
+				"id": "training-ai-assisted-coding-workshop",
+				"summary": "Four-week cohort that helps builders, operators, consultants, IT professionals, and aspiring developers use AI to build scripts, tools, automations, and lightweight applications.",
+				"image": "/images/generated/ai-assisted-coding-workshop/hero-landscape.jpg",
+				"imageAlt": "AI-Assisted Coding Workshop illustration",
+				"bullets": [
+					"Turn plain-language ideas into working scripts and lightweight apps",
+					"Practice debugging, refactoring, and testing AI-generated code",
+					"Ship a practical final project and earn a completion certificate"
+				],
+				"order": 5,
+				"published": true
+			},
+			"title": "AI-Assisted Coding Workshop",
+			"nickname": "Four-week cohort for practical builders",
+			"tagline": "Build practical scripts, tools, automations, and lightweight applications with AI as your coding partner.",
+			"heroImage": "/images/generated/ai-assisted-coding-workshop/hero-landscape.jpg",
+			"heroImageAlt": "AI-Assisted Coding Workshop illustration",
+			"ogImage": "/images/generated/ai-assisted-coding-workshop/hero-landscape.jpg",
+			"ogImageAlt": "Open graph image for the AI-Assisted Coding Workshop training program",
+			"description": "The AI-Assisted Coding Workshop is a live, four-week cohort that helps semi-technical professionals use AI to plan, write, test, and improve practical software projects.",
+			"secondaryDescription": "Across weekly 2-hour sessions, participants learn how to turn plain-language ideas into working scripts, automations, and lightweight applications without tying their workflow to one specific product or platform. You will work through guided exercises, apply what you learn to a real use case, and leave with a repeatable workflow you can use long after the cohort ends.",
+			"primaryCta": {
+				"label": "Find a start date",
+				"url": "/events"
+			},
+			"secondaryCta": {
+				"label": "Talk with Bill",
+				"url": "/contact"
+			},
+			"scheduleTemplate": {
+				"durationDays": 28,
+				"hoursPerDayCommitment": 2,
+				"defaultStartTimeLocal": "10:00",
+				"defaultTimeZone": "America/Los_Angeles",
+				"defaultTimeZoneLabel": "PT",
+				"defaultLocationLabel": "Online"
+			},
+			"stats": [
+				{
+					"label": "Duration",
+					"value": "Four weeks, 2-hour commitment per week"
+				},
+				{
+					"label": "Format",
+					"value": ["🔴 Live online", "🏫 In-person available"]
+				},
+				{
+					"label": "Cost",
+					"value": "$849 per person (virtual cohort)"
+				},
+				{
+					"label": "Certificate",
+					"value": "📜 Certificate"
+				},
+				{
+					"label": "Environment",
+					"value": "💙 Learn in a supportive, judgment-free environment"
+				},
+				{
+					"label": "In-person",
+					"value": "Custom fees for SF Bay Area or on-site sessions"
+				},
+				{
+					"label": "Support",
+					"value": "Post-workshop follow-up support plus practical take-home materials"
+				}
+			],
+			"audience": [
+				"Builders who want to move faster with AI-assisted coding workflows.",
+				"Operators looking to create internal tools, scripts, and automations.",
+				"Consultants who want to prototype solutions for client and internal work.",
+				"IT professionals exploring practical ways to use AI for coding and technical problem solving.",
+				"Aspiring developers who want guided practice building with AI."
+			],
+			"audienceExamples": [
+				"Operations professionals automating repetitive internal tasks.",
+				"Consultants building lightweight prototypes, utilities, and workflow helpers.",
+				"IT teams creating scripts, integrations, and small support tools.",
+				"Technical professionals who want to become more confident building with code.",
+				"Aspiring developers who want a practical way to learn by building real projects."
+			],
+			"objectives": [
+				"Understand how AI-assisted coding works and where it fits into real-world workflows.",
+				"Turn plain-language requests into clear technical instructions that lead to usable code.",
+				"Build scripts, tools, automations, and lightweight applications with guided support.",
+				"Improve AI-generated code through testing, debugging, refactoring, and review.",
+				"Apply practical guardrails that make AI-assisted coding more reliable and maintainable."
+			],
+			"prerequisites": [
+				"Access to a paid AI platform or coding assistant you can use during the workshop.",
+				"Comfort using a laptop, browser, and basic technical tools.",
+				"Willingness to experiment, test ideas, and revise code through guided practice.",
+				"A real workflow, problem, or project idea you want to explore during the cohort.",
+				"No formal software engineering background is required."
+			],
+			"takeaways": [
+				"A repeatable workflow for planning, writing, testing, and improving code with AI.",
+				"Prompt patterns and review habits that help you get better coding results.",
+				"A practical project such as a script, automation, lightweight app, or internal tool.",
+				"Greater confidence using AI to support technical work without relying on one platform.",
+				"A digital certificate of completion after presenting your final project."
+			],
+			"agenda": [
+				{
+					"title": "Week 1: Foundations of AI-Assisted Coding",
+					"details": [
+						"Define what AI-assisted coding is and where it works well.",
+						"Compare common AI coding workflows across chat and editor-based tools.",
+						"Learn how to describe coding tasks clearly using plain language.",
+						"Generate and review simple scripts with a focus on readability and structure."
+					]
+				},
+				{
+					"title": "Week 2: Building Useful Tools with AI",
+					"details": [
+						"Scope practical projects that can be built during the cohort.",
+						"Use AI to generate code for scripts, helpers, and lightweight applications.",
+						"Practice revising requests when the first output is incomplete or off track.",
+						"Build working examples tied to real operational or business needs."
+					]
+				},
+				{
+					"title": "Week 3: Debugging, Refactoring, and Guardrails",
+					"details": [
+						"Use AI to explain code, identify errors, and troubleshoot issues.",
+						"Refactor generated code so it is easier to understand and maintain.",
+						"Add validation, edge-case handling, and simple testing habits.",
+						"Document assumptions, dependencies, and next steps."
+					]
+				},
+				{
+					"title": "Week 4: Final Project and Practical Next Steps",
+					"details": [
+						"Finalize a real project built during the cohort.",
+						"Present your project and receive feedback.",
+						"Review how to evaluate code quality, maintainability, and fit for use.",
+						"Leave with a roadmap for continuing your AI-assisted coding practice."
+					]
+				}
+			],
+			"resources": [
+				"Guided live instruction each week.",
+				"Hands-on exercises and practical take-home work.",
+				"Prompt examples, coding checklists, and reusable workflows.",
+				"Time for discussion, questions, and feedback.",
+				"Digital certification recognizing successful course completion."
+			],
+			"aboutTrainer": {
+				"title": "About your trainer",
+				"name": "Bill Raymond",
+				"role": "Founder, Cambermast LLC",
+				"photo": "/images/bill.jpg",
+				"photoAlt": "Bill Raymond",
+				"summary": "Bill helps teams adopt AI in practical, responsible ways that improve day-to-day work. He brings together training, workflow design, and hands-on experimentation to help professionals build useful systems without unnecessary complexity.",
+				"highlights": [
+					"Author of the Bill Talks AI newsletter.",
+					"Founding member of the AI Collective.",
+					"NASA award winner.",
+					"Microsoft MVP.",
+					"Host of the Agile in Action podcast with 130+ episodes."
+				]
+			},
+			"faqs": [
+				{
+					"key": "prior_coding_experience_needed",
+					"question": "Do I need prior coding experience to join?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "No formal developer background is required. This workshop is designed for semi-technical participants, including IT professionals, aspiring developers, and people who want to build practical tools with guidance."
+						}
+					]
+				},
+				{
+					"key": "coding_products_or_platform_lock_in",
+					"question": "Is this workshop tied to one coding product or platform?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "No. The workshop teaches transferable skills and workflows that can be applied across AI coding tools, chat interfaces, editor integrations, and future platforms."
+						}
+					]
+				},
+				{
+					"key": "what_kind_of_project_can_i_build",
+					"question": "What kind of project can I build during the cohort?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "Most participants build a practical script, automation, lightweight application, integration helper, or internal tool that supports a real workflow they already care about."
+						}
+					]
+				}
+			],
+			"eventDefaults": {
+				"hosts": [
+					{
+						"name": "Bill Raymond",
+						"title": "Host",
+						"shortBio": "Bill helps teams adopt AI in practical, responsible ways that improve day-to-day work.",
+						"photo": "/images/bill.jpg",
+						"photoAlt": "Bill Raymond"
+					}
+				]
+			}
+		},
+		{
 			"slug": "ai-power-prompting-draft",
 			"route": "/training/ai-power-prompting-draft",
 			"sku": "CM-TR-DRAFT-001",

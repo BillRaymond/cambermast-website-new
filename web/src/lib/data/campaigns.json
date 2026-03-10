@@ -48,6 +48,22 @@
 				"src": "qr",
 				"ad": "cambermast"
 			}
+		},
+		{
+			"id": "aicd26",
+			"partner": "cambermast",
+			"partnerLabel": "Cambermast",
+			"landingPath": "/events/ai-assisted-coding-workshop-april-2026",
+			"description": "Campaign short link for the AI-Assisted Coding Workshop April 2026 event page.",
+			"createdAt": "2026-03-10T17:00:21.975Z",
+			"params": {
+				"utm_source": "qr",
+				"utm_medium": "offline",
+				"utm_campaign": "events",
+				"utm_content": "aicd26",
+				"src": "qr",
+				"ad": "cambermast"
+			}
 		}
 	]
 }
