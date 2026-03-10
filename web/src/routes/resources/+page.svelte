@@ -9,6 +9,14 @@
 
 	const resources = [
 		{
+			title: 'AI-assisted coding workshop setup guide',
+			description:
+				'Install Visual Studio Code, a Codex or Claude extension, Git, GitHub, and Docker Desktop, then confirm your paid AI account works in the browser.',
+			href: '/resources/ai-assisted-coding-workshop-setup',
+			imageSrc: '/images/generated/resources/ai-assisted-coding-workshop-setup/hero-landscape.jpg',
+			imageAlt: 'AI-assisted coding workshop setup guide featured image.'
+		},
+		{
 			title: 'Quickly learn an important AI topic with Bill and your team',
 			description:
 				'Select from AMAs we can deliver right now or schedule a tailor-made Ask Me Anything (AMA) event.',

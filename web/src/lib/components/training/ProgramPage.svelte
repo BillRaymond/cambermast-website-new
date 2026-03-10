@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { page } from '$app/state';
 	import ReviewCard from '$lib/components/ReviewCard.svelte';
 	import EventCard from '$lib/components/events/EventCard.svelte';
 	import FaqBlocks from '$lib/components/faq/FaqBlocks.svelte';
@@ -34,6 +35,7 @@
 	let certificateText: string | undefined;
 	let programTestimonials: Testimonial[] = [];
 	let faqsWithTerms: TrainingFaq[] = [];
+	let faqTemplateVariables: Record<string, string> = {};
 
 	const normalizeLabel = (label?: string): string | undefined => label?.toLowerCase().trim();
 	const scheduleTeamLabel = 'schedule your team';
@@ -103,6 +105,18 @@
 	);
 	$: videoEmbedUrl = getVideoEmbedUrl(program?.videoUrl);
 	$: certificateText = toStatText(getStatByLabel(program?.stats, 'certificate')?.value);
+	$: faqTemplateVariables = {
+		'[Program Name]': program?.title ?? '',
+		'[Dates]':
+			featuredRegistrationSession?.date ??
+			upcomingSessions[0]?.date ??
+			toStatText(getStatByLabel(program?.stats, 'duration')?.value) ??
+			'See upcoming cohort dates on the program page',
+		'[Cost]': toStatText(getStatByLabel(program?.stats, 'cost')?.value) ?? '',
+		'[Program/Event URL]': program ? `${page.url.origin}${program.route}` : '',
+		'[Program Description]': program?.description ?? '',
+		'[Format]': toStatText(getStatByLabel(program?.stats, 'format')?.value) ?? ''
+	};
 	$: faqsWithTerms = program?.faqs?.length
 		? [
 				...program.faqs,
@@ -622,7 +636,7 @@
 							{faq.question}
 						</summary>
 						<div class="mt-3">
-							<FaqBlocks blocks={faq.blocks} />
+							<FaqBlocks blocks={faq.blocks} templateVariables={faqTemplateVariables} />
 						</div>
 					</details>
 				{/each}

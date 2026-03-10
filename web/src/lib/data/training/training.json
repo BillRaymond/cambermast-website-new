@@ -1290,26 +1290,26 @@
 			"sku": "CM-TR-006",
 			"catalog": {
 				"id": "training-ai-assisted-coding-workshop",
-				"summary": "Four-week cohort that helps builders, operators, consultants, IT professionals, and aspiring developers use AI to build scripts, tools, automations, and lightweight applications.",
+				"summary": "Four-week cohort that helps builders, operators, consultants, IT professionals, and aspiring developers use AI to plan, build, and improve practical web applications.",
 				"image": "/images/generated/ai-assisted-coding-workshop/hero-landscape.jpg",
 				"imageAlt": "AI-Assisted Coding Workshop illustration",
 				"bullets": [
-					"Turn plain-language ideas into working scripts and lightweight apps",
-					"Practice debugging, refactoring, and testing AI-generated code",
-					"Ship a practical final project and earn a completion certificate"
+					"Turn plain-language ideas into a working web app",
+					"Practice using Git, GitHub, Docker, and AI-assisted iteration",
+					"Ship a capstone project and earn a completion certificate"
 				],
 				"order": 5,
 				"published": true
 			},
 			"title": "AI-Assisted Coding Workshop",
 			"nickname": "Four-week cohort for practical builders",
-			"tagline": "Build practical scripts, tools, automations, and lightweight applications with AI as your coding partner.",
+			"tagline": "Build and improve a practical web app with AI as your coding partner.",
 			"heroImage": "/images/generated/ai-assisted-coding-workshop/hero-landscape.jpg",
 			"heroImageAlt": "AI-Assisted Coding Workshop illustration",
 			"ogImage": "/images/generated/ai-assisted-coding-workshop/hero-landscape.jpg",
 			"ogImageAlt": "Open graph image for the AI-Assisted Coding Workshop training program",
-			"description": "The AI-Assisted Coding Workshop is a live, four-week cohort that helps semi-technical professionals use AI to plan, write, test, and improve practical software projects.",
-			"secondaryDescription": "Across weekly 2-hour sessions, participants learn how to turn plain-language ideas into working scripts, automations, and lightweight applications without tying their workflow to one specific product or platform. You will work through guided exercises, apply what you learn to a real use case, and leave with a repeatable workflow you can use long after the cohort ends.",
+			"description": "The AI-Assisted Coding Workshop is a live, four-week cohort that helps semi-technical professionals use AI to plan, build, and improve a practical web application.",
+			"secondaryDescription": "Across weekly 2-hour sessions, participants learn how to turn plain-language ideas into a working web app, improve it with modern development workflows, and strengthen it with AI-supported planning and iteration. You will work through guided exercises, apply what you learn to a real use case, and leave with a repeatable workflow you can use long after the cohort ends.",
 			"primaryCta": {
 				"label": "Find a start date",
 				"url": "/events"
@@ -1358,7 +1358,7 @@
 			],
 			"audience": [
 				"Builders who want to move faster with AI-assisted coding workflows.",
-				"Operators looking to create internal tools, scripts, and automations.",
+				"Operators looking to create internal tools, web apps, and automations.",
 				"Consultants who want to prototype solutions for client and internal work.",
 				"IT professionals exploring practical ways to use AI for coding and technical problem solving.",
 				"Aspiring developers who want guided practice building with AI."
@@ -1366,63 +1366,68 @@
 			"audienceExamples": [
 				"Operations professionals automating repetitive internal tasks.",
 				"Consultants building lightweight prototypes, utilities, and workflow helpers.",
-				"IT teams creating scripts, integrations, and small support tools.",
+				"IT teams creating web apps, integrations, and small support tools.",
 				"Technical professionals who want to become more confident building with code.",
 				"Aspiring developers who want a practical way to learn by building real projects."
 			],
 			"objectives": [
 				"Understand how AI-assisted coding works and where it fits into real-world workflows.",
 				"Turn plain-language requests into clear technical instructions that lead to usable code.",
-				"Build scripts, tools, automations, and lightweight applications with guided support.",
+				"Build practical web applications, tools, and automations with guided support.",
 				"Improve AI-generated code through testing, debugging, refactoring, and review.",
 				"Apply practical guardrails that make AI-assisted coding more reliable and maintainable."
 			],
 			"prerequisites": [
-				"Access to a paid AI platform or coding assistant you can use during the workshop.",
+				"Review the FAQ item \"What do I need before the workshop starts?\" and complete that setup before Week 1.",
+				"Visual Studio Code installed on your laptop.",
+				"Git installed on your laptop.",
+				"Docker installed and ready to run locally.",
+				"A GitHub account you can use during the workshop.",
+				"A paid Claude or OpenAI account you can use during the workshop.",
 				"Comfort using a laptop, browser, and basic technical tools.",
 				"Willingness to experiment, test ideas, and revise code through guided practice.",
 				"A real workflow, problem, or project idea you want to explore during the cohort.",
 				"No formal software engineering background is required."
 			],
 			"takeaways": [
-				"A repeatable workflow for planning, writing, testing, and improving code with AI.",
+				"A repeatable workflow for planning, building, testing, and improving code with AI.",
 				"Prompt patterns and review habits that help you get better coding results.",
-				"A practical project such as a script, automation, lightweight app, or internal tool.",
+				"A practical web app or internal tool you can continue improving after the workshop.",
 				"Greater confidence using AI to support technical work without relying on one platform.",
 				"A digital certificate of completion after presenting your final project."
 			],
 			"agenda": [
 				{
-					"title": "Week 1: Foundations of AI-Assisted Coding",
+					"title": "Week 1: Build Your First Web App",
 					"details": [
 						"Define what AI-assisted coding is and where it works well.",
 						"Compare common AI coding workflows across chat and editor-based tools.",
 						"Learn how to describe coding tasks clearly using plain language.",
-						"Generate and review simple scripts with a focus on readability and structure."
+						"Create a working web app and review the structure, readability, and flow of the generated code."
 					]
 				},
 				{
-					"title": "Week 2: Building Useful Tools with AI",
+					"title": "Week 2: Git, GitHub, Docker, and Iteration",
 					"details": [
-						"Scope practical projects that can be built during the cohort.",
-						"Use AI to generate code for scripts, helpers, and lightweight applications.",
+						"Learn the basics of Git and GitHub for version control and collaboration.",
+						"Use Docker to create a consistent development environment for your app.",
 						"Practice revising requests when the first output is incomplete or off track.",
-						"Build working examples tied to real operational or business needs."
+						"Improve the web app you started in Week 1 through guided iteration."
 					]
 				},
 				{
-					"title": "Week 3: Debugging, Refactoring, and Guardrails",
+					"title": "Week 3: Planning for a More Robust Product",
 					"details": [
-						"Use AI to explain code, identify errors, and troubleshoot issues.",
-						"Refactor generated code so it is easier to understand and maintain.",
+						"Use AI planning features to break larger product goals into manageable development steps.",
+						"Build a more robust web app with clearer structure and room to scale.",
 						"Add validation, edge-case handling, and simple testing habits.",
 						"Document assumptions, dependencies, and next steps."
 					]
 				},
 				{
-					"title": "Week 4: Final Project and Practical Next Steps",
+					"title": "Week 4: Capstone Project and Next Steps",
 					"details": [
-						"Finalize a real project built during the cohort.",
+						"Create and finalize a capstone project built during the cohort.",
 						"Present your project and receive feedback.",
 						"Review how to evaluate code quality, maintainability, and fit for use.",
 						"Leave with a roadmap for continuing your AI-assisted coding practice."
@@ -1453,12 +1458,37 @@
 			},
 			"faqs": [
 				{
+					"key": "ai_experience_required_for_this_workshop",
+					"question": "Do I need prior AI experience to join?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "Yes, some prior AI experience is recommended for this workshop. It is designed for builders, operators, consultants, IT professionals, and aspiring developers who already want to use AI to build and improve practical web applications."
+						}
+					]
+				},
+				{
+					"key": "prework_paid_account_for_this_workshop",
+					"question": "What do I need before the workshop starts?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "Complete the full setup guide before Week 1. You should have Visual Studio Code, a Codex or Claude extension, Git, GitHub, Docker Desktop, and a paid Claude or ChatGPT account ready to use. You should also have a laptop, stable internet, and a project idea or workflow you want to turn into a practical web app."
+						},
+						{
+							"type": "link",
+							"label": "Open the AI-Assisted Coding Workshop setup guide",
+							"href": "/resources/ai-assisted-coding-workshop-setup"
+						}
+					]
+				},
+				{
 					"key": "prior_coding_experience_needed",
 					"question": "Do I need prior coding experience to join?",
 					"blocks": [
 						{
 							"type": "paragraph",
-							"text": "No formal developer background is required. This workshop is designed for semi-technical participants, including IT professionals, aspiring developers, and people who want to build practical tools with guidance."
+							"text": "No formal developer background is required. This workshop is designed for semi-technical participants, including IT professionals, aspiring developers, and people who want guided practice building a practical web app."
 						}
 					]
 				},
@@ -1473,12 +1503,61 @@
 					]
 				},
 				{
-					"key": "what_kind_of_project_can_i_build",
-					"question": "What kind of project can I build during the cohort?",
+					"key": "what_kind_of_web_app_can_i_build",
+					"question": "What kind of web app can I build during the cohort?",
 					"blocks": [
 						{
 							"type": "paragraph",
-							"text": "Most participants build a practical script, automation, lightweight application, integration helper, or internal tool that supports a real workflow they already care about."
+							"text": "Most participants build a practical web app or internal tool tied to a real workflow they already care about. That could include an operations dashboard, intake form, workflow helper, internal utility, or another lightweight product you want to keep improving after the workshop."
+						}
+					]
+				},
+				{
+					"key": "will_we_cover_git_github_and_docker",
+					"question": "Will we cover Git, GitHub, and Docker?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "Yes. Week 2 introduces Git and GitHub for version control and collaboration, plus Docker for creating a consistent development environment. The goal is practical familiarity so you can keep improving your app with a more professional workflow."
+						}
+					]
+				},
+				{
+					"key": "how_does_the_capstone_work",
+					"question": "How does the capstone project work?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "You will shape your capstone as the workshop progresses, using the exercises and weekly feedback to improve it over time. In Week 4, you finalize the project, present what you built, and leave with clear next steps for continuing development after the cohort ends."
+						}
+					]
+				},
+				{
+					"key": "will_we_use_ai_planning_features",
+					"question": "Will we use AI planning features to make the app more robust?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "Yes. In Week 3, the workshop focuses on using AI planning features to break larger goals into manageable steps, improve the structure of your app, and make the product easier to extend, test, and maintain."
+						}
+					]
+				},
+				{
+					"key": "manager_letter_for_ai_assisted_coding_workshop",
+					"question": "📧 Do you have a manager budget-approval letter I can send?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "Yes. This version is tailored to the AI-Assisted Coding Workshop and auto-fills the course title, dates, cost, and link from the training program details below."
+						},
+						{
+							"type": "email_template",
+							"subject": "Request for approval: [Program Name]",
+							"body": "Hi [Manager Name],\n\nI would like approval to attend [Program Name] with Cambermast.\n\nThis training is focused on building and improving a practical web application with AI. It covers hands-on app development, Git, GitHub, Docker, AI planning features, and a capstone project I can apply directly to my role.\n\nProgram: [Program Name]\nDates: [Dates]\nCost: [Cost]\nFormat: [Format]\nLink: [Program/Event URL]\n\nI expect this training will help me improve speed, quality, and technical confidence while giving me a more structured workflow for building useful internal or client-facing tools.\n\nThank you for considering this request.\n\nBest,\n[Your Name]",
+							"ctaLabel": "Open in email client",
+							"copyButtonLabel": "Copy email",
+							"copiedButtonLabel": "Copied",
+							"copiedStateMs": 1600
 						}
 					]
 				}

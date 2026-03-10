@@ -22,6 +22,7 @@ const staticRoutes = [
 	'/faq',
 	'/testimonials',
 	'/resources',
+	'/resources/ai-assisted-coding-workshop-setup',
 	'/resources/ai-personalization',
 	'/resources/ask-me-anything-pricing',
 	'/resources/attendee-training-tips',

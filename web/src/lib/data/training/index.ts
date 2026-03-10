@@ -16,13 +16,17 @@ const normalizeQuestion = (value: string): string =>
 const mergeFaqs = (programFaqs: TrainingProgram['faqs']): TrainingProgram['faqs'] => {
 	const presetFaqs = cloneFaqs(getFaqPreset('training-signup-core-v1')?.items);
 	const merged = new Map<string, NonNullable<TrainingProgram['faqs']>[number]>();
-	const presetQuestions = new Set<string>();
+	const presetQuestionToKey = new Map<string, string>();
 	for (const faq of presetFaqs ?? []) {
 		merged.set(faq.key, faq);
-		presetQuestions.add(normalizeQuestion(faq.question));
+		presetQuestionToKey.set(normalizeQuestion(faq.question), faq.key);
 	}
 	for (const faq of cloneFaqs(programFaqs) ?? []) {
-		if (presetQuestions.has(normalizeQuestion(faq.question))) continue;
+		const normalizedQuestion = normalizeQuestion(faq.question);
+		const presetKey = presetQuestionToKey.get(normalizedQuestion);
+		if (presetKey) {
+			merged.delete(presetKey);
+		}
 		merged.set(faq.key, faq);
 	}
 	return Array.from(merged.values());
