@@ -148,7 +148,8 @@ export const isEventDraft = (event: Event): boolean => event.visibility === 'dra
 export const isEventUpcoming = (
 	event: Event,
 	today: Date = new Date(),
-	options: ListEventsOptions = {}
+	options: ListEventsOptions = {},
+	referenceTimestamp: number = Date.now()
 ): boolean => {
 	const { includeDrafts = runtimeDev, includeUnlisted = false } = options;
 	if (!isVisible(event, { includeDrafts, includeUnlisted })) return false;
@@ -156,7 +157,8 @@ export const isEventUpcoming = (
 	const start = toTimestamp(event.startAtUtc);
 	if (Number.isNaN(start)) return false;
 	const end = toTimestamp(event.endAtUtc) || start;
-	return end >= today.getTime();
+	const cutoffTimestamp = Math.max(today.getTime(), referenceTimestamp);
+	return end >= cutoffTimestamp;
 };
 
 export const getEventStartTimestamp = (event: Event): number => {
