@@ -162,7 +162,7 @@
 	<header class="techlab-header">
 		<div class="techlab-header__brand">
 			<img
-				src="/images/techlab-logo.png"
+				src="/images/TechLAB-Innovation-Center.png"
 				alt="TechLAB Innovation Center LLC logo"
 				class="techlab-logo"
 			/>
@@ -384,7 +384,7 @@
 	<footer class="techlab-footer">
 		<div class="footer__brand">
 			<img
-				src="/images/techlab-logo.png"
+				src="/images/TechLAB-Innovation-Center.png"
 				alt="TechLAB Innovation Center LLC logo"
 				class="techlab-logo techlab-logo--small"
 			/>

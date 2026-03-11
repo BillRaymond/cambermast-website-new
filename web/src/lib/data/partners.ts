@@ -23,7 +23,7 @@ const partners: Partner[] = [
 		code: 'TLB',
 		slug: 'techlab',
 		name: 'TechLAB',
-		logo: '/images/techlab-logo.png'
+		logo: '/images/TechLAB-Innovation-Center.png'
 	},
 	{
 		code: 'HFC',

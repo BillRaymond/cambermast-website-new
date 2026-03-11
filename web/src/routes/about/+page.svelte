@@ -34,6 +34,24 @@
 			image: '/images/project-hosts-logo.png',
 			imageAlt: 'Project Hosts logo',
 			imageFit: 'contain'
+		},
+		{
+			name: 'TechLAB Innovation Center LLC',
+			role: 'Technology Entrepreneurship Growth Partner',
+			description:
+				'TechLAB Innovation Center mission is to help early and mid-stage technology entrepreneurs with a developed product/service, scale up business operations to achieve sustainable growth.',
+			bullets: [
+				'A technology-driven environment focused on achieving results',
+				'A strong network of mentors',
+				'Access to a leading ecosystem in the investment community',
+				'Extensive industry expertise for partnerships, investment, and acquisitions'
+			],
+			descriptionOutro:
+				'We welcome entrepreneurs, local, national and international, to base and cultivate their operations at TechLAB Innovation Center!',
+			link: 'https://techlabcenter.com',
+			image: '/images/TechLAB-Innovation-Center.png',
+			imageAlt: 'TechLAB Innovation Center logo',
+			imageFit: 'contain'
 		}
 	];
 
@@ -172,7 +190,19 @@
 						<p class="text-sm text-gray-500">{partner.role}</p>
 					</div>
 				</div>
-				<p class="text-gray-700">{partner.description}</p>
+				<div class="space-y-3 text-gray-700">
+					<p>{partner.description}</p>
+					{#if partner.bullets}
+						<ul class="list-disc space-y-2 pl-5">
+							{#each partner.bullets as bullet}
+								<li>{bullet}</li>
+							{/each}
+						</ul>
+					{/if}
+					{#if partner.descriptionOutro}
+						<p>{partner.descriptionOutro}</p>
+					{/if}
+				</div>
 				{#if partner.link}
 					<a
 						href={partner.link}

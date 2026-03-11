@@ -61,5 +61,11 @@ export const trustedByOrganizations: TrustedByOrganization[] = [
 		url: 'https://thecontentwrangler.com/',
 		logoSrc: '/images/trusted-by/the-content-wrangler.png'
 	},
+	{
+		name: 'TechLAB Innovation Center LLC',
+		url: 'https://techlabcenter.com/',
+		logoSrc: '/images/TechLAB-Innovation-Center.png',
+		logoAlt: 'TechLAB Innovation Center logo'
+	},
 	{ name: 'Red Hat', url: 'https://www.redhat.com/', logoSrc: '/images/trusted-by/red-hat.png' }
 ];
