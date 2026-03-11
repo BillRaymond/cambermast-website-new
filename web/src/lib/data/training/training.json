@@ -1343,8 +1343,8 @@
 			"heroImageAlt": "Ship Your First App with AI illustration",
 			"ogImage": "/images/generated/training/ship-your-first-app-with-ai/hero-landscape-v3.jpg",
 			"ogImageAlt": "Open graph image for the Ship Your First App with AI training program",
-			"description": "Ship Your First App with AI is a live, four-week hands-on coding cohort that helps semi-technical professionals use AI to plan, build, and improve a practical web application.",
-			"secondaryDescription": "Across weekly 2-hour sessions, participants learn how to turn plain-language ideas into a working web app, improve it with modern development workflows, and strengthen it with AI-supported planning and iteration. You will work through guided exercises, apply what you learn to a real use case, and leave with a repeatable workflow you can use long after the cohort ends.",
+			"description": "Ship Your First App with AI is a live, four-week hands-on coding cohort that helps semi-technical professionals use AI to plan, build, and improve a practical web application while developing a competitive market analysis of their competitors.",
+			"secondaryDescription": "Across weekly 2-hour sessions, participants learn how to turn plain-language ideas into a working web app, improve it with modern development workflows, and strengthen it with AI-supported planning and iteration. You will work through guided exercises, apply what you learn to a real use case, build a competitive market analysis of your competitors, and leave with a repeatable workflow you can use long after the cohort ends.",
 			"primaryCta": {
 				"label": "Find a start date",
 				"url": "/events"
@@ -1431,6 +1431,7 @@
 				"A repeatable workflow for planning, building, testing, and improving code with AI.",
 				"Prompt patterns and review habits that help you get better coding results.",
 				"A practical web app or internal tool you can continue improving after the workshop.",
+				"A competitive market analysis of your competitors to support product positioning and planning.",
 				"Greater confidence using AI to support technical work without relying on one platform.",
 				"A digital certificate of completion after presenting your final project."
 			],

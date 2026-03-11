@@ -1,5 +1,6 @@
 import { json } from '@sveltejs/kit';
 import { listTrainingPrograms } from '$lib/data/training';
+import { listImageGenPromptStandards } from '$lib/data/image-gen-standards';
 import path from 'node:path';
 import { access } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
@@ -48,18 +49,74 @@ const isUsableReferenceUrl = async (value: string): Promise<boolean> => {
 	return localPublicUrlExists(value);
 };
 
+const toPublicGeneratedUrl = (assetKey: string): string => `/images/generated/${assetKey.replace(/^\/+/, '')}`;
+
+const toReferenceAssetKey = (assetKey: string): string | null => {
+	const normalized = assetKey.replace(/^\/+/, '');
+	const match = normalized.match(/^(.*\/)?(hero-(?:square|landscape|portrait))(-v\d+)?\.jpe?g$/i);
+	if (!match) return null;
+	const directory = match[1] ?? '';
+	const base = match[2];
+	const version = match[3] ?? '';
+	return `${directory}${base}-reference${version}.png`;
+};
+
+const toPreferredReferenceUrl = async (assetKey?: string): Promise<string | undefined> => {
+	if (!assetKey) return undefined;
+	const referenceAssetKey = toReferenceAssetKey(assetKey);
+	if (referenceAssetKey) {
+		const referenceUrl = toPublicGeneratedUrl(referenceAssetKey);
+		if (await localPublicUrlExists(referenceUrl)) {
+			return referenceUrl;
+		}
+	}
+	return toPublicGeneratedUrl(assetKey);
+};
+
+const getLatestTrainingStandardAssetUrls = (): Map<string, { square?: string; landscape?: string }> => {
+	const latestBySlug = new Map<string, { createdAt: string; square?: string; landscape?: string }>();
+
+	for (const entry of listImageGenPromptStandards()) {
+		if (entry.destinationType !== 'training') continue;
+		const slug = entry.slug.replace(/^training\//, '').trim();
+		if (!slug) continue;
+
+		const current = latestBySlug.get(slug);
+		if (current && new Date(current.createdAt).valueOf() >= new Date(entry.createdAt).valueOf()) {
+			continue;
+		}
+
+		latestBySlug.set(slug, {
+			createdAt: entry.createdAt,
+			square: entry.assetKeys.square,
+			landscape: entry.assetKeys.landscape
+		});
+	}
+
+	return new Map(
+		Array.from(latestBySlug.entries()).map(([slug, value]) => [
+			slug,
+			{ square: value.square, landscape: value.landscape }
+		])
+	);
+};
+
 export const GET = async () => {
 	if (!import.meta.env.DEV) {
 		return json({ error: 'Not found' }, { status: 404 });
 	}
 
 	const programs = listTrainingPrograms({ includeDrafts: true });
+	const latestStandardAssetUrls = getLatestTrainingStandardAssetUrls();
 	const deduped = new Map<string, TrainingReference>();
 
 	for (const program of programs) {
+		const latestStandard = latestStandardAssetUrls.get(program.slug);
+		const preferredGeneratedSquareUrl = await toPreferredReferenceUrl(latestStandard?.square);
+		const preferredGeneratedLandscapeUrl = await toPreferredReferenceUrl(latestStandard?.landscape);
 		const entries: Array<{ field: TrainingReferenceField; url?: string }> = [
-			{ field: 'generatedSquare', url: `/images/generated/training/${program.slug}/hero-square.jpg` },
-			{ field: 'generatedLandscape', url: `/images/generated/training/${program.slug}/hero-landscape.jpg` },
+			{ field: 'generatedSquare', url: preferredGeneratedSquareUrl },
+			{ field: 'generatedLandscape', url: preferredGeneratedLandscapeUrl },
 			{ field: 'heroImage', url: program.heroImage },
 			{ field: 'ogImage', url: program.ogImage }
 		];

@@ -8,6 +8,20 @@
 		label: string;
 		description?: string;
 	};
+	type DestinationReference = {
+		id: string;
+		slug: string;
+		label: string;
+		description?: string;
+		url: string;
+		fallbackUrl: string;
+		promptSourceLabel?: string;
+		prompts?: {
+			square: string;
+			landscape: string;
+			portrait: string;
+		};
+	};
 	type Mode = 'embedded' | 'standalone';
 	const NO_TEMPLATE_OPTION = '__no-template__';
 	const DESTINATION_TYPE_OPTIONS: Array<{ value: DestinationType; label: string; description: string }> = [
@@ -79,6 +93,7 @@ STRICT AVOIDANCE RULES
 		landscape: '1536x1024',
 		portrait: '1024x1536'
 	};
+	const ALL_IMAGE_GEN_STAGES: ImageGenStage[] = ['square', 'landscape', 'portrait'];
 
 	type Candidate = {
 		id: string;
@@ -95,14 +110,6 @@ STRICT AVOIDANCE RULES
 		batchId: string;
 		stage: ImageGenStage;
 		candidates: Candidate[];
-	};
-
-	type TrainingReference = {
-		programSku?: string;
-		programTitle: string;
-		field: 'generatedSquare' | 'generatedLandscape' | 'heroImage' | 'ogImage';
-		url: string;
-		label: string;
 	};
 
 	type WriteResult = {
@@ -145,6 +152,21 @@ STRICT AVOIDANCE RULES
 			landscape: string;
 			portrait: string;
 		};
+		assetUrls: {
+			square: string;
+			landscape: string;
+			portrait: string;
+		};
+		assetAvailability: {
+			square: boolean;
+			landscape: boolean;
+			portrait: boolean;
+		};
+		referenceAssetUrls: {
+			square: string | null;
+			landscape: string | null;
+			portrait: string | null;
+		};
 	};
 
 	type PromptStandardsApiResponse = {
@@ -154,6 +176,9 @@ STRICT AVOIDANCE RULES
 			destinationType?: unknown;
 			slug?: unknown;
 			assetKeys?: Partial<Record<ImageGenStage, unknown>>;
+			assetUrls?: Partial<Record<ImageGenStage, unknown>>;
+			assetAvailability?: Partial<Record<ImageGenStage, unknown>>;
+			referenceAssetUrls?: Partial<Record<ImageGenStage, unknown | null>>;
 			prompts?: Partial<Record<ImageGenStage, unknown>>;
 		}>;
 	};
@@ -164,6 +189,9 @@ STRICT AVOIDANCE RULES
 	export let destinationType: DestinationType = 'featured-images';
 	export let destinationOptions: Partial<
 		Record<Exclude<DestinationType, 'custom'>, DestinationOption[]>
+	> = {};
+	export let destinationReferences: Partial<
+		Record<Exclude<DestinationType, 'custom'>, DestinationReference[]>
 	> = {};
 	export let autoUpdateDestinationRecord = false;
 	export let defaultTemplateUrl = '';
@@ -196,14 +224,11 @@ STRICT AVOIDANCE RULES
 	let portraitN = Math.min(maxN, Math.max(minN, 2));
 
 	let templates: string[] = [];
-	let trainingReferences: TrainingReference[] = [];
 	let selectedTemplateUrl = defaultTemplateUrl;
 	let templateImageDataUrl = '';
 	let uploadedTemplateName = '';
 	let templatesLoading = false;
-	let trainingReferencesLoading = false;
 	let noTemplateSelected = false;
-	let trainingReferenceError = '';
 
 	let squareCandidates: Candidate[] = [];
 	let landscapeCandidates: Candidate[] = [];
@@ -236,6 +261,9 @@ STRICT AVOIDANCE RULES
 	let filteredPromptHistory: PromptHistoryEntry[] = [];
 	let visiblePromptHistory: PromptHistoryEntry[] = [];
 	let showAllRecentHistory = false;
+	let visibleDestinationReferences: DestinationReference[] = [];
+	let selectedDestinationReferenceId = '';
+	let selectedDestinationReference: DestinationReference | null = null;
 	let customBasePath = '';
 	let availableDestinationOptions: DestinationOption[] = [];
 	let selectedDestinationOptionDescription = '';
@@ -272,6 +300,15 @@ STRICT AVOIDANCE RULES
 		applyDefaultSquarePrompt();
 	};
 
+	const setTemplateFromPreferredUrl = async (preferredUrl: string, fallbackUrl?: string) => {
+		try {
+			await setTemplateFromUrl(preferredUrl);
+		} catch (error) {
+			if (!fallbackUrl || fallbackUrl === preferredUrl) throw error;
+			await setTemplateFromUrl(fallbackUrl);
+		}
+	};
+
 	const setNoTemplateMode = () => {
 		noTemplateSelected = true;
 		selectedTemplateUrl = NO_TEMPLATE_OPTION;
@@ -296,24 +333,6 @@ STRICT AVOIDANCE RULES
 			}
 		} finally {
 			templatesLoading = false;
-		}
-	};
-
-	const loadTrainingReferences = async () => {
-		trainingReferencesLoading = true;
-		trainingReferenceError = '';
-		try {
-			const response = await fetch('/admin/image-gen/api/training-references');
-			const json = await response.json();
-			if (!response.ok) throw new Error(json?.error ?? 'Unable to load training references');
-			trainingReferences = Array.isArray(json.references)
-				? (json.references as TrainingReference[])
-				: [];
-		} catch (error) {
-			trainingReferenceError =
-				error instanceof Error ? error.message : 'Unable to load training references';
-		} finally {
-			trainingReferencesLoading = false;
 		}
 	};
 
@@ -411,7 +430,6 @@ STRICT AVOIDANCE RULES
 	const getHistoryChipLabel = (entry: PromptHistoryEntry, stage: ImageGenStage): string => {
 		return entry.assetKeys[stage];
 	};
-
 	const applyHistoryPrompts = (entry: PromptHistoryEntry) => {
 		squarePrompt = entry.prompts.square;
 		landscapePrompt = entry.prompts.landscape;
@@ -425,6 +443,26 @@ STRICT AVOIDANCE RULES
 		if (stage === 'landscape') landscapePrompt = prompt;
 		if (stage === 'portrait') portraitPrompt = prompt;
 		saveMessage = `Loaded ${toStageLabel(stage)} prompt from ${entry.slug}.`;
+	};
+
+	const applyDestinationReferencePrompts = (reference: DestinationReference) => {
+		if (!reference.prompts) return;
+		squarePrompt = reference.prompts.square;
+		landscapePrompt = reference.prompts.landscape;
+		portraitPrompt = reference.prompts.portrait;
+		saveMessage = `Loaded saved prompts from ${reference.label}.`;
+	};
+
+	const applyDestinationReferencePromptForStage = (
+		reference: DestinationReference,
+		stage: ImageGenStage
+	) => {
+		const prompt = reference.prompts?.[stage];
+		if (!prompt) return;
+		if (stage === 'square') squarePrompt = prompt;
+		if (stage === 'landscape') landscapePrompt = prompt;
+		if (stage === 'portrait') portraitPrompt = prompt;
+		saveMessage = `Loaded ${toStageLabel(stage)} prompt from ${reference.label}.`;
 	};
 
 	const parseWriteResults = (value: unknown): WriteResult[] => {
@@ -513,7 +551,11 @@ STRICT AVOIDANCE RULES
 			.filter((item): item is DestinationUpdateWrite => item !== null);
 	};
 
-	const parsePromptHistoryResponse = (value: unknown): PromptHistoryEntry[] => {
+	const parsePromptHistoryResponse = (
+		value: unknown,
+		options: { filterByDestination?: boolean } = {}
+	): PromptHistoryEntry[] => {
+		const { filterByDestination = true } = options;
 		const body = value as PromptStandardsApiResponse | null;
 		const rows = Array.isArray(body?.standards) ? body.standards : [];
 		return rows
@@ -532,6 +574,9 @@ STRICT AVOIDANCE RULES
 						: null;
 				const prompts = entry.prompts;
 				const assetKeys = entry.assetKeys;
+				const assetUrls = entry.assetUrls;
+				const assetAvailability = entry.assetAvailability;
+				const referenceAssetUrls = entry.referenceAssetUrls;
 				if (
 					!id ||
 					!createdAt ||
@@ -544,7 +589,19 @@ STRICT AVOIDANCE RULES
 					!assetKeys ||
 					typeof assetKeys.square !== 'string' ||
 					typeof assetKeys.landscape !== 'string' ||
-					typeof assetKeys.portrait !== 'string'
+					typeof assetKeys.portrait !== 'string' ||
+					!assetUrls ||
+					typeof assetUrls.square !== 'string' ||
+					typeof assetUrls.landscape !== 'string' ||
+					typeof assetUrls.portrait !== 'string' ||
+					!assetAvailability ||
+					typeof assetAvailability.square !== 'boolean' ||
+					typeof assetAvailability.landscape !== 'boolean' ||
+					typeof assetAvailability.portrait !== 'boolean' ||
+					!referenceAssetUrls ||
+					!(typeof referenceAssetUrls.square === 'string' || referenceAssetUrls.square === null) ||
+					!(typeof referenceAssetUrls.landscape === 'string' || referenceAssetUrls.landscape === null) ||
+					!(typeof referenceAssetUrls.portrait === 'string' || referenceAssetUrls.portrait === null)
 				) {
 					return null;
 				}
@@ -562,12 +619,29 @@ STRICT AVOIDANCE RULES
 						square: prompts.square,
 						landscape: prompts.landscape,
 						portrait: prompts.portrait
+					},
+					assetUrls: {
+						square: assetUrls.square,
+						landscape: assetUrls.landscape,
+						portrait: assetUrls.portrait
+					},
+					assetAvailability: {
+						square: assetAvailability.square,
+						landscape: assetAvailability.landscape,
+						portrait: assetAvailability.portrait
+					},
+					referenceAssetUrls: {
+						square: referenceAssetUrls.square,
+						landscape: referenceAssetUrls.landscape,
+						portrait: referenceAssetUrls.portrait
 					}
 				};
 			})
 			.filter((entry): entry is PromptHistoryEntry => entry !== null)
 			.filter((entry) =>
-				shouldFilterHistoryByDestination() ? entry.destinationType === destinationType : true
+				filterByDestination && shouldFilterHistoryByDestination()
+					? entry.destinationType === destinationType
+					: true
 			)
 			.slice(0, PROMPT_HISTORY_MAX_ITEMS);
 	};
@@ -780,7 +854,7 @@ STRICT AVOIDANCE RULES
 	onMount(async () => {
 		if (!isDev) return;
 		try {
-			await Promise.all([loadTemplates(), loadTrainingReferences(), loadPromptHistory()]);
+			await Promise.all([loadTemplates(), loadPromptHistory()]);
 		} catch (error) {
 			errorMessage = error instanceof Error ? error.message : 'Unable to load templates';
 		}
@@ -793,6 +867,9 @@ STRICT AVOIDANCE RULES
 
 	$: availableDestinationOptions =
 		destinationType === 'custom' ? [] : destinationOptions[destinationType] ?? [];
+
+	$: visibleDestinationReferences =
+		destinationType === 'custom' ? [] : destinationReferences[destinationType] ?? [];
 
 	$: selectedDestinationOptionDescription =
 		availableDestinationOptions.find((option) => option.slug === slug)?.description ?? '';
@@ -818,6 +895,22 @@ STRICT AVOIDANCE RULES
 		slug = availableDestinationOptions[0].slug;
 	}
 
+	$: if (
+		destinationType !== 'custom' &&
+		visibleDestinationReferences.length > 0 &&
+		!visibleDestinationReferences.some((reference) => reference.id === selectedDestinationReferenceId)
+	) {
+		selectedDestinationReferenceId = visibleDestinationReferences[0].id;
+	}
+
+	$: if (destinationType === 'custom' && selectedDestinationReferenceId) {
+		selectedDestinationReferenceId = '';
+	}
+
+	$: selectedDestinationReference =
+		visibleDestinationReferences.find((reference) => reference.id === selectedDestinationReferenceId) ??
+		null;
+
 	$: {
 		const search = promptHistorySearch.trim().toLowerCase();
 		filteredPromptHistory = promptHistory.filter((entry) => {
@@ -837,6 +930,7 @@ STRICT AVOIDANCE RULES
 				? filteredPromptHistory
 				: filteredPromptHistory.slice(0, PROMPT_HISTORY_RECENT_VISIBLE);
 	}
+
 </script>
 
 <svelte:window on:keydown={handleWindowKeydown} />
@@ -854,155 +948,10 @@ STRICT AVOIDANCE RULES
 		{/if}
 
 		<div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
-			<h2 class="text-xl font-semibold">Template Selection</h2>
-			<p class="mt-2 text-sm text-gray-600">
-				Use a template file from the template folder or upload a local image.
-			</p>
-			{#if templatesLoading}
-				<p class="mt-3 text-sm text-gray-500">Loading templates...</p>
-			{:else}
-				<div class="mt-4 flex flex-wrap gap-2">
-					<button
-						class={`w-24 rounded-lg border p-1.5 text-left ${noTemplateSelected ? 'border-blue-400 bg-blue-50' : 'border-gray-200 bg-white'}`}
-						type="button"
-						on:click={() => setNoTemplateMode()}
-					>
-						<div class="flex h-16 w-full items-center justify-center rounded bg-gray-100 text-[10px] font-semibold text-gray-700">
-							No template
-						</div>
-						<p class="mt-1 text-[10px] leading-tight text-gray-700">Prompt only</p>
-					</button>
-					{#each templates as template}
-						<button
-							class={`w-24 rounded-lg border p-1.5 text-left ${selectedTemplateUrl === template ? 'border-blue-400 bg-blue-50' : 'border-gray-200 bg-white'}`}
-							type="button"
-							on:click={async () => {
-								try {
-									await setTemplateFromUrl(template);
-								} catch (error) {
-									errorMessage = error instanceof Error ? error.message : 'Unable to load template';
-								}
-							}}
-						>
-							<img class="h-16 w-full rounded object-cover" src={template} alt={template} />
-							<p class="mt-1 truncate text-[10px] text-gray-700">{template.split('/').pop()}</p>
-						</button>
-					{/each}
-				</div>
-			{/if}
-
-			<div class="mt-5">
-				<h3 class="text-sm font-semibold text-gray-800">Training Program References</h3>
-				<p class="mt-1 text-xs text-gray-600">
-					Each program defaults to generated square, then generated landscape when square is unavailable.
-				</p>
-				{#if trainingReferencesLoading}
-					<p class="mt-3 text-sm text-gray-500">Loading training references...</p>
-				{:else if trainingReferenceError}
-					<p class="mt-3 text-sm font-semibold text-rose-700">{trainingReferenceError}</p>
-				{:else if trainingReferences.length === 0}
-					<p class="mt-3 text-sm text-gray-500">No training references found.</p>
-				{:else}
-					<div class="mt-3 flex flex-wrap gap-2">
-						{#each trainingReferences as reference}
-							<button
-								type="button"
-								class={`w-24 rounded-lg border p-1.5 text-left ${
-									selectedTemplateUrl === reference.url && !noTemplateSelected
-										? 'border-blue-400 bg-blue-50'
-										: 'border-gray-200 bg-white hover:border-gray-300'
-								}`}
-								on:click={async () => {
-									try {
-										await setTemplateFromUrl(reference.url);
-									} catch (error) {
-										errorMessage =
-											error instanceof Error
-												? error.message
-												: 'Unable to load training reference image';
-									}
-								}}
-							>
-								<img
-									src={reference.url}
-									alt={reference.programTitle}
-									class="h-16 w-full rounded object-cover"
-									loading="lazy"
-								/>
-								<p class="mt-1 truncate text-[10px] text-gray-700">{reference.programTitle}</p>
-							</button>
-						{/each}
-					</div>
-				{/if}
-			</div>
-
-			<div class="mt-5">
-				<label class="mb-2 block text-sm font-semibold text-gray-800" for={`template-upload-${mode}`}>
-					Upload a local template
-				</label>
-				<input
-					id={`template-upload-${mode}`}
-					type="file"
-					accept="image/png,image/jpeg,image/webp"
-					on:change={async (event) => {
-						const input = event.currentTarget as HTMLInputElement;
-						const file = input.files?.[0];
-						if (!file) return;
-						if (!file.type.startsWith('image/')) {
-							errorMessage = 'Only image files are allowed for template upload.';
-							return;
-						}
-						const uploadedTemplateDataUrl = await readFileAsDataUrl(file);
-						uploadedTemplateName = file.name;
-						templateImageDataUrl = uploadedTemplateDataUrl;
-						selectedTemplateUrl = '';
-						noTemplateSelected = false;
-						applyDefaultSquarePrompt();
-					}}
-					class="block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
-				/>
-				{#if uploadedTemplateName}
-					<p class="mt-2 text-xs text-gray-600">Using uploaded template: {uploadedTemplateName}</p>
-				{/if}
-				{#if noTemplateSelected}
-					<p class="mt-2 text-xs text-gray-600">No template mode selected for Stage A.</p>
-				{/if}
-				{#if !noTemplateSelected && templateImageDataUrl}
-					<div class="mt-4 rounded-xl border border-gray-200 bg-gray-50 p-3">
-						<div class="flex items-center justify-between gap-2">
-							<p class="text-sm font-semibold text-gray-800">Selected template preview</p>
-							<button
-								type="button"
-								class="inline-flex items-center gap-1 rounded border border-gray-300 bg-white px-2 py-1 text-[11px] font-semibold text-gray-700 hover:border-gray-400"
-								on:click={openSelectedTemplatePreview}
-								aria-label="Preview selected template"
-							>
-								<svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-									<path d="M10 4c-3.9 0-7.2 2.3-8.7 5.6a1 1 0 0 0 0 .8C2.8 13.7 6.1 16 10 16s7.2-2.3 8.7-5.6a1 1 0 0 0 0-.8C17.2 6.3 13.9 4 10 4Zm0 10c-2.2 0-4-1.8-4-4s1.8-4 4-4 4 1.8 4 4-1.8 4-4 4Z" />
-								</svg>
-								Preview
-							</button>
-						</div>
-						<img
-							class="mt-3 max-h-80 w-full rounded bg-white object-contain"
-							src={templateImageDataUrl}
-							alt="Selected template"
-						/>
-						<p class="mt-2 truncate text-xs text-gray-600">
-							{uploadedTemplateName ||
-								(selectedTemplateUrl && selectedTemplateUrl !== NO_TEMPLATE_OPTION
-									? selectedTemplateUrl
-									: 'Template selected')}
-						</p>
-					</div>
-				{/if}
-			</div>
-		</div>
-
-		<div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
 			<h2 class="text-xl font-semibold">Destination Settings</h2>
 			<p class="mt-2 text-sm text-gray-600">
-				Choose where generated images should live before you save them. Backups mirror this destination path in MinIO.
+				Choose where generated images should live before you save them. The current references
+				below are driven by this selection.
 			</p>
 			<fieldset class="mt-4">
 				<legend class="text-sm font-semibold text-gray-800">Destination type</legend>
@@ -1089,6 +1038,210 @@ STRICT AVOIDANCE RULES
 			{#if destinationInputHasError}
 				<p class="mt-1 text-xs font-semibold text-rose-700">{destinationInputErrorMessage}</p>
 			{/if}
+		</div>
+
+		<div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+			<h2 class="text-xl font-semibold">Template Selection</h2>
+			<p class="mt-2 text-sm text-gray-600">
+				Static templates stay available, and the current reference gallery below follows the selected destination type.
+			</p>
+			<div class="mt-5">
+				<h3 class="text-sm font-semibold text-gray-800">Current Destination References</h3>
+				<p class="mt-1 text-xs text-gray-600">
+					Shows the current images used by the selected destination type. Saved prompts appear when the image came from a tracked generated run.
+				</p>
+				{#if destinationType === 'custom'}
+					<p class="mt-3 text-sm text-gray-500">Custom destinations do not have a live reference gallery.</p>
+				{:else if visibleDestinationReferences.length === 0}
+					<p class="mt-3 text-sm text-gray-500">No current references found for this destination type.</p>
+				{:else}
+					<div class="mt-3 flex flex-wrap gap-2">
+						{#each visibleDestinationReferences as reference}
+							<button
+								type="button"
+								class={`w-28 rounded-lg border p-1.5 text-left ${
+									selectedDestinationReferenceId === reference.id
+										? 'border-blue-400 bg-blue-50'
+										: 'border-gray-200 bg-white hover:border-gray-300'
+								}`}
+								on:click={async () => {
+									try {
+										await setTemplateFromPreferredUrl(reference.url, reference.fallbackUrl);
+										selectedDestinationReferenceId = reference.id;
+									} catch (error) {
+										errorMessage =
+											error instanceof Error
+												? error.message
+												: 'Unable to load current destination reference';
+									}
+								}}
+								title={reference.label}
+							>
+								<img
+									src={reference.url}
+									alt={reference.label}
+									class="h-16 w-full rounded object-cover"
+									loading="lazy"
+									on:error={(event) => {
+										const img = event.currentTarget as HTMLImageElement | null;
+										if (!img || img.src === reference.fallbackUrl) return;
+										img.src = reference.fallbackUrl;
+									}}
+								/>
+								<p class="mt-1 truncate text-[10px] font-semibold text-gray-700">{reference.label}</p>
+								{#if reference.description}
+									<p class="truncate text-[10px] text-gray-500">{reference.description}</p>
+								{/if}
+								{#if reference.prompts}
+									<p class="mt-1 text-[10px] font-semibold text-blue-700">Prompts saved</p>
+								{/if}
+							</button>
+						{/each}
+					</div>
+				{/if}
+				{#if selectedDestinationReference?.prompts}
+					<div class="mt-4 rounded-xl border border-blue-200 bg-blue-50 p-3">
+						<div class="flex flex-wrap items-center justify-between gap-2">
+							<div>
+								<p class="text-sm font-semibold text-gray-800">
+									Saved prompts for {selectedDestinationReference.label}
+								</p>
+								{#if selectedDestinationReference.promptSourceLabel}
+									<p class="text-xs text-gray-600">
+										Latest tracked run: {selectedDestinationReference.promptSourceLabel}
+									</p>
+								{/if}
+							</div>
+							<button
+								type="button"
+								class="rounded border border-blue-300 bg-white px-2 py-1 text-xs font-semibold text-blue-700 hover:border-blue-400"
+								on:click={() => applyDestinationReferencePrompts(selectedDestinationReference)}
+							>
+								Use all prompts
+							</button>
+						</div>
+						<div class="mt-3 grid gap-3 lg:grid-cols-3">
+							{#each ALL_IMAGE_GEN_STAGES as stage}
+								<div class="rounded-lg border border-blue-200 bg-white p-3">
+									<div class="flex items-center justify-between gap-2">
+										<p class="text-xs font-semibold text-gray-800">{toStageLabel(stage)}</p>
+										<button
+											type="button"
+											class="rounded border border-gray-300 bg-white px-2 py-1 text-[11px] font-semibold text-gray-700 hover:border-gray-400"
+											on:click={() =>
+												applyDestinationReferencePromptForStage(selectedDestinationReference, stage)}
+										>
+											Use
+										</button>
+									</div>
+									<p class="mt-2 max-h-32 overflow-auto whitespace-pre-wrap text-[11px] text-gray-700">
+										{selectedDestinationReference.prompts[stage]}
+									</p>
+								</div>
+							{/each}
+						</div>
+					</div>
+				{/if}
+			</div>
+			<div class="mt-5">
+				<h3 class="text-sm font-semibold text-gray-800">Static Templates</h3>
+				<p class="mt-1 text-xs text-gray-600">
+					Use a template file from the template folder, keep prompt-only mode, or upload a local image.
+				</p>
+				{#if templatesLoading}
+					<p class="mt-3 text-sm text-gray-500">Loading templates...</p>
+				{:else}
+					<div class="mt-4 flex flex-wrap gap-2">
+						<button
+							class={`w-24 rounded-lg border p-1.5 text-left ${noTemplateSelected ? 'border-blue-400 bg-blue-50' : 'border-gray-200 bg-white'}`}
+							type="button"
+							on:click={() => setNoTemplateMode()}
+						>
+							<div class="flex h-16 w-full items-center justify-center rounded bg-gray-100 text-[10px] font-semibold text-gray-700">
+								No template
+							</div>
+							<p class="mt-1 text-[10px] leading-tight text-gray-700">Prompt only</p>
+						</button>
+						{#each templates as template}
+							<button
+								class={`w-24 rounded-lg border p-1.5 text-left ${selectedTemplateUrl === template ? 'border-blue-400 bg-blue-50' : 'border-gray-200 bg-white'}`}
+								type="button"
+								on:click={async () => {
+									try {
+										await setTemplateFromUrl(template);
+									} catch (error) {
+										errorMessage = error instanceof Error ? error.message : 'Unable to load template';
+									}
+								}}
+							>
+								<img class="h-16 w-full rounded object-cover" src={template} alt={template} />
+								<p class="mt-1 truncate text-[10px] text-gray-700">{template.split('/').pop()}</p>
+							</button>
+						{/each}
+					</div>
+				{/if}
+			</div>
+			<div class="mt-5">
+				<label class="mb-2 block text-sm font-semibold text-gray-800" for={`template-upload-${mode}`}>
+					Upload a local template
+				</label>
+				<input
+					id={`template-upload-${mode}`}
+					type="file"
+					accept="image/png,image/jpeg,image/webp"
+					on:change={async (event) => {
+						const input = event.currentTarget as HTMLInputElement;
+						const file = input.files?.[0];
+						if (!file) return;
+						if (!file.type.startsWith('image/')) {
+							errorMessage = 'Only image files are allowed for template upload.';
+							return;
+						}
+						const uploadedTemplateDataUrl = await readFileAsDataUrl(file);
+						uploadedTemplateName = file.name;
+						templateImageDataUrl = uploadedTemplateDataUrl;
+						selectedTemplateUrl = '';
+						noTemplateSelected = false;
+						applyDefaultSquarePrompt();
+					}}
+					class="block w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
+				/>
+				{#if uploadedTemplateName}
+					<p class="mt-2 text-xs text-gray-600">Using uploaded template: {uploadedTemplateName}</p>
+				{/if}
+				{#if noTemplateSelected}
+					<p class="mt-2 text-xs text-gray-600">No template mode selected for Stage A.</p>
+				{/if}
+				{#if !noTemplateSelected && templateImageDataUrl}
+					<div class="mt-4 rounded-xl border border-gray-200 bg-gray-50 p-3">
+						<div class="flex items-center justify-between gap-2">
+							<p class="text-sm font-semibold text-gray-800">Selected template preview</p>
+							<button
+								type="button"
+								class="inline-flex items-center gap-1 rounded border border-gray-300 bg-white px-2 py-1 text-[11px] font-semibold text-gray-700 hover:border-gray-400"
+								on:click={openSelectedTemplatePreview}
+								aria-label="Preview selected template"
+							>
+								<svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+									<path d="M10 4c-3.9 0-7.2 2.3-8.7 5.6a1 1 0 0 0 0 .8C2.8 13.7 6.1 16 10 16s7.2-2.3 8.7-5.6a1 1 0 0 0 0-.8C17.2 6.3 13.9 4 10 4Zm0 10c-2.2 0-4-1.8-4-4s1.8-4 4-4 4 1.8 4 4-1.8 4-4 4Z" />
+								</svg>
+								Preview
+							</button>
+						</div>
+						<img
+							class="mt-3 max-h-80 w-full rounded bg-white object-contain"
+							src={templateImageDataUrl}
+							alt="Selected template"
+						/>
+						<p class="mt-2 truncate text-xs text-gray-600">
+							{uploadedTemplateName ||
+								(selectedTemplateUrl && selectedTemplateUrl !== NO_TEMPLATE_OPTION
+									? selectedTemplateUrl
+									: 'Template selected')}
+						</p>
+					</div>
+				{/if}
+			</div>
 		</div>
 
 		<div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">

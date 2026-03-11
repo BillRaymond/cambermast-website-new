@@ -14,7 +14,7 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["id", "createdAt", "destinationType", "slug", "assetKeys", "assetUrls", "prompts"],
+        "required": ["id", "createdAt", "destinationType", "slug", "assetKeys", "assetUrls", "assetAvailability", "referenceAssetUrls", "prompts"],
         "properties": {
           "id": { "type": "string", "pattern": "^[a-z0-9]{8,64}$" },
           "createdAt": { "type": "string", "format": "date-time" },
@@ -53,6 +53,35 @@
               "square": { "type": "string", "pattern": "^https?://" },
               "landscape": { "type": "string", "pattern": "^https?://" },
               "portrait": { "type": "string", "pattern": "^https?://" }
+            }
+          },
+          "assetAvailability": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["square", "landscape", "portrait"],
+            "properties": {
+              "square": { "type": "boolean" },
+              "landscape": { "type": "boolean" },
+              "portrait": { "type": "boolean" }
+            }
+          },
+          "referenceAssetUrls": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["square", "landscape", "portrait"],
+            "properties": {
+              "square": {
+                "type": ["string", "null"],
+                "pattern": "^https?://"
+              },
+              "landscape": {
+                "type": ["string", "null"],
+                "pattern": "^https?://"
+              },
+              "portrait": {
+                "type": ["string", "null"],
+                "pattern": "^https?://"
+              }
             }
           },
           "prompts": {
