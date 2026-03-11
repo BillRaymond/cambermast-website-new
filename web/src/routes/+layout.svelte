@@ -228,17 +228,26 @@
 
 	<footer class="border-t">
 		<div class="mx-auto max-w-6xl px-4 py-6 text-center text-sm text-gray-500">
-			© {new Date().getFullYear()} Cambermast LLC · AI Agility in Action™️ ·
-			<a class="underline" href="/contact">Contact</a> ·
-			<a class="underline" href="/gdpr">Privacy & GDPR notice</a> ·
-			<a class="underline" href="/training/terms">Training T&amp;Cs</a> ·
-			<button
-				class="underline transition hover:text-gray-700 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:outline-none"
-				type="button"
-				on:click={openConsentPreferences}
-			>
-				Cookie preferences
-			</button>
+			<div>
+				© {new Date().getFullYear()} Cambermast LLC · AI Agility in Action™️ ·
+				<a class="underline" href="/contact">Contact</a> ·
+				<a class="underline" href="/gdpr">Privacy & GDPR notice</a> ·
+				<a class="underline" href="/training/terms">Training T&amp;Cs</a> ·
+				<button
+					class="underline transition hover:text-gray-700 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:outline-none"
+					type="button"
+					on:click={openConsentPreferences}
+				>
+					Cookie preferences
+				</button>
+			</div>
+			<div class="mt-2">
+				<a class="underline" href="/feed/events.xml">Events RSS</a> ·
+				<a class="underline" href="/feed/calendar.xml">Calendar RSS</a> ·
+				<a class="underline" href="/feed/resources.xml">Resources RSS</a> ·
+				<a class="underline" href="/feed/articles.xml">Articles RSS</a> ·
+				<a class="underline" href="/feed/training-programs.xml">Programs RSS</a>
+			</div>
 		</div>
 	</footer>
 {/if}

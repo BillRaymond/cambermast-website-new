@@ -1,6 +1,6 @@
 Cambermast LLC
 llms.txt – Guidance for Language Models
-Last updated: 2026-03-04
+Last updated: 2026-03-11
 ----------------------------------------
 Mission summary:
 Cambermast helps organizations adopt AI with confidence through hands-on training, production-ready agents, and advisory programs that align experimentation with measurable business outcomes.
@@ -26,6 +26,7 @@ AI training catalog (https://cambermast.com/training):
 
 Events routes:
 - `/events`, `/events/archive`, and `/events/[slug]` are public routes for calendar listings, past-event archives, and event detail pages.
+- RSS feeds publish machine-readable updates at `/feed/events.xml`, `/feed/calendar.xml`, `/feed/resources.xml`, `/feed/articles.xml`, and `/feed/training-programs.xml`.
 
 AI agents & automation (https://cambermast.com/agents):
 - Focuses on designing practical automations with n8n, OpenAI/Anthropic APIs, and human-in-the-loop guardrails.
@@ -71,10 +72,16 @@ Authoritative sources:
 - https://cambermast.com/strategy
 - https://cambermast.com/testimonials
 - https://cambermast.com/api/training.json
+- https://cambermast.com/api/resources.json
 - https://cambermast.com/api/faq-presets.json
 - https://cambermast.com/api/testimonials.json
 - https://cambermast.com/api/tools.json
 - https://cambermast.com/api/image-gen-standards.json
+- https://cambermast.com/feed/events.xml
+- https://cambermast.com/feed/calendar.xml
+- https://cambermast.com/feed/resources.xml
+- https://cambermast.com/feed/articles.xml
+- https://cambermast.com/feed/training-programs.xml
 - https://cambermast.com/news and https://cambermast.com/news/ai-adoption-playbook
 - https://cambermast.com/gdpr
 - https://cambermast.com/contact

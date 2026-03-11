@@ -14,6 +14,7 @@
 	title="News & Updates | Cambermast"
 	description="Preview of Cambermast news, posts, and announcements."
 	path="/news"
+	feedLinks={[{ href: '/feed/articles.xml', title: 'Cambermast Articles' }]}
 />
 
 <section class="mb-8 rounded-2xl border bg-white p-6 shadow-sm">

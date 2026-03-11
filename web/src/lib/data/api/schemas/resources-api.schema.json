@@ -1,0 +1,42 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://cambermast.com/schemas/resources-api.schema.json",
+	"title": "Resources API Response",
+	"type": "object",
+	"additionalProperties": false,
+	"required": ["generatedAt", "resources"],
+	"properties": {
+		"generatedAt": { "type": "string", "format": "date-time" },
+		"resources": {
+			"type": "array",
+			"items": {
+				"type": "object",
+				"additionalProperties": false,
+				"required": [
+					"id",
+					"slug",
+					"route",
+					"url",
+					"title",
+					"summary",
+					"category",
+					"publishedAt"
+				],
+				"properties": {
+					"id": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+					"slug": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+					"route": { "type": "string", "pattern": "^/resources/[a-z0-9]+(?:-[a-z0-9]+)*$" },
+					"url": { "type": "string", "pattern": "^https?://" },
+					"title": { "type": "string", "minLength": 1 },
+					"summary": { "type": "string", "minLength": 1 },
+					"category": { "type": "string", "minLength": 1 },
+					"publishedAt": { "type": "string", "format": "date" },
+					"author": { "type": "string", "minLength": 1 },
+					"imageSrc": { "type": "string", "pattern": "^https?://" },
+					"imageAlt": { "type": "string", "minLength": 1 },
+					"label": { "type": "string", "minLength": 1 }
+				}
+			}
+		}
+	}
+}

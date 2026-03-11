@@ -72,6 +72,18 @@ const manifest = {
 			}
 		]
 	},
+	resources: {
+		registrySchema: 'src/lib/data/resources/resources.schema.json',
+		apiSchema: 'src/lib/data/api/schemas/resources-api.schema.json',
+		apiBuilder: 'src/lib/data/api/resources.ts',
+		apiRoute: 'src/routes/api/resources.json/+server.ts',
+		sopMentions: [
+			{
+				file: 'src/routes/admin/sop-resources/+page.svelte',
+				patterns: ['/api/resources.json', 'resources-api.schema.json']
+			}
+		]
+	},
 	testimonials: {
 		registrySchema: 'src/lib/data/testimonials.schema.json',
 		apiSchema: 'src/lib/data/api/schemas/testimonials-api.schema.json',

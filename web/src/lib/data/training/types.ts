@@ -90,6 +90,7 @@ export type TrainingProgram = {
 	slug: string;
 	route: string;
 	sku?: string;
+	publishedAt?: string;
 	catalog?: TrainingCatalogMeta;
 	title: string;
 	nickname?: string;

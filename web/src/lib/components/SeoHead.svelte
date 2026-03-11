@@ -11,6 +11,9 @@
 	export let type: string = 'website';
 	export let siteName: string | undefined = 'Cambermast';
 	export let useDefaultImage: boolean = true;
+	export let feedLinks:
+		| Array<{ href: string; title: string }>
+		| undefined = undefined;
 
 	const origin = SITE_ORIGIN.replace(/\/$/, '');
 	const canonicalUrl = path ? `${origin}${path}` : undefined;
@@ -34,6 +37,9 @@
 		<link rel="canonical" href={canonicalUrl} />
 		<meta property="og:url" content={canonicalUrl} />
 	{/if}
+	{#each feedLinks ?? [] as feed}
+		<link rel="alternate" type="application/rss+xml" href={feed.href} title={feed.title} />
+	{/each}
 	<meta property="og:title" content={title} />
 	{#if description}
 		<meta property="og:description" content={description} />

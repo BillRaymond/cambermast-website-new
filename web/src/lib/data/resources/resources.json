@@ -1,0 +1,52 @@
+{
+	"resources": [
+		{
+			"id": "resource-ai-assisted-coding-setup",
+			"slug": "ai-assisted-coding-workshop-setup",
+			"route": "/resources/ai-assisted-coding-workshop-setup",
+			"title": "AI-assisted coding workshop setup guide",
+			"summary": "Install Visual Studio Code, a Codex or Claude extension, Git, GitHub, and Docker Desktop, then confirm your paid AI account works in the browser.",
+			"category": "workshop-setup",
+			"publishedAt": "2026-03-10",
+			"imageSrc": "/images/generated/resources/ai-assisted-coding-workshop-setup/hero-landscape.jpg",
+			"imageAlt": "AI-assisted coding workshop setup guide featured image.",
+			"label": "Workshop setup"
+		},
+		{
+			"id": "resource-ask-me-anything-pricing",
+			"slug": "ask-me-anything-pricing",
+			"route": "/resources/ask-me-anything-pricing",
+			"title": "Quickly learn an important AI topic with Bill and your team",
+			"summary": "Select from AMAs we can deliver right now or schedule a tailor-made Ask Me Anything (AMA) event.",
+			"category": "pricing-guide",
+			"publishedAt": "2026-03-03",
+			"imageSrc": "/images/generated/resources/ama/hero-landscape.jpg",
+			"imageAlt": "Ask Me Anything Pricing featured image.",
+			"label": "Pricing guide"
+		},
+		{
+			"id": "resource-attendee-training-tips",
+			"slug": "attendee-training-tips",
+			"route": "/resources/attendee-training-tips",
+			"title": "Attendee training tips for live sessions",
+			"summary": "Quick preparation steps that help everyone stay focused and get more from our live workshops.",
+			"category": "training-success",
+			"publishedAt": "2026-01-26",
+			"imageSrc": "/images/generated/resources/get-ready-for-training/hero-landscape.jpg",
+			"imageAlt": "Attendee training tips featured image.",
+			"label": "Training success"
+		},
+		{
+			"id": "resource-ai-personalization",
+			"slug": "ai-personalization",
+			"route": "/resources/ai-personalization",
+			"title": "AI personalization",
+			"summary": "Practical guidance on when to personalize, how to do it, and the exact preferences I use.",
+			"category": "ai-guidance",
+			"publishedAt": "2026-01-30",
+			"imageSrc": "/images/generated/resources/ai-personalization/hero-landscape.jpg",
+			"imageAlt": "AI Personalization featured image.",
+			"label": "Resource"
+		}
+	]
+}

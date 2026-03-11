@@ -10,6 +10,7 @@ import testimonialsApiSchema from '../src/lib/data/api/schemas/testimonials-api.
 import toolsApiSchema from '../src/lib/data/api/schemas/tools-api.schema.json';
 import faqPresetsApiSchema from '../src/lib/data/api/schemas/faq-presets-api.schema.json';
 import imageGenStandardsApiSchema from '../src/lib/data/api/schemas/image-gen-standards-api.schema.json';
+import resourcesApiSchema from '../src/lib/data/api/schemas/resources-api.schema.json';
 import { buildEventsApiExamples, buildEventsApiPayload } from '../src/lib/data/api/events';
 import { buildCampaignsApiExamples, buildCampaignsApiPayload } from '../src/lib/data/api/campaigns';
 import { buildEnumsApiExamples, buildEnumsApiPayload } from '../src/lib/data/api/enums';
@@ -28,6 +29,7 @@ import {
 	buildImageGenStandardsApiExamples,
 	buildImageGenStandardsApiPayload
 } from '../src/lib/data/api/image-gen-standards';
+import { buildResourcesApiExamples, buildResourcesApiPayload } from '../src/lib/data/api/resources';
 import { SITE_ORIGIN } from '../src/lib/config/site';
 
 const origin = SITE_ORIGIN.replace(/\/$/, '');
@@ -133,5 +135,13 @@ assertValid(
 	imageGenStandardsApiSchema as object,
 	imageGenStandardsExamples.example
 );
+
+const resourcesPayload = buildResourcesApiPayload({
+	origin,
+	generatedAt: '2026-03-11T10:00:00.000Z'
+});
+const resourcesExamples = buildResourcesApiExamples(origin);
+assertValid('resources api payload', resourcesApiSchema as object, resourcesPayload);
+assertValid('resources api example', resourcesApiSchema as object, resourcesExamples.example);
 
 console.log('API responses and examples are valid.');

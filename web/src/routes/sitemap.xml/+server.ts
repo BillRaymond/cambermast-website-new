@@ -27,7 +27,12 @@ const staticRoutes = [
 	'/resources/ask-me-anything-pricing',
 	'/resources/attendee-training-tips',
 	'/gdpr',
-	'/services/microsoft-project-server'
+	'/services/microsoft-project-server',
+	'/feed/events.xml',
+	'/feed/calendar.xml',
+	'/feed/resources.xml',
+	'/feed/articles.xml',
+	'/feed/training-programs.xml'
 ];
 
 const excludedPrefixes = ['/internal', '/admin', '/forms', '/tools', '/campaigns', '/techlab'];

@@ -86,7 +86,15 @@
 	const pageMeta = getSeo('/training');
 </script>
 
-<SeoHead title={pageMeta.title} description={pageMeta.description} path="/training" />
+<SeoHead
+	title={pageMeta.title}
+	description={pageMeta.description}
+	path="/training"
+	feedLinks={[
+		{ href: '/feed/training-programs.xml', title: 'Cambermast Training Programs' },
+		{ href: '/feed/events.xml', title: 'Cambermast Training Events' }
+	]}
+/>
 
 <div class="mb-3 flex flex-wrap items-center justify-between gap-3">
 	<h1 class="text-3xl font-bold">{pageHeading}</h1>

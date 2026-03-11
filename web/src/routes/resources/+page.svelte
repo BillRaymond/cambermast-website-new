@@ -1,46 +1,14 @@
 <script lang="ts">
 	import SeoHead from '$lib/components/SeoHead.svelte';
 	import ResourceCard from '$lib/components/resources/ResourceCard.svelte';
+	import { listResources } from '$lib/data/resources';
 	import { getSeo } from '$lib/seo';
 
 	const pageMeta = getSeo('/resources');
 	const heroImage = '/images/cambermast-content-8-resources-og.jpeg';
 	const heroImageAlt = 'Resources hero image with title text.';
 
-	const resources = [
-		{
-			title: 'AI-assisted coding workshop setup guide',
-			description:
-				'Install Visual Studio Code, a Codex or Claude extension, Git, GitHub, and Docker Desktop, then confirm your paid AI account works in the browser.',
-			href: '/resources/ai-assisted-coding-workshop-setup',
-			imageSrc: '/images/generated/resources/ai-assisted-coding-workshop-setup/hero-landscape.jpg',
-			imageAlt: 'AI-assisted coding workshop setup guide featured image.'
-		},
-		{
-			title: 'Quickly learn an important AI topic with Bill and your team',
-			description:
-				'Select from AMAs we can deliver right now or schedule a tailor-made Ask Me Anything (AMA) event.',
-			href: '/resources/ask-me-anything-pricing',
-			imageSrc: '/images/generated/resources/ama/hero-landscape.jpg',
-			imageAlt: 'Ask Me Anything Pricing featured image.'
-		},
-		{
-			title: 'Attendee training tips for live sessions',
-			description:
-				'Quick preparation steps that help everyone stay focused and get more from our live workshops.',
-			href: '/resources/attendee-training-tips',
-			imageSrc: '/images/generated/resources/get-ready-for-training/hero-landscape.jpg',
-			imageAlt: 'Attendee training tips featured image.'
-		},
-		{
-			title: 'AI personalization',
-			description:
-				'Practical guidance on when to personalize, how to do it, and the exact preferences I use.',
-			href: '/resources/ai-personalization',
-			imageSrc: '/images/generated/resources/ai-personalization/hero-landscape.jpg',
-			imageAlt: 'AI Personalization featured image.'
-		}
-	];
+	const resources = listResources();
 </script>
 
 <SeoHead
@@ -49,6 +17,7 @@
 	path="/resources"
 	image={heroImage}
 	imageAlt={heroImageAlt}
+	feedLinks={[{ href: '/feed/resources.xml', title: 'Cambermast Resources' }]}
 />
 
 <section class="text-left">
@@ -60,7 +29,14 @@
 </section>
 
 <section id="attendee-training-tips" class="mb-16 space-y-6">
-	{#each resources as resource (resource.href)}
-		<ResourceCard {...resource} />
+	{#each resources as resource (resource.route)}
+		<ResourceCard
+			href={resource.route}
+			title={resource.title}
+			description={resource.summary}
+			imageSrc={resource.imageSrc}
+			imageAlt={resource.imageAlt}
+			label={resource.label ?? 'Resource'}
+		/>
 	{/each}
 </section>

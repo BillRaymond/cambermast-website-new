@@ -4,6 +4,7 @@
 			"slug": "ai-fundamentals",
 			"route": "/training/ai-fundamentals",
 			"sku": "CM-TR-001",
+			"publishedAt": "2025-09-30",
 			"catalog": {
 				"id": "training-ai-fundamentals",
 				"summary": "Primer on prompting that explains how AI works and shows you how to prompt successfully.",
@@ -251,6 +252,7 @@
 			"slug": "ai-accelerator-workshop",
 			"route": "/training/ai-accelerator-workshop",
 			"sku": "CM-TR-002",
+			"publishedAt": "2025-10-01",
 			"catalog": {
 				"id": "training-ai-accelerator",
 				"summary": "Extends the AI Power prompting course as a multi-week AI workshop so you can tap powerful new AI features to run your business.",
@@ -460,6 +462,7 @@
 			"slug": "ai-advanced-workshop",
 			"route": "/training/ai-advanced-workshop",
 			"sku": "CM-TR-003",
+			"publishedAt": "2025-10-01",
 			"catalog": {
 				"id": "training-ai-advanced",
 				"summary": "Seven-week cohort for cross-functional teams to integrate AI across planning, delivery, and reporting.",
@@ -736,6 +739,7 @@
 			"slug": "ai-automation-with-agents",
 			"route": "/training/ai-automation-with-agents",
 			"sku": "CM-TR-004",
+			"publishedAt": "2025-10-01",
 			"catalog": {
 				"id": "training-ai-automation-with-agents",
 				"summary": "Hands-on agent building with n8n, OpenAI, and your internal APIs.",
@@ -973,6 +977,7 @@
 			"slug": "ai-workshop-for-content-creators",
 			"route": "/training/ai-workshop-for-content-creators",
 			"sku": "CM-TR-005",
+			"publishedAt": "2025-10-01",
 			"catalog": {
 				"id": "training-ai-workshop-content-creators",
 				"summary": "Seven-week cohort that helps content and documentation teams layer AI into their workflows.",
@@ -1288,6 +1293,7 @@
 			"slug": "ai-assisted-coding-workshop",
 			"route": "/training/ai-assisted-coding-workshop",
 			"sku": "CM-TR-006",
+			"publishedAt": "2026-03-10",
 			"catalog": {
 				"id": "training-ai-assisted-coding-workshop",
 				"summary": "Four-week cohort that helps builders, operators, consultants, IT professionals, and aspiring developers use AI to plan, build, and improve practical web applications.",

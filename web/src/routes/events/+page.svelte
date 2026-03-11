@@ -6,7 +6,15 @@
 	const pageMeta = getSeo('/events');
 </script>
 
-<SeoHead title={pageMeta.title} description={pageMeta.description} path="/events" />
+<SeoHead
+	title={pageMeta.title}
+	description={pageMeta.description}
+	path="/events"
+	feedLinks={[
+		{ href: '/feed/events.xml', title: 'Cambermast Training Events' },
+		{ href: '/feed/calendar.xml', title: 'Cambermast Calendar' }
+	]}
+/>
 
 <h1 class="mb-6 text-3xl font-bold">Calendar of Events</h1>
 <CalendarPage />
