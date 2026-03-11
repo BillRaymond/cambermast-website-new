@@ -25,7 +25,8 @@ type SaveImageInput = {
 
 type WritePlanEntry = {
 	variant: 'square' | 'landscape' | 'portrait';
-	baseFileName: string;
+	baseJpgFileName: string;
+	basePngFileName: string;
 	dataUrl: string;
 };
 
@@ -48,6 +49,8 @@ const resolveWebRoot = (): string => {
 };
 
 const webRoot = resolveWebRoot();
+const dataRoot = path.join(webRoot, 'src', 'lib', 'data');
+const toJsonString = (value: unknown): string => `${JSON.stringify(value, null, '\t')}\n`;
 
 const toSafeSlug = (value: string): string => value.trim().toLowerCase();
 const DESTINATION_TYPE_PATHS: Record<Exclude<ImageGenDestinationType, 'custom'>, string> = {
@@ -148,12 +151,34 @@ export const saveSelectedImagesToWebsite = async (input: SaveImageInput) => {
 	await fs.mkdir(targetDir, { recursive: true });
 
 	const writePlan: WritePlanEntry[] = [
-		{ variant: 'square', baseFileName: 'hero-square.jpg', dataUrl: input.squareDataUrl },
-		{ variant: 'landscape', baseFileName: 'hero-landscape.jpg', dataUrl: input.landscapeDataUrl },
-		{ variant: 'portrait', baseFileName: 'hero-portrait.jpg', dataUrl: input.portraitDataUrl }
+		{
+			variant: 'square',
+			baseJpgFileName: 'hero-square.jpg',
+			basePngFileName: 'hero-square-reference.png',
+			dataUrl: input.squareDataUrl
+		},
+		{
+			variant: 'landscape',
+			baseJpgFileName: 'hero-landscape.jpg',
+			basePngFileName: 'hero-landscape-reference.png',
+			dataUrl: input.landscapeDataUrl
+		},
+		{
+			variant: 'portrait',
+			baseJpgFileName: 'hero-portrait.jpg',
+			basePngFileName: 'hero-portrait-reference.png',
+			dataUrl: input.portraitDataUrl
+		}
 	];
 
 	const writes: Array<{
+		variant: WritePlanEntry['variant'];
+		absolutePath: string;
+		publicUrl: string;
+		fileName: string;
+		version: number;
+	}> = [];
+	const referenceFiles: Array<{
 		variant: WritePlanEntry['variant'];
 		absolutePath: string;
 		publicUrl: string;
@@ -179,16 +204,27 @@ export const saveSelectedImagesToWebsite = async (input: SaveImageInput) => {
 
 	try {
 		for (const item of writePlan) {
-			const { fileName, version } = await buildVersionedPath(targetDir, item.baseFileName);
-			const absolutePath = path.join(targetDir, fileName);
-			await fs.writeFile(absolutePath, decodeDataUrlToBuffer(item.dataUrl));
-			writtenPaths.push(absolutePath);
+			const jpgWrite = await buildVersionedPath(targetDir, item.baseJpgFileName);
+			const pngWrite = await buildVersionedPath(targetDir, item.basePngFileName);
+			const buffer = decodeDataUrlToBuffer(item.dataUrl);
+			const jpgAbsolutePath = path.join(targetDir, jpgWrite.fileName);
+			const pngAbsolutePath = path.join(targetDir, pngWrite.fileName);
+			await fs.writeFile(jpgAbsolutePath, buffer);
+			await fs.writeFile(pngAbsolutePath, buffer);
+			writtenPaths.push(jpgAbsolutePath, pngAbsolutePath);
 			writes.push({
 				variant: item.variant,
-				absolutePath,
-				publicUrl: `${destination.publicBaseUrl}/${fileName}`,
-				fileName,
-				version
+				absolutePath: jpgAbsolutePath,
+				publicUrl: `${destination.publicBaseUrl}/${jpgWrite.fileName}`,
+				fileName: jpgWrite.fileName,
+				version: jpgWrite.version
+			});
+			referenceFiles.push({
+				variant: item.variant,
+				absolutePath: pngAbsolutePath,
+				publicUrl: `${destination.publicBaseUrl}/${pngWrite.fileName}`,
+				fileName: pngWrite.fileName,
+				version: pngWrite.version
 			});
 		}
 
@@ -248,6 +284,140 @@ export const saveSelectedImagesToWebsite = async (input: SaveImageInput) => {
 	return {
 		destination,
 		files: writes,
+		referenceFiles,
 		metadataFiles: metadataWrites
 	};
+};
+
+type DestinationUpdateWrite = {
+	absolutePath: string;
+	label: string;
+};
+
+const updateJsonFile = async <T>(
+	absolutePath: string,
+	label: string,
+	updater: (current: T) => { next: T; changed: boolean }
+): Promise<DestinationUpdateWrite[]> => {
+	const raw = await fs.readFile(absolutePath, 'utf-8');
+	const current = JSON.parse(raw) as T;
+	const result = updater(current);
+	if (!result.changed) return [];
+	await fs.writeFile(absolutePath, toJsonString(result.next), 'utf-8');
+	return [{ absolutePath, label }];
+};
+
+export const syncGeneratedImageToDestinationRecord = async (input: {
+	destinationType: ImageGenDestinationType;
+	destinationSlug: string;
+	landscapePublicUrl: string;
+}): Promise<DestinationUpdateWrite[]> => {
+	if (input.destinationType === 'custom' || input.destinationType === 'featured-images') {
+		return [];
+	}
+
+	if (input.destinationType === 'events') {
+		const eventsPath = path.join(dataRoot, 'events', 'events.json');
+		return updateJsonFile<{ events: Array<Record<string, unknown>> }>(
+			eventsPath,
+			'events.json',
+			(current) => {
+				let changed = false;
+				const next = {
+					...current,
+					events: (current.events ?? []).map((event) => {
+						if (event.slug !== input.destinationSlug) return event;
+						changed = true;
+						return {
+							...event,
+							heroImage: input.landscapePublicUrl,
+							image: input.landscapePublicUrl
+						};
+					})
+				};
+				return { next, changed };
+			}
+		);
+	}
+
+	if (input.destinationType === 'resources') {
+		const resourcesPath = path.join(dataRoot, 'resources', 'resources.json');
+		return updateJsonFile<{ resources: Array<Record<string, unknown>> }>(
+			resourcesPath,
+			'resources.json',
+			(current) => {
+				let changed = false;
+				const next = {
+					...current,
+					resources: (current.resources ?? []).map((resource) => {
+						if (resource.slug !== input.destinationSlug) return resource;
+						changed = true;
+						return { ...resource, imageSrc: input.landscapePublicUrl };
+					})
+				};
+				return { next, changed };
+			}
+		);
+	}
+
+	const trainingPath = path.join(dataRoot, 'training', 'training.json');
+	const catalogPath = path.join(dataRoot, 'catalog.json');
+	const trainingRoute = `/training/${input.destinationSlug}`;
+	const writes: DestinationUpdateWrite[] = [];
+
+	writes.push(
+		...(
+			await updateJsonFile<{ programs: Array<Record<string, unknown>> }>(
+				trainingPath,
+				'training.json',
+				(current) => {
+					let changed = false;
+					const next = {
+						...current,
+						programs: (current.programs ?? []).map((program) => {
+							if (program.slug !== input.destinationSlug) return program;
+							changed = true;
+							const catalog =
+								program.catalog && typeof program.catalog === 'object'
+									? {
+											...(program.catalog as Record<string, unknown>),
+											image: input.landscapePublicUrl
+										}
+									: program.catalog;
+							return {
+								...program,
+								catalog,
+								heroImage: input.landscapePublicUrl,
+								ogImage: input.landscapePublicUrl
+							};
+						})
+					};
+					return { next, changed };
+				}
+			)
+		)
+	);
+
+	writes.push(
+		...(
+			await updateJsonFile<Record<string, unknown>>(catalogPath, 'catalog.json', (current) => {
+				let changed = false;
+				const nextEntries = Object.entries(current).map(([key, value]) => {
+					if (!value || typeof value !== 'object' || !Array.isArray((value as { items?: unknown[] }).items)) {
+						return [key, value] as const;
+					}
+					const section = value as { items: Array<Record<string, unknown>> } & Record<string, unknown>;
+					const nextItems = section.items.map((item) => {
+						if (item.route !== trainingRoute) return item;
+						changed = true;
+						return { ...item, image: input.landscapePublicUrl };
+					});
+					return [key, { ...section, items: nextItems }] as const;
+				});
+				return { next: Object.fromEntries(nextEntries), changed };
+			})
+		)
+	);
+
+	return writes;
 };

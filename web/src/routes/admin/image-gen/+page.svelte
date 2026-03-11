@@ -37,6 +37,8 @@
 		mode="standalone"
 		bind:slug
 		bind:destinationType
+		destinationOptions={data.destinationOptions}
+		autoUpdateDestinationRecord={destinationType !== 'custom' && destinationType !== 'featured-images'}
 		defaultTemplateUrl={data.defaultTemplateUrl}
 		defaultPrompts={data.defaultPrompts}
 		defaultN={data.defaultN}

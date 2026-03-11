@@ -52,6 +52,7 @@ export type SaveSelectedRequest = {
 	destinationType?: ImageGenDestinationType;
 	destinationSlug: string;
 	customBasePath?: string;
+	autoUpdateDestinationRecord?: boolean;
 	prompts?: {
 		square: string;
 		landscape: string;

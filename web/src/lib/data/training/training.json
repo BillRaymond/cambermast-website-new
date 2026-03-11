@@ -1297,7 +1297,7 @@
 			"catalog": {
 				"id": "training-ai-assisted-coding-workshop",
 				"summary": "Four-week cohort that helps builders, operators, consultants, IT professionals, and aspiring developers use AI to plan, build, and improve practical web applications.",
-				"image": "/images/generated/training/ai-assisted-coding-workshop/hero-landscape.jpg",
+				"image": "/images/generated/training/ai-assisted-coding-workshop/hero-landscape-v2.jpg",
 				"imageAlt": "AI-Assisted Coding Workshop illustration",
 				"bullets": [
 					"Turn plain-language ideas into a working web app",
@@ -1310,9 +1310,9 @@
 			"title": "AI-Assisted Coding Workshop",
 			"nickname": "Four-week cohort for practical builders",
 			"tagline": "Build and improve a practical web app with AI as your coding partner.",
-			"heroImage": "/images/generated/training/ai-assisted-coding-workshop/hero-landscape.jpg",
+			"heroImage": "/images/generated/training/ai-assisted-coding-workshop/hero-landscape-v2.jpg",
 			"heroImageAlt": "AI-Assisted Coding Workshop illustration",
-			"ogImage": "/images/generated/training/ai-assisted-coding-workshop/hero-landscape.jpg",
+			"ogImage": "/images/generated/training/ai-assisted-coding-workshop/hero-landscape-v2.jpg",
 			"ogImageAlt": "Open graph image for the AI-Assisted Coding Workshop training program",
 			"description": "The AI-Assisted Coding Workshop is a live, four-week cohort that helps semi-technical professionals use AI to plan, build, and improve a practical web application.",
 			"secondaryDescription": "Across weekly 2-hour sessions, participants learn how to turn plain-language ideas into a working web app, improve it with modern development workflows, and strengthen it with AI-supported planning and iteration. You will work through guided exercises, apply what you learn to a real use case, and leave with a repeatable workflow you can use long after the cohort ends.",

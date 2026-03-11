@@ -1,7 +1,23 @@
 {
 	"version": 1,
-	"updatedAt": "2026-03-10T21:57:43.806Z",
+	"updatedAt": "2026-03-11T17:31:17.139Z",
 	"standards": [
+		{
+			"id": "a0fd4e4a61624a1e",
+			"createdAt": "2026-03-11T17:31:17.137Z",
+			"destinationType": "training",
+			"slug": "training/ai-assisted-coding-workshop",
+			"assetKeys": {
+				"square": "training/ai-assisted-coding-workshop/hero-square-v2.jpg",
+				"landscape": "training/ai-assisted-coding-workshop/hero-landscape-v2.jpg",
+				"portrait": "training/ai-assisted-coding-workshop/hero-portrait-v2.jpg"
+			},
+			"prompts": {
+				"square": "GENERATE A BACKGROUND\nAbstract geometric background inspired by a modern sail or forward motion shape, using deep navy #012072 as the dominant base with layered bold blue #0037BE, bright blue #0063F2, mint green #8BD8BD, and a bright orange #F49F1C accent. Clean, overlapping angular panels with smooth, blended transitions and a very soft, fine-grained texture. Composition should frame the edges and corners, leaving a calm, open negative space in the center for text placement. Professional, training-focused, confident corporate style. No white, no glow, no light beams, no dark vignette, no clutter. Balanced contrast to support overlay text.\n\nOVERLAY TEXT\nAdd the text \"AI-ASSISTED CODING WORKSHOP\".\n\nOVERLAY ELEMENTS\nIncorporate a photorealistic image of a happy and diverse group of people witnessing their jobs transform for the better through AI-assisted coding. There is always a woman in control. The composition should feel open and integrated into the existing background, not like a title card. Keep overall styling bright and clean, with minimal effects, with a strong focus on legibility. Add hints about what good prompts are like in a unique way. Add a prominent symbol that represents the training program as a whole, almost like a logo or icon.\n\nSTRICT OVERLAY RULES\nFocus on placing text and elements in the center of the image.\n\nSTRICT AVOIDANCE RULES\n* Avoid The top and bottom 25% of the image\n* Visual cliches like AI brains and circuits.\n* Imagery that anthropomorphizes AI.",
+				"landscape": "Recreate the provided template image as a landscape. Avoid the top and bottom 25%.",
+				"portrait": "Recreate the provided template image in portrait format. Avoid the top and bottom 25%."
+			}
+		},
 		{
 			"id": "c34b6ccdc13a4618",
 			"createdAt": "2026-03-10T21:57:43.803Z",

@@ -79,10 +79,6 @@
 			<code>model</code>, <code>prompt</code>, <code>size</code>, <code>n</code>, and
 			<code>images</code>.
 		</p>
-		<p class="mt-2 max-w-3xl text-gray-700">
-			The UI contains an optional collapsed payload viewer and copy button to inspect exact request
-			JSON before or after each generation run.
-		</p>
 	</div>
 
 	<div>
@@ -136,14 +132,23 @@
 		</p>
 		<ul class="mt-3 list-disc space-y-2 pl-5 text-gray-700">
 			<li><code>hero-square.jpg</code></li>
+			<li><code>hero-square-reference.png</code></li>
 			<li><code>hero-landscape.jpg</code></li>
+			<li><code>hero-landscape-reference.png</code></li>
 			<li><code>hero-portrait.jpg</code></li>
+			<li><code>hero-portrait-reference.png</code></li>
 			<li><code>selected-minio-locations.txt</code></li>
 			<li><code>stage-prompts.txt</code></li>
 		</ul>
 		<p class="mt-2 max-w-3xl text-gray-700">
-			If a filename already exists, the tool versions with <code>-v2</code>, <code>-v3</code>, etc.
-			for both image files and metadata artifacts.
+			JPG files remain the live site assets for faster loading. Matching PNG reference files are
+			saved alongside them for future prompt/template reuse. If a filename already exists, the tool
+			versions with <code>-v2</code>, <code>-v3</code>, etc. for both image files and metadata artifacts.
+		</p>
+		<p class="mt-2 max-w-3xl text-gray-700">
+			In standalone mode, saves for <code>events</code>, <code>resources</code>, and
+			<code>training</code> also update the matching registry record to use the saved landscape JPG
+			as the featured/live image. Embedded event creation does not auto-write registries.
 		</p>
 		<p class="mt-2 max-w-3xl text-gray-700">
 			Never delete prior square, landscape, portrait, or metadata files unless explicitly requested.

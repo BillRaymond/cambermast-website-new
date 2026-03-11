@@ -3,6 +3,11 @@
 
 	type ImageGenStage = 'square' | 'landscape' | 'portrait';
 	type DestinationType = 'events' | 'training' | 'resources' | 'featured-images' | 'custom';
+	type DestinationOption = {
+		slug: string;
+		label: string;
+		description?: string;
+	};
 	type Mode = 'embedded' | 'standalone';
 	const NO_TEMPLATE_OPTION = '__no-template__';
 	const DESTINATION_TYPE_OPTIONS: Array<{ value: DestinationType; label: string; description: string }> = [
@@ -86,6 +91,12 @@ STRICT AVOIDANCE RULES
 		minioBackupError?: string;
 	};
 
+	type CandidateBatch = {
+		batchId: string;
+		stage: ImageGenStage;
+		candidates: Candidate[];
+	};
+
 	type TrainingReference = {
 		programSku?: string;
 		programTitle: string;
@@ -102,12 +113,25 @@ STRICT AVOIDANCE RULES
 		fileName?: string;
 	};
 
+	type ReferenceWriteResult = {
+		variant: ImageGenStage;
+		absolutePath: string;
+		publicUrl: string;
+		version: number;
+		fileName?: string;
+	};
+
 	type MetadataWriteResult = {
 		kind: 'selected-minio-locations' | 'stage-prompts';
 		absolutePath: string;
 		publicUrl: string;
 		version: number;
 		fileName?: string;
+	};
+
+	type DestinationUpdateWrite = {
+		absolutePath: string;
+		label: string;
 	};
 
 	type PromptHistoryEntry = {
@@ -138,6 +162,10 @@ STRICT AVOIDANCE RULES
 	export let mode: Mode = 'standalone';
 	export let slug = '';
 	export let destinationType: DestinationType = 'featured-images';
+	export let destinationOptions: Partial<
+		Record<Exclude<DestinationType, 'custom'>, DestinationOption[]>
+	> = {};
+	export let autoUpdateDestinationRecord = false;
 	export let defaultTemplateUrl = '';
 	export let defaultPrompts: { square: string; landscape: string; portrait: string } = {
 		square: '',
@@ -164,8 +192,8 @@ STRICT AVOIDANCE RULES
 	let landscapePrompt = defaultPrompts.landscape;
 	let portraitPrompt = defaultPrompts.portrait;
 	let squareN = defaultN;
-	let landscapeN = defaultN;
-	let portraitN = defaultN;
+	let landscapeN = Math.min(maxN, Math.max(minN, 2));
+	let portraitN = Math.min(maxN, Math.max(minN, 2));
 
 	let templates: string[] = [];
 	let trainingReferences: TrainingReference[] = [];
@@ -184,10 +212,6 @@ STRICT AVOIDANCE RULES
 	let selectedLandscapeCandidateId = '';
 	let selectedPortraitCandidateId = '';
 
-	let squarePayloadPreview = '';
-	let landscapePayloadPreview = '';
-	let portraitPayloadPreview = '';
-
 	let generatingStage: ImageGenStage | null = null;
 	let stageGenerationToken: Record<ImageGenStage, number> = {
 		square: 0,
@@ -203,7 +227,9 @@ STRICT AVOIDANCE RULES
 	let errorMessage = '';
 	let saveMessage = '';
 	let saveWrites: WriteResult[] = [];
+	let saveReferenceWrites: ReferenceWriteResult[] = [];
 	let saveMetadataWrites: MetadataWriteResult[] = [];
+	let destinationUpdateWrites: DestinationUpdateWrite[] = [];
 	let previewCandidate: Candidate | null = null;
 	let promptHistory: PromptHistoryEntry[] = [];
 	let promptHistorySearch = '';
@@ -211,6 +237,8 @@ STRICT AVOIDANCE RULES
 	let visiblePromptHistory: PromptHistoryEntry[] = [];
 	let showAllRecentHistory = false;
 	let customBasePath = '';
+	let availableDestinationOptions: DestinationOption[] = [];
+	let selectedDestinationOptionDescription = '';
 
 	const MINIO_BROWSER_BASE = 'https://minio-on-hstgr.tail8a5127.ts.net/browser/blobs/';
 	const PROMPT_HISTORY_MAX_ITEMS = 150;
@@ -311,6 +339,33 @@ STRICT AVOIDANCE RULES
 	let destinationInputErrorMessage = '';
 	const getCandidateMinioUrl = (candidate: Candidate): string =>
 		candidate.minioBrowserUrl || getBlobBrowserUrl(candidate.minioKey);
+	const getCandidateBatchId = (candidate: Candidate): string => {
+		const segments = candidate.id.split('-');
+		return segments.length >= 3 ? segments.slice(1, -1).join('-') : candidate.id;
+	};
+	const groupCandidatesByBatch = (stage: ImageGenStage, candidates: Candidate[]): CandidateBatch[] => {
+		const batches = new Map<string, Candidate[]>();
+		for (const candidate of candidates) {
+			const batchId = getCandidateBatchId(candidate);
+			const batch = batches.get(batchId) ?? [];
+			batch.push(candidate);
+			batches.set(batchId, batch);
+		}
+		return Array.from(batches.entries()).map(([batchId, batchCandidates]) => ({
+			batchId,
+			stage,
+			candidates: batchCandidates
+		}));
+	};
+	const getAllCandidateBatches = (): CandidateBatch[] => [
+		...groupCandidatesByBatch('square', squareCandidates),
+		...groupCandidatesByBatch('landscape', landscapeCandidates),
+		...groupCandidatesByBatch('portrait', portraitCandidates)
+	];
+	const isSelectedCandidate = (candidate: Candidate): boolean =>
+		candidate.id === selectedSquareCandidateId ||
+		candidate.id === selectedLandscapeCandidateId ||
+		candidate.id === selectedPortraitCandidateId;
 	const copyText = async (value: string) => {
 		if (!value || typeof navigator === 'undefined' || !navigator.clipboard) return;
 		await navigator.clipboard.writeText(value);
@@ -418,6 +473,46 @@ STRICT AVOIDANCE RULES
 		return mapped.filter((value): value is MetadataWriteResult => value !== null);
 	};
 
+	const parseReferenceWriteResults = (value: unknown): ReferenceWriteResult[] => {
+		if (!Array.isArray(value)) return [];
+		const mapped: Array<ReferenceWriteResult | null> = value.map((item) => {
+			if (!item || typeof item !== 'object') return null;
+			const row = item as Record<string, unknown>;
+			const variant = row.variant;
+			if (variant !== 'square' && variant !== 'landscape' && variant !== 'portrait') return null;
+			const absolutePath = typeof row.absolutePath === 'string' ? row.absolutePath : '';
+			const publicUrl = typeof row.publicUrl === 'string' ? row.publicUrl : '';
+			const version =
+				typeof row.version === 'number' && Number.isFinite(row.version) ? row.version : 1;
+			const fileName =
+				typeof row.fileName === 'string' && row.fileName.length > 0
+					? row.fileName
+					: getFileNameFromPublicUrl(publicUrl);
+			return {
+				variant,
+				absolutePath,
+				publicUrl,
+				version,
+				fileName
+			};
+		});
+		return mapped.filter((value): value is ReferenceWriteResult => value !== null);
+	};
+
+	const parseDestinationUpdateWrites = (value: unknown): DestinationUpdateWrite[] => {
+		if (!Array.isArray(value)) return [];
+		return value
+			.map((item) => {
+				if (!item || typeof item !== 'object') return null;
+				const row = item as Record<string, unknown>;
+				const absolutePath = typeof row.absolutePath === 'string' ? row.absolutePath : '';
+				const label = typeof row.label === 'string' ? row.label : '';
+				if (!absolutePath || !label) return null;
+				return { absolutePath, label };
+			})
+			.filter((item): item is DestinationUpdateWrite => item !== null);
+	};
+
 	const parsePromptHistoryResponse = (value: unknown): PromptHistoryEntry[] => {
 		const body = value as PromptStandardsApiResponse | null;
 		const rows = Array.isArray(body?.standards) ? body.standards : [];
@@ -512,8 +607,6 @@ STRICT AVOIDANCE RULES
 		portraitCandidates = [];
 		selectedLandscapeCandidateId = '';
 		selectedPortraitCandidateId = '';
-		landscapePayloadPreview = '';
-		portraitPayloadPreview = '';
 	};
 
 	const validateCount = (n: number): number => Math.min(maxN, Math.max(minN, Math.round(n)));
@@ -578,15 +671,12 @@ STRICT AVOIDANCE RULES
 				typeof json.promptBackupError === 'string' ? json.promptBackupError : '';
 			if (stage === 'square') {
 				squareCandidates = [...nextCandidates, ...squareCandidates];
-				squarePayloadPreview = JSON.stringify(json.payloadPreview, null, 2);
 			}
 			if (stage === 'landscape') {
 				landscapeCandidates = [...nextCandidates, ...landscapeCandidates];
-				landscapePayloadPreview = JSON.stringify(json.payloadPreview, null, 2);
 			}
 			if (stage === 'portrait') {
 				portraitCandidates = [...nextCandidates, ...portraitCandidates];
-				portraitPayloadPreview = JSON.stringify(json.payloadPreview, null, 2);
 			}
 			stageNotices = {
 				...stageNotices,
@@ -613,16 +703,13 @@ STRICT AVOIDANCE RULES
 		...portraitCandidates
 	];
 
-	const copyPayload = async (value: string) => {
-		if (!value || typeof navigator === 'undefined' || !navigator.clipboard) return;
-		await navigator.clipboard.writeText(value);
-	};
-
 	const saveSelected = async () => {
 		errorMessage = '';
 		saveMessage = '';
 		saveWrites = [];
+		saveReferenceWrites = [];
 		saveMetadataWrites = [];
+		destinationUpdateWrites = [];
 		if (!slug.trim()) {
 			errorMessage = 'Destination slug is required before saving.';
 			return;
@@ -653,6 +740,7 @@ STRICT AVOIDANCE RULES
 					destinationType,
 					destinationSlug: slug.trim().toLowerCase(),
 					customBasePath: destinationType === 'custom' ? customBasePath.trim().toLowerCase() : undefined,
+					autoUpdateDestinationRecord,
 					prompts: promptSnapshot,
 					selected: {
 						squareCandidateId: selectedSquareCandidateId,
@@ -666,7 +754,9 @@ STRICT AVOIDANCE RULES
 			if (!response.ok) throw new Error(json?.error ?? 'Save failed');
 
 			saveWrites = parseWriteResults(json.writes);
+			saveReferenceWrites = parseReferenceWriteResults(json.referenceWrites);
 			saveMetadataWrites = parseMetadataWriteResults(json.metadataWrites);
+			destinationUpdateWrites = parseDestinationUpdateWrites(json.destinationUpdateWrites);
 			saveMessage = `Saved selected images to "${json?.destination?.relativeDir ?? getDestinationPath()}".`;
 			await loadPromptHistory();
 
@@ -701,6 +791,12 @@ STRICT AVOIDANCE RULES
 			? `/images/generated/${customBasePath.trim() || '<custom-base>'}/${slug.trim() || '<slug>'}/`
 			: `/images/generated/${destinationType}/${slug.trim() || '<slug>'}/`;
 
+	$: availableDestinationOptions =
+		destinationType === 'custom' ? [] : destinationOptions[destinationType] ?? [];
+
+	$: selectedDestinationOptionDescription =
+		availableDestinationOptions.find((option) => option.slug === slug)?.description ?? '';
+
 	$: destinationInputErrorMessage = !slug.trim()
 		? 'Destination slug is required.'
 		: destinationType === 'custom' && !customBasePath.trim()
@@ -711,6 +807,15 @@ STRICT AVOIDANCE RULES
 
 	$: if (destinationType !== 'custom' && customBasePath) {
 		customBasePath = '';
+	}
+
+	$: if (
+		mode === 'standalone' &&
+		destinationType !== 'custom' &&
+		availableDestinationOptions.length > 0 &&
+		!availableDestinationOptions.some((option) => option.slug === slug)
+	) {
+		slug = availableDestinationOptions[0].slug;
 	}
 
 	$: {
@@ -918,17 +1023,17 @@ STRICT AVOIDANCE RULES
 			<p class="mt-2 text-xs text-gray-600">
 				{DESTINATION_TYPE_OPTIONS.find((option) => option.value === destinationType)?.description}
 			</p>
-			<label class="mt-4 block text-sm font-semibold text-gray-800" for={`slug-${mode}`}>
-				Destination slug
-			</label>
-			<input
-				id={`slug-${mode}`}
-				type="text"
-				placeholder="example: ai-workshop-for-content-creators"
-				bind:value={slug}
-				class="mt-2 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
-			/>
 			{#if destinationType === 'custom'}
+				<label class="mt-4 block text-sm font-semibold text-gray-800" for={`slug-${mode}`}>
+					Destination slug
+				</label>
+				<input
+					id={`slug-${mode}`}
+					type="text"
+					placeholder="example: ai-workshop-for-content-creators"
+					bind:value={slug}
+					class="mt-2 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
+				/>
 				<label class="mt-4 block text-sm font-semibold text-gray-800" for={`custom-base-${mode}`}>
 					Custom base path
 				</label>
@@ -942,6 +1047,33 @@ STRICT AVOIDANCE RULES
 				<p class="mt-1 text-xs text-gray-500">
 					Optional. Stored under <code>/images/generated/&lt;custom-base&gt;/&lt;slug&gt;/</code>.
 				</p>
+			{:else if mode === 'standalone' && availableDestinationOptions.length > 0}
+				<label class="mt-4 block text-sm font-semibold text-gray-800" for={`slug-${mode}`}>
+					Destination slug
+				</label>
+				<select
+					id={`slug-${mode}`}
+					bind:value={slug}
+					class="mt-2 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
+				>
+					{#each availableDestinationOptions as option}
+						<option value={option.slug}>{option.label} ({option.slug})</option>
+					{/each}
+				</select>
+				{#if selectedDestinationOptionDescription}
+					<p class="mt-1 text-xs text-gray-500">{selectedDestinationOptionDescription}</p>
+				{/if}
+			{:else}
+				<label class="mt-4 block text-sm font-semibold text-gray-800" for={`slug-${mode}`}>
+					Destination slug
+				</label>
+				<input
+					id={`slug-${mode}`}
+					type="text"
+					placeholder="example: ai-workshop-for-content-creators"
+					bind:value={slug}
+					class="mt-2 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
+				/>
 			{/if}
 			<p class="mt-1 text-xs text-gray-500">
 				Use lowercase letters, numbers, hyphens, and optional <code>/</code> subfolders. If
@@ -1096,16 +1228,6 @@ STRICT AVOIDANCE RULES
 					{stageNotices.square}
 				</p>
 			{/if}
-			<details class="mt-4 rounded-lg border border-gray-200 bg-gray-50 p-3">
-				<summary class="cursor-pointer text-sm font-semibold text-gray-700">OpenAI JSON payload (optional)</summary>
-				{#if squarePayloadPreview}
-					<button class="mt-2 rounded border border-gray-300 px-2 py-1 text-xs" type="button" on:click={() => copyPayload(squarePayloadPreview)}>Copy JSON</button>
-					<pre class="mt-2 overflow-auto rounded bg-white p-3 text-xs">{squarePayloadPreview}</pre>
-				{:else}
-					<p class="mt-2 text-xs text-gray-500">No payload yet. Generate images first.</p>
-				{/if}
-			</details>
-
 			{#if generatingStage === 'square'}
 				<div class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
 					{#each buildPlaceholderKeys('square', getPendingCount('square')) as placeholderKey (placeholderKey)}
@@ -1194,7 +1316,7 @@ STRICT AVOIDANCE RULES
 						bind:value={landscapeN}
 						class="mt-2 w-full"
 					/>
-					<p class="mt-1 text-xs text-gray-500">Range: {minN}-{maxN}. Default: {defaultN}.</p>
+					<p class="mt-1 text-xs text-gray-500">Range: {minN}-{maxN}. Default: 2.</p>
 				</div>
 				<div class="mt-3 flex flex-wrap items-center gap-3">
 					<button
@@ -1211,16 +1333,6 @@ STRICT AVOIDANCE RULES
 					{stageNotices.landscape}
 				</p>
 			{/if}
-			<details class="mt-4 rounded-lg border border-gray-200 bg-gray-50 p-3">
-				<summary class="cursor-pointer text-sm font-semibold text-gray-700">OpenAI JSON payload (optional)</summary>
-				{#if landscapePayloadPreview}
-					<button class="mt-2 rounded border border-gray-300 px-2 py-1 text-xs" type="button" on:click={() => copyPayload(landscapePayloadPreview)}>Copy JSON</button>
-					<pre class="mt-2 overflow-auto rounded bg-white p-3 text-xs">{landscapePayloadPreview}</pre>
-				{:else}
-					<p class="mt-2 text-xs text-gray-500">No payload yet. Generate images first.</p>
-				{/if}
-			</details>
-
 			{#if generatingStage === 'landscape'}
 				<div class="mt-5 grid gap-4 sm:grid-cols-2">
 					{#each buildPlaceholderKeys('landscape', getPendingCount('landscape')) as placeholderKey (placeholderKey)}
@@ -1306,7 +1418,7 @@ STRICT AVOIDANCE RULES
 						bind:value={portraitN}
 						class="mt-2 w-full"
 					/>
-					<p class="mt-1 text-xs text-gray-500">Range: {minN}-{maxN}. Default: {defaultN}.</p>
+					<p class="mt-1 text-xs text-gray-500">Range: {minN}-{maxN}. Default: 2.</p>
 				</div>
 				<div class="mt-3 flex flex-wrap items-center gap-3">
 					<button
@@ -1323,16 +1435,6 @@ STRICT AVOIDANCE RULES
 					{stageNotices.portrait}
 				</p>
 			{/if}
-			<details class="mt-4 rounded-lg border border-gray-200 bg-gray-50 p-3">
-				<summary class="cursor-pointer text-sm font-semibold text-gray-700">OpenAI JSON payload (optional)</summary>
-				{#if portraitPayloadPreview}
-					<button class="mt-2 rounded border border-gray-300 px-2 py-1 text-xs" type="button" on:click={() => copyPayload(portraitPayloadPreview)}>Copy JSON</button>
-					<pre class="mt-2 overflow-auto rounded bg-white p-3 text-xs">{portraitPayloadPreview}</pre>
-				{:else}
-					<p class="mt-2 text-xs text-gray-500">No payload yet. Generate images first.</p>
-				{/if}
-			</details>
-
 			{#if generatingStage === 'portrait'}
 				<div class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
 					{#each buildPlaceholderKeys('portrait', getPendingCount('portrait')) as placeholderKey (placeholderKey)}
@@ -1429,6 +1531,83 @@ STRICT AVOIDANCE RULES
 			{#if saveMessage}
 				<p class="mt-3 text-sm font-semibold text-emerald-700">{saveMessage}</p>
 			{/if}
+			{#if getAllCandidateBatches().length > 0}
+				<div class="mt-4 rounded-lg border border-gray-200 bg-gray-50 p-3">
+					<div class="flex items-center justify-between gap-2">
+						<h3 class="text-sm font-semibold text-gray-800">Generated MinIO References</h3>
+						<button
+							type="button"
+							class="rounded border border-gray-300 bg-white px-2 py-1 text-xs font-semibold text-gray-700 hover:border-gray-400"
+							on:click={() =>
+								copyText(
+									getAllCandidateBatches()
+										.map(
+											(batch) =>
+												`${toStageLabel(batch.stage)} batch ${batch.batchId}\n${batch.candidates
+													.map(
+														(candidate) =>
+															`${isSelectedCandidate(candidate) ? '* ' : ''}${candidate.id}: ${getCandidateMinioUrl(candidate)}`
+													)
+													.join('\n')}`
+										)
+										.join('\n\n')
+								)
+							}
+						>
+							Copy all MinIO URLs
+						</button>
+					</div>
+					<p class="mt-1 text-xs text-gray-600">
+						Each generation request is grouped as a batch. Selected candidates are marked.
+					</p>
+					<div class="mt-3 space-y-3">
+						{#each getAllCandidateBatches() as batch (`${batch.stage}-${batch.batchId}`)}
+							<div class="rounded-lg border border-gray-200 bg-white p-3">
+								<p class="text-sm font-semibold text-gray-800">
+									{toStageLabel(batch.stage)} batch <code>{batch.batchId}</code>
+								</p>
+								<ul class="mt-2 space-y-2 text-sm text-gray-700">
+									{#each batch.candidates as candidate (candidate.id)}
+										<li class="rounded border border-gray-200 bg-gray-50 p-2">
+											<p>
+												<strong>{candidate.id}</strong>
+												{#if isSelectedCandidate(candidate)}
+													<span class="ml-2 text-xs font-semibold text-emerald-700">selected</span>
+												{/if}
+											</p>
+											<p class="mt-1 break-all text-xs text-gray-600">{getCandidateMinioUrl(candidate)}</p>
+											<div class="mt-2 flex flex-wrap gap-2">
+												<button
+													type="button"
+													class="rounded border border-gray-300 bg-white px-2 py-1 text-[11px] font-semibold text-gray-700 hover:border-gray-400"
+													on:click={() => copyText(getCandidateMinioUrl(candidate))}
+												>
+													Copy URL
+												</button>
+												{#if candidate.minioKey && !candidate.minioBackupError}
+													<a
+														class="rounded border border-gray-300 bg-white px-2 py-1 text-[11px] font-semibold text-gray-700 hover:border-gray-400"
+														href={getCandidateMinioUrl(candidate)}
+														target="_blank"
+														rel="noopener noreferrer"
+													>
+														Open MinIO URL
+													</a>
+												{/if}
+											</div>
+											{#if candidate.minioBackupError}
+												<p class="mt-2 text-xs font-semibold text-rose-700">
+													Backup failed: {candidate.minioBackupError}
+												</p>
+											{/if}
+										</li>
+									{/each}
+								</ul>
+							</div>
+						{/each}
+					</div>
+				</div>
+			{/if}
 			{#if saveWrites.length > 0}
 				<ul class="mt-3 space-y-2 text-sm text-gray-700">
 					{#each saveWrites as write}
@@ -1438,6 +1617,29 @@ STRICT AVOIDANCE RULES
 							{#if write.version > 1}
 								<p class="text-xs font-semibold text-amber-700">Versioned as v{write.version}</p>
 							{/if}
+						</li>
+					{/each}
+				</ul>
+			{/if}
+			{#if saveReferenceWrites.length > 0}
+				<ul class="mt-3 space-y-2 text-sm text-gray-700">
+					{#each saveReferenceWrites as write}
+						<li class="rounded-lg border border-gray-200 bg-gray-50 p-2">
+							<p><strong>{toStageLabel(write.variant)} PNG reference</strong> → {write.publicUrl}</p>
+							<p class="text-xs text-gray-500">{write.absolutePath}</p>
+							{#if write.version > 1}
+								<p class="text-xs font-semibold text-amber-700">Versioned as v{write.version}</p>
+							{/if}
+						</li>
+					{/each}
+				</ul>
+			{/if}
+			{#if destinationUpdateWrites.length > 0}
+				<ul class="mt-3 space-y-2 text-sm text-gray-700">
+					{#each destinationUpdateWrites as write}
+						<li class="rounded-lg border border-gray-200 bg-gray-50 p-2">
+							<p><strong>Updated destination record</strong> → {write.label}</p>
+							<p class="text-xs text-gray-500">{write.absolutePath}</p>
 						</li>
 					{/each}
 				</ul>

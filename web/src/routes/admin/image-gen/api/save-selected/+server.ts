@@ -1,5 +1,8 @@
 import { json } from '@sveltejs/kit';
-import { saveSelectedImagesToWebsite } from '$lib/server/image-gen/files';
+import {
+	saveSelectedImagesToWebsite,
+	syncGeneratedImageToDestinationRecord
+} from '$lib/server/image-gen/files';
 import { appendImageGenPromptStandard } from '$lib/server/image-gen/prompt-standards';
 import type { SaveSelectedRequest } from '$lib/server/image-gen/types';
 
@@ -56,11 +59,22 @@ export const POST = async ({ request }) => {
 			prompts: body.prompts,
 			writes: result.files
 		});
+		const destinationUpdateWrites = body.autoUpdateDestinationRecord
+			? await syncGeneratedImageToDestinationRecord({
+					destinationType: result.destination.destinationType,
+					destinationSlug: result.destination.destinationSlug,
+					landscapePublicUrl:
+						result.files.find((write) => write.variant === 'landscape')?.publicUrl ??
+						result.destination.publicBaseUrl
+				})
+			: [];
 
 		return json({
 			destination: result.destination,
 			writes: result.files,
+			referenceWrites: result.referenceFiles,
 			metadataWrites: result.metadataFiles,
+			destinationUpdateWrites,
 			promptStandard
 		});
 	} catch (error) {
