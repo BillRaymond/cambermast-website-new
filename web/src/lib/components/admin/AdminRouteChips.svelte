@@ -10,6 +10,7 @@
 		{ href: '/admin/events', label: '🟢 Live Events' },
 		{ href: '/admin/drafts', label: '📝 Draft Events' },
 		{ href: '/admin/campaigns', label: '📣 Campaigns' },
+		{ href: '/admin/qr', label: '🔳 Route QR' },
 		{ href: '/admin/forms', label: '🧾 Forms' }
 	] as const;
 	const devChips = [

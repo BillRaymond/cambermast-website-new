@@ -78,17 +78,27 @@
 		</p>
 	</a>
 
+	<a
+		href="/admin/qr"
+		class="group rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition hover:border-gray-300"
+	>
+		<p class="text-xs font-semibold tracking-wide text-gray-500 uppercase">QR codes</p>
+		<p class="mt-2 text-lg font-semibold text-gray-900 group-hover:text-blue-900">Major routes</p>
+		<p class="mt-1 text-sm text-gray-600">
+			Copyable dev and production links with downloadable QR assets for major public pages.
+		</p>
+	</a>
+
 	{#if dev}
 		<a
 			href="/admin/events/create"
 			class="group rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition hover:border-gray-300"
 		>
 			<p class="text-xs font-semibold tracking-wide text-gray-500 uppercase">Dev tool</p>
-			<p class="mt-2 text-lg font-semibold text-gray-900 group-hover:text-blue-900">
-				Create Event
-			</p>
+			<p class="mt-2 text-lg font-semibold text-gray-900 group-hover:text-blue-900">Create Event</p>
 			<p class="mt-1 text-sm text-gray-600">
-				Build training-derived or external events with draft preview, write flow, and embedded image generation.
+				Build training-derived or external events with draft preview, write flow, and embedded image
+				generation.
 			</p>
 		</a>
 
