@@ -94,6 +94,11 @@
 		{ href: '/feed/training-programs.xml', title: 'Cambermast Training Programs' },
 		{ href: '/feed/events.xml', title: 'Cambermast Training Events' }
 	]}
+	alternateLinks={[
+		{ href: '/api/training.json', title: 'Cambermast Training API', type: 'application/json' },
+		{ href: '/api/events.json', title: 'Cambermast Events API', type: 'application/json' },
+		{ href: '/api/catalog.json', title: 'Cambermast Offerings API', type: 'application/json' }
+	]}
 />
 
 <div class="mb-3 flex flex-wrap items-center justify-between gap-3">

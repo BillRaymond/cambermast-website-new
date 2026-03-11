@@ -14,6 +14,9 @@
 	export let feedLinks:
 		| Array<{ href: string; title: string }>
 		| undefined = undefined;
+	export let alternateLinks:
+		| Array<{ href: string; title: string; type: string }>
+		| undefined = undefined;
 
 	const origin = SITE_ORIGIN.replace(/\/$/, '');
 	const canonicalUrl = path ? `${origin}${path}` : undefined;
@@ -39,6 +42,9 @@
 	{/if}
 	{#each feedLinks ?? [] as feed}
 		<link rel="alternate" type="application/rss+xml" href={feed.href} title={feed.title} />
+	{/each}
+	{#each alternateLinks ?? [] as link}
+		<link rel="alternate" type={link.type} href={link.href} title={link.title} />
 	{/each}
 	<meta property="og:title" content={title} />
 	{#if description}

@@ -248,6 +248,14 @@
 				<a class="underline" href="/feed/articles.xml">Articles RSS</a> ·
 				<a class="underline" href="/feed/training-programs.xml">Programs RSS</a>
 			</div>
+			<div class="mt-2">
+				<a class="underline" href="/api/events.json">Events API</a> ·
+				<a class="underline" href="/api/training.json">Training API</a> ·
+				<a class="underline" href="/api/catalog.json">Offerings API</a> ·
+				<a class="underline" href="/api/resources.json">Resources API</a> ·
+				<a class="underline" href="/api">Public APIs</a> ·
+				<a class="underline" href="/llms.txt">LLMs guide</a>
+			</div>
 		</div>
 	</footer>
 {/if}

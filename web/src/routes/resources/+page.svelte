@@ -18,6 +18,9 @@
 	image={heroImage}
 	imageAlt={heroImageAlt}
 	feedLinks={[{ href: '/feed/resources.xml', title: 'Cambermast Resources' }]}
+	alternateLinks={[
+		{ href: '/api/resources.json', title: 'Cambermast Resources API', type: 'application/json' }
+	]}
 />
 
 <section class="text-left">

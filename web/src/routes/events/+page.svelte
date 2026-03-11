@@ -14,6 +14,10 @@
 		{ href: '/feed/events.xml', title: 'Cambermast Training Events' },
 		{ href: '/feed/calendar.xml', title: 'Cambermast Calendar' }
 	]}
+	alternateLinks={[
+		{ href: '/api/events.json', title: 'Cambermast Events API', type: 'application/json' },
+		{ href: '/api/training.json', title: 'Cambermast Training API', type: 'application/json' }
+	]}
 />
 
 <h1 class="mb-6 text-3xl font-bold">Calendar of Events</h1>

@@ -212,7 +212,22 @@
 	const pageMeta = getSeo('/');
 </script>
 
-<SeoHead title={pageMeta.title} description={pageMeta.description} path="/" />
+<SeoHead
+	title={pageMeta.title}
+	description={pageMeta.description}
+	path="/"
+	feedLinks={[
+		{ href: '/feed/events.xml', title: 'Cambermast Events RSS' },
+		{ href: '/feed/training-programs.xml', title: 'Cambermast Training Programs RSS' },
+		{ href: '/feed/resources.xml', title: 'Cambermast Resources RSS' }
+	]}
+	alternateLinks={[
+		{ href: '/api/events.json', title: 'Cambermast Events API', type: 'application/json' },
+		{ href: '/api/training.json', title: 'Cambermast Training API', type: 'application/json' },
+		{ href: '/api/catalog.json', title: 'Cambermast Offerings API', type: 'application/json' },
+		{ href: '/api/resources.json', title: 'Cambermast Resources API', type: 'application/json' }
+	]}
+/>
 
 <svelte:head>
 	<!-- Favicon -->

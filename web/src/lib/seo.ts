@@ -96,6 +96,11 @@ export const pageSeo: SeoOverrides = {
 		description:
 			'Design and launch reliable AI automations with n8n, APIs, and human-in-the-loop guardrails.'
 	},
+	'/api': {
+		title: 'Public APIs & Feeds | Cambermast',
+		description:
+			'Discover Cambermast public JSON APIs, RSS feeds, and AI guidance files for events, training programs, resources, and related machine-readable data.'
+	},
 	'/resources': {
 		title: 'Resources for AI Training & Delivery | Cambermast',
 		description:
