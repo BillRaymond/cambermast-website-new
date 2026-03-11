@@ -14,6 +14,7 @@ type RssChannel = {
 	description: string;
 	selfUrl: string;
 	items: RssItem[];
+	lastBuildDate?: string;
 };
 
 const escapeXml = (value: string): string =>
@@ -51,10 +52,12 @@ const renderItem = (item: RssItem): string => {
 };
 
 export const buildRssFeed = (channel: RssChannel): string => {
-	const newestPubDate = channel.items.reduce((latest, item) => {
-		if (!latest) return item.pubDate;
-		return new Date(item.pubDate).valueOf() > new Date(latest).valueOf() ? item.pubDate : latest;
-	}, channel.items[0]?.pubDate ?? new Date().toISOString());
+	const newestPubDate =
+		channel.lastBuildDate ??
+		channel.items.reduce<string | undefined>((latest, item) => {
+			if (!latest) return item.pubDate;
+			return new Date(item.pubDate).valueOf() > new Date(latest).valueOf() ? item.pubDate : latest;
+		}, channel.items[0]?.pubDate);
 
 	return [
 		'<?xml version="1.0" encoding="UTF-8"?>',
@@ -63,7 +66,7 @@ export const buildRssFeed = (channel: RssChannel): string => {
 		`<title>${escapeXml(channel.title)}</title>`,
 		`<link>${escapeXml(channel.link)}</link>`,
 		`<description>${escapeXml(channel.description)}</description>`,
-		`<lastBuildDate>${escapeXml(toRfc2822(newestPubDate))}</lastBuildDate>`,
+		newestPubDate ? `<lastBuildDate>${escapeXml(toRfc2822(newestPubDate))}</lastBuildDate>` : '',
 		`<atom:link href="${escapeXml(channel.selfUrl)}" rel="self" type="application/rss+xml" />`,
 		...channel.items.map(renderItem),
 		'</channel>',

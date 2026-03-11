@@ -9,6 +9,7 @@ const origin = SITE_ORIGIN.replace(/\/$/, '');
 export const GET = () => {
 	const items = listEvents()
 		.filter((event) => event.visibility === 'public')
+		.filter((event) => event.type !== 'training_session')
 		.filter((event) => isEventUpcoming(event))
 		.sort((a, b) => new Date(a.startAtUtc).valueOf() - new Date(b.startAtUtc).valueOf())
 		.slice(0, 25)
