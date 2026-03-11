@@ -1319,8 +1319,8 @@
 			}
 		},
 		{
-			"slug": "ai-assisted-coding-workshop",
-			"route": "/training/ai-assisted-coding-workshop",
+			"slug": "ship-your-first-app-with-ai",
+			"route": "/training/ship-your-first-app-with-ai",
 			"sku": "CM-TR-006",
 			"publishedAt": "2026-03-10",
 			"catalog": {
@@ -1516,7 +1516,7 @@
 						{
 							"type": "link",
 							"label": "Open the Ship Your First App with AI setup guide",
-							"href": "/resources/ai-assisted-coding-workshop-setup"
+							"href": "/resources/ship-your-first-app-with-ai-setup"
 						}
 					]
 				},

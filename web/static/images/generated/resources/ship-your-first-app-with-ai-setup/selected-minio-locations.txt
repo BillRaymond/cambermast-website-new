@@ -1,0 +1,4 @@
+slug: resources/ship-your-first-app-with-ai-setup
+square: https://minio-on-hstgr.tail8a5127.ts.net/browser/blobs/cambermastweb/events/image-gen/resources/ship-your-first-app-with-ai-setup/square/40a67837-56a7-4de7-910d-09d036c12719/candidate-2.png
+landscape: https://minio-on-hstgr.tail8a5127.ts.net/browser/blobs/cambermastweb/events/image-gen/resources/ship-your-first-app-with-ai-setup/landscape/000d78a4-905e-4b6f-b301-59713501df6a/candidate-1.png
+portrait: https://minio-on-hstgr.tail8a5127.ts.net/browser/blobs/cambermastweb/events/image-gen/resources/ship-your-first-app-with-ai-setup/portrait/1117d735-d0f5-4f6c-a4e1-1598d8348ae3/candidate-2.png

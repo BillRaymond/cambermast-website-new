@@ -71,7 +71,7 @@ export const pageSeo: SeoOverrides = {
 		description:
 			'Prepare for live Cambermast training with practical tips on setup, tools, and participation.'
 	},
-	'/resources/ai-assisted-coding-workshop-setup': {
+	'/resources/ship-your-first-app-with-ai-setup': {
 		title: 'Ship Your First App with AI Setup Guide | Cambermast',
 		description:
 			'Install Visual Studio Code, a Codex or Claude extension, Git, GitHub, and Docker Desktop, then confirm your paid Claude or ChatGPT account works in the browser.'

@@ -2,8 +2,8 @@
 	import ResourceHeader from '$lib/components/resources/ResourceHeader.svelte';
 	import { getSeo } from '$lib/seo';
 
-	const pageMeta = getSeo('/resources/ai-assisted-coding-workshop-setup');
-	const heroImage = '/images/generated/resources/ai-assisted-coding-workshop-setup/hero-landscape.jpg';
+	const pageMeta = getSeo('/resources/ship-your-first-app-with-ai-setup');
+	const heroImage = '/images/generated/resources/ship-your-first-app-with-ai-setup/hero-landscape.jpg';
 	const heroImageAlt = 'Ship Your First App with AI setup guide hero image.';
 
 	const setupSteps = [
@@ -55,7 +55,7 @@
 <ResourceHeader
 	title={pageMeta.title.replace(' | Cambermast', '')}
 	description="Install Visual Studio Code, a Codex or Claude VS Code extension, Git, GitHub, Docker Desktop, and make sure your paid Claude or ChatGPT account is ready before Ship Your First App with AI."
-	path="/resources/ai-assisted-coding-workshop-setup"
+	path="/resources/ship-your-first-app-with-ai-setup"
 	imageSrc={heroImage}
 	imageAlt={heroImageAlt}
 	label="Workshop setup"

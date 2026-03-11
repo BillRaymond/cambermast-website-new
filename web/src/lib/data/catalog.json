@@ -96,7 +96,7 @@
 					"Practice debugging, refactoring, and testing AI-generated code",
 					"Ship a practical final project and earn a completion certificate"
 				],
-				"route": "/training/ai-assisted-coding-workshop",
+				"route": "/training/ship-your-first-app-with-ai",
 				"order": 5,
 				"published": true
 			}
@@ -138,7 +138,7 @@
 					"Practice debugging, refactoring, and testing AI-generated code",
 					"Build practical internal tools and automations with AI"
 				],
-				"route": "/training/ai-assisted-coding-workshop",
+				"route": "/training/ship-your-first-app-with-ai",
 				"order": 1,
 				"published": true
 			}

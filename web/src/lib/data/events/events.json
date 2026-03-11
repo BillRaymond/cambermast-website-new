@@ -345,7 +345,7 @@
 		},
 		{
 			"id": "aicd26",
-			"slug": "ai-assisted-coding-workshop-april-2026",
+			"slug": "ship-your-first-app-with-ai-april-2026",
 			"title": "💻 Ship Your First App with AI (April 2026)",
 			"type": "training_session",
 			"typeLabel": "Training",
@@ -399,8 +399,8 @@
 			"template": {
 				"kind": "training_event_v1",
 				"sourceProgramSku": "CM-TR-006",
-				"sourceProgramSlug": "ai-assisted-coding-workshop",
-				"sourceProgramRoute": "/training/ai-assisted-coding-workshop"
+				"sourceProgramSlug": "ship-your-first-app-with-ai",
+				"sourceProgramRoute": "/training/ship-your-first-app-with-ai"
 			},
 			"faq": [
 				{
@@ -424,7 +424,7 @@
 						{
 							"type": "link",
 							"label": "Open the Ship Your First App with AI setup guide",
-							"href": "/resources/ai-assisted-coding-workshop-setup"
+							"href": "/resources/ship-your-first-app-with-ai-setup"
 						}
 					]
 				},
@@ -619,9 +619,9 @@
 					"photoAlt": "Bill Raymond"
 				}
 			],
-			"heroImage": "/images/generated/events/ai-assisted-coding-workshop-april-2026/hero-landscape.jpg",
+			"heroImage": "/images/generated/events/ship-your-first-app-with-ai-april-2026/hero-landscape.jpg",
 			"heroImageAlt": "Ship Your First App with AI illustration",
-			"image": "/images/generated/events/ai-assisted-coding-workshop-april-2026/hero-landscape.jpg",
+			"image": "/images/generated/events/ship-your-first-app-with-ai-april-2026/hero-landscape.jpg",
 			"imageAlt": "Open graph image for the Ship Your First App with AI training program",
 			"campaignId": "aicd26"
 		},

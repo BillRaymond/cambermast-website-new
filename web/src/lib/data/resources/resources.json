@@ -1,14 +1,14 @@
 {
 	"resources": [
 		{
-			"id": "resource-ai-assisted-coding-setup",
-			"slug": "ai-assisted-coding-workshop-setup",
-			"route": "/resources/ai-assisted-coding-workshop-setup",
+			"id": "resource-ship-your-first-app-with-ai-setup",
+			"slug": "ship-your-first-app-with-ai-setup",
+			"route": "/resources/ship-your-first-app-with-ai-setup",
 			"title": "Ship Your First App with AI setup guide",
 			"summary": "Install Visual Studio Code, a Codex or Claude extension, Git, GitHub, and Docker Desktop, then confirm your paid AI account works in the browser.",
 			"category": "workshop-setup",
 			"publishedAt": "2026-03-10",
-			"imageSrc": "/images/generated/resources/ai-assisted-coding-workshop-setup/hero-landscape.jpg",
+			"imageSrc": "/images/generated/resources/ship-your-first-app-with-ai-setup/hero-landscape.jpg",
 			"imageAlt": "Ship Your First App with AI setup guide featured image.",
 			"label": "Workshop setup"
 		},

@@ -54,11 +54,11 @@
 			"id": "c34b6ccdc13a4618",
 			"createdAt": "2026-03-10T21:57:43.803Z",
 			"destinationType": "resources",
-			"slug": "resources/ai-assisted-coding-workshop-setup",
+			"slug": "resources/ship-your-first-app-with-ai-setup",
 			"assetKeys": {
-				"square": "resources/ai-assisted-coding-workshop-setup/hero-square.jpg",
-				"landscape": "resources/ai-assisted-coding-workshop-setup/hero-landscape.jpg",
-				"portrait": "resources/ai-assisted-coding-workshop-setup/hero-portrait.jpg"
+				"square": "resources/ship-your-first-app-with-ai-setup/hero-square.jpg",
+				"landscape": "resources/ship-your-first-app-with-ai-setup/hero-landscape.jpg",
+				"portrait": "resources/ship-your-first-app-with-ai-setup/hero-portrait.jpg"
 			},
 			"prompts": {
 				"square": "Use the provided template image as a visual style and composition reference. Create a new image of the same type with the current title. Add a subtitle \"WORKSHOP PRE-WORK\" and use a slightly different color.",
@@ -86,11 +86,11 @@
 			"id": "d0ce8dc4328a415e",
 			"createdAt": "2026-03-10T16:59:41.641Z",
 			"destinationType": "events",
-			"slug": "events/ai-assisted-coding-workshop-april-2026",
+			"slug": "events/ship-your-first-app-with-ai-april-2026",
 			"assetKeys": {
-				"square": "events/ai-assisted-coding-workshop-april-2026/hero-square.jpg",
-				"landscape": "events/ai-assisted-coding-workshop-april-2026/hero-landscape.jpg",
-				"portrait": "events/ai-assisted-coding-workshop-april-2026/hero-portrait.jpg"
+				"square": "events/ship-your-first-app-with-ai-april-2026/hero-square.jpg",
+				"landscape": "events/ship-your-first-app-with-ai-april-2026/hero-landscape.jpg",
+				"portrait": "events/ship-your-first-app-with-ai-april-2026/hero-portrait.jpg"
 			},
 			"prompts": {
 				"square": "Use the provided template image as a visual style and composition reference with the same title. Keep the border, but feel free to add flourishes. Add the subtitle \"APRIL 2026 COHORT\" and include a background and imagery that evokes that month. Avoid: dark backgrounds, visual clichés, and imagery that anthropomorphizes AI. Avoid the top and bottom 25%.",
