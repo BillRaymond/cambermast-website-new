@@ -4,7 +4,7 @@
 
 	const pageMeta = getSeo('/resources/ai-assisted-coding-workshop-setup');
 	const heroImage = '/images/generated/resources/ai-assisted-coding-workshop-setup/hero-landscape.jpg';
-	const heroImageAlt = 'AI-assisted coding workshop setup guide hero image.';
+	const heroImageAlt = 'Ship Your First App with AI setup guide hero image.';
 
 	const setupSteps = [
 		{
@@ -54,7 +54,7 @@
 
 <ResourceHeader
 	title={pageMeta.title.replace(' | Cambermast', '')}
-	description="Install Visual Studio Code, a Codex or Claude VS Code extension, Git, GitHub, Docker Desktop, and make sure your paid Claude or ChatGPT account is ready before the AI-Assisted Coding Workshop."
+	description="Install Visual Studio Code, a Codex or Claude VS Code extension, Git, GitHub, Docker Desktop, and make sure your paid Claude or ChatGPT account is ready before Ship Your First App with AI."
 	path="/resources/ai-assisted-coding-workshop-setup"
 	imageSrc={heroImage}
 	imageAlt={heroImageAlt}

@@ -1,0 +1,4 @@
+path: training/ship-your-first-app-with-ai
+square: https://minio-on-hstgr.tail8a5127.ts.net/browser/blobs/cambermastweb/generated/unspecified/square/16d24ed5-9cfb-408f-bd6d-3fb445f87d17/candidate-2.png
+landscape: https://minio-on-hstgr.tail8a5127.ts.net/browser/blobs/cambermastweb/generated/unspecified/landscape/dcab01ac-8268-4c4f-b16f-0308a881b475/candidate-1.png
+portrait: https://minio-on-hstgr.tail8a5127.ts.net/browser/blobs/cambermastweb/generated/unspecified/portrait/605ad462-f77f-40bb-8419-61afabeb67a4/candidate-2.png

@@ -3,9 +3,9 @@
 		"label": "AI Training",
 		"catalogLabel": "AI Training Catalog",
 		"navlabel": "AI Training",
-		"testimonial": "Bill\u2019s training is excellent! He\u2019s an industry pro and a great communicator.",
+		"testimonial": "Bill’s training is excellent! He’s an industry pro and a great communicator.",
 		"author": "Tara M.",
-		"icon": "\ud83d\udee0\ufe0f",
+		"icon": "🛠️",
 		"route": "/training",
 		"headline": "Hands-on workshops to build practical skills that your team can apply immediately.",
 		"homeorder": 0,
@@ -17,7 +17,7 @@
 				"image": "/images/ai-fundamentals.jpeg",
 				"imageAlt": "AI Power Prompting training workshop illustration",
 				"bullets": [
-					"Understand how today\u2019s AI models generate answers",
+					"Understand how today’s AI models generate answers",
 					"Learn four core prompt types you can reuse anywhere",
 					"Collaborate with AI to brainstorm and polish ideas"
 				],
@@ -87,10 +87,10 @@
 			},
 			{
 				"id": "training-ai-assisted-coding-workshop",
-				"title": "AI-Assisted Coding Workshop",
-				"summary": "Four-week cohort that helps builders, operators, consultants, IT professionals, and aspiring developers use AI to build scripts, tools, automations, and lightweight applications.",
-				"image": "/images/generated/training/ai-assisted-coding-workshop/hero-landscape-v2.jpg",
-				"imageAlt": "AI-Assisted Coding Workshop illustration",
+				"title": "Ship Your First App with AI",
+				"summary": "A four-week hands-on coding cohort for builders, operators, consultants, IT professionals, and aspiring developers who want to ship a practical web application with AI.",
+				"image": "/images/generated/training/ship-your-first-app-with-ai/hero-landscape-v3.jpg",
+				"imageAlt": "Ship Your First App with AI illustration",
 				"bullets": [
 					"Turn plain-language ideas into working scripts and lightweight apps",
 					"Practice debugging, refactoring, and testing AI-generated code",
@@ -105,11 +105,11 @@
 	"agents": {
 		"label": "AI Agents & Automation",
 		"navlabel": "AI Agents",
-		"testimonial": "Bill worked with our new automations and showed us what\u2019s possible.",
+		"testimonial": "Bill worked with our new automations and showed us what’s possible.",
 		"author": "Brett K.",
-		"icon": "\ud83e\udd16",
+		"icon": "🤖",
 		"route": "/agents",
-		"headline": "Practical automations using n8n and APIs\u2014focused on real outcomes.",
+		"headline": "Practical automations using n8n and APIs—focused on real outcomes.",
 		"homeorder": 1,
 		"items": [
 			{
@@ -129,10 +129,10 @@
 			},
 			{
 				"id": "agents-ai-assisted-coding-workshop",
-				"title": "AI-Assisted Coding Workshop",
-				"summary": "Four-week cohort for builders who want to use AI to build scripts, tools, automations, and lightweight applications.",
-				"image": "/images/generated/training/ai-assisted-coding-workshop/hero-landscape-v2.jpg",
-				"imageAlt": "AI-Assisted Coding Workshop illustration",
+				"title": "Ship Your First App with AI",
+				"summary": "A four-week hands-on coding cohort for builders who want to ship scripts, tools, automations, and lightweight applications with AI.",
+				"image": "/images/generated/training/ship-your-first-app-with-ai/hero-landscape-v3.jpg",
+				"imageAlt": "Ship Your First App with AI illustration",
 				"bullets": [
 					"Turn plain-language ideas into working scripts and lightweight apps",
 					"Practice debugging, refactoring, and testing AI-generated code",
@@ -144,22 +144,25 @@
 			}
 		]
 	},
-
 	"strategy": {
 		"label": "AI Advisory Services",
 		"navlabel": "AI Advisory",
-		"testimonial": "Bill\u2019s experience helped us develop and execute an AI automation strategy.",
+		"testimonial": "Bill’s experience helped us develop and execute an AI automation strategy.",
 		"author": "Brian C.",
-		"icon": "\ud83c\udfaf",
+		"icon": "🎯",
 		"route": "/strategy",
 		"headline": "Strategic guidance plus project management support, so pilots turn into repeatable wins.",
 		"homeorder": 3,
 		"items": [
 			{
 				"id": "strategy-advisory-sprint",
-				"title": "Advisory Sprint (2\u20134 weeks)",
+				"title": "Advisory Sprint (2–4 weeks)",
 				"summary": "Short roadmap sprint to pick the right use cases and tools.",
-				"bullets": ["Prioritization", "Vendor choices", "Light governance"],
+				"bullets": [
+					"Prioritization",
+					"Vendor choices",
+					"Light governance"
+				],
 				"order": 0,
 				"published": true
 			}

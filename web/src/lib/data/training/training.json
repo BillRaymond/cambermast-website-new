@@ -50,7 +50,10 @@
 				},
 				{
 					"label": "Format",
-					"value": ["🔴 Live online", "🏫 In-person available"]
+					"value": [
+						"🔴 Live online",
+						"🏫 In-person available"
+					]
 				},
 				{
 					"label": "Cost",
@@ -101,7 +104,10 @@
 				{
 					"name": "🌐 February 3, 2026 Public Cohort",
 					"date": "Tuesday, Feb 3, 2026",
-					"time": ["1:00 pm-5:00 pm PT", "4:00-8:00 pm ET"],
+					"time": [
+						"1:00 pm-5:00 pm PT",
+						"4:00-8:00 pm ET"
+					],
 					"startDate": "2026-02-03",
 					"endDate": "2026-02-03",
 					"location": "Live on Zoom",
@@ -298,7 +304,10 @@
 				},
 				{
 					"label": "Format",
-					"value": ["🔴 Live online", "🏫 In-person available"]
+					"value": [
+						"🔴 Live online",
+						"🏫 In-person available"
+					]
 				},
 				{
 					"label": "Cost",
@@ -508,7 +517,10 @@
 				},
 				{
 					"label": "Format",
-					"value": ["🔴 Live online", "🏫 In-person available"]
+					"value": [
+						"🔴 Live online",
+						"🏫 In-person available"
+					]
 				},
 				{
 					"label": "Cost",
@@ -785,7 +797,10 @@
 				},
 				{
 					"label": "Format",
-					"value": ["🔴 Live online", "🏫 In-person available"]
+					"value": [
+						"🔴 Live online",
+						"🏫 In-person available"
+					]
 				},
 				{
 					"label": "Cost",
@@ -842,7 +857,10 @@
 				{
 					"name": "Winter 2025-2026 Open Enrollment",
 					"date": "Dec 4, 2025 - Jan 22, 2026 (Wednesdays)",
-					"time": ["10:00 am-12:00 pm PT", "1:00-3:00 pm ET"],
+					"time": [
+						"10:00 am-12:00 pm PT",
+						"1:00-3:00 pm ET"
+					],
 					"startDate": "2025-12-04",
 					"endDate": "2026-01-22",
 					"location": "Live on Zoom",
@@ -1028,7 +1046,10 @@
 				},
 				{
 					"label": "Format",
-					"value": ["🔴 Live online", "🏫 In-person available"]
+					"value": [
+						"🔴 Live online",
+						"🏫 In-person available"
+					]
 				},
 				{
 					"label": "Cost",
@@ -1077,7 +1098,10 @@
 				{
 					"name": "❄️ Winter 2025 Open Enrollment",
 					"date": "Nov 4 - Dec 30, 2025 (Tuesdays)",
-					"time": ["10:00 am-12:00 pm PT", "1:00-3:00 pm ET"],
+					"time": [
+						"10:00 am-12:00 pm PT",
+						"1:00-3:00 pm ET"
+					],
 					"partner": "In partnership with The Content Wrangler",
 					"startDate": "2025-11-04",
 					"endDate": "2025-12-30",
@@ -1088,7 +1112,10 @@
 				{
 					"name": "🌷 Spring 2026 Open Enrollment",
 					"date": "Jan 27 - Mar 10, 2026 (Tuesdays)",
-					"time": ["10:00 am-12:00 pm PT", "1:00-3:00 pm ET"],
+					"time": [
+						"10:00 am-12:00 pm PT",
+						"1:00-3:00 pm ET"
+					],
 					"partner": "In partnership with The Content Wrangler",
 					"startDate": "2026-01-27",
 					"endDate": "2026-03-10",
@@ -1286,7 +1313,9 @@
 						"photoAlt": "Bill Raymond"
 					}
 				],
-				"partnerCodes": ["TCW"]
+				"partnerCodes": [
+					"TCW"
+				]
 			}
 		},
 		{
@@ -1296,9 +1325,9 @@
 			"publishedAt": "2026-03-10",
 			"catalog": {
 				"id": "training-ai-assisted-coding-workshop",
-				"summary": "Four-week cohort that helps builders, operators, consultants, IT professionals, and aspiring developers use AI to plan, build, and improve practical web applications.",
-				"image": "/images/generated/training/ai-assisted-coding-workshop/hero-landscape-v2.jpg",
-				"imageAlt": "AI-Assisted Coding Workshop illustration",
+				"summary": "A four-week hands-on coding cohort for builders, operators, consultants, IT professionals, and aspiring developers who want to ship a practical web application with AI.",
+				"image": "/images/generated/training/ship-your-first-app-with-ai/hero-landscape-v3.jpg",
+				"imageAlt": "Ship Your First App with AI illustration",
 				"bullets": [
 					"Turn plain-language ideas into a working web app",
 					"Practice using Git, GitHub, Docker, and AI-assisted iteration",
@@ -1307,14 +1336,14 @@
 				"order": 5,
 				"published": true
 			},
-			"title": "AI-Assisted Coding Workshop",
-			"nickname": "Four-week cohort for practical builders",
-			"tagline": "Build and improve a practical web app with AI as your coding partner.",
-			"heroImage": "/images/generated/training/ai-assisted-coding-workshop/hero-landscape-v2.jpg",
-			"heroImageAlt": "AI-Assisted Coding Workshop illustration",
-			"ogImage": "/images/generated/training/ai-assisted-coding-workshop/hero-landscape-v2.jpg",
-			"ogImageAlt": "Open graph image for the AI-Assisted Coding Workshop training program",
-			"description": "The AI-Assisted Coding Workshop is a live, four-week cohort that helps semi-technical professionals use AI to plan, build, and improve a practical web application.",
+			"title": "Ship Your First App with AI",
+			"nickname": "Four-week hands-on coding cohort",
+			"tagline": "A four-week hands-on coding cohort.",
+			"heroImage": "/images/generated/training/ship-your-first-app-with-ai/hero-landscape-v3.jpg",
+			"heroImageAlt": "Ship Your First App with AI illustration",
+			"ogImage": "/images/generated/training/ship-your-first-app-with-ai/hero-landscape-v3.jpg",
+			"ogImageAlt": "Open graph image for the Ship Your First App with AI training program",
+			"description": "Ship Your First App with AI is a live, four-week hands-on coding cohort that helps semi-technical professionals use AI to plan, build, and improve a practical web application.",
 			"secondaryDescription": "Across weekly 2-hour sessions, participants learn how to turn plain-language ideas into a working web app, improve it with modern development workflows, and strengthen it with AI-supported planning and iteration. You will work through guided exercises, apply what you learn to a real use case, and leave with a repeatable workflow you can use long after the cohort ends.",
 			"primaryCta": {
 				"label": "Find a start date",
@@ -1339,7 +1368,10 @@
 				},
 				{
 					"label": "Format",
-					"value": ["🔴 Live online", "🏫 In-person available"]
+					"value": [
+						"🔴 Live online",
+						"🏫 In-person available"
+					]
 				},
 				{
 					"label": "Cost",
@@ -1483,7 +1515,7 @@
 						},
 						{
 							"type": "link",
-							"label": "Open the AI-Assisted Coding Workshop setup guide",
+							"label": "Open the Ship Your First App with AI setup guide",
 							"href": "/resources/ai-assisted-coding-workshop-setup"
 						}
 					]
@@ -1554,7 +1586,7 @@
 					"blocks": [
 						{
 							"type": "paragraph",
-							"text": "Yes. This version is tailored to the AI-Assisted Coding Workshop and auto-fills the course title, dates, cost, and link from the training program details below."
+							"text": "Yes. This version is tailored to Ship Your First App with AI and auto-fills the course title, dates, cost, and link from the training program details below."
 						},
 						{
 							"type": "email_template",
@@ -1629,7 +1661,10 @@
 				},
 				{
 					"label": "Format",
-					"value": ["🔴 Live online (draft)", "🏫 On-site TBD"]
+					"value": [
+						"🔴 Live online (draft)",
+						"🏫 On-site TBD"
+					]
 				},
 				{
 					"label": "Cost",
@@ -1669,7 +1704,10 @@
 					]
 				}
 			],
-			"resources": ["Draft workbook (placeholder link).", "Feedback template for reviewers."],
+			"resources": [
+				"Draft workbook (placeholder link).",
+				"Feedback template for reviewers."
+			],
 			"aboutTrainer": {
 				"title": "About your facilitator",
 				"name": "Bill Raymond",

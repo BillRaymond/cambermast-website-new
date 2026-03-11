@@ -1,0 +1,11 @@
+Square prompt:
+Re-create this image, but replace those three examples with:
+Let’s build my startup idea
+Let’s ship a working version
+Let’s scale this!
+
+Landscape prompt:
+Recreate the provided template image as a landscape. Avoid the top and bottom 25%.
+
+Portrait prompt:
+Recreate the provided template image in portrait format. Avoid the top and bottom 25%.

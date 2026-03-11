@@ -346,10 +346,10 @@
 		{
 			"id": "aicd26",
 			"slug": "ai-assisted-coding-workshop-april-2026",
-			"title": "💻 AI-Assisted Coding Workshop (April 2026)",
+			"title": "💻 Ship Your First App with AI (April 2026)",
 			"type": "training_session",
 			"typeLabel": "Training",
-			"tagline": "Build and improve a practical web app with AI as your coding partner.",
+			"tagline": "A four-week hands-on coding cohort.",
 			"summary": "4-Weeks, Thursdays, 120-minutes, April 2 - April 23, 2026",
 			"sessions": [
 				{
@@ -423,7 +423,7 @@
 						},
 						{
 							"type": "link",
-							"label": "Open the AI-Assisted Coding Workshop setup guide",
+							"label": "Open the Ship Your First App with AI setup guide",
 							"href": "/resources/ai-assisted-coding-workshop-setup"
 						}
 					]
@@ -480,7 +480,7 @@
 					"blocks": [
 						{
 							"type": "paragraph",
-							"text": "Yes. This version is tailored to the AI-Assisted Coding Workshop and auto-fills the course title, dates, cost, and link from the event details below."
+							"text": "Yes. This version is tailored to Ship Your First App with AI and auto-fills the course title, dates, cost, and link from the event details below."
 						},
 						{
 							"type": "email_template",
@@ -560,7 +560,7 @@
 			},
 			"description": {
 				"summary": "Across weekly 2-hour sessions, participants learn how to turn plain-language ideas into a working web app, improve it with modern development workflows, and strengthen it with AI-supported planning and iteration. You will work through guided exercises, apply what you learn to a real use case, and leave with a repeatable workflow you can use long after the cohort ends.",
-				"bodyMd": "The AI-Assisted Coding Workshop is a live, four-week cohort that helps semi-technical professionals use AI to plan, build, and improve a practical web application.\n\n## Outcomes\n- Understand how AI-assisted coding works and where it fits into real-world workflows.\n- Turn plain-language requests into clear technical instructions that lead to usable code.\n- Build practical web applications, tools, and automations with guided support.\n- Improve AI-generated code through testing, debugging, refactoring, and review.\n- Apply practical guardrails that make AI-assisted coding more reliable and maintainable.\n\n## What You Will Build\n- A repeatable workflow for planning, building, testing, and improving code with AI.\n- Prompt patterns and review habits that help you get better coding results.\n- A practical web app or internal tool you can continue improving after the workshop.\n- Greater confidence using AI to support technical work without relying on one platform.\n- A digital certificate of completion after presenting your final project.\n\n## Prerequisites\n- Review the FAQ item \"What do I need before the workshop starts?\" and complete that setup before Week 1.\n- Visual Studio Code installed on your laptop.\n- Git installed on your laptop.\n- Docker installed and ready to run locally.\n- A GitHub account you can use during the workshop.\n- A paid Claude or ChatGPT account you can use during the workshop.\n- Comfort using a laptop, browser, and basic technical tools.\n- A real workflow, problem, or project idea you want to explore during the cohort.\n\n## Who This Is For\n- Builders who want to move faster with AI-assisted coding workflows.\n- Operators looking to create internal tools, web apps, and automations.\n- Consultants who want to prototype solutions for client and internal work.\n- IT professionals exploring practical ways to use AI for coding and technical problem solving.\n- Aspiring developers who want guided practice building with AI."
+				"bodyMd": "Ship Your First App with AI is a live, four-week hands-on coding cohort that helps semi-technical professionals use AI to plan, build, and improve a practical web application.\n\n## Outcomes\n- Understand how AI-assisted coding works and where it fits into real-world workflows.\n- Turn plain-language requests into clear technical instructions that lead to usable code.\n- Build practical web applications, tools, and automations with guided support.\n- Improve AI-generated code through testing, debugging, refactoring, and review.\n- Apply practical guardrails that make AI-assisted coding more reliable and maintainable.\n\n## What You Will Build\n- A repeatable workflow for planning, building, testing, and improving code with AI.\n- Prompt patterns and review habits that help you get better coding results.\n- A practical web app or internal tool you can continue improving after the workshop.\n- Greater confidence using AI to support technical work without relying on one platform.\n- A digital certificate of completion after presenting your final project.\n\n## Prerequisites\n- Review the FAQ item \"What do I need before the workshop starts?\" and complete that setup before Week 1.\n- Visual Studio Code installed on your laptop.\n- Git installed on your laptop.\n- Docker installed and ready to run locally.\n- A GitHub account you can use during the workshop.\n- A paid Claude or ChatGPT account you can use during the workshop.\n- Comfort using a laptop, browser, and basic technical tools.\n- A real workflow, problem, or project idea you want to explore during the cohort.\n\n## Who This Is For\n- Builders who want to move faster with AI-assisted coding workflows.\n- Operators looking to create internal tools, web apps, and automations.\n- Consultants who want to prototype solutions for client and internal work.\n- IT professionals exploring practical ways to use AI for coding and technical problem solving.\n- Aspiring developers who want guided practice building with AI."
 			},
 			"highlights": [
 				"Turn plain-language ideas into a working web app",
@@ -620,9 +620,9 @@
 				}
 			],
 			"heroImage": "/images/generated/events/ai-assisted-coding-workshop-april-2026/hero-landscape.jpg",
-			"heroImageAlt": "AI-Assisted Coding Workshop illustration",
+			"heroImageAlt": "Ship Your First App with AI illustration",
 			"image": "/images/generated/events/ai-assisted-coding-workshop-april-2026/hero-landscape.jpg",
-			"imageAlt": "Open graph image for the AI-Assisted Coding Workshop training program",
+			"imageAlt": "Open graph image for the Ship Your First App with AI training program",
 			"campaignId": "aicd26"
 		},
 		{
