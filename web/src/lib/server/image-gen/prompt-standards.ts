@@ -4,9 +4,9 @@ import { existsSync } from 'node:fs';
 import { randomUUID } from 'node:crypto';
 import Ajv from 'ajv/dist/2020.js';
 import addFormats from 'ajv-formats';
-import type { ImageGenBlobScope, ImageGenStage } from '$lib/server/image-gen/types';
+import type { ImageGenDestinationType, ImageGenStage } from '$lib/server/image-gen/types';
 import type { ImageGenPromptStandardsRegistry } from '$lib/data/image-gen-standards';
-import { validateSlugOrThrow } from '$lib/server/image-gen/files';
+import { resolveImageDestinationPathOrThrow } from '$lib/server/image-gen/files';
 
 type PromptSet = {
 	square: string;
@@ -21,8 +21,9 @@ type WriteResultLike = {
 };
 
 type AppendImageGenPromptStandardInput = {
-	slug: string;
-	blobScope: ImageGenBlobScope;
+	destinationType: ImageGenDestinationType;
+	destinationSlug: string;
+	customBasePath?: string;
 	prompts: PromptSet;
 	writes: WriteResultLike[];
 };
@@ -73,7 +74,11 @@ const getRegistryValidator = async () => {
 export const appendImageGenPromptStandard = async (
 	input: AppendImageGenPromptStandardInput
 ) => {
-	const safeSlug = validateSlugOrThrow(input.slug);
+	const destination = resolveImageDestinationPathOrThrow({
+		destinationType: input.destinationType,
+		destinationSlug: input.destinationSlug,
+		customBasePath: input.customBasePath
+	});
 
 	const prompts = {
 		square: ensurePrompt(input.prompts.square, 'Square'),
@@ -98,14 +103,14 @@ export const appendImageGenPromptStandard = async (
 	const toAssetKey = (write: WriteResultLike): string => {
 		const fileName = (write.fileName || getFileNameFromPublicUrl(write.publicUrl)).trim();
 		if (!fileName) throw new Error(`Unable to determine filename for ${write.variant}.`);
-		return `${safeSlug}/${fileName}`;
+		return `${destination.relativeDir}/${fileName}`;
 	};
 
 	const entry = {
 		id: randomUUID().replace(/-/g, '').slice(0, 16),
 		createdAt: new Date().toISOString(),
-		blobScope: input.blobScope,
-		slug: safeSlug,
+		destinationType: destination.destinationType,
+		slug: destination.relativeDir,
 		assetKeys: {
 			square: toAssetKey(square),
 			landscape: toAssetKey(landscape),

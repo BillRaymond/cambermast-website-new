@@ -58,8 +58,8 @@ export const GET = async () => {
 
 	for (const program of programs) {
 		const entries: Array<{ field: TrainingReferenceField; url?: string }> = [
-			{ field: 'generatedSquare', url: `/images/generated/${program.slug}/hero-square.jpg` },
-			{ field: 'generatedLandscape', url: `/images/generated/${program.slug}/hero-landscape.jpg` },
+			{ field: 'generatedSquare', url: `/images/generated/training/${program.slug}/hero-square.jpg` },
+			{ field: 'generatedLandscape', url: `/images/generated/training/${program.slug}/hero-landscape.jpg` },
 			{ field: 'heroImage', url: program.heroImage },
 			{ field: 'ogImage', url: program.ogImage }
 		];

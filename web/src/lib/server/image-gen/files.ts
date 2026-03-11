@@ -2,9 +2,12 @@ import path from 'node:path';
 import { promises as fs } from 'node:fs';
 import { existsSync } from 'node:fs';
 import { Buffer } from 'node:buffer';
+import type { ImageGenDestinationType } from '$lib/server/image-gen/types';
 
 type SaveImageInput = {
-	slug: string;
+	destinationType: ImageGenDestinationType;
+	destinationSlug: string;
+	customBasePath?: string;
 	squareDataUrl: string;
 	landscapeDataUrl: string;
 	portraitDataUrl: string;
@@ -26,6 +29,12 @@ type WritePlanEntry = {
 	dataUrl: string;
 };
 
+type MetadataWritePlanEntry = {
+	kind: 'selected-minio-locations' | 'stage-prompts';
+	baseFileName: string;
+	contents: string;
+};
+
 const TEMPLATE_PUBLIC_PREFIX = '/images/admin/image-gen/templates/';
 const MINIO_BROWSER_BASE = 'https://minio-on-hstgr.tail8a5127.ts.net/browser/blobs/';
 
@@ -41,6 +50,12 @@ const resolveWebRoot = (): string => {
 const webRoot = resolveWebRoot();
 
 const toSafeSlug = (value: string): string => value.trim().toLowerCase();
+const DESTINATION_TYPE_PATHS: Record<Exclude<ImageGenDestinationType, 'custom'>, string> = {
+	events: 'events',
+	training: 'training',
+	resources: 'resources',
+	'featured-images': 'featured-images'
+};
 
 export const validateSlugOrThrow = (slug: string): string => {
 	const normalized = toSafeSlug(slug);
@@ -50,6 +65,41 @@ export const validateSlugOrThrow = (slug: string): string => {
 		);
 	}
 	return normalized;
+};
+
+export const resolveImageDestinationPathOrThrow = (input: {
+	destinationType?: ImageGenDestinationType;
+	destinationSlug: string;
+	customBasePath?: string;
+}): {
+	destinationType: ImageGenDestinationType;
+	destinationSlug: string;
+	customBasePath?: string;
+	relativeDir: string;
+	publicBaseUrl: string;
+} => {
+	const destinationType = input.destinationType ?? 'custom';
+	const destinationSlug = validateSlugOrThrow(input.destinationSlug);
+	if (destinationType === 'custom') {
+		const customBasePath = input.customBasePath?.trim()
+			? validateSlugOrThrow(input.customBasePath)
+			: '';
+		const relativeDir = customBasePath ? `${customBasePath}/${destinationSlug}` : destinationSlug;
+		return {
+			destinationType,
+			destinationSlug,
+			customBasePath: customBasePath || undefined,
+			relativeDir,
+			publicBaseUrl: `/images/generated/${relativeDir}`
+		};
+	}
+
+	return {
+		destinationType,
+		destinationSlug,
+		relativeDir: `${DESTINATION_TYPE_PATHS[destinationType]}/${destinationSlug}`,
+		publicBaseUrl: `/images/generated/${DESTINATION_TYPE_PATHS[destinationType]}/${destinationSlug}`
+	};
 };
 
 const decodeDataUrlToBuffer = (dataUrl: string): Buffer => {
@@ -89,8 +139,12 @@ export const listTemplateImageUrls = async (): Promise<string[]> => {
 };
 
 export const saveSelectedImagesToWebsite = async (input: SaveImageInput) => {
-	const safeSlug = validateSlugOrThrow(input.slug);
-	const targetDir = path.join(webRoot, 'static', 'images', 'generated', safeSlug);
+	const destination = resolveImageDestinationPathOrThrow({
+		destinationType: input.destinationType,
+		destinationSlug: input.destinationSlug,
+		customBasePath: input.customBasePath
+	});
+	const targetDir = path.join(webRoot, 'static', 'images', 'generated', destination.relativeDir);
 	await fs.mkdir(targetDir, { recursive: true });
 
 	const writePlan: WritePlanEntry[] = [
@@ -101,6 +155,13 @@ export const saveSelectedImagesToWebsite = async (input: SaveImageInput) => {
 
 	const writes: Array<{
 		variant: WritePlanEntry['variant'];
+		absolutePath: string;
+		publicUrl: string;
+		fileName: string;
+		version: number;
+	}> = [];
+	const metadataWrites: Array<{
+		kind: MetadataWritePlanEntry['kind'];
 		absolutePath: string;
 		publicUrl: string;
 		fileName: string;
@@ -125,23 +186,18 @@ export const saveSelectedImagesToWebsite = async (input: SaveImageInput) => {
 			writes.push({
 				variant: item.variant,
 				absolutePath,
-				publicUrl: `/images/generated/${safeSlug}/${fileName}`,
+				publicUrl: `${destination.publicBaseUrl}/${fileName}`,
 				fileName,
 				version
 			});
 		}
 
-		const minioLocationsPath = path.join(targetDir, 'selected-minio-locations.txt');
 		const minioLocationsText = [
-			`slug: ${safeSlug}`,
+			`path: ${destination.relativeDir}`,
 			`square: ${getMinioLocation(input.selectedSources.square)}`,
 			`landscape: ${getMinioLocation(input.selectedSources.landscape)}`,
 			`portrait: ${getMinioLocation(input.selectedSources.portrait)}`
 		].join('\n');
-		await fs.writeFile(minioLocationsPath, `${minioLocationsText}\n`, 'utf8');
-		writtenPaths.push(minioLocationsPath);
-
-		const promptsPath = path.join(targetDir, 'stage-prompts.txt');
 		const promptsText = [
 			'Square prompt:',
 			input.prompts.square,
@@ -152,8 +208,32 @@ export const saveSelectedImagesToWebsite = async (input: SaveImageInput) => {
 			'Portrait prompt:',
 			input.prompts.portrait
 		].join('\n');
-		await fs.writeFile(promptsPath, `${promptsText}\n`, 'utf8');
-		writtenPaths.push(promptsPath);
+		const metadataPlan: MetadataWritePlanEntry[] = [
+			{
+				kind: 'selected-minio-locations',
+				baseFileName: 'selected-minio-locations.txt',
+				contents: `${minioLocationsText}\n`
+			},
+			{
+				kind: 'stage-prompts',
+				baseFileName: 'stage-prompts.txt',
+				contents: `${promptsText}\n`
+			}
+		];
+
+		for (const item of metadataPlan) {
+			const { fileName, version } = await buildVersionedPath(targetDir, item.baseFileName);
+			const absolutePath = path.join(targetDir, fileName);
+			await fs.writeFile(absolutePath, item.contents, 'utf8');
+			writtenPaths.push(absolutePath);
+			metadataWrites.push({
+				kind: item.kind,
+				absolutePath,
+				publicUrl: `${destination.publicBaseUrl}/${fileName}`,
+				fileName,
+				version
+			});
+		}
 	} catch (error) {
 		await Promise.all(
 			writtenPaths.map((absolutePath) =>
@@ -166,7 +246,8 @@ export const saveSelectedImagesToWebsite = async (input: SaveImageInput) => {
 	}
 
 	return {
-		slug: safeSlug,
-		files: writes
+		destination,
+		files: writes,
+		metadataFiles: metadataWrites
 	};
 };

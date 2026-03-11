@@ -5,7 +5,7 @@
 		{
 			"id": "c34b6ccdc13a4618",
 			"createdAt": "2026-03-10T21:57:43.803Z",
-			"blobScope": "events",
+			"destinationType": "resources",
 			"slug": "resources/ai-assisted-coding-workshop-setup",
 			"assetKeys": {
 				"square": "resources/ai-assisted-coding-workshop-setup/hero-square.jpg",
@@ -21,7 +21,7 @@
 		{
 			"id": "a6909598429f4254",
 			"createdAt": "2026-03-10T20:29:56.001Z",
-			"blobScope": "events",
+			"destinationType": "events",
 			"slug": "events/ai-workshop-for-content-creators-winter-2026",
 			"assetKeys": {
 				"square": "events/ai-workshop-for-content-creators-winter-2026/hero-square.jpg",
@@ -37,7 +37,7 @@
 		{
 			"id": "d0ce8dc4328a415e",
 			"createdAt": "2026-03-10T16:59:41.641Z",
-			"blobScope": "events",
+			"destinationType": "events",
 			"slug": "events/ai-assisted-coding-workshop-april-2026",
 			"assetKeys": {
 				"square": "events/ai-assisted-coding-workshop-april-2026/hero-square.jpg",
@@ -53,12 +53,12 @@
 		{
 			"id": "1255fe207bb74d22",
 			"createdAt": "2026-03-10T16:47:05.198Z",
-			"blobScope": "events",
-			"slug": "ai-assisted-coding-workshop",
+			"destinationType": "training",
+			"slug": "training/ai-assisted-coding-workshop",
 			"assetKeys": {
-				"square": "ai-assisted-coding-workshop/hero-square.jpg",
-				"landscape": "ai-assisted-coding-workshop/hero-landscape.jpg",
-				"portrait": "ai-assisted-coding-workshop/hero-portrait.jpg"
+				"square": "training/ai-assisted-coding-workshop/hero-square.jpg",
+				"landscape": "training/ai-assisted-coding-workshop/hero-landscape.jpg",
+				"portrait": "training/ai-assisted-coding-workshop/hero-portrait.jpg"
 			},
 			"prompts": {
 				"square": "GENERATE A BACKGROUND\nAbstract geometric background inspired by a modern sail or forward motion shape, using orange #F49F1C as the dominant base with layered bold blue #0037BE, bright blue #0063F2, mint green #8BD8BD, and a subtle deep navy #012072 accent. Clean, overlapping angular panels with smooth, blended transitions and a very soft, fine-grained texture. Composition should frame the edges and corners, leaving a calm, open negative space in the center for text placement. Professional, training-focused, confident corporate style. No white, no glow, no light beams, no dark vignette, no clutter. Balanced contrast to support overlay text.\n\nOVERLAY TEXT\nAdd the text \"AI-ASSISTED CODING WORKSHOP\".\n\nOVERLAY ELEMENTS\nIncorporate a photorealistic image of a diverse group of happy people learning to code witha AI together, integrated into the overall design. The composition should feel open and integrated into the existing background, not like a title card. Keep overall styling bright and clean, with minimal effects, with a strong focus on legibility. Add hints about what good prompts are like in a unique way.\n\nSTRICT OVERLAY RULES\nFocus on placing text and elements in the center of the image.\n\nSTRICT AVOIDANCE RULES\n* Visual cliches like AI brains and circuits.\n* Imagery that anthropomorphizes AI.",
@@ -69,7 +69,7 @@
 		{
 			"id": "989bcb444d674e3e",
 			"createdAt": "2026-03-05T23:29:21.058Z",
-			"blobScope": "events",
+			"destinationType": "featured-images",
 			"slug": "featured-images/cambermast-default",
 			"assetKeys": {
 				"square": "featured-images/cambermast-default/hero-square.jpg",
@@ -85,7 +85,7 @@
 		{
 			"id": "2239e57a51aa41a0",
 			"createdAt": "2026-03-05T16:24:57.445Z",
-			"blobScope": "events",
+			"destinationType": "events",
 			"slug": "events/ai-workshop-for-content-creators-fall-2026",
 			"assetKeys": {
 				"square": "events/ai-workshop-for-content-creators-fall-2026/hero-square-v2.jpg",
@@ -101,7 +101,7 @@
 		{
 			"id": "b540428664464e61",
 			"createdAt": "2026-03-05T15:42:34.414Z",
-			"blobScope": "events",
+			"destinationType": "events",
 			"slug": "events/ai-workshop-for-content-creators-fall-2026",
 			"assetKeys": {
 				"square": "events/ai-workshop-for-content-creators-fall-2026/hero-square.jpg",
@@ -117,7 +117,7 @@
 		{
 			"id": "65827f434bd44d92",
 			"createdAt": "2026-03-05T15:24:12.524Z",
-			"blobScope": "events",
+			"destinationType": "events",
 			"slug": "events/ai-workshop-for-content-creators-summer-2026",
 			"assetKeys": {
 				"square": "events/ai-workshop-for-content-creators-summer-2026/hero-square.jpg",
@@ -133,7 +133,7 @@
 		{
 			"id": "50cf2bd944984af4",
 			"createdAt": "2026-03-05T03:07:55.273Z",
-			"blobScope": "events",
+			"destinationType": "events",
 			"slug": "events/ai-workshop-for-content-creators-winter-2025",
 			"assetKeys": {
 				"square": "events/ai-workshop-for-content-creators-winter-2025/hero-square.jpg",

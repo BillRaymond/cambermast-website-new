@@ -12,6 +12,8 @@
 	};
 
 	let slug = '';
+	let destinationType: 'events' | 'training' | 'resources' | 'featured-images' | 'custom' =
+		'featured-images';
 </script>
 
 <SeoHead title={pageMeta.title} description={pageMeta.description} path="/admin/image-gen" useDefaultImage={false} />
@@ -34,6 +36,7 @@
 		isDev={data.isDev}
 		mode="standalone"
 		bind:slug
+		bind:destinationType
 		defaultTemplateUrl={data.defaultTemplateUrl}
 		defaultPrompts={data.defaultPrompts}
 		defaultN={data.defaultN}

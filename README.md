@@ -134,6 +134,15 @@ When publishing significant messaging or offer changes:
 - Save as optimized `.jpg` or `.png` (WebP is fine too) and keep files under ~150 KB to avoid bloating static pages.
 - Update `photoUrl` in `web/src/lib/data/testimonials.json` to point at `/images/testimonials/<filename>` whenever you add or replace a photo.
 
+## Generated Image Workflow
+
+- Canonical generated-image storage lives under `web/static/images/generated/<type>/<slug>/`.
+- Supported typed destinations are `events`, `training`, `resources`, `featured-images`, and `custom`.
+- The admin image generator shows the full MinIO browser URL for every generated candidate and supports copy/paste directly from the UI.
+- Preserve every generated square, landscape, portrait, prompt file, and MinIO-location file unless deletion is explicitly requested.
+- Saving a new selected set must version existing files with `-v2`, `-v3`, etc. rather than overwriting prior outputs.
+- Training program generated assets now live under `web/static/images/generated/training/<program-slug>/`; update any program `heroImage` or `ogImage` references to that canonical path.
+
 ## Schema-First Rule
 
 - See `SCHEMA-FIRST.md` for the required schema-first workflow, validation gates, and propagation checklist for any data contract changes.

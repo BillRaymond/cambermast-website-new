@@ -14,7 +14,7 @@ const toAbsoluteImageUrl = (assetKey: string, origin: string): string =>
 const toApiStandard = (entry: ImageGenPromptStandard, origin: string) => ({
 	id: entry.id,
 	createdAt: entry.createdAt,
-	blobScope: entry.blobScope,
+	destinationType: entry.destinationType,
 	slug: entry.slug,
 	assetKeys: entry.assetKeys,
 	assetUrls: {

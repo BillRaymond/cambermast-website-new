@@ -103,23 +103,26 @@
 		</p>
 		<p class="mt-2 max-w-3xl text-gray-700">
 			Key pattern:
-			<code>cambermastweb/{"<events-or-training>"}/image-gen/{"<slug-or-unspecified>"}/{"<stage>"}/{"<run-id>"}/candidate-{"<index>"}.png</code>
+			<code>cambermastweb/generated/{"<destination-path-or-unspecified>"}/{"<stage>"}/{"<run-id>"}/candidate-{"<index>"}.png</code>
 		</p>
 		<p class="mt-2 max-w-3xl text-gray-700">
 			Prompt artifact key pattern:
-			<code>cambermastweb/{"<events-or-training>"}/image-gen/{"<slug-or-unspecified>"}/{"<stage>"}/{"<run-id>"}/prompt.json</code>
+			<code>cambermastweb/generated/{"<destination-path-or-unspecified>"}/{"<stage>"}/{"<run-id>"}/prompt.json</code>
 		</p>
 		<p class="mt-2 max-w-3xl text-gray-700">
 			Each <code>prompt.json</code> stores <code>runId</code>, <code>stage</code>,
-			<code>blobScope</code>, <code>slug</code>, <code>size</code>, <code>n</code>,
-			<code>prompt</code>, and <code>createdAt</code>.
+			<code>destinationType</code>, <code>destinationSlug</code>,
+			<code>customBasePath</code>, <code>destinationPath</code>, <code>size</code>,
+			<code>n</code>, <code>prompt</code>, and <code>createdAt</code>.
 		</p>
 		<p class="mt-2 max-w-3xl text-gray-700">
-			Embedded event creation maps scope automatically: training mode uses <code>training</code>,
-			external mode uses <code>events</code>.
+			The UI requires a destination type up front: <code>events</code>, <code>training</code>,
+			<code>resources</code>, <code>featured-images</code>, or <code>custom</code>. Embedded
+			event creation preselects <code>training</code> or <code>events</code> automatically.
 		</p>
 		<p class="mt-2 max-w-3xl text-gray-700">
-			Each candidate card also links to the MinIO browser path in a new tab:
+			Each candidate card shows the full MinIO browser URL as visible, copyable text and links it
+			in a new tab:
 			<code>https://minio-on-hstgr.tail8a5127.ts.net/browser/blobs/{"<key>"}</code>.
 		</p>
 	</div>
@@ -128,15 +131,22 @@
 		<h2 class="text-2xl font-semibold">Final Save Contract</h2>
 		<p class="mt-2 max-w-3xl text-gray-700">
 			After selecting one square, one landscape, and one portrait candidate, the mini app saves
-			files into <code>web/static/images/generated/{"<slug>"}/</code>.
+			files into <code>web/static/images/generated/{"<type>"}/{"<slug>"}/</code> or the explicit
+			custom path under <code>web/static/images/generated/</code>.
 		</p>
 		<ul class="mt-3 list-disc space-y-2 pl-5 text-gray-700">
 			<li><code>hero-square.jpg</code></li>
 			<li><code>hero-landscape.jpg</code></li>
 			<li><code>hero-portrait.jpg</code></li>
+			<li><code>selected-minio-locations.txt</code></li>
+			<li><code>stage-prompts.txt</code></li>
 		</ul>
 		<p class="mt-2 max-w-3xl text-gray-700">
 			If a filename already exists, the tool versions with <code>-v2</code>, <code>-v3</code>, etc.
+			for both image files and metadata artifacts.
+		</p>
+		<p class="mt-2 max-w-3xl text-gray-700">
+			Never delete prior square, landscape, portrait, or metadata files unless explicitly requested.
 		</p>
 	</div>
 

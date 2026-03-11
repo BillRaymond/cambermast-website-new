@@ -1389,12 +1389,12 @@
 					isDev={data.isDev}
 					mode="embedded"
 					slug={slug}
+					destinationType={mode === 'training' ? 'training' : 'events'}
 					defaultTemplateUrl={data.defaultTemplateUrl}
 					defaultPrompts={data.defaultPrompts}
 					defaultN={data.defaultN}
 					minN={data.minN}
 					maxN={data.maxN}
-					blobScope={mode === 'training' ? 'training' : 'events'}
 					on:imagessaved={handleImagesSaved}
 				/>
 			</div>

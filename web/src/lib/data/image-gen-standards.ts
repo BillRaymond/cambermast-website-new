@@ -3,7 +3,7 @@ import standardsData from './image-gen-standards.json';
 export type ImageGenPromptStandard = {
 	id: string;
 	createdAt: string;
-	blobScope: 'events' | 'training';
+	destinationType: 'events' | 'training' | 'resources' | 'featured-images' | 'custom';
 	slug: string;
 	assetKeys: {
 		square: string;

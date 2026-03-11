@@ -14,11 +14,14 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["id", "createdAt", "blobScope", "slug", "assetKeys", "assetUrls", "prompts"],
+        "required": ["id", "createdAt", "destinationType", "slug", "assetKeys", "assetUrls", "prompts"],
         "properties": {
           "id": { "type": "string", "pattern": "^[a-z0-9]{8,64}$" },
           "createdAt": { "type": "string", "format": "date-time" },
-          "blobScope": { "type": "string", "enum": ["events", "training"] },
+          "destinationType": {
+            "type": "string",
+            "enum": ["events", "training", "resources", "featured-images", "custom"]
+          },
           "slug": {
             "type": "string",
             "pattern": "^[a-z0-9][a-z0-9-]*(?:/[a-z0-9][a-z0-9-]*)*$"

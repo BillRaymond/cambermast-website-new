@@ -74,7 +74,7 @@
 				"id": "training-ai-workshop-content-creators",
 				"title": "AI Workshop for Tech Writers and Content Creators",
 				"summary": "Seven-week cohort that helps content and documentation teams layer AI into their workflows.",
-				"image": "/images/generated/ai-workshop-for-content-creators/hero-landscape.jpg",
+				"image": "/images/generated/training/ai-workshop-for-content-creators/hero-landscape.jpg",
 				"imageAlt": "AI Workshop for Tech Writers and Content Creators illustration",
 				"bullets": [
 					"Automate repetitive content production tasks with AI",
@@ -89,7 +89,7 @@
 				"id": "training-ai-assisted-coding-workshop",
 				"title": "AI-Assisted Coding Workshop",
 				"summary": "Four-week cohort that helps builders, operators, consultants, IT professionals, and aspiring developers use AI to build scripts, tools, automations, and lightweight applications.",
-				"image": "/images/generated/ai-assisted-coding-workshop/hero-landscape.jpg",
+				"image": "/images/generated/training/ai-assisted-coding-workshop/hero-landscape.jpg",
 				"imageAlt": "AI-Assisted Coding Workshop illustration",
 				"bullets": [
 					"Turn plain-language ideas into working scripts and lightweight apps",
@@ -131,7 +131,7 @@
 				"id": "agents-ai-assisted-coding-workshop",
 				"title": "AI-Assisted Coding Workshop",
 				"summary": "Four-week cohort for builders who want to use AI to build scripts, tools, automations, and lightweight applications.",
-				"image": "/images/generated/ai-assisted-coding-workshop/hero-landscape.jpg",
+				"image": "/images/generated/training/ai-assisted-coding-workshop/hero-landscape.jpg",
 				"imageAlt": "AI-Assisted Coding Workshop illustration",
 				"bullets": [
 					"Turn plain-language ideas into working scripts and lightweight apps",

@@ -46,16 +46,16 @@
     "standard": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["id", "createdAt", "blobScope", "slug", "assetKeys", "prompts"],
+      "required": ["id", "createdAt", "destinationType", "slug", "assetKeys", "prompts"],
       "properties": {
         "id": {
           "type": "string",
           "pattern": "^[a-z0-9]{8,64}$"
         },
         "createdAt": { "type": "string", "format": "date-time" },
-        "blobScope": {
+        "destinationType": {
           "type": "string",
-          "enum": ["events", "training"]
+          "enum": ["events", "training", "resources", "featured-images", "custom"]
         },
         "slug": {
           "type": "string",

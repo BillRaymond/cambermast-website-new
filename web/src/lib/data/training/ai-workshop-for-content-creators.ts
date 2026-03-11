@@ -8,7 +8,7 @@ export const aiWorkshopForContentCreators = {
 		id: 'training-ai-workshop-content-creators',
 		summary:
 			'Seven-week cohort that helps content and documentation teams layer AI into their workflows.',
-		image: '/images/generated/ai-workshop-for-content-creators/hero-landscape.jpg',
+		image: '/images/generated/training/ai-workshop-for-content-creators/hero-landscape.jpg',
 		imageAlt: 'AI Workshop for Tech Writers and Content Creators illustration',
 		bullets: [
 			'Automate repetitive content production tasks with AI',
@@ -21,9 +21,9 @@ export const aiWorkshopForContentCreators = {
 	title: 'AI Workshop for Tech Writers and Content Creators',
 	nickname: 'Seven-week cohort for technical communicators',
 	tagline: 'Get real results from your content with AI-powered workflows in just seven weeks.',
-	heroImage: '/images/generated/ai-workshop-for-content-creators/hero-landscape.jpg',
+	heroImage: '/images/generated/training/ai-workshop-for-content-creators/hero-landscape.jpg',
 	heroImageAlt: 'AI Workshop for Tech Writers and Content Creators illustration',
-	ogImage: '/images/generated/ai-workshop-for-content-creators/hero-landscape.jpg',
+	ogImage: '/images/generated/training/ai-workshop-for-content-creators/hero-landscape.jpg',
 	ogImageAlt:
 		'Open graph image for the AI Workshop for Tech Writers and Content Creators training program',
 	videoUrl: 'https://www.youtube.com/watch?v=pDMU-xyu8GA',

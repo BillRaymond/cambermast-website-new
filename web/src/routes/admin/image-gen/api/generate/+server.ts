@@ -8,18 +8,19 @@ import {
 	IMAGE_GEN_MAX_COUNT,
 	IMAGE_GEN_MIN_COUNT,
 	STAGE_SIZE_MAP,
-	type ImageGenBlobScope,
 	type GenerateRequest,
 	type ImageGenStage
 } from '$lib/server/image-gen/types';
-import { validateSlugOrThrow } from '$lib/server/image-gen/files';
+import {
+	resolveImageDestinationPathOrThrow,
+	validateSlugOrThrow
+} from '$lib/server/image-gen/files';
 
 export const prerender = false;
 
 const getErrorMessage = (error: unknown): string =>
 	error instanceof Error ? error.message : 'Unknown error';
-const getBlobScope = (scope: GenerateRequest['blobScope']): ImageGenBlobScope =>
-	scope === 'training' ? 'training' : 'events';
+const MINIO_BROWSER_BASE = 'https://minio-on-hstgr.tail8a5127.ts.net/browser/blobs/';
 
 export const POST = async ({ request }) => {
 	if (!import.meta.env.DEV) {
@@ -67,20 +68,23 @@ export const POST = async ({ request }) => {
 		return json({ error: 'templateImageDataUrl must be an image data URL' }, { status: 400 });
 	}
 
-	let slugSegment = 'unspecified';
+	let destinationPath = 'unspecified';
 	try {
-		slugSegment =
-			typeof body.slug === 'string' && body.slug.trim().length > 0
-				? validateSlugOrThrow(body.slug)
+		destinationPath =
+			typeof body.destinationSlug === 'string' && body.destinationSlug.trim().length > 0
+				? resolveImageDestinationPathOrThrow({
+						destinationType: body.destinationType,
+						destinationSlug: body.destinationSlug,
+						customBasePath: body.customBasePath
+					}).relativeDir
 				: 'unspecified';
 	} catch (error) {
 		return json({ error: getErrorMessage(error) }, { status: 400 });
 	}
-	const blobScope = getBlobScope(body.blobScope);
 
 	const runId = randomUUID();
 	const createdAt = new Date().toISOString();
-	console.info('[image-gen] generate start', { runId, stage, n, slug: slugSegment });
+	console.info('[image-gen] generate start', { runId, stage, n, destinationPath });
 
 	try {
 		const generated = await generateImagesWithOpenAi({
@@ -90,16 +94,25 @@ export const POST = async ({ request }) => {
 			n,
 			templateImageDataUrl: templateImageDataUrl || undefined
 		});
-		const promptBackupKey = `cambermastweb/${blobScope}/image-gen/${slugSegment}/${stage}/${runId}/prompt.json`;
+		const promptBackupKey = `cambermastweb/generated/${destinationPath}/${stage}/${runId}/prompt.json`;
 		let promptBackupUrl: string | undefined;
+		let promptBackupBrowserUrl: string | undefined;
 		let promptBackupError: string | undefined;
 		try {
 			const promptBackupPayload = JSON.stringify(
 				{
 					runId,
 					stage,
-					blobScope,
-					slug: slugSegment,
+					destinationType: body.destinationType ?? 'custom',
+					destinationSlug:
+						typeof body.destinationSlug === 'string' && body.destinationSlug.trim().length > 0
+							? validateSlugOrThrow(body.destinationSlug)
+							: undefined,
+					customBasePath:
+						typeof body.customBasePath === 'string' && body.customBasePath.trim().length > 0
+							? validateSlugOrThrow(body.customBasePath)
+							: undefined,
+					destinationPath,
 					size: body.size,
 					n,
 					prompt: body.prompt,
@@ -117,6 +130,7 @@ export const POST = async ({ request }) => {
 				fileName: 'prompt.json'
 			});
 			promptBackupUrl = uploadedPrompt.url;
+			promptBackupBrowserUrl = `${MINIO_BROWSER_BASE}${uploadedPrompt.key}`;
 		} catch (error) {
 			promptBackupError = getErrorMessage(error);
 			console.error('[image-gen] prompt backup failed', {
@@ -129,7 +143,7 @@ export const POST = async ({ request }) => {
 		const candidates = await Promise.all(
 			generated.dataUrls.map(async (dataUrl, index) => {
 				const id = `${stage}-${runId}-${(index + 1).toString()}`;
-				const minioKey = `cambermastweb/${blobScope}/image-gen/${slugSegment}/${stage}/${runId}/candidate-${(index + 1).toString()}.png`;
+				const minioKey = `cambermastweb/generated/${destinationPath}/${stage}/${runId}/candidate-${(index + 1).toString()}.png`;
 
 				try {
 					const uploaded = await uploadToC3({
@@ -144,7 +158,8 @@ export const POST = async ({ request }) => {
 						width: body.size.split('x')[0],
 						height: body.size.split('x')[1],
 						minioKey: uploaded.key,
-						minioUrl: uploaded.url
+						minioUrl: uploaded.url,
+						minioBrowserUrl: `${MINIO_BROWSER_BASE}${uploaded.key}`
 					};
 				} catch (error) {
 					console.error('[image-gen] c3 upload failed', {
@@ -159,6 +174,7 @@ export const POST = async ({ request }) => {
 						width: body.size.split('x')[0],
 						height: body.size.split('x')[1],
 						minioKey,
+						minioBrowserUrl: `${MINIO_BROWSER_BASE}${minioKey}`,
 						minioBackupError: getErrorMessage(error)
 					};
 				}
@@ -173,6 +189,7 @@ export const POST = async ({ request }) => {
 			candidates,
 			promptBackupKey,
 			promptBackupUrl,
+			promptBackupBrowserUrl,
 			promptBackupError
 		});
 	} catch (error) {

@@ -30,7 +30,6 @@ Purpose: Track architecture decisions and implementation progress for the unifie
 
 - Added featured images for events:
   - Set `image` + `imageAlt` for seeded events in `web/src/lib/data/events/events.json`.
-  - Added a new static featured image: `web/static/images/events/vibe-coding-webinar-feb-2026.svg`.
 - Standardized the `/events` card layout:
   - Always reserve space so `Learn more →` aligns consistently on desktop.
   - Unified pill/meta ordering to match the “Happening now” card (pills first, then meta details).
@@ -77,7 +76,6 @@ Purpose: Track architecture decisions and implementation progress for the unifie
   - `web/src/routes/sitemap.xml/+server.ts`
   - `web/static/robots.txt`
 - Assets
-  - `web/static/images/events/vibe-coding-webinar-feb-2026.svg`
 
 ## 1) Locked Decisions (Done)
 

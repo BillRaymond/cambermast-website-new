@@ -2,9 +2,16 @@
 	import { createEventDispatcher, onMount } from 'svelte';
 
 	type ImageGenStage = 'square' | 'landscape' | 'portrait';
-	type BlobScope = 'events' | 'training';
+	type DestinationType = 'events' | 'training' | 'resources' | 'featured-images' | 'custom';
 	type Mode = 'embedded' | 'standalone';
 	const NO_TEMPLATE_OPTION = '__no-template__';
+	const DESTINATION_TYPE_OPTIONS: Array<{ value: DestinationType; label: string; description: string }> = [
+		{ value: 'featured-images', label: 'Featured image', description: 'Sitewide featured and default social images' },
+		{ value: 'events', label: 'Event', description: 'Event-specific generated images' },
+		{ value: 'resources', label: 'Resource', description: 'Resource page images' },
+		{ value: 'training', label: 'Training program', description: 'Training and TechLab program images' },
+		{ value: 'custom', label: 'Custom', description: 'Explicit custom subpath under /images/generated/' }
+	];
 	type StageAPromptPreset = {
 		label: string;
 		prompt: string;
@@ -75,6 +82,7 @@ STRICT AVOIDANCE RULES
 		height: string;
 		minioKey: string;
 		minioUrl?: string;
+		minioBrowserUrl?: string;
 		minioBackupError?: string;
 	};
 
@@ -94,10 +102,18 @@ STRICT AVOIDANCE RULES
 		fileName?: string;
 	};
 
+	type MetadataWriteResult = {
+		kind: 'selected-minio-locations' | 'stage-prompts';
+		absolutePath: string;
+		publicUrl: string;
+		version: number;
+		fileName?: string;
+	};
+
 	type PromptHistoryEntry = {
 		id: string;
 		createdAt: string;
-		blobScope: BlobScope;
+		destinationType: DestinationType;
 		slug: string;
 		assetKeys: Record<ImageGenStage, string>;
 		prompts: {
@@ -111,7 +127,7 @@ STRICT AVOIDANCE RULES
 		standards?: Array<{
 			id?: unknown;
 			createdAt?: unknown;
-			blobScope?: unknown;
+			destinationType?: unknown;
 			slug?: unknown;
 			assetKeys?: Partial<Record<ImageGenStage, unknown>>;
 			prompts?: Partial<Record<ImageGenStage, unknown>>;
@@ -121,6 +137,7 @@ STRICT AVOIDANCE RULES
 	export let isDev = false;
 	export let mode: Mode = 'standalone';
 	export let slug = '';
+	export let destinationType: DestinationType = 'featured-images';
 	export let defaultTemplateUrl = '';
 	export let defaultPrompts: { square: string; landscape: string; portrait: string } = {
 		square: '',
@@ -130,7 +147,6 @@ STRICT AVOIDANCE RULES
 	export let defaultN = 4;
 	export let minN = 1;
 	export let maxN = 10;
-	export let blobScope: BlobScope = 'events';
 
 	const dispatch = createEventDispatcher<{
 		imagessaved: {
@@ -187,12 +203,14 @@ STRICT AVOIDANCE RULES
 	let errorMessage = '';
 	let saveMessage = '';
 	let saveWrites: WriteResult[] = [];
+	let saveMetadataWrites: MetadataWriteResult[] = [];
 	let previewCandidate: Candidate | null = null;
 	let promptHistory: PromptHistoryEntry[] = [];
 	let promptHistorySearch = '';
 	let filteredPromptHistory: PromptHistoryEntry[] = [];
 	let visiblePromptHistory: PromptHistoryEntry[] = [];
 	let showAllRecentHistory = false;
+	let customBasePath = '';
 
 	const MINIO_BROWSER_BASE = 'https://minio-on-hstgr.tail8a5127.ts.net/browser/blobs/';
 	const PROMPT_HISTORY_MAX_ITEMS = 150;
@@ -273,6 +291,31 @@ STRICT AVOIDANCE RULES
 
 	const getBlobBrowserUrl = (minioKey: string): string =>
 		`${MINIO_BROWSER_BASE}${minioKey.replace(/^\/+/, '')}`;
+	const toDestinationLabel = (value: DestinationType): string =>
+		DESTINATION_TYPE_OPTIONS.find((option) => option.value === value)?.label ?? value;
+	const getDestinationPath = (): string => {
+		const trimmedSlug = slug.trim().toLowerCase();
+		if (!trimmedSlug) return '';
+		if (destinationType === 'custom') {
+			const trimmedBase = customBasePath.trim().toLowerCase().replace(/^\/+|\/+$/g, '');
+			return trimmedBase ? `${trimmedBase}/${trimmedSlug}` : trimmedSlug;
+		}
+		return `${destinationType}/${trimmedSlug}`;
+	};
+	const getSavePath = (): string => {
+		const relative = getDestinationPath();
+		return relative ? `/images/generated/${relative}/` : '/images/generated/<type>/<slug>/';
+	};
+	let destinationInputHasError = false;
+	let resolvedPathPreview = '/images/generated/<type>/<slug>/';
+	let destinationInputErrorMessage = '';
+	const getCandidateMinioUrl = (candidate: Candidate): string =>
+		candidate.minioBrowserUrl || getBlobBrowserUrl(candidate.minioKey);
+	const copyText = async (value: string) => {
+		if (!value || typeof navigator === 'undefined' || !navigator.clipboard) return;
+		await navigator.clipboard.writeText(value);
+	};
+	const shouldFilterHistoryByDestination = (): boolean => destinationType !== 'custom';
 
 	const openPreview = (candidate: Candidate) => {
 		previewCandidate = candidate;
@@ -290,7 +333,8 @@ STRICT AVOIDANCE RULES
 			dataUrl: templateImageDataUrl,
 			width: '',
 			height: '',
-			minioKey: sourceLabel
+			minioKey: sourceLabel,
+			minioBrowserUrl: sourceLabel
 		});
 	};
 
@@ -354,6 +398,26 @@ STRICT AVOIDANCE RULES
 		return mapped.filter((value): value is WriteResult => value !== null);
 	};
 
+	const parseMetadataWriteResults = (value: unknown): MetadataWriteResult[] => {
+		if (!Array.isArray(value)) return [];
+		const mapped: Array<MetadataWriteResult | null> = value.map((item) => {
+				if (!item || typeof item !== 'object') return null;
+				const row = item as Record<string, unknown>;
+				const kind = row.kind;
+				if (kind !== 'selected-minio-locations' && kind !== 'stage-prompts') return null;
+				const absolutePath = typeof row.absolutePath === 'string' ? row.absolutePath : '';
+				const publicUrl = typeof row.publicUrl === 'string' ? row.publicUrl : '';
+				const version =
+					typeof row.version === 'number' && Number.isFinite(row.version) ? row.version : 1;
+				const fileName =
+					typeof row.fileName === 'string' && row.fileName.length > 0
+						? row.fileName
+						: getFileNameFromPublicUrl(publicUrl);
+				return { kind, absolutePath, publicUrl, version, fileName };
+			});
+		return mapped.filter((value): value is MetadataWriteResult => value !== null);
+	};
+
 	const parsePromptHistoryResponse = (value: unknown): PromptHistoryEntry[] => {
 		const body = value as PromptStandardsApiResponse | null;
 		const rows = Array.isArray(body?.standards) ? body.standards : [];
@@ -363,14 +427,21 @@ STRICT AVOIDANCE RULES
 				const id = typeof entry.id === 'string' ? entry.id : '';
 				const createdAt = typeof entry.createdAt === 'string' ? entry.createdAt : '';
 				const slugValue = typeof entry.slug === 'string' ? entry.slug : '';
-				const scope = entry.blobScope === 'training' ? 'training' : entry.blobScope === 'events' ? 'events' : null;
+				const entryDestinationType =
+					entry.destinationType === 'events' ||
+					entry.destinationType === 'training' ||
+					entry.destinationType === 'resources' ||
+					entry.destinationType === 'featured-images' ||
+					entry.destinationType === 'custom'
+						? entry.destinationType
+						: null;
 				const prompts = entry.prompts;
 				const assetKeys = entry.assetKeys;
 				if (
 					!id ||
 					!createdAt ||
 					!slugValue ||
-					!scope ||
+					!entryDestinationType ||
 					!prompts ||
 					typeof prompts.square !== 'string' ||
 					typeof prompts.landscape !== 'string' ||
@@ -385,7 +456,7 @@ STRICT AVOIDANCE RULES
 				return {
 					id,
 					createdAt,
-					blobScope: scope,
+					destinationType: entryDestinationType,
 					slug: slugValue,
 					assetKeys: {
 						square: assetKeys.square,
@@ -400,7 +471,9 @@ STRICT AVOIDANCE RULES
 				};
 			})
 			.filter((entry): entry is PromptHistoryEntry => entry !== null)
-			.filter((entry) => entry.blobScope === blobScope)
+			.filter((entry) =>
+				shouldFilterHistoryByDestination() ? entry.destinationType === destinationType : true
+			)
 			.slice(0, PROMPT_HISTORY_MAX_ITEMS);
 	};
 
@@ -490,8 +563,9 @@ STRICT AVOIDANCE RULES
 					n,
 					size: STAGE_SIZE_MAP[stage],
 					templateImageDataUrl: templateForStage,
-					slug: slug || undefined,
-					blobScope
+					destinationType,
+					destinationSlug: slug || undefined,
+					customBasePath: destinationType === 'custom' ? customBasePath || undefined : undefined
 				})
 			});
 			const json = await response.json();
@@ -548,8 +622,9 @@ STRICT AVOIDANCE RULES
 		errorMessage = '';
 		saveMessage = '';
 		saveWrites = [];
+		saveMetadataWrites = [];
 		if (!slug.trim()) {
-			errorMessage = 'Slug is required before saving.';
+			errorMessage = 'Destination slug is required before saving.';
 			return;
 		}
 		if (!selectedSquareCandidateId || !selectedLandscapeCandidateId || !selectedPortraitCandidateId) {
@@ -575,8 +650,9 @@ STRICT AVOIDANCE RULES
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({
-					slug: slug.trim().toLowerCase(),
-					blobScope,
+					destinationType,
+					destinationSlug: slug.trim().toLowerCase(),
+					customBasePath: destinationType === 'custom' ? customBasePath.trim().toLowerCase() : undefined,
 					prompts: promptSnapshot,
 					selected: {
 						squareCandidateId: selectedSquareCandidateId,
@@ -590,7 +666,8 @@ STRICT AVOIDANCE RULES
 			if (!response.ok) throw new Error(json?.error ?? 'Save failed');
 
 			saveWrites = parseWriteResults(json.writes);
-			saveMessage = `Saved selected images for slug "${json.slug}".`;
+			saveMetadataWrites = parseMetadataWriteResults(json.metadataWrites);
+			saveMessage = `Saved selected images to "${json?.destination?.relativeDir ?? getDestinationPath()}".`;
 			await loadPromptHistory();
 
 			const urls = {
@@ -599,7 +676,7 @@ STRICT AVOIDANCE RULES
 				portrait: saveWrites.find((write) => write.variant === 'portrait')?.publicUrl
 			};
 			dispatch('imagessaved', {
-				slug: json.slug,
+				slug: json?.destination?.relativeDir ?? getDestinationPath(),
 				writes: saveWrites,
 				urls
 			});
@@ -618,6 +695,23 @@ STRICT AVOIDANCE RULES
 			errorMessage = error instanceof Error ? error.message : 'Unable to load templates';
 		}
 	});
+
+	$: resolvedPathPreview =
+		destinationType === 'custom'
+			? `/images/generated/${customBasePath.trim() || '<custom-base>'}/${slug.trim() || '<slug>'}/`
+			: `/images/generated/${destinationType}/${slug.trim() || '<slug>'}/`;
+
+	$: destinationInputErrorMessage = !slug.trim()
+		? 'Destination slug is required.'
+		: destinationType === 'custom' && !customBasePath.trim()
+			? 'Custom base path is required when Custom is selected.'
+			: '';
+
+	$: destinationInputHasError = destinationInputErrorMessage.length > 0;
+
+	$: if (destinationType !== 'custom' && customBasePath) {
+		customBasePath = '';
+	}
 
 	$: {
 		const search = promptHistorySearch.trim().toLowerCase();
@@ -801,20 +895,68 @@ STRICT AVOIDANCE RULES
 		</div>
 
 		<div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
-			<h2 class="text-xl font-semibold">Location Settings</h2>
-			<label class="mt-3 block text-sm font-semibold text-gray-800" for={`slug-${mode}`}>Program/Event slug path</label>
+			<h2 class="text-xl font-semibold">Destination Settings</h2>
+			<p class="mt-2 text-sm text-gray-600">
+				Choose where generated images should live before you save them. Backups mirror this destination path in MinIO.
+			</p>
+			<fieldset class="mt-4">
+				<legend class="text-sm font-semibold text-gray-800">Destination type</legend>
+				<div class="mt-2 flex flex-wrap gap-4">
+					{#each DESTINATION_TYPE_OPTIONS as option}
+						<label class="inline-flex items-center gap-2 text-sm text-gray-700">
+							<input
+								type="radio"
+								name={`destination-type-${mode}`}
+								bind:group={destinationType}
+								value={option.value}
+							/>
+							<span>{option.label}</span>
+						</label>
+					{/each}
+				</div>
+			</fieldset>
+			<p class="mt-2 text-xs text-gray-600">
+				{DESTINATION_TYPE_OPTIONS.find((option) => option.value === destinationType)?.description}
+			</p>
+			<label class="mt-4 block text-sm font-semibold text-gray-800" for={`slug-${mode}`}>
+				Destination slug
+			</label>
 			<input
 				id={`slug-${mode}`}
 				type="text"
-				placeholder="example: events/event-name or resources/ama"
+				placeholder="example: ai-workshop-for-content-creators"
 				bind:value={slug}
 				class="mt-2 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
 			/>
+			{#if destinationType === 'custom'}
+				<label class="mt-4 block text-sm font-semibold text-gray-800" for={`custom-base-${mode}`}>
+					Custom base path
+				</label>
+				<input
+					id={`custom-base-${mode}`}
+					type="text"
+					placeholder="example: experiments or campaigns/partner-name"
+					bind:value={customBasePath}
+					class="mt-2 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
+				/>
+				<p class="mt-1 text-xs text-gray-500">
+					Optional. Stored under <code>/images/generated/&lt;custom-base&gt;/&lt;slug&gt;/</code>.
+				</p>
+			{/if}
 			<p class="mt-1 text-xs text-gray-500">
 				Use lowercase letters, numbers, hyphens, and optional <code>/</code> subfolders. If
-				empty, generation backups use <code>unspecified</code>. For events, use paths like
-				<code>events/event-name</code>.
+				empty, generation backups use <code>unspecified</code>.
 			</p>
+			<p class="mt-2 text-xs text-gray-700">
+				Destination type: <code>{toDestinationLabel(destinationType)}</code>
+			</p>
+			<p class={`mt-1 text-xs ${destinationInputHasError ? 'font-semibold text-rose-700' : 'text-gray-700'}`}>
+				Resolved save path:
+				<code>{resolvedPathPreview}</code>
+			</p>
+			{#if destinationInputHasError}
+				<p class="mt-1 text-xs font-semibold text-rose-700">{destinationInputErrorMessage}</p>
+			{/if}
 		</div>
 
 		<div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
@@ -829,7 +971,7 @@ STRICT AVOIDANCE RULES
 				</button>
 			</div>
 			<p class="mt-1 text-xs text-gray-600">
-				Each saved run stores prompts for square, landscape, and portrait, keyed by final <code>slug/filename</code>.
+				Each saved run stores prompts for square, landscape, and portrait, keyed by final <code>path/filename</code>.
 			</p>
 				<input
 					type="text"
@@ -1006,15 +1148,24 @@ STRICT AVOIDANCE RULES
 								{#if candidate.minioKey && !candidate.minioBackupError}
 									<a
 										class="inline-flex items-center gap-1 rounded border border-gray-300 bg-white px-2 py-1 text-[11px] font-semibold text-gray-700 hover:border-gray-400"
-										href={getBlobBrowserUrl(candidate.minioKey)}
+										href={getCandidateMinioUrl(candidate)}
 										target="_blank"
 										rel="noopener noreferrer"
 									>
-										Original in blob
+										Open MinIO URL
 									</a>
 								{/if}
+								{#if candidate.minioKey}
+									<button
+										type="button"
+										class="inline-flex items-center gap-1 rounded border border-gray-300 bg-white px-2 py-1 text-[11px] font-semibold text-gray-700 hover:border-gray-400"
+										on:click={() => copyText(getCandidateMinioUrl(candidate))}
+									>
+										Copy MinIO URL
+									</button>
+								{/if}
 							</div>
-							<p class="mt-2 break-all text-[11px] text-gray-600">{candidate.minioKey}</p>
+							<p class="mt-2 break-all text-[11px] text-gray-600">{getCandidateMinioUrl(candidate)}</p>
 							{#if candidate.minioBackupError}
 								<p class="text-[11px] font-semibold text-rose-700">
 									Backup failed: {candidate.minioBackupError}
@@ -1109,15 +1260,24 @@ STRICT AVOIDANCE RULES
 								{#if candidate.minioKey && !candidate.minioBackupError}
 									<a
 										class="inline-flex items-center gap-1 rounded border border-gray-300 bg-white px-2 py-1 text-[11px] font-semibold text-gray-700 hover:border-gray-400"
-										href={getBlobBrowserUrl(candidate.minioKey)}
+										href={getCandidateMinioUrl(candidate)}
 										target="_blank"
 										rel="noopener noreferrer"
 									>
-										Original in blob
+										Open MinIO URL
 									</a>
 								{/if}
+								{#if candidate.minioKey}
+									<button
+										type="button"
+										class="inline-flex items-center gap-1 rounded border border-gray-300 bg-white px-2 py-1 text-[11px] font-semibold text-gray-700 hover:border-gray-400"
+										on:click={() => copyText(getCandidateMinioUrl(candidate))}
+									>
+										Copy MinIO URL
+									</button>
+								{/if}
 							</div>
-							<p class="mt-2 break-all text-[11px] text-gray-600">{candidate.minioKey}</p>
+							<p class="mt-2 break-all text-[11px] text-gray-600">{getCandidateMinioUrl(candidate)}</p>
 							{#if candidate.minioBackupError}
 								<p class="text-[11px] font-semibold text-rose-700">
 									Backup failed: {candidate.minioBackupError}
@@ -1212,15 +1372,24 @@ STRICT AVOIDANCE RULES
 								{#if candidate.minioKey && !candidate.minioBackupError}
 									<a
 										class="inline-flex items-center gap-1 rounded border border-gray-300 bg-white px-2 py-1 text-[11px] font-semibold text-gray-700 hover:border-gray-400"
-										href={getBlobBrowserUrl(candidate.minioKey)}
+										href={getCandidateMinioUrl(candidate)}
 										target="_blank"
 										rel="noopener noreferrer"
 									>
-										Original in blob
+										Open MinIO URL
 									</a>
 								{/if}
+								{#if candidate.minioKey}
+									<button
+										type="button"
+										class="inline-flex items-center gap-1 rounded border border-gray-300 bg-white px-2 py-1 text-[11px] font-semibold text-gray-700 hover:border-gray-400"
+										on:click={() => copyText(getCandidateMinioUrl(candidate))}
+									>
+										Copy MinIO URL
+									</button>
+								{/if}
 							</div>
-							<p class="mt-2 break-all text-[11px] text-gray-600">{candidate.minioKey}</p>
+							<p class="mt-2 break-all text-[11px] text-gray-600">{getCandidateMinioUrl(candidate)}</p>
 							{#if candidate.minioBackupError}
 								<p class="text-[11px] font-semibold text-rose-700">
 									Backup failed: {candidate.minioBackupError}
@@ -1233,33 +1402,26 @@ STRICT AVOIDANCE RULES
 		</div>
 
 		<div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
-			<h2 class="text-xl font-semibold">Location Settings (Final Check Before Save)</h2>
-			<label class="mt-3 block text-sm font-semibold text-gray-800" for={`slug-final-${mode}`}>
-				Program/Event slug path
-			</label>
-			<input
-				id={`slug-final-${mode}`}
-				type="text"
-				placeholder="example: events/event-name or resources/ama"
-				bind:value={slug}
-				class="mt-2 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
-			/>
-			<p class="mt-1 text-xs text-gray-500">
-				Use lowercase letters, numbers, hyphens, and optional <code>/</code> subfolders. For events,
-				use paths like <code>events/event-name</code>.
-			</p>
-		</div>
-
-		<div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
 			<h2 class="text-xl font-semibold">Final Save</h2>
 			<p class="mt-2 text-sm text-gray-600">
 				Save selected square, landscape, and portrait files to
-				<code>/web/static/images/generated/&lt;slug-or-path&gt;/</code>.
+				<code>{resolvedPathPreview}</code>.
 			</p>
+			{#if destinationInputHasError}
+				<div class="mt-3 rounded-lg border border-rose-200 bg-rose-50 p-3 text-sm font-semibold text-rose-800">
+					Final save path is incomplete. {destinationInputErrorMessage}
+				</div>
+			{/if}
 			<button
 				class="mt-4 rounded-xl bg-emerald-600 px-5 py-2 text-sm font-semibold text-white hover:bg-emerald-700 disabled:opacity-50"
 				type="button"
-				disabled={saving || !selectedSquareCandidateId || !selectedLandscapeCandidateId || !selectedPortraitCandidateId}
+				disabled={
+					saving ||
+					destinationInputHasError ||
+					!selectedSquareCandidateId ||
+					!selectedLandscapeCandidateId ||
+					!selectedPortraitCandidateId
+				}
 				on:click={saveSelected}
 			>
 				{saving ? 'Saving...' : 'Save Selected Images'}
@@ -1272,6 +1434,19 @@ STRICT AVOIDANCE RULES
 					{#each saveWrites as write}
 						<li class="rounded-lg border border-gray-200 bg-gray-50 p-2">
 							<p><strong>{toStageLabel(write.variant)}</strong> → {write.publicUrl}</p>
+							<p class="text-xs text-gray-500">{write.absolutePath}</p>
+							{#if write.version > 1}
+								<p class="text-xs font-semibold text-amber-700">Versioned as v{write.version}</p>
+							{/if}
+						</li>
+					{/each}
+				</ul>
+			{/if}
+			{#if saveMetadataWrites.length > 0}
+				<ul class="mt-3 space-y-2 text-sm text-gray-700">
+					{#each saveMetadataWrites as write}
+						<li class="rounded-lg border border-gray-200 bg-gray-50 p-2">
+							<p><strong>{write.kind}</strong> → {write.publicUrl}</p>
 							<p class="text-xs text-gray-500">{write.absolutePath}</p>
 							{#if write.version > 1}
 								<p class="text-xs font-semibold text-amber-700">Versioned as v{write.version}</p>
@@ -1299,7 +1474,9 @@ STRICT AVOIDANCE RULES
 				tabindex="-1"
 			>
 				<div class="mb-3 flex items-center justify-between gap-2">
-					<p class="truncate text-sm font-semibold text-gray-800">{previewCandidate.minioKey}</p>
+					<p class="truncate text-sm font-semibold text-gray-800">
+						{previewCandidate.minioBrowserUrl || previewCandidate.minioKey}
+					</p>
 					<button
 						type="button"
 						class="rounded border border-gray-300 bg-white px-3 py-1 text-xs font-semibold text-gray-700 hover:border-gray-400"

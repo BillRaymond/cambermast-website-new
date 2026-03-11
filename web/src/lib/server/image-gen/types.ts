@@ -1,7 +1,12 @@
 export type ImageGenStage = 'square' | 'landscape' | 'portrait';
 
 export type ImageGenSize = '1024x1024' | '1536x1024' | '1024x1536';
-export type ImageGenBlobScope = 'events' | 'training';
+export type ImageGenDestinationType =
+	| 'events'
+	| 'training'
+	| 'resources'
+	| 'featured-images'
+	| 'custom';
 
 export const IMAGE_GEN_MODEL = 'gpt-image-1.5';
 
@@ -32,8 +37,9 @@ export type GenerateRequest = {
 	n: number;
 	size: ImageGenSize;
 	templateImageDataUrl?: string;
-	slug?: string;
-	blobScope?: ImageGenBlobScope;
+	destinationType?: ImageGenDestinationType;
+	destinationSlug?: string;
+	customBasePath?: string;
 };
 
 export type CandidateRequestPayload = {
@@ -43,8 +49,9 @@ export type CandidateRequestPayload = {
 };
 
 export type SaveSelectedRequest = {
-	slug: string;
-	blobScope?: ImageGenBlobScope;
+	destinationType?: ImageGenDestinationType;
+	destinationSlug: string;
+	customBasePath?: string;
 	prompts?: {
 		square: string;
 		landscape: string;
@@ -70,6 +77,7 @@ export type ImageGenCandidateResponse = {
 	height: string;
 	minioKey: string;
 	minioUrl?: string;
+	minioBrowserUrl?: string;
 	minioBackupError?: string;
 };
 
@@ -80,5 +88,6 @@ export type ImageGenGenerateResponse = {
 	candidates: ImageGenCandidateResponse[];
 	promptBackupKey?: string;
 	promptBackupUrl?: string;
+	promptBackupBrowserUrl?: string;
 	promptBackupError?: string;
 };

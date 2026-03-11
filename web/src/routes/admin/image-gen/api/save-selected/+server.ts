@@ -16,8 +16,8 @@ export const POST = async ({ request }) => {
 	const body = (await request.json().catch(() => null)) as SaveSelectedRequest | null;
 	if (!body) return json({ error: 'Invalid JSON body' }, { status: 400 });
 
-	if (typeof body.slug !== 'string' || body.slug.trim().length === 0) {
-		return json({ error: 'Slug is required' }, { status: 400 });
+	if (typeof body.destinationSlug !== 'string' || body.destinationSlug.trim().length === 0) {
+		return json({ error: 'Destination slug is required' }, { status: 400 });
 	}
 
 	const square = body.candidateMap?.[body.selected?.squareCandidateId];
@@ -36,7 +36,9 @@ export const POST = async ({ request }) => {
 
 	try {
 		const result = await saveSelectedImagesToWebsite({
-			slug: body.slug,
+			destinationType: body.destinationType ?? 'custom',
+			destinationSlug: body.destinationSlug,
+			customBasePath: body.customBasePath,
 			squareDataUrl: square.dataUrl,
 			landscapeDataUrl: landscape.dataUrl,
 			portraitDataUrl: portrait.dataUrl,
@@ -48,15 +50,17 @@ export const POST = async ({ request }) => {
 			prompts: body.prompts
 		});
 		const promptStandard = await appendImageGenPromptStandard({
-			slug: result.slug,
-			blobScope: body.blobScope === 'training' ? 'training' : 'events',
+			destinationType: result.destination.destinationType,
+			destinationSlug: result.destination.destinationSlug,
+			customBasePath: result.destination.customBasePath,
 			prompts: body.prompts,
 			writes: result.files
 		});
 
 		return json({
-			slug: result.slug,
+			destination: result.destination,
 			writes: result.files,
+			metadataWrites: result.metadataFiles,
 			promptStandard
 		});
 	} catch (error) {
