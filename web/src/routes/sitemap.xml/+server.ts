@@ -36,6 +36,7 @@ const staticRoutes = [
 	'/api/events.json',
 	'/api/training.json',
 	'/api/resources.json',
+	'/api/redirects.json',
 	'/api/faq-presets.json',
 	'/api/testimonials.json',
 	'/api/tools.json',

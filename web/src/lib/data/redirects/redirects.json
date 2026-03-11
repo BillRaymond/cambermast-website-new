@@ -1,0 +1,36 @@
+{
+	"redirects": [
+		{
+			"sourcePath": "/calendar",
+			"targetPath": "/events",
+			"statusCode": 308,
+			"enabled": true,
+			"notes": "Legacy calendar alias kept in primary navigation.",
+			"category": "nav"
+		},
+		{
+			"sourcePath": "/feed/programs.xml",
+			"targetPath": "/feed/training-programs.xml",
+			"statusCode": 308,
+			"enabled": true,
+			"notes": "Compatibility alias for older machine-readable program feed references.",
+			"category": "feed"
+		},
+		{
+			"sourcePath": "/training-programs",
+			"targetPath": "/training",
+			"statusCode": 308,
+			"enabled": true,
+			"notes": "Legacy training catalog alias.",
+			"category": "catalog"
+		},
+		{
+			"sourcePath": "/training/calendar",
+			"targetPath": "/events",
+			"statusCode": 308,
+			"enabled": true,
+			"notes": "Legacy training calendar path redirected to the canonical events calendar.",
+			"category": "history"
+		}
+	]
+}

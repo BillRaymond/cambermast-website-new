@@ -1,0 +1,41 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://cambermast.com/schemas/redirects.schema.json",
+	"title": "Cambermast Redirect Registry",
+	"type": "object",
+	"additionalProperties": false,
+	"required": ["redirects"],
+	"properties": {
+		"redirects": {
+			"type": "array",
+			"items": { "$ref": "#/$defs/redirectEntry" }
+		}
+	},
+	"$defs": {
+		"redirectEntry": {
+			"type": "object",
+			"additionalProperties": false,
+			"required": ["sourcePath", "targetPath", "statusCode", "enabled"],
+			"properties": {
+				"sourcePath": {
+					"type": "string",
+					"pattern": "^/(?:[^?#\\s]+(?:/[^?#\\s]+)*)?$",
+					"minLength": 2
+				},
+				"targetPath": {
+					"type": "string",
+					"pattern": "^/(?:[^?#\\s]+(?:/[^?#\\s]+)*)?$",
+					"minLength": 2
+				},
+				"statusCode": { "type": "integer", "enum": [301, 302, 307, 308] },
+				"enabled": { "type": "boolean" },
+				"notes": { "type": "string", "minLength": 1 },
+				"category": {
+					"type": "string",
+					"enum": ["api", "catalog", "feed", "history", "machine-readable", "nav", "other"]
+				},
+				"allowRestrictedTarget": { "type": "boolean" }
+			}
+		}
+	}
+}

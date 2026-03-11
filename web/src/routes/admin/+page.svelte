@@ -103,6 +103,19 @@
 		</a>
 
 		<a
+			href="/admin/redirects"
+			class="group rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition hover:border-gray-300"
+		>
+			<p class="text-xs font-semibold tracking-wide text-gray-500 uppercase">Dev tool</p>
+			<p class="mt-2 text-lg font-semibold text-gray-900 group-hover:text-blue-900">
+				Redirect registry
+			</p>
+			<p class="mt-1 text-sm text-gray-600">
+				CRUD legacy URLs, feed aliases, and machine-readable compatibility paths.
+			</p>
+		</a>
+
+		<a
 			href="/admin/image-gen"
 			class="group rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition hover:border-gray-300"
 		>
@@ -115,6 +128,19 @@
 			</p>
 		</a>
 	{/if}
+
+	<a
+		href="/admin/sop-redirects"
+		class="group rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition hover:border-gray-300"
+	>
+		<p class="text-xs font-semibold tracking-wide text-gray-500 uppercase">Playbook</p>
+		<p class="mt-2 text-lg font-semibold text-gray-900 group-hover:text-blue-900">
+			Redirect SOPs
+		</p>
+		<p class="mt-1 text-sm text-gray-600">
+			Registry, validation, and legacy URL maintenance procedures.
+		</p>
+	</a>
 
 	<a
 		href="/admin/sop"

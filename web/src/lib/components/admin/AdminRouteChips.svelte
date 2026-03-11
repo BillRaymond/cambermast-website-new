@@ -15,8 +15,10 @@
 	] as const;
 	const devChips = [
 		{ href: '/admin/events/create', label: '🧪 Create Event (Dev)' },
+		{ href: '/admin/redirects', label: '↪️ Redirects (Dev)' },
 		{ href: '/admin/image-gen', label: '🖼️ Image Gen (Dev)' },
-		{ href: '/admin/sop-image-gen', label: '🧩 Image Gen SOP (Dev)' }
+		{ href: '/admin/sop-image-gen', label: '🧩 Image Gen SOP (Dev)' },
+		{ href: '/admin/sop-redirects', label: '🧭 Redirect SOP' }
 	] as const;
 	const chips = [...baseChips, ...(dev ? devChips : [])] as const;
 

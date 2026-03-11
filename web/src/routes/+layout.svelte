@@ -253,6 +253,7 @@
 				<a class="underline" href="/api/training.json">Training API</a> ·
 				<a class="underline" href="/api/catalog.json">Offerings API</a> ·
 				<a class="underline" href="/api/resources.json">Resources API</a> ·
+				<a class="underline" href="/api/redirects.json">Redirects API</a> ·
 				<a class="underline" href="/api">Public APIs</a> ·
 				<a class="underline" href="/llms.txt">LLMs guide</a>
 			</div>

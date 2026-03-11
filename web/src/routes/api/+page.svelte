@@ -37,7 +37,8 @@
 		{ href: '/api/tools.json', label: 'Tools API' },
 		{ href: '/api/image-gen-standards.json', label: 'Image Standards API' },
 		{ href: '/api/enums.json', label: 'Enums API' },
-		{ href: '/api/campaigns.json', label: 'Campaigns API' }
+		{ href: '/api/campaigns.json', label: 'Campaigns API' },
+		{ href: '/api/redirects.json', label: 'Redirects API' }
 	];
 
 	const feeds = [
@@ -67,7 +68,8 @@
 		{ href: '/api/events.json', title: 'Cambermast Events API', type: 'application/json' },
 		{ href: '/api/training.json', title: 'Cambermast Training API', type: 'application/json' },
 		{ href: '/api/catalog.json', title: 'Cambermast Offerings API', type: 'application/json' },
-		{ href: '/api/resources.json', title: 'Cambermast Resources API', type: 'application/json' }
+		{ href: '/api/resources.json', title: 'Cambermast Resources API', type: 'application/json' },
+		{ href: '/api/redirects.json', title: 'Cambermast Redirects API', type: 'application/json' }
 	]}
 />
 
@@ -99,6 +101,11 @@
 	<h2 class="text-xl font-semibold">More machine-readable sources</h2>
 	<p class="mt-2 max-w-3xl text-gray-700">
 		These endpoints support broader retrieval, reuse, and indexing across the site.
+	</p>
+	<p class="mt-2 max-w-3xl text-sm text-gray-600">
+		Canonical feed endpoint for training programs is <code>/feed/training-programs.xml</code>.
+		The legacy alias <code>/feed/programs.xml</code> is kept as a compatibility path, not the
+		primary source to index.
 	</p>
 	<div class="mt-4 flex flex-wrap gap-3">
 		{#each supportingApis as endpoint}
