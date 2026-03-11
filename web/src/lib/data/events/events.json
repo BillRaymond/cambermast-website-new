@@ -825,7 +825,7 @@
 			"title": "❄️ AI Workshop for Content Creators (Winter 2026)",
 			"type": "training_session",
 			"typeLabel": "Training",
-			"visibility": "draft",
+			"visibility": "public",
 			"lifecycleStatus": "scheduled",
 			"registrationStatus": "open",
 			"cta": {
