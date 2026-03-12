@@ -287,10 +287,20 @@ export const load: PageServerLoad = async () => {
 		.filter((entry): entry is DestinationReference => entry !== null)
 		.sort((a, b) => a.label.localeCompare(b.label));
 
-	const eventReferences: DestinationReference[] = listEventUi({
+	const eventEntries = listEventUi({
 		includeDrafts: true,
 		includeUnlisted: true
-	})
+	});
+
+	const eventOptions: DestinationOption[] = eventEntries
+		.map((event) => ({
+			slug: event.slug,
+			label: event.title,
+			description: event.lifecycleStatus
+		}))
+		.sort((a, b) => a.label.localeCompare(b.label));
+
+	const eventReferences: DestinationReference[] = eventEntries
 		.flatMap((event) => {
 			const fullSlug = `events/${event.slug}`;
 			const eventReference =
@@ -345,11 +355,7 @@ export const load: PageServerLoad = async () => {
 	return {
 		isDev: dev,
 		destinationOptions: {
-			events: eventReferences.map((event) => ({
-				slug: event.slug,
-				label: event.label,
-				description: event.description
-			})),
+			events: eventOptions,
 			training: trainingReferences.map((program) => ({
 				slug: program.slug,
 				label: program.label,
