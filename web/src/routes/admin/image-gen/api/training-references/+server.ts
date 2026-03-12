@@ -51,16 +51,6 @@ const isUsableReferenceUrl = async (value: string): Promise<boolean> => {
 
 const toPublicGeneratedUrl = (assetKey: string): string => `/images/generated/${assetKey.replace(/^\/+/, '')}`;
 
-const toReferenceAssetKey = (assetKey: string): string | null => {
-	const normalized = assetKey.replace(/^\/+/, '');
-	const match = normalized.match(/^(.*\/)?(hero-(?:square|landscape|portrait))(-v\d+)?\.jpe?g$/i);
-	if (!match) return null;
-	const directory = match[1] ?? '';
-	const base = match[2];
-	const version = match[3] ?? '';
-	return `${directory}${base}-reference${version}.png`;
-};
-
 const toSiblingPngAssetKey = (assetKey: string): string | null => {
 	const normalized = assetKey.replace(/^\/+/, '');
 	if (/\.png$/i.test(normalized)) return normalized;
@@ -75,13 +65,6 @@ const toPreferredReferenceUrl = async (assetKey?: string): Promise<string | unde
 		const siblingPngUrl = toPublicGeneratedUrl(siblingPngAssetKey);
 		if (await localPublicUrlExists(siblingPngUrl)) {
 			return siblingPngUrl;
-		}
-	}
-	const referenceAssetKey = toReferenceAssetKey(assetKey);
-	if (referenceAssetKey) {
-		const referenceUrl = toPublicGeneratedUrl(referenceAssetKey);
-		if (await localPublicUrlExists(referenceUrl)) {
-			return referenceUrl;
 		}
 	}
 	return toPublicGeneratedUrl(assetKey);

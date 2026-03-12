@@ -1,6 +1,6 @@
 import { dev } from '$app/environment';
 import path from 'node:path';
-import { existsSync, readdirSync } from 'node:fs';
+import { existsSync } from 'node:fs';
 import { readdir } from 'node:fs/promises';
 import { listResources } from '$lib/data/resources';
 import { listTrainingPrograms } from '$lib/data/training';
@@ -76,50 +76,11 @@ const localPublicUrlExists = (url?: string): url is string => {
 const toPublicGeneratedUrl = (assetKey: string): string =>
 	`/images/generated/${assetKey.replace(/^\/+/, '')}`;
 
-const toReferenceAssetKey = (assetKey: string): string | null => {
-	const normalized = assetKey.replace(/^\/+/, '');
-	const match = normalized.match(/^(.*\/)?(hero-(?:square|landscape|portrait))(-v\d+)?\.jpe?g$/i);
-	if (!match) return null;
-	const directory = match[1] ?? '';
-	const base = match[2];
-	const version = match[3] ?? '';
-	return `${directory}${base}-reference${version}.png`;
-};
-
 const toSiblingPngAssetKey = (assetKey: string): string | null => {
 	const normalized = assetKey.replace(/^\/+/, '');
 	if (/\.png$/i.test(normalized)) return normalized;
 	if (!/\.jpe?g$/i.test(normalized)) return null;
 	return normalized.replace(/\.jpe?g$/i, '.png');
-};
-
-const toLatestReferenceAssetKey = (assetKey: string): string | null => {
-	const normalized = assetKey.replace(/^\/+/, '');
-	const match = normalized.match(/^(.*\/)?(hero-(?:square|landscape|portrait))(?:-v\d+)?\.jpe?g$/i);
-	if (!match) return null;
-	const directory = (match[1] ?? '').replace(/\/$/, '');
-	const base = match[2];
-	const absoluteDirectory = path.join(webRoot, 'static', 'images', 'generated', directory);
-	let fileNames: string[] = [];
-	try {
-		fileNames = readdirSync(absoluteDirectory);
-	} catch {
-		return null;
-	}
-	const versionOf = (value: string): number => {
-		const versionMatch = value.match(/-v(\d+)\./i);
-		return versionMatch ? Number.parseInt(versionMatch[1] ?? '1', 10) : 1;
-	};
-	return (
-		fileNames
-			.filter((name) => new RegExp(`^${base}-reference(?:-v\\d+)?\\.png$`, 'i').test(name))
-			.sort((a, b) => {
-				const versionDiff = versionOf(b) - versionOf(a);
-				if (versionDiff !== 0) return versionDiff;
-				return a.localeCompare(b);
-			})[0]
-			?.replace(/^/, directory ? `${directory}/` : '') ?? null
-	);
 };
 
 const toPreferredGeneratedUrl = (assetKey?: string): { url: string; fallbackUrl: string } | null => {
@@ -128,10 +89,6 @@ const toPreferredGeneratedUrl = (assetKey?: string): { url: string; fallbackUrl:
 	const siblingPngAssetKey = toSiblingPngAssetKey(assetKey);
 	if (siblingPngAssetKey && assetKeyExists(siblingPngAssetKey)) {
 		return { url: toPublicGeneratedUrl(siblingPngAssetKey), fallbackUrl };
-	}
-	const referenceAssetKey = toReferenceAssetKey(assetKey) ?? toLatestReferenceAssetKey(assetKey);
-	if (referenceAssetKey && assetKeyExists(referenceAssetKey)) {
-		return { url: toPublicGeneratedUrl(referenceAssetKey), fallbackUrl };
 	}
 	return { url: fallbackUrl, fallbackUrl };
 };
@@ -182,10 +139,8 @@ const chooseFeaturedImageFile = (fileNames: string[]): string | null => {
 		fileNames.filter((name) => pattern.test(name)).sort(compareVersionedNames)[0] ?? null;
 
 	return (
-		pick(/^hero-square-reference(?:-v\d+)?\.png$/i) ??
 		pick(/^hero-square(?:-[a-z0-9-]+)?\.png$/i) ??
 		pick(/^hero-square(?:-v\d+)?\.jpe?g$/i) ??
-		pick(/^hero-landscape-reference(?:-v\d+)?\.png$/i) ??
 		pick(/^hero-landscape(?:-[a-z0-9-]+)?\.png$/i) ??
 		pick(/^hero-landscape(?:-v\d+)?\.jpe?g$/i) ??
 		null

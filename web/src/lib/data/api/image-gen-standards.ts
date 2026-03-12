@@ -30,16 +30,6 @@ const assetKeyExists = (assetKey: string): boolean => {
 	return existsSync(absolutePath);
 };
 
-const toReferenceAssetKey = (assetKey: string): string | null => {
-	const normalized = assetKey.replace(/^\/+/, '');
-	const match = normalized.match(/^(.*\/)?(hero-(?:square|landscape|portrait))(-v\d+)?\.jpe?g$/i);
-	if (!match) return null;
-	const directory = match[1] ?? '';
-	const base = match[2];
-	const version = match[3] ?? '';
-	return `${directory}${base}-reference${version}.png`;
-};
-
 const toSiblingPngAssetKey = (assetKey: string): string | null => {
 	const normalized = assetKey.replace(/^\/+/, '');
 	if (/\.png$/i.test(normalized)) return normalized;
@@ -52,11 +42,7 @@ const toExistingReferenceAssetUrl = (assetKey: string, origin: string): string |
 	if (siblingPngAssetKey && assetKeyExists(siblingPngAssetKey)) {
 		return toAbsoluteImageUrl(siblingPngAssetKey, origin);
 	}
-	const referenceAssetKey = toReferenceAssetKey(assetKey);
-	if (!referenceAssetKey) return null;
-	const absolutePath = path.join(webRoot, 'static', 'images', 'generated', referenceAssetKey);
-	if (!existsSync(absolutePath)) return null;
-	return toAbsoluteImageUrl(referenceAssetKey, origin);
+	return null;
 };
 
 const toApiStandard = (entry: ImageGenPromptStandard, origin: string) => ({
