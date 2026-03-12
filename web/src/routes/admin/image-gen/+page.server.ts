@@ -67,6 +67,12 @@ const assetKeyExists = (assetKey?: string): assetKey is string => {
 	return existsSync(path.join(webRoot, 'static', 'images', 'generated', normalized));
 };
 
+const localPublicUrlExists = (url?: string): url is string => {
+	if (!url?.startsWith('/')) return false;
+	const normalized = url.replace(/^\/+/, '');
+	return existsSync(path.join(webRoot, 'static', normalized));
+};
+
 const toPublicGeneratedUrl = (assetKey: string): string =>
 	`/images/generated/${assetKey.replace(/^\/+/, '')}`;
 
@@ -90,11 +96,32 @@ const toPreferredGeneratedUrl = (assetKey?: string): { url: string; fallbackUrl:
 	return { url: fallbackUrl, fallbackUrl };
 };
 
+const toPngPublicUrl = (url: string): string | null => {
+	const normalized = url.trim();
+	if (!normalized.startsWith('/')) return null;
+	if (/\.png(?:[?#].*)?$/i.test(normalized)) return normalized;
+	if (!/\.jpe?g(?:[?#].*)?$/i.test(normalized)) return null;
+	return normalized.replace(/\.jpe?g(?=([?#].*)?$)/i, '.png');
+};
+
+const toPreferredLocalPublicUrl = (url?: string): { url: string; fallbackUrl: string } | null => {
+	if (!url?.trim()) return null;
+	const fallbackUrl = url.trim();
+	const pngUrl = toPngPublicUrl(fallbackUrl);
+	if (pngUrl && pngUrl !== fallbackUrl && localPublicUrlExists(pngUrl)) {
+		return { url: pngUrl, fallbackUrl };
+	}
+	if (localPublicUrlExists(fallbackUrl)) {
+		return { url: fallbackUrl, fallbackUrl };
+	}
+	return null;
+};
+
 const toPreferredPublicUrl = (url?: string): { url: string; fallbackUrl: string } | null => {
 	if (!url?.trim()) return null;
 	const trimmed = url.trim();
 	if (!trimmed.startsWith('/images/generated/')) {
-		return { url: trimmed, fallbackUrl: trimmed };
+		return toPreferredLocalPublicUrl(trimmed) ?? { url: trimmed, fallbackUrl: trimmed };
 	}
 	const assetKey = trimmed.replace(/^\/images\/generated\//, '');
 	return toPreferredGeneratedUrl(assetKey) ?? { url: trimmed, fallbackUrl: trimmed };
