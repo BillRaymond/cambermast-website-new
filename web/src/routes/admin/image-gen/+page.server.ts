@@ -159,6 +159,31 @@ const toReferenceFromStandard = (
 	};
 };
 
+const toTrainingReference = (
+	program: ReturnType<typeof listTrainingPrograms>[number],
+	latestStandardsBySlug: Map<string, ImageGenPromptStandard>
+): DestinationReference | null => {
+	const fullSlug = `training/${program.slug}`;
+	const standardReference = toReferenceFromStandard(
+		fullSlug,
+		program.title,
+		program.sku ?? program.route,
+		latestStandardsBySlug.get(fullSlug)
+	);
+	if (standardReference) return standardReference;
+
+	const preferred = toPreferredPublicUrl(program.heroImage ?? program.ogImage ?? program.catalog?.image);
+	if (!preferred) return null;
+	return {
+		id: fullSlug,
+		slug: program.slug,
+		label: program.title,
+		description: program.sku ?? program.route,
+		url: preferred.url,
+		fallbackUrl: preferred.fallbackUrl
+	};
+};
+
 const listFeaturedImageOptions = async (): Promise<DestinationOption[]> => {
 	const featuredImagesDir = path.join(webRoot, 'static', 'images', 'generated', 'featured-images');
 	const entries = await readdir(featuredImagesDir, { withFileTypes: true }).catch(() => []);
@@ -217,29 +242,23 @@ export const load: PageServerLoad = async () => {
 		listFeaturedImageOptions(),
 		listFeaturedImageReferences(latestStandardsBySlug)
 	]);
+	const trainingPrograms = listTrainingPrograms({ includeDrafts: true });
+	const trainingReferenceBySlug = new Map(
+		trainingPrograms
+			.map((program) => [program.slug, toTrainingReference(program, latestStandardsBySlug)] as const)
+			.filter((entry): entry is readonly [string, DestinationReference] => entry[1] !== null)
+	);
+	const trainingReferenceBySku = new Map(
+		trainingPrograms
+			.map((program) => [program.sku, toTrainingReference(program, latestStandardsBySlug)] as const)
+			.filter(
+				(entry): entry is readonly [string, DestinationReference] =>
+					typeof entry[0] === 'string' && entry[0].trim().length > 0 && entry[1] !== null
+			)
+	);
 
-	const trainingReferences: DestinationReference[] = listTrainingPrograms({ includeDrafts: true })
-		.map((program) => {
-			const fullSlug = `training/${program.slug}`;
-			const standardReference = toReferenceFromStandard(
-				fullSlug,
-				program.title,
-				program.sku ?? program.route,
-				latestStandardsBySlug.get(fullSlug)
-			);
-			if (standardReference) return standardReference;
-
-			const preferred = toPreferredPublicUrl(program.heroImage ?? program.ogImage ?? program.catalog?.image);
-			if (!preferred) return null;
-			return {
-				id: fullSlug,
-				slug: program.slug,
-				label: program.title,
-				description: program.sku ?? program.route,
-				url: preferred.url,
-				fallbackUrl: preferred.fallbackUrl
-			};
-		})
+	const trainingReferences: DestinationReference[] = trainingPrograms
+		.map((program) => toTrainingReference(program, latestStandardsBySlug))
 		.filter((entry): entry is DestinationReference => entry !== null)
 		.sort((a, b) => a.label.localeCompare(b.label));
 
@@ -272,29 +291,56 @@ export const load: PageServerLoad = async () => {
 		includeDrafts: true,
 		includeUnlisted: true
 	})
-		.map((event) => {
+		.flatMap((event) => {
 			const fullSlug = `events/${event.slug}`;
-			const standardReference = toReferenceFromStandard(
-				fullSlug,
-				event.title,
-				event.lifecycleStatus,
-				latestStandardsBySlug.get(fullSlug)
-			);
-			if (standardReference) return standardReference;
+			const eventReference =
+				toReferenceFromStandard(
+					fullSlug,
+					event.title,
+					event.lifecycleStatus,
+					latestStandardsBySlug.get(fullSlug)
+				) ??
+				(() => {
+					const preferred = toPreferredPublicUrl(event.heroImage ?? event.image);
+					if (!preferred) return null;
+					return {
+						id: fullSlug,
+						slug: event.slug,
+						label: event.title,
+						description: event.lifecycleStatus,
+						url: preferred.url,
+						fallbackUrl: preferred.fallbackUrl
+					} satisfies DestinationReference;
+				})();
 
-			const preferred = toPreferredPublicUrl(event.heroImage ?? event.image);
-			if (!preferred) return null;
-			return {
-				id: fullSlug,
-				slug: event.slug,
-				label: event.title,
-				description: event.lifecycleStatus,
-				url: preferred.url,
-				fallbackUrl: preferred.fallbackUrl
-			};
+			const parentProgramSlug = event.template?.sourceProgramSlug?.trim() ?? '';
+			const parentProgramSku = event.template?.sourceProgramSku?.trim() ?? '';
+			const parentProgramReference =
+				(parentProgramSlug ? trainingReferenceBySlug.get(parentProgramSlug) : undefined) ??
+				(parentProgramSku ? trainingReferenceBySku.get(parentProgramSku) : undefined);
+
+			const relatedTrainingReference = parentProgramReference
+				? {
+						...parentProgramReference,
+						id: `${fullSlug}::training/${parentProgramReference.slug}`,
+						slug: event.slug,
+						label: `${parentProgramReference.label} (Training program)`,
+						description: parentProgramReference.description
+					}
+				: null;
+
+			return [eventReference, relatedTrainingReference].filter(
+				(entry): entry is DestinationReference => entry !== null
+			);
 		})
-		.filter((entry): entry is DestinationReference => entry !== null)
-		.sort((a, b) => a.label.localeCompare(b.label));
+		.sort((a, b) => {
+			const slugCompare = a.slug.localeCompare(b.slug);
+			if (slugCompare !== 0) return slugCompare;
+			const aIsTrainingProgram = a.id.includes('::training/');
+			const bIsTrainingProgram = b.id.includes('::training/');
+			if (aIsTrainingProgram !== bIsTrainingProgram) return aIsTrainingProgram ? 1 : -1;
+			return a.label.localeCompare(b.label);
+		});
 
 	return {
 		isDev: dev,
