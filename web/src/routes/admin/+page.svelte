@@ -37,6 +37,19 @@
 	</a>
 
 	<a
+		href="/admin/events/luma"
+		class="group rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition hover:border-gray-300"
+	>
+		<p class="text-xs font-semibold tracking-wide text-gray-500 uppercase">Copy helper</p>
+		<p class="mt-2 text-lg font-semibold text-gray-900 group-hover:text-blue-900">
+			Luma event copy
+		</p>
+		<p class="mt-1 text-sm text-gray-600">
+			Find internal events, then copy image, name, and description blocks formatted for Luma.
+		</p>
+	</a>
+
+	<a
 		href="/admin/drafts"
 		class="group rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition hover:border-gray-300"
 	>

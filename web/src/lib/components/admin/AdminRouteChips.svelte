@@ -8,6 +8,7 @@
 		{ href: '/admin/sop-training', label: '🎓 Training SOPs' },
 		{ href: '/admin/sop-testimonials', label: '💬 Testimonial SOPs' },
 		{ href: '/admin/events', label: '🟢 Live Events' },
+		{ href: '/admin/events/luma', label: '📋 Luma Copy' },
 		{ href: '/admin/drafts', label: '📝 Draft Events' },
 		{ href: '/admin/campaigns', label: '📣 Campaigns' },
 		{ href: '/admin/qr', label: '🔳 Route QR' },
