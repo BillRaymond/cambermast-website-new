@@ -50,7 +50,7 @@ export type DraftRequestPayload = {
 		highlights?: string[];
 		audienceBullets?: string[];
 		outcomes?: string[];
-		agenda?: Array<{ title: string; outcome?: string; details?: string }>;
+		agenda?: Array<{ title: string; details?: string[] }>;
 		faq?: Array<{ question: string; answer: string }>;
 		heroImage?: string;
 		heroImageAlt?: string;
@@ -99,6 +99,8 @@ export const BASE36_ID_PATTERN = /^[a-z0-9]{6}$/;
 export const SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 const toTrimmed = (value: unknown): string => (typeof value === 'string' ? value.trim() : '');
+const toTrimmedArray = (value: unknown): string[] =>
+	Array.isArray(value) ? value.map((item) => toTrimmed(item)).filter(Boolean) : [];
 
 const resolveWebRoot = (): string => {
 	const cwd = process.cwd();
@@ -205,10 +207,13 @@ const toExternalEvent = (payload: DraftRequestPayload): EventSource => {
 	const agenda = (input.agenda ?? [])
 		.map((item) => ({
 			title: toTrimmed(item.title),
-			outcome: toTrimmed(item.outcome) || undefined,
-			details: toTrimmed(item.details) || undefined
+			details: toTrimmedArray(item.details)
 		}))
-		.filter((item) => Boolean(item.title));
+		.filter((item) => Boolean(item.title))
+		.map((item) => ({
+			title: item.title,
+			details: item.details.length ? item.details : undefined
+		}));
 	const faq = (input.faq ?? [])
 		.map((item, index) => ({
 			key: `faq_${(index + 1).toString().padStart(2, '0')}`,
@@ -305,10 +310,13 @@ const toTrainingEvent = (payload: DraftRequestPayload): EventSource => {
 		event.agenda = input.agenda
 			.map((item) => ({
 				title: toTrimmed(item.title),
-				outcome: toTrimmed(item.outcome) || undefined,
-				details: toTrimmed(item.details) || undefined
+				details: toTrimmedArray(item.details)
 			}))
-			.filter((item) => Boolean(item.title));
+			.filter((item) => Boolean(item.title))
+			.map((item) => ({
+				title: item.title,
+				details: item.details.length ? item.details : undefined
+			}));
 	}
 	if (input.faq?.length) {
 		event.faq = input.faq

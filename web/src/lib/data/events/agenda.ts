@@ -6,13 +6,8 @@ export const toTrainingEventAgenda = (
 ): EventSource['agenda'] | undefined => {
 	if (!(agenda && agenda.length > 0)) return undefined;
 
-	return agenda.map((block) => {
-		const details = block.details ?? [];
-		const [outcome, ...rest] = details;
-		return {
-			title: block.title,
-			...(outcome ? { outcome } : {}),
-			...(rest.length ? { details: rest.join(' ') } : {})
-		};
-	});
+	return agenda.map((block) => ({
+		title: block.title,
+		...(block.details?.length ? { details: block.details } : {})
+	}));
 };

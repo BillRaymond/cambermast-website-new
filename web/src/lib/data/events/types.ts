@@ -107,8 +107,7 @@ export type EventDescription = {
 export type EventAgendaItem = {
 	title: string;
 	startsAtLabel?: string;
-	outcome?: string;
-	details?: string;
+	details?: string[];
 };
 
 export type EventFaqItem = FaqItem;

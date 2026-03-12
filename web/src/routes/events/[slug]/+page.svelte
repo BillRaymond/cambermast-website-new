@@ -2,6 +2,8 @@
 	import { onDestroy } from 'svelte';
 	import { page } from '$app/stores';
 	import SeoHead from '$lib/components/SeoHead.svelte';
+	import CurriculumSection from '$lib/components/training/CurriculumSection.svelte';
+	import type { CurriculumItem } from '$lib/components/training/curriculum';
 	import EventRegisterButton from '$lib/components/events/EventRegisterButton.svelte';
 	import FaqBlocks from '$lib/components/faq/FaqBlocks.svelte';
 	import { renderMarkdownToSafeHtml } from '$lib/utils/markdown';
@@ -45,7 +47,8 @@
 	const isPastEvent = isCanceled || isCompleted || hasEnded;
 
 	const isUpcoming =
-		(event.lifecycleStatus === 'scheduled' || event.lifecycleStatus === 'postponed') && !isPastEvent;
+		(event.lifecycleStatus === 'scheduled' || event.lifecycleStatus === 'postponed') &&
+		!isPastEvent;
 
 	const officialDateTimeFormatter = new Intl.DateTimeFormat('en-US', {
 		timeZone: eventTimeZone,
@@ -152,24 +155,16 @@
 		isUpcomingScheduledEvent &&
 		!occurrenceState.hasStarted &&
 		Number.isFinite(registrationClosesTimestamp);
-	const countdownTargetTimestamp =
-		shouldUseRegistrationCountdown
-			? (registrationClosesTimestamp as number)
-			: occurrenceState.nextSessionStartTimestamp ?? startAtTimestamp;
-	const countdownLabelPrefix =
-		shouldUseRegistrationCountdown
-			? 'Registration closes in'
-			: occurrenceState.hasStarted && !isPastEvent
-				? 'Next session starts in'
-				: 'Starts in';
+	const countdownTargetTimestamp = shouldUseRegistrationCountdown
+		? (registrationClosesTimestamp as number)
+		: (occurrenceState.nextSessionStartTimestamp ?? startAtTimestamp);
+	const countdownLabelPrefix = shouldUseRegistrationCountdown
+		? 'Registration closes in'
+		: occurrenceState.hasStarted && !isPastEvent
+			? 'Next session starts in'
+			: 'Starts in';
 
-	const outcomes = event.outcomes?.length ? event.outcomes : event.highlights ?? [];
-	type CurriculumItem = {
-		title: string;
-		startsAtLabel?: string;
-		outcome?: string;
-		detailsLines: string[];
-	};
+	const outcomes = event.outcomes?.length ? event.outcomes : (event.highlights ?? []);
 	type TrustedByOrg = {
 		name: string;
 		url: string;
@@ -226,20 +221,19 @@
 		agendaItems.length > 0
 			? agendaItems.map((agendaItem, index) => ({
 					title: agendaItem.title,
-					startsAtLabel:
+					badgeLabel:
 						normalizedSessions[index] !== undefined
 							? sessionDatePillFormatter.format(normalizedSessions[index].startTimestamp)
 							: agendaItem.startsAtLabel,
-					outcome: agendaItem.outcome,
-					detailsLines: agendaItem.details ? [agendaItem.details] : []
+					details: agendaItem.details ?? []
 				}))
 			: (relatedProgram?.agenda ?? []).map((block, index) => ({
 					title: block.title,
-					startsAtLabel:
+					badgeLabel:
 						normalizedSessions[index] !== undefined
 							? sessionDatePillFormatter.format(normalizedSessions[index].startTimestamp)
 							: undefined,
-					detailsLines: block.details ?? []
+					details: block.details ?? []
 				}));
 	const faqItems = event.faq ?? [];
 
@@ -311,14 +305,9 @@
 		event.registrationStatus !== 'sold_out';
 	const registerCtaLabel = event.cta.labelWithPrice ?? event.cta.label;
 
-	const shouldShowClosedCountdownState =
-		isHappeningNow || isTrainingInProgress || !canRegister;
-	const countdownPanelLabel = shouldShowClosedCountdownState
-		? 'Status'
-		: countdownLabelPrefix;
-	const countdownPanelValue = shouldShowClosedCountdownState
-		? 'Enrollment closed'
-		: countdownLabel;
+	const shouldShowClosedCountdownState = isHappeningNow || isTrainingInProgress || !canRegister;
+	const countdownPanelLabel = shouldShowClosedCountdownState ? 'Status' : countdownLabelPrefix;
+	const countdownPanelValue = shouldShowClosedCountdownState ? 'Enrollment closed' : countdownLabel;
 
 	const isExternalCtaUrl = Boolean(event.cta?.url?.startsWith('http'));
 	const eventTimeSummary = toConciseEventTimeLabel(event.time);
@@ -371,14 +360,18 @@
 	const formatLine = event.formatLineOverride?.trim() || computedFormatLine;
 
 	const learnBullets = (outcomes ?? []).slice(0, 3).filter(Boolean);
-	const audienceBulletsSource =
-		event.audienceBullets?.length ? event.audienceBullets : (relatedProgram?.audience ?? []);
-	const buildBulletsSource =
-		event.buildBullets?.length ? event.buildBullets : (relatedProgram?.takeaways ?? []);
+	const audienceBulletsSource = event.audienceBullets?.length
+		? event.audienceBullets
+		: (relatedProgram?.audience ?? []);
+	const buildBulletsSource = event.buildBullets?.length
+		? event.buildBullets
+		: (relatedProgram?.takeaways ?? []);
 	const audienceBullets = audienceBulletsSource.slice(0, 3).filter(Boolean);
 	const buildBullets = buildBulletsSource.slice(0, 3).filter(Boolean);
 	const partnerSummary = partners.map((partner) => partner.name).join(' + ');
-	const hostSpeakers = (event.speakers ?? []).filter((speaker) => /host/i.test(speaker.title ?? ''));
+	const hostSpeakers = (event.speakers ?? []).filter((speaker) =>
+		/host/i.test(speaker.title ?? '')
+	);
 	const hostSummary = (hostSpeakers.length ? hostSpeakers : (event.speakers ?? []).slice(0, 1))
 		.map((speaker) => speaker.name)
 		.join(' + ');
@@ -418,7 +411,6 @@
 			cta_url_is_external: isExternalCtaUrl
 		});
 	};
-
 </script>
 
 <SeoHead
@@ -441,7 +433,9 @@
 				<a href="/events" class="text-xs font-semibold text-slate-600 hover:text-slate-900">
 					&larr; Return to events
 				</a>
-				<p class="truncate text-sm font-semibold text-slate-900">{event.title} · {ticketPriceLabel}</p>
+				<p class="truncate text-sm font-semibold text-slate-900">
+					{event.title} · {ticketPriceLabel}
+				</p>
 				{#if Number.isFinite(countdownTargetTimestamp)}
 					<p class="mt-0.5 text-xs text-slate-600">{countdownLabelPrefix}: {countdownLabel}</p>
 				{/if}
@@ -462,7 +456,9 @@
 	>
 		<div class="mx-auto flex max-w-6xl items-center justify-between gap-3">
 			<div class="min-w-0">
-				<p class="truncate text-sm font-semibold text-slate-900">{event.title} · {ticketPriceLabel}</p>
+				<p class="truncate text-sm font-semibold text-slate-900">
+					{event.title} · {ticketPriceLabel}
+				</p>
 				{#if Number.isFinite(countdownTargetTimestamp)}
 					<p class="mt-0.5 text-xs text-slate-600">{countdownLabelPrefix}: {countdownLabel}</p>
 				{/if}
@@ -483,13 +479,19 @@
 	<div class="mx-auto max-w-6xl px-3 sm:px-5">
 		{#if isUpcoming}
 			<div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px]">
-				<article class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6 md:rounded-3xl md:p-8">
+				<article
+					class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6 md:rounded-3xl md:p-8"
+				>
 					<div class="flex flex-wrap items-center gap-2">
-						<span class="inline-flex rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">
+						<span
+							class="inline-flex rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700"
+						>
 							{getEventTypeLabelUi(event)}
 						</span>
 						{#if statusLabel}
-							<span class="inline-flex rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-800">
+							<span
+								class="inline-flex rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-800"
+							>
 								{statusLabel}
 							</span>
 						{/if}
@@ -501,13 +503,13 @@
 							</span>
 						{/if}
 						{#if trailerUrl}
-								<a
-									href={trailerUrl}
-									target="_blank"
-									rel="noopener noreferrer"
-									class="inline-flex items-center rounded-full border border-slate-300 bg-white px-2 py-0.5 text-[0.65rem] font-semibold tracking-wide text-slate-700 uppercase transition hover:border-slate-500 hover:text-slate-900"
-									aria-label="Watch trailer"
-								>
+							<a
+								href={trailerUrl}
+								target="_blank"
+								rel="noopener noreferrer"
+								class="inline-flex items-center rounded-full border border-slate-300 bg-white px-2 py-0.5 text-[0.65rem] font-semibold tracking-wide text-slate-700 uppercase transition hover:border-slate-500 hover:text-slate-900"
+								aria-label="Watch trailer"
+							>
 								Trailer <span aria-hidden="true">↗</span>
 							</a>
 						{/if}
@@ -522,9 +524,11 @@
 						/>
 					{/if}
 
-					<h1 class="mb-6 mt-6 text-3xl font-bold text-slate-900 md:text-4xl">{event.title}</h1>
+					<h1 class="mt-6 mb-6 text-3xl font-bold text-slate-900 md:text-4xl">{event.title}</h1>
 					{#if event.tagline}
-						<p class="mt-2 text-sm font-semibold tracking-wide text-slate-600 uppercase">{event.tagline}</p>
+						<p class="mt-2 text-sm font-semibold tracking-wide text-slate-600 uppercase">
+							{event.tagline}
+						</p>
 					{/if}
 					{#if partnerSummary || hostSummary}
 						<div class="mt-3 flex flex-wrap items-center gap-2">
@@ -549,7 +553,9 @@
 					{/if}
 					<p class="mt-4 max-w-3xl text-base text-slate-700 md:text-lg">{event.summary}</p>
 
-					<div class="mt-7 rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700">
+					<div
+						class="mt-7 rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700"
+					>
 						<div class="grid gap-3 md:grid-cols-3">
 							<div class="rounded-xl border border-slate-200 bg-white p-3">
 								<p class="text-xs font-semibold tracking-wide text-slate-500 uppercase">When</p>
@@ -571,7 +577,9 @@
 										</p>
 									{/if}
 									<p class="mt-2 text-slate-600">
-										Local: {isTimestampValid ? localDateTimeFormatter.format(startAtTimestamp) : 'TBD'}
+										Local: {isTimestampValid
+											? localDateTimeFormatter.format(startAtTimestamp)
+											: 'TBD'}
 									</p>
 									{#if Number.isFinite(endAtTimestamp) && endAtTimestamp !== startAtTimestamp}
 										<p class="mt-1 text-slate-600">
@@ -581,7 +589,9 @@
 								{/if}
 							</div>
 							<div class="rounded-xl border border-slate-200 bg-white p-3">
-								<p class="text-xs font-semibold tracking-wide text-slate-500 uppercase">Commitment</p>
+								<p class="text-xs font-semibold tracking-wide text-slate-500 uppercase">
+									Commitment
+								</p>
 								<p class="mt-1 font-semibold text-slate-900">
 									{sessionCount > 1
 										? `${sessionCount} sessions`
@@ -641,7 +651,9 @@
 						<h2 class="text-xl font-semibold text-slate-900">At-a-glance</h2>
 						<div class="mt-4 grid gap-4 md:grid-cols-3">
 							<article class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
-								<p class="text-xs font-semibold tracking-wide text-slate-500 uppercase">What you’ll learn</p>
+								<p class="text-xs font-semibold tracking-wide text-slate-500 uppercase">
+									What you’ll learn
+								</p>
 								{#if learnBullets.length}
 									<div class="mt-3 divide-y divide-slate-200 text-sm text-slate-700">
 										{#each learnBullets as bullet}
@@ -654,7 +666,9 @@
 							</article>
 
 							<article class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
-								<p class="text-xs font-semibold tracking-wide text-slate-500 uppercase">Who it’s for</p>
+								<p class="text-xs font-semibold tracking-wide text-slate-500 uppercase">
+									Who it’s for
+								</p>
 								{#if audienceBullets.length}
 									<div class="mt-3 divide-y divide-slate-200 text-sm text-slate-700">
 										{#each audienceBullets as bullet}
@@ -667,7 +681,9 @@
 							</article>
 
 							<article class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
-								<p class="text-xs font-semibold tracking-wide text-slate-500 uppercase">What you’ll build</p>
+								<p class="text-xs font-semibold tracking-wide text-slate-500 uppercase">
+									What you’ll build
+								</p>
 								{#if buildBullets.length}
 									<div class="mt-3 divide-y divide-slate-200 text-sm text-slate-700">
 										{#each buildBullets as bullet}
@@ -693,7 +709,9 @@
 
 					<div class="mt-8 border-t border-slate-200 pt-6">
 						<h2 class="text-xl font-semibold text-slate-900">About your trainer</h2>
-						<article class="mt-4 rounded-2xl border border-slate-200 bg-gradient-to-br from-slate-50 to-white p-5 md:p-6">
+						<article
+							class="mt-4 rounded-2xl border border-slate-200 bg-gradient-to-br from-slate-50 to-white p-5 md:p-6"
+						>
 							<div class="flex flex-col gap-5 sm:flex-row sm:items-start">
 								<img
 									src={trainer.photo}
@@ -732,38 +750,19 @@
 						</div>
 					</div>
 
-						{#if curriculumItems.length}
-							<div id="curriculum" class="mt-8 border-t border-slate-200 pt-6 scroll-mt-24">
-								<div class="flex flex-wrap items-center gap-2">
-									<h2 class="text-xl font-semibold text-slate-900">{curriculumSectionTitle}</h2>
-									{#if certificateText}
-										<span
-											class="inline-flex items-center rounded-full border border-slate-300 bg-white px-2 py-0.5 text-[0.65rem] font-semibold tracking-wide text-slate-700 uppercase"
-										>
-											📜 Certificate
-										</span>
-									{/if}
-								</div>
-								<ul class="mt-4 space-y-3">
-								{#each curriculumItems as curriculumItem}
-									<li class="rounded-xl border border-slate-200 bg-slate-50 p-4">
-										<div class="flex flex-wrap items-center gap-2">
-											{#if curriculumItem.startsAtLabel}
-												<span class="rounded-full bg-blue-100 px-2 py-0.5 text-xs font-semibold text-blue-700">
-													{curriculumItem.startsAtLabel}
-												</span>
-											{/if}
-											<p class="text-sm font-semibold text-slate-900">{curriculumItem.title}</p>
-										</div>
-										{#if curriculumItem.outcome}
-											<p class="mt-1 text-sm text-slate-700">{curriculumItem.outcome}</p>
-										{/if}
-										{#each curriculumItem.detailsLines as detailLine}
-											<p class="mt-1 text-sm text-slate-600">{detailLine}</p>
-										{/each}
-									</li>
-								{/each}
-							</ul>
+					{#if curriculumItems.length}
+						<div id="curriculum" class="mt-8 scroll-mt-24 border-t border-slate-200 pt-6">
+							<div class="flex flex-wrap items-center gap-2">
+								<h2 class="text-xl font-semibold text-slate-900">{curriculumSectionTitle}</h2>
+								{#if certificateText}
+									<span
+										class="inline-flex items-center rounded-full border border-slate-300 bg-white px-2 py-0.5 text-[0.65rem] font-semibold tracking-wide text-slate-700 uppercase"
+									>
+										📜 Certificate
+									</span>
+								{/if}
+							</div>
+							<CurriculumSection items={curriculumItems} variant="compact" />
 						</div>
 						{#if canRegister}
 							<div class="mt-6 flex flex-wrap items-center gap-3">
@@ -797,7 +796,9 @@
 								{/each}
 							</div>
 							{#if partners.length}
-								<article class="mt-4 rounded-2xl border border-slate-200 bg-gradient-to-br from-slate-50 to-white p-5 md:p-6">
+								<article
+									class="mt-4 rounded-2xl border border-slate-200 bg-gradient-to-br from-slate-50 to-white p-5 md:p-6"
+								>
 									<h3 class="text-lg font-semibold text-slate-900">In partnership with</h3>
 									<div class="mt-3 grid gap-3 sm:grid-cols-2">
 										{#each partners as partner}
@@ -814,7 +815,9 @@
 													<div>
 														<p class="text-sm font-semibold text-slate-900">{partner.name}</p>
 														{#if partner.role}
-															<p class="mt-1 text-xs text-slate-600">{partner.role.toUpperCase()}</p>
+															<p class="mt-1 text-xs text-slate-600">
+																{partner.role.toUpperCase()}
+															</p>
 														{/if}
 													</div>
 												</div>
@@ -863,13 +866,12 @@
 								</p>
 							{/if}
 							<div
-								class="mt-3 max-w-none text-slate-700 [&_h2]:mt-5 [&_h2]:text-lg [&_h2]:font-semibold [&_h2]:text-slate-900 [&_h3]:mt-4 [&_h3]:text-base [&_h3]:font-semibold [&_h3]:text-slate-900 [&_p]:my-2 [&_ul]:my-2 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:my-2 [&_ol]:list-decimal [&_ol]:pl-5 [&_li]:my-1"
+								class="mt-3 max-w-none text-slate-700 [&_h2]:mt-5 [&_h2]:text-lg [&_h2]:font-semibold [&_h2]:text-slate-900 [&_h3]:mt-4 [&_h3]:text-base [&_h3]:font-semibold [&_h3]:text-slate-900 [&_li]:my-1 [&_ol]:my-2 [&_ol]:list-decimal [&_ol]:pl-5 [&_p]:my-2 [&_ul]:my-2 [&_ul]:list-disc [&_ul]:pl-5"
 							>
 								{@html descriptionHtml}
 							</div>
 						</div>
 					{/if}
-
 				</article>
 
 				<aside class="hidden lg:block">
@@ -890,7 +892,9 @@
 								style="width:170px;min-width:170px;height:auto;"
 							/>
 						</a>
-						<p class="text-xs font-semibold tracking-[0.2em] text-slate-500 uppercase">Live cohort training</p>
+						<p class="text-xs font-semibold tracking-[0.2em] text-slate-500 uppercase">
+							Live cohort training
+						</p>
 						<p class="mt-2 text-2xl font-semibold text-slate-900">{ticketPriceLabel} USD</p>
 						<p class="mt-1 text-sm text-slate-600">
 							{deliveryLabel}
@@ -912,7 +916,9 @@
 								<div>
 									<p class="font-semibold text-slate-900">Official time (Pacific Time)</p>
 									{#if isTimestampValid}
-										<p class="text-slate-700">{compactOfficialDateTimeFormatter.format(startAtTimestamp)}</p>
+										<p class="text-slate-700">
+											{compactOfficialDateTimeFormatter.format(startAtTimestamp)}
+										</p>
 										{#if Number.isFinite(endAtTimestamp) && endAtTimestamp !== startAtTimestamp}
 											<p class="mt-1 text-slate-600">
 												Ends {compactOfficialDateTimeFormatter.format(endAtTimestamp as number)}
@@ -925,7 +931,9 @@
 								<div>
 									<p class="font-semibold text-slate-900">Local time (based on your browser)</p>
 									{#if isTimestampValid}
-										<p class="text-slate-700">{compactLocalDateTimeFormatter.format(startAtTimestamp)}</p>
+										<p class="text-slate-700">
+											{compactLocalDateTimeFormatter.format(startAtTimestamp)}
+										</p>
 										{#if Number.isFinite(endAtTimestamp) && endAtTimestamp !== startAtTimestamp}
 											<p class="mt-1 text-slate-600">
 												Ends {compactLocalDateTimeFormatter.format(endAtTimestamp as number)}
@@ -938,40 +946,40 @@
 							{/if}
 						</div>
 
-							<div
-								class={`mt-4 rounded-xl px-3 py-2 ${
-									shouldShowClosedCountdownState
-										? 'border border-amber-200 bg-amber-50'
-										: 'border border-blue-200 bg-blue-50'
+						<div
+							class={`mt-4 rounded-xl px-3 py-2 ${
+								shouldShowClosedCountdownState
+									? 'border border-amber-200 bg-amber-50'
+									: 'border border-blue-200 bg-blue-50'
+							}`}
+						>
+							<p
+								class={`text-xs font-semibold tracking-[0.2em] uppercase ${
+									shouldShowClosedCountdownState ? 'text-amber-700' : 'text-blue-700'
 								}`}
 							>
-								<p
-									class={`text-xs font-semibold tracking-[0.2em] uppercase ${
-										shouldShowClosedCountdownState ? 'text-amber-700' : 'text-blue-700'
-									}`}
-								>
-									{countdownPanelLabel}
-								</p>
-								<p class="mt-1 text-lg font-semibold text-slate-900">{countdownPanelValue}</p>
-							</div>
-							{#if canRegister}
-								<EventRegisterButton
-									href={event.cta.url!}
-									label={registerCtaLabel}
-									theme="slate"
-									size="sm"
-									fullWidth={true}
-									className="mt-3 py-2.5"
-									onClick={() => trackRegistrationClick('sticky')}
-								/>
-							{:else}
-								<a
-									href="/events"
-									class="mt-3 inline-flex w-full items-center justify-center rounded-full border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:border-slate-400 hover:text-slate-900"
-								>
-									View event calendar
-								</a>
-							{/if}
+								{countdownPanelLabel}
+							</p>
+							<p class="mt-1 text-lg font-semibold text-slate-900">{countdownPanelValue}</p>
+						</div>
+						{#if canRegister}
+							<EventRegisterButton
+								href={event.cta.url!}
+								label={registerCtaLabel}
+								theme="slate"
+								size="sm"
+								fullWidth={true}
+								className="mt-3 py-2.5"
+								onClick={() => trackRegistrationClick('sticky')}
+							/>
+						{:else}
+							<a
+								href="/events"
+								class="mt-3 inline-flex w-full items-center justify-center rounded-full border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:border-slate-400 hover:text-slate-900"
+							>
+								View event calendar
+							</a>
+						{/if}
 
 						{#if locationDetailsNote}
 							<p class="mt-4 text-sm text-slate-600">{locationDetailsNote}</p>
@@ -980,13 +988,19 @@
 				</aside>
 			</div>
 		{:else}
-			<article class="rounded-2xl border border-slate-200 bg-slate-50 p-4 sm:p-6 md:rounded-3xl md:p-8">
+			<article
+				class="rounded-2xl border border-slate-200 bg-slate-50 p-4 sm:p-6 md:rounded-3xl md:p-8"
+			>
 				<div class="flex flex-wrap items-center gap-2">
-					<span class="inline-flex rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">
+					<span
+						class="inline-flex rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700"
+					>
 						{getEventTypeLabelUi(event)}
 					</span>
 					{#if statusLabel}
-						<span class="inline-flex rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-800">
+						<span
+							class="inline-flex rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-800"
+						>
 							{statusLabel}
 						</span>
 					{/if}
@@ -1001,9 +1015,11 @@
 					/>
 				{/if}
 
-				<h1 class="mb-6 mt-6 text-3xl font-bold text-slate-900 md:text-4xl">{event.title}</h1>
+				<h1 class="mt-6 mb-6 text-3xl font-bold text-slate-900 md:text-4xl">{event.title}</h1>
 				{#if event.tagline}
-					<p class="mt-2 text-sm font-semibold tracking-wide text-slate-600 uppercase">{event.tagline}</p>
+					<p class="mt-2 text-sm font-semibold tracking-wide text-slate-600 uppercase">
+						{event.tagline}
+					</p>
 				{/if}
 				{#if partnerSummary || hostSummary}
 					<div class="mt-3 flex flex-wrap items-center gap-2">
@@ -1029,7 +1045,8 @@
 					<div class="mt-6 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3">
 						<p class="text-sm font-semibold text-amber-900">
 							{#if isCanceled}
-								Sorry, this event was canceled. If you had already registered, please check your email for more details.
+								Sorry, this event was canceled. If you had already registered, please check your
+								email for more details.
 							{:else}
 								Sorry, this event already occurred. A new event may already be available.
 							{/if}
@@ -1043,7 +1060,9 @@
 					</div>
 				{/if}
 
-				<div class="mt-6 grid gap-3 rounded-2xl border border-slate-200 bg-white p-4 text-sm text-slate-700">
+				<div
+					class="mt-6 grid gap-3 rounded-2xl border border-slate-200 bg-white p-4 text-sm text-slate-700"
+				>
 					<p>
 						<span class="font-semibold text-slate-900">Official time (Pacific Time):</span>
 						{isTimestampValid ? officialDateTimeFormatter.format(startAtTimestamp) : 'TBD'}
@@ -1069,7 +1088,7 @@
 					<div class="mt-8 border-t border-slate-200 pt-6">
 						<h2 class="text-xl font-semibold text-slate-900">About this event</h2>
 						<div
-							class="mt-3 max-w-none text-slate-700 [&_h2]:mt-5 [&_h2]:text-lg [&_h2]:font-semibold [&_h2]:text-slate-900 [&_h3]:mt-4 [&_h3]:text-base [&_h3]:font-semibold [&_h3]:text-slate-900 [&_p]:my-2 [&_ul]:my-2 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:my-2 [&_ol]:list-decimal [&_ol]:pl-5 [&_li]:my-1"
+							class="mt-3 max-w-none text-slate-700 [&_h2]:mt-5 [&_h2]:text-lg [&_h2]:font-semibold [&_h2]:text-slate-900 [&_h3]:mt-4 [&_h3]:text-base [&_h3]:font-semibold [&_h3]:text-slate-900 [&_li]:my-1 [&_ol]:my-2 [&_ol]:list-decimal [&_ol]:pl-5 [&_p]:my-2 [&_ul]:my-2 [&_ul]:list-disc [&_ul]:pl-5"
 						>
 							{@html descriptionHtml}
 						</div>

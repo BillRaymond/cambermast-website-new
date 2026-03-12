@@ -34,8 +34,7 @@ export type EventAiDraftResponse = {
 	outcomes?: string[];
 	agenda?: Array<{
 		title: string;
-		outcome?: string;
-		details?: string;
+		details?: string[];
 	}>;
 	faq?: Array<{
 		question: string;
@@ -80,10 +79,15 @@ const normalizeAgenda = (items: unknown): NonNullable<EventAiDraftResponse['agen
 		const row = item as Record<string, unknown>;
 		const title = toTrimmed(row.title);
 		if (!title) continue;
+		const details = Array.isArray(row.details)
+			? row.details.map((detail) => toTrimmed(detail)).filter(Boolean)
+			: toTrimmed(row.details)
+					.split('\n')
+					.map((detail) => detail.trim())
+					.filter(Boolean);
 		normalized.push({
 			title,
-			outcome: toTrimmed(row.outcome) || undefined,
-			details: toTrimmed(row.details) || undefined
+			details: details.length ? details : undefined
 		});
 		if (normalized.length >= 8) break;
 	}
@@ -152,7 +156,7 @@ export const generateEventAiDraft = async (
 		'Tone should be practical, clear, non-hype.',
 		'JSON keys allowed: title, slug, tagline, summary, ctaLabel, descriptionBodyMd, highlights, audienceBullets, outcomes, agenda, faq.',
 		'slug must be lowercase URL-safe with hyphens.',
-		'agenda items: {title, outcome?, details?}; faq items: {question, answer}.',
+		'agenda items: {title, details?: string[]}; faq items: {question, answer}.',
 		'Keep arrays short and useful.'
 	].join(' ');
 
@@ -178,7 +182,8 @@ export const generateEventAiDraft = async (
 	const json = (await response.json().catch(() => null)) as ChatCompletionsResponse | null;
 	if (!response.ok) {
 		const message =
-			json?.error?.message ?? `OpenAI text generation failed with status ${response.status.toString()}`;
+			json?.error?.message ??
+			`OpenAI text generation failed with status ${response.status.toString()}`;
 		throw new Error(message);
 	}
 

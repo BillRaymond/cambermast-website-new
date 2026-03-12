@@ -3,6 +3,8 @@
 	import ReviewCard from '$lib/components/ReviewCard.svelte';
 	import EventCard from '$lib/components/events/EventCard.svelte';
 	import FaqBlocks from '$lib/components/faq/FaqBlocks.svelte';
+	import CurriculumSection from '$lib/components/training/CurriculumSection.svelte';
+	import type { CurriculumItem } from '$lib/components/training/curriculum';
 	import { toEventCardModel, type EventCardModel } from '$lib/view-models/event-card';
 	import { toEventUiModel } from '$lib/view-models/events';
 	import type { TrainingFaq, TrainingProgram, TrainingStat } from '$lib/data/training/types';
@@ -36,6 +38,7 @@
 	let programTestimonials: Testimonial[] = [];
 	let faqsWithTerms: TrainingFaq[] = [];
 	let faqTemplateVariables: Record<string, string> = {};
+	let curriculumItems: CurriculumItem[] = [];
 
 	const normalizeLabel = (label?: string): string | undefined => label?.toLowerCase().trim();
 	const scheduleTeamLabel = 'schedule your team';
@@ -141,6 +144,11 @@
 				}
 			]
 		: [];
+	$: curriculumItems =
+		program?.agenda?.map((block) => ({
+			title: block.title,
+			details: block.details ?? []
+		})) ?? [];
 
 	$: {
 		if (!registerableSessions.length) {
@@ -543,18 +551,7 @@
 	{#if program.agenda?.length}
 		<section class="rounded-3xl bg-white p-6 shadow md:p-8">
 			<h2 class="text-2xl font-semibold text-gray-900">Agenda</h2>
-			<div class="mt-5 grid gap-5 md:grid-cols-3">
-				{#each program.agenda as block}
-					<div class="rounded-2xl border border-blue-100 p-4">
-						<h3 class="text-lg font-semibold text-blue-700">{block.title}</h3>
-						<ul class="bullet-list mt-2.5 space-y-1.5 text-sm text-gray-700">
-							{#each block.details as item}
-								<li>{item}</li>
-							{/each}
-						</ul>
-					</div>
-				{/each}
-			</div>
+			<CurriculumSection items={curriculumItems} variant="standard" />
 		</section>
 		{#if program.primaryCta}
 			<div

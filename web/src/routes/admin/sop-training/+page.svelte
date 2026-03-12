@@ -3,14 +3,14 @@
 	import SeoHead from '$lib/components/SeoHead.svelte';
 	import AdminRouteChips from '$lib/components/admin/AdminRouteChips.svelte';
 	import { SITE_ORIGIN } from '$lib/config/site';
-import eventsApiResponseSchema from '$lib/data/api/schemas/events-api.schema.json';
-import catalogApiResponseSchema from '$lib/data/api/schemas/catalog-api.schema.json';
-import trainingApiResponseSchema from '$lib/data/api/schemas/training-api.schema.json';
-import faqPresetsApiResponseSchema from '$lib/data/api/schemas/faq-presets-api.schema.json';
-import { buildCatalogApiExamples } from '$lib/data/api/catalog';
-import { buildEventsApiPayload } from '$lib/data/api/events';
-import { buildFaqPresetsApiExamples } from '$lib/data/api/faq-presets';
-import { buildTrainingApiExamples } from '$lib/data/api/training';
+	import eventsApiResponseSchema from '$lib/data/api/schemas/events-api.schema.json';
+	import catalogApiResponseSchema from '$lib/data/api/schemas/catalog-api.schema.json';
+	import trainingApiResponseSchema from '$lib/data/api/schemas/training-api.schema.json';
+	import faqPresetsApiResponseSchema from '$lib/data/api/schemas/faq-presets-api.schema.json';
+	import { buildCatalogApiExamples } from '$lib/data/api/catalog';
+	import { buildEventsApiPayload } from '$lib/data/api/events';
+	import { buildFaqPresetsApiExamples } from '$lib/data/api/faq-presets';
+	import { buildTrainingApiExamples } from '$lib/data/api/training';
 
 	const pageMeta = {
 		title: 'Training SOPs | Admin | Cambermast',
@@ -28,12 +28,12 @@ import { buildTrainingApiExamples } from '$lib/data/api/training';
 	};
 
 	const schemaDemoOrigin = SITE_ORIGIN.replace(/\/$/, '');
-const catalogApiExamples = buildCatalogApiExamples(schemaDemoOrigin);
-const trainingApiExamples = buildTrainingApiExamples(schemaDemoOrigin);
-const faqPresetsApiExamples = buildFaqPresetsApiExamples(schemaDemoOrigin);
-const eventsApiPayload = buildEventsApiPayload({
-	origin: schemaDemoOrigin,
-	generatedAt: '2026-02-12T18:15:00.000Z'
+	const catalogApiExamples = buildCatalogApiExamples(schemaDemoOrigin);
+	const trainingApiExamples = buildTrainingApiExamples(schemaDemoOrigin);
+	const faqPresetsApiExamples = buildFaqPresetsApiExamples(schemaDemoOrigin);
+	const eventsApiPayload = buildEventsApiPayload({
+		origin: schemaDemoOrigin,
+		generatedAt: '2026-02-12T18:15:00.000Z'
 	});
 	const trainingEventsOnly = {
 		generatedAt: eventsApiPayload.generatedAt,
@@ -139,6 +139,15 @@ const eventsApiPayload = buildEventsApiPayload({
 		sessions and must map back to program SKUs.
 	</p>
 	<p class="mt-2 max-w-3xl text-gray-700">
+		Agenda bullets are canonical structured data. Training registry <code
+			class="rounded bg-gray-100 px-1 py-0.5 text-xs">agenda[].details</code
+		>
+		values must remain arrays of bullet strings, and training-derived event agendas must preserve that
+		same array shape in
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">/api/events.json</code>
+		rather than flattening bullets into paragraphs.
+	</p>
+	<p class="mt-2 max-w-3xl text-gray-700">
 		Primary admin views:
 		<a href="/admin/drafts" class="text-blue-700 hover:underline">/admin/drafts</a>,
 		<a href="/admin/events" class="text-blue-700 hover:underline">/admin/events</a>,
@@ -198,6 +207,11 @@ const eventsApiPayload = buildEventsApiPayload({
 			Confirm <code class="rounded bg-gray-100 px-1 py-0.5 text-xs">event.programRef.sku</code> matches
 			an existing program SKU.
 		</li>
+		<li>
+			Confirm <code class="rounded bg-gray-100 px-1 py-0.5 text-xs">event.agenda[].details</code>
+			stays an array of bullet strings copied from the source training program unless an intentional
+			event-specific curriculum change is required.
+		</li>
 		<li>Validate JSON/schema and QA public/admin views.</li>
 	</ol>
 </section>
@@ -229,8 +243,8 @@ const eventsApiPayload = buildEventsApiPayload({
 				>/training</code
 			>, <code class="rounded bg-gray-100 px-1 py-0.5 text-xs">/training/table</code>, and
 			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">/training/print</code>) use
-			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">program.catalog</code> metadata from
-			each registry program as their canonical card/row source.
+			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">program.catalog</code> metadata from each
+			registry program as their canonical card/row source.
 		</li>
 		<li>
 			Training-specific API contract is <code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
@@ -247,12 +261,11 @@ const eventsApiPayload = buildEventsApiPayload({
 			with schema
 			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
 				>web/src/lib/data/faq-presets/faq-presets.schema.json</code
-			>,
-			API contract
+			>, API contract
 			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
 				>web/src/lib/data/api/schemas/faq-presets-api.schema.json</code
-			>,
-			and route <code class="rounded bg-gray-100 px-1 py-0.5 text-xs">/api/faq-presets.json</code>.
+			>, and route
+			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">/api/faq-presets.json</code>.
 		</li>
 		<li>
 			Training session events live in <code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
@@ -280,8 +293,7 @@ const eventsApiPayload = buildEventsApiPayload({
 			>
 			and include <code class="rounded bg-gray-100 px-1 py-0.5 text-xs">programRef.sku</code> plus
 			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">schedule</code> and
-			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
-				>template.kind = training_event_v1</code
+			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">template.kind = training_event_v1</code
 			>.
 		</li>
 		<li>
@@ -328,8 +340,8 @@ const eventsApiPayload = buildEventsApiPayload({
 			class="rounded bg-gray-100 px-1 py-0.5 text-xs">sessions[]</code
 		>
 		with required UTC <code class="rounded bg-gray-100 px-1 py-0.5 text-xs">startAtUtc</code> and
-		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">endAtUtc</code> values for each session.
-		Real event start/end shown in UI/API are derived from this list.
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">endAtUtc</code> values for each session. Real
+		event start/end shown in UI/API are derived from this list.
 	</p>
 	<p class="mt-2 max-w-3xl text-gray-700">
 		Status values must stay within schema enums for lifecycle and registration.
@@ -365,8 +377,8 @@ const eventsApiPayload = buildEventsApiPayload({
 	<h2 class="text-2xl font-semibold">Publish Checklist</h2>
 	<ol class="mt-3 max-w-3xl list-decimal space-y-2 pl-5 text-gray-700">
 		<li>
-			Training registry updates are committed in <code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
-				>training/training.json</code
+			Training registry updates are committed in <code
+				class="rounded bg-gray-100 px-1 py-0.5 text-xs">training/training.json</code
 			>.
 		</li>
 		<li>Program catalog metadata (`program.catalog`) is present and schema-valid.</li>
@@ -385,8 +397,8 @@ const eventsApiPayload = buildEventsApiPayload({
 	<h2 class="text-2xl font-semibold">Read-only APIs (GET)</h2>
 	<p class="mt-2 max-w-3xl text-gray-700">
 		Training registry API:
-		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">GET /api/training.json</code> returns
-		training programs for automation.
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">GET /api/training.json</code> returns training
+		programs for automation.
 	</p>
 	<p class="mt-2 max-w-3xl text-gray-700">
 		prod:

@@ -303,38 +303,59 @@
 			"agenda": [
 				{
 					"title": "Week 1: Adopting the AI Mindset",
-					"outcome": "Explore AI foundations for content teams and align on ethical guardrails.",
-					"details": "Map quick wins that remove repetitive production work. Practice prompt basics for clarity, structure, and factual rigor."
+					"details": [
+						"Explore AI foundations for content teams and align on ethical guardrails.",
+						"Map quick wins that remove repetitive production work.",
+						"Practice prompt basics for clarity, structure, and factual rigor."
+					]
 				},
 				{
 					"title": "Week 2: Mapping Your Audience Journey",
-					"outcome": "Build personas and user journeys that guide AI-augmented content.",
-					"details": "Align messaging and assets to each audience touchpoint. Test AI tools that simulate reader questions and expectations."
+					"details": [
+						"Build personas and user journeys that guide AI-augmented content.",
+						"Align messaging and assets to each audience touchpoint.",
+						"Test AI tools that simulate reader questions and expectations."
+					]
 				},
 				{
 					"title": "Week 3: Personalization at Scale",
-					"outcome": "Deliver platform-specific versions without sacrificing consistency.",
-					"details": "Automate tone, style, and format adjustments with controlled prompts. Design custom GPT instructions to replicate your brand voice."
+					"details": [
+						"Deliver platform-specific versions without sacrificing consistency.",
+						"Automate tone, style, and format adjustments with controlled prompts.",
+						"Design custom GPT instructions to replicate your brand voice."
+					]
 				},
 				{
 					"title": "Week 4: Accelerating Value Delivery",
-					"outcome": "Streamline production workflows and remove bottlenecks.",
-					"details": "Run AI-powered content audits to prioritize improvements. Plan projects and tasks that increase overall content ROI."
+					"details": [
+						"Streamline production workflows and remove bottlenecks.",
+						"Run AI-powered content audits to prioritize improvements.",
+						"Plan projects and tasks that increase overall content ROI."
+					]
 				},
 				{
 					"title": "Week 5: Deep Content Insights",
-					"outcome": "Identify gaps, new opportunities, and research angles with AI.",
-					"details": "Develop outlines and drafts for net-new assets. Define the project you will evolve through Week 7."
+					"details": [
+						"Identify gaps, new opportunities, and research angles with AI.",
+						"Develop outlines and drafts for net-new assets.",
+						"Define the project you will evolve through Week 7."
+					]
 				},
 				{
 					"title": "Week 6: Data-Driven Prioritization",
-					"outcome": "Use customer insights to prioritize content that converts.",
-					"details": "Apply advanced prompting techniques to sharpen clarity. Review progress on your individual or team project."
+					"details": [
+						"Use customer insights to prioritize content that converts.",
+						"Apply advanced prompting techniques to sharpen clarity.",
+						"Review progress on your individual or team project."
+					]
 				},
 				{
 					"title": "Week 7: Evolving with AI",
-					"outcome": "Present final projects and gather peer plus mentor feedback.",
-					"details": "Codify a long-term roadmap for AI-enabled content operations. Operationalize your workflow and celebrate the cohort completion."
+					"details": [
+						"Present final projects and gather peer plus mentor feedback.",
+						"Codify a long-term roadmap for AI-enabled content operations.",
+						"Operationalize your workflow and celebrate the cohort completion."
+					]
 				}
 			],
 			"heroImage": "/images/generated/events/ai-workshop-for-content-creators-spring-2026/hero-landscape.jpg",
@@ -345,8 +366,8 @@
 		},
 		{
 			"id": "aicd26",
-			"slug": "ship-your-first-app-with-ai-april-2026",
-			"title": "💻 Ship Your First App with AI (April 2026)",
+			"slug": "code-your-next-app-with-ai-april-2026",
+			"title": "💻 Code Your Next App with AI (April 2026)",
 			"type": "training_session",
 			"typeLabel": "Training",
 			"tagline": "A four-week hands-on coding cohort.",
@@ -399,12 +420,12 @@
 			"template": {
 				"kind": "training_event_v1",
 				"sourceProgramSku": "CM-TR-006",
-				"sourceProgramSlug": "ship-your-first-app-with-ai",
-				"sourceProgramRoute": "/training/ship-your-first-app-with-ai"
+				"sourceProgramSlug": "code-your-next-app-with-ai",
+				"sourceProgramRoute": "/training/code-your-next-app-with-ai"
 			},
 			"faq": [
 				{
-					"key": "ai_experience_required",
+					"key": "ai_experience_required_for_this_workshop",
 					"question": "Do I need prior AI experience to join?",
 					"blocks": [
 						{
@@ -414,7 +435,7 @@
 					]
 				},
 				{
-					"key": "prework_paid_account",
+					"key": "prework_paid_account_for_this_workshop",
 					"question": "What do I need before the workshop starts?",
 					"blocks": [
 						{
@@ -423,73 +444,8 @@
 						},
 						{
 							"type": "link",
-							"label": "Open the Ship Your First App with AI setup guide",
-							"href": "/resources/ship-your-first-app-with-ai-setup"
-						}
-					]
-				},
-				{
-					"key": "delivery_and_absence",
-					"question": "How is the workshop delivered, and what if I miss a session?",
-					"blocks": [
-						{
-							"type": "paragraph",
-							"text": "Cohorts are delivered live using Zoom, Google Meet, Microsoft Teams, or another proven collaboration platform. If you miss a session, contact us and we will share the best available catch-up option."
-						}
-					]
-				},
-				{
-					"key": "outcomes_certificate_work",
-					"question": "What will I get by the end (certificate, exercises, and take-home work)?",
-					"blocks": [
-						{
-							"type": "paragraph",
-							"text": "You will complete hands-on exercises and leave with practical take-home materials. Certificate availability may vary by program or event and is listed in the event details."
-						}
-					]
-				},
-				{
-					"key": "post_workshop_support",
-					"question": "Is post-workshop support included?",
-					"blocks": [
-						{
-							"type": "paragraph",
-							"text": "Yes. Every participant receives at least one hour of free consultation after the training, plus any additional support listed for that specific program or event."
-						}
-					]
-				},
-				{
-					"key": "questions_and_alternatives",
-					"question": "How can I ask questions before enrolling, and what if I can’t make this cohort?",
-					"blocks": [
-						{
-							"type": "paragraph",
-							"text": "If you have questions before enrolling, reach out any time. If this cohort timing does not work, we can share upcoming options."
-						},
-						{
-							"type": "link",
-							"label": "contact",
-							"href": "/contact",
-							"openInNewTab": true
-						}
-					]
-				},
-				{
-					"key": "manager_letter",
-					"question": "📧 Do you have a manager budget-approval letter I can send?",
-					"blocks": [
-						{
-							"type": "paragraph",
-							"text": "Yes. This version is tailored to Ship Your First App with AI and auto-fills the course title, dates, cost, and link from the event details below."
-						},
-						{
-							"type": "email_template",
-							"subject": "Request for approval: [Program Name]",
-							"body": "Hi [Manager Name],\n\nI would like approval to attend [Program Name] with Cambermast.\n\nThis training is focused on building and improving a practical web application with AI. It covers hands-on app development, Git, GitHub, Docker, AI planning features, and a capstone project I can apply directly to my role.\n\nProgram: [Program Name]\nDates: [Dates]\nCost: [Cost]\nLink: [Program/Event URL]\n\nI expect this training will help me improve speed, quality, and technical confidence while giving me a more structured workflow for building useful internal or client-facing tools.\n\nThank you for considering this request.\n\nBest,\n[Your Name]",
-							"ctaLabel": "Open in email client",
-							"copyButtonLabel": "Copy email",
-							"copiedButtonLabel": "Copied",
-							"copiedStateMs": 1600
+							"label": "Open the Code Your Next App with AI setup guide",
+							"href": "/resources/code-your-next-app-with-ai-setup"
 						}
 					]
 				},
@@ -552,6 +508,25 @@
 							"text": "Yes. In Week 3, the workshop focuses on using AI planning features to break larger goals into manageable steps, improve the structure of your app, and make the product easier to extend, test, and maintain."
 						}
 					]
+				},
+				{
+					"key": "manager_letter_for_ai_assisted_coding_workshop",
+					"question": "📧 Do you have a manager budget-approval letter I can send?",
+					"blocks": [
+						{
+							"type": "paragraph",
+							"text": "Yes. This version is tailored to Code Your Next App with AI and auto-fills the course title, dates, cost, and link from the training program details below."
+						},
+						{
+							"type": "email_template",
+							"subject": "Request for approval: [Program Name]",
+							"body": "Hi [Manager Name],\n\nI would like approval to attend [Program Name] with Cambermast.\n\nThis training is focused on building and improving a practical web application with AI. It covers hands-on app development, Git, GitHub, Docker, AI planning features, and a capstone project I can apply directly to my role.\n\nProgram: [Program Name]\nDates: [Dates]\nCost: [Cost]\nFormat: [Format]\nLink: [Program/Event URL]\n\nI expect this training will help me improve speed, quality, and technical confidence while giving me a more structured workflow for building useful internal or client-facing tools.\n\nThank you for considering this request.\n\nBest,\n[Your Name]",
+							"ctaLabel": "Open in email client",
+							"copyButtonLabel": "Copy email",
+							"copiedButtonLabel": "Copied",
+							"copiedStateMs": 1600
+						}
+					]
 				}
 			],
 			"schedule": {
@@ -559,8 +534,8 @@
 				"estimatedHoursCommitment": 2
 			},
 			"description": {
-				"summary": "Across weekly 2-hour sessions, participants learn how to turn plain-language ideas into a working web app, improve it with modern development workflows, strengthen it with AI-supported planning and iteration, and build a competitive market analysis of their competitors. You will work through guided exercises, apply what you learn to a real use case, and leave with a repeatable workflow you can use long after the cohort ends.",
-				"bodyMd": "Ship Your First App with AI is a live, four-week hands-on coding cohort that helps semi-technical professionals use AI to plan, build, and improve a practical web application while developing a competitive market analysis of their competitors.\n\n## Outcomes\n- Understand how AI-assisted coding works and where it fits into real-world workflows.\n- Turn plain-language requests into clear technical instructions that lead to usable code.\n- Build practical web applications, tools, and automations with guided support.\n- Improve AI-generated code through testing, debugging, refactoring, and review.\n- Apply practical guardrails that make AI-assisted coding more reliable and maintainable.\n\n## What You Will Build\n- A repeatable workflow for planning, building, testing, and improving code with AI.\n- Prompt patterns and review habits that help you get better coding results.\n- A practical web app or internal tool you can continue improving after the workshop.\n- A competitive market analysis of your competitors to support product positioning and planning.\n- Greater confidence using AI to support technical work without relying on one platform.\n- A digital certificate of completion after presenting your final project.\n\n## Prerequisites\n- Review the FAQ item \"What do I need before the workshop starts?\" and complete that setup before Week 1.\n- Visual Studio Code installed on your laptop.\n- Git installed on your laptop.\n- Docker installed and ready to run locally.\n- A GitHub account you can use during the workshop.\n- A paid Claude or ChatGPT account you can use during the workshop.\n- Comfort using a laptop, browser, and basic technical tools.\n- A real workflow, problem, or project idea you want to explore during the cohort.\n\n## Who This Is For\n- Builders who want to move faster with AI-assisted coding workflows.\n- Operators looking to create internal tools, web apps, and automations.\n- Consultants who want to prototype solutions for client and internal work.\n- IT professionals exploring practical ways to use AI for coding and technical problem solving.\n- Aspiring developers who want guided practice building with AI."
+				"summary": "In this four-week workshop, you will start with a prompt and progressively design, build, and refine a real web application using chat-based AI tools. Each session combines short learning sessions with hands-on building. By the end of every week, you will have something working that you can continue improving. By week four, you will have a working web app deployed from your own code repository. If you have some prior software experience and are ready to build, you are a strong fit for this workshop.",
+				"bodyMd": "You already understand software development concepts, and you are ready to bring your ideas to life. Now you need the skills to turn those ideas into working software whenever you decide it is time to build. AI-assisted coding (vibe coding) now enables building real, production-ready apps through structured conversations with AI tools. Learning best practices and strong prompting techniques is the new essential skill for modern developers and creators like yourself.\n\n## Outcomes\n- Follow proven development practices to ensure AI-generated code remains reliable and maintainable.\n- Make your application easier to deploy with Docker.\n- Prevent accidental breaking changes and keep your code safe using Git and GitHub.\n\n## What You Will Build\n- A repeatable workflow for planning, building, testing, and improving code with AI.\n- Prompt patterns and review habits that help you get better coding results.\n- A practical web app or internal tool you can continue improving after the workshop.\n- A competitive market analysis of your competitors to support product positioning and planning.\n- Greater confidence using AI to support technical work without relying on one platform.\n- A digital certificate of completion after presenting your final project.\n\n## Who This Is For\n- Builders who want to move faster with AI-assisted coding workflows.\n- Operators looking to create internal tools, web apps, and automations.\n- Consultants who want to prototype solutions for client and internal work.\n- IT professionals exploring practical ways to use AI for coding and technical problem solving.\n- Aspiring developers who want guided practice building with AI."
 			},
 			"highlights": [
 				"Turn plain-language ideas into a working web app",
@@ -583,32 +558,45 @@
 				"A digital certificate of completion after presenting your final project."
 			],
 			"outcomes": [
-				"Understand how AI-assisted coding works and where it fits into real-world workflows.",
-				"Turn plain-language requests into clear technical instructions that lead to usable code.",
-				"Build practical web applications, tools, and automations with guided support.",
-				"Improve AI-generated code through testing, debugging, refactoring, and review.",
-				"Apply practical guardrails that make AI-assisted coding more reliable and maintainable."
+				"Follow proven development practices to ensure AI-generated code remains reliable and maintainable.",
+				"Make your application easier to deploy with Docker.",
+				"Prevent accidental breaking changes and keep your code safe using Git and GitHub."
 			],
 			"agenda": [
 				{
 					"title": "Week 1: Build Your First Web App",
-					"outcome": "Create a working web app and understand how AI-assisted coding fits into practical development workflows.",
-					"details": "Define what AI-assisted coding is and where it works well. Compare common AI coding workflows across chat and editor-based tools. Learn how to describe coding tasks clearly using plain language. Create a working web app and review the structure, readability, and flow of the generated code."
+					"details": [
+						"Understand AI-assisted coding and how it works.",
+						"Explore common AI coding workflows and tools.",
+						"Practice writing clear requirements to translate into working code.",
+						"Build a simple working web app and review the output."
+					]
 				},
 				{
 					"title": "Week 2: Git, GitHub, Docker, and Iteration",
-					"outcome": "Set up a more professional workflow for improving the app you started in Week 1.",
-					"details": "Learn the basics of Git and GitHub for version control and collaboration. Use Docker to create a consistent development environment for your app. Practice revising requests when the first output is incomplete or off track. Improve the web app you started in Week 1 through guided iteration."
+					"details": [
+						"Use Git and GitHub to track changes, collaborate, and ship reliably.",
+						"Use Docker to create a repeatable development environment for your app.",
+						"Practice iterative prompting when the first AI output is incomplete or incorrect.",
+						"Improve your Week 1 app through structured iterations and versioned commits."
+					]
 				},
 				{
 					"title": "Week 3: Planning for a More Robust Product",
-					"outcome": "Use AI planning features to make your app more robust and easier to scale.",
-					"details": "Use AI planning features to break larger product goals into manageable development steps. Build a more robust web app with clearer structure and room to scale. Add validation, edge-case handling, and simple testing habits. Document assumptions, dependencies, and next steps."
+					"details": [
+						"Use AI planning features to break product ideas into manageable development tasks.",
+						"Refactor your app into clearer modules and components that can scale.",
+						"Add validation, edge-case handling, and basic tests.",
+						"Deploy your working web app."
+					]
 				},
 				{
 					"title": "Week 4: Capstone Project and Next Steps",
-					"outcome": "Create and present a capstone project built during the cohort.",
-					"details": "Create and finalize a capstone project built during the cohort. Present your project and receive feedback. Review how to evaluate code quality, maintainability, and fit for use. Leave with a roadmap for continuing your AI-assisted coding practice."
+					"details": [
+						"Present your project or next big idea with the cohort.",
+						"Share ideas, tools, or workflows you want to continue exploring.",
+						"Leave with a clear path for turning future ideas into working apps with AI."
+					]
 				}
 			],
 			"speakers": [
@@ -620,10 +608,10 @@
 					"photoAlt": "Bill Raymond"
 				}
 			],
-			"heroImage": "/images/generated/events/ship-your-first-app-with-ai-april-2026/hero-landscape.jpg",
-			"heroImageAlt": "Ship Your First App with AI illustration",
-			"image": "/images/generated/events/ship-your-first-app-with-ai-april-2026/hero-landscape.jpg",
-			"imageAlt": "Open graph image for the Ship Your First App with AI training program",
+			"heroImage": "/images/generated/events/code-your-next-app-with-ai-april-2026/hero-landscape.jpg",
+			"heroImageAlt": "Code Your Next App with AI illustration",
+			"image": "/images/generated/events/code-your-next-app-with-ai-april-2026/hero-landscape.jpg",
+			"imageAlt": "Open graph image for the Code Your Next App with AI training program",
 			"campaignId": "aicd26"
 		},
 		{

@@ -16,7 +16,7 @@
 		campaignLandingPathExists: boolean;
 	};
 	type SessionRow = { startLocal: string; endLocal: string };
-	type AgendaRow = { title: string; outcome: string; details: string };
+	type AgendaRow = { title: string; detailsText: string };
 	type FaqRow = { question: string; answer: string };
 
 	const pageMeta = {
@@ -95,7 +95,7 @@
 	let trainingSessionsCustomized = false;
 
 	let sessions: SessionRow[] = [{ startLocal: '', endLocal: '' }];
-	let agendaRows: AgendaRow[] = [{ title: '', outcome: '', details: '' }];
+	let agendaRows: AgendaRow[] = [{ title: '', detailsText: '' }];
 	let faqRows: FaqRow[] = [{ question: '', answer: '' }];
 	let selectedPartnerCodes: string[] = [];
 
@@ -206,18 +206,23 @@
 	};
 
 	const agendaToRows = (items: unknown): AgendaRow[] => {
-		if (!Array.isArray(items)) return [{ title: '', outcome: '', details: '' }];
+		if (!Array.isArray(items)) return [{ title: '', detailsText: '' }];
 		const rows = items
 			.map((item) => {
-				const row = item as { title?: string; outcome?: string; details?: string };
+				const row = item as { title?: string; details?: string[] | string };
+				const detailsText = Array.isArray(row.details)
+					? row.details
+							.map((detail) => detail.trim())
+							.filter(Boolean)
+							.join('\n')
+					: (row.details?.trim() ?? '');
 				return {
 					title: row.title?.trim() ?? '',
-					outcome: row.outcome?.trim() ?? '',
-					details: row.details?.trim() ?? ''
+					detailsText
 				};
 			})
-			.filter((row) => row.title || row.outcome || row.details);
-		return rows.length ? rows : [{ title: '', outcome: '', details: '' }];
+			.filter((row) => row.title || row.detailsText);
+		return rows.length ? rows : [{ title: '', detailsText: '' }];
 	};
 
 	const addSession = () => {
@@ -243,12 +248,12 @@
 	};
 
 	const addAgendaRow = () => {
-		agendaRows = [...agendaRows, { title: '', outcome: '', details: '' }];
+		agendaRows = [...agendaRows, { title: '', detailsText: '' }];
 	};
 
 	const removeAgendaRow = (index: number) => {
 		agendaRows = agendaRows.filter((_, idx) => idx !== index);
-		if (agendaRows.length === 0) agendaRows = [{ title: '', outcome: '', details: '' }];
+		if (agendaRows.length === 0) agendaRows = [{ title: '', detailsText: '' }];
 	};
 
 	const addFaqRow = () => {
@@ -278,7 +283,8 @@
 		if (Number.isNaN(parsed.valueOf())) return '';
 		return parsed.toISOString();
 	};
-	const toUtcPreview = (value: string): string => toUtcIsoFromLocalInput(value) || 'Invalid date/time';
+	const toUtcPreview = (value: string): string =>
+		toUtcIsoFromLocalInput(value) || 'Invalid date/time';
 
 	const toTrainingSessionCount = (): number => {
 		const numberOfSessionsValue = toInputText(numberOfSessions);
@@ -311,7 +317,9 @@
 		const announce = options?.announce ?? true;
 		const resolvedTime =
 			parseTimeToTwentyFourHour(startTimeLocal) ??
-			parseTimeToTwentyFourHour(selectedTrainingProgram?.scheduleTemplate?.defaultStartTimeLocal ?? '') ??
+			parseTimeToTwentyFourHour(
+				selectedTrainingProgram?.scheduleTemplate?.defaultStartTimeLocal ?? ''
+			) ??
 			'09:00';
 		if (!startDate.trim()) {
 			errorMessage = 'Pick a training start date before generating sessions.';
@@ -370,8 +378,9 @@
 		!trainingSessionsCustomized &&
 		startDate.trim() &&
 		(parseTimeToTwentyFourHour(startTimeLocal) !== null ||
-			parseTimeToTwentyFourHour(selectedTrainingProgram?.scheduleTemplate?.defaultStartTimeLocal ?? '') !==
-				null)
+			parseTimeToTwentyFourHour(
+				selectedTrainingProgram?.scheduleTemplate?.defaultStartTimeLocal ?? ''
+			) !== null)
 	) {
 		generateTrainingSessions({ announce: false });
 	}
@@ -482,10 +491,12 @@
 			.map((partner: { code?: string }) => partner.code ?? '')
 			.filter(Boolean);
 
-		sessions = (source.sessions ?? []).map((session: { startAtUtc?: string; endAtUtc?: string }) => ({
-			startLocal: toLocalDateTimeInput(session.startAtUtc ?? ''),
-			endLocal: toLocalDateTimeInput(session.endAtUtc ?? '')
-		}));
+		sessions = (source.sessions ?? []).map(
+			(session: { startAtUtc?: string; endAtUtc?: string }) => ({
+				startLocal: toLocalDateTimeInput(session.startAtUtc ?? ''),
+				endLocal: toLocalDateTimeInput(session.endAtUtc ?? '')
+			})
+		);
 		if (!sessions.length) sessions = [{ startLocal: '', endLocal: '' }];
 		trainingSessionsCustomized = sourceIsTraining;
 
@@ -499,7 +510,10 @@
 					: '';
 		}
 
-		if (source.campaignId && existingCampaignOptions.some((option) => option.id === source.campaignId)) {
+		if (
+			source.campaignId &&
+			existingCampaignOptions.some((option) => option.id === source.campaignId)
+		) {
 			campaignMode = 'existing';
 			existingCampaignId = source.campaignId;
 		} else if (source.campaignId) {
@@ -581,14 +595,12 @@
 		const normalizedAgenda = agendaRows
 			.map((row) => ({
 				title: row.title.trim(),
-				outcome: row.outcome.trim(),
-				details: row.details.trim()
+				details: parseLines(row.detailsText)
 			}))
 			.filter((row) => row.title)
 			.map((row) => ({
 				title: row.title,
-				outcome: row.outcome || undefined,
-				details: row.details || undefined
+				details: row.details.length ? row.details : undefined
 			}));
 		const normalizedFaq = faqRows
 			.map((row) => ({ question: row.question.trim(), answer: row.answer.trim() }))
@@ -737,7 +749,9 @@
 {:else}
 	<section class="mt-8 space-y-6">
 		{#if errorMessage}
-			<div class="rounded-2xl border border-rose-200 bg-rose-50 p-4 text-sm font-semibold text-rose-800">
+			<div
+				class="rounded-2xl border border-rose-200 bg-rose-50 p-4 text-sm font-semibold text-rose-800"
+			>
 				{errorMessage}
 			</div>
 		{/if}
@@ -761,7 +775,9 @@
 
 		<div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
 			<h2 class="text-xl font-semibold">Quick Start</h2>
-			<p class="mt-2 text-sm text-gray-600">Copy from an existing event or training program to seed fields.</p>
+			<p class="mt-2 text-sm text-gray-600">
+				Copy from an existing event or training program to seed fields.
+			</p>
 			<div class="mt-3 flex flex-wrap gap-4 text-sm">
 				<label class="inline-flex items-center gap-2">
 					<input type="radio" bind:group={copySourceType} value="event" /> Existing event
@@ -774,7 +790,10 @@
 				<div class="mt-4 flex flex-col gap-3 sm:flex-row sm:items-end">
 					<label class="text-sm font-semibold text-gray-800 sm:flex-1">
 						Event template
-						<select class="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm" bind:value={copyEventId}>
+						<select
+							class="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm"
+							bind:value={copyEventId}
+						>
 							<option value="">Select an event...</option>
 							{#each existingEvents as event}
 								<option value={event.id}>{event.title} ({event.id})</option>
@@ -793,7 +812,10 @@
 				<div class="mt-4 flex flex-col gap-3 sm:flex-row sm:items-end">
 					<label class="text-sm font-semibold text-gray-800 sm:flex-1">
 						Training template
-						<select class="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm" bind:value={copyProgramSku}>
+						<select
+							class="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm"
+							bind:value={copyProgramSku}
+						>
 							{#each trainingPrograms as program}
 								<option value={program.sku}>{program.title} ({program.sku})</option>
 							{/each}
@@ -812,7 +834,9 @@
 
 		<div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
 			<h2 class="text-xl font-semibold">Essential</h2>
-			<p class="mt-2 text-sm text-gray-600">Start here. These fields drive the calendar card and event page.</p>
+			<p class="mt-2 text-sm text-gray-600">
+				Start here. These fields drive the calendar card and event page.
+			</p>
 
 			<div class="mt-4 flex flex-wrap gap-4 text-sm">
 				<label class="inline-flex items-center gap-2">
@@ -837,12 +861,20 @@
 				</label>
 				<label class="text-sm font-semibold text-gray-800">
 					Slug *
-					<input class="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm" bind:value={slug} />
-					<p class="mt-1 text-xs text-gray-500">Used for `/events/[slug]` and campaign landing path.</p>
+					<input
+						class="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm"
+						bind:value={slug}
+					/>
+					<p class="mt-1 text-xs text-gray-500">
+						Used for `/events/[slug]` and campaign landing path.
+					</p>
 				</label>
 				<label class="text-sm font-semibold text-gray-800 sm:col-span-2">
 					Title *
-					<input class="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm" bind:value={title} />
+					<input
+						class="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm"
+						bind:value={title}
+					/>
 				</label>
 				<label class="text-sm font-semibold text-gray-800 sm:col-span-2">
 					Summary *
@@ -851,14 +883,19 @@
 						class="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm"
 						bind:value={summary}
 					></textarea>
-					<p class="mt-1 text-xs text-gray-500">Used for `/events` cards and `/api/events.json` summary.</p>
+					<p class="mt-1 text-xs text-gray-500">
+						Used for `/events` cards and `/api/events.json` summary.
+					</p>
 				</label>
 			</div>
 
 			<div class="mt-4 grid gap-4 sm:grid-cols-3">
 				<label class="text-sm font-semibold text-gray-800">
 					Visibility *
-					<select class="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm" bind:value={visibility}>
+					<select
+						class="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm"
+						bind:value={visibility}
+					>
 						<option value="draft">draft</option>
 						<option value="unlisted">unlisted</option>
 						<option value="public">public</option>
@@ -897,7 +934,10 @@
 			<div class="mt-4 grid gap-4 sm:grid-cols-2">
 				<label class="text-sm font-semibold text-gray-800">
 					CTA label *
-					<select class="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm" bind:value={ctaLabel}>
+					<select
+						class="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm"
+						bind:value={ctaLabel}
+					>
 						{#each ctaLabelOptions as option}
 							<option value={option}>{option}</option>
 						{/each}
@@ -905,8 +945,13 @@
 				</label>
 				<label class="text-sm font-semibold text-gray-800">
 					CTA URL
-					<input class="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm" bind:value={ctaUrl} />
-					<p class="mt-1 text-xs text-gray-500">Used by event detail button and campaign short-link redirect.</p>
+					<input
+						class="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm"
+						bind:value={ctaUrl}
+					/>
+					<p class="mt-1 text-xs text-gray-500">
+						Used by event detail button and campaign short-link redirect.
+					</p>
 				</label>
 			</div>
 
@@ -947,7 +992,7 @@
 								<button
 									type="button"
 									class="rounded border border-gray-300 px-2 py-1 text-xs"
-								on:click={() => generateTrainingSessions()}
+									on:click={() => generateTrainingSessions()}
 								>
 									Generate weekly sessions
 								</button>
@@ -963,7 +1008,9 @@
 						<p class="mt-1 text-xs text-gray-500">
 							Set up a template, then generate weekly sessions. You can edit any generated session.
 						</p>
-						<div class="mt-3 grid gap-3 rounded border border-gray-200 bg-gray-50 p-3 sm:grid-cols-2">
+						<div
+							class="mt-3 grid gap-3 rounded border border-gray-200 bg-gray-50 p-3 sm:grid-cols-2"
+						>
 							<label class="text-xs font-semibold text-gray-700">
 								Start date *
 								<input
@@ -1002,7 +1049,8 @@
 							</label>
 						</div>
 						<p class="mt-2 text-xs text-gray-500">
-							Current template target: {toTrainingSessionCount()} session{toTrainingSessionCount() === 1
+							Current template target: {toTrainingSessionCount()} session{toTrainingSessionCount() ===
+							1
 								? ''
 								: 's'}.
 						</p>
@@ -1061,7 +1109,10 @@
 					<div class="mt-3 grid gap-4 sm:grid-cols-2">
 						<label class="text-sm font-semibold text-gray-800">
 							Type *
-							<select class="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm" bind:value={type}>
+							<select
+								class="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm"
+								bind:value={type}
+							>
 								{#each eventTypeOptions as option}
 									<option value={option}>{option}</option>
 								{/each}
@@ -1069,7 +1120,10 @@
 						</label>
 						<label class="text-sm font-semibold text-gray-800">
 							Type label
-							<input class="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm" bind:value={typeLabel} />
+							<input
+								class="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm"
+								bind:value={typeLabel}
+							/>
 						</label>
 						<label class="text-sm font-semibold text-gray-800">
 							Location mode *
@@ -1171,11 +1225,16 @@
 
 		<details class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
 			<summary class="cursor-pointer text-xl font-semibold">Advanced Content</summary>
-			<p class="mt-2 text-sm text-gray-600">Optional content enrichment for event detail pages and richer API payloads.</p>
+			<p class="mt-2 text-sm text-gray-600">
+				Optional content enrichment for event detail pages and richer API payloads.
+			</p>
 			<div class="mt-4 grid gap-4 sm:grid-cols-2">
 				<label class="text-sm font-semibold text-gray-800">
 					Tagline
-					<input class="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm" bind:value={tagline} />
+					<input
+						class="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm"
+						bind:value={tagline}
+					/>
 				</label>
 				<label class="text-sm font-semibold text-gray-800 sm:col-span-2">
 					Description body markdown
@@ -1187,7 +1246,11 @@
 				</label>
 				<label class="text-sm font-semibold text-gray-800">
 					Highlights (one per line)
-					<textarea rows={4} class="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm" bind:value={highlightsText}></textarea>
+					<textarea
+						rows={4}
+						class="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm"
+						bind:value={highlightsText}
+					></textarea>
 				</label>
 				<label class="text-sm font-semibold text-gray-800">
 					Audience bullets (one per line)
@@ -1199,14 +1262,22 @@
 				</label>
 				<label class="text-sm font-semibold text-gray-800 sm:col-span-2">
 					Outcomes (one per line)
-					<textarea rows={4} class="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm" bind:value={outcomesText}></textarea>
+					<textarea
+						rows={4}
+						class="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm"
+						bind:value={outcomesText}
+					></textarea>
 				</label>
 			</div>
 
 			<div class="mt-5 rounded border border-gray-200 bg-gray-50 p-3">
 				<div class="flex items-center justify-between">
 					<p class="text-sm font-semibold text-gray-800">Agenda rows</p>
-					<button type="button" class="rounded border border-gray-300 px-2 py-1 text-xs" on:click={addAgendaRow}>Add agenda row</button>
+					<button
+						type="button"
+						class="rounded border border-gray-300 px-2 py-1 text-xs"
+						on:click={addAgendaRow}>Add agenda row</button
+					>
 				</div>
 				<div class="mt-3 space-y-3">
 					{#each agendaRows as row, index}
@@ -1214,18 +1285,25 @@
 							<div class="grid gap-3 sm:grid-cols-2">
 								<label class="text-xs font-semibold text-gray-700 sm:col-span-2">
 									Title
-									<input class="mt-1 w-full rounded border border-gray-300 px-2 py-1 text-xs" bind:value={row.title} />
+									<input
+										class="mt-1 w-full rounded border border-gray-300 px-2 py-1 text-xs"
+										bind:value={row.title}
+									/>
 								</label>
-								<label class="text-xs font-semibold text-gray-700">
-									Outcome
-									<input class="mt-1 w-full rounded border border-gray-300 px-2 py-1 text-xs" bind:value={row.outcome} />
-								</label>
-								<label class="text-xs font-semibold text-gray-700">
-									Details
-									<input class="mt-1 w-full rounded border border-gray-300 px-2 py-1 text-xs" bind:value={row.details} />
+								<label class="text-xs font-semibold text-gray-700 sm:col-span-2">
+									Bullets (one per line)
+									<textarea
+										rows={4}
+										class="mt-1 w-full rounded border border-gray-300 px-2 py-1 text-xs"
+										bind:value={row.detailsText}
+									></textarea>
 								</label>
 							</div>
-							<button type="button" class="mt-2 rounded border border-gray-300 px-2 py-1 text-xs" on:click={() => removeAgendaRow(index)}>Remove</button>
+							<button
+								type="button"
+								class="mt-2 rounded border border-gray-300 px-2 py-1 text-xs"
+								on:click={() => removeAgendaRow(index)}>Remove</button
+							>
 						</div>
 					{/each}
 				</div>
@@ -1234,26 +1312,45 @@
 			<div class="mt-5 rounded border border-gray-200 bg-gray-50 p-3">
 				<div class="flex items-center justify-between">
 					<p class="text-sm font-semibold text-gray-800">FAQ rows</p>
-					<button type="button" class="rounded border border-gray-300 px-2 py-1 text-xs" on:click={addFaqRow}>Add FAQ row</button>
+					<button
+						type="button"
+						class="rounded border border-gray-300 px-2 py-1 text-xs"
+						on:click={addFaqRow}>Add FAQ row</button
+					>
 				</div>
 				{#if mode === 'training' && selectedTrainingProgram?.faqs?.length}
-					<p class="mt-2 text-xs text-gray-500">Program FAQ defaults available from training data.</p>
+					<p class="mt-2 text-xs text-gray-500">
+						Program FAQ defaults available from training data.
+					</p>
 				{/if}
 				{#if mode === 'external' && eventFaqDefaults.length}
-					<p class="mt-2 text-xs text-gray-500">Event FAQ preset starter available if you keep rows empty.</p>
+					<p class="mt-2 text-xs text-gray-500">
+						Event FAQ preset starter available if you keep rows empty.
+					</p>
 				{/if}
 				<div class="mt-3 space-y-3">
 					{#each faqRows as row, index}
 						<div class="rounded border border-gray-200 bg-white p-3">
 							<label class="text-xs font-semibold text-gray-700">
 								Question
-								<input class="mt-1 w-full rounded border border-gray-300 px-2 py-1 text-xs" bind:value={row.question} />
+								<input
+									class="mt-1 w-full rounded border border-gray-300 px-2 py-1 text-xs"
+									bind:value={row.question}
+								/>
 							</label>
 							<label class="mt-2 block text-xs font-semibold text-gray-700">
 								Answer
-								<textarea rows={3} class="mt-1 w-full rounded border border-gray-300 px-2 py-1 text-xs" bind:value={row.answer}></textarea>
+								<textarea
+									rows={3}
+									class="mt-1 w-full rounded border border-gray-300 px-2 py-1 text-xs"
+									bind:value={row.answer}
+								></textarea>
 							</label>
-							<button type="button" class="mt-2 rounded border border-gray-300 px-2 py-1 text-xs" on:click={() => removeFaqRow(index)}>Remove</button>
+							<button
+								type="button"
+								class="mt-2 rounded border border-gray-300 px-2 py-1 text-xs"
+								on:click={() => removeFaqRow(index)}>Remove</button
+							>
 						</div>
 					{/each}
 				</div>
@@ -1263,7 +1360,9 @@
 				<p class="text-sm font-semibold text-gray-800">Partner codes</p>
 				<div class="mt-2 flex flex-wrap gap-3">
 					{#each partners as partner}
-						<label class="inline-flex items-center gap-2 rounded border border-gray-200 bg-white px-2 py-1 text-xs">
+						<label
+							class="inline-flex items-center gap-2 rounded border border-gray-200 bg-white px-2 py-1 text-xs"
+						>
 							<input
 								type="checkbox"
 								checked={selectedPartnerCodes.includes(partner.code)}
@@ -1279,7 +1378,8 @@
 		<details class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
 			<summary class="cursor-pointer text-xl font-semibold">Advanced Tracking</summary>
 			<p class="mt-2 text-sm text-gray-600">
-				Default auto-tracking keeps campaign setup simple. Open fields below only if you need overrides.
+				Default auto-tracking keeps campaign setup simple. Open fields below only if you need
+				overrides.
 			</p>
 			<div class="mt-4 flex flex-wrap gap-4 text-sm">
 				<label class="inline-flex items-center gap-2">
@@ -1324,23 +1424,38 @@
 							</label>
 							<label class="text-xs font-semibold text-gray-700">
 								Partner label
-								<input class="mt-1 w-full rounded border border-gray-300 px-2 py-1 text-xs" bind:value={campaignPartnerLabel} />
+								<input
+									class="mt-1 w-full rounded border border-gray-300 px-2 py-1 text-xs"
+									bind:value={campaignPartnerLabel}
+								/>
 							</label>
 							<label class="text-xs font-semibold text-gray-700">
 								utm_source
-								<input class="mt-1 w-full rounded border border-gray-300 px-2 py-1 text-xs" bind:value={utmSource} />
+								<input
+									class="mt-1 w-full rounded border border-gray-300 px-2 py-1 text-xs"
+									bind:value={utmSource}
+								/>
 							</label>
 							<label class="text-xs font-semibold text-gray-700">
 								utm_medium
-								<input class="mt-1 w-full rounded border border-gray-300 px-2 py-1 text-xs" bind:value={utmMedium} />
+								<input
+									class="mt-1 w-full rounded border border-gray-300 px-2 py-1 text-xs"
+									bind:value={utmMedium}
+								/>
 							</label>
 							<label class="text-xs font-semibold text-gray-700">
 								utm_campaign
-								<input class="mt-1 w-full rounded border border-gray-300 px-2 py-1 text-xs" bind:value={utmCampaign} />
+								<input
+									class="mt-1 w-full rounded border border-gray-300 px-2 py-1 text-xs"
+									bind:value={utmCampaign}
+								/>
 							</label>
 							<label class="text-xs font-semibold text-gray-700">
 								src
-								<input class="mt-1 w-full rounded border border-gray-300 px-2 py-1 text-xs" bind:value={campaignSrc} />
+								<input
+									class="mt-1 w-full rounded border border-gray-300 px-2 py-1 text-xs"
+									bind:value={campaignSrc}
+								/>
 							</label>
 							<label class="text-xs font-semibold text-gray-700">
 								ad
@@ -1352,13 +1467,16 @@
 							</label>
 							<label class="text-xs font-semibold text-gray-700 sm:col-span-2">
 								Description
-								<input class="mt-1 w-full rounded border border-gray-300 px-2 py-1 text-xs" bind:value={campaignDescription} />
+								<input
+									class="mt-1 w-full rounded border border-gray-300 px-2 py-1 text-xs"
+									bind:value={campaignDescription}
+								/>
 							</label>
 						</div>
 					{:else}
 						<p class="mt-3 text-xs text-gray-600">
-							Using defaults: utm_source=qr, utm_medium=offline, utm_campaign=events, src=qr,
-							ad={campaignPartner || 'cambermast'}.
+							Using defaults: utm_source=qr, utm_medium=offline, utm_campaign=events, src=qr, ad={campaignPartner ||
+								'cambermast'}.
 						</p>
 					{/if}
 				</div>
@@ -1388,7 +1506,7 @@
 				<AdminImageGenPanel
 					isDev={data.isDev}
 					mode="embedded"
-					slug={slug}
+					{slug}
 					destinationType={mode === 'training' ? 'training' : 'events'}
 					defaultTemplateUrl={data.defaultTemplateUrl}
 					defaultPrompts={data.defaultPrompts}
@@ -1402,19 +1520,31 @@
 			<div class="mt-4 grid gap-4 sm:grid-cols-2">
 				<label class="text-sm font-semibold text-gray-800">
 					Hero Image URL *
-					<input class="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm" bind:value={heroImage} />
+					<input
+						class="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm"
+						bind:value={heroImage}
+					/>
 				</label>
 				<label class="text-sm font-semibold text-gray-800">
 					OG Image URL *
-					<input class="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm" bind:value={image} />
+					<input
+						class="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm"
+						bind:value={image}
+					/>
 				</label>
 				<label class="text-sm font-semibold text-gray-800">
 					Hero Image Alt
-					<input class="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm" bind:value={heroImageAlt} />
+					<input
+						class="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm"
+						bind:value={heroImageAlt}
+					/>
 				</label>
 				<label class="text-sm font-semibold text-gray-800">
 					OG Image Alt
-					<input class="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm" bind:value={imageAlt} />
+					<input
+						class="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm"
+						bind:value={imageAlt}
+					/>
 				</label>
 			</div>
 		</div>
@@ -1422,7 +1552,8 @@
 		<div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
 			<h2 class="text-xl font-semibold">Preview and Save</h2>
 			<p class="mt-2 text-sm text-gray-600">
-				Preview is recommended before save. Save writes to `events.json` and optionally `campaigns.json`.
+				Preview is recommended before save. Save writes to `events.json` and optionally
+				`campaigns.json`.
 			</p>
 			<div class="mt-4 flex flex-wrap gap-3">
 				<button
@@ -1460,8 +1591,11 @@
 
 			{#if previewResult}
 				<details class="mt-4 rounded border border-gray-200 bg-gray-50 p-3">
-					<summary class="cursor-pointer text-sm font-semibold text-gray-700">View preview JSON</summary>
-					<pre class="mt-2 max-h-[32rem] overflow-auto rounded bg-white p-3 text-xs">{previewResult}</pre>
+					<summary class="cursor-pointer text-sm font-semibold text-gray-700"
+						>View preview JSON</summary
+					>
+					<pre
+						class="mt-2 max-h-[32rem] overflow-auto rounded bg-white p-3 text-xs">{previewResult}</pre>
 				</details>
 			{/if}
 		</div>
