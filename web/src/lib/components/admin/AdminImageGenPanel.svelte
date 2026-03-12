@@ -264,6 +264,8 @@ STRICT AVOIDANCE RULES
 	let visibleDestinationReferences: DestinationReference[] = [];
 	let selectedDestinationReferenceId = '';
 	let selectedDestinationReference: DestinationReference | null = null;
+	let lastAutoLoadedDestinationReferenceKey = '';
+	let destinationReferenceSyncToken = 0;
 	let customBasePath = '';
 	let availableDestinationOptions: DestinationOption[] = [];
 	let selectedDestinationOptionDescription = '';
@@ -463,6 +465,22 @@ STRICT AVOIDANCE RULES
 		if (stage === 'landscape') landscapePrompt = prompt;
 		if (stage === 'portrait') portraitPrompt = prompt;
 		saveMessage = `Loaded ${toStageLabel(stage)} prompt from ${reference.label}.`;
+	};
+
+	const syncDestinationReferenceSelection = async (reference: DestinationReference) => {
+		const syncToken = ++destinationReferenceSyncToken;
+		try {
+			await setTemplateFromPreferredUrl(reference.url, reference.fallbackUrl);
+			if (syncToken !== destinationReferenceSyncToken) return;
+			applyDestinationReferencePrompts(reference);
+			selectedDestinationReferenceId = reference.id;
+		} catch (error) {
+			if (syncToken !== destinationReferenceSyncToken) return;
+			errorMessage =
+				error instanceof Error
+					? error.message
+					: 'Unable to load current destination reference';
+		}
 	};
 
 	const parseWriteResults = (value: unknown): WriteResult[] => {
@@ -869,7 +887,13 @@ STRICT AVOIDANCE RULES
 		destinationType === 'custom' ? [] : destinationOptions[destinationType] ?? [];
 
 	$: visibleDestinationReferences =
-		destinationType === 'custom' ? [] : destinationReferences[destinationType] ?? [];
+		destinationType === 'custom'
+			? []
+			: (destinationReferences[destinationType] ?? []).filter((reference) =>
+					destinationType === 'featured-images' || !slug.trim()
+						? true
+						: reference.slug === slug.trim()
+				);
 
 	$: selectedDestinationOptionDescription =
 		availableDestinationOptions.find((option) => option.slug === slug)?.description ?? '';
@@ -907,9 +931,27 @@ STRICT AVOIDANCE RULES
 		selectedDestinationReferenceId = '';
 	}
 
+	$: if (destinationType === 'custom' && lastAutoLoadedDestinationReferenceKey) {
+		lastAutoLoadedDestinationReferenceKey = '';
+	}
+
 	$: selectedDestinationReference =
 		visibleDestinationReferences.find((reference) => reference.id === selectedDestinationReferenceId) ??
 		null;
+
+	$: {
+		const referenceToSync = selectedDestinationReference;
+		const autoLoadKey =
+			destinationType === 'custom' || !referenceToSync
+				? ''
+				: `${destinationType}:${slug.trim()}:${referenceToSync.id}`;
+		if (!autoLoadKey) {
+			lastAutoLoadedDestinationReferenceKey = '';
+		} else if (referenceToSync && autoLoadKey !== lastAutoLoadedDestinationReferenceKey) {
+			lastAutoLoadedDestinationReferenceKey = autoLoadKey;
+			void syncDestinationReferenceSelection(referenceToSync);
+		}
+	}
 
 	$: {
 		const search = promptHistorySearch.trim().toLowerCase();
