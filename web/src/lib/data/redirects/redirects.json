@@ -31,30 +31,6 @@
 			"enabled": true,
 			"notes": "Legacy training calendar path redirected to the canonical events calendar.",
 			"category": "history"
-		},
-		{
-			"sourcePath": "/training/ai-assisted-coding-workshop",
-			"targetPath": "/training/ship-your-first-app-with-ai",
-			"statusCode": 308,
-			"enabled": true,
-			"notes": "Program rename redirect for Ship Your First App with AI.",
-			"category": "history"
-		},
-		{
-			"sourcePath": "/resources/ai-assisted-coding-workshop-setup",
-			"targetPath": "/resources/ship-your-first-app-with-ai-setup",
-			"statusCode": 308,
-			"enabled": true,
-			"notes": "Setup guide rename redirect for Ship Your First App with AI.",
-			"category": "history"
-		},
-		{
-			"sourcePath": "/events/ai-assisted-coding-workshop-april-2026",
-			"targetPath": "/events/ship-your-first-app-with-ai-april-2026",
-			"statusCode": 308,
-			"enabled": true,
-			"notes": "Event rename redirect for the April 2026 Ship Your First App with AI cohort.",
-			"category": "history"
 		}
 	]
 }

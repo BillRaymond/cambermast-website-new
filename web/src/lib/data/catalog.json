@@ -86,17 +86,17 @@
 				"published": true
 			},
 			{
-				"id": "training-ai-assisted-coding-workshop",
-				"title": "Ship Your First App with AI",
+				"id": "training-code-your-next-app-with-ai",
+				"title": "Code Your Next App with AI",
 				"summary": "A four-week hands-on coding cohort for builders, operators, consultants, IT professionals, and aspiring developers who want to ship a practical web application with AI.",
-				"image": "/images/generated/training/ship-your-first-app-with-ai/hero-landscape-v3.jpg",
-				"imageAlt": "Ship Your First App with AI illustration",
+				"image": "/images/generated/training/code-your-next-app-with-ai/hero-landscape-v3.jpg",
+				"imageAlt": "Code Your Next App with AI illustration",
 				"bullets": [
 					"Turn plain-language ideas into working scripts and lightweight apps",
 					"Practice debugging, refactoring, and testing AI-generated code",
 					"Ship a practical final project and earn a completion certificate"
 				],
-				"route": "/training/ship-your-first-app-with-ai",
+				"route": "/training/code-your-next-app-with-ai",
 				"order": 5,
 				"published": true
 			}
@@ -128,17 +128,17 @@
 				"published": true
 			},
 			{
-				"id": "agents-ai-assisted-coding-workshop",
-				"title": "Ship Your First App with AI",
+				"id": "agents-code-your-next-app-with-ai",
+				"title": "Code Your Next App with AI",
 				"summary": "A four-week hands-on coding cohort for builders who want to ship scripts, tools, automations, and lightweight applications with AI.",
-				"image": "/images/generated/training/ship-your-first-app-with-ai/hero-landscape-v3.jpg",
-				"imageAlt": "Ship Your First App with AI illustration",
+				"image": "/images/generated/training/code-your-next-app-with-ai/hero-landscape-v3.jpg",
+				"imageAlt": "Code Your Next App with AI illustration",
 				"bullets": [
 					"Turn plain-language ideas into working scripts and lightweight apps",
 					"Practice debugging, refactoring, and testing AI-generated code",
 					"Build practical internal tools and automations with AI"
 				],
-				"route": "/training/ship-your-first-app-with-ai",
+				"route": "/training/code-your-next-app-with-ai",
 				"order": 1,
 				"published": true
 			}
