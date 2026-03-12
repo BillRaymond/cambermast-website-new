@@ -1820,7 +1820,7 @@ STRICT AVOIDANCE RULES
 				<ul class="mt-3 space-y-2 text-sm text-gray-700">
 					{#each saveReferenceWrites as write}
 						<li class="rounded-lg border border-gray-200 bg-gray-50 p-2">
-							<p><strong>{toStageLabel(write.variant)} PNG reference</strong> → {write.publicUrl}</p>
+							<p><strong>{toStageLabel(write.variant)} PNG</strong> → {write.publicUrl}</p>
 							<p class="text-xs text-gray-500">{write.absolutePath}</p>
 							{#if write.version > 1}
 								<p class="text-xs font-semibold text-amber-700">Versioned as v{write.version}</p>

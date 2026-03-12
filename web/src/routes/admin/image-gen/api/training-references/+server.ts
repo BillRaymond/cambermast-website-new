@@ -61,8 +61,22 @@ const toReferenceAssetKey = (assetKey: string): string | null => {
 	return `${directory}${base}-reference${version}.png`;
 };
 
+const toSiblingPngAssetKey = (assetKey: string): string | null => {
+	const normalized = assetKey.replace(/^\/+/, '');
+	if (/\.png$/i.test(normalized)) return normalized;
+	if (!/\.jpe?g$/i.test(normalized)) return null;
+	return normalized.replace(/\.jpe?g$/i, '.png');
+};
+
 const toPreferredReferenceUrl = async (assetKey?: string): Promise<string | undefined> => {
 	if (!assetKey) return undefined;
+	const siblingPngAssetKey = toSiblingPngAssetKey(assetKey);
+	if (siblingPngAssetKey) {
+		const siblingPngUrl = toPublicGeneratedUrl(siblingPngAssetKey);
+		if (await localPublicUrlExists(siblingPngUrl)) {
+			return siblingPngUrl;
+		}
+	}
 	const referenceAssetKey = toReferenceAssetKey(assetKey);
 	if (referenceAssetKey) {
 		const referenceUrl = toPublicGeneratedUrl(referenceAssetKey);

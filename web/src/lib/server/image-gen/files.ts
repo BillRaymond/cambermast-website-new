@@ -2,6 +2,7 @@ import path from 'node:path';
 import { promises as fs } from 'node:fs';
 import { existsSync } from 'node:fs';
 import { Buffer } from 'node:buffer';
+import sharp from 'sharp';
 import type { ImageGenDestinationType } from '$lib/server/image-gen/types';
 
 type SaveImageInput = {
@@ -113,6 +114,12 @@ const decodeDataUrlToBuffer = (dataUrl: string): Buffer => {
 	return Buffer.from(b64, 'base64');
 };
 
+const buildVersionedFileName = (baseName: string, version: number): string => {
+	const ext = path.extname(baseName);
+	const stem = baseName.slice(0, -ext.length);
+	return version === 1 ? baseName : `${stem}-v${version.toString()}${ext}`;
+};
+
 const buildVersionedPath = async (dir: string, baseName: string): Promise<{ fileName: string; version: number }> => {
 	const ext = path.extname(baseName);
 	const stem = baseName.slice(0, -ext.length);
@@ -127,6 +134,36 @@ const buildVersionedPath = async (dir: string, baseName: string): Promise<{ file
 		} catch {
 			return { fileName, version };
 		}
+	}
+};
+
+const buildVersionedImagePair = async (
+	dir: string,
+	baseJpgFileName: string,
+	basePngFileName: string
+): Promise<{
+	jpgFileName: string;
+	pngFileName: string;
+	version: number;
+}> => {
+	let version = 1;
+	while (true) {
+		const jpgFileName = buildVersionedFileName(baseJpgFileName, version);
+		const pngFileName = buildVersionedFileName(basePngFileName, version);
+		const jpgFullPath = path.join(dir, jpgFileName);
+		const pngFullPath = path.join(dir, pngFileName);
+		const jpgExists = await fs
+			.access(jpgFullPath)
+			.then(() => true)
+			.catch(() => false);
+		const pngExists = await fs
+			.access(pngFullPath)
+			.then(() => true)
+			.catch(() => false);
+		if (!jpgExists && !pngExists) {
+			return { jpgFileName, pngFileName, version };
+		}
+		version += 1;
 	}
 };
 
@@ -154,19 +191,19 @@ export const saveSelectedImagesToWebsite = async (input: SaveImageInput) => {
 		{
 			variant: 'square',
 			baseJpgFileName: 'hero-square.jpg',
-			basePngFileName: 'hero-square-reference.png',
+			basePngFileName: 'hero-square.png',
 			dataUrl: input.squareDataUrl
 		},
 		{
 			variant: 'landscape',
 			baseJpgFileName: 'hero-landscape.jpg',
-			basePngFileName: 'hero-landscape-reference.png',
+			basePngFileName: 'hero-landscape.png',
 			dataUrl: input.landscapeDataUrl
 		},
 		{
 			variant: 'portrait',
 			baseJpgFileName: 'hero-portrait.jpg',
-			basePngFileName: 'hero-portrait-reference.png',
+			basePngFileName: 'hero-portrait.png',
 			dataUrl: input.portraitDataUrl
 		}
 	];
@@ -204,27 +241,39 @@ export const saveSelectedImagesToWebsite = async (input: SaveImageInput) => {
 
 	try {
 		for (const item of writePlan) {
-			const jpgWrite = await buildVersionedPath(targetDir, item.baseJpgFileName);
-			const pngWrite = await buildVersionedPath(targetDir, item.basePngFileName);
+			const pairWrite = await buildVersionedImagePair(
+				targetDir,
+				item.baseJpgFileName,
+				item.basePngFileName
+			);
 			const buffer = decodeDataUrlToBuffer(item.dataUrl);
-			const jpgAbsolutePath = path.join(targetDir, jpgWrite.fileName);
-			const pngAbsolutePath = path.join(targetDir, pngWrite.fileName);
-			await fs.writeFile(jpgAbsolutePath, buffer);
-			await fs.writeFile(pngAbsolutePath, buffer);
+			const image = sharp(buffer, { failOn: 'none' });
+			const jpgAbsolutePath = path.join(targetDir, pairWrite.jpgFileName);
+			const pngAbsolutePath = path.join(targetDir, pairWrite.pngFileName);
+			await Promise.all([
+				image
+					.clone()
+					.jpeg({ quality: 92, mozjpeg: true })
+					.toFile(jpgAbsolutePath),
+				image
+					.clone()
+					.png()
+					.toFile(pngAbsolutePath)
+			]);
 			writtenPaths.push(jpgAbsolutePath, pngAbsolutePath);
 			writes.push({
 				variant: item.variant,
 				absolutePath: jpgAbsolutePath,
-				publicUrl: `${destination.publicBaseUrl}/${jpgWrite.fileName}`,
-				fileName: jpgWrite.fileName,
-				version: jpgWrite.version
+				publicUrl: `${destination.publicBaseUrl}/${pairWrite.jpgFileName}`,
+				fileName: pairWrite.jpgFileName,
+				version: pairWrite.version
 			});
 			referenceFiles.push({
 				variant: item.variant,
 				absolutePath: pngAbsolutePath,
-				publicUrl: `${destination.publicBaseUrl}/${pngWrite.fileName}`,
-				fileName: pngWrite.fileName,
-				version: pngWrite.version
+				publicUrl: `${destination.publicBaseUrl}/${pairWrite.pngFileName}`,
+				fileName: pairWrite.pngFileName,
+				version: pairWrite.version
 			});
 		}
 

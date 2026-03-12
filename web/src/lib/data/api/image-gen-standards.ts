@@ -40,7 +40,18 @@ const toReferenceAssetKey = (assetKey: string): string | null => {
 	return `${directory}${base}-reference${version}.png`;
 };
 
+const toSiblingPngAssetKey = (assetKey: string): string | null => {
+	const normalized = assetKey.replace(/^\/+/, '');
+	if (/\.png$/i.test(normalized)) return normalized;
+	if (!/\.jpe?g$/i.test(normalized)) return null;
+	return normalized.replace(/\.jpe?g$/i, '.png');
+};
+
 const toExistingReferenceAssetUrl = (assetKey: string, origin: string): string | null => {
+	const siblingPngAssetKey = toSiblingPngAssetKey(assetKey);
+	if (siblingPngAssetKey && assetKeyExists(siblingPngAssetKey)) {
+		return toAbsoluteImageUrl(siblingPngAssetKey, origin);
+	}
 	const referenceAssetKey = toReferenceAssetKey(assetKey);
 	if (!referenceAssetKey) return null;
 	const absolutePath = path.join(webRoot, 'static', 'images', 'generated', referenceAssetKey);

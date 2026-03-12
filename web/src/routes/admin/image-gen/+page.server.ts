@@ -86,6 +86,13 @@ const toReferenceAssetKey = (assetKey: string): string | null => {
 	return `${directory}${base}-reference${version}.png`;
 };
 
+const toSiblingPngAssetKey = (assetKey: string): string | null => {
+	const normalized = assetKey.replace(/^\/+/, '');
+	if (/\.png$/i.test(normalized)) return normalized;
+	if (!/\.jpe?g$/i.test(normalized)) return null;
+	return normalized.replace(/\.jpe?g$/i, '.png');
+};
+
 const toLatestReferenceAssetKey = (assetKey: string): string | null => {
 	const normalized = assetKey.replace(/^\/+/, '');
 	const match = normalized.match(/^(.*\/)?(hero-(?:square|landscape|portrait))(?:-v\d+)?\.jpe?g$/i);
@@ -118,6 +125,10 @@ const toLatestReferenceAssetKey = (assetKey: string): string | null => {
 const toPreferredGeneratedUrl = (assetKey?: string): { url: string; fallbackUrl: string } | null => {
 	if (!assetKeyExists(assetKey)) return null;
 	const fallbackUrl = toPublicGeneratedUrl(assetKey);
+	const siblingPngAssetKey = toSiblingPngAssetKey(assetKey);
+	if (siblingPngAssetKey && assetKeyExists(siblingPngAssetKey)) {
+		return { url: toPublicGeneratedUrl(siblingPngAssetKey), fallbackUrl };
+	}
 	const referenceAssetKey = toReferenceAssetKey(assetKey) ?? toLatestReferenceAssetKey(assetKey);
 	if (referenceAssetKey && assetKeyExists(referenceAssetKey)) {
 		return { url: toPublicGeneratedUrl(referenceAssetKey), fallbackUrl };
