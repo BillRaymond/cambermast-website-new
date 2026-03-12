@@ -366,8 +366,8 @@
 		},
 		{
 			"id": "aicd26",
-			"slug": "code-your-next-app-with-ai-april-2026",
-			"title": "💻 Code Your Next App with AI (April 2026)",
+			"slug": "code-your-next-app-with-ai-workshop-april-2026",
+			"title": "💻 Code Your Next App with AI Workshop (April 2026)",
 			"type": "training_session",
 			"typeLabel": "Training",
 			"tagline": "A four-week hands-on coding cohort.",
@@ -420,8 +420,8 @@
 			"template": {
 				"kind": "training_event_v1",
 				"sourceProgramSku": "CM-TR-006",
-				"sourceProgramSlug": "code-your-next-app-with-ai",
-				"sourceProgramRoute": "/training/code-your-next-app-with-ai"
+				"sourceProgramSlug": "code-your-next-app-with-ai-workshop",
+				"sourceProgramRoute": "/training/code-your-next-app-with-ai-workshop"
 			},
 			"faq": [
 				{
@@ -444,8 +444,8 @@
 						},
 						{
 							"type": "link",
-							"label": "Open the Code Your Next App with AI setup guide",
-							"href": "/resources/code-your-next-app-with-ai-setup"
+							"label": "Open the Code Your Next App with AI Workshop setup guide",
+							"href": "/resources/code-your-next-app-with-ai-workshop-setup"
 						}
 					]
 				},
@@ -515,7 +515,7 @@
 					"blocks": [
 						{
 							"type": "paragraph",
-							"text": "Yes. This version is tailored to Code Your Next App with AI and auto-fills the course title, dates, cost, and link from the training program details below."
+							"text": "Yes. This version is tailored to Code Your Next App with AI Workshop and auto-fills the course title, dates, cost, and link from the training program details below."
 						},
 						{
 							"type": "email_template",
@@ -608,10 +608,10 @@
 					"photoAlt": "Bill Raymond"
 				}
 			],
-			"heroImage": "/images/generated/events/code-your-next-app-with-ai-april-2026/hero-landscape-v2.jpg",
-			"heroImageAlt": "Code Your Next App with AI illustration",
-			"image": "/images/generated/events/code-your-next-app-with-ai-april-2026/hero-landscape-v2.jpg",
-			"imageAlt": "Open graph image for the Code Your Next App with AI training program",
+			"heroImage": "/images/generated/events/code-your-next-app-with-ai-workshop-april-2026/hero-landscape-v3.jpg",
+			"heroImageAlt": "Code Your Next App with AI Workshop illustration",
+			"image": "/images/generated/events/code-your-next-app-with-ai-workshop-april-2026/hero-landscape-v3.jpg",
+			"imageAlt": "Open graph image for the Code Your Next App with AI Workshop training program",
 			"campaignId": "aicd26"
 		},
 		{

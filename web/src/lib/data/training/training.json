@@ -1319,15 +1319,15 @@
 			}
 		},
 		{
-			"slug": "code-your-next-app-with-ai",
-			"route": "/training/code-your-next-app-with-ai",
+			"slug": "code-your-next-app-with-ai-workshop",
+			"route": "/training/code-your-next-app-with-ai-workshop",
 			"sku": "CM-TR-006",
 			"publishedAt": "2026-03-10",
 			"catalog": {
-				"id": "training-code-your-next-app-with-ai",
+				"id": "training-code-your-next-app-with-ai-workshop",
 				"summary": "A four-week hands-on coding cohort for builders, operators, consultants, IT professionals, and aspiring developers who want to ship a practical web application with AI.",
-				"image": "/images/generated/training/code-your-next-app-with-ai/hero-landscape-v4.jpg",
-				"imageAlt": "Code Your Next App with AI illustration",
+				"image": "/images/generated/training/code-your-next-app-with-ai-workshop/hero-landscape-v5.jpg",
+				"imageAlt": "Code Your Next App with AI Workshop illustration",
 				"bullets": [
 					"Turn plain-language ideas into a working web app",
 					"Practice using Git, GitHub, Docker, and AI-assisted iteration",
@@ -1336,13 +1336,13 @@
 				"order": 5,
 				"published": true
 			},
-			"title": "Code Your Next App with AI",
+			"title": "Code Your Next App with AI Workshop",
 			"nickname": "Four-week hands-on coding cohort",
 			"tagline": "A four-week hands-on coding cohort.",
-			"heroImage": "/images/generated/training/code-your-next-app-with-ai/hero-landscape-v4.jpg",
-			"heroImageAlt": "Code Your Next App with AI illustration",
-			"ogImage": "/images/generated/training/code-your-next-app-with-ai/hero-landscape-v4.jpg",
-			"ogImageAlt": "Open graph image for the Code Your Next App with AI training program",
+			"heroImage": "/images/generated/training/code-your-next-app-with-ai-workshop/hero-landscape-v5.jpg",
+			"heroImageAlt": "Code Your Next App with AI Workshop illustration",
+			"ogImage": "/images/generated/training/code-your-next-app-with-ai-workshop/hero-landscape-v5.jpg",
+			"ogImageAlt": "Open graph image for the Code Your Next App with AI Workshop training program",
 			"description": "You already understand software development concepts, and you are ready to bring your ideas to life. Now you need the skills to turn those ideas into working software whenever you decide it is time to build. AI-assisted coding (vibe coding) now enables building real, production-ready apps through structured conversations with AI tools. Learning best practices and strong prompting techniques is the new essential skill for modern developers and creators like yourself.",
 			"secondaryDescription": "In this four-week workshop, you will start with a prompt and progressively design, build, and refine a real web application using chat-based AI tools. Each session combines short learning sessions with hands-on building. By the end of every week, you will have something working that you can continue improving. By week four, you will have a working web app deployed from your own code repository. If you have some prior software experience and are ready to build, you are a strong fit for this workshop.",
 			"primaryCta": {
@@ -1513,8 +1513,8 @@
 						},
 						{
 							"type": "link",
-							"label": "Open the Code Your Next App with AI setup guide",
-							"href": "/resources/code-your-next-app-with-ai-setup"
+							"label": "Open the Code Your Next App with AI Workshop setup guide",
+							"href": "/resources/code-your-next-app-with-ai-workshop-setup"
 						}
 					]
 				},
@@ -1584,7 +1584,7 @@
 					"blocks": [
 						{
 							"type": "paragraph",
-							"text": "Yes. This version is tailored to Code Your Next App with AI and auto-fills the course title, dates, cost, and link from the training program details below."
+							"text": "Yes. This version is tailored to Code Your Next App with AI Workshop and auto-fills the course title, dates, cost, and link from the training program details below."
 						},
 						{
 							"type": "email_template",
