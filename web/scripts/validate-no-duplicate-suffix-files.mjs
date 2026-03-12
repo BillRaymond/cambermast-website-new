@@ -7,6 +7,8 @@ const IGNORED_DIRS = new Set([
 	'node_modules',
 	'.svelte-kit',
 	'build',
+	'build-prev',
+	'build-stale',
 	'.output',
 	'.vercel',
 	'.netlify',

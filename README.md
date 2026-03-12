@@ -37,6 +37,8 @@ This repository powers the public marketing site for Cambermast. It contains the
 
 These two documents live in the repo root as the source of truth. The SvelteKit app copies them into `web/static/` during `npm run dev`, `npm run build`, and `npm run preview` so they are published as `/llms.txt` and `/ai.txt` on cambermast.com.
 
+Generated build output under `web/build` is disposable and must not be treated as source. Do not archive copied builds inside `web/` using folders such as `build-prev`, `build-stale`, or collision-style names like `about 2.html`; if a backup is needed, store it outside the repo working tree or use one clean archive location without numeric suffix copies.
+
 ## URL Aliases & Redirects
 
 - `/training-programs` redirects to `/training` to support legacy or marketing links to the catalog.

@@ -10,6 +10,14 @@ node_modules
 /build [0-9]*
 /build/* [0-9]*
 /build/**/* [0-9]*
+/build-prev
+/build-prev [0-9]*
+/build-prev/* [0-9]*
+/build-prev/**/* [0-9]*
+/build-stale
+/build-stale [0-9]*
+/build-stale/* [0-9]*
+/build-stale/**/* [0-9]*
 .vite-dev [0-9]*.log
 
 # OS
