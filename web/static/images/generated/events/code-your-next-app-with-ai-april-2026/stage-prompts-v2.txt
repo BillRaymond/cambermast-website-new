@@ -1,0 +1,12 @@
+Square prompt:
+Use the provided template image as a visual style and composition reference. Create a new image of the same type and clean up some of the graininess.
+
+Leave the existing title and symbol. Add the subtitle "APRIL, 2026" in a different color to make it stand out.
+
+Avoid the top and bottom 25%.
+
+Landscape prompt:
+Recreate the provided template image in landscape orientation. Avoid the top and bottom 25%. Remove some of the graininess.
+
+Portrait prompt:
+Recreate the provided template image in portrait format. Avoid the top and bottom 25%. Remove some of the graininess.

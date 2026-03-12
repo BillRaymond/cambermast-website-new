@@ -1,7 +1,23 @@
 {
 	"version": 1,
-	"updatedAt": "2026-03-12T17:01:21.882Z",
+	"updatedAt": "2026-03-12T18:13:05.316Z",
 	"standards": [
+		{
+			"id": "b19d4fe6906a4691",
+			"createdAt": "2026-03-12T18:13:05.314Z",
+			"destinationType": "events",
+			"slug": "events/code-your-next-app-with-ai-april-2026",
+			"assetKeys": {
+				"square": "events/code-your-next-app-with-ai-april-2026/hero-square-v2.jpg",
+				"landscape": "events/code-your-next-app-with-ai-april-2026/hero-landscape-v2.jpg",
+				"portrait": "events/code-your-next-app-with-ai-april-2026/hero-portrait-v2.jpg"
+			},
+			"prompts": {
+				"square": "Use the provided template image as a visual style and composition reference. Create a new image of the same type and clean up some of the graininess.\n\nLeave the existing title and symbol. Add the subtitle \"APRIL, 2026\" in a different color to make it stand out.\n\nAvoid the top and bottom 25%.",
+				"landscape": "Recreate the provided template image in landscape orientation. Avoid the top and bottom 25%. Remove some of the graininess.",
+				"portrait": "Recreate the provided template image in portrait format. Avoid the top and bottom 25%. Remove some of the graininess."
+			}
+		},
 		{
 			"id": "93f6878509ed42c3",
 			"createdAt": "2026-03-12T17:01:21.880Z",
