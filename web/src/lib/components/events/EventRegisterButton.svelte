@@ -3,12 +3,13 @@
 	type Size = 'sm' | 'md' | 'lg';
 	type Shape = 'pill' | 'rounded';
 
-	export let href: string;
+	export let href: string | undefined = undefined;
 	export let label = 'Register now';
 	export let theme: Theme = 'blue';
 	export let size: Size = 'md';
 	export let shape: Shape = 'pill';
 	export let fullWidth = false;
+	export let disabled = false;
 	export let className = '';
 	export let onClick: ((event: MouseEvent) => void) | undefined = undefined;
 
@@ -27,14 +28,21 @@
 	$: widthClasses = fullWidth ? 'w-full' : '';
 	$: classes =
 		`inline-flex items-center justify-center font-semibold transition ${themeClasses} ${sizeClasses} ${shapeClasses} ${widthClasses} ${className}`.trim();
+	$: disabledClasses = `${classes} cursor-not-allowed opacity-60 hover:bg-inherit`.trim();
 </script>
 
-<a
-	href={href}
-	class={classes}
-	target={isExternal ? '_blank' : undefined}
-	rel={isExternal ? 'noopener noreferrer' : undefined}
-	on:click={onClick}
->
-	{label}
-</a>
+{#if disabled}
+	<span class={disabledClasses} aria-disabled="true">
+		{label}
+	</span>
+{:else}
+	<a
+		href={href}
+		class={classes}
+		target={isExternal ? '_blank' : undefined}
+		rel={isExternal ? 'noopener noreferrer' : undefined}
+		on:click={onClick}
+	>
+		{label}
+	</a>
+{/if}

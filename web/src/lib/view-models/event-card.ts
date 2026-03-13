@@ -1,5 +1,6 @@
 import { toConciseEventTimeLabel } from '$lib/data/events/session-labels';
 import { getEventOccurrenceState, getEventSessionBounds } from '$lib/data/events/timeline';
+import { isEventOpenSoon } from '$lib/data/events';
 import { getPartnerByCode } from '$lib/data/partners';
 import { getTrainingProgramBySku } from '$lib/data/training';
 import { getProgramCertificateText } from '$lib/data/training/program-meta';
@@ -109,18 +110,20 @@ export const toEventCardModel = (
 	const relatedProgram =
 		options.program ??
 		(event.programRef?.sku ? getTrainingProgramBySku(event.programRef.sku) : undefined);
+	const openSoon = isEventOpenSoon(event, referenceTimestamp);
 	const registerDisabledBase =
 		event.registrationStatus === 'closed' ||
-		event.registrationStatus === 'none' ||
 		event.registrationStatus === 'sold_out' ||
 		isTrainingHappeningNow ||
-		!event.cta?.url;
+		(!event.cta?.url && !openSoon);
 	const registerDisabled =
 		options.registerDisabledOverride ?? (tone === 'happening' ? true : registerDisabledBase);
 	const registerLabel =
 		options.registerLabelOverride ??
-		(event.visibility === 'draft' && event.registrationStatus === 'none'
+		(event.visibility === 'draft' && event.registrationStatus === 'none' && !openSoon
 			? event.cta?.label || 'Draft'
+			: openSoon
+				? 'Open soon'
 			: event.registrationStatus === 'none' || isTrainingHappeningNow
 				? 'Enrollment closed'
 				: event.cta?.label || 'Register now');
@@ -133,7 +136,9 @@ export const toEventCardModel = (
 	const statusLabelDefault =
 		tone === 'happening'
 			? registerLabel || 'Enrollment closed'
-			: (countdownLabel ?? (registerDisabled ? 'Enrollment closed' : undefined));
+			: openSoon
+				? 'Open soon'
+				: (countdownLabel ?? (registerDisabled ? 'Enrollment closed' : undefined));
 	const partnerText = (event.partners ?? [])
 		.map((partnerRef) => getPartnerByCode(partnerRef.code)?.name ?? partnerRef.code)
 		.filter((name) => Boolean(name) && name !== 'NONE')
@@ -174,7 +179,7 @@ export const toEventCardModel = (
 		videoUrl: relatedProgram?.videoUrl,
 		partnerText: partnerText || undefined,
 		speakerText: speakerText || undefined,
-		registerUrl: registerDisabled ? undefined : event.cta?.url,
+		registerUrl: registerDisabled ? undefined : (openSoon ? `/events/${event.slug}` : event.cta?.url),
 		registerLabel: pricedRegisterLabel,
 		learnMoreUrl: `/events/${event.slug}`,
 		tone,

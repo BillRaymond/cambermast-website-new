@@ -83,8 +83,10 @@ Output includes:
 
 - `program.scheduleTemplate` (source values)
 - `scheduleDraft` (generated date/time window)
-- `draftEvent` (ready-to-paste event object with locked `template.kind = training_event_v1`, explicit `schedule`, and copied program content for description/highlights/audience/build/outcomes/agenda/FAQ/images/videoUrl)
+- `draftEvent` (ready-to-paste event object with locked `template.kind = training_event_v1`, explicit `schedule`, copied program content for description/highlights/audience/build/outcomes/agenda/FAQ/images/videoUrl, and the default upcoming `Open soon` registration state: `registrationStatus = "none"` with an empty `cta.url`)
 - `draftCampaign` (ready-to-paste campaign entry for `web/src/lib/data/campaigns.json`)
+
+New training-event drafts default to an unpublished registration state until a real registration URL is added. The canonical contract for that state is `registrationStatus: "none"` with `cta.url` omitted/empty; public UI renders it as `Open soon`.
 
 ## Privacy, GDPR & Cookies
 

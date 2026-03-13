@@ -284,7 +284,7 @@ const toTrainingEvent = (payload: DraftRequestPayload): EventSource => {
 				: undefined,
 		summary: toTrimmed(input.summary) || undefined,
 		visibility: input.visibility ?? 'draft',
-		registrationStatus: input.registrationStatus ?? 'closed',
+		registrationStatus: input.registrationStatus ?? 'none',
 		ctaLabel: toTrimmed(input.ctaLabel) || undefined,
 		ctaUrl: toTrimmed(input.ctaUrl) || undefined,
 		partnerCodes: input.partnerCodes ?? undefined
@@ -606,7 +606,7 @@ export const buildTrainingDraftArtifacts = async (
 			estimatedHoursCommitment: input.estimatedHoursCommitment,
 			visibility: 'draft',
 			registrationStatus: 'none',
-			ctaLabel: 'Draft'
+			ctaLabel: 'Open soon'
 		},
 		campaignInput: {
 			mode: 'auto',

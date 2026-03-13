@@ -181,6 +181,7 @@
 					},
 					"registrationStatus": {
 						"type": "string",
+						"description": "Registration state. Upcoming events with registrationStatus \"none\" and no cta.url are unpublished registration pages and should be presented as Open soon.",
 						"enum": ["open", "closed", "external", "none", "waitlist", "sold_out"]
 					},
 					"cta": {
@@ -189,7 +190,10 @@
 						"required": ["label"],
 						"properties": {
 							"label": { "type": "string", "minLength": 1 },
-							"url": { "type": "string" },
+							"url": {
+								"type": "string",
+								"description": "Registration or CTA destination. Empty/omitted for upcoming Open soon events."
+							},
 							"campaignId": {
 								"type": "string",
 								"pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"

@@ -392,10 +392,9 @@
 			],
 			"visibility": "public",
 			"lifecycleStatus": "scheduled",
-			"registrationStatus": "open",
+			"registrationStatus": "none",
 			"cta": {
-				"label": "Talk with Bill",
-				"url": "/contact",
+				"label": "Open soon",
 				"campaignId": "aicd26"
 			},
 			"timeZoneIana": "America/Los_Angeles",

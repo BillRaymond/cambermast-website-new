@@ -223,6 +223,16 @@
 			When ready to publish, switch event visibility/registration fields from draft to live values.
 		</li>
 	</ol>
+	<p class="mt-3 max-w-3xl text-gray-700">
+		For upcoming events without a published registration page, use the canonical
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">Open soon</code> contract:
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">registrationStatus: "none"</code> and
+		an empty
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">cta.url</code>. Switch to
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">external</code> or
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">open</code> only after a real
+		registration destination is published.
+	</p>
 	<h3 class="mt-6 text-xl font-semibold">External event workflow (webinar, talk, partner event)</h3>
 	<ol class="mt-3 max-w-3xl list-decimal space-y-2 pl-5 text-gray-700">
 		<li>

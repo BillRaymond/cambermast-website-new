@@ -8,7 +8,7 @@
 	import FaqBlocks from '$lib/components/faq/FaqBlocks.svelte';
 	import { renderMarkdownToSafeHtml } from '$lib/utils/markdown';
 	import { getCampaignShortPathUi } from '$lib/view-models/campaigns';
-	import { getEventTypeLabelUi } from '$lib/view-models/events';
+	import { getEventTypeLabelUi, isEventOpenSoonUi } from '$lib/view-models/events';
 	import { getProgramCertificateText } from '$lib/data/training/program-meta';
 	import { listTestimonialsForSku } from '$lib/data/testimonials';
 	import {
@@ -49,6 +49,7 @@
 	const isUpcoming =
 		(event.lifecycleStatus === 'scheduled' || event.lifecycleStatus === 'postponed') &&
 		!isPastEvent;
+	const isOpenSoon = isEventOpenSoonUi(event);
 
 	const officialDateTimeFormatter = new Intl.DateTimeFormat('en-US', {
 		timeZone: eventTimeZone,
@@ -95,7 +96,7 @@
 		if (registrationStatus === 'closed') return 'Enrollment closed';
 		if (registrationStatus === 'waitlist') return 'Waitlist open';
 		if (registrationStatus === 'sold_out') return 'Sold out';
-		if (registrationStatus === 'none') return 'Enrollment closed';
+		if (registrationStatus === 'none') return isOpenSoon ? 'Open soon' : 'Enrollment closed';
 		if (registrationStatus === 'external') return null;
 		return null;
 	};
@@ -103,7 +104,7 @@
 	const getClosedLabel = (): string => {
 		if (isPastEvent) return 'This event has ended';
 		if (isHappeningNow || isTrainingInProgress) return 'Enrollment closed';
-		if (event.registrationStatus === 'none') return 'Enrollment closed';
+		if (event.registrationStatus === 'none') return isOpenSoon ? 'Open soon' : 'Enrollment closed';
 		if (event.registrationStatus === 'closed') return 'Enrollment closed';
 		if (event.registrationStatus === 'sold_out') return 'Enrollment closed';
 		return 'Enrollment closed';
@@ -295,7 +296,6 @@
 			: isTrainingInProgress
 				? 'Enrollment closed'
 				: getStatusLabel(event.registrationStatus);
-
 	const canRegister =
 		Boolean(event.cta?.url) &&
 		!isPastEvent &&
@@ -303,15 +303,19 @@
 		event.registrationStatus !== 'closed' &&
 		event.registrationStatus !== 'none' &&
 		event.registrationStatus !== 'sold_out';
+	const showOpenSoonCta = isOpenSoon && !isPastEvent && !isTrainingInProgress;
 	const registerCtaLabel = event.cta.labelWithPrice ?? event.cta.label;
+	const detailCtaLabel = showOpenSoonCta ? 'Open soon' : registerCtaLabel;
 
 	const shouldShowClosedCountdownState = isHappeningNow || isTrainingInProgress || !canRegister;
 	const countdownPanelLabel = shouldShowClosedCountdownState ? 'Status' : countdownLabelPrefix;
-	const countdownPanelValue = shouldShowClosedCountdownState ? 'Enrollment closed' : countdownLabel;
+	const countdownPanelValue = shouldShowClosedCountdownState
+		? (showOpenSoonCta ? 'Open soon' : 'Enrollment closed')
+		: countdownLabel;
 
 	const isExternalCtaUrl = Boolean(event.cta?.url?.startsWith('http'));
 	const eventTimeSummary = toConciseEventTimeLabel(event.time);
-	const sectionSpacingClass = canRegister
+	const sectionSpacingClass = canRegister || showOpenSoonCta
 		? 'pb-28 pt-6 md:pb-32 md:pt-24'
 		: 'pb-28 pt-6 md:pb-32 md:pt-6';
 	const [multiSessionDateLabel, ...multiSessionSuffixParts] = event.date.split(' · ');
@@ -424,7 +428,7 @@
 	type="article"
 />
 
-{#if canRegister}
+{#if canRegister || showOpenSoonCta}
 	<div
 		class="fixed inset-x-0 top-0 z-40 hidden border-b border-slate-200 bg-white/95 px-4 py-2 backdrop-blur md:block"
 	>
@@ -441,8 +445,9 @@
 				{/if}
 			</div>
 			<EventRegisterButton
-				href={event.cta.url!}
-				label={registerCtaLabel}
+				href={canRegister ? event.cta.url! : undefined}
+				label={detailCtaLabel}
+				disabled={showOpenSoonCta}
 				theme="slate"
 				size="md"
 				className="shrink-0"
@@ -464,8 +469,9 @@
 				{/if}
 			</div>
 			<EventRegisterButton
-				href={event.cta.url!}
-				label={registerCtaLabel}
+				href={canRegister ? event.cta.url! : undefined}
+				label={detailCtaLabel}
+				disabled={showOpenSoonCta}
 				theme="slate"
 				size="sm"
 				className="shrink-0 md:px-5 md:py-2.5"
@@ -621,11 +627,12 @@
 					</div>
 
 					<div class="mt-6">
-						{#if canRegister}
+						{#if canRegister || showOpenSoonCta}
 							<div class="flex flex-wrap items-center gap-3">
 								<EventRegisterButton
-									href={event.cta.url!}
-									label={registerCtaLabel}
+									href={canRegister ? event.cta.url! : undefined}
+									label={detailCtaLabel}
+									disabled={showOpenSoonCta}
 									size="lg"
 									onClick={() => trackRegistrationClick('hero')}
 								/>
@@ -696,11 +703,12 @@
 							</article>
 						</div>
 					</div>
-					{#if canRegister}
+					{#if canRegister || showOpenSoonCta}
 						<div class="mt-6 flex flex-wrap items-center gap-3">
 							<EventRegisterButton
-								href={event.cta.url!}
-								label={registerCtaLabel}
+								href={canRegister ? event.cta.url! : undefined}
+								label={detailCtaLabel}
+								disabled={showOpenSoonCta}
 								size="lg"
 								onClick={() => trackRegistrationClick('body')}
 							/>
@@ -764,11 +772,12 @@
 							</div>
 							<CurriculumSection items={curriculumItems} variant="compact" />
 						</div>
-						{#if canRegister}
+						{#if canRegister || showOpenSoonCta}
 							<div class="mt-6 flex flex-wrap items-center gap-3">
 								<EventRegisterButton
-									href={event.cta.url!}
-									label={registerCtaLabel}
+									href={canRegister ? event.cta.url! : undefined}
+									label={detailCtaLabel}
+									disabled={showOpenSoonCta}
 									size="lg"
 									onClick={() => trackRegistrationClick('body')}
 								/>
@@ -845,11 +854,12 @@
 								{/each}
 							</div>
 						</div>
-						{#if canRegister}
+						{#if canRegister || showOpenSoonCta}
 							<div class="mt-6 flex flex-wrap items-center gap-3">
 								<EventRegisterButton
-									href={event.cta.url!}
-									label={registerCtaLabel}
+									href={canRegister ? event.cta.url! : undefined}
+									label={detailCtaLabel}
+									disabled={showOpenSoonCta}
 									size="lg"
 									onClick={() => trackRegistrationClick('body')}
 								/>
@@ -962,10 +972,11 @@
 							</p>
 							<p class="mt-1 text-lg font-semibold text-slate-900">{countdownPanelValue}</p>
 						</div>
-						{#if canRegister}
+						{#if canRegister || showOpenSoonCta}
 							<EventRegisterButton
-								href={event.cta.url!}
-								label={registerCtaLabel}
+								href={canRegister ? event.cta.url! : undefined}
+								label={detailCtaLabel}
+								disabled={showOpenSoonCta}
 								theme="slate"
 								size="sm"
 								fullWidth={true}

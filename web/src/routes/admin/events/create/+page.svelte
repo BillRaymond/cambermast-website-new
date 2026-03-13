@@ -39,6 +39,7 @@
 		'other'
 	] as const;
 	const ctaLabelOptions = [
+		'Open soon',
 		'Register now',
 		'Join waitlist',
 		'Learn more',
@@ -78,9 +79,9 @@
 	let visibility: 'public' | 'unlisted' | 'draft' = 'draft';
 	let lifecycleStatus: 'scheduled' | 'postponed' | 'canceled' | 'completed' = 'scheduled';
 	let registrationStatus: 'open' | 'closed' | 'external' | 'none' | 'waitlist' | 'sold_out' =
-		'closed';
+		'none';
 
-	let ctaLabel = 'Register now';
+	let ctaLabel = 'Open soon';
 	let ctaUrl = '';
 
 	let locationMode: 'online' | 'in_person' | 'hybrid' = 'online';
@@ -556,8 +557,9 @@
 		locationPublicLabel = source.scheduleTemplate?.defaultLocationLabel ?? 'Online';
 		type = 'training_session';
 		typeLabel = 'Training';
-		ctaLabel = 'Register now';
-		ctaUrl = source.route ?? ctaUrl;
+		registrationStatus = 'none';
+		ctaLabel = 'Open soon';
+		ctaUrl = '';
 		estimatedHoursCommitment =
 			typeof source.scheduleTemplate?.hoursPerDayCommitment === 'number'
 				? source.scheduleTemplate.hoursPerDayCommitment.toString()

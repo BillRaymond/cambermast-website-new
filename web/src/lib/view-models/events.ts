@@ -1,6 +1,7 @@
 import type { Event } from '$lib/data/events/types';
 import {
 	getEvent,
+	isEventOpenSoon,
 	getEventRegistrationUrl,
 	getEventStartTimestamp,
 	getEventTypeLabel,
@@ -52,7 +53,13 @@ export const toEventUiModel = (event: Event): EventUiModel => {
 	const location = event.locationMeta?.publicLabel ?? event.location ?? 'TBD';
 	const ctaUrl = getEventRegistrationUrl(event)?.trim() || undefined;
 	const preferredLabel = event.cta?.label?.trim();
-	const ctaLabel = preferredLabel ? preferredLabel : ctaUrl ? 'Register now' : 'Enrollment closed';
+	const ctaLabel = preferredLabel
+		? preferredLabel
+		: isEventOpenSoon(event)
+			? 'Open soon'
+			: ctaUrl
+				? 'Register now'
+				: 'Enrollment closed';
 
 	return {
 		...event,
@@ -92,3 +99,6 @@ export const isEventUpcomingUi = (
 export const getEventStartTimestampUi = (event: Event): number => getEventStartTimestamp(event);
 
 export const getEventTypeLabelUi = (event: Event): string => getEventTypeLabel(event);
+
+export const isEventOpenSoonUi = (event: Event, referenceTimestamp?: number): boolean =>
+	isEventOpenSoon(event, referenceTimestamp);

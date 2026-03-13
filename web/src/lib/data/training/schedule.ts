@@ -1,6 +1,7 @@
 import {
 	getEventRegistrationUrl,
 	getEventStartTimestamp,
+	isEventOpenSoon,
 	isEventUpcoming,
 	listEvents
 } from '$lib/data/events';
@@ -52,9 +53,11 @@ const getStatusLabel = (
 		referenceTimestamp: number;
 		canRegister: boolean;
 		isTrainingInProgress: boolean;
+		isOpenSoon: boolean;
 	}
 ): string | undefined => {
 	if (input.isTrainingInProgress) return 'Enrollment closed';
+	if (input.isOpenSoon) return 'Open soon';
 	if (!input.canRegister) return 'Enrollment closed';
 	const diffMs = input.startTimestamp - input.referenceTimestamp;
 	if (diffMs <= 0) return undefined;
@@ -63,9 +66,8 @@ const getStatusLabel = (
 
 const isRegisterable = (event: Event): boolean =>
 	event.registrationStatus !== 'closed' &&
-	event.registrationStatus !== 'none' &&
 	event.registrationStatus !== 'sold_out' &&
-	Boolean(getEventRegistrationUrl(event));
+	(Boolean(getEventRegistrationUrl(event)) || isEventOpenSoon(event));
 
 export const isTrainingEventHappeningNow = (
 	event: Event,
@@ -82,15 +84,19 @@ export const toTrainingScheduleEntry = (
 ): TrainingScheduleEntry => {
 	const startTimestamp = getEventStartTimestamp(event);
 	const endTimestamp = getEventSessionBounds(event)?.endTimestamp ?? startTimestamp;
+	const isOpenSoon = isEventOpenSoon(event, referenceTimestamp);
 	const canRegister = isRegisterable(event);
-	const registrationUrl = canRegister ? getEventRegistrationUrl(event) : undefined;
-	const registerLabel = event.cta?.label || 'Register now';
+	const registrationUrl = canRegister
+		? (isOpenSoon ? `/events/${event.slug}` : getEventRegistrationUrl(event))
+		: undefined;
+	const registerLabel = isOpenSoon ? 'Open soon' : (event.cta?.label || 'Register now');
 	const isTrainingInProgress = isTrainingEventHappeningNow(event, referenceTimestamp);
 	const statusLabel = getStatusLabel({
 		startTimestamp,
 		referenceTimestamp,
 		canRegister,
-		isTrainingInProgress
+		isTrainingInProgress,
+		isOpenSoon
 	});
 
 	return {

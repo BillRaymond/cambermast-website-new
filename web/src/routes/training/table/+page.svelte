@@ -43,6 +43,8 @@
 			};
 		});
 
+	const isExternalUrl = (value?: string): boolean => Boolean(value?.startsWith('http'));
+
 	const pageMeta = getSeo('/training/table');
 </script>
 
@@ -140,8 +142,8 @@
 								<a
 									href={program.registerUrl}
 									class="inline-flex items-center justify-center gap-2 rounded-full bg-blue-600 px-4 py-1.5 text-center text-xs font-semibold text-white shadow transition hover:bg-blue-700 focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white focus-visible:outline-none"
-									target="_blank"
-									rel="noopener noreferrer"
+									target={isExternalUrl(program.registerUrl) ? '_blank' : undefined}
+									rel={isExternalUrl(program.registerUrl) ? 'noopener noreferrer' : undefined}
 								>
 									<span
 										class="h-2 w-2 rounded-full bg-blue-200 shadow-[0_0_10px_rgba(147,197,253,0.85)]"

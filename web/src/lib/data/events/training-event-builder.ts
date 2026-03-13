@@ -233,10 +233,10 @@ export const buildTrainingSessionEventFromProgram = (
 		sessions,
 		visibility: input.visibility ?? 'public',
 		lifecycleStatus: 'scheduled',
-		registrationStatus: input.registrationStatus ?? 'open',
+		registrationStatus: input.registrationStatus ?? 'none',
 		cta: {
-			label: input.ctaLabel ?? 'Register now',
-			url: input.ctaUrl ?? program.route
+			label: input.ctaLabel ?? 'Open soon',
+			url: input.ctaUrl
 		},
 		timeZoneIana: EVENT_TIME_ZONE_IANA,
 		location: {

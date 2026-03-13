@@ -168,6 +168,18 @@ export const getEventStartTimestamp = (event: Event): number => {
 
 export const getEventTypeLabel = (event: Event): string => event.typeLabel;
 
+export const isEventOpenSoon = (
+	event: Pick<Event, 'registrationStatus' | 'cta' | 'lifecycleStatus' | 'startAtUtc' | 'endAtUtc'>,
+	referenceTimestamp: number = Date.now()
+): boolean => {
+	if (event.registrationStatus !== 'none') return false;
+	if (event.cta?.url?.trim()) return false;
+	if (event.lifecycleStatus !== 'scheduled' && event.lifecycleStatus !== 'postponed') return false;
+	const startTimestamp = toTimestamp(event.startAtUtc);
+	if (Number.isNaN(startTimestamp)) return false;
+	return startTimestamp >= referenceTimestamp;
+};
+
 export const getEventRegistrationUrl = (
 	event: Pick<Event, 'campaignId' | 'cta'>
 ): string | undefined => {

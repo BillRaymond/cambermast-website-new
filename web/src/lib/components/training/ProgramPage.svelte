@@ -376,7 +376,7 @@
 									href={featuredRegistrationSession.registerUrl}
 									class="register-cta mt-1 block rounded-lg bg-blue-600 px-4 py-2 text-center text-sm font-semibold text-white transition hover:bg-blue-700"
 								>
-									Register now
+									{featuredRegistrationSession.registerLabel ?? 'Register now'}
 								</a>
 							{/if}
 						{/each}
