@@ -1,0 +1,8 @@
+Square prompt:
+Use the provided template image as a visual style and composition reference. Create a new image of the same type with the current title. Add a subtitle "WORKSHOP PRE-WORK" and use a slightly different color.
+
+Landscape prompt:
+Recreate the provided template image as a landscape. Avoid the top and bottom 25%.
+
+Portrait prompt:
+Recreate the provided template image in portrait format. Avoid the top and bottom 25%.
