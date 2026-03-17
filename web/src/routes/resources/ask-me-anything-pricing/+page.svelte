@@ -8,7 +8,7 @@
 </script>
 
 <ResourceHeader
-	title="Quickly learn an important AI topic with Bill and your team"
+	title="Ask Me Anything (AMA) AI Sessions for Your Team"
 	description="Select from AMAs we can deliver right now or schedule a tailor-made Ask Me Anything (AMA) event."
 	path="/resources/ask-me-anything-pricing"
 	imageSrc={heroImage}

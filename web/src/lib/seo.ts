@@ -82,7 +82,7 @@ export const pageSeo: SeoOverrides = {
 			'Learn when to personalize AI, how to do it well, and the settings I use to keep responses clear and actionable.'
 	},
 	'/resources/ask-me-anything-pricing': {
-		title: 'Quickly Learn an Important AI Topic with Bill and Your Team | Cambermast',
+		title: 'Ask Me Anything (AMA) AI Sessions for Your Team | Cambermast',
 		description:
 			'Select from AMAs we can deliver right now or schedule a tailor-made Ask Me Anything (AMA) event.'
 	},
