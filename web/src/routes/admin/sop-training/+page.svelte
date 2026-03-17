@@ -160,6 +160,15 @@
 		>
 		page. See <code class="rounded bg-gray-100 px-1 py-0.5 text-xs">SCHEMA-FIRST.md</code>.
 	</p>
+	<p class="mt-2 max-w-3xl text-gray-700">
+		Derived commerce feed coverage lives at <code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
+			>/api/commerce-products.json</code
+		>
+		for preview and <code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
+			>/feed/openai-products.jsonl.gz</code
+		>
+		for the gzip export used by OpenAI commerce ingestion.
+	</p>
 </section>
 
 <section class="mt-8">
@@ -193,6 +202,12 @@
 			>.
 		</li>
 		<li>Run validation gates before merge.</li>
+		<li>
+			If the change affects price, hero image, FAQ, or CTA behavior, verify the downstream OpenAI
+			commerce preview at <code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
+				>/api/commerce-products.json</code
+			>.
+		</li>
 	</ol>
 	<h3 class="mt-6 text-xl font-semibold">New training cohort event workflow</h3>
 	<ol class="mt-3 max-w-3xl list-decimal space-y-2 pl-5 text-gray-700">
@@ -213,6 +228,10 @@
 			event-specific curriculum change is required.
 		</li>
 		<li>Validate JSON/schema and QA public/admin views.</li>
+		<li>
+			For public cohorts, confirm the registration URL is absolute, ticketing price is present, and
+			eligibility remains correct in the commerce preview/feed.
+		</li>
 	</ol>
 </section>
 
@@ -252,6 +271,33 @@
 			>
 			with payload builder
 			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">web/src/lib/data/api/training.ts</code>.
+		</li>
+		<li>
+			OpenAI commerce preview contract is <code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
+				>web/src/lib/data/api/schemas/commerce-products-api.schema.json</code
+			>
+			with builder
+			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
+				>web/src/lib/data/api/commerce-products.ts</code
+			>.
+		</li>
+		<li>
+			Commerce rows are derived only from published training programs plus future public
+			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">training_session</code> events.
+			Evergreen programs remain search-only; cohorts become checkout-eligible only when they have a
+			public absolute registration URL, explicit USD ticketing amount, and the standard policy URLs.
+		</li>
+		<li>
+			Keep these fields feed-safe whenever you edit training or event data: price, hero image, FAQ
+			content, registration status, and CTA URL. Closed or no-CTA cohorts should not appear as
+			checkout-eligible feed rows.
+		</li>
+		<li>
+			Commerce policy URLs are fixed to <code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
+				>/gdpr</code
+			>
+			for privacy and <code class="rounded bg-gray-100 px-1 py-0.5 text-xs">/training/terms</code>
+			for seller terms and return policy.
 		</li>
 		<li>
 			Reusable FAQ presets live in

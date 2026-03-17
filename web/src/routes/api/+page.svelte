@@ -6,6 +6,12 @@
 
 	const primaryApis = [
 		{
+			href: '/api/commerce-products.json',
+			label: 'Commerce Products API',
+			description:
+				'Normalized OpenAI commerce preview payload for published training programs and feed-ready public cohorts.'
+		},
+		{
 			href: '/api/events.json',
 			label: 'Events API',
 			description:
@@ -42,6 +48,7 @@
 	];
 
 	const feeds = [
+		{ href: '/feed/openai-products.jsonl.gz', label: 'OpenAI Product Feed (JSONL.GZ)' },
 		{ href: '/feed/events.xml', label: 'Events RSS' },
 		{ href: '/feed/calendar.xml', label: 'Calendar RSS' },
 		{ href: '/feed/resources.xml', label: 'Resources RSS' },
@@ -60,11 +67,17 @@
 	description={pageMeta.description}
 	path="/api"
 	feedLinks={[
+		{ href: '/feed/openai-products.jsonl.gz', title: 'Cambermast OpenAI Product Feed' },
 		{ href: '/feed/events.xml', title: 'Cambermast Events RSS' },
 		{ href: '/feed/training-programs.xml', title: 'Cambermast Training Programs RSS' },
 		{ href: '/feed/resources.xml', title: 'Cambermast Resources RSS' }
 	]}
 	alternateLinks={[
+		{
+			href: '/api/commerce-products.json',
+			title: 'Cambermast Commerce Products API',
+			type: 'application/json'
+		},
 		{ href: '/api/events.json', title: 'Cambermast Events API', type: 'application/json' },
 		{ href: '/api/training.json', title: 'Cambermast Training API', type: 'application/json' },
 		{ href: '/api/catalog.json', title: 'Cambermast Offerings API', type: 'application/json' },
@@ -76,8 +89,8 @@
 <h1 class="mb-6 text-3xl font-bold">Public APIs and feeds</h1>
 <p class="max-w-3xl text-gray-700">
 	Use these public machine-readable endpoints to access Cambermast events, training programs,
-	resources, and related metadata. For most AI and automation use cases, start with the JSON APIs
-	below, then use RSS feeds for freshness checks and <a class="underline" href="/llms.txt"
+	resources, commerce feed rows, and related metadata. For most AI and automation use cases, start
+	with the JSON APIs below, then use RSS feeds for freshness checks and <a class="underline" href="/llms.txt" rel="external"
 		>/llms.txt</a
 	> for grounding guidance.
 </p>
@@ -89,6 +102,7 @@
 			<p class="mt-2 text-sm text-gray-700">{endpoint.description}</p>
 			<a
 				href={endpoint.href}
+				rel="external"
 				class="mt-4 inline-flex items-center rounded-lg border border-blue-200 bg-blue-50 px-3 py-2 text-sm font-semibold text-blue-700 transition hover:border-blue-300 hover:bg-blue-100"
 			>
 				{endpoint.href}
@@ -107,10 +121,15 @@
 		The legacy alias <code>/feed/programs.xml</code> is kept as a compatibility path, not the
 		primary source to index.
 	</p>
+	<p class="mt-2 max-w-3xl text-sm text-gray-600">
+		Canonical OpenAI commerce export endpoint is <code>/feed/openai-products.jsonl.gz</code>,
+		with <code>/api/commerce-products.json</code> available as the human-readable QA preview.
+	</p>
 	<div class="mt-4 flex flex-wrap gap-3">
 		{#each supportingApis as endpoint}
 			<a
 				href={endpoint.href}
+				rel="external"
 				class="rounded-full border border-gray-300 bg-white px-3 py-1.5 text-sm text-gray-700 transition hover:border-gray-400 hover:bg-gray-100"
 			>
 				{endpoint.label}
@@ -128,7 +147,7 @@
 		<ul class="mt-4 space-y-2 text-sm text-gray-700">
 			{#each feeds as feed}
 				<li>
-					<a class="underline" href={feed.href}>{feed.label}</a>
+					<a class="underline" href={feed.href} rel="external">{feed.label}</a>
 				</li>
 			{/each}
 		</ul>
@@ -141,7 +160,7 @@
 		<ul class="mt-4 space-y-2 text-sm text-gray-700">
 			{#each guidanceFiles as file}
 				<li>
-					<a class="underline" href={file.href}>{file.label}</a>
+					<a class="underline" href={file.href} rel="external">{file.label}</a>
 				</li>
 			{/each}
 		</ul>

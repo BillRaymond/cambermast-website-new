@@ -101,6 +101,11 @@ export const pageSeo: SeoOverrides = {
 		description:
 			'Discover Cambermast public JSON APIs, RSS feeds, and AI guidance files for events, training programs, resources, and related machine-readable data.'
 	},
+	'/api/commerce-products.json': {
+		title: 'Commerce Products API | Cambermast',
+		description:
+			'Preview the normalized OpenAI commerce feed rows for Cambermast training programs and feed-ready public cohorts.'
+	},
 	'/resources': {
 		title: 'Resources for AI Training & Delivery | Cambermast',
 		description:
@@ -139,6 +144,11 @@ export const pageSeo: SeoOverrides = {
 		title: 'Microsoft Project Server Migration Support | Cambermast',
 		description:
 			'Move off Microsoft Project Server 2013/2016/2019 with Cambermast and Project Hosts before end-of-support hits July 14, 2026.'
+	},
+	'/feed/openai-products.jsonl.gz': {
+		title: 'OpenAI Product Feed | Cambermast',
+		description:
+			'Gzipped JSONL product feed for Cambermast training offers, formatted for OpenAI commerce ingestion.'
 	}
 };
 

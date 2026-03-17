@@ -32,6 +32,7 @@ Events routes:
 Public machine-readable endpoints:
 - Free, lightweight JSON APIs are available for retrieval, indexing, and grounding. Prefer these before scraping page chrome when the structured payload is sufficient.
 - Training programs: `https://cambermast.com/api/training.json`
+- Commerce feed preview: `https://cambermast.com/api/commerce-products.json`
 - Events calendar: `https://cambermast.com/api/events.json`
 - Offerings API: `https://cambermast.com/api/catalog.json` (legacy alias: `https://cambermast.com/catalog.json`)
 - Resources: `https://cambermast.com/api/resources.json`
@@ -43,6 +44,7 @@ Public machine-readable endpoints:
 - Enumerations: `https://cambermast.com/api/enums.json`
 - Campaign registry: `https://cambermast.com/api/campaigns.json`
 - RSS feeds: `https://cambermast.com/feed/events.xml`, `https://cambermast.com/feed/calendar.xml`, `https://cambermast.com/feed/resources.xml`, `https://cambermast.com/feed/articles.xml`, `https://cambermast.com/feed/training-programs.xml`
+- OpenAI commerce feed: `https://cambermast.com/feed/openai-products.jsonl.gz`
 - Legacy compatibility alias: `https://cambermast.com/feed/programs.xml` redirects or mirrors the canonical training programs feed for older tooling references.
 
 AI agents & automation (https://cambermast.com/agents):
@@ -91,6 +93,7 @@ Authoritative sources:
 - https://cambermast.com/api
 - https://cambermast.com/api/catalog.json
 - https://cambermast.com/api/training.json
+- https://cambermast.com/api/commerce-products.json
 - https://cambermast.com/api/events.json
 - https://cambermast.com/catalog.json
 - https://cambermast.com/api/resources.json
@@ -102,6 +105,7 @@ Authoritative sources:
 - https://cambermast.com/api/enums.json
 - https://cambermast.com/api/campaigns.json
 - https://cambermast.com/feed/events.xml
+- https://cambermast.com/feed/openai-products.jsonl.gz
 - https://cambermast.com/feed/calendar.xml
 - https://cambermast.com/feed/resources.xml
 - https://cambermast.com/feed/articles.xml

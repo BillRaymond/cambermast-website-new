@@ -242,20 +242,22 @@
 				</button>
 			</div>
 			<div class="mt-2">
-				<a class="underline" href="/feed/events.xml">Events RSS</a> ·
-				<a class="underline" href="/feed/calendar.xml">Calendar RSS</a> ·
-				<a class="underline" href="/feed/resources.xml">Resources RSS</a> ·
-				<a class="underline" href="/feed/articles.xml">Articles RSS</a> ·
-				<a class="underline" href="/feed/training-programs.xml">Programs RSS</a>
+				<a class="underline" href="/feed/openai-products.jsonl.gz" rel="external">OpenAI Product Feed</a> ·
+				<a class="underline" href="/feed/events.xml" rel="external">Events RSS</a> ·
+				<a class="underline" href="/feed/calendar.xml" rel="external">Calendar RSS</a> ·
+				<a class="underline" href="/feed/resources.xml" rel="external">Resources RSS</a> ·
+				<a class="underline" href="/feed/articles.xml" rel="external">Articles RSS</a> ·
+				<a class="underline" href="/feed/training-programs.xml" rel="external">Programs RSS</a>
 			</div>
 			<div class="mt-2">
-				<a class="underline" href="/api/events.json">Events API</a> ·
-				<a class="underline" href="/api/training.json">Training API</a> ·
-				<a class="underline" href="/api/catalog.json">Offerings API</a> ·
-				<a class="underline" href="/api/resources.json">Resources API</a> ·
-				<a class="underline" href="/api/redirects.json">Redirects API</a> ·
+				<a class="underline" href="/api/commerce-products.json" rel="external">Commerce API</a> ·
+				<a class="underline" href="/api/events.json" rel="external">Events API</a> ·
+				<a class="underline" href="/api/training.json" rel="external">Training API</a> ·
+				<a class="underline" href="/api/catalog.json" rel="external">Offerings API</a> ·
+				<a class="underline" href="/api/resources.json" rel="external">Resources API</a> ·
+				<a class="underline" href="/api/redirects.json" rel="external">Redirects API</a> ·
 				<a class="underline" href="/api">Public APIs</a> ·
-				<a class="underline" href="/llms.txt">LLMs guide</a>
+				<a class="underline" href="/llms.txt" rel="external">LLMs guide</a>
 			</div>
 		</div>
 	</footer>

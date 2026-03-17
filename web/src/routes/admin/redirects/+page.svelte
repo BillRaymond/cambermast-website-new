@@ -234,7 +234,7 @@
 				{/each}
 			</div>
 		</div>
-		<a class="text-sm font-semibold text-blue-700 underline" href="/api/redirects.json">
+		<a class="text-sm font-semibold text-blue-700 underline" href="/api/redirects.json" rel="external">
 			View read-only API
 		</a>
 	</div>

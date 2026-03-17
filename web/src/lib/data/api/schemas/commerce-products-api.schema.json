@@ -1,0 +1,127 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://www.cambermast.com/schemas/commerce-products-api.schema.json",
+	"title": "Commerce Products API Response",
+	"type": "object",
+	"additionalProperties": false,
+	"required": ["generatedAt", "format", "itemCount", "items"],
+	"properties": {
+		"generatedAt": { "type": "string", "format": "date-time" },
+		"format": { "type": "string", "const": "openai-commerce-v1" },
+		"itemCount": { "type": "integer", "minimum": 0 },
+		"items": {
+			"type": "array",
+			"items": {
+				"type": "object",
+				"additionalProperties": false,
+				"required": [
+					"sourceType",
+					"sourceId",
+					"is_eligible_search",
+					"is_eligible_checkout",
+					"item_id",
+					"title",
+					"description",
+					"url",
+					"brand",
+					"image_url",
+					"price",
+					"availability",
+					"group_id",
+					"listing_has_variations",
+					"seller_name",
+					"seller_url",
+					"return_policy",
+					"target_countries",
+					"store_country"
+				],
+				"properties": {
+					"sourceType": { "type": "string", "enum": ["program", "cohort"] },
+					"sourceId": { "type": "string", "minLength": 1 },
+					"is_eligible_search": { "type": "string", "enum": ["true", "false"] },
+					"is_eligible_checkout": { "type": "string", "enum": ["true", "false"] },
+					"item_id": { "type": "string", "minLength": 1, "maxLength": 100 },
+					"gtin": { "type": "string", "pattern": "^[0-9]{8,14}$" },
+					"mpn": { "type": "string", "minLength": 1, "maxLength": 70 },
+					"title": { "type": "string", "minLength": 1, "maxLength": 150 },
+					"description": { "type": "string", "minLength": 1, "maxLength": 5000 },
+					"url": { "type": "string", "pattern": "^https://", "maxLength": 2048 },
+					"brand": { "type": "string", "minLength": 1, "maxLength": 70 },
+					"condition": { "type": "string", "minLength": 1 },
+					"product_category": { "type": "string", "minLength": 1, "maxLength": 250 },
+					"material": { "type": "string", "minLength": 1, "maxLength": 100 },
+					"age_group": {
+						"type": "string",
+						"enum": ["newborn", "infant", "toddler", "kids", "adult"]
+					},
+					"image_url": { "type": "string", "pattern": "^https://", "maxLength": 2048 },
+					"additional_image_urls": { "type": "string", "minLength": 1 },
+					"video_url": { "type": "string", "pattern": "^https://", "maxLength": 2048 },
+					"price": { "type": "string", "pattern": "^[0-9]+(?:\\.[0-9]{2})? USD$" },
+					"availability": {
+						"type": "string",
+						"enum": ["in_stock", "out_of_stock", "pre_order", "backorder", "unknown"]
+					},
+					"group_id": { "type": "string", "minLength": 1, "maxLength": 70 },
+					"listing_has_variations": { "type": "string", "enum": ["true", "false"] },
+					"variant_dict": {
+						"type": "object",
+						"additionalProperties": { "type": "string", "minLength": 1 }
+					},
+					"offer_id": { "type": "string", "minLength": 1, "maxLength": 120 },
+					"is_digital": { "type": "string", "enum": ["true", "false"] },
+					"seller_name": { "type": "string", "minLength": 1, "maxLength": 70 },
+					"seller_url": { "type": "string", "pattern": "^https://", "maxLength": 2048 },
+					"seller_privacy_policy": {
+						"type": "string",
+						"pattern": "^https://",
+						"maxLength": 2048
+					},
+					"seller_tos": { "type": "string", "pattern": "^https://", "maxLength": 2048 },
+					"accepts_returns": { "type": "string", "enum": ["true", "false"] },
+					"accepts_exchanges": { "type": "string", "enum": ["true", "false"] },
+					"return_policy": { "type": "string", "pattern": "^https://", "maxLength": 2048 },
+					"review_count": { "type": "integer", "minimum": 0 },
+					"star_rating": { "type": "number", "minimum": 0, "maximum": 5 },
+					"store_review_count": { "type": "integer", "minimum": 0 },
+					"store_star_rating": { "type": "number", "minimum": 0, "maximum": 5 },
+					"q_and_a": {
+						"type": "array",
+						"items": {
+							"type": "object",
+							"additionalProperties": false,
+							"required": ["q", "a"],
+							"properties": {
+								"q": { "type": "string", "minLength": 1 },
+								"a": { "type": "string", "minLength": 1 }
+							}
+						}
+					},
+					"reviews": {
+						"type": "array",
+						"items": {
+							"type": "object",
+							"additionalProperties": false,
+							"required": ["title", "content", "minRating", "maxRating", "rating"],
+							"properties": {
+								"title": { "type": "string", "minLength": 1 },
+								"content": { "type": "string", "minLength": 1 },
+								"minRating": { "type": "number", "const": 1 },
+								"maxRating": { "type": "number", "const": 5 },
+								"rating": { "type": "number", "minimum": 0, "maximum": 5 }
+							}
+						}
+					},
+					"related_product_id": { "type": "string", "minLength": 1 },
+					"relationship_type": { "type": "string", "minLength": 1 },
+					"target_countries": {
+						"type": "array",
+						"minItems": 1,
+						"items": { "type": "string", "pattern": "^[A-Z]{2}$" }
+					},
+					"store_country": { "type": "string", "pattern": "^[A-Z]{2}$" }
+				}
+			}
+		}
+	}
+}

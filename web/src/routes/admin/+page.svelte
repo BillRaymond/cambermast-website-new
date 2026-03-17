@@ -102,6 +102,33 @@
 		</p>
 	</a>
 
+	<article class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+		<p class="text-xs font-semibold tracking-wide text-gray-500 uppercase">Commerce feed</p>
+		<a href="/admin/sop-commerce" class="mt-2 inline-block text-lg font-semibold text-gray-900 hover:text-blue-900">
+			Commerce feed SOP
+		</a>
+		<p class="mt-1 text-sm text-gray-600">
+			Eligibility rules, preview/schema examples, and direct links to the production OpenAI commerce
+			endpoints.
+		</p>
+		<div class="mt-4 flex flex-wrap gap-3">
+			<a
+				href="/api/commerce-products.json"
+				rel="external"
+				class="inline-flex items-center rounded-lg border border-blue-200 bg-blue-50 px-3 py-2 text-sm font-semibold text-blue-700 transition hover:border-blue-300 hover:bg-blue-100"
+			>
+				Commerce API
+			</a>
+			<a
+				href="/feed/openai-products.jsonl.gz"
+				rel="external"
+				class="inline-flex items-center rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-semibold text-gray-700 transition hover:border-gray-400 hover:bg-gray-50"
+			>
+				OpenAI Product Feed
+			</a>
+		</div>
+	</article>
+
 	{#if dev}
 		<a
 			href="/admin/events/create"

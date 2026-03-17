@@ -12,6 +12,7 @@ import faqPresetsApiSchema from '../src/lib/data/api/schemas/faq-presets-api.sch
 import imageGenStandardsApiSchema from '../src/lib/data/api/schemas/image-gen-standards-api.schema.json';
 import resourcesApiSchema from '../src/lib/data/api/schemas/resources-api.schema.json';
 import redirectsApiSchema from '../src/lib/data/api/schemas/redirects-api.schema.json';
+import commerceProductsApiSchema from '../src/lib/data/api/schemas/commerce-products-api.schema.json';
 import { buildEventsApiExamples, buildEventsApiPayload } from '../src/lib/data/api/events';
 import { buildCampaignsApiExamples, buildCampaignsApiPayload } from '../src/lib/data/api/campaigns';
 import { buildEnumsApiExamples, buildEnumsApiPayload } from '../src/lib/data/api/enums';
@@ -32,6 +33,10 @@ import {
 } from '../src/lib/data/api/image-gen-standards';
 import { buildResourcesApiExamples, buildResourcesApiPayload } from '../src/lib/data/api/resources';
 import { buildRedirectsApiExamples, buildRedirectsApiPayload } from '../src/lib/data/api/redirects';
+import {
+	buildCommerceProductsApiExamples,
+	buildCommerceProductsApiPayload
+} from '../src/lib/data/api/commerce-products';
 import { SITE_ORIGIN } from '../src/lib/config/site';
 
 const origin = SITE_ORIGIN.replace(/\/$/, '');
@@ -153,5 +158,22 @@ const redirectsPayload = buildRedirectsApiPayload({
 const redirectsExamples = buildRedirectsApiExamples(origin);
 assertValid('redirects api payload', redirectsApiSchema as object, redirectsPayload);
 assertValid('redirects api example', redirectsApiSchema as object, redirectsExamples.example);
+
+const commerceProductsPayload = buildCommerceProductsApiPayload({
+	origin,
+	generatedAt: '2026-03-17T12:00:00.000Z',
+	now: new Date('2026-03-17T12:00:00.000Z')
+});
+const commerceProductsExamples = buildCommerceProductsApiExamples(origin);
+assertValid(
+	'commerce products api payload',
+	commerceProductsApiSchema as object,
+	commerceProductsPayload
+);
+assertValid(
+	'commerce products api example',
+	commerceProductsApiSchema as object,
+	commerceProductsExamples.example
+);
 
 console.log('API responses and examples are valid.');

@@ -6,6 +6,8 @@
 		{ href: '/admin', label: '🧭 Admin' },
 		{ href: '/admin/sop', label: '📚 Event SOPs' },
 		{ href: '/admin/sop-training', label: '🎓 Training SOPs' },
+		{ href: '/admin/sop-commerce', label: '🛒 Commerce SOP' },
+		{ href: '/feed/openai-products.jsonl.gz', label: '📦 OpenAI Feed' },
 		{ href: '/admin/sop-testimonials', label: '💬 Testimonial SOPs' },
 		{ href: '/admin/events', label: '🟢 Live Events' },
 		{ href: '/admin/events/luma', label: '📋 Luma Copy' },
