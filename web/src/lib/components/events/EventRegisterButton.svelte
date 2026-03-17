@@ -13,7 +13,7 @@
 	export let className = '';
 	export let onClick: ((event: MouseEvent) => void) | undefined = undefined;
 
-	$: isExternal = /^https?:\/\//i.test(href);
+	$: isExternal = /^https?:\/\//i.test(href ?? '');
 	$: themeClasses =
 		theme === 'slate'
 			? 'bg-slate-900 text-white hover:bg-slate-700'

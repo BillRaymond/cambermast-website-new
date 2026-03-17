@@ -103,6 +103,7 @@
 				"lifecycleStatus",
 				"registrationStatus",
 				"cta",
+				"campaignId",
 				"location",
 				"timeZoneIana",
 				"heroImage",
@@ -226,7 +227,7 @@
 				"cta": {
 					"type": "object",
 					"additionalProperties": false,
-					"required": ["label"],
+					"required": ["label", "campaignId"],
 					"properties": {
 						"label": { "type": "string", "minLength": 1 },
 						"url": {

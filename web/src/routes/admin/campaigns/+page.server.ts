@@ -1,9 +1,20 @@
 import { access, readdir, stat } from 'node:fs/promises';
 import path from 'node:path';
+import { dev } from '$app/environment';
+import { fail, redirect } from '@sveltejs/kit';
 import { SITE_ORIGIN } from '$lib/config/site';
+import type { Campaign } from '$lib/data/campaigns';
 import { listCampaignUi } from '$lib/view-models/campaigns';
 import { listEventUi } from '$lib/view-models/events';
-import type { PageServerLoad } from './$types';
+import {
+	assertCampaignCanBeDeleted,
+	deleteCampaignFromRegistry,
+	readCampaignRegistryFromDisk,
+	upsertCampaignInRegistry,
+	writeCampaignRegistryToDisk
+} from '$lib/server/campaign-registry';
+import { type EventSource } from '$lib/data/events/types';
+import type { Actions, PageServerLoad } from './$types';
 
 export const prerender = false;
 const origin = SITE_ORIGIN.replace(/\/$/, '');
@@ -108,12 +119,87 @@ const listAssetsRecursively = async (
 	return assets;
 };
 
+const loadEventSources = (): EventSource[] =>
+	listEventUi({ includeDrafts: true, includeUnlisted: true }).map((event) => ({
+		...event,
+		location: event.locationMeta
+	}) as EventSource);
+
+const getLinkedEventForCampaign = (
+	events: EventSource[],
+	campaignId: string
+): EventSource | undefined => events.find((event) => event.campaignId === campaignId);
+
+const parseCampaignFromFormData = (formData: FormData): Campaign => {
+	const id = String(formData.get('id') ?? '').trim();
+	const partner = String(formData.get('partner') ?? '').trim();
+	const partnerLabel = String(formData.get('partnerLabel') ?? '').trim();
+	const landingPath = String(formData.get('landingPath') ?? '').trim();
+	const description = String(formData.get('description') ?? '').trim();
+	const createdAt = String(formData.get('createdAt') ?? '').trim();
+
+	return {
+		id,
+		partner,
+		partnerLabel: partnerLabel || undefined,
+		landingPath,
+		description,
+		createdAt: createdAt || new Date().toISOString(),
+		archived: formData.get('archived') === 'on' || undefined,
+		params: {
+			utm_source: String(formData.get('utm_source') ?? '').trim(),
+			utm_medium: String(formData.get('utm_medium') ?? '').trim(),
+			utm_campaign: String(formData.get('utm_campaign') ?? '').trim(),
+			utm_content: String(formData.get('utm_content') ?? '').trim(),
+			src: String(formData.get('src') ?? '').trim(),
+			ad: String(formData.get('ad') ?? '').trim()
+		}
+	};
+};
+
+const ensureDevWrite = () => {
+	if (!dev) {
+		return fail(404, { message: 'Campaign editing is only available in development.' });
+	}
+	return null;
+};
+
+const validateCampaignMutation = (
+	campaign: Campaign,
+	events: EventSource[],
+	registryCampaignIds: Set<string>,
+	previousId?: string
+): void => {
+	if (!campaign.id) throw new Error('Campaign ID is required.');
+	if (!campaign.partner) throw new Error('Partner is required.');
+	if (!campaign.landingPath.startsWith('/')) throw new Error('Landing path must start with /.');
+	if (!campaign.description) throw new Error('Description is required.');
+
+	const linkedEvent = previousId ? getLinkedEventForCampaign(events, previousId) : undefined;
+	if (linkedEvent) {
+		if (campaign.id !== previousId) {
+			throw new Error(
+				`Campaign ${previousId} is linked to event ${linkedEvent.id}. Keep the ID stable and edit other fields instead.`
+			);
+		}
+		const expectedLandingPath = `/events/${linkedEvent.slug}`;
+		if (campaign.landingPath !== expectedLandingPath) {
+			throw new Error(
+				`Campaign ${campaign.id} is linked to event ${linkedEvent.id} and must keep landingPath ${expectedLandingPath}.`
+			);
+		}
+	}
+
+	if ((!previousId || previousId !== campaign.id) && registryCampaignIds.has(campaign.id)) {
+		throw new Error(`Campaign ${campaign.id} already exists.`);
+	}
+};
+
 export const load: PageServerLoad = async () => {
 	const campaigns = listCampaignUi(origin);
 	const events = listEventUi({ includeDrafts: true, includeUnlisted: true });
 	const generatedSlugByCampaignId = new Map<string, string>();
 	for (const event of events) {
-		if (!event.campaignId) continue;
 		const generatedSlug =
 			toGeneratedEventSlugFromImagePath(event.heroImage) ??
 			toGeneratedEventSlugFromImagePath(event.image) ??
@@ -123,23 +209,98 @@ export const load: PageServerLoad = async () => {
 
 	const generatedEventsRoot = await resolveGeneratedEventsRoot();
 	const campaignGeneratedAssets: Record<string, CampaignAsset[]> = {};
-	if (!generatedEventsRoot) return { campaignGeneratedAssets };
+	if (generatedEventsRoot) {
+		for (const campaign of campaigns) {
+			const eventSlug =
+				generatedSlugByCampaignId.get(campaign.id) ?? toEventSlug(campaign.landingPath);
+			if (!eventSlug) continue;
 
-	for (const campaign of campaigns) {
-		const eventSlug =
-			generatedSlugByCampaignId.get(campaign.id) ?? toEventSlug(campaign.landingPath);
-		if (!eventSlug) continue;
+			const eventDir = path.join(generatedEventsRoot, eventSlug);
+			const eventDirExists = await pathExists(eventDir);
+			if (!eventDirExists) {
+				campaignGeneratedAssets[campaign.id] = [];
+				continue;
+			}
 
-		const eventDir = path.join(generatedEventsRoot, eventSlug);
-		const eventDirExists = await pathExists(eventDir);
-		if (!eventDirExists) {
-			campaignGeneratedAssets[campaign.id] = [];
-			continue;
+			const assets = await listAssetsRecursively(eventDir, eventSlug);
+			campaignGeneratedAssets[campaign.id] = assets;
 		}
-
-		const assets = await listAssetsRecursively(eventDir, eventSlug);
-		campaignGeneratedAssets[campaign.id] = assets;
 	}
 
-	return { campaignGeneratedAssets };
+	return { isDev: dev, campaignGeneratedAssets };
+};
+
+export const actions: Actions = {
+	create: async ({ request }) => {
+		const devFailure = ensureDevWrite();
+		if (devFailure) return devFailure;
+
+		const formData = await request.formData();
+		const campaign = parseCampaignFromFormData(formData);
+		const events = loadEventSources();
+
+		try {
+			const registry = await readCampaignRegistryFromDisk();
+			validateCampaignMutation(campaign, events, new Set(registry.campaigns.map((entry) => entry.id)));
+			const nextRegistry = upsertCampaignInRegistry(registry, campaign);
+			await writeCampaignRegistryToDisk(nextRegistry, events);
+		} catch (error) {
+			return fail(400, {
+				message: error instanceof Error ? error.message : 'Unable to create campaign.',
+				targetId: 'campaign-create'
+			});
+		}
+
+		throw redirect(303, `/admin/campaigns#campaign-${campaign.id}`);
+	},
+	update: async ({ request }) => {
+		const devFailure = ensureDevWrite();
+		if (devFailure) return devFailure;
+
+		const formData = await request.formData();
+		const previousId = String(formData.get('previousId') ?? '').trim();
+		const campaign = parseCampaignFromFormData(formData);
+		const events = loadEventSources();
+
+		try {
+			const registry = await readCampaignRegistryFromDisk();
+			validateCampaignMutation(
+				campaign,
+				events,
+				new Set(registry.campaigns.map((entry) => entry.id)),
+				previousId
+			);
+			const nextRegistry = upsertCampaignInRegistry(registry, campaign, previousId);
+			await writeCampaignRegistryToDisk(nextRegistry, events);
+		} catch (error) {
+			return fail(400, {
+				message: error instanceof Error ? error.message : 'Unable to update campaign.',
+				targetId: previousId || campaign.id
+			});
+		}
+
+		throw redirect(303, `/admin/campaigns#campaign-${campaign.id}`);
+	},
+	delete: async ({ request }) => {
+		const devFailure = ensureDevWrite();
+		if (devFailure) return devFailure;
+
+		const formData = await request.formData();
+		const campaignId = String(formData.get('campaignId') ?? '').trim();
+		const events = loadEventSources();
+
+		try {
+			const registry = await readCampaignRegistryFromDisk();
+			assertCampaignCanBeDeleted(campaignId, events);
+			const nextRegistry = deleteCampaignFromRegistry(registry, campaignId);
+			await writeCampaignRegistryToDisk(nextRegistry, events);
+		} catch (error) {
+			return fail(400, {
+				message: error instanceof Error ? error.message : 'Unable to delete campaign.',
+				targetId: campaignId
+			});
+		}
+
+		throw redirect(303, '/admin/campaigns');
+	}
 };

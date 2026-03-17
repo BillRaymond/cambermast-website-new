@@ -7,7 +7,7 @@
 	export let data: PageData;
 
 	type DraftMode = 'training' | 'external';
-	type CampaignMode = 'auto' | 'existing' | 'none';
+	type CampaignMode = 'auto' | 'existing';
 	type CopySourceType = 'event' | 'training_program';
 	type ValidationState = {
 		eventIdExists: boolean;
@@ -647,22 +647,20 @@
 				imageAlt
 			},
 			campaignInput:
-				campaignMode === 'none'
-					? { mode: 'none' }
-					: campaignMode === 'existing'
-						? { mode: 'existing', campaignId: existingCampaignId }
-						: {
-								mode: 'auto',
-								campaignId,
-								partner: campaignPartner,
-								partnerLabel: campaignPartnerLabel,
-								utmSource,
-								utmMedium,
-								utmCampaign,
-								src: campaignSrc,
-								ad: campaignAd,
-								description: campaignDescription
-							},
+				campaignMode === 'existing'
+					? { mode: 'existing', campaignId: existingCampaignId }
+					: {
+							mode: 'auto',
+							campaignId,
+							partner: campaignPartner,
+							partnerLabel: campaignPartnerLabel,
+							utmSource,
+							utmMedium,
+							utmCampaign,
+							src: campaignSrc,
+							ad: campaignAd,
+							description: campaignDescription
+						},
 			imageSelection: {
 				heroImage,
 				heroImageAlt,
@@ -1390,9 +1388,6 @@
 				<label class="inline-flex items-center gap-2">
 					<input type="radio" bind:group={campaignMode} value="existing" /> Existing campaign
 				</label>
-				<label class="inline-flex items-center gap-2">
-					<input type="radio" bind:group={campaignMode} value="none" /> None
-				</label>
 			</div>
 
 			{#if campaignMode === 'auto'}
@@ -1494,8 +1489,6 @@
 						{/each}
 					</select>
 				</label>
-			{:else}
-				<p class="mt-4 text-sm text-gray-600">No campaign will be linked for this event.</p>
 			{/if}
 		</details>
 

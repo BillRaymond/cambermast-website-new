@@ -54,7 +54,7 @@ export type EventPartner = {
 export type EventCta = {
 	label: string;
 	url?: string;
-	campaignId?: string;
+	campaignId: string;
 };
 
 export type EventLocation = {
@@ -146,7 +146,7 @@ export type EventSource = {
 	schedule?: EventSchedule;
 	template?: EventTemplate;
 	partners?: EventPartner[];
-	campaignId?: string;
+	campaignId: string;
 	links?: EventLinks;
 	videoUrl?: string;
 	typeLabel?: string;

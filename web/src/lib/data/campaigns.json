@@ -2,22 +2,6 @@
 	"version": 1,
 	"campaigns": [
 		{
-			"id": "techlab-go",
-			"partner": "techlab",
-			"partnerLabel": "TechLAB",
-			"landingPath": "/techlab",
-			"description": "Standing and portable signage promoting TechLAB and Cambermast that can also be used on the go.",
-			"createdAt": "2026-01-23T00:00:00Z",
-			"params": {
-				"utm_source": "qr",
-				"utm_medium": "offline",
-				"utm_campaign": "techlab",
-				"utm_content": "techlab-go",
-				"src": "qr",
-				"ad": "techlab"
-			}
-		},
-		{
 			"id": "7iu8p4",
 			"partner": "cambermast",
 			"partnerLabel": "Cambermast",
@@ -29,6 +13,54 @@
 				"utm_medium": "offline",
 				"utm_campaign": "events",
 				"utm_content": "7iu8p4",
+				"src": "qr",
+				"ad": "cambermast"
+			}
+		},
+		{
+			"id": "aicd26",
+			"partner": "cambermast",
+			"partnerLabel": "Cambermast",
+			"landingPath": "/events/code-your-next-app-with-ai-workshop-april-2026",
+			"description": "Campaign short link for the Code Your Next App with AI Workshop April 2026 event page.",
+			"createdAt": "2026-03-10T17:00:21.975Z",
+			"params": {
+				"utm_source": "qr",
+				"utm_medium": "offline",
+				"utm_campaign": "events",
+				"utm_content": "aicd26",
+				"src": "qr",
+				"ad": "cambermast"
+			}
+		},
+		{
+			"id": "k4f8n1",
+			"partner": "cambermast",
+			"partnerLabel": "Cambermast",
+			"landingPath": "/events/ai-workshop-for-tech-writers-and-content-creators-summer-2026-k4f8n1",
+			"description": "Campaign short link for the 🌻 AI Workshop for Content Creators (Summer 2026) event page.",
+			"createdAt": "2026-07-14T17:00:00.000Z",
+			"params": {
+				"utm_source": "qr",
+				"utm_medium": "offline",
+				"utm_campaign": "events",
+				"utm_content": "k4f8n1",
+				"src": "qr",
+				"ad": "cambermast"
+			}
+		},
+		{
+			"id": "m7w2q5",
+			"partner": "cambermast",
+			"partnerLabel": "Cambermast",
+			"landingPath": "/events/ai-workshop-for-tech-writers-and-content-creators-fall-2026-m7w2q5",
+			"description": "Campaign short link for the 🍁 AI Workshop for Content Creators (Fall 2026) event page.",
+			"createdAt": "2026-09-15T17:00:00.000Z",
+			"params": {
+				"utm_source": "qr",
+				"utm_medium": "offline",
+				"utm_campaign": "events",
+				"utm_content": "m7w2q5",
 				"src": "qr",
 				"ad": "cambermast"
 			}
@@ -50,17 +82,33 @@
 			}
 		},
 		{
-			"id": "aicd26",
+			"id": "techlab-go",
+			"partner": "techlab",
+			"partnerLabel": "TechLAB",
+			"landingPath": "/techlab",
+			"description": "Standing and portable signage promoting TechLAB and Cambermast that can also be used on the go.",
+			"createdAt": "2026-01-23T00:00:00Z",
+			"params": {
+				"utm_source": "qr",
+				"utm_medium": "offline",
+				"utm_campaign": "techlab",
+				"utm_content": "techlab-go",
+				"src": "qr",
+				"ad": "techlab"
+			}
+		},
+		{
+			"id": "w26cc1",
 			"partner": "cambermast",
 			"partnerLabel": "Cambermast",
-			"landingPath": "/events/code-your-next-app-with-ai-workshop-april-2026",
-			"description": "Campaign short link for the Code Your Next App with AI Workshop April 2026 event page.",
-			"createdAt": "2026-03-10T17:00:21.975Z",
+			"landingPath": "/events/ai-workshop-for-tech-writers-and-content-creators-winter-2026-w26cc1",
+			"description": "Campaign short link for the ❄️ AI Workshop for Content Creators (Winter 2026) event page.",
+			"createdAt": "2026-11-03T18:00:00.000Z",
 			"params": {
 				"utm_source": "qr",
 				"utm_medium": "offline",
 				"utm_campaign": "events",
-				"utm_content": "aicd26",
+				"utm_content": "w26cc1",
 				"src": "qr",
 				"ad": "cambermast"
 			}

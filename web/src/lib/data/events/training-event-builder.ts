@@ -236,8 +236,10 @@ export const buildTrainingSessionEventFromProgram = (
 		registrationStatus: input.registrationStatus ?? 'none',
 		cta: {
 			label: input.ctaLabel ?? 'Open soon',
-			url: input.ctaUrl
+			url: input.ctaUrl,
+			campaignId: input.id
 		},
+		campaignId: input.id,
 		timeZoneIana: EVENT_TIME_ZONE_IANA,
 		location: {
 			mode: 'online',

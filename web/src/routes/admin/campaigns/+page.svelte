@@ -7,9 +7,14 @@
 	import { SITE_ORIGIN } from '$lib/config/site';
 	import { listCampaignUi } from '$lib/view-models/campaigns';
 	import { listEventUi } from '$lib/view-models/events';
-	import type { PageData } from './$types';
+	import type { ActionData, PageData } from './$types';
 
 	export let data: PageData;
+	export let form: ActionData;
+
+	type CampaignActionData = ActionData & {
+		targetId?: string;
+	};
 
 	type CampaignCategory = 'event' | 'landing';
 
@@ -230,6 +235,23 @@
 
 	let qrActionWidths: Record<string, number> = {};
 
+	const formHasTarget = (target: string): boolean =>
+		(form as CampaignActionData | undefined)?.targetId === target;
+
+	const defaultCreateValues = {
+		id: '',
+		partner: 'cambermast',
+		partnerLabel: 'Cambermast',
+		landingPath: '/',
+		description: '',
+		utm_source: 'qr',
+		utm_medium: 'offline',
+		utm_campaign: 'events',
+		utm_content: '',
+		src: 'qr',
+		ad: 'cambermast'
+	};
+
 	const trackQrActionWidth = (node: HTMLElement, key: string) => {
 		const update = () => {
 			qrActionWidths = { ...qrActionWidths, [key]: node.offsetWidth };
@@ -272,6 +294,152 @@
 		</p>
 	</div>
 </section>
+
+{#if form?.message}
+	<section class="mb-8">
+		<div class="rounded-2xl border border-rose-200 bg-rose-50 p-4 text-sm font-semibold text-rose-800">
+			{form.message}
+		</div>
+	</section>
+{/if}
+
+{#if data.isDev}
+	<section class="mb-10">
+		<div
+			id="campaign-create"
+			class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm scroll-mt-24"
+		>
+			<div class="flex flex-wrap items-start justify-between gap-3">
+				<div>
+					<h2 class="text-xl font-semibold text-gray-900">Create campaign</h2>
+					<p class="mt-1 max-w-3xl text-sm text-gray-600">
+						Development-only CRUD for generic campaign records. Event-backed campaigns should keep
+						their IDs and landing paths aligned to the linked event.
+					</p>
+				</div>
+				<span class="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
+					Dev only
+				</span>
+			</div>
+
+			<form method="POST" action="?/create" class="mt-5 grid gap-4 md:grid-cols-2">
+				<label class="text-sm font-semibold text-gray-800">
+					ID
+					<input
+						name="id"
+						required
+						class="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm"
+						value={defaultCreateValues.id}
+					/>
+				</label>
+				<label class="text-sm font-semibold text-gray-800">
+					Landing path
+					<input
+						name="landingPath"
+						required
+						class="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm"
+						value={defaultCreateValues.landingPath}
+					/>
+				</label>
+				<label class="text-sm font-semibold text-gray-800">
+					Partner
+					<input
+						name="partner"
+						required
+						class="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm"
+						value={defaultCreateValues.partner}
+					/>
+				</label>
+				<label class="text-sm font-semibold text-gray-800">
+					Partner label
+					<input
+						name="partnerLabel"
+						class="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm"
+						value={defaultCreateValues.partnerLabel}
+					/>
+				</label>
+				<label class="text-sm font-semibold text-gray-800 md:col-span-2">
+					Description
+					<input
+						name="description"
+						required
+						class="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm"
+						value={defaultCreateValues.description}
+					/>
+				</label>
+				<label class="text-sm font-semibold text-gray-800">
+					utm_source
+					<input
+						name="utm_source"
+						required
+						class="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm"
+						value={defaultCreateValues.utm_source}
+					/>
+				</label>
+				<label class="text-sm font-semibold text-gray-800">
+					utm_medium
+					<input
+						name="utm_medium"
+						required
+						class="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm"
+						value={defaultCreateValues.utm_medium}
+					/>
+				</label>
+				<label class="text-sm font-semibold text-gray-800">
+					utm_campaign
+					<input
+						name="utm_campaign"
+						required
+						class="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm"
+						value={defaultCreateValues.utm_campaign}
+					/>
+				</label>
+				<label class="text-sm font-semibold text-gray-800">
+					utm_content
+					<input
+						name="utm_content"
+						required
+						class="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm"
+						value={defaultCreateValues.utm_content}
+					/>
+				</label>
+				<label class="text-sm font-semibold text-gray-800">
+					src
+					<input
+						name="src"
+						required
+						class="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm"
+						value={defaultCreateValues.src}
+					/>
+				</label>
+				<label class="text-sm font-semibold text-gray-800">
+					ad
+					<input
+						name="ad"
+						required
+						class="mt-1 w-full rounded border border-gray-300 px-3 py-2 text-sm"
+						value={defaultCreateValues.ad}
+					/>
+				</label>
+				<div class="md:col-span-2">
+					<button
+						type="submit"
+						class="inline-flex items-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700"
+					>
+						Create campaign
+					</button>
+				</div>
+			</form>
+		</div>
+	</section>
+{:else}
+	<section class="mb-10">
+		<div class="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
+			<p class="font-semibold">Production is read-only.</p>
+			<p class="mt-1">Campaign mutation controls are intentionally disabled outside development.</p>
+		</div>
+	</section>
+{/if}
 
 {#if previewAsset}
 	<div
@@ -417,6 +585,53 @@
 											{campaign.shortUrlProd}
 										</code>
 									</p>
+									<div class="mt-2 flex flex-wrap items-center gap-2">
+										<button
+											type="button"
+											class={iconClass(`copy:summary:short:prod:${campaign.id}`)}
+											aria-label={`Copy short URL for ${campaign.id} from summary`}
+											on:click|stopPropagation={() =>
+												copyToClipboard(
+													campaign.shortUrlProd,
+													`copy:summary:short:prod:${campaign.id}`
+												)}
+										>
+											{#if copiedKey === `copy:summary:short:prod:${campaign.id}`}
+												<span class="inline-flex items-center gap-1">
+													<svg
+														aria-hidden="true"
+														viewBox="0 0 24 24"
+														class="h-3.5 w-3.5"
+														fill="none"
+														stroke="currentColor"
+														stroke-width="2"
+														stroke-linecap="round"
+														stroke-linejoin="round"
+													>
+														<polyline points="20 6 9 17 4 12" />
+													</svg>
+													Copied
+												</span>
+											{:else}
+												<span class="inline-flex items-center gap-1">
+													<svg
+														aria-hidden="true"
+														viewBox="0 0 24 24"
+														class="h-3.5 w-3.5"
+														fill="none"
+														stroke="currentColor"
+														stroke-width="2"
+														stroke-linecap="round"
+														stroke-linejoin="round"
+													>
+														<rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+														<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+													</svg>
+													Copy short URL
+												</span>
+											{/if}
+										</button>
+									</div>
 								</div>
 								<span
 									class="inline-flex items-center rounded-full border border-gray-200 bg-gray-50 px-3 py-1 text-xs font-semibold text-gray-700"
@@ -453,6 +668,148 @@
 								<span class="rounded-full bg-gray-100 px-2 py-1">Landing: {campaign.landingPath}</span>
 								<span class="rounded-full bg-gray-100 px-2 py-1">Created: {campaign.createdAt}</span>
 							</div>
+							{#if data.isDev}
+								<details class="rounded-xl border border-emerald-200 bg-emerald-50/60 px-4 py-3">
+									<summary class="cursor-pointer text-xs font-semibold tracking-wide text-emerald-800 uppercase">
+										Edit campaign (dev)
+									</summary>
+									<p class="mt-2 text-xs text-emerald-900">
+										Delete is disabled for event-linked campaigns. Archive or unarchive from this form.
+									</p>
+									<form method="POST" action="?/update" class="mt-4 grid gap-3 md:grid-cols-2">
+										<input type="hidden" name="previousId" value={campaign.id} />
+										<input type="hidden" name="createdAt" value={campaign.createdAt} />
+										<label class="text-xs font-semibold text-gray-700">
+											ID
+											<input
+												name="id"
+												required
+												class="mt-1 w-full rounded border border-gray-300 px-2 py-1.5 text-xs"
+												value={campaign.id}
+											/>
+										</label>
+										<label class="text-xs font-semibold text-gray-700">
+											Landing path
+											<input
+												name="landingPath"
+												required
+												class="mt-1 w-full rounded border border-gray-300 px-2 py-1.5 text-xs"
+												value={campaign.landingPath}
+											/>
+										</label>
+										<label class="text-xs font-semibold text-gray-700">
+											Partner
+											<input
+												name="partner"
+												required
+												class="mt-1 w-full rounded border border-gray-300 px-2 py-1.5 text-xs"
+												value={campaign.partner}
+											/>
+										</label>
+										<label class="text-xs font-semibold text-gray-700">
+											Partner label
+											<input
+												name="partnerLabel"
+												class="mt-1 w-full rounded border border-gray-300 px-2 py-1.5 text-xs"
+												value={campaign.partnerLabel ?? ''}
+											/>
+										</label>
+										<label class="text-xs font-semibold text-gray-700 md:col-span-2">
+											Description
+											<input
+												name="description"
+												required
+												class="mt-1 w-full rounded border border-gray-300 px-2 py-1.5 text-xs"
+												value={campaign.description}
+											/>
+										</label>
+										<label class="text-xs font-semibold text-gray-700">
+											utm_source
+											<input
+												name="utm_source"
+												required
+												class="mt-1 w-full rounded border border-gray-300 px-2 py-1.5 text-xs"
+												value={campaign.params.utm_source}
+											/>
+										</label>
+										<label class="text-xs font-semibold text-gray-700">
+											utm_medium
+											<input
+												name="utm_medium"
+												required
+												class="mt-1 w-full rounded border border-gray-300 px-2 py-1.5 text-xs"
+												value={campaign.params.utm_medium}
+											/>
+										</label>
+										<label class="text-xs font-semibold text-gray-700">
+											utm_campaign
+											<input
+												name="utm_campaign"
+												required
+												class="mt-1 w-full rounded border border-gray-300 px-2 py-1.5 text-xs"
+												value={campaign.params.utm_campaign}
+											/>
+										</label>
+										<label class="text-xs font-semibold text-gray-700">
+											utm_content
+											<input
+												name="utm_content"
+												required
+												class="mt-1 w-full rounded border border-gray-300 px-2 py-1.5 text-xs"
+												value={campaign.params.utm_content}
+											/>
+										</label>
+										<label class="text-xs font-semibold text-gray-700">
+											src
+											<input
+												name="src"
+												required
+												class="mt-1 w-full rounded border border-gray-300 px-2 py-1.5 text-xs"
+												value={campaign.params.src}
+											/>
+										</label>
+										<label class="text-xs font-semibold text-gray-700">
+											ad
+											<input
+												name="ad"
+												required
+												class="mt-1 w-full rounded border border-gray-300 px-2 py-1.5 text-xs"
+												value={campaign.params.ad}
+											/>
+										</label>
+										<label class="inline-flex items-center gap-2 text-xs font-semibold text-gray-700 md:col-span-2">
+											<input type="checkbox" name="archived" checked={campaign.archived} />
+											Archived
+										</label>
+										<div class="flex flex-wrap gap-2 md:col-span-2">
+											<button
+												type="submit"
+												class="inline-flex items-center rounded border border-emerald-300 bg-white px-3 py-1.5 text-xs font-semibold text-emerald-800 transition hover:border-emerald-400"
+											>
+												Save changes
+											</button>
+										</div>
+									</form>
+									<form method="POST" action="?/delete" class="mt-3">
+										<input type="hidden" name="campaignId" value={campaign.id} />
+										<button
+											type="submit"
+											class="inline-flex items-center rounded border border-rose-300 bg-white px-3 py-1.5 text-xs font-semibold text-rose-700 transition disabled:cursor-not-allowed disabled:opacity-50"
+											disabled={Boolean(campaign.event)}
+										>
+											Delete campaign
+										</button>
+										{#if campaign.event}
+											<p class="mt-2 text-xs text-rose-700">
+												Linked to event {campaign.event.id}. Archive instead of deleting.
+											</p>
+										{/if}
+										{#if formHasTarget(campaign.id)}
+											<p class="mt-2 text-xs text-rose-700">{form?.message}</p>
+										{/if}
+									</form>
+								</details>
+							{/if}
 							<div class="rounded-xl border border-gray-200 bg-gray-50 px-4 py-3">
 								<p class="text-xs font-semibold tracking-wide text-gray-500 uppercase">
 									Primary URLs
@@ -471,32 +828,38 @@
 												copyToClipboard(campaign.shortUrlProd, `copy:short:prod:${campaign.id}`)}
 										>
 											{#if copiedKey === `copy:short:prod:${campaign.id}`}
-												<svg
-													aria-hidden="true"
-													viewBox="0 0 24 24"
-													class="h-3.5 w-3.5"
-													fill="none"
-													stroke="currentColor"
-													stroke-width="2"
-													stroke-linecap="round"
-													stroke-linejoin="round"
-												>
-													<polyline points="20 6 9 17 4 12" />
-												</svg>
+												<span class="inline-flex items-center gap-1">
+													<svg
+														aria-hidden="true"
+														viewBox="0 0 24 24"
+														class="h-3.5 w-3.5"
+														fill="none"
+														stroke="currentColor"
+														stroke-width="2"
+														stroke-linecap="round"
+														stroke-linejoin="round"
+													>
+														<polyline points="20 6 9 17 4 12" />
+													</svg>
+													Copied
+												</span>
 											{:else}
-												<svg
-													aria-hidden="true"
-													viewBox="0 0 24 24"
-													class="h-3.5 w-3.5"
-													fill="none"
-													stroke="currentColor"
-													stroke-width="2"
-													stroke-linecap="round"
-													stroke-linejoin="round"
-												>
-													<rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
-													<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-												</svg>
+												<span class="inline-flex items-center gap-1">
+													<svg
+														aria-hidden="true"
+														viewBox="0 0 24 24"
+														class="h-3.5 w-3.5"
+														fill="none"
+														stroke="currentColor"
+														stroke-width="2"
+														stroke-linecap="round"
+														stroke-linejoin="round"
+													>
+														<rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+														<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+													</svg>
+													Copy
+												</span>
 											{/if}
 										</button>
 									</div>
@@ -516,32 +879,38 @@
 												)}
 										>
 											{#if copiedKey === `copy:short:dev:${campaign.id}`}
-												<svg
-													aria-hidden="true"
-													viewBox="0 0 24 24"
-													class="h-3.5 w-3.5"
-													fill="none"
-													stroke="currentColor"
-													stroke-width="2"
-													stroke-linecap="round"
-													stroke-linejoin="round"
-												>
-													<polyline points="20 6 9 17 4 12" />
-												</svg>
+												<span class="inline-flex items-center gap-1">
+													<svg
+														aria-hidden="true"
+														viewBox="0 0 24 24"
+														class="h-3.5 w-3.5"
+														fill="none"
+														stroke="currentColor"
+														stroke-width="2"
+														stroke-linecap="round"
+														stroke-linejoin="round"
+													>
+														<polyline points="20 6 9 17 4 12" />
+													</svg>
+													Copied
+												</span>
 											{:else}
-												<svg
-													aria-hidden="true"
-													viewBox="0 0 24 24"
-													class="h-3.5 w-3.5"
-													fill="none"
-													stroke="currentColor"
-													stroke-width="2"
-													stroke-linecap="round"
-													stroke-linejoin="round"
-												>
-													<rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
-													<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-												</svg>
+												<span class="inline-flex items-center gap-1">
+													<svg
+														aria-hidden="true"
+														viewBox="0 0 24 24"
+														class="h-3.5 w-3.5"
+														fill="none"
+														stroke="currentColor"
+														stroke-width="2"
+														stroke-linecap="round"
+														stroke-linejoin="round"
+													>
+														<rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+														<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+													</svg>
+													Copy
+												</span>
 											{/if}
 										</button>
 									</div>
@@ -997,6 +1366,145 @@
 											>Created: {campaign.createdAt}</span
 										>
 									</div>
+									{#if data.isDev}
+										<details class="mt-4 rounded-xl border border-emerald-200 bg-white px-4 py-3">
+											<summary class="cursor-pointer text-xs font-semibold tracking-wide text-emerald-800 uppercase">
+												Edit campaign (dev)
+											</summary>
+											<form method="POST" action="?/update" class="mt-4 grid gap-3 md:grid-cols-2">
+												<input type="hidden" name="previousId" value={campaign.id} />
+												<input type="hidden" name="createdAt" value={campaign.createdAt} />
+												<label class="text-xs font-semibold text-gray-700">
+													ID
+													<input
+														name="id"
+														required
+														class="mt-1 w-full rounded border border-gray-300 px-2 py-1.5 text-xs"
+														value={campaign.id}
+													/>
+												</label>
+												<label class="text-xs font-semibold text-gray-700">
+													Landing path
+													<input
+														name="landingPath"
+														required
+														class="mt-1 w-full rounded border border-gray-300 px-2 py-1.5 text-xs"
+														value={campaign.landingPath}
+													/>
+												</label>
+												<label class="text-xs font-semibold text-gray-700">
+													Partner
+													<input
+														name="partner"
+														required
+														class="mt-1 w-full rounded border border-gray-300 px-2 py-1.5 text-xs"
+														value={campaign.partner}
+													/>
+												</label>
+												<label class="text-xs font-semibold text-gray-700">
+													Partner label
+													<input
+														name="partnerLabel"
+														class="mt-1 w-full rounded border border-gray-300 px-2 py-1.5 text-xs"
+														value={campaign.partnerLabel ?? ''}
+													/>
+												</label>
+												<label class="text-xs font-semibold text-gray-700 md:col-span-2">
+													Description
+													<input
+														name="description"
+														required
+														class="mt-1 w-full rounded border border-gray-300 px-2 py-1.5 text-xs"
+														value={campaign.description}
+													/>
+												</label>
+												<label class="text-xs font-semibold text-gray-700">
+													utm_source
+													<input
+														name="utm_source"
+														required
+														class="mt-1 w-full rounded border border-gray-300 px-2 py-1.5 text-xs"
+														value={campaign.params.utm_source}
+													/>
+												</label>
+												<label class="text-xs font-semibold text-gray-700">
+													utm_medium
+													<input
+														name="utm_medium"
+														required
+														class="mt-1 w-full rounded border border-gray-300 px-2 py-1.5 text-xs"
+														value={campaign.params.utm_medium}
+													/>
+												</label>
+												<label class="text-xs font-semibold text-gray-700">
+													utm_campaign
+													<input
+														name="utm_campaign"
+														required
+														class="mt-1 w-full rounded border border-gray-300 px-2 py-1.5 text-xs"
+														value={campaign.params.utm_campaign}
+													/>
+												</label>
+												<label class="text-xs font-semibold text-gray-700">
+													utm_content
+													<input
+														name="utm_content"
+														required
+														class="mt-1 w-full rounded border border-gray-300 px-2 py-1.5 text-xs"
+														value={campaign.params.utm_content}
+													/>
+												</label>
+												<label class="text-xs font-semibold text-gray-700">
+													src
+													<input
+														name="src"
+														required
+														class="mt-1 w-full rounded border border-gray-300 px-2 py-1.5 text-xs"
+														value={campaign.params.src}
+													/>
+												</label>
+												<label class="text-xs font-semibold text-gray-700">
+													ad
+													<input
+														name="ad"
+														required
+														class="mt-1 w-full rounded border border-gray-300 px-2 py-1.5 text-xs"
+														value={campaign.params.ad}
+													/>
+												</label>
+												<label class="inline-flex items-center gap-2 text-xs font-semibold text-gray-700 md:col-span-2">
+													<input type="checkbox" name="archived" checked={campaign.archived} />
+													Archived
+												</label>
+												<div class="flex flex-wrap gap-2 md:col-span-2">
+													<button
+														type="submit"
+														class="inline-flex items-center rounded border border-emerald-300 bg-white px-3 py-1.5 text-xs font-semibold text-emerald-800 transition hover:border-emerald-400"
+													>
+														Save changes
+													</button>
+												</div>
+											</form>
+											<form method="POST" action="?/delete" class="mt-3">
+												<input type="hidden" name="campaignId" value={campaign.id} />
+												<button
+													type="submit"
+													class="inline-flex items-center rounded border border-rose-300 bg-white px-3 py-1.5 text-xs font-semibold text-rose-700 transition disabled:cursor-not-allowed disabled:opacity-50"
+													disabled={Boolean(campaign.event)}
+												>
+													Delete campaign
+												</button>
+												{#if campaign.event}
+													<p class="mt-2 text-xs text-rose-700">
+														Linked to event {campaign.event.id}. Archive instead of deleting.
+													</p>
+												{/if}
+												{#if formHasTarget(campaign.id)}
+													<p class="mt-2 text-xs text-rose-700">{form?.message}</p>
+												{/if}
+											</form>
+										</details>
+									{/if}
 								</div>
 								<span
 									class="rounded-full bg-gray-200 px-3 py-1 text-xs font-semibold text-gray-700"
@@ -1024,32 +1532,38 @@
 													copyToClipboard(campaign.shortUrlProd, `copy:short:prod:${campaign.id}`)}
 											>
 												{#if copiedKey === `copy:short:prod:${campaign.id}`}
-													<svg
-														aria-hidden="true"
-														viewBox="0 0 24 24"
-														class="h-3.5 w-3.5"
-														fill="none"
-														stroke="currentColor"
-														stroke-width="2"
-														stroke-linecap="round"
-														stroke-linejoin="round"
-													>
-														<polyline points="20 6 9 17 4 12" />
-													</svg>
+													<span class="inline-flex items-center gap-1">
+														<svg
+															aria-hidden="true"
+															viewBox="0 0 24 24"
+															class="h-3.5 w-3.5"
+															fill="none"
+															stroke="currentColor"
+															stroke-width="2"
+															stroke-linecap="round"
+															stroke-linejoin="round"
+														>
+															<polyline points="20 6 9 17 4 12" />
+														</svg>
+														Copied
+													</span>
 												{:else}
-													<svg
-														aria-hidden="true"
-														viewBox="0 0 24 24"
-														class="h-3.5 w-3.5"
-														fill="none"
-														stroke="currentColor"
-														stroke-width="2"
-														stroke-linecap="round"
-														stroke-linejoin="round"
-													>
-														<rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
-														<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-													</svg>
+													<span class="inline-flex items-center gap-1">
+														<svg
+															aria-hidden="true"
+															viewBox="0 0 24 24"
+															class="h-3.5 w-3.5"
+															fill="none"
+															stroke="currentColor"
+															stroke-width="2"
+															stroke-linecap="round"
+															stroke-linejoin="round"
+														>
+															<rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+															<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+														</svg>
+														Copy
+													</span>
 												{/if}
 											</button>
 										</div>
@@ -1069,32 +1583,38 @@
 													)}
 											>
 												{#if copiedKey === `copy:short:dev:${campaign.id}`}
-													<svg
-														aria-hidden="true"
-														viewBox="0 0 24 24"
-														class="h-3.5 w-3.5"
-														fill="none"
-														stroke="currentColor"
-														stroke-width="2"
-														stroke-linecap="round"
-														stroke-linejoin="round"
-													>
-														<polyline points="20 6 9 17 4 12" />
-													</svg>
+													<span class="inline-flex items-center gap-1">
+														<svg
+															aria-hidden="true"
+															viewBox="0 0 24 24"
+															class="h-3.5 w-3.5"
+															fill="none"
+															stroke="currentColor"
+															stroke-width="2"
+															stroke-linecap="round"
+															stroke-linejoin="round"
+														>
+															<polyline points="20 6 9 17 4 12" />
+														</svg>
+														Copied
+													</span>
 												{:else}
-													<svg
-														aria-hidden="true"
-														viewBox="0 0 24 24"
-														class="h-3.5 w-3.5"
-														fill="none"
-														stroke="currentColor"
-														stroke-width="2"
-														stroke-linecap="round"
-														stroke-linejoin="round"
-													>
-														<rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
-														<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-													</svg>
+													<span class="inline-flex items-center gap-1">
+														<svg
+															aria-hidden="true"
+															viewBox="0 0 24 24"
+															class="h-3.5 w-3.5"
+															fill="none"
+															stroke="currentColor"
+															stroke-width="2"
+															stroke-linecap="round"
+															stroke-linejoin="round"
+														>
+															<rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+															<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+														</svg>
+														Copy
+													</span>
 												{/if}
 											</button>
 										</div>

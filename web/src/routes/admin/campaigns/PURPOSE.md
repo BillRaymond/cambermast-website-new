@@ -14,6 +14,7 @@ This area documents how Cambermast manages campaigns and partner-facing asset pa
 Each entry represents one campaign and must stay stable over time. The `id` and `params.utm_content` should be short, human-readable, and consistently kebab-cased (lowercase words separated by single dashes). Keep them concise so QR codes remain small and readable.
 The `partner` field is used to group campaigns for partner-specific views; it should also be kebab-cased to match the partner URL slug.
 If you need a “proper name” (casing, spacing) for display in the UI, set `partnerLabel` on the campaign entry.
+For event-backed campaigns, keep `campaign.id`, `event.campaignId`, and `event.cta.campaignId` aligned, and keep `campaign.landingPath` set to `/events/<event.slug>`.
 
 **Examples of good values**
 
@@ -35,3 +36,5 @@ Use `campaigns.schema.json` as the JSON Schema reference for field names, types,
 
 - Campaign data JSON: `web/src/lib/data/campaigns.json`
 - Schema: `web/src/lib/data/campaigns.schema.json`
+- Dev-only admin CRUD: `/admin/campaigns`
+- Production behavior: read-only registry with no write controls

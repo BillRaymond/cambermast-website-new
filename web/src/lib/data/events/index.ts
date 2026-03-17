@@ -111,7 +111,7 @@ const resolveEvent = (event: EventSource): Event => {
 		cta: {
 			label: ctaLabel,
 			url: ctaUrl || undefined,
-			campaignId: event.cta?.campaignId
+			campaignId: event.cta?.campaignId ?? event.campaignId
 		},
 		locationMeta: event.location,
 		location: toPublicLocationLabel(event),

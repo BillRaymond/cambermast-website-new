@@ -164,6 +164,13 @@
 		registration behavior. The campaign drives short links and tracking parameters for promotion.
 	</p>
 	<p class="mt-2 max-w-3xl text-gray-700">
+		The rule is now enforced in validation and admin tooling: every event record must keep
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">event.campaignId</code> and
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">event.cta.campaignId</code> aligned to a
+		real campaign, and event-backed campaigns must keep
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">landingPath = /events/&lt;event.slug&gt;</code>.
+	</p>
+	<p class="mt-2 max-w-3xl text-gray-700">
 		Primary admin views:
 		<a href="/admin/events" class="text-blue-700 hover:underline">/admin/events</a>,
 		<a href="/admin/drafts" class="text-blue-700 hover:underline">/admin/drafts</a>,
@@ -247,6 +254,13 @@
 		</li>
 		<li>Validate JSON, then verify event page, tracking URL, and short URL behavior.</li>
 	</ol>
+	<p class="mt-3 max-w-3xl text-gray-700">
+		If an existing event record is missing campaign linkage, run
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
+			>npm --prefix web run campaigns:backfill-events</code
+		>
+		in development to create the missing event campaigns and restore the 1:1 link before publishing.
+	</p>
 	<h3 class="mt-6 text-xl font-semibold">Partner association workflow (applies to both types)</h3>
 	<ol class="mt-3 max-w-3xl list-decimal space-y-2 pl-5 text-gray-700">
 		<li>
@@ -290,6 +304,18 @@
 		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">POST /admin/image-gen/api/generate</code>,
 		and
 		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">POST /admin/image-gen/api/save-selected</code>.
+	</p>
+</section>
+
+<section class="mt-8">
+	<h2 class="text-2xl font-semibold">Campaign Admin (Dev vs Prod)</h2>
+	<p class="mt-2 max-w-3xl text-gray-700">
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">/admin/campaigns</code> supports create,
+		update, archive, and delete only in development. Production keeps the campaign registry read-only.
+	</p>
+	<p class="mt-2 max-w-3xl text-gray-700">
+		Delete is blocked when a campaign is linked to an event. Archive the campaign instead, or fix the
+		event linkage first if the record should no longer be event-backed.
 	</p>
 </section>
 

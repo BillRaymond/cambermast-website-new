@@ -622,7 +622,8 @@
 			"registrationStatus": "external",
 			"cta": {
 				"label": "Register now",
-				"url": "https://luma.com/g2c21nco"
+				"url": "https://luma.com/g2c21nco",
+				"campaignId": "k4f8n1"
 			},
 			"timeZoneIana": "America/Los_Angeles",
 			"location": {
@@ -709,7 +710,8 @@
 			"heroImage": "/images/generated/events/ai-workshop-for-content-creators-summer-2026/hero-landscape.jpg",
 			"heroImageAlt": "AI Workshop for Tech Writers and Content Creators illustration",
 			"image": "/images/generated/events/ai-workshop-for-content-creators-summer-2026/hero-landscape.jpg",
-			"imageAlt": "Open graph image for the AI Workshop for Tech Writers and Content Creators training program"
+			"imageAlt": "Open graph image for the AI Workshop for Tech Writers and Content Creators training program",
+			"campaignId": "k4f8n1"
 		},
 		{
 			"title": "🍁 AI Workshop for Content Creators (Fall 2026)",
@@ -720,7 +722,8 @@
 			"registrationStatus": "external",
 			"cta": {
 				"label": "Register now",
-				"url": "https://luma.com/10s1ulun"
+				"url": "https://luma.com/10s1ulun",
+				"campaignId": "m7w2q5"
 			},
 			"timeZoneIana": "America/Los_Angeles",
 			"location": {
@@ -807,7 +810,8 @@
 			"heroImage": "/images/generated/events/ai-workshop-for-content-creators-fall-2026/hero-landscape.jpg",
 			"heroImageAlt": "AI Workshop for Tech Writers and Content Creators illustration",
 			"image": "/images/generated/events/ai-workshop-for-content-creators-fall-2026/hero-landscape.jpg",
-			"imageAlt": "Open graph image for the AI Workshop for Tech Writers and Content Creators training program"
+			"imageAlt": "Open graph image for the AI Workshop for Tech Writers and Content Creators training program",
+			"campaignId": "m7w2q5"
 		},
 		{
 			"title": "❄️ AI Workshop for Content Creators (Winter 2026)",
@@ -818,7 +822,8 @@
 			"registrationStatus": "open",
 			"cta": {
 				"label": "Register now",
-				"url": "https://luma.com/65xayz48"
+				"url": "https://luma.com/65xayz48",
+				"campaignId": "w26cc1"
 			},
 			"timeZoneIana": "America/Los_Angeles",
 			"location": {
@@ -905,7 +910,8 @@
 			"heroImage": "/images/generated/events/ai-workshop-for-content-creators-winter-2026/hero-landscape.jpg",
 			"heroImageAlt": "AI Workshop for Tech Writers and Content Creators illustration",
 			"image": "/images/generated/events/ai-workshop-for-content-creators-winter-2026/hero-landscape.jpg",
-			"imageAlt": "Open graph image for the AI Workshop for Tech Writers and Content Creators training program"
+			"imageAlt": "Open graph image for the AI Workshop for Tech Writers and Content Creators training program",
+			"campaignId": "w26cc1"
 		}
 	]
 }

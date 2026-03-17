@@ -88,6 +88,10 @@ Output includes:
 
 New training-event drafts default to an unpublished registration state until a real registration URL is added. The canonical contract for that state is `registrationStatus: "none"` with `cta.url` omitted/empty; public UI renders it as `Open soon`.
 
+Every event now requires a linked campaign. Keep `event.campaignId`, `event.cta.campaignId`, and `campaign.id` aligned, and keep the event-backed `campaign.landingPath` set to `/events/<event.slug>`.
+
+If existing event records drift out of sync, run `npm --prefix web run campaigns:backfill-events` to backfill missing event campaigns and re-link the event registry before validating.
+
 ## Privacy, GDPR & Cookies
 
 - `web/src/routes/gdpr/+page.svelte` is the canonical privacy notice for cambermast.com, covering lawful bases, vendor list, and contact options for data requests. Update it whenever we add a new form, vendor, or processing purpose.
@@ -155,3 +159,8 @@ When publishing significant messaging or offer changes:
 - FAQ preset registry lives at `web/src/lib/data/faq-presets/faq-presets.json` and publishes at `/api/faq-presets.json` for reusable training and event FAQ starters.
 - Redirect registry lives at `web/src/lib/data/redirects/redirects.json` and publishes at `/api/redirects.json` for public alias auditing.
 - Run `npm --prefix web run validate:schema-governance` to enforce schema-to-API-to-SOP coverage.
+
+## Campaign Admin
+
+- `/admin/campaigns` supports campaign CRUD in development only.
+- Production keeps `/admin/campaigns` read-only; no campaign mutation controls or write paths should be exposed there.

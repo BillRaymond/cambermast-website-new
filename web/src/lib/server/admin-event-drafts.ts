@@ -1,5 +1,3 @@
-import path from 'node:path';
-import { existsSync } from 'node:fs';
 import { promises as fs } from 'node:fs';
 import crypto from 'node:crypto';
 import Ajv from 'ajv/dist/2020.js';
@@ -13,10 +11,22 @@ import { getTrainingProgramBySku } from '$lib/data/training';
 import type { Campaign } from '$lib/data/campaigns';
 import { getPartnerByCode } from '$lib/data/partners';
 import type { EventSource } from '$lib/data/events/types';
+import {
+	buildDefaultEventCampaign,
+	assertEventCampaignIntegrity,
+	type CampaignRegistry,
+	type EventRegistry
+} from '$lib/server/event-campaign-integrity';
+import {
+	eventsPath,
+	eventsSchemaPath,
+	campaignsPath,
+	campaignsSchemaPath
+} from '$lib/server/data-paths';
 
 export type DraftAction = 'preview' | 'save';
 export type DraftMode = 'training' | 'external';
-export type CampaignMode = 'auto' | 'existing' | 'none';
+export type CampaignMode = 'auto' | 'existing';
 
 export type DraftRequestPayload = {
 	action: DraftAction;
@@ -92,31 +102,12 @@ export type DraftResponse = {
 	};
 };
 
-type EventRegistry = { events: EventSource[] };
-type CampaignRegistry = { version: number; campaigns: Campaign[] };
-
 export const BASE36_ID_PATTERN = /^[a-z0-9]{6}$/;
 export const SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 const toTrimmed = (value: unknown): string => (typeof value === 'string' ? value.trim() : '');
 const toTrimmedArray = (value: unknown): string[] =>
 	Array.isArray(value) ? value.map((item) => toTrimmed(item)).filter(Boolean) : [];
-
-const resolveWebRoot = (): string => {
-	const cwd = process.cwd();
-	const direct = path.join(cwd, 'src', 'lib', 'data');
-	const nested = path.join(cwd, 'web', 'src', 'lib', 'data');
-	if (existsSync(direct)) return cwd;
-	if (existsSync(nested)) return path.join(cwd, 'web');
-	return cwd;
-};
-
-const webRoot = resolveWebRoot();
-
-const eventsPath = path.join(webRoot, 'src', 'lib', 'data', 'events', 'events.json');
-const eventsSchemaPath = path.join(webRoot, 'src', 'lib', 'data', 'events', 'events.schema.json');
-const campaignsPath = path.join(webRoot, 'src', 'lib', 'data', 'campaigns.json');
-const campaignsSchemaPath = path.join(webRoot, 'src', 'lib', 'data', 'campaigns.schema.json');
 
 const ajv = new Ajv({ allErrors: true, strict: true });
 addFormats(ajv);
@@ -236,7 +227,8 @@ const toExternalEvent = (payload: DraftRequestPayload): EventSource => {
 		registrationStatus: input.registrationStatus ?? 'closed',
 		cta: {
 			label: ctaLabel,
-			url: toTrimmed(input.ctaUrl) || undefined
+			url: toTrimmed(input.ctaUrl) || undefined,
+			campaignId: id
 		},
 		description: descriptionBodyMd ? { summary, bodyMd: descriptionBodyMd } : undefined,
 		highlights: highlights.length ? highlights : undefined,
@@ -254,7 +246,8 @@ const toExternalEvent = (payload: DraftRequestPayload): EventSource => {
 		image: toTrimmed(input.image) || '/images/cambermast-social-sharing-1.png',
 		heroImageAlt: toTrimmed(input.heroImageAlt) || title,
 		imageAlt: toTrimmed(input.imageAlt) || title,
-		partners: (input.partnerCodes ?? []).map((code) => ({ code }))
+		partners: (input.partnerCodes ?? []).map((code) => ({ code })),
+		campaignId: id
 	};
 };
 
@@ -289,6 +282,12 @@ const toTrainingEvent = (payload: DraftRequestPayload): EventSource => {
 		ctaUrl: toTrimmed(input.ctaUrl) || undefined,
 		partnerCodes: input.partnerCodes ?? undefined
 	});
+
+	event.campaignId = event.id;
+	event.cta = {
+		...event.cta,
+		campaignId: event.cta.campaignId ?? event.id
+	};
 
 	if (input.lifecycleStatus) event.lifecycleStatus = input.lifecycleStatus;
 	if (toTrimmed(input.title)) event.title = toTrimmed(input.title);
@@ -373,40 +372,38 @@ const buildCampaignDraft = (
 	existingCampaigns: Campaign[]
 ): Campaign | null => {
 	const mode = payload.campaignInput?.mode ?? 'auto';
-	if (mode === 'none') return null;
 
 	if (mode === 'existing') {
 		const campaignId = toTrimmed(payload.campaignInput?.campaignId);
 		if (!campaignId) throw new Error('campaignId is required when campaign mode is existing.');
 		const existing = existingCampaigns.find((campaign) => campaign.id === campaignId);
 		if (!existing) throw new Error(`Campaign ${campaignId} does not exist.`);
+		const expectedLandingPath = `/events/${eventDraft.slug}`;
+		if (existing.landingPath !== expectedLandingPath) {
+			throw new Error(
+				`Existing campaign ${campaignId} must use landingPath ${expectedLandingPath} for this event.`
+			);
+		}
 		return { ...existing };
 	}
 
-	const requestedId = toTrimmed(payload.campaignInput?.campaignId);
-	const campaignId = requestedId || eventDraft.id;
+	const campaignId = toTrimmed(payload.campaignInput?.campaignId) || eventDraft.id;
 	assertSlug(campaignId, 'campaignId');
 
-	const partner = toTrimmed(payload.campaignInput?.partner) || 'cambermast';
-	const title = toTrimmed(eventDraft.title) || 'event';
-	return {
-		id: campaignId,
-		partner,
+	return buildDefaultEventCampaign({
+		id: eventDraft.id,
+		slug: eventDraft.slug,
+		title: eventDraft.title,
+		campaignId,
+		partner: toTrimmed(payload.campaignInput?.partner) || 'cambermast',
 		partnerLabel: toTrimmed(payload.campaignInput?.partnerLabel) || 'Cambermast',
-		landingPath: `/events/${eventDraft.slug}`,
-		description:
-			toTrimmed(payload.campaignInput?.description) ||
-			`Campaign short link for the ${title} event page.`,
-		createdAt: new Date().toISOString(),
-		params: {
-			utm_source: toTrimmed(payload.campaignInput?.utmSource) || 'qr',
-			utm_medium: toTrimmed(payload.campaignInput?.utmMedium) || 'offline',
-			utm_campaign: toTrimmed(payload.campaignInput?.utmCampaign) || 'events',
-			utm_content: campaignId,
-			src: toTrimmed(payload.campaignInput?.src) || 'qr',
-			ad: toTrimmed(payload.campaignInput?.ad) || partner
-		}
-	};
+		description: toTrimmed(payload.campaignInput?.description) || undefined,
+		utmSource: toTrimmed(payload.campaignInput?.utmSource) || 'qr',
+		utmMedium: toTrimmed(payload.campaignInput?.utmMedium) || 'offline',
+		utmCampaign: toTrimmed(payload.campaignInput?.utmCampaign) || 'events',
+		src: toTrimmed(payload.campaignInput?.src) || 'qr',
+		ad: toTrimmed(payload.campaignInput?.ad) || undefined
+	});
 };
 
 const toJsonString = (value: unknown): string => `${JSON.stringify(value, null, '\t')}\n`;
@@ -471,6 +468,8 @@ const validateRegistries = async (
 			`Campaigns schema validation failed: ${ajv.errorsText(validateCampaigns.errors)}`
 		);
 	}
+
+	assertEventCampaignIntegrity(eventRegistry.events, campaignRegistry.campaigns);
 };
 
 const withCampaignLinkage = (
@@ -478,7 +477,6 @@ const withCampaignLinkage = (
 	campaignDraft: Campaign | null,
 	campaignMode: CampaignMode
 ): EventSource => {
-	if (campaignMode === 'none') return eventDraft;
 	const campaignId = campaignDraft?.id;
 	if (!campaignId) return eventDraft;
 	return {
