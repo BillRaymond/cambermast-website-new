@@ -3,8 +3,8 @@
 	"campaigns": [
 		{
 			"id": "7iu8p4",
-			"partner": "cambermast",
-			"partnerLabel": "Cambermast",
+			"partner": "the-content-wrangler",
+			"partnerLabel": "The Content Wrangler",
 			"landingPath": "/events/ai-workshop-for-tech-writers-and-content-creators-winter-2025",
 			"description": "Campaign short link for the AI Workshop for Tech Writers and Content Creators event page.",
 			"createdAt": "2026-02-11T00:00:00Z",
@@ -14,7 +14,7 @@
 				"utm_campaign": "events",
 				"utm_content": "7iu8p4",
 				"src": "qr",
-				"ad": "cambermast"
+				"ad": "the-content-wrangler"
 			}
 		},
 		{
@@ -35,8 +35,8 @@
 		},
 		{
 			"id": "k4f8n1",
-			"partner": "cambermast",
-			"partnerLabel": "Cambermast",
+			"partner": "the-content-wrangler",
+			"partnerLabel": "The Content Wrangler",
 			"landingPath": "/events/ai-workshop-for-tech-writers-and-content-creators-summer-2026-k4f8n1",
 			"description": "Campaign short link for the 🌻 AI Workshop for Content Creators (Summer 2026) event page.",
 			"createdAt": "2026-07-14T17:00:00.000Z",
@@ -46,13 +46,13 @@
 				"utm_campaign": "events",
 				"utm_content": "k4f8n1",
 				"src": "qr",
-				"ad": "cambermast"
+				"ad": "the-content-wrangler"
 			}
 		},
 		{
 			"id": "m7w2q5",
-			"partner": "cambermast",
-			"partnerLabel": "Cambermast",
+			"partner": "the-content-wrangler",
+			"partnerLabel": "The Content Wrangler",
 			"landingPath": "/events/ai-workshop-for-tech-writers-and-content-creators-fall-2026-m7w2q5",
 			"description": "Campaign short link for the 🍁 AI Workshop for Content Creators (Fall 2026) event page.",
 			"createdAt": "2026-09-15T17:00:00.000Z",
@@ -62,13 +62,13 @@
 				"utm_campaign": "events",
 				"utm_content": "m7w2q5",
 				"src": "qr",
-				"ad": "cambermast"
+				"ad": "the-content-wrangler"
 			}
 		},
 		{
 			"id": "s6twc1",
-			"partner": "cambermast",
-			"partnerLabel": "Cambermast",
+			"partner": "the-content-wrangler",
+			"partnerLabel": "The Content Wrangler",
 			"landingPath": "/events/ai-workshop-for-tech-writers-and-content-creators-spring-2026-s6twc1",
 			"description": "Campaign short link for the AI Workshop for Tech Writers and Content Creators event page.",
 			"createdAt": "2026-02-19T00:06:15.327Z",
@@ -78,7 +78,7 @@
 				"utm_campaign": "events",
 				"utm_content": "s6twc1",
 				"src": "qr",
-				"ad": "cambermast"
+				"ad": "the-content-wrangler"
 			}
 		},
 		{
@@ -99,8 +99,8 @@
 		},
 		{
 			"id": "w26cc1",
-			"partner": "cambermast",
-			"partnerLabel": "Cambermast",
+			"partner": "the-content-wrangler",
+			"partnerLabel": "The Content Wrangler",
 			"landingPath": "/events/ai-workshop-for-tech-writers-and-content-creators-winter-2026-w26cc1",
 			"description": "Campaign short link for the ❄️ AI Workshop for Content Creators (Winter 2026) event page.",
 			"createdAt": "2026-11-03T18:00:00.000Z",
@@ -110,7 +110,7 @@
 				"utm_campaign": "events",
 				"utm_content": "w26cc1",
 				"src": "qr",
-				"ad": "cambermast"
+				"ad": "the-content-wrangler"
 			}
 		}
 	]

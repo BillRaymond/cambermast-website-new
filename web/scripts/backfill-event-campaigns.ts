@@ -2,7 +2,8 @@ import fs from 'node:fs/promises';
 import { eventsPath, campaignsPath } from '../src/lib/server/data-paths';
 import {
 	buildDefaultEventCampaign,
-	getEventCampaignIntegrityIssues
+	getEventCampaignIntegrityIssues,
+	resolveCampaignPartnerFromEvent
 } from '../src/lib/server/event-campaign-integrity';
 import type { Campaign } from '../src/lib/data/campaigns';
 import type { EventSource } from '../src/lib/data/events/types';
@@ -25,6 +26,7 @@ const campaignRegistry = JSON.parse(campaignsRaw) as CampaignRegistry;
 const campaignIds = new Set(campaignRegistry.campaigns.map((campaign) => campaign.id));
 const createdCampaigns: Campaign[] = [];
 const updatedEvents: string[] = [];
+const repairedCampaigns: string[] = [];
 
 const nextEvents = eventRegistry.events.map((event) => {
 	const campaignId = event.campaignId?.trim() || event.cta?.campaignId?.trim() || '';
@@ -59,11 +61,37 @@ const nextEvents = eventRegistry.events.map((event) => {
 	return nextEvent;
 });
 
+const nextCampaigns = campaignRegistry.campaigns.map((campaign) => {
+	const linkedEvent = nextEvents.find((event) => event.campaignId === campaign.id);
+	if (!linkedEvent) return campaign;
+
+	const derivedPartner = resolveCampaignPartnerFromEvent(linkedEvent);
+	const currentPartner = campaign.partner?.trim() || 'cambermast';
+	const currentPartnerLabel = campaign.partnerLabel?.trim() || 'Cambermast';
+	const currentAd = campaign.params?.ad?.trim() || currentPartner;
+	const shouldRepairPartner =
+		derivedPartner.partner !== 'cambermast' &&
+		currentPartner === 'cambermast' &&
+		currentPartnerLabel === 'Cambermast' &&
+		currentAd === 'cambermast';
+
+	if (!shouldRepairPartner) return campaign;
+
+	repairedCampaigns.push(campaign.id);
+	return {
+		...campaign,
+		partner: derivedPartner.partner,
+		partnerLabel: derivedPartner.partnerLabel,
+		params: {
+			...campaign.params,
+			ad: derivedPartner.partner
+		}
+	};
+});
+
 const nextCampaignRegistry: CampaignRegistry = {
 	...campaignRegistry,
-	campaigns: [...campaignRegistry.campaigns, ...createdCampaigns].sort((a, b) =>
-		a.id.localeCompare(b.id)
-	)
+	campaigns: [...nextCampaigns, ...createdCampaigns].sort((a, b) => a.id.localeCompare(b.id))
 };
 
 const integrityIssues = getEventCampaignIntegrityIssues(nextEvents, nextCampaignRegistry.campaigns);
@@ -78,6 +106,7 @@ console.log(
 		{
 			updatedEvents,
 			createdCampaignIds: createdCampaigns.map((campaign) => campaign.id),
+			repairedCampaignIds: repairedCampaigns,
 			writeMode: shouldWrite
 		},
 		null,

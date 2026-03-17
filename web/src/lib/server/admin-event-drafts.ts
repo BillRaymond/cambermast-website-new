@@ -14,6 +14,7 @@ import type { EventSource } from '$lib/data/events/types';
 import {
 	buildDefaultEventCampaign,
 	assertEventCampaignIntegrity,
+	resolveCampaignPartnerFromEvent,
 	type CampaignRegistry,
 	type EventRegistry
 } from '$lib/server/event-campaign-integrity';
@@ -389,14 +390,15 @@ const buildCampaignDraft = (
 
 	const campaignId = toTrimmed(payload.campaignInput?.campaignId) || eventDraft.id;
 	assertSlug(campaignId, 'campaignId');
+	const derivedPartner = resolveCampaignPartnerFromEvent(eventDraft);
 
 	return buildDefaultEventCampaign({
 		id: eventDraft.id,
 		slug: eventDraft.slug,
 		title: eventDraft.title,
 		campaignId,
-		partner: toTrimmed(payload.campaignInput?.partner) || 'cambermast',
-		partnerLabel: toTrimmed(payload.campaignInput?.partnerLabel) || 'Cambermast',
+		partner: toTrimmed(payload.campaignInput?.partner) || derivedPartner.partner,
+		partnerLabel: toTrimmed(payload.campaignInput?.partnerLabel) || derivedPartner.partnerLabel,
 		description: toTrimmed(payload.campaignInput?.description) || undefined,
 		utmSource: toTrimmed(payload.campaignInput?.utmSource) || 'qr',
 		utmMedium: toTrimmed(payload.campaignInput?.utmMedium) || 'offline',

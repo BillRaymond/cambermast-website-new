@@ -168,7 +168,9 @@
 		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">event.campaignId</code> and
 		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">event.cta.campaignId</code> aligned to a
 		real campaign, and event-backed campaigns must keep
-		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">landingPath = /events/&lt;event.slug&gt;</code>.
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
+			>landingPath = /events/&lt;event.slug&gt;</code
+		>.
 	</p>
 	<p class="mt-2 max-w-3xl text-gray-700">
 		Primary admin views:
@@ -178,8 +180,8 @@
 		<a href="/admin/forms" class="text-blue-700 hover:underline">/admin/forms</a>.
 	</p>
 	<p class="mt-2 max-w-3xl text-gray-700">
-		Governance rule: every registry schema in <code
-			class="rounded bg-gray-100 px-1 py-0.5 text-xs">web/src/lib/data/**</code
+		Governance rule: every registry schema in <code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
+			>web/src/lib/data/**</code
 		>
 		must have a corresponding public read-only API contract and SOP coverage in a relevant
 		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">/admin/sop*</code> page.
@@ -233,12 +235,12 @@
 	<p class="mt-3 max-w-3xl text-gray-700">
 		For upcoming events without a published registration page, use the canonical
 		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">Open soon</code> contract:
-		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">registrationStatus: "none"</code> and
-		an empty
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">registrationStatus: "none"</code> and an
+		empty
 		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">cta.url</code>. Switch to
 		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">external</code> or
-		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">open</code> only after a real
-		registration destination is published.
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">open</code> only after a real registration
+		destination is published.
 	</p>
 	<h3 class="mt-6 text-xl font-semibold">External event workflow (webinar, talk, partner event)</h3>
 	<ol class="mt-3 max-w-3xl list-decimal space-y-2 pl-5 text-gray-700">
@@ -274,6 +276,10 @@
 			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">campaign.params.ad</code>.
 		</li>
 		<li>
+			Auto-generated event campaigns inherit the event's first partner by default. Override the
+			campaign fields only when a specific campaign needs different attribution.
+		</li>
+		<li>
 			If no partner is associated, leave
 			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">event.partners</code> empty/omitted and
 			set
@@ -294,8 +300,8 @@
 		</li>
 		<li>
 			Embedded:
-			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">/admin/events/create</code> for event
-			creation with inline image generation and automatic event image field population.
+			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">/admin/events/create</code> for event creation
+			with inline image generation and automatic event image field population.
 		</li>
 	</ul>
 	<p class="mt-2 max-w-3xl text-gray-700">
@@ -303,19 +309,21 @@
 		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">GET /admin/image-gen/api/templates</code>,
 		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">POST /admin/image-gen/api/generate</code>,
 		and
-		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">POST /admin/image-gen/api/save-selected</code>.
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
+			>POST /admin/image-gen/api/save-selected</code
+		>.
 	</p>
 </section>
 
 <section class="mt-8">
 	<h2 class="text-2xl font-semibold">Campaign Admin (Dev vs Prod)</h2>
 	<p class="mt-2 max-w-3xl text-gray-700">
-		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">/admin/campaigns</code> supports create,
-		update, archive, and delete only in development. Production keeps the campaign registry read-only.
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">/admin/campaigns</code> supports create, update,
+		archive, and delete only in development. Production keeps the campaign registry read-only.
 	</p>
 	<p class="mt-2 max-w-3xl text-gray-700">
-		Delete is blocked when a campaign is linked to an event. Archive the campaign instead, or fix the
-		event linkage first if the record should no longer be event-backed.
+		Delete is blocked when a campaign is linked to an event. Archive the campaign instead, or fix
+		the event linkage first if the record should no longer be event-backed.
 	</p>
 </section>
 
@@ -422,21 +430,24 @@
 		<li>
 			Timezone and media rule: set <code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
 				>timeZoneIana = America/Los_Angeles</code
-			> for every event and provide both <code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
-				>heroImage</code
-			> (page image) and <code class="rounded bg-gray-100 px-1 py-0.5 text-xs">image</code> (OG image).
+			>
+			for every event and provide both
+			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">heroImage</code>
+			(page image) and <code class="rounded bg-gray-100 px-1 py-0.5 text-xs">image</code> (OG image).
 		</li>
 		<li>
-			Ticketing and registration options: set <code
-				class="rounded bg-gray-100 px-1 py-0.5 text-xs">ticketing.currency = USD</code
-			>, include <code class="rounded bg-gray-100 px-1 py-0.5 text-xs">ticketing.amountUsd</code> (use
-			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">0</code> for free), and set optional approval/capacity
-			in <code class="rounded bg-gray-100 px-1 py-0.5 text-xs">registrationSettings</code>.
+			Ticketing and registration options: set <code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
+				>ticketing.currency = USD</code
+			>, include <code class="rounded bg-gray-100 px-1 py-0.5 text-xs">ticketing.amountUsd</code>
+			(use
+			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">0</code> for free), and set optional
+			approval/capacity in
+			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">registrationSettings</code>.
 		</li>
 		<li>
 			Partner alignment rule:
-			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">event.partners[].code</code> should align
-			with
+			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">event.partners[].code</code> should
+			align with
 			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">campaign.partner</code> and
 			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">campaign.params.ad</code>.
 		</li>
@@ -530,9 +541,8 @@
 		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">startAtUtc</code>/<code
 			class="rounded bg-gray-100 px-1 py-0.5 text-xs">endAtUtc</code
 		>
-		are derived convenience fields in <code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
-			>/api/events.json</code
-		>
+		are derived convenience fields in
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">/api/events.json</code>
 		and are not stored in the registry.
 	</p>
 	<p class="mt-2 max-w-3xl text-gray-700">
@@ -552,8 +562,9 @@
 		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">training_session</code>, then
 		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">programRef.sku</code> and
 		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">schedule.durationDays</code> +
-		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">schedule.estimatedHoursCommitment</code> are
-		required. Draft generation derives weekly session entries from these values and writes them to
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">schedule.estimatedHoursCommitment</code>
+		are required. Draft generation derives weekly session entries from these values and writes them
+		to
 		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">event.sessions[]</code>.
 	</p>
 	<h3 class="mt-6 text-xl font-semibold">Conversion fields</h3>
@@ -570,7 +581,9 @@
 		</li>
 		<li>
 			Do not claim “limited seats” unless
-			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">registrationSettings.capacity.type</code> is
+			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">registrationSettings.capacity.type</code
+			>
+			is
 			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">limited</code>.
 		</li>
 	</ul>
@@ -583,8 +596,8 @@
 			class="rounded bg-gray-100 px-1 py-0.5 text-xs">campaign.id</code
 		>/<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">utm_content</code> must be kebab-case,
 		and
-		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">partners[].code</code> must be 3-4 uppercase
-		alphanumeric characters (for example:
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">partners[].code</code> must be 3-4
+		uppercase alphanumeric characters (for example:
 		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">CMB</code>,
 		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">TLB</code>,
 		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">HFC</code>,
@@ -627,8 +640,8 @@
 		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">enums-api.schema.json</code>,
 		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">catalog-api.schema.json</code>,
 		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">tools-api.schema.json</code>,
-		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">testimonials-api.schema.json</code>, and enum
-		output from
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">testimonials-api.schema.json</code>, and
+		enum output from
 		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">/api/enums.json</code>.
 	</p>
 	<p class="mt-2 max-w-3xl text-gray-700">
@@ -725,8 +738,8 @@
 	</p>
 	<p class="mt-2 max-w-3xl text-gray-700">
 		Tools API:
-		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">GET /api/tools.json</code> returns tool
-		registry entries with absolute public URLs.
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">GET /api/tools.json</code> returns tool registry
+		entries with absolute public URLs.
 	</p>
 	<p class="mt-2 max-w-3xl text-gray-700">
 		prod:
@@ -736,14 +749,13 @@
 	</p>
 	<p class="mt-2 max-w-3xl text-gray-700">
 		dev:
-		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
-			>http://localhost:5173/api/tools.json</code
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">http://localhost:5173/api/tools.json</code
 		>
 	</p>
 	<p class="mt-2 max-w-3xl text-gray-700">
 		Testimonials API:
-		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">GET /api/testimonials.json</code> returns
-		public-approved testimonials with canonical program mapping.
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">GET /api/testimonials.json</code> returns public-approved
+		testimonials with canonical program mapping.
 	</p>
 	<p class="mt-2 max-w-3xl text-gray-700">
 		prod:

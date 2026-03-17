@@ -1,5 +1,6 @@
 import type { Campaign } from '$lib/data/campaigns';
-import type { EventSource } from '$lib/data/events/types';
+import { getPartnerByCode } from '$lib/data/partners';
+import type { EventPartner, EventSource } from '$lib/data/events/types';
 
 export type CampaignRegistry = {
 	version: number;
@@ -24,6 +25,34 @@ type EventCampaignDraftInput = Pick<EventSource, 'id' | 'slug' | 'title'> & {
 	archived?: boolean;
 };
 
+type ResolvedCampaignPartner = {
+	partner: string;
+	partnerLabel: string;
+};
+
+const DEFAULT_CAMPAIGN_PARTNER: ResolvedCampaignPartner = {
+	partner: 'cambermast',
+	partnerLabel: 'Cambermast'
+};
+
+const isMeaningfulEventPartner = (partnerRef?: EventPartner): boolean =>
+	Boolean(partnerRef?.code) && partnerRef?.code.toUpperCase() !== 'NONE';
+
+export const resolveCampaignPartnerFromEvent = (
+	event: Pick<EventSource, 'partners'>
+): ResolvedCampaignPartner => {
+	const primaryPartnerRef = event.partners?.find(isMeaningfulEventPartner);
+	if (!primaryPartnerRef) return DEFAULT_CAMPAIGN_PARTNER;
+
+	const partner = getPartnerByCode(primaryPartnerRef.code);
+	if (!partner) return DEFAULT_CAMPAIGN_PARTNER;
+
+	return {
+		partner: partner.slug,
+		partnerLabel: partner.name
+	};
+};
+
 export const buildDefaultEventCampaign = ({
 	id,
 	slug,
@@ -41,16 +70,18 @@ export const buildDefaultEventCampaign = ({
 	archived
 }: EventCampaignDraftInput): Campaign => {
 	const resolvedCampaignId = (campaignId ?? id).trim();
-	const resolvedPartner = (partner ?? 'cambermast').trim() || 'cambermast';
+	const resolvedPartner =
+		(partner ?? DEFAULT_CAMPAIGN_PARTNER.partner).trim() || DEFAULT_CAMPAIGN_PARTNER.partner;
 	const resolvedTitle = title.trim() || 'event';
 
 	return {
 		id: resolvedCampaignId,
 		partner: resolvedPartner,
-		partnerLabel: (partnerLabel ?? 'Cambermast').trim() || 'Cambermast',
+		partnerLabel:
+			(partnerLabel ?? DEFAULT_CAMPAIGN_PARTNER.partnerLabel).trim() ||
+			DEFAULT_CAMPAIGN_PARTNER.partnerLabel,
 		landingPath: `/events/${slug}`,
-		description:
-			description?.trim() || `Campaign short link for the ${resolvedTitle} event page.`,
+		description: description?.trim() || `Campaign short link for the ${resolvedTitle} event page.`,
 		createdAt: createdAt ?? new Date().toISOString(),
 		archived,
 		params: {
