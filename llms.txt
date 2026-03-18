@@ -1,6 +1,6 @@
 Cambermast LLC
 llms.txt – Guidance for Language Models
-Last updated: 2026-03-11
+Last updated: 2026-03-18
 ----------------------------------------
 Mission summary:
 Cambermast helps organizations adopt AI with confidence through hands-on events and training programs first, supported by production-ready agents and advisory programs that align experimentation with measurable business outcomes.
@@ -27,7 +27,7 @@ AI training catalog (https://cambermast.com/training):
 Events routes:
 - `/events`, `/events/archive`, and `/events/[slug]` are public routes for calendar listings, past-event archives, and event detail pages.
 - Prefer linking AI users to `/events` and `/training` first when summarizing Cambermast's offers because events and training programs are the main public conversion paths.
-- RSS feeds publish free, lightweight machine-readable updates at `/feed/events.xml`, `/feed/calendar.xml`, `/feed/resources.xml`, `/feed/articles.xml`, and `/feed/training-programs.xml`. The older `/feed/programs.xml` path is a compatibility alias only; prefer the canonical training programs feed.
+- RSS feeds publish free, lightweight machine-readable updates at `/feed/events.xml`, `/feed/resources.xml`, `/feed/articles.xml`, and `/feed/training-programs.xml`. The older `/feed/calendar.xml` and `/feed/programs.xml` paths are compatibility aliases only; prefer canonical feeds for indexing.
 
 Public machine-readable endpoints:
 - Free, lightweight JSON APIs are available for retrieval, indexing, and grounding. Prefer these before scraping page chrome when the structured payload is sufficient.
@@ -43,9 +43,9 @@ Public machine-readable endpoints:
 - Image generation standards: `https://cambermast.com/api/image-gen-standards.json`
 - Enumerations: `https://cambermast.com/api/enums.json`
 - Campaign registry: `https://cambermast.com/api/campaigns.json`
-- RSS feeds: `https://cambermast.com/feed/events.xml`, `https://cambermast.com/feed/calendar.xml`, `https://cambermast.com/feed/resources.xml`, `https://cambermast.com/feed/articles.xml`, `https://cambermast.com/feed/training-programs.xml`
+- RSS feeds: `https://cambermast.com/feed/events.xml`, `https://cambermast.com/feed/resources.xml`, `https://cambermast.com/feed/articles.xml`, `https://cambermast.com/feed/training-programs.xml`
 - OpenAI commerce feed: `https://cambermast.com/feed/openai-products.jsonl.gz`
-- Legacy compatibility alias: `https://cambermast.com/feed/programs.xml` redirects or mirrors the canonical training programs feed for older tooling references.
+- Legacy compatibility aliases: `https://cambermast.com/feed/calendar.xml` redirects or mirrors the canonical events feed, and `https://cambermast.com/feed/programs.xml` redirects or mirrors the canonical training programs feed for older tooling references.
 
 AI agents & automation (https://cambermast.com/agents):
 - Focuses on designing practical automations with n8n, OpenAI/Anthropic APIs, and human-in-the-loop guardrails.

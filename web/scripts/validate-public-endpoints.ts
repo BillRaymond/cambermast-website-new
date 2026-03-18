@@ -9,6 +9,7 @@ import { GET as getEventsApi } from '../src/routes/api/events.json/+server';
 import { GET as getRedirectsApi } from '../src/routes/api/redirects.json/+server';
 import { GET as getResourcesApi } from '../src/routes/api/resources.json/+server';
 import { GET as getTrainingApi } from '../src/routes/api/training.json/+server';
+import { GET as getCalendarFeed } from '../src/routes/feed/calendar.xml/+server';
 import { GET as getEventsFeed } from '../src/routes/feed/events.xml/+server';
 import { GET as getOpenAiProductsFeed } from '../src/routes/feed/openai-products.jsonl.gz/+server';
 import { GET as getResourcesFeed } from '../src/routes/feed/resources.xml/+server';
@@ -126,6 +127,7 @@ const validateJsonEndpoints = async () => {
 
 const validateXmlFeeds = async () => {
 	const feeds = [
+		{ label: '/feed/calendar.xml', response: getCalendarFeed() },
 		{ label: '/feed/events.xml', response: getEventsFeed() },
 		{ label: '/feed/resources.xml', response: getResourcesFeed() },
 		{ label: '/feed/training-programs.xml', response: getTrainingProgramsFeed() }
@@ -189,7 +191,6 @@ const validateMachineReadableLinks = async () => {
 		'/api/redirects.json',
 		'/feed/openai-products.jsonl.gz',
 		'/feed/events.xml',
-		'/feed/calendar.xml',
 		'/feed/resources.xml',
 		'/feed/articles.xml',
 		'/feed/training-programs.xml',

@@ -49,8 +49,7 @@
 
 	const feeds = [
 		{ href: '/feed/openai-products.jsonl.gz', label: 'OpenAI Product Feed (JSONL.GZ)' },
-		{ href: '/feed/events.xml', label: 'Events RSS' },
-		{ href: '/feed/calendar.xml', label: 'Calendar RSS' },
+		{ href: '/feed/events.xml', label: 'Calendar of Events RSS' },
 		{ href: '/feed/resources.xml', label: 'Resources RSS' },
 		{ href: '/feed/articles.xml', label: 'Articles RSS' },
 		{ href: '/feed/training-programs.xml', label: 'Programs RSS' }
@@ -68,7 +67,7 @@
 	path="/api"
 	feedLinks={[
 		{ href: '/feed/openai-products.jsonl.gz', title: 'Cambermast OpenAI Product Feed' },
-		{ href: '/feed/events.xml', title: 'Cambermast Events RSS' },
+		{ href: '/feed/events.xml', title: 'Cambermast Calendar of Events RSS' },
 		{ href: '/feed/training-programs.xml', title: 'Cambermast Training Programs RSS' },
 		{ href: '/feed/resources.xml', title: 'Cambermast Resources RSS' }
 	]}
@@ -120,6 +119,10 @@
 		Canonical feed endpoint for training programs is <code>/feed/training-programs.xml</code>.
 		The legacy alias <code>/feed/programs.xml</code> is kept as a compatibility path, not the
 		primary source to index.
+	</p>
+	<p class="mt-2 max-w-3xl text-sm text-gray-600">
+		Canonical events feed endpoint is <code>/feed/events.xml</code>. The legacy alias
+		<code>/feed/calendar.xml</code> is kept as a compatibility path for older subscribers.
 	</p>
 	<p class="mt-2 max-w-3xl text-sm text-gray-600">
 		Canonical OpenAI commerce export endpoint is <code>/feed/openai-products.jsonl.gz</code>,

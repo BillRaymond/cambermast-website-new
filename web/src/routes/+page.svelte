@@ -217,7 +217,7 @@
 	description={pageMeta.description}
 	path="/"
 	feedLinks={[
-		{ href: '/feed/events.xml', title: 'Cambermast Events RSS' },
+		{ href: '/feed/events.xml', title: 'Cambermast Calendar of Events RSS' },
 		{ href: '/feed/training-programs.xml', title: 'Cambermast Training Programs RSS' },
 		{ href: '/feed/resources.xml', title: 'Cambermast Resources RSS' }
 	]}

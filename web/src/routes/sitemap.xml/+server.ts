@@ -46,7 +46,6 @@ const staticRoutes = [
 	'/api/campaigns.json',
 	'/feed/events.xml',
 	'/feed/openai-products.jsonl.gz',
-	'/feed/calendar.xml',
 	'/feed/resources.xml',
 	'/feed/articles.xml',
 	'/feed/training-programs.xml'

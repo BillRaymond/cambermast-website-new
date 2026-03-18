@@ -45,6 +45,7 @@ Generated build output under `web/build` is disposable and must not be treated a
 - `/events` is the canonical public calendar of events route.
 - `/events/archive` is the public past-events archive route.
 - `/calendar` redirects to `/events` as a legacy alias.
+- `/feed/events.xml` is the canonical Calendar of Events RSS feed; `/feed/calendar.xml` is a legacy compatibility alias.
 - Legacy path aliases live in `web/src/lib/data/redirects/redirects.json`, publish at `/api/redirects.json`, and can be edited in development from `/admin/redirects`.
 - `/campaigns` redirects to `/admin/campaigns` (internal registry).
 

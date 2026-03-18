@@ -92,7 +92,7 @@
 	path="/training"
 	feedLinks={[
 		{ href: '/feed/training-programs.xml', title: 'Cambermast Training Programs' },
-		{ href: '/feed/events.xml', title: 'Cambermast Training Events' }
+		{ href: '/feed/events.xml', title: 'Cambermast Calendar of Events RSS' }
 	]}
 	alternateLinks={[
 		{ href: '/api/training.json', title: 'Cambermast Training API', type: 'application/json' },

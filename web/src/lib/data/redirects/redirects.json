@@ -9,6 +9,14 @@
 			"category": "nav"
 		},
 		{
+			"sourcePath": "/feed/calendar.xml",
+			"targetPath": "/feed/events.xml",
+			"statusCode": 308,
+			"enabled": true,
+			"notes": "Compatibility alias for older calendar feed references.",
+			"category": "feed"
+		},
+		{
 			"sourcePath": "/feed/programs.xml",
 			"targetPath": "/feed/training-programs.xml",
 			"statusCode": 308,

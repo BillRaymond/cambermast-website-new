@@ -10,10 +10,7 @@
 	title={pageMeta.title}
 	description={pageMeta.description}
 	path="/events"
-	feedLinks={[
-		{ href: '/feed/events.xml', title: 'Cambermast Training Events' },
-		{ href: '/feed/calendar.xml', title: 'Cambermast Calendar' }
-	]}
+	feedLinks={[{ href: '/feed/events.xml', title: 'Cambermast Calendar of Events RSS' }]}
 	alternateLinks={[
 		{ href: '/api/events.json', title: 'Cambermast Events API', type: 'application/json' },
 		{ href: '/api/training.json', title: 'Cambermast Training API', type: 'application/json' }

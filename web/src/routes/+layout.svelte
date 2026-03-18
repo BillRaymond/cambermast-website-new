@@ -243,8 +243,7 @@
 			</div>
 			<div class="mt-2">
 				<a class="underline" href="/feed/openai-products.jsonl.gz" rel="external">OpenAI Product Feed</a> ·
-				<a class="underline" href="/feed/events.xml" rel="external">Events RSS</a> ·
-				<a class="underline" href="/feed/calendar.xml" rel="external">Calendar RSS</a> ·
+				<a class="underline" href="/feed/events.xml" rel="external">Calendar of Events RSS</a> ·
 				<a class="underline" href="/feed/resources.xml" rel="external">Resources RSS</a> ·
 				<a class="underline" href="/feed/articles.xml" rel="external">Articles RSS</a> ·
 				<a class="underline" href="/feed/training-programs.xml" rel="external">Programs RSS</a>
