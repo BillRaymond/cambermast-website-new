@@ -1,7 +1,55 @@
 {
 	"version": 1,
-	"updatedAt": "2026-03-12T21:06:33.355Z",
+	"updatedAt": "2026-03-18T20:28:00.198Z",
 	"standards": [
+		{
+			"id": "559c489d91964686",
+			"createdAt": "2026-03-18T20:28:00.192Z",
+			"destinationType": "events",
+			"slug": "events/code-your-next-app-with-ai-workshop-april-2026",
+			"assetKeys": {
+				"square": "events/code-your-next-app-with-ai-workshop-april-2026/hero-square-v5.jpg",
+				"landscape": "events/code-your-next-app-with-ai-workshop-april-2026/hero-landscape-v5.jpg",
+				"portrait": "events/code-your-next-app-with-ai-workshop-april-2026/hero-portrait-v5.jpg"
+			},
+			"prompts": {
+				"square": "Use the provided template image as a visual style and composition reference. Create a new image of the same type and reduce the graininess. Change \"SPRING, 2026\" to \"APRIL, 2026\". Avoid the top and bottom 25%.",
+				"landscape": "Recreate the provided template image as a landscape. Avoid the top and bottom 25%. Reduce the graininess.",
+				"portrait": "Recreate the provided template image in portrait format. Avoid the top and bottom 25%. Reduce the graininess."
+			}
+		},
+		{
+			"id": "376284dee6ed422f",
+			"createdAt": "2026-03-18T17:01:29.096Z",
+			"destinationType": "events",
+			"slug": "events/code-your-next-app-with-ai-workshop-april-2026",
+			"assetKeys": {
+				"square": "events/code-your-next-app-with-ai-workshop-april-2026/hero-square-v4.jpg",
+				"landscape": "events/code-your-next-app-with-ai-workshop-april-2026/hero-landscape-v4.jpg",
+				"portrait": "events/code-your-next-app-with-ai-workshop-april-2026/hero-portrait-v4.jpg"
+			},
+			"prompts": {
+				"square": "Recreate this image, reduce the graininess, and add a subtitle of \"SPRING, 2026\" in a different color or callout",
+				"landscape": "Recreate the provided template image as a landscape. Avoid the top and bottom 25%. Reduce the graininess.",
+				"portrait": "Recreate the provided template image in portrait format. Avoid the top and bottom 25%. Reduce the graininess."
+			}
+		},
+		{
+			"id": "0c9c90d630964ded",
+			"createdAt": "2026-03-18T16:54:35.952Z",
+			"destinationType": "training",
+			"slug": "training/code-your-next-app-with-ai-workshop",
+			"assetKeys": {
+				"square": "training/code-your-next-app-with-ai-workshop/hero-square-v6.jpg",
+				"landscape": "training/code-your-next-app-with-ai-workshop/hero-landscape-v6.jpg",
+				"portrait": "training/code-your-next-app-with-ai-workshop/hero-portrait-v6.jpg"
+			},
+			"prompts": {
+				"square": "Recreate this image, reduce the graininess, and call it \"AI WORKSHOP: CODE AND AUTOMATE WITH AI\"",
+				"landscape": "Recreate the provided template image as a landscape. Avoid the top and bottom 25%. Reduce the graininess.",
+				"portrait": "Recreate the provided template image in portrait format. Avoid the top and bottom 25%. Reduce the graininess."
+			}
+		},
 		{
 			"id": "67dcecdd642746cf",
 			"createdAt": "2026-03-12T21:06:33.349Z",

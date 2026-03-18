@@ -1,0 +1,8 @@
+Square prompt:
+Recreate this image, reduce the graininess, and add a subtitle of "SPRING, 2026" in a different color or callout
+
+Landscape prompt:
+Recreate the provided template image as a landscape. Avoid the top and bottom 25%. Reduce the graininess.
+
+Portrait prompt:
+Recreate the provided template image in portrait format. Avoid the top and bottom 25%. Reduce the graininess.
