@@ -14,6 +14,14 @@ type BuildCommerceProductsApiPayloadInput = {
 type CommerceSourceType = 'program' | 'cohort';
 type CommerceBoolean = 'true' | 'false';
 type CommerceAvailability = 'in_stock' | 'out_of_stock' | 'pre_order' | 'backorder' | 'unknown';
+type CommerceRating = string;
+type CommerceRelationshipType =
+	| 'part_of_set'
+	| 'required_part'
+	| 'often_bought_with'
+	| 'substitute'
+	| 'different_brand'
+	| 'accessory';
 
 export type CommerceProductItem = {
 	sourceType: CommerceSourceType;
@@ -21,10 +29,19 @@ export type CommerceProductItem = {
 	is_eligible_search: CommerceBoolean;
 	is_eligible_checkout: CommerceBoolean;
 	item_id: string;
+	gtin?: string;
+	mpn?: string;
 	title: string;
 	description: string;
 	url: string;
 	brand: string;
+	dimensions?: string;
+	length?: string;
+	width?: string;
+	height?: string;
+	dimensions_unit?: string;
+	weight?: string;
+	item_weight_unit?: string;
 	image_url: string;
 	price: string;
 	availability: CommerceAvailability;
@@ -49,9 +66,39 @@ export type CommerceProductItem = {
 	accepts_returns?: CommerceBoolean;
 	accepts_exchanges?: CommerceBoolean;
 	review_count?: number;
-	star_rating?: number;
+	star_rating?: CommerceRating;
 	store_review_count?: number;
-	store_star_rating?: number;
+	store_star_rating?: CommerceRating;
+	item_group_title?: string;
+	model_3d_url?: string;
+	sale_price?: string;
+	sale_price_start_date?: string;
+	sale_price_end_date?: string;
+	unit_pricing_measure?: string;
+	base_measure?: string;
+	pricing_trend?: string;
+	availability_date?: string;
+	expiration_date?: string;
+	pickup_method?: 'in_store' | 'reserve' | 'not_supported';
+	pickup_sla?: string;
+	color?: string;
+	size?: string;
+	size_system?: string;
+	gender?: string;
+	custom_variant1_category?: string;
+	custom_variant1_option?: string;
+	custom_variant2_category?: string;
+	custom_variant2_option?: string;
+	custom_variant3_category?: string;
+	custom_variant3_option?: string;
+	shipping?: string;
+	marketplace_seller?: string;
+	return_deadline_in_days?: number;
+	popularity_score?: number;
+	return_rate?: number;
+	warning?: string;
+	warning_url?: string;
+	age_restriction?: number;
 	q_and_a?: Array<{ q: string; a: string }>;
 	reviews?: Array<{
 		title: string;
@@ -61,7 +108,7 @@ export type CommerceProductItem = {
 		rating: number;
 	}>;
 	related_product_id?: string;
-	relationship_type?: string;
+	relationship_type?: CommerceRelationshipType;
 };
 
 export type CommerceProductsApiPayload = {
@@ -123,7 +170,9 @@ const toQa = (faqs: FaqItem[] | undefined): Array<{ q: string; a: string }> | un
 };
 
 const toReviews = (sku?: string) => {
-	const testimonials = listTestimonialsForSku(sku).filter((testimonial) => testimonial.allowPublicUse);
+	const testimonials = listTestimonialsForSku(sku).filter(
+		(testimonial) => testimonial.allowPublicUse
+	);
 	if (testimonials.length === 0) return {};
 
 	const reviews = testimonials.slice(0, 10).map((testimonial) => ({
@@ -138,13 +187,14 @@ const toReviews = (sku?: string) => {
 
 	const total = testimonials.reduce((sum, testimonial) => sum + testimonial.rating, 0);
 	const average = Number((total / testimonials.length).toFixed(1));
+	const averageString = average.toFixed(2);
 
 	return {
 		reviews,
 		review_count: testimonials.length,
-		star_rating: average,
+		star_rating: averageString,
 		store_review_count: testimonials.length,
-		store_star_rating: average
+		store_star_rating: averageString
 	};
 };
 
@@ -190,11 +240,14 @@ const buildProgramDescription = (program: TrainingProgram): string => {
 
 const isCheckoutEligibleCohort = (event: Event, now: Date = new Date()): boolean => {
 	if (event.type !== 'training_session') return false;
-	if (!isEventUpcoming(event, now, { includeDrafts: false, includeUnlisted: false }, now.getTime())) {
+	if (
+		!isEventUpcoming(event, now, { includeDrafts: false, includeUnlisted: false }, now.getTime())
+	) {
 		return false;
 	}
 	if (!event.programRef?.sku) return false;
-	if (!(event.registrationStatus === 'open' || event.registrationStatus === 'external')) return false;
+	if (!(event.registrationStatus === 'open' || event.registrationStatus === 'external'))
+		return false;
 	if (!event.ticketing?.amountUsd) return false;
 	const ctaUrl = event.cta?.url?.trim();
 	return Boolean(ctaUrl && /^https?:\/\//i.test(ctaUrl));
@@ -232,15 +285,13 @@ const buildProgramItem = (
 		availability: 'unknown',
 		group_id: program.sku,
 		listing_has_variations: hasVariations ? 'true' : 'false',
-		variant_dict: hasVariations ? { delivery: 'program' } : undefined,
+		item_group_title: hasVariations ? clampText(program.title, 150) : undefined,
 		offer_id: `${program.sku}-${priceAmount.toFixed(2)}`,
 		is_digital: 'true',
 		seller_name: SELLER_NAME,
 		seller_url: origin,
 		seller_privacy_policy: `${origin}/gdpr`,
 		seller_tos: `${origin}/training/terms`,
-		accepts_returns: 'true',
-		accepts_exchanges: 'true',
 		return_policy: `${origin}/training/terms`,
 		q_and_a: toQa(program.faqs),
 		video_url: toAbsoluteUrl(program.videoUrl, origin),
@@ -273,7 +324,7 @@ const buildCohortItem = (
 	}
 
 	const imageUrl = toAbsoluteUrl(event.heroImage ?? event.image ?? program.heroImage, origin);
-	const productUrl = toAbsoluteUrl(event.cta?.url ?? `${origin}/events/${event.slug}`, origin);
+	const productUrl = `${origin}/events/${event.slug}`;
 	if (!imageUrl || !productUrl) return null;
 
 	const reviewsMeta = toReviews(program.sku);
@@ -297,8 +348,8 @@ const buildCohortItem = (
 		availability: 'in_stock',
 		group_id: program.sku,
 		listing_has_variations: 'true',
+		item_group_title: clampText(program.title, 150),
 		variant_dict: {
-			delivery: 'cohort',
 			start_date: event.sessions[0]?.startAtUtc?.slice(0, 10) ?? event.startAtUtc.slice(0, 10)
 		},
 		offer_id: `${program.sku}-${event.id}-${event.ticketing.amountUsd.toFixed(2)}`,
@@ -307,12 +358,8 @@ const buildCohortItem = (
 		seller_url: origin,
 		seller_privacy_policy: `${origin}/gdpr`,
 		seller_tos: `${origin}/training/terms`,
-		accepts_returns: 'true',
-		accepts_exchanges: 'true',
 		return_policy: `${origin}/training/terms`,
 		q_and_a: toQa(event.faq ?? program.faqs),
-		related_product_id: program.sku,
-		relationship_type: 'variant',
 		video_url: toAbsoluteUrl(event.videoUrl ?? program.videoUrl, origin),
 		target_countries: DEFAULT_TARGET_COUNTRIES,
 		store_country: DEFAULT_STORE_COUNTRY,
@@ -370,5 +417,86 @@ export const buildCommerceProductsApiExamples = (origin: string) => {
 	};
 };
 
+export const OPENAI_COMMERCE_FEED_FIELDS = new Set<keyof CommerceProductItem>([
+	'is_eligible_search',
+	'is_eligible_checkout',
+	'item_id',
+	'gtin',
+	'mpn',
+	'title',
+	'description',
+	'url',
+	'brand',
+	'condition',
+	'product_category',
+	'material',
+	'age_group',
+	'image_url',
+	'additional_image_urls',
+	'video_url',
+	'model_3d_url',
+	'price',
+	'sale_price',
+	'sale_price_start_date',
+	'sale_price_end_date',
+	'unit_pricing_measure',
+	'base_measure',
+	'pricing_trend',
+	'availability',
+	'availability_date',
+	'expiration_date',
+	'pickup_method',
+	'pickup_sla',
+	'group_id',
+	'listing_has_variations',
+	'variant_dict',
+	'item_group_title',
+	'color',
+	'size',
+	'size_system',
+	'gender',
+	'offer_id',
+	'custom_variant1_category',
+	'custom_variant1_option',
+	'custom_variant2_category',
+	'custom_variant2_option',
+	'custom_variant3_category',
+	'custom_variant3_option',
+	'shipping',
+	'is_digital',
+	'seller_name',
+	'marketplace_seller',
+	'seller_url',
+	'seller_privacy_policy',
+	'seller_tos',
+	'accepts_returns',
+	'return_deadline_in_days',
+	'accepts_exchanges',
+	'return_policy',
+	'popularity_score',
+	'return_rate',
+	'warning',
+	'warning_url',
+	'age_restriction',
+	'review_count',
+	'star_rating',
+	'store_review_count',
+	'store_star_rating',
+	'q_and_a',
+	'reviews',
+	'related_product_id',
+	'relationship_type',
+	'target_countries',
+	'store_country'
+]);
+
+export const toOpenAiCommerceFeedItem = (item: CommerceProductItem): Record<string, unknown> =>
+	Object.fromEntries(
+		Object.entries(item).filter(
+			([key, value]) =>
+				OPENAI_COMMERCE_FEED_FIELDS.has(key as keyof CommerceProductItem) && value !== undefined
+		)
+	);
+
 export const serializeCommerceProductsJsonl = (items: CommerceProductItem[]): string =>
-	items.map((item) => JSON.stringify(item)).join('\n');
+	items.map((item) => JSON.stringify(toOpenAiCommerceFeedItem(item))).join('\n');

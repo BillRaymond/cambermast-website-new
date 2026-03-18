@@ -69,15 +69,15 @@
 	<h2 class="text-2xl font-semibold">Purpose</h2>
 	<p class="mt-2 max-w-3xl text-gray-700">
 		The commerce feed is derived from the published training registry and future public
-		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">training_session</code> events. It is not
-		a standalone editable registry.
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">training_session</code> events. It is not a
+		standalone editable registry.
 	</p>
 	<p class="mt-2 max-w-3xl text-gray-700">
 		Use <code class="rounded bg-gray-100 px-1 py-0.5 text-xs">/api/commerce-products.json</code> for
-		human-readable QA and <code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
-			>/feed/openai-products.jsonl.gz</code
-		>
-		for the production export consumed by OpenAI commerce tooling.
+		human-readable QA and
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">/feed/openai-products.jsonl.gz</code>
+		for the production export consumed by OpenAI commerce tooling. The gzip feed strips internal-only
+		QA metadata such as source ids before serialization.
 	</p>
 </section>
 
@@ -85,17 +85,18 @@
 	<h2 class="text-2xl font-semibold">Eligibility Rules</h2>
 	<ol class="mt-3 max-w-3xl list-decimal space-y-2 pl-5 text-gray-700">
 		<li>Published training programs always emit search-eligible product rows.</li>
-		<li>Program rows remain checkout-ineligible and use the public program page as the canonical URL.</li>
 		<li>
-			Future public cohorts only emit checkout-eligible rows when they already have a public absolute
-			registration URL, explicit USD ticketing amount, and the standard policy URLs.
+			Program rows remain checkout-ineligible and use the public program page as the canonical URL.
+		</li>
+		<li>
+			Future public cohorts only emit checkout-eligible rows when they already have a public
+			absolute registration URL, explicit USD ticketing amount, and the standard policy URLs.
 		</li>
 		<li>
 			Cohorts with registration state <code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
 				>closed</code
 			>
-			or <code class="rounded bg-gray-100 px-1 py-0.5 text-xs">none</code> are excluded from the
-			v1 export.
+			or <code class="rounded bg-gray-100 px-1 py-0.5 text-xs">none</code> are excluded from the v1 export.
 		</li>
 	</ol>
 </section>
@@ -142,23 +143,32 @@
 	<h2 class="text-2xl font-semibold">Operational Checks</h2>
 	<ol class="mt-3 max-w-3xl list-decimal space-y-2 pl-5 text-gray-700">
 		<li>
-			When updating training or event records, confirm hero image, pricing, FAQ content, and CTA URLs
-			still look correct in <code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
+			When updating training or event records, confirm hero image, pricing, FAQ content, and CTA
+			URLs still look correct in <code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
 				>/api/commerce-products.json</code
 			>.
 		</li>
 		<li>
 			Keep policy URLs fixed to <code class="rounded bg-gray-100 px-1 py-0.5 text-xs">/gdpr</code>
-			and <code class="rounded bg-gray-100 px-1 py-0.5 text-xs">/training/terms</code>.
+			and <code class="rounded bg-gray-100 px-1 py-0.5 text-xs">/training/terms</code>, and do not
+			claim unconditional returns or exchanges in the feed when the published terms are conditional.
 		</li>
 		<li>
-			Run <code class="rounded bg-gray-100 px-1 py-0.5 text-xs">npm --prefix web run validate:api</code>
-			and <code class="rounded bg-gray-100 px-1 py-0.5 text-xs">npm --prefix web run check</code>
+			Run <code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
+				>npm --prefix web run validate:api</code
+			>,
+			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
+				>npm --prefix web run validate:public-endpoints</code
+			>,
+			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
+				>npm --prefix web run validate:schema-governance</code
+			>, and <code class="rounded bg-gray-100 px-1 py-0.5 text-xs">npm --prefix web run check</code>
 			before merge.
 		</li>
 		<li>
 			For release QA, confirm the gzip export downloads and expands into newline-delimited JSON rows
-			with the same item count shown in the preview API.
+			with the same item count shown in the preview API and the same normalized field set expected
+			by the OpenAI feed serializer.
 		</li>
 	</ol>
 </section>
@@ -197,20 +207,38 @@
 	{#if activeApiTab === 'response'}
 		{@const value = JSON.stringify(commerceApiExamples.response, null, 2)}
 		<div class="mb-3 flex justify-end">
-			<button class={iconClass('commerce-response')} on:click={() => copyToClipboard(value, 'commerce-response')}>Copy</button>
+			<button
+				class={iconClass('commerce-response')}
+				on:click={() => copyToClipboard(value, 'commerce-response')}>Copy</button
+			>
 		</div>
-		<pre class="overflow-x-auto rounded-lg border border-slate-200 bg-slate-50 p-3 text-xs leading-5 text-slate-700"><code>{value}</code></pre>
+		<pre
+			class="overflow-x-auto rounded-lg border border-slate-200 bg-slate-50 p-3 text-xs leading-5 text-slate-700"><code
+				>{value}</code
+			></pre>
 	{:else if activeApiTab === 'example'}
 		{@const value = JSON.stringify(commerceApiExamples.example, null, 2)}
 		<div class="mb-3 flex justify-end">
-			<button class={iconClass('commerce-example')} on:click={() => copyToClipboard(value, 'commerce-example')}>Copy</button>
+			<button
+				class={iconClass('commerce-example')}
+				on:click={() => copyToClipboard(value, 'commerce-example')}>Copy</button
+			>
 		</div>
-		<pre class="overflow-x-auto rounded-lg border border-slate-200 bg-slate-50 p-3 text-xs leading-5 text-slate-700"><code>{value}</code></pre>
+		<pre
+			class="overflow-x-auto rounded-lg border border-slate-200 bg-slate-50 p-3 text-xs leading-5 text-slate-700"><code
+				>{value}</code
+			></pre>
 	{:else}
 		{@const value = JSON.stringify(commerceProductsApiSchema, null, 2)}
 		<div class="mb-3 flex justify-end">
-			<button class={iconClass('commerce-schema')} on:click={() => copyToClipboard(value, 'commerce-schema')}>Copy</button>
+			<button
+				class={iconClass('commerce-schema')}
+				on:click={() => copyToClipboard(value, 'commerce-schema')}>Copy</button
+			>
 		</div>
-		<pre class="overflow-x-auto rounded-lg border border-slate-200 bg-slate-50 p-3 text-xs leading-5 text-slate-700"><code>{value}</code></pre>
+		<pre
+			class="overflow-x-auto rounded-lg border border-slate-200 bg-slate-50 p-3 text-xs leading-5 text-slate-700"><code
+				>{value}</code
+			></pre>
 	{/if}
 </section>

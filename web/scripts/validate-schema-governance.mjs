@@ -135,6 +135,18 @@ const manifest = {
 				patterns: ['/api/image-gen-standards.json', 'image-gen-standards-api.schema.json']
 			}
 		]
+	},
+	commerce: {
+		registrySchema: null,
+		apiSchema: 'src/lib/data/api/schemas/commerce-products-api.schema.json',
+		apiBuilder: 'src/lib/data/api/commerce-products.ts',
+		apiRoute: 'src/routes/api/commerce-products.json/+server.ts',
+		sopMentions: [
+			{
+				file: 'src/routes/admin/sop-commerce/+page.svelte',
+				patterns: ['/api/commerce-products.json', 'commerce-products-api.schema.json']
+			}
+		]
 	}
 };
 
@@ -196,7 +208,11 @@ const main = async () => {
 	const errors = [];
 	const discoveredSchemas = await discoverRegistrySchemas();
 	const manifestEntries = Object.entries(manifest);
-	const manifestSchemas = new Set(manifestEntries.map(([, entry]) => entry.registrySchema));
+	const manifestSchemas = new Set(
+		manifestEntries
+			.map(([, entry]) => entry.registrySchema)
+			.filter((value) => typeof value === 'string')
+	);
 
 	for (const discoveredSchema of discoveredSchemas) {
 		if (!manifestSchemas.has(discoveredSchema)) {
@@ -209,6 +225,7 @@ const main = async () => {
 	for (const [domain, definition] of manifestEntries) {
 		for (const key of ['registrySchema', 'apiSchema', 'apiBuilder', 'apiRoute']) {
 			const relativePath = definition[key];
+			if (!relativePath) continue;
 			if (!(await fileExists(relativePath))) {
 				errors.push(
 					`[${domain}] missing required artifact: ${relativePath}. Add API schema/builder/route and SOP coverage for new schema.`

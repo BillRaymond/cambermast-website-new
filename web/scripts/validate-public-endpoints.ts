@@ -13,9 +13,15 @@ import { GET as getEventsFeed } from '../src/routes/feed/events.xml/+server';
 import { GET as getOpenAiProductsFeed } from '../src/routes/feed/openai-products.jsonl.gz/+server';
 import { GET as getResourcesFeed } from '../src/routes/feed/resources.xml/+server';
 import { GET as getTrainingProgramsFeed } from '../src/routes/feed/training-programs.xml/+server';
+import {
+	buildCommerceProductsApiPayload,
+	toOpenAiCommerceFeedItem
+} from '../src/lib/data/api/commerce-products';
+import { SITE_ORIGIN } from '../src/lib/config/site';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const webRoot = path.resolve(__dirname, '..');
+const origin = SITE_ORIGIN.replace(/\/$/, '');
 
 const assert = (condition: unknown, message: string): asserts condition => {
 	if (!condition) {
@@ -31,7 +37,12 @@ const mockUrlEvent = (pathname: string) => ({
 	url: new URL(`http://localhost:5173${pathname}`)
 });
 
-const assertHeaderIncludes = (response: Response, headerName: string, expected: string, label: string) => {
+const assertHeaderIncludes = (
+	response: Response,
+	headerName: string,
+	expected: string,
+	label: string
+) => {
 	const value = response.headers.get(headerName) ?? '';
 	assert(
 		value.toLowerCase().includes(expected.toLowerCase()),
@@ -57,7 +68,10 @@ const validateJsonEndpoints = async () => {
 			response: getCommerceApi(),
 			validate: (payload: any) => {
 				assert(Array.isArray(payload.items), 'commerce payload must include items[]');
-				assert(payload.itemCount === payload.items.length, 'commerce itemCount must match items length');
+				assert(
+					payload.itemCount === payload.items.length,
+					'commerce itemCount must match items length'
+				);
 			}
 		},
 		{
@@ -78,7 +92,10 @@ const validateJsonEndpoints = async () => {
 			label: '/api/catalog.json',
 			response: getCatalogApi(),
 			validate: (payload: any) => {
-				assert(payload.catalog && typeof payload.catalog === 'object', 'catalog payload must include catalog');
+				assert(
+					payload.catalog && typeof payload.catalog === 'object',
+					'catalog payload must include catalog'
+				);
 				assert(
 					Array.isArray(payload.trainingPrograms),
 					'catalog payload must include trainingPrograms[]'
@@ -130,19 +147,38 @@ const validateGzipFeed = async () => {
 	const decompressed = gunzipSync(buffer).toString('utf8');
 	const lines = decompressed.split('\n').filter(Boolean);
 	assert(lines.length > 0, `${label} must contain at least one JSONL row`);
+	const previewPayload = buildCommerceProductsApiPayload({ origin });
+	assert(
+		lines.length === previewPayload.itemCount,
+		`${label} row count must match /api/commerce-products.json itemCount`
+	);
+
+	const expectedRows = previewPayload.items.map((item) =>
+		JSON.stringify(toOpenAiCommerceFeedItem(item))
+	);
 	for (const [index, line] of lines.entries()) {
+		let parsedLine: Record<string, unknown>;
 		try {
-			JSON.parse(line);
+			parsedLine = JSON.parse(line);
 		} catch (error) {
 			throw new Error(`${label} contains invalid JSON on line ${index + 1}: ${String(error)}`);
 		}
+		assert(!('sourceType' in parsedLine), `${label} line ${index + 1} must not expose sourceType`);
+		assert(!('sourceId' in parsedLine), `${label} line ${index + 1} must not expose sourceId`);
+		assert(
+			line === expectedRows[index],
+			`${label} line ${index + 1} must match the normalized preview payload row`
+		);
 	}
 };
 
 const validateMachineReadableLinks = async () => {
 	const layoutSource = await readFile(path.join(webRoot, 'src/routes/+layout.svelte'), 'utf8');
 	const apiPageSource = await readFile(path.join(webRoot, 'src/routes/api/+page.svelte'), 'utf8');
-	const adminPageSource = await readFile(path.join(webRoot, 'src/routes/admin/+page.svelte'), 'utf8');
+	const adminPageSource = await readFile(
+		path.join(webRoot, 'src/routes/admin/+page.svelte'),
+		'utf8'
+	);
 
 	for (const href of [
 		'/api/commerce-products.json',

@@ -50,6 +50,13 @@
 					"condition": { "type": "string", "minLength": 1 },
 					"product_category": { "type": "string", "minLength": 1, "maxLength": 250 },
 					"material": { "type": "string", "minLength": 1, "maxLength": 100 },
+					"dimensions": { "type": "string", "minLength": 1 },
+					"length": { "type": "string", "minLength": 1 },
+					"width": { "type": "string", "minLength": 1 },
+					"height": { "type": "string", "minLength": 1 },
+					"dimensions_unit": { "type": "string", "minLength": 1, "maxLength": 10 },
+					"weight": { "type": "string", "minLength": 1 },
+					"item_weight_unit": { "type": "string", "minLength": 1, "maxLength": 10 },
 					"age_group": {
 						"type": "string",
 						"enum": ["newborn", "infant", "toddler", "kids", "adult"]
@@ -57,20 +64,47 @@
 					"image_url": { "type": "string", "pattern": "^https://", "maxLength": 2048 },
 					"additional_image_urls": { "type": "string", "minLength": 1 },
 					"video_url": { "type": "string", "pattern": "^https://", "maxLength": 2048 },
+					"model_3d_url": { "type": "string", "pattern": "^https://", "maxLength": 2048 },
 					"price": { "type": "string", "pattern": "^[0-9]+(?:\\.[0-9]{2})? USD$" },
+					"sale_price": { "type": "string", "pattern": "^[0-9]+(?:\\.[0-9]{2})? USD$" },
+					"sale_price_start_date": { "type": "string", "format": "date" },
+					"sale_price_end_date": { "type": "string", "format": "date" },
+					"unit_pricing_measure": { "type": "string", "minLength": 1 },
+					"base_measure": { "type": "string", "minLength": 1 },
+					"pricing_trend": { "type": "string", "minLength": 1, "maxLength": 80 },
 					"availability": {
 						"type": "string",
 						"enum": ["in_stock", "out_of_stock", "pre_order", "backorder", "unknown"]
 					},
+					"availability_date": { "type": "string", "format": "date" },
+					"expiration_date": { "type": "string", "format": "date" },
+					"pickup_method": {
+						"type": "string",
+						"enum": ["in_store", "reserve", "not_supported"]
+					},
+					"pickup_sla": { "type": "string", "minLength": 1 },
 					"group_id": { "type": "string", "minLength": 1, "maxLength": 70 },
 					"listing_has_variations": { "type": "string", "enum": ["true", "false"] },
 					"variant_dict": {
 						"type": "object",
 						"additionalProperties": { "type": "string", "minLength": 1 }
 					},
+					"item_group_title": { "type": "string", "minLength": 1, "maxLength": 150 },
+					"color": { "type": "string", "minLength": 1, "maxLength": 40 },
+					"size": { "type": "string", "minLength": 1, "maxLength": 20 },
+					"size_system": { "type": "string", "pattern": "^[A-Z]{2}$" },
+					"gender": { "type": "string", "minLength": 1, "maxLength": 40 },
 					"offer_id": { "type": "string", "minLength": 1, "maxLength": 120 },
+					"custom_variant1_category": { "type": "string", "minLength": 1 },
+					"custom_variant1_option": { "type": "string", "minLength": 1 },
+					"custom_variant2_category": { "type": "string", "minLength": 1 },
+					"custom_variant2_option": { "type": "string", "minLength": 1 },
+					"custom_variant3_category": { "type": "string", "minLength": 1 },
+					"custom_variant3_option": { "type": "string", "minLength": 1 },
+					"shipping": { "type": "string", "minLength": 1 },
 					"is_digital": { "type": "string", "enum": ["true", "false"] },
 					"seller_name": { "type": "string", "minLength": 1, "maxLength": 70 },
+					"marketplace_seller": { "type": "string", "minLength": 1, "maxLength": 70 },
 					"seller_url": { "type": "string", "pattern": "^https://", "maxLength": 2048 },
 					"seller_privacy_policy": {
 						"type": "string",
@@ -79,12 +113,24 @@
 					},
 					"seller_tos": { "type": "string", "pattern": "^https://", "maxLength": 2048 },
 					"accepts_returns": { "type": "string", "enum": ["true", "false"] },
+					"return_deadline_in_days": { "type": "integer", "minimum": 1 },
 					"accepts_exchanges": { "type": "string", "enum": ["true", "false"] },
 					"return_policy": { "type": "string", "pattern": "^https://", "maxLength": 2048 },
 					"review_count": { "type": "integer", "minimum": 0 },
-					"star_rating": { "type": "number", "minimum": 0, "maximum": 5 },
+					"popularity_score": { "type": "number", "minimum": 0, "maximum": 5 },
+					"return_rate": { "type": "number", "minimum": 0, "maximum": 100 },
+					"warning": { "type": "string", "minLength": 1 },
+					"warning_url": { "type": "string", "pattern": "^https://", "maxLength": 2048 },
+					"age_restriction": { "type": "integer", "minimum": 1 },
+					"star_rating": {
+						"type": "string",
+						"pattern": "^(?:[0-4](?:\\.\\d{1,2})?|5(?:\\.0{1,2})?)$"
+					},
 					"store_review_count": { "type": "integer", "minimum": 0 },
-					"store_star_rating": { "type": "number", "minimum": 0, "maximum": 5 },
+					"store_star_rating": {
+						"type": "string",
+						"pattern": "^(?:[0-4](?:\\.\\d{1,2})?|5(?:\\.0{1,2})?)$"
+					},
 					"q_and_a": {
 						"type": "array",
 						"items": {
@@ -113,13 +159,25 @@
 						}
 					},
 					"related_product_id": { "type": "string", "minLength": 1 },
-					"relationship_type": { "type": "string", "minLength": 1 },
+					"relationship_type": {
+						"type": "string",
+						"enum": [
+							"part_of_set",
+							"required_part",
+							"often_bought_with",
+							"substitute",
+							"different_brand",
+							"accessory"
+						]
+					},
 					"target_countries": {
 						"type": "array",
 						"minItems": 1,
 						"items": { "type": "string", "pattern": "^[A-Z]{2}$" }
 					},
-					"store_country": { "type": "string", "pattern": "^[A-Z]{2}$" }
+					"store_country": { "type": "string", "pattern": "^[A-Z]{2}$" },
+					"geo_price": { "type": "string", "pattern": "^[0-9]+(?:\\.[0-9]{2})? [A-Z]{3}.*$" },
+					"geo_availability": { "type": "string", "minLength": 1 }
 				}
 			}
 		}
