@@ -1,10 +1,15 @@
 <script lang="ts">
 	import ResourceHeader from '$lib/components/resources/ResourceHeader.svelte';
+	import { getResource } from '$lib/data/resources';
 	import { getSeo } from '$lib/seo';
 
 	const pageMeta = getSeo('/resources/ai-workshop-code-and-automate-with-ai-setup');
-	const heroImage = '/images/generated/resources/ai-workshop-code-and-automate-with-ai-setup/hero-landscape.jpg';
-	const heroImageAlt = 'AI Workshop: Code and Automate with AI setup guide hero image.';
+	const resource = getResource('ai-workshop-code-and-automate-with-ai-setup');
+	const heroImage =
+		resource?.imageSrc ??
+		'/images/generated/resources/ai-workshop-code-and-automate-with-ai-setup/hero-landscape-v2.jpg';
+	const heroImageAlt =
+		resource?.imageAlt ?? 'AI Workshop: Code and Automate with AI setup guide hero image.';
 
 	const setupSteps = [
 		{
