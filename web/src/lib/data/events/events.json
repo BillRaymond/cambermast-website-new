@@ -366,11 +366,11 @@
 		},
 		{
 			"id": "aicd26",
-			"slug": "code-your-next-app-with-ai-workshop-april-2026",
-			"title": "💻 Code Your Next App with AI Workshop (April 2026)",
+			"slug": "ai-workshop-code-and-automate-with-ai-april-2026",
+			"title": "🪄 AI Workshop: Code and Automate with AI (April, 2026)",
 			"type": "training_session",
 			"typeLabel": "Training",
-			"tagline": "A four-week hands-on coding cohort.",
+			"tagline": "A four-week hands-on cohort for coding and automation with AI.",
 			"summary": "4-Weeks, Thursdays, 120-minutes, April 2 - April 23, 2026",
 			"sessions": [
 				{
@@ -419,17 +419,17 @@
 			"template": {
 				"kind": "training_event_v1",
 				"sourceProgramSku": "CM-TR-006",
-				"sourceProgramSlug": "code-your-next-app-with-ai-workshop",
-				"sourceProgramRoute": "/training/code-your-next-app-with-ai-workshop"
+				"sourceProgramSlug": "ai-workshop-code-and-automate-with-ai",
+				"sourceProgramRoute": "/training/ai-workshop-code-and-automate-with-ai"
 			},
 			"faq": [
 				{
-					"key": "ai_experience_required_for_this_workshop",
+					"key": "ai_experience_required_for_code_and_automation_workshop",
 					"question": "Do I need prior AI experience to join?",
 					"blocks": [
 						{
 							"type": "paragraph",
-							"text": "Yes, some prior AI experience is recommended for this workshop. It is designed for builders, operators, consultants, IT professionals, and aspiring developers who already want to use AI to build and improve practical web applications."
+							"text": "Yes, some prior AI experience is recommended for this workshop. It is designed for builders, operators, consultants, IT professionals, and aspiring developers who already want to use AI to build and improve practical apps and automations."
 						}
 					]
 				},
@@ -439,12 +439,12 @@
 					"blocks": [
 						{
 							"type": "paragraph",
-							"text": "Complete the full setup guide before Week 1. You should have Visual Studio Code, a Codex or Claude extension, Git, GitHub, Docker Desktop, and a paid Claude or ChatGPT account ready to use. You should also have a laptop, stable internet, and a project idea or workflow you want to turn into a practical web app."
+							"text": "Complete the full setup guide before Week 1. You should have Visual Studio Code, a Codex or Claude extension, Git, GitHub, Docker Desktop, and a paid Claude or ChatGPT account ready to use. You should also have a laptop, stable internet, and a project idea or workflow you want to turn into a practical app or automation."
 						},
 						{
 							"type": "link",
-							"label": "Open the Code Your Next App with AI Workshop setup guide",
-							"href": "/resources/code-your-next-app-with-ai-workshop-setup"
+							"label": "Open the AI Workshop: Code and Automate with AI setup guide",
+							"href": "/resources/ai-workshop-code-and-automate-with-ai-setup"
 						}
 					]
 				},
@@ -454,7 +454,7 @@
 					"blocks": [
 						{
 							"type": "paragraph",
-							"text": "No formal developer background is required. This workshop is designed for semi-technical participants, including IT professionals, aspiring developers, and people who want guided practice building a practical web app."
+							"text": "No formal developer background is required. This workshop is designed for semi-technical participants, including IT professionals, aspiring developers, and people who want guided practice building practical apps or automations."
 						}
 					]
 				},
@@ -469,12 +469,12 @@
 					]
 				},
 				{
-					"key": "what_kind_of_web_app_can_i_build",
-					"question": "What kind of web app can I build during the cohort?",
+					"key": "what_kind_of_project_can_i_build",
+					"question": "What kinds of projects can I build or automate during the cohort?",
 					"blocks": [
 						{
 							"type": "paragraph",
-							"text": "Most participants build a practical web app or internal tool tied to a real workflow they already care about. That could include an operations dashboard, intake form, workflow helper, internal utility, or another lightweight product you want to keep improving after the workshop."
+							"text": "Most participants build a practical app, internal tool, or workflow automation tied to work they already care about. That could include an operations dashboard, intake form, workflow helper, internal utility, or another lightweight product you want to keep improving after the workshop."
 						}
 					]
 				},
@@ -504,22 +504,22 @@
 					"blocks": [
 						{
 							"type": "paragraph",
-							"text": "Yes. In Week 3, the workshop focuses on using AI planning features to break larger goals into manageable steps, improve the structure of your app, and make the product easier to extend, test, and maintain."
+							"text": "Yes. In Week 3, the workshop focuses on using AI planning features to break larger goals into manageable steps, improve the structure of your app or automation, and make the project easier to extend, test, and maintain."
 						}
 					]
 				},
 				{
-					"key": "manager_letter_for_ai_assisted_coding_workshop",
+					"key": "manager_letter_for_code_and_automation_workshop",
 					"question": "📧 Do you have a manager budget-approval letter I can send?",
 					"blocks": [
 						{
 							"type": "paragraph",
-							"text": "Yes. This version is tailored to Code Your Next App with AI Workshop and auto-fills the course title, dates, cost, and link from the training program details below."
+							"text": "Yes. This version is tailored to AI Workshop: Code and Automate with AI and auto-fills the course title, dates, cost, and link from the training program details below."
 						},
 						{
 							"type": "email_template",
 							"subject": "Request for approval: [Program Name]",
-							"body": "Hi [Manager Name],\n\nI would like approval to attend [Program Name] with Cambermast.\n\nThis training is focused on building and improving a practical web application with AI. It covers hands-on app development, Git, GitHub, Docker, AI planning features, and a capstone project I can apply directly to my role.\n\nProgram: [Program Name]\nDates: [Dates]\nCost: [Cost]\nFormat: [Format]\nLink: [Program/Event URL]\n\nI expect this training will help me improve speed, quality, and technical confidence while giving me a more structured workflow for building useful internal or client-facing tools.\n\nThank you for considering this request.\n\nBest,\n[Your Name]",
+							"body": "Hi [Manager Name],\n\nI would like approval to attend [Program Name] with Cambermast.\n\nThis training is focused on coding, building automations, and improving practical tools with AI. It covers hands-on development, Git, GitHub, Docker, AI planning features, and a capstone project I can apply directly to my role.\n\nProgram: [Program Name]\nDates: [Dates]\nCost: [Cost]\nFormat: [Format]\nLink: [Program/Event URL]\n\nI expect this training will help me improve speed, quality, and technical confidence while giving me a more structured workflow for building useful internal or client-facing tools.\n\nThank you for considering this request.\n\nBest,\n[Your Name]",
 							"ctaLabel": "Open in email client",
 							"copyButtonLabel": "Copy email",
 							"copiedButtonLabel": "Copied",
@@ -533,17 +533,17 @@
 				"estimatedHoursCommitment": 2
 			},
 			"description": {
-				"summary": "In this four-week workshop, you will start with a prompt and progressively design, build, and refine a real web application using chat-based AI tools. Each session combines short learning sessions with hands-on building. By the end of every week, you will have something working that you can continue improving. By week four, you will have a working web app deployed from your own code repository. If you have some prior software experience and are ready to build, you are a strong fit for this workshop.",
-				"bodyMd": "You already understand software development concepts, and you are ready to bring your ideas to life. Now you need the skills to turn those ideas into working software whenever you decide it is time to build. AI-assisted coding (vibe coding) now enables building real, production-ready apps through structured conversations with AI tools. Learning best practices and strong prompting techniques is the new essential skill for modern developers and creators like yourself.\n\n## Outcomes\n- Follow proven development practices to ensure AI-generated code remains reliable and maintainable.\n- Make your application easier to deploy with Docker.\n- Prevent accidental breaking changes and keep your code safe using Git and GitHub.\n\n## What You Will Build\n- A repeatable workflow for planning, building, testing, and improving code with AI.\n- Prompt patterns and review habits that help you get better coding results.\n- A practical web app or internal tool you can continue improving after the workshop.\n- A competitive market analysis of your competitors to support product positioning and planning.\n- Greater confidence using AI to support technical work without relying on one platform.\n- A digital certificate of completion after presenting your final project.\n\n## Who This Is For\n- Builders who want to move faster with AI-assisted coding workflows.\n- Operators looking to create internal tools, web apps, and automations.\n- Consultants who want to prototype solutions for client and internal work.\n- IT professionals exploring practical ways to use AI for coding and technical problem solving.\n- Aspiring developers who want guided practice building with AI."
+				"summary": "In this four-week workshop, you will start with a prompt and progressively design, build, and refine practical apps and automations using chat-based AI tools. Each session combines short learning sessions with hands-on building. By the end of every week, you will have something working that you can continue improving. By week four, you will have a practical project deployed from your own code repository or workflow environment. If you have some prior software experience and are ready to build, you are a strong fit for this workshop.",
+				"bodyMd": "You already understand software development concepts, and you are ready to bring your ideas to life. Now you need the skills to turn those ideas into working software and useful automations whenever you decide it is time to build. AI-assisted coding now enables teams to create real apps, internal tools, and workflow automations through structured conversations with AI tools. Learning best practices and strong prompting techniques is the new essential skill for modern builders and operators.\n\n## Outcomes\n- Follow proven development practices to ensure AI-generated code remains reliable and maintainable.\n- Make your application or automation easier to deploy with Docker.\n- Prevent accidental breaking changes and keep your code safe using Git and GitHub.\n\n## What You Will Build\n- A repeatable workflow for planning, building, testing, and improving code with AI.\n- Prompt patterns and review habits that help you get better coding results.\n- A practical app, internal tool, or automation you can continue improving after the workshop.\n- A competitive market analysis of your competitors to support product positioning and planning.\n- Greater confidence using AI to support technical work without relying on one platform.\n- A digital certificate of completion after presenting your final project.\n\n## Who This Is For\n- Builders who want to move faster with AI-assisted coding workflows.\n- Operators looking to create internal tools, apps, and automations.\n- Consultants who want to prototype solutions for client and internal work.\n- IT professionals exploring practical ways to use AI for coding and technical problem solving.\n- Aspiring developers who want guided practice building with AI."
 			},
 			"highlights": [
-				"Turn plain-language ideas into a working web app",
+				"Turn plain-language ideas into practical apps and automations",
 				"Practice using Git, GitHub, Docker, and AI-assisted iteration",
 				"Ship a capstone project and earn a completion certificate"
 			],
 			"audienceBullets": [
 				"Builders who want to move faster with AI-assisted coding workflows.",
-				"Operators looking to create internal tools, web apps, and automations.",
+				"Operators looking to create internal tools, apps, and automations.",
 				"Consultants who want to prototype solutions for client and internal work.",
 				"IT professionals exploring practical ways to use AI for coding and technical problem solving.",
 				"Aspiring developers who want guided practice building with AI."
@@ -551,7 +551,7 @@
 			"buildBullets": [
 				"A repeatable workflow for planning, building, testing, and improving code with AI.",
 				"Prompt patterns and review habits that help you get better coding results.",
-				"A practical web app or internal tool you can continue improving after the workshop.",
+				"A practical app, internal tool, or automation you can continue improving after the workshop.",
 				"A competitive market analysis of your competitors to support product positioning and planning.",
 				"Greater confidence using AI to support technical work without relying on one platform.",
 				"A digital certificate of completion after presenting your final project."
@@ -568,14 +568,14 @@
 						"Understand AI-assisted coding and how it works.",
 						"Explore common AI coding workflows and tools.",
 						"Practice writing clear requirements to translate into working code.",
-						"Build a simple working web app and review the output."
+						"Build a simple working app or automation and review the output."
 					]
 				},
 				{
 					"title": "Week 2: Git, GitHub, Docker, and Iteration",
 					"details": [
 						"Use Git and GitHub to track changes, collaborate, and ship reliably.",
-						"Use Docker to create a repeatable development environment for your app.",
+						"Use Docker to create a repeatable development environment for your app or automation.",
 						"Practice iterative prompting when the first AI output is incomplete or incorrect.",
 						"Improve your Week 1 app through structured iterations and versioned commits."
 					]
@@ -584,9 +584,9 @@
 					"title": "Week 3: Planning for a More Robust Product",
 					"details": [
 						"Use AI planning features to break product ideas into manageable development tasks.",
-						"Refactor your app into clearer modules and components that can scale.",
+						"Refactor your app or automation into clearer modules and components that can scale.",
 						"Add validation, edge-case handling, and basic tests.",
-						"Deploy your working web app."
+						"Deploy your working project."
 					]
 				},
 				{
@@ -607,10 +607,10 @@
 					"photoAlt": "Bill Raymond"
 				}
 			],
-			"heroImage": "/images/generated/events/code-your-next-app-with-ai-workshop-april-2026/hero-landscape-v5.jpg",
-			"heroImageAlt": "Code Your Next App with AI Workshop illustration",
-			"image": "/images/generated/events/code-your-next-app-with-ai-workshop-april-2026/hero-landscape-v5.jpg",
-			"imageAlt": "Open graph image for the Code Your Next App with AI Workshop training program",
+			"heroImage": "/images/generated/events/ai-workshop-code-and-automate-with-ai-april-2026/hero-landscape-v5.jpg",
+			"heroImageAlt": "AI Workshop: Code and Automate with AI illustration",
+			"image": "/images/generated/events/ai-workshop-code-and-automate-with-ai-april-2026/hero-landscape-v5.jpg",
+			"imageAlt": "Open graph image for the AI Workshop: Code and Automate with AI training program",
 			"campaignId": "aicd26"
 		},
 		{

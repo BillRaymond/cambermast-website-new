@@ -1,15 +1,15 @@
 {
 	"resources": [
 		{
-			"id": "resource-code-your-next-app-with-ai-workshop-setup",
-			"slug": "code-your-next-app-with-ai-workshop-setup",
-			"route": "/resources/code-your-next-app-with-ai-workshop-setup",
-			"title": "Code Your Next App with AI Workshop setup guide",
+			"id": "resource-ai-workshop-code-and-automate-with-ai-setup",
+			"slug": "ai-workshop-code-and-automate-with-ai-setup",
+			"route": "/resources/ai-workshop-code-and-automate-with-ai-setup",
+			"title": "AI Workshop: Code and Automate with AI setup guide",
 			"summary": "Install Visual Studio Code, a Codex or Claude extension, Git, GitHub, and Docker Desktop, then confirm your paid AI account works in the browser.",
 			"category": "workshop-setup",
 			"publishedAt": "2026-03-10",
-			"imageSrc": "/images/generated/resources/code-your-next-app-with-ai-workshop-setup/hero-landscape.jpg",
-			"imageAlt": "Code Your Next App with AI Workshop setup guide featured image.",
+			"imageSrc": "/images/generated/resources/ai-workshop-code-and-automate-with-ai-setup/hero-landscape-v2.jpg",
+			"imageAlt": "AI Workshop: Code and Automate with AI setup guide featured image.",
 			"label": "Workshop setup"
 		},
 		{

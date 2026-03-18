@@ -1,0 +1,4 @@
+path: training/ai-workshop-code-and-automate-with-ai
+square: https://minio-on-hstgr.tail8a5127.ts.net/browser/blobs/cambermastweb/generated/training/ai-workshop-code-and-automate-with-ai/square/b2611ad5-dd79-4600-8aa6-86d4d04b8a75/candidate-2.png
+landscape: https://minio-on-hstgr.tail8a5127.ts.net/browser/blobs/cambermastweb/generated/training/ai-workshop-code-and-automate-with-ai/landscape/0afeb293-b19e-4f6d-b507-d9d5f77c6374/candidate-2.png
+portrait: https://minio-on-hstgr.tail8a5127.ts.net/browser/blobs/cambermastweb/generated/training/ai-workshop-code-and-automate-with-ai/portrait/086caadd-3ec6-49fb-96f1-b8b9a24719c8/candidate-2.png

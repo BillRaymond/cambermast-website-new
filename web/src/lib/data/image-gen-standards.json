@@ -1,16 +1,32 @@
 {
 	"version": 1,
-	"updatedAt": "2026-03-18T20:28:00.198Z",
+	"updatedAt": "2026-03-18T21:01:38.098Z",
 	"standards": [
+		{
+			"id": "f2b05f2f0d5b40bc",
+			"createdAt": "2026-03-18T21:01:38.096Z",
+			"destinationType": "resources",
+			"slug": "resources/ai-workshop-code-and-automate-with-ai-setup",
+			"assetKeys": {
+				"square": "resources/ai-workshop-code-and-automate-with-ai-setup/hero-square-v2.jpg",
+				"landscape": "resources/ai-workshop-code-and-automate-with-ai-setup/hero-landscape-v2.jpg",
+				"portrait": "resources/ai-workshop-code-and-automate-with-ai-setup/hero-portrait-v2.jpg"
+			},
+			"prompts": {
+				"square": "Use the provided template image as a visual style and composition reference. Create a new image of the same type. Have the people sit together at a desk. \n\nChange the subtitle to \"WORKSHOP PRE-WORK\" and get rid of that symbol\n\nAvoid the top and bottom 25%.",
+				"landscape": "Recreate the provided template image as a landscape. Avoid the top and bottom 25%.",
+				"portrait": "Recreate the provided template image in portrait format. Avoid the top and bottom 25%."
+			}
+		},
 		{
 			"id": "559c489d91964686",
 			"createdAt": "2026-03-18T20:28:00.192Z",
 			"destinationType": "events",
-			"slug": "events/code-your-next-app-with-ai-workshop-april-2026",
+			"slug": "events/ai-workshop-code-and-automate-with-ai-april-2026",
 			"assetKeys": {
-				"square": "events/code-your-next-app-with-ai-workshop-april-2026/hero-square-v5.jpg",
-				"landscape": "events/code-your-next-app-with-ai-workshop-april-2026/hero-landscape-v5.jpg",
-				"portrait": "events/code-your-next-app-with-ai-workshop-april-2026/hero-portrait-v5.jpg"
+				"square": "events/ai-workshop-code-and-automate-with-ai-april-2026/hero-square-v5.jpg",
+				"landscape": "events/ai-workshop-code-and-automate-with-ai-april-2026/hero-landscape-v5.jpg",
+				"portrait": "events/ai-workshop-code-and-automate-with-ai-april-2026/hero-portrait-v5.jpg"
 			},
 			"prompts": {
 				"square": "Use the provided template image as a visual style and composition reference. Create a new image of the same type and reduce the graininess. Change \"SPRING, 2026\" to \"APRIL, 2026\". Avoid the top and bottom 25%.",
@@ -22,11 +38,11 @@
 			"id": "376284dee6ed422f",
 			"createdAt": "2026-03-18T17:01:29.096Z",
 			"destinationType": "events",
-			"slug": "events/code-your-next-app-with-ai-workshop-april-2026",
+			"slug": "events/ai-workshop-code-and-automate-with-ai-april-2026",
 			"assetKeys": {
-				"square": "events/code-your-next-app-with-ai-workshop-april-2026/hero-square-v4.jpg",
-				"landscape": "events/code-your-next-app-with-ai-workshop-april-2026/hero-landscape-v4.jpg",
-				"portrait": "events/code-your-next-app-with-ai-workshop-april-2026/hero-portrait-v4.jpg"
+				"square": "events/ai-workshop-code-and-automate-with-ai-april-2026/hero-square-v4.jpg",
+				"landscape": "events/ai-workshop-code-and-automate-with-ai-april-2026/hero-landscape-v4.jpg",
+				"portrait": "events/ai-workshop-code-and-automate-with-ai-april-2026/hero-portrait-v4.jpg"
 			},
 			"prompts": {
 				"square": "Recreate this image, reduce the graininess, and add a subtitle of \"SPRING, 2026\" in a different color or callout",
@@ -38,11 +54,11 @@
 			"id": "0c9c90d630964ded",
 			"createdAt": "2026-03-18T16:54:35.952Z",
 			"destinationType": "training",
-			"slug": "training/code-your-next-app-with-ai-workshop",
+			"slug": "training/ai-workshop-code-and-automate-with-ai",
 			"assetKeys": {
-				"square": "training/code-your-next-app-with-ai-workshop/hero-square-v6.jpg",
-				"landscape": "training/code-your-next-app-with-ai-workshop/hero-landscape-v6.jpg",
-				"portrait": "training/code-your-next-app-with-ai-workshop/hero-portrait-v6.jpg"
+				"square": "training/ai-workshop-code-and-automate-with-ai/hero-square-v6.jpg",
+				"landscape": "training/ai-workshop-code-and-automate-with-ai/hero-landscape-v6.jpg",
+				"portrait": "training/ai-workshop-code-and-automate-with-ai/hero-portrait-v6.jpg"
 			},
 			"prompts": {
 				"square": "Recreate this image, reduce the graininess, and call it \"AI WORKSHOP: CODE AND AUTOMATE WITH AI\"",
@@ -54,14 +70,14 @@
 			"id": "67dcecdd642746cf",
 			"createdAt": "2026-03-12T21:06:33.349Z",
 			"destinationType": "events",
-			"slug": "events/code-your-next-app-with-ai-workshop-april-2026",
+			"slug": "events/ai-workshop-code-and-automate-with-ai-april-2026",
 			"assetKeys": {
-				"square": "events/code-your-next-app-with-ai-workshop-april-2026/hero-square-v3.jpg",
-				"landscape": "events/code-your-next-app-with-ai-workshop-april-2026/hero-landscape-v3.jpg",
-				"portrait": "events/code-your-next-app-with-ai-workshop-april-2026/hero-portrait-v3.jpg"
+				"square": "events/ai-workshop-code-and-automate-with-ai-april-2026/hero-square-v3.jpg",
+				"landscape": "events/ai-workshop-code-and-automate-with-ai-april-2026/hero-landscape-v3.jpg",
+				"portrait": "events/ai-workshop-code-and-automate-with-ai-april-2026/hero-portrait-v3.jpg"
 			},
 			"prompts": {
-				"square": "Recreate this image, reduce the graininess. The title is CODE YOUR NEXT APP WITH AI WORKSHOP. The subtitle is SPRING, 2026, and make that text more prominent.",
+				"square": "Recreate this image, reduce the graininess. The title is AI WORKSHOP: CODE AND AUTOMATE WITH AI. The subtitle is APRIL, 2026, and make that text more prominent.",
 				"landscape": "Recreate the provided template image as a landscape. Avoid the top and bottom 25%. Reduce the graininess.",
 				"portrait": "Recreate the provided template image in portrait format. Avoid the top and bottom 25%. Reduce the graininess."
 			}
@@ -70,14 +86,14 @@
 			"id": "8035ff50e3fe4542",
 			"createdAt": "2026-03-12T20:48:20.897Z",
 			"destinationType": "training",
-			"slug": "training/code-your-next-app-with-ai-workshop",
+			"slug": "training/ai-workshop-code-and-automate-with-ai",
 			"assetKeys": {
-				"square": "training/code-your-next-app-with-ai-workshop/hero-square-v5.jpg",
-				"landscape": "training/code-your-next-app-with-ai-workshop/hero-landscape-v5.jpg",
-				"portrait": "training/code-your-next-app-with-ai-workshop/hero-portrait-v5.jpg"
+				"square": "training/ai-workshop-code-and-automate-with-ai/hero-square-v5.jpg",
+				"landscape": "training/ai-workshop-code-and-automate-with-ai/hero-landscape-v5.jpg",
+				"portrait": "training/ai-workshop-code-and-automate-with-ai/hero-portrait-v5.jpg"
 			},
 			"prompts": {
-				"square": "Recreate this image, reduce the graininess and call it CODE YOUR NEXT APP WITH AI WORKSHOP",
+				"square": "Recreate this image, reduce the graininess and call it AI WORKSHOP: CODE AND AUTOMATE WITH AI",
 				"landscape": "Recreate the provided template image as a landscape. Avoid the top and bottom 25%. Reduce the graininess.",
 				"portrait": "Recreate the provided template image in portrait format. Avoid the top and bottom 25%. Reduce the graininess."
 			}
@@ -86,11 +102,11 @@
 			"id": "b19d4fe6906a4691",
 			"createdAt": "2026-03-12T18:13:05.314Z",
 			"destinationType": "events",
-			"slug": "events/code-your-next-app-with-ai-workshop-april-2026",
+			"slug": "events/ai-workshop-code-and-automate-with-ai-april-2026",
 			"assetKeys": {
-				"square": "events/code-your-next-app-with-ai-workshop-april-2026/hero-square-v2.jpg",
-				"landscape": "events/code-your-next-app-with-ai-workshop-april-2026/hero-landscape-v2.jpg",
-				"portrait": "events/code-your-next-app-with-ai-workshop-april-2026/hero-portrait-v2.jpg"
+				"square": "events/ai-workshop-code-and-automate-with-ai-april-2026/hero-square-v2.jpg",
+				"landscape": "events/ai-workshop-code-and-automate-with-ai-april-2026/hero-landscape-v2.jpg",
+				"portrait": "events/ai-workshop-code-and-automate-with-ai-april-2026/hero-portrait-v2.jpg"
 			},
 			"prompts": {
 				"square": "Use the provided template image as a visual style and composition reference. Create a new image of the same type and clean up some of the graininess.\n\nLeave the existing title and symbol. Add the subtitle \"APRIL, 2026\" in a different color to make it stand out.\n\nAvoid the top and bottom 25%.",
@@ -102,14 +118,14 @@
 			"id": "93f6878509ed42c3",
 			"createdAt": "2026-03-12T17:01:21.880Z",
 			"destinationType": "training",
-			"slug": "training/code-your-next-app-with-ai-workshop",
+			"slug": "training/ai-workshop-code-and-automate-with-ai",
 			"assetKeys": {
-				"square": "training/code-your-next-app-with-ai-workshop/hero-square-v4.jpg",
-				"landscape": "training/code-your-next-app-with-ai-workshop/hero-landscape-v4.jpg",
-				"portrait": "training/code-your-next-app-with-ai-workshop/hero-portrait-v4.jpg"
+				"square": "training/ai-workshop-code-and-automate-with-ai/hero-square-v4.jpg",
+				"landscape": "training/ai-workshop-code-and-automate-with-ai/hero-landscape-v4.jpg",
+				"portrait": "training/ai-workshop-code-and-automate-with-ai/hero-portrait-v4.jpg"
 			},
 			"prompts": {
-				"square": "GENERATE A BACKGROUND\nAbstract geometric background inspired by a modern sail or forward motion shape, using deep navy #012072 as the dominant base with layered bold blue #0037BE, bright blue #0063F2, mint green #8BD8BD, and a bright orange #F49F1C accent.\n\nClean, overlapping angular panels with smooth, blended transitions and a very soft, fine-grained texture. Composition should frame the edges and corners, leaving a calm, open negative space in the center for text placement. Professional, training-focused, confident corporate style. No white, no glow, no light beams, no dark vignette, no clutter. Balanced contrast to support overlay text.\n\nOVERLAY TEXT\nAdd the text \"CODE YOUR NEXT APP WITH AI WORKSHOP\".\n\nOVERLAY ELEMENTS\nA photorealistic and diverse group of people walking out of a corridor, facing the camera with layered shapes, light, or visual panels that feel like progress markers. Add a prominent symbol that represents the training program as a whole, almost like a logo or icon.\n\nSTRICT OVERLAY RULES\nFocus on placing text and elements in the center of the image.\n\nSTRICT AVOIDANCE RULES\n* Avoid the top and bottom 25% of the image\n* Visual cliches like AI brains and circuits.\n* Imagery that anthropomorphizes AI.",
+				"square": "GENERATE A BACKGROUND\nAbstract geometric background inspired by a modern sail or forward motion shape, using deep navy #012072 as the dominant base with layered bold blue #0037BE, bright blue #0063F2, mint green #8BD8BD, and a bright orange #F49F1C accent.\n\nClean, overlapping angular panels with smooth, blended transitions and a very soft, fine-grained texture. Composition should frame the edges and corners, leaving a calm, open negative space in the center for text placement. Professional, training-focused, confident corporate style. No white, no glow, no light beams, no dark vignette, no clutter. Balanced contrast to support overlay text.\n\nOVERLAY TEXT\nAdd the text \"AI WORKSHOP: CODE AND AUTOMATE WITH AI\".\n\nOVERLAY ELEMENTS\nA photorealistic and diverse group of people walking out of a corridor, facing the camera with layered shapes, light, or visual panels that feel like progress markers. Add a prominent symbol that represents the training program as a whole, almost like a logo or icon.\n\nSTRICT OVERLAY RULES\nFocus on placing text and elements in the center of the image.\n\nSTRICT AVOIDANCE RULES\n* Avoid the top and bottom 25% of the image\n* Visual cliches like AI brains and circuits.\n* Imagery that anthropomorphizes AI.",
 				"landscape": "Recreate the provided template image as a landscape. Avoid the top and bottom 25%.",
 				"portrait": "Recreate the provided template image in portrait format. Avoid the top and bottom 25%."
 			}
@@ -118,11 +134,11 @@
 			"id": "69cbb4ff0e27421e",
 			"createdAt": "2026-03-11T20:56:09.996Z",
 			"destinationType": "training",
-			"slug": "training/code-your-next-app-with-ai-workshop",
+			"slug": "training/ai-workshop-code-and-automate-with-ai",
 			"assetKeys": {
-				"square": "training/code-your-next-app-with-ai-workshop/hero-square-v3.jpg",
-				"landscape": "training/code-your-next-app-with-ai-workshop/hero-landscape-v3.jpg",
-				"portrait": "training/code-your-next-app-with-ai-workshop/hero-portrait-v3.jpg"
+				"square": "training/ai-workshop-code-and-automate-with-ai/hero-square-v3.jpg",
+				"landscape": "training/ai-workshop-code-and-automate-with-ai/hero-landscape-v3.jpg",
+				"portrait": "training/ai-workshop-code-and-automate-with-ai/hero-portrait-v3.jpg"
 			},
 			"prompts": {
 				"square": "Re-create this image, but replace those three examples with:\nLet’s build my startup idea\nLet’s ship a working version\nLet’s scale this!",
@@ -134,11 +150,11 @@
 			"id": "8ac111c296c14683",
 			"createdAt": "2026-03-11T20:55:01.616Z",
 			"destinationType": "featured-images",
-			"slug": "featured-images/training/code-your-next-app-with-ai-workshop",
+			"slug": "featured-images/training/ai-workshop-code-and-automate-with-ai",
 			"assetKeys": {
-				"square": "featured-images/training/code-your-next-app-with-ai-workshop/hero-square.jpg",
-				"landscape": "featured-images/training/code-your-next-app-with-ai-workshop/hero-landscape.jpg",
-				"portrait": "featured-images/training/code-your-next-app-with-ai-workshop/hero-portrait.jpg"
+				"square": "featured-images/training/ai-workshop-code-and-automate-with-ai/hero-square.jpg",
+				"landscape": "featured-images/training/ai-workshop-code-and-automate-with-ai/hero-landscape.jpg",
+				"portrait": "featured-images/training/ai-workshop-code-and-automate-with-ai/hero-portrait.jpg"
 			},
 			"prompts": {
 				"square": "Re-create this image, but replace those three examples with:\nLet’s build my startup idea\nLet’s ship a working version\nLet’s scale this!",
@@ -150,14 +166,14 @@
 			"id": "a0fd4e4a61624a1e",
 			"createdAt": "2026-03-11T17:31:17.137Z",
 			"destinationType": "training",
-			"slug": "training/code-your-next-app-with-ai-workshop",
+			"slug": "training/ai-workshop-code-and-automate-with-ai",
 			"assetKeys": {
-				"square": "training/code-your-next-app-with-ai-workshop/hero-square-v2.jpg",
-				"landscape": "training/code-your-next-app-with-ai-workshop/hero-landscape-v2.jpg",
-				"portrait": "training/code-your-next-app-with-ai-workshop/hero-portrait-v2.jpg"
+				"square": "training/ai-workshop-code-and-automate-with-ai/hero-square-v2.jpg",
+				"landscape": "training/ai-workshop-code-and-automate-with-ai/hero-landscape-v2.jpg",
+				"portrait": "training/ai-workshop-code-and-automate-with-ai/hero-portrait-v2.jpg"
 			},
 			"prompts": {
-				"square": "GENERATE A BACKGROUND\nAbstract geometric background inspired by a modern sail or forward motion shape, using deep navy #012072 as the dominant base with layered bold blue #0037BE, bright blue #0063F2, mint green #8BD8BD, and a bright orange #F49F1C accent. Clean, overlapping angular panels with smooth, blended transitions and a very soft, fine-grained texture. Composition should frame the edges and corners, leaving a calm, open negative space in the center for text placement. Professional, training-focused, confident corporate style. No white, no glow, no light beams, no dark vignette, no clutter. Balanced contrast to support overlay text.\n\nOVERLAY TEXT\nAdd the text \"CODE YOUR NEXT APP WITH AI WORKSHOP\".\n\nOVERLAY ELEMENTS\nIncorporate a photorealistic image of a happy and diverse group of people witnessing their jobs transform for the better through AI-assisted coding. There is always a woman in control. The composition should feel open and integrated into the existing background, not like a title card. Keep overall styling bright and clean, with minimal effects, with a strong focus on legibility. Add hints about what good prompts are like in a unique way. Add a prominent symbol that represents the training program as a whole, almost like a logo or icon.\n\nSTRICT OVERLAY RULES\nFocus on placing text and elements in the center of the image.\n\nSTRICT AVOIDANCE RULES\n* Avoid The top and bottom 25% of the image\n* Visual cliches like AI brains and circuits.\n* Imagery that anthropomorphizes AI.",
+				"square": "GENERATE A BACKGROUND\nAbstract geometric background inspired by a modern sail or forward motion shape, using deep navy #012072 as the dominant base with layered bold blue #0037BE, bright blue #0063F2, mint green #8BD8BD, and a bright orange #F49F1C accent. Clean, overlapping angular panels with smooth, blended transitions and a very soft, fine-grained texture. Composition should frame the edges and corners, leaving a calm, open negative space in the center for text placement. Professional, training-focused, confident corporate style. No white, no glow, no light beams, no dark vignette, no clutter. Balanced contrast to support overlay text.\n\nOVERLAY TEXT\nAdd the text \"AI WORKSHOP: CODE AND AUTOMATE WITH AI\".\n\nOVERLAY ELEMENTS\nIncorporate a photorealistic image of a happy and diverse group of people witnessing their jobs transform for the better through AI-assisted coding. There is always a woman in control. The composition should feel open and integrated into the existing background, not like a title card. Keep overall styling bright and clean, with minimal effects, with a strong focus on legibility. Add hints about what good prompts are like in a unique way. Add a prominent symbol that represents the training program as a whole, almost like a logo or icon.\n\nSTRICT OVERLAY RULES\nFocus on placing text and elements in the center of the image.\n\nSTRICT AVOIDANCE RULES\n* Avoid The top and bottom 25% of the image\n* Visual cliches like AI brains and circuits.\n* Imagery that anthropomorphizes AI.",
 				"landscape": "Recreate the provided template image as a landscape. Avoid the top and bottom 25%.",
 				"portrait": "Recreate the provided template image in portrait format. Avoid the top and bottom 25%."
 			}
@@ -166,11 +182,11 @@
 			"id": "c34b6ccdc13a4618",
 			"createdAt": "2026-03-10T21:57:43.803Z",
 			"destinationType": "resources",
-			"slug": "resources/code-your-next-app-with-ai-workshop-setup",
+			"slug": "resources/ai-workshop-code-and-automate-with-ai-setup",
 			"assetKeys": {
-				"square": "resources/code-your-next-app-with-ai-workshop-setup/hero-square.jpg",
-				"landscape": "resources/code-your-next-app-with-ai-workshop-setup/hero-landscape.jpg",
-				"portrait": "resources/code-your-next-app-with-ai-workshop-setup/hero-portrait.jpg"
+				"square": "resources/ai-workshop-code-and-automate-with-ai-setup/hero-square.jpg",
+				"landscape": "resources/ai-workshop-code-and-automate-with-ai-setup/hero-landscape.jpg",
+				"portrait": "resources/ai-workshop-code-and-automate-with-ai-setup/hero-portrait.jpg"
 			},
 			"prompts": {
 				"square": "Use the provided template image as a visual style and composition reference. Create a new image of the same type with the current title. Add a subtitle \"WORKSHOP PRE-WORK\" and use a slightly different color.",
@@ -198,11 +214,11 @@
 			"id": "d0ce8dc4328a415e",
 			"createdAt": "2026-03-10T16:59:41.641Z",
 			"destinationType": "events",
-			"slug": "events/code-your-next-app-with-ai-workshop-april-2026",
+			"slug": "events/ai-workshop-code-and-automate-with-ai-april-2026",
 			"assetKeys": {
-				"square": "events/code-your-next-app-with-ai-workshop-april-2026/hero-square.jpg",
-				"landscape": "events/code-your-next-app-with-ai-workshop-april-2026/hero-landscape.jpg",
-				"portrait": "events/code-your-next-app-with-ai-workshop-april-2026/hero-portrait.jpg"
+				"square": "events/ai-workshop-code-and-automate-with-ai-april-2026/hero-square.jpg",
+				"landscape": "events/ai-workshop-code-and-automate-with-ai-april-2026/hero-landscape.jpg",
+				"portrait": "events/ai-workshop-code-and-automate-with-ai-april-2026/hero-portrait.jpg"
 			},
 			"prompts": {
 				"square": "Use the provided template image as a visual style and composition reference with the same title. Keep the border, but feel free to add flourishes. Add the subtitle \"APRIL 2026 COHORT\" and include a background and imagery that evokes that month. Avoid: dark backgrounds, visual clichés, and imagery that anthropomorphizes AI. Avoid the top and bottom 25%.",
@@ -214,14 +230,14 @@
 			"id": "1255fe207bb74d22",
 			"createdAt": "2026-03-10T16:47:05.198Z",
 			"destinationType": "training",
-			"slug": "training/code-your-next-app-with-ai-workshop",
+			"slug": "training/ai-workshop-code-and-automate-with-ai",
 			"assetKeys": {
-				"square": "training/code-your-next-app-with-ai-workshop/hero-square.jpg",
-				"landscape": "training/code-your-next-app-with-ai-workshop/hero-landscape.jpg",
-				"portrait": "training/code-your-next-app-with-ai-workshop/hero-portrait.jpg"
+				"square": "training/ai-workshop-code-and-automate-with-ai/hero-square.jpg",
+				"landscape": "training/ai-workshop-code-and-automate-with-ai/hero-landscape.jpg",
+				"portrait": "training/ai-workshop-code-and-automate-with-ai/hero-portrait.jpg"
 			},
 			"prompts": {
-				"square": "GENERATE A BACKGROUND\nAbstract geometric background inspired by a modern sail or forward motion shape, using orange #F49F1C as the dominant base with layered bold blue #0037BE, bright blue #0063F2, mint green #8BD8BD, and a subtle deep navy #012072 accent. Clean, overlapping angular panels with smooth, blended transitions and a very soft, fine-grained texture. Composition should frame the edges and corners, leaving a calm, open negative space in the center for text placement. Professional, training-focused, confident corporate style. No white, no glow, no light beams, no dark vignette, no clutter. Balanced contrast to support overlay text.\n\nOVERLAY TEXT\nAdd the text \"CODE YOUR NEXT APP WITH AI WORKSHOP\".\n\nOVERLAY ELEMENTS\nIncorporate a photorealistic image of a diverse group of happy people learning to code witha AI together, integrated into the overall design. The composition should feel open and integrated into the existing background, not like a title card. Keep overall styling bright and clean, with minimal effects, with a strong focus on legibility. Add hints about what good prompts are like in a unique way.\n\nSTRICT OVERLAY RULES\nFocus on placing text and elements in the center of the image.\n\nSTRICT AVOIDANCE RULES\n* Visual cliches like AI brains and circuits.\n* Imagery that anthropomorphizes AI.",
+				"square": "GENERATE A BACKGROUND\nAbstract geometric background inspired by a modern sail or forward motion shape, using orange #F49F1C as the dominant base with layered bold blue #0037BE, bright blue #0063F2, mint green #8BD8BD, and a subtle deep navy #012072 accent. Clean, overlapping angular panels with smooth, blended transitions and a very soft, fine-grained texture. Composition should frame the edges and corners, leaving a calm, open negative space in the center for text placement. Professional, training-focused, confident corporate style. No white, no glow, no light beams, no dark vignette, no clutter. Balanced contrast to support overlay text.\n\nOVERLAY TEXT\nAdd the text \"AI WORKSHOP: CODE AND AUTOMATE WITH AI\".\n\nOVERLAY ELEMENTS\nIncorporate a photorealistic image of a diverse group of happy people learning to code with AI together, integrated into the overall design. The composition should feel open and integrated into the existing background, not like a title card. Keep overall styling bright and clean, with minimal effects, with a strong focus on legibility. Add hints about what good prompts are like in a unique way.\n\nSTRICT OVERLAY RULES\nFocus on placing text and elements in the center of the image.\n\nSTRICT AVOIDANCE RULES\n* Visual cliches like AI brains and circuits.\n* Imagery that anthropomorphizes AI.",
 				"landscape": "Recreate the provided template image as a landscape. Avoid the top and bottom 25%.",
 				"portrait": "Recreate the provided template image in portrait format. Avoid the top and bottom 25%."
 			}

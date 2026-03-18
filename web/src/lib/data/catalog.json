@@ -86,17 +86,17 @@
 				"published": true
 			},
 			{
-				"id": "training-code-your-next-app-with-ai-workshop",
-				"title": "Code Your Next App with AI Workshop",
-				"summary": "A four-week hands-on coding cohort for builders, operators, consultants, IT professionals, and aspiring developers who want to ship a practical web application with AI.",
-				"image": "/images/generated/training/code-your-next-app-with-ai-workshop/hero-landscape-v6.jpg",
-				"imageAlt": "Code Your Next App with AI Workshop illustration",
+				"id": "training-ai-workshop-code-and-automate-with-ai",
+				"title": "AI Workshop: Code and Automate with AI",
+				"summary": "A four-week hands-on cohort for builders, operators, consultants, IT professionals, and aspiring developers who want to code, automate workflows, and ship practical tools with AI.",
+				"image": "/images/generated/training/ai-workshop-code-and-automate-with-ai/hero-landscape-v6.jpg",
+				"imageAlt": "AI Workshop: Code and Automate with AI illustration",
 				"bullets": [
 					"Turn plain-language ideas into working scripts and lightweight apps",
 					"Practice debugging, refactoring, and testing AI-generated code",
 					"Ship a practical final project and earn a completion certificate"
 				],
-				"route": "/training/code-your-next-app-with-ai-workshop",
+				"route": "/training/ai-workshop-code-and-automate-with-ai",
 				"order": 5,
 				"published": true
 			}
@@ -128,17 +128,17 @@
 				"published": true
 			},
 			{
-				"id": "agents-code-your-next-app-with-ai-workshop",
-				"title": "Code Your Next App with AI Workshop",
-				"summary": "A four-week hands-on coding cohort for builders who want to ship scripts, tools, automations, and lightweight applications with AI.",
-				"image": "/images/generated/training/code-your-next-app-with-ai-workshop/hero-landscape-v6.jpg",
-				"imageAlt": "Code Your Next App with AI Workshop illustration",
+				"id": "agents-ai-workshop-code-and-automate-with-ai",
+				"title": "AI Workshop: Code and Automate with AI",
+				"summary": "A four-week hands-on cohort for builders who want to ship scripts, tools, automations, and lightweight applications with AI.",
+				"image": "/images/generated/training/ai-workshop-code-and-automate-with-ai/hero-landscape-v6.jpg",
+				"imageAlt": "AI Workshop: Code and Automate with AI illustration",
 				"bullets": [
 					"Turn plain-language ideas into working scripts and lightweight apps",
 					"Practice debugging, refactoring, and testing AI-generated code",
 					"Build practical internal tools and automations with AI"
 				],
-				"route": "/training/code-your-next-app-with-ai-workshop",
+				"route": "/training/ai-workshop-code-and-automate-with-ai",
 				"order": 1,
 				"published": true
 			}

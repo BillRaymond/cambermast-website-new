@@ -1,0 +1,4 @@
+slug: ai-workshop-code-and-automate-with-ai
+square: https://minio-on-hstgr.tail8a5127.ts.net/browser/blobs/cambermastweb/events/image-gen/ai-workshop-code-and-automate-with-ai/square/f86d6397-eb8f-4b06-935e-726229c2a0dc/candidate-3.png
+landscape: https://minio-on-hstgr.tail8a5127.ts.net/browser/blobs/cambermastweb/events/image-gen/ai-workshop-code-and-automate-with-ai/landscape/931088be-425e-446a-b6db-4ee6ef6868f9/candidate-1.png
+portrait: https://minio-on-hstgr.tail8a5127.ts.net/browser/blobs/cambermastweb/events/image-gen/ai-workshop-code-and-automate-with-ai/portrait/ef7c71b1-5235-4f55-b495-11459bd0327a/candidate-2.png
