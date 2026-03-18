@@ -47,6 +47,7 @@
 		rel="stylesheet"
 		href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;600;700;900&display=swap"
 	/>
+	<!-- prettier-ignore -->
 	<script type="application/ld+json">
 		{@html courseJsonLd}
 	</script>

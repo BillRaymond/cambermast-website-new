@@ -165,6 +165,7 @@
 </script>
 
 <svelte:head>
+	<!-- prettier-ignore -->
 	<script type="application/ld+json">
 		{@html organizationJsonLd}
 	</script>

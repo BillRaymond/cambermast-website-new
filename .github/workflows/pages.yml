@@ -65,6 +65,10 @@ jobs:
         run: |
           set -euo pipefail
 
+          # Deployment notification webhook (n8n)
+          # Purpose: trigger external training catalog sync workflow.
+          # Internal n8n workflow reference: "Update Cambermast training catalog".
+          webhook_workflow_ref="Update Cambermast training catalog"
           webhook_url="https://n8n.cambermast.com/webhook/b5b9f3aa-20e7-419a-9106-178e0b109fff"
 
           expected_sha="${GITHUB_SHA}"
@@ -78,6 +82,7 @@ jobs:
           success=0
           webhook_failed=0
           webhook_warning_message=""
+          webhook_error_detail=""
 
           for attempt in $(seq 1 "${max_attempts}"); do
             response=$(curl -fsS --max-time 10 "${marker_url}" || true)
@@ -106,17 +111,34 @@ jobs:
           payload=$(python3 -c 'import json, os; print(json.dumps({"status": os.environ["STATUS"], "message": os.environ["MESSAGE"], "sha": os.environ["EXPECTED_SHA"], "page_url": os.environ["PAGE_URL"]}))')
 
           echo "Sending deployment ${status} notification"
+          echo "Webhook workflow reference: ${webhook_workflow_ref}"
           echo "Webhook will report deployment ${status^^}: ${message}"
-          # Failure to reach the webhook is non-fatal, but we surface it as a warning
-          if ! curl -fsS -X POST -H 'Content-Type: application/json' -d "${payload}" "${webhook_url}"; then
+          # Failure to reach the webhook is non-fatal, but we surface it as a warning.
+          # Add retries/timeouts to reduce false negatives from transient network issues.
+          if ! webhook_curl_output=$(curl -fsS \
+            --retry 5 \
+            --retry-delay 2 \
+            --retry-all-errors \
+            --connect-timeout 10 \
+            --max-time 30 \
+            -X POST \
+            -H 'Content-Type: application/json' \
+            -d "${payload}" \
+            "${webhook_url}" 2>&1); then
             webhook_failed=1
-            webhook_warning_message="Unable to reach deployment webhook at ${webhook_url}"
+            webhook_error_detail="$(echo "${webhook_curl_output}" | tail -n 1)"
+            webhook_warning_message="Unable to reach deployment webhook for workflow \"${webhook_workflow_ref}\""
             echo "::warning::${webhook_warning_message}"
+            if [[ -n "${webhook_error_detail}" ]]; then
+              echo "::warning::Webhook error detail: ${webhook_error_detail}"
+            fi
           fi
 
           {
             echo "WEBHOOK_FAILED=${webhook_failed}"
             echo "WEBHOOK_WARNING=${webhook_warning_message}"
+            echo "WEBHOOK_ERROR_DETAIL=${webhook_error_detail}"
+            echo "WEBHOOK_WORKFLOW_REF=${webhook_workflow_ref}"
             echo "DEPLOYMENT_STATUS=${status}"
             echo "DEPLOYMENT_PAGE_URL=${page_url}"
             echo "DEPLOYMENT_SHA=${expected_sha}"
@@ -136,17 +158,21 @@ jobs:
           script: |
             const { owner, repo } = context.repo;
             const warning = process.env.WEBHOOK_WARNING || 'Deployment webhook failed';
+            const webhookDetail = process.env.WEBHOOK_ERROR_DETAIL || '';
+            const webhookWorkflowRef = process.env.WEBHOOK_WORKFLOW_REF || 'Deployment notification webhook';
             const pageUrl = process.env.DEPLOYMENT_PAGE_URL || '(unknown page)';
             const sha = process.env.DEPLOYMENT_SHA || context.sha;
             const runUrl = `https://github.com/${owner}/${repo}/actions/runs/${context.runId}`;
             const issueLabel = 'deployment-webhook';
             const body = [
               warning,
+              `Workflow: ${webhookWorkflowRef}`,
+              webhookDetail ? `Detail: ${webhookDetail}` : null,
               '',
               `Run: ${runUrl}`,
               `Page: ${pageUrl}`,
               `Commit: ${sha}`
-            ].join('\n');
+            ].filter(Boolean).join('\n');
 
             const issues = await github.paginate(github.rest.issues.listForRepo, {
               owner,

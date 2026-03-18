@@ -63,6 +63,7 @@
 />
 
 <svelte:head>
+	<!-- prettier-ignore -->
 	<script type="application/ld+json">
 		{@html courseJsonLd}
 	</script>
