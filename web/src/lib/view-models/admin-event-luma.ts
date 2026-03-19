@@ -209,6 +209,34 @@ const getFormatCopy = (event: EventUiModel, relatedProgram?: TrainingProgram): s
 	return event.locationMeta?.mode === 'online' ? fallbackFormatLabel : '';
 };
 
+const hasProgramStat = (program: TrainingProgram | undefined, label: string): boolean =>
+	Boolean(
+		program?.stats?.some(
+			(stat) => stat.label.trim().toLowerCase() === label && `${stat.value}`.trim().length > 0
+		)
+	);
+
+const getDescriptionMetaLine = (
+	event: EventUiModel,
+	relatedProgram: TrainingProgram | undefined
+): string => {
+	const parts = dedupeStrings([
+		hasProgramStat(relatedProgram, 'certificate') ? 'Certificate' : undefined,
+		/\blive\b/i.test(getFormatCopy(event, relatedProgram)) || (event.sessions?.length ?? 0) > 0
+			? 'Live'
+			: undefined,
+		event.locationMeta?.mode === 'online'
+			? 'Online'
+			: event.locationMeta?.mode === 'hybrid'
+				? 'Hybrid'
+				: event.locationMeta?.mode === 'in_person'
+					? 'In person'
+					: undefined
+	]);
+
+	return parts.join(' • ');
+};
+
 const getFaqTemplateVariables = (
 	event: EventUiModel,
 	relatedProgram: TrainingProgram | undefined,
@@ -428,12 +456,14 @@ const buildDescriptionCopy = (event: EventUiModel, relatedProgram: TrainingProgr
 		sessions.length > 1 ? 'See the full schedule at the end of this description.' : undefined
 	]);
 	const body = getDescriptionText(event, relatedProgram);
+	const descriptionMetaLine = getDescriptionMetaLine(event, relatedProgram);
 	const syllabus = formatAgendaSection(event, relatedProgram, sessions);
 	const fullSchedule = sessions.length > 1 ? formatFullScheduleSection(sessions) : '';
 	const faq = formatFaqSection(event, relatedProgram, sessions);
 	const terms = `## Terms\n\nBy registering, you agree to the [training terms and conditions](${trainingTermsUrl}).`;
 
 	return dedupeStrings([
+		descriptionMetaLine,
 		body,
 		scheduleLines.join('\n'),
 		attributionLines.join('\n'),
