@@ -188,5 +188,18 @@
     "source": "training-testimonial",
     "createdAt": "2026-03-19T15:31:14.134Z",
     "allowPublicUse": true
+  },
+  {
+    "id": "tm-cm-tr-005-008",
+    "programSku": "CM-TR-005",
+    "programSlug": "ai-workshop-for-content-creators",
+    "programRoute": "/training/ai-workshop-for-content-creators",
+    "displayName": "Kylie M",
+    "jobTitle": "Manager, Tech Docs",
+    "rating": 5,
+    "quote": "Thank you, Bill! My manager told me I have to learn AI and now I have such a deep understanding that I was just promoted!",
+    "source": "training-testimonial",
+    "createdAt": "2026-03-19T15:55:37.182Z",
+    "allowPublicUse": true
   }
 ]
