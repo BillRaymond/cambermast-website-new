@@ -141,7 +141,6 @@
 	title={pageMeta.title}
 	description={pageMeta.description}
 	path="/admin/sop"
-	useDefaultImage={false}
 />
 
 <svelte:head>

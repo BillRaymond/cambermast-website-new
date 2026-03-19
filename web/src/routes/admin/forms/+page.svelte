@@ -170,7 +170,7 @@
 	});
 </script>
 
-<SeoHead title={pageMeta.title} description={pageMeta.description} path="/admin/forms" useDefaultImage={false} />
+<SeoHead title={pageMeta.title} description={pageMeta.description} path="/admin/forms" />
 
 <section class="space-y-6">
 	<div class="space-y-4">

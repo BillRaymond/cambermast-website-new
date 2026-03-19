@@ -49,7 +49,6 @@
 	title={pageMeta.title}
 	description={pageMeta.description}
 	path="/admin/sop-resources"
-	useDefaultImage={false}
 />
 
 <svelte:head>

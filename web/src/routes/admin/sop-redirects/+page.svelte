@@ -7,7 +7,6 @@
 	title="Redirect Registry SOP | Cambermast"
 	description="Admin SOP for the legacy URL redirect registry, validation, and public API."
 	path="/admin/sop-redirects"
-	useDefaultImage={false}
 />
 
 <svelte:head>

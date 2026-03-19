@@ -73,7 +73,6 @@
 	title={pageMeta.title}
 	description={pageMeta.description}
 	path="/admin/sop-testimonials"
-	useDefaultImage={false}
 />
 
 <svelte:head>

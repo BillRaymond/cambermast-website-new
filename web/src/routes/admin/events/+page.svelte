@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	import AdminRouteChips from '$lib/components/admin/AdminRouteChips.svelte';
+	import SeoHead from '$lib/components/SeoHead.svelte';
 
 	export let data: PageData;
 
@@ -46,6 +47,12 @@
 		return dateFormatter.format(parsed);
 	};
 </script>
+
+<SeoHead
+	title="Internal Events Registry | Cambermast Admin"
+	description="Internal event registry for managing visibility, lifecycle state, registration state, and campaign linkage."
+	path="/admin/events"
+/>
 
 <header class="flex flex-col">
 	<h1 class="mb-6 text-3xl font-bold">Internal events registry</h1>

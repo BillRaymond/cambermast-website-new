@@ -294,7 +294,6 @@
 	title={pageTitle}
 	description={pageDescription}
 	path="/admin/campaigns"
-	useDefaultImage={false}
 />
 
 <svelte:head>

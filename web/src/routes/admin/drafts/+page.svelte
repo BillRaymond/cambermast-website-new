@@ -2,6 +2,7 @@
 	import type { PageData } from './$types';
 	import { isExternalUrl } from '$lib/data/training/session-utils';
 	import AdminRouteChips from '$lib/components/admin/AdminRouteChips.svelte';
+	import SeoHead from '$lib/components/SeoHead.svelte';
 
 	export let data: PageData;
 
@@ -23,6 +24,12 @@
 		return Array.isArray(value) ? value : [value];
 	};
 </script>
+
+<SeoHead
+	title="Internal Draft Overview | Cambermast Admin"
+	description="Internal draft review page for unpublished training programs, sessions, and events."
+	path="/admin/drafts"
+/>
 
 <header class="flex flex-col">
 	<h1 class="mb-6 text-3xl font-bold">Internal draft overview</h1>

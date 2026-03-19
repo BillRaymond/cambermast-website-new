@@ -49,7 +49,6 @@
 	title={pageMeta.title}
 	description={pageMeta.description}
 	path="/admin/sop-commerce"
-	useDefaultImage={false}
 />
 
 <svelte:head>

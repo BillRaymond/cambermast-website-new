@@ -120,7 +120,6 @@
 	title={pageTitle}
 	description={pageDescription}
 	path="/admin/partners"
-	useDefaultImage={false}
 />
 
 <svelte:head>

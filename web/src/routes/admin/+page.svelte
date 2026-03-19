@@ -8,7 +8,6 @@
 	title="Admin | Cambermast"
 	description="Internal admin links."
 	path="/admin"
-	useDefaultImage={false}
 />
 
 <svelte:head>

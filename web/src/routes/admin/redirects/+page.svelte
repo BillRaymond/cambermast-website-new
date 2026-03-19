@@ -50,7 +50,6 @@
 	title={pageMeta.title}
 	description={pageMeta.description}
 	path="/admin/redirects"
-	useDefaultImage={false}
 />
 
 <svelte:head>

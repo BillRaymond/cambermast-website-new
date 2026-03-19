@@ -7,7 +7,6 @@
 	title="Image Gen SOP (Dev) | Admin | Cambermast"
 	description="Internal SOP for the dev-only image generation mini app."
 	path="/admin/sop-image-gen"
-	useDefaultImage={false}
 />
 
 <svelte:head>

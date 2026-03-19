@@ -16,7 +16,7 @@
 		'featured-images';
 </script>
 
-<SeoHead title={pageMeta.title} description={pageMeta.description} path="/admin/image-gen" useDefaultImage={false} />
+<SeoHead title={pageMeta.title} description={pageMeta.description} path="/admin/image-gen" />
 
 <svelte:head>
 	<meta name="robots" content="noindex,nofollow" />

@@ -244,7 +244,6 @@
 	title={pageMeta.title}
 	description={pageMeta.description}
 	path="/admin/qr"
-	useDefaultImage={false}
 />
 
 <svelte:head>

@@ -129,7 +129,6 @@
 	title={pageMeta.title}
 	description={pageMeta.description}
 	path="/admin/events/luma"
-	useDefaultImage={false}
 />
 
 <svelte:head>
