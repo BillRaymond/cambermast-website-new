@@ -175,5 +175,18 @@
     "source": "training-testimonial",
     "createdAt": "2026-03-19T15:19:51.721Z",
     "allowPublicUse": true
+  },
+  {
+    "id": "tm-cm-tr-005-007",
+    "programSku": "CM-TR-005",
+    "programSlug": "ai-workshop-for-content-creators",
+    "programRoute": "/training/ai-workshop-for-content-creators",
+    "displayName": "Elaina K",
+    "jobTitle": "Product Owner, Documentation",
+    "rating": 5,
+    "quote": "Yet another amazing course by Bill. I was worried about spending seven weeks, but then I wanted it to go longer. I learned so much about using AI to identify my ICPs and build content targeted to them.",
+    "source": "training-testimonial",
+    "createdAt": "2026-03-19T15:31:14.134Z",
+    "allowPublicUse": true
   }
 ]
