@@ -149,57 +149,5 @@
     "allowPublicUse": true,
     "source": "training-testimonial",
     "createdAt": "2026-02-04T20:56:42.792Z"
-  },
-  {
-    "id": "tm-cm-tr-005-005",
-    "programSku": "CM-TR-005",
-    "programSlug": "ai-workshop-for-content-creators",
-    "programRoute": "/training/ai-workshop-for-content-creators",
-    "displayName": "Karen M",
-    "jobTitle": "Lead Technical Writer",
-    "rating": 5,
-    "quote": "I finally understand how to develop strong personas using AI so my content speaks better to them.",
-    "source": "training-testimonial",
-    "createdAt": "2026-03-18T22:02:33.452Z",
-    "allowPublicUse": true
-  },
-  {
-    "id": "tm-cm-tr-005-006",
-    "programSku": "CM-TR-005",
-    "programSlug": "ai-workshop-for-content-creators",
-    "programRoute": "/training/ai-workshop-for-content-creators",
-    "displayName": "Michelle G",
-    "jobTitle": "Tech Docs Lead",
-    "rating": 5,
-    "quote": "How did I miss Deep Research? This is going to change how I evaluate my content library against my competitors. Bill is such a great trainer!",
-    "source": "training-testimonial",
-    "createdAt": "2026-03-19T15:19:51.721Z",
-    "allowPublicUse": true
-  },
-  {
-    "id": "tm-cm-tr-005-007",
-    "programSku": "CM-TR-005",
-    "programSlug": "ai-workshop-for-content-creators",
-    "programRoute": "/training/ai-workshop-for-content-creators",
-    "displayName": "Elaina K",
-    "jobTitle": "Product Owner, Documentation",
-    "rating": 5,
-    "quote": "Yet another amazing course by Bill. I was worried about spending seven weeks, but then I wanted it to go longer. I learned so much about using AI to identify my ICPs and build content targeted to them.",
-    "source": "training-testimonial",
-    "createdAt": "2026-03-19T15:31:14.134Z",
-    "allowPublicUse": true
-  },
-  {
-    "id": "tm-cm-tr-005-008",
-    "programSku": "CM-TR-005",
-    "programSlug": "ai-workshop-for-content-creators",
-    "programRoute": "/training/ai-workshop-for-content-creators",
-    "displayName": "Kylie M",
-    "jobTitle": "Manager, Tech Docs",
-    "rating": 5,
-    "quote": "Thank you, Bill! My manager told me I have to learn AI and now I have such a deep understanding that I was just promoted!",
-    "source": "training-testimonial",
-    "createdAt": "2026-03-19T15:55:37.182Z",
-    "allowPublicUse": true
   }
 ]
