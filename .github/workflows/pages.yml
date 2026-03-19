@@ -47,10 +47,27 @@ jobs:
         run: echo "$GITHUB_SHA" > build/deploy-sha.txt
         working-directory: web
 
-      # Upload the generated site for the deploy job
-      - uses: actions/upload-pages-artifact@v4
+      # Package the static site the same way as GitHub's Pages artifact wrapper,
+      # but upload it with the Node 24-based upload-artifact action directly.
+      - name: Archive GitHub Pages artifact
+        run: |
+          set -euo pipefail
+          tar \
+            --dereference --hard-dereference \
+            --directory web/build \
+            -cvf "$RUNNER_TEMP/artifact.tar" \
+            --exclude=.git \
+            --exclude=.github \
+            --exclude=".[^/]*" \
+            .
+
+      - name: Upload GitHub Pages artifact
+        uses: actions/upload-artifact@v6
         with:
-          path: web/build
+          name: github-pages
+          path: ${{ runner.temp }}/artifact.tar
+          retention-days: 1
+          if-no-files-found: error
 
   deploy:
     runs-on: ubuntu-latest
@@ -156,7 +173,7 @@ jobs:
 
       - name: Notify maintainers about webhook failure
         if: env.WEBHOOK_FAILED == '1'
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const { owner, repo } = context.repo;
