@@ -149,5 +149,18 @@
     "allowPublicUse": true,
     "source": "training-testimonial",
     "createdAt": "2026-02-04T20:56:42.792Z"
+  },
+  {
+    "id": "tm-cm-tr-005-005",
+    "programSku": "CM-TR-005",
+    "programSlug": "ai-workshop-for-content-creators",
+    "programRoute": "/training/ai-workshop-for-content-creators",
+    "displayName": "Karen M",
+    "jobTitle": "Lead Technical Writer",
+    "rating": 5,
+    "quote": "I finally understand how to develop strong personas using AI so my content speaks better to them.",
+    "source": "training-testimonial",
+    "createdAt": "2026-03-18T22:02:33.452Z",
+    "allowPublicUse": true
   }
 ]
