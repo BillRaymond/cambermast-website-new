@@ -7,7 +7,7 @@
 	import AdminRouteChips from '$lib/components/admin/AdminRouteChips.svelte';
 	import SeoHead from '$lib/components/SeoHead.svelte';
 	import { SITE_ORIGIN } from '$lib/config/site';
-	import { getPartnerByCode } from '$lib/data/partners';
+	import { getPartnerByCode, listPartners } from '$lib/data/partners';
 	import { listCampaignUi } from '$lib/view-models/campaigns';
 	import { listEventUi } from '$lib/view-models/events';
 
@@ -36,6 +36,7 @@
 		...campaign,
 		shortUrlProd: campaign.shortUrl
 	}));
+	const partners = listPartners();
 	const shortPathByCampaignId = new Map(campaigns.map((campaign) => [campaign.id, campaign.shortPath]));
 	const events = listEventUi({ includeDrafts: true, includeUnlisted: true });
 
@@ -272,6 +273,7 @@
 	$: partnerLabel =
 		campaigns.find((campaign) => campaign.partner?.toLowerCase() === partnerKey)?.partnerLabel ??
 		(partnerSlug ? titleCase(partnerSlug) : 'Partner');
+	$: partnerRecord = partners.find((partner) => partner.slug?.toLowerCase() === partnerKey);
 	$: partnerCode =
 		events
 			.flatMap((event) => event.partners ?? [])
@@ -469,11 +471,21 @@
 	{#if activeFilter === 'all' || activeFilter === 'events'}
 	<div class="mx-auto mb-8 max-w-5xl rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
 		<div class="flex flex-wrap items-start justify-between gap-3">
-			<div>
-				<h2 class="text-xl font-semibold text-gray-900">Events</h2>
-				<p class="mt-1 max-w-3xl text-sm text-gray-600">
-					Events associated with {partnerLabel}{#if partnerCode} ({partnerCode}){/if}, with copyable short links.
-				</p>
+			<div class="flex items-start gap-3">
+				{#if partnerRecord?.logo}
+					<img
+						src={partnerRecord.logo}
+						alt={`${partnerLabel} logo`}
+						class="h-12 w-12 shrink-0 rounded-lg border border-gray-200 bg-white object-contain p-1"
+						loading="lazy"
+					/>
+				{/if}
+				<div>
+					<h2 class="text-xl font-semibold text-gray-900">Events</h2>
+					<p class="mt-1 max-w-3xl text-sm text-gray-600">
+						Events associated with {partnerLabel}{#if partnerCode} ({partnerCode}){/if}, with copyable short links.
+					</p>
+				</div>
 			</div>
 			<span class="rounded-full bg-gray-100 px-3 py-1 text-xs font-semibold text-gray-700">
 				{filteredPartnerEvents.length} {filteredPartnerEvents.length === 1 ? 'event' : 'events'}
