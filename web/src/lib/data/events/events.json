@@ -63,6 +63,7 @@
 			"heroImageAlt": "AI Workshop for Tech Writers and Content Creators",
 			"image": "/images/generated/events/ai-workshop-for-content-creators-winter-2025/hero-landscape.jpg",
 			"imageAlt": "AI Workshop for Tech Writers and Content Creators",
+			"videoUrl": "https://www.youtube.com/watch?v=pDMU-xyu8GA",
 			"sessions": [
 				{
 					"startAtUtc": "2026-01-27T18:00:00.000Z",
@@ -362,6 +363,7 @@
 			"heroImageAlt": "AI Workshop for Tech Writers and Content Creators illustration",
 			"image": "/images/generated/events/ai-workshop-for-content-creators-spring-2026/hero-landscape.jpg",
 			"imageAlt": "Open graph image for the AI Workshop for Tech Writers and Content Creators training program",
+			"videoUrl": "https://www.youtube.com/watch?v=pDMU-xyu8GA",
 			"campaignId": "s6twc1"
 		},
 		{
@@ -718,6 +720,7 @@
 			"heroImageAlt": "AI Workshop for Tech Writers and Content Creators illustration",
 			"image": "/images/generated/events/ai-workshop-for-content-creators-summer-2026/hero-landscape.jpg",
 			"imageAlt": "Open graph image for the AI Workshop for Tech Writers and Content Creators training program",
+			"videoUrl": "https://www.youtube.com/watch?v=pDMU-xyu8GA",
 			"campaignId": "k4f8n1"
 		},
 		{
@@ -818,6 +821,7 @@
 			"heroImageAlt": "AI Workshop for Tech Writers and Content Creators illustration",
 			"image": "/images/generated/events/ai-workshop-for-content-creators-fall-2026/hero-landscape.jpg",
 			"imageAlt": "Open graph image for the AI Workshop for Tech Writers and Content Creators training program",
+			"videoUrl": "https://www.youtube.com/watch?v=pDMU-xyu8GA",
 			"campaignId": "m7w2q5"
 		},
 		{
@@ -918,6 +922,7 @@
 			"heroImageAlt": "AI Workshop for Tech Writers and Content Creators illustration",
 			"image": "/images/generated/events/ai-workshop-for-content-creators-winter-2026/hero-landscape.jpg",
 			"imageAlt": "Open graph image for the AI Workshop for Tech Writers and Content Creators training program",
+			"videoUrl": "https://www.youtube.com/watch?v=pDMU-xyu8GA",
 			"campaignId": "w26cc1"
 		}
 	]
