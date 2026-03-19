@@ -8,6 +8,7 @@
 		date: string;
 		timeLines?: string[];
 		location?: string;
+		typeLabel?: string;
 		registerUrl?: string;
 		learnMoreUrl?: string;
 	};
@@ -86,7 +87,7 @@
 										date={session.date}
 										time={session.timeLines}
 										location={session.location}
-										typeLabel="Training"
+										typeLabel={session.typeLabel}
 										registerUrl={session.registerUrl}
 										registerLabel="Register now"
 										learnMoreUrl={session.learnMoreUrl ?? route}

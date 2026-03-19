@@ -209,7 +209,7 @@
 						date={session.date}
 						time={session.time}
 						location={session.location}
-						typeLabel="Training"
+						typeLabel={program.eventTypeLabel}
 						registerUrl={session.registerUrl}
 						registerLabel="Register ↗"
 						tone="upcoming"
@@ -600,7 +600,6 @@
 		grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
 		gap: 0.75rem;
 	}
-
 
 	.tlp-list {
 		list-style: disc;

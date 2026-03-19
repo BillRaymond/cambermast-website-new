@@ -5,7 +5,7 @@
 			"slug": "ai-workshop-for-tech-writers-and-content-creators-winter-2025",
 			"title": "❄️ AI Workshop for Content Creators (Winter 2025)",
 			"type": "training_session",
-			"typeLabel": "Training",
+			"typeLabel": "LIVE TRAINING",
 			"tagline": "Get real results from your content with AI-powered workflows.",
 			"summary": "This is a 7-week course that meets on Tuesdays. January 27 - March 10, 2026, from 10 am PT to 11:30 am PT",
 			"description": "This multi-session workshop combines strategy and hands-on implementation. Participants build repeatable workflows for research, drafting, editing, and quality checks while preserving voice, review standards, and governance expectations.",
@@ -106,7 +106,7 @@
 			"slug": "ai-workshop-for-tech-writers-and-content-creators-spring-2026-s6twc1",
 			"title": "🌷 AI Workshop for Content Creators (Spring 2026)",
 			"type": "training_session",
-			"typeLabel": "Training",
+			"typeLabel": "LIVE TRAINING",
 			"tagline": "Get real results from your content with AI-powered workflows.",
 			"summary": "7-Weeks, Tuesdays, 120-minutes, April 28 - June 16, 2026",
 			"sessions": [
@@ -371,7 +371,7 @@
 			"slug": "ai-workshop-code-and-automate-with-ai-april-2026",
 			"title": "🪄 AI Workshop: Code and Automate with AI (April, 2026)",
 			"type": "training_session",
-			"typeLabel": "Training",
+			"typeLabel": "LIVE TRAINING",
 			"tagline": "A four-week hands-on cohort for coding and automation with AI.",
 			"summary": "4-Weeks, Thursdays, 120-minutes, April 2 - April 23, 2026",
 			"sessions": [
@@ -625,7 +625,7 @@
 		{
 			"title": "🌻 AI Workshop for Content Creators (Summer 2026)",
 			"type": "training_session",
-			"typeLabel": "Training",
+			"typeLabel": "LIVE TRAINING",
 			"visibility": "public",
 			"lifecycleStatus": "scheduled",
 			"registrationStatus": "external",
@@ -726,7 +726,7 @@
 		{
 			"title": "🍁 AI Workshop for Content Creators (Fall 2026)",
 			"type": "training_session",
-			"typeLabel": "Training",
+			"typeLabel": "LIVE TRAINING",
 			"visibility": "public",
 			"lifecycleStatus": "scheduled",
 			"registrationStatus": "external",
@@ -827,7 +827,7 @@
 		{
 			"title": "❄️ AI Workshop for Content Creators (Winter 2026)",
 			"type": "training_session",
-			"typeLabel": "Training",
+			"typeLabel": "LIVE TRAINING",
 			"visibility": "public",
 			"lifecycleStatus": "scheduled",
 			"registrationStatus": "open",

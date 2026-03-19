@@ -20,6 +20,7 @@
 			},
 			"title": "AI Power Prompting",
 			"nickname": "Your AI fundamentals • From prompting to productivity",
+			"eventTypeLabel": "LIVE TRAINING",
 			"tagline": "A live primer on prompting: learn how AI works and how to prompt successfully.",
 			"heroImage": "/images/ai-fundamentals.jpeg",
 			"heroImageAlt": "AI Power Prompting training workshop illustration",
@@ -50,10 +51,7 @@
 				},
 				{
 					"label": "Format",
-					"value": [
-						"🔴 Live online",
-						"🏫 In-person available"
-					]
+					"value": ["🔴 Live online", "🏫 In-person available"]
 				},
 				{
 					"label": "Cost",
@@ -104,10 +102,7 @@
 				{
 					"name": "🌐 February 3, 2026 Public Cohort",
 					"date": "Tuesday, Feb 3, 2026",
-					"time": [
-						"1:00 pm-5:00 pm PT",
-						"4:00-8:00 pm ET"
-					],
+					"time": ["1:00 pm-5:00 pm PT", "4:00-8:00 pm ET"],
 					"startDate": "2026-02-03",
 					"endDate": "2026-02-03",
 					"location": "Live on Zoom",
@@ -274,6 +269,7 @@
 			},
 			"title": "AI Accelerator Workshop",
 			"nickname": "From core prompting to professional AI systems",
+			"eventTypeLabel": "LIVE TRAINING",
 			"tagline": "Bundle AI Power Prompting with advanced build labs so your team launches repeatable AI workflows that run the business better.",
 			"heroImage": "/images/ai-accelerator.jpeg",
 			"heroImageAlt": "AI Accelerator Workshop illustration",
@@ -304,10 +300,7 @@
 				},
 				{
 					"label": "Format",
-					"value": [
-						"🔴 Live online",
-						"🏫 In-person available"
-					]
+					"value": ["🔴 Live online", "🏫 In-person available"]
 				},
 				{
 					"label": "Cost",
@@ -459,9 +452,7 @@
 				"partnershipLabel": "In partnership with TechLAB"
 			},
 			"eventDefaults": {
-				"partnerCodes": [
-					"TLB"
-				],
+				"partnerCodes": ["TLB"],
 				"hosts": [
 					{
 						"name": "Bill Raymond",
@@ -493,6 +484,7 @@
 			},
 			"title": "AI Workshop for Modern Teams",
 			"nickname": "Seven-week cohort for cross-functional teams",
+			"eventTypeLabel": "LIVE TRAINING",
 			"tagline": "AI-enhanced team workflows that deliver measurable results in seven weeks.",
 			"heroImage": "/images/ai-advanced.jpeg",
 			"heroImageAlt": "AI Workshop for Modern Teams illustration",
@@ -523,10 +515,7 @@
 				},
 				{
 					"label": "Format",
-					"value": [
-						"🔴 Live online",
-						"🏫 In-person available"
-					]
+					"value": ["🔴 Live online", "🏫 In-person available"]
 				},
 				{
 					"label": "Cost",
@@ -773,6 +762,7 @@
 			},
 			"title": "AI Automation with Agents Workshop",
 			"nickname": "Six-week cohort for applied agent builders",
+			"eventTypeLabel": "LIVE TRAINING",
 			"tagline": "Automate internal processes with AI agents that act like team members, across six weeks of guided practice.",
 			"heroImage": "/images/ai-automation.jpg",
 			"heroImageAlt": "AI Automation with Agents Workshop illustration",
@@ -803,10 +793,7 @@
 				},
 				{
 					"label": "Format",
-					"value": [
-						"🔴 Live online",
-						"🏫 In-person available"
-					]
+					"value": ["🔴 Live online", "🏫 In-person available"]
 				},
 				{
 					"label": "Cost",
@@ -863,10 +850,7 @@
 				{
 					"name": "Winter 2025-2026 Open Enrollment",
 					"date": "Dec 4, 2025 - Jan 22, 2026 (Wednesdays)",
-					"time": [
-						"10:00 am-12:00 pm PT",
-						"1:00-3:00 pm ET"
-					],
+					"time": ["10:00 am-12:00 pm PT", "1:00-3:00 pm ET"],
 					"startDate": "2025-12-04",
 					"endDate": "2026-01-22",
 					"location": "Live on Zoom",
@@ -1017,6 +1001,7 @@
 			},
 			"title": "AI Workshop for Tech Writers and Content Creators",
 			"nickname": "Seven-week cohort for technical communicators",
+			"eventTypeLabel": "LIVE TRAINING",
 			"tagline": "Get real results from your content with AI-powered workflows in just seven weeks.",
 			"heroImage": "/images/generated/training/ai-workshop-for-content-creators/hero-landscape.jpg",
 			"heroImageAlt": "AI Workshop for Tech Writers and Content Creators illustration",
@@ -1052,10 +1037,7 @@
 				},
 				{
 					"label": "Format",
-					"value": [
-						"🔴 Live online",
-						"🏫 In-person available"
-					]
+					"value": ["🔴 Live online", "🏫 In-person available"]
 				},
 				{
 					"label": "Cost",
@@ -1104,10 +1086,7 @@
 				{
 					"name": "❄️ Winter 2025 Open Enrollment",
 					"date": "Nov 4 - Dec 30, 2025 (Tuesdays)",
-					"time": [
-						"10:00 am-12:00 pm PT",
-						"1:00-3:00 pm ET"
-					],
+					"time": ["10:00 am-12:00 pm PT", "1:00-3:00 pm ET"],
 					"partner": "In partnership with The Content Wrangler",
 					"startDate": "2025-11-04",
 					"endDate": "2025-12-30",
@@ -1118,10 +1097,7 @@
 				{
 					"name": "🌷 Spring 2026 Open Enrollment",
 					"date": "Jan 27 - Mar 10, 2026 (Tuesdays)",
-					"time": [
-						"10:00 am-12:00 pm PT",
-						"1:00-3:00 pm ET"
-					],
+					"time": ["10:00 am-12:00 pm PT", "1:00-3:00 pm ET"],
 					"partner": "In partnership with The Content Wrangler",
 					"startDate": "2026-01-27",
 					"endDate": "2026-03-10",
@@ -1319,9 +1295,7 @@
 						"photoAlt": "Bill Raymond"
 					}
 				],
-				"partnerCodes": [
-					"TCW"
-				]
+				"partnerCodes": ["TCW"]
 			}
 		},
 		{
@@ -1344,6 +1318,7 @@
 			},
 			"title": "AI Workshop: Code and Automate with AI",
 			"nickname": "Four-week coding and automation cohort",
+			"eventTypeLabel": "LIVE TRAINING",
 			"tagline": "A four-week hands-on cohort for coding and automation with AI.",
 			"heroImage": "/images/generated/training/ai-workshop-code-and-automate-with-ai/hero-landscape-v6.jpg",
 			"heroImageAlt": "AI Workshop: Code and Automate with AI illustration",
@@ -1374,10 +1349,7 @@
 				},
 				{
 					"label": "Format",
-					"value": [
-						"🔴 Live online",
-						"🏫 In-person available"
-					]
+					"value": ["🔴 Live online", "🏫 In-person available"]
 				},
 				{
 					"label": "Cost",
@@ -1635,6 +1607,7 @@
 			},
 			"title": "AI Power Prompting Lab (Draft)",
 			"nickname": "Experimental prompt lab for early testers",
+			"eventTypeLabel": "LIVE TRAINING",
 			"tagline": "Preview the next iteration of our AI Power Prompting experience before it launches.",
 			"heroImage": "/images/ai-fundamentals.jpeg",
 			"heroImageAlt": "AI Power Prompting lab concept art",
@@ -1665,10 +1638,7 @@
 				},
 				{
 					"label": "Format",
-					"value": [
-						"🔴 Live online (draft)",
-						"🏫 On-site TBD"
-					]
+					"value": ["🔴 Live online (draft)", "🏫 On-site TBD"]
 				},
 				{
 					"label": "Cost",
@@ -1708,10 +1678,7 @@
 					]
 				}
 			],
-			"resources": [
-				"Draft workbook (placeholder link).",
-				"Feedback template for reviewers."
-			],
+			"resources": ["Draft workbook (placeholder link).", "Feedback template for reviewers."],
 			"aboutTrainer": {
 				"title": "About your facilitator",
 				"name": "Bill Raymond",

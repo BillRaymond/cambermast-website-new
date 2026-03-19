@@ -31,6 +31,7 @@ export const load: PageServerLoad = async () => {
 			slug: program.slug,
 			route: program.route,
 			draft: Boolean(program.draft),
+			eventTypeLabel: program.eventTypeLabel,
 			tagline: program.tagline,
 			description: program.description,
 			scheduleTemplate: program.scheduleTemplate,

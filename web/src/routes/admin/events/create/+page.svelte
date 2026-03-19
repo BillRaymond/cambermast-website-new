@@ -556,7 +556,7 @@
 		locationMode = 'online';
 		locationPublicLabel = source.scheduleTemplate?.defaultLocationLabel ?? 'Online';
 		type = 'training_session';
-		typeLabel = 'Training';
+		typeLabel = source.eventTypeLabel ?? '';
 		registrationStatus = 'none';
 		ctaLabel = 'Open soon';
 		ctaUrl = '';
@@ -726,7 +726,6 @@
 	title={pageMeta.title}
 	description={pageMeta.description}
 	path="/admin/events/create"
-	useDefaultImage={false}
 />
 
 <svelte:head>

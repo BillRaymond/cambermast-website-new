@@ -3,7 +3,10 @@ import { getEventOccurrenceState, getEventSessionBounds } from '$lib/data/events
 import { isEventOpenSoon } from '$lib/data/events';
 import { getPartnerByCode } from '$lib/data/partners';
 import { getTrainingProgramBySku } from '$lib/data/training';
-import { getProgramCertificateText } from '$lib/data/training/program-meta';
+import {
+	getProgramCertificateText,
+	getProgramEventTypeLabel
+} from '$lib/data/training/program-meta';
 import type { TrainingProgram } from '$lib/data/training/types';
 import {
 	getEventStartTimestampUi,
@@ -110,6 +113,7 @@ export const toEventCardModel = (
 	const relatedProgram =
 		options.program ??
 		(event.programRef?.sku ? getTrainingProgramBySku(event.programRef.sku) : undefined);
+	const typeLabel = event.typeLabel?.trim() || getProgramEventTypeLabel(relatedProgram);
 	const openSoon = isEventOpenSoon(event, referenceTimestamp);
 	const registerDisabledBase =
 		event.registrationStatus === 'closed' ||
@@ -124,9 +128,9 @@ export const toEventCardModel = (
 			? event.cta?.label || 'Draft'
 			: openSoon
 				? 'Open soon'
-			: event.registrationStatus === 'none' || isTrainingHappeningNow
-				? 'Enrollment closed'
-				: event.cta?.label || 'Register now');
+				: event.registrationStatus === 'none' || isTrainingHappeningNow
+					? 'Enrollment closed'
+					: event.cta?.label || 'Register now');
 	const pricedRegisterLabel = registerDisabled
 		? registerLabel
 		: options.registerLabelOverride
@@ -169,17 +173,14 @@ export const toEventCardModel = (
 		hostText: hostText || undefined,
 		image: event.image ?? relatedProgram?.ogImage ?? relatedProgram?.heroImage,
 		imageAlt:
-			event.imageAlt ??
-			relatedProgram?.ogImageAlt ??
-			relatedProgram?.heroImageAlt ??
-			event.title,
-		typeLabel: event.type === 'training_session' ? 'Training' : eventTypeLabel,
+			event.imageAlt ?? relatedProgram?.ogImageAlt ?? relatedProgram?.heroImageAlt ?? event.title,
+		typeLabel,
 		statusLabel: options.statusLabelOverride ?? statusLabelDefault,
 		certificateText: relatedProgram ? getProgramCertificateText(relatedProgram) : undefined,
 		videoUrl: relatedProgram?.videoUrl,
 		partnerText: partnerText || undefined,
 		speakerText: speakerText || undefined,
-		registerUrl: registerDisabled ? undefined : (openSoon ? `/events/${event.slug}` : event.cta?.url),
+		registerUrl: registerDisabled ? undefined : openSoon ? `/events/${event.slug}` : event.cta?.url,
 		registerLabel: pricedRegisterLabel,
 		learnMoreUrl: `/events/${event.slug}`,
 		tone,

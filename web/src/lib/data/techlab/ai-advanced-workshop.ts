@@ -6,6 +6,7 @@ export const techlabAiAdvancedWorkshop: TechlabProgram = {
 	sku: 'CM-TR-003',
 	title: 'AI Workshop for Modern Teams',
 	nickname: 'Seven-week cohort for founder-led teams',
+	eventTypeLabel: 'LIVE TRAINING',
 	tagline:
 		'Kick-start AI adoption for startup founders and their teams, with measurable results in seven weeks.',
 	heroImage: '/images/ai-advanced.jpeg',
@@ -159,82 +160,82 @@ export const techlabAiAdvancedWorkshop: TechlabProgram = {
 	},
 	faqs: [
 		{
-			"key": "will_i_receive_a_certificate_of_completion",
-			"question": "Will I receive a certificate of completion?",
-			"blocks": [
+			key: 'will_i_receive_a_certificate_of_completion',
+			question: 'Will I receive a certificate of completion?',
+			blocks: [
 				{
-					"type": "paragraph",
-					"text": "Yes. Graduates receive a digital certificate after presenting their final project."
+					type: 'paragraph',
+					text: 'Yes. Graduates receive a digital certificate after presenting their final project.'
 				}
 			]
 		},
 		{
-			"key": "will_there_be_makeup_dates",
-			"question": "Will there be makeup dates?",
-			"blocks": [
+			key: 'will_there_be_makeup_dates',
+			question: 'Will there be makeup dates?',
+			blocks: [
 				{
-					"type": "paragraph",
-					"text": "There are no official makeup dates, but Bill accommodates reasonable requests when scheduling conflicts arise."
+					type: 'paragraph',
+					text: 'There are no official makeup dates, but Bill accommodates reasonable requests when scheduling conflicts arise.'
 				}
 			]
 		},
 		{
-			"key": "do_i_need_anything_before_the_workshop_starts",
-			"question": "Do I need anything before the workshop starts?",
-			"blocks": [
+			key: 'do_i_need_anything_before_the_workshop_starts',
+			question: 'Do I need anything before the workshop starts?',
+			blocks: [
 				{
-					"type": "paragraph",
-					"text": "Bring access to a paid generative AI account (ChatGPT, Claude, Gemini, Copilot, etc.) and a project where you can apply the lessons."
+					type: 'paragraph',
+					text: 'Bring access to a paid generative AI account (ChatGPT, Claude, Gemini, Copilot, etc.) and a project where you can apply the lessons.'
 				}
 			]
 		},
 		{
-			"key": "are_the_meetings_virtual_or_in_person",
-			"question": "Are the meetings virtual or in-person?",
-			"blocks": [
+			key: 'are_the_meetings_virtual_or_in_person',
+			question: 'Are the meetings virtual or in-person?',
+			blocks: [
 				{
-					"type": "paragraph",
-					"text": "All cohort sessions are hosted live on Zoom, with optional on-site intensives for private teams."
+					type: 'paragraph',
+					text: 'All cohort sessions are hosted live on Zoom, with optional on-site intensives for private teams.'
 				}
 			]
 		},
 		{
-			"key": "how_can_i_ask_questions_about_the_course",
-			"question": "How can I ask questions about the course?",
-			"blocks": [
+			key: 'how_can_i_ask_questions_about_the_course',
+			question: 'How can I ask questions about the course?',
+			blocks: [
 				{
-					"type": "paragraph",
-					"text": "Use the \"Contact the Host\" link on the Lu.ma event page or reach out through the Cambermast contact form."
+					type: 'paragraph',
+					text: 'Use the "Contact the Host" link on the Lu.ma event page or reach out through the Cambermast contact form.'
 				}
 			]
 		},
 		{
-			"key": "will_there_be_exercises_and_take_home_work",
-			"question": "Will there be exercises and take-home work?",
-			"blocks": [
+			key: 'will_there_be_exercises_and_take_home_work',
+			question: 'Will there be exercises and take-home work?',
+			blocks: [
 				{
-					"type": "paragraph",
-					"text": "Yes. Expect optional take-home exercises and encouragement to apply each lesson directly to your team workflows."
+					type: 'paragraph',
+					text: 'Yes. Expect optional take-home exercises and encouragement to apply each lesson directly to your team workflows.'
 				}
 			]
 		},
 		{
-			"key": "are_there_scheduled_collaboration_meetings_after_each_class",
-			"question": "Are there scheduled collaboration meetings after each class?",
-			"blocks": [
+			key: 'are_there_scheduled_collaboration_meetings_after_each_class',
+			question: 'Are there scheduled collaboration meetings after each class?',
+			blocks: [
 				{
-					"type": "paragraph",
-					"text": "Not formally, but Bill hosts weekly office hours and maintains a discussion thread for ongoing peer support."
+					type: 'paragraph',
+					text: 'Not formally, but Bill hosts weekly office hours and maintains a discussion thread for ongoing peer support.'
 				}
 			]
 		},
 		{
-			"key": "i_can_t_take_this_course_are_there_others",
-			"question": "I can't take this course. Are there others?",
-			"blocks": [
+			key: 'i_can_t_take_this_course_are_there_others',
+			question: "I can't take this course. Are there others?",
+			blocks: [
 				{
-					"type": "paragraph",
-					"text": "Browse the events calendar at /events and subscribe to the Bill Talks AI newsletter for upcoming offerings."
+					type: 'paragraph',
+					text: 'Browse the events calendar at /events and subscribe to the Bill Talks AI newsletter for upcoming offerings.'
 				}
 			]
 		}

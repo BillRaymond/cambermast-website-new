@@ -3,6 +3,7 @@ import { deriveEventDateLabel, deriveEventTimeLabel } from './session-labels';
 import { getEventSessionBounds } from './timeline';
 import { toTrainingEventAgenda } from './agenda';
 import { getTrainingProgramBySku } from '../training';
+import { getProgramEventTypeLabel } from '../training/program-meta';
 import type { TrainingProgram } from '../training/types';
 import { getFaqPresetItemsSnapshot } from '../faq-presets';
 
@@ -224,7 +225,7 @@ export const buildTrainingSessionEventFromProgram = (
 		slug: input.slug,
 		title: program.title,
 		type: 'training_session',
-		typeLabel: 'Training',
+		typeLabel: getProgramEventTypeLabel(program),
 		tagline: program.tagline,
 		summary:
 			input.summary ??

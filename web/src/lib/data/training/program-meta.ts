@@ -1,5 +1,7 @@
 import type { TrainingProgram, TrainingStat } from './types';
 
+export const DEFAULT_TRAINING_EVENT_TYPE_LABEL = 'LIVE TRAINING';
+
 const normalizeLabel = (label?: string): string | undefined => label?.toLowerCase().trim();
 
 export const findProgramStat = (
@@ -13,6 +15,9 @@ export const statValueToText = (value?: string | string[]): string | undefined =
 
 export const statValueToArray = (value?: string | string[]): string[] =>
 	!value ? [] : Array.isArray(value) ? value : [value];
+
+export const getProgramEventTypeLabel = (program?: TrainingProgram): string =>
+	program?.eventTypeLabel?.trim() || DEFAULT_TRAINING_EVENT_TYPE_LABEL;
 
 export const getProgramCertificateText = (program?: TrainingProgram): string | undefined =>
 	statValueToText(findProgramStat(program, 'certificate')?.value);

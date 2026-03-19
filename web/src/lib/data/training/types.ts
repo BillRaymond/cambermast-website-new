@@ -94,6 +94,7 @@ export type TrainingProgram = {
 	catalog?: TrainingCatalogMeta;
 	title: string;
 	nickname?: string;
+	eventTypeLabel: string;
 	tagline: string;
 	heroImage?: string;
 	heroImageAlt?: string;

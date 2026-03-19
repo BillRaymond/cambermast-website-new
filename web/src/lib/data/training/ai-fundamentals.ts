@@ -20,6 +20,7 @@ export const aiFundamentals = {
 	},
 	title: 'AI Power Prompting',
 	nickname: 'Your AI fundamentals • From prompting to productivity',
+	eventTypeLabel: 'LIVE TRAINING',
 	tagline: 'A live primer on prompting: learn how AI works and how to prompt successfully.',
 	// Match the top-of-page hero copy so the landing page and email promo stay in sync.
 	heroImage: '/images/ai-fundamentals.jpeg',
@@ -184,46 +185,46 @@ export const aiFundamentals = {
 	},
 	faqs: [
 		{
-			"key": "how_customizable_is_the_agenda",
-			"question": "How customizable is the agenda?",
-			"blocks": [
+			key: 'how_customizable_is_the_agenda',
+			question: 'How customizable is the agenda?',
+			blocks: [
 				{
-					"type": "paragraph",
-					"text": "If you are taking a publicly scheduled course, the agenda is fixed."
+					type: 'paragraph',
+					text: 'If you are taking a publicly scheduled course, the agenda is fixed.'
 				},
 				{
-					"type": "paragraph",
-					"text": "For private team workshops, we can adjust the agenda to focus on specific use cases or tools."
+					type: 'paragraph',
+					text: 'For private team workshops, we can adjust the agenda to focus on specific use cases or tools.'
 				}
 			]
 		},
 		{
-			"key": "do_participants_need_prior_ai_experience",
-			"question": "Do participants need prior AI experience?",
-			"blocks": [
+			key: 'do_participants_need_prior_ai_experience',
+			question: 'Do participants need prior AI experience?',
+			blocks: [
 				{
-					"type": "paragraph",
-					"text": "No. The course is designed for beginners through intermediate users, mixing demos with guided exercises."
+					type: 'paragraph',
+					text: 'No. The course is designed for beginners through intermediate users, mixing demos with guided exercises.'
 				}
 			]
 		},
 		{
-			"key": "can_we_host_the_workshop_in_person",
-			"question": "Can we host the workshop in person?",
-			"blocks": [
+			key: 'can_we_host_the_workshop_in_person',
+			question: 'Can we host the workshop in person?',
+			blocks: [
 				{
-					"type": "paragraph",
-					"text": "Yes. On-site sessions include travel in the proposal; virtual cohorts are available worldwide."
+					type: 'paragraph',
+					text: 'Yes. On-site sessions include travel in the proposal; virtual cohorts are available worldwide.'
 				}
 			]
 		},
 		{
-			"key": "do_you_have_a_letter_i_can_send_to_my_manager_for_budget_approval",
-			"question": "Do you have a letter I can send to my manager for budget approval?",
-			"blocks": [
+			key: 'do_you_have_a_letter_i_can_send_to_my_manager_for_budget_approval',
+			question: 'Do you have a letter I can send to my manager for budget approval?',
+			blocks: [
 				{
-					"type": "paragraph",
-					"text": "Yes! Here’s a customizable letter you can use:\n\nSubject: Request to Attend AI Training\n\nHi [Manager’s Name],\n\nI’d like to attend the upcoming [Workshop Name] with Bill Raymond. Bill is a founding member of the AI Collective (https://www.aicollective.com) and the author of the popular Bill Talks AI newsletter (https://BillTalksAI.com). His work focuses on helping professionals safely and effectively adopt AI, and this program is designed to build practical skills and confidence in everyday use.\n\nThe workshop also includes a certification that validates the skills I’ll be applying in my role. I believe this will benefit both my growth and the value I bring to our team. The cost is [insert cost]. Thank you for considering this request.\n\nHere is a link to the course: [Insert Training Program URL]\n\nBest,\n[Your Name]"
+					type: 'paragraph',
+					text: 'Yes! Here’s a customizable letter you can use:\n\nSubject: Request to Attend AI Training\n\nHi [Manager’s Name],\n\nI’d like to attend the upcoming [Workshop Name] with Bill Raymond. Bill is a founding member of the AI Collective (https://www.aicollective.com) and the author of the popular Bill Talks AI newsletter (https://BillTalksAI.com). His work focuses on helping professionals safely and effectively adopt AI, and this program is designed to build practical skills and confidence in everyday use.\n\nThe workshop also includes a certification that validates the skills I’ll be applying in my role. I believe this will benefit both my growth and the value I bring to our team. The cost is [insert cost]. Thank you for considering this request.\n\nHere is a link to the course: [Insert Training Program URL]\n\nBest,\n[Your Name]'
 				}
 			]
 		}

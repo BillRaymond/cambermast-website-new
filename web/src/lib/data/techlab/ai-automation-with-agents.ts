@@ -6,6 +6,7 @@ export const techlabAiAutomationWithAgents = {
 	sku: 'CM-TR-004',
 	title: 'AI Automation with Agents Workshop',
 	nickname: 'Six-week cohort for applied agent builders',
+	eventTypeLabel: 'LIVE TRAINING',
 	tagline:
 		'Automate internal processes with AI agents that act like team members, across six weeks of guided practice.',
 	heroImage: '/images/ai-automation.jpg',
@@ -168,32 +169,32 @@ export const techlabAiAutomationWithAgents = {
 	},
 	faqs: [
 		{
-			"key": "what_technical_skills_should_our_team_have",
-			"question": "What technical skills should our team have?",
-			"blocks": [
+			key: 'what_technical_skills_should_our_team_have',
+			question: 'What technical skills should our team have?',
+			blocks: [
 				{
-					"type": "paragraph",
-					"text": "A basic understanding of APIs or automation platforms is ideal. We provide pre-work to get everyone on the same page before the workshop."
+					type: 'paragraph',
+					text: 'A basic understanding of APIs or automation platforms is ideal. We provide pre-work to get everyone on the same page before the workshop.'
 				}
 			]
 		},
 		{
-			"key": "can_you_build_the_automation_for_us",
-			"question": "Can you build the automation for us?",
-			"blocks": [
+			key: 'can_you_build_the_automation_for_us',
+			question: 'Can you build the automation for us?',
+			blocks: [
 				{
-					"type": "paragraph",
-					"text": "Yes. If you would rather have the agent delivered for you, request a custom quote and we will scope a build-and-handoff engagement."
+					type: 'paragraph',
+					text: 'Yes. If you would rather have the agent delivered for you, request a custom quote and we will scope a build-and-handoff engagement.'
 				}
 			]
 		},
 		{
-			"key": "do_you_offer_on_site_workshops",
-			"question": "Do you offer on-site workshops?",
-			"blocks": [
+			key: 'do_you_offer_on_site_workshops',
+			question: 'Do you offer on-site workshops?',
+			blocks: [
 				{
-					"type": "paragraph",
-					"text": "We regularly run in-person sessions in the SF Bay Area and can travel for private company engagements."
+					type: 'paragraph',
+					text: 'We regularly run in-person sessions in the SF Bay Area and can travel for private company engagements.'
 				}
 			]
 		}

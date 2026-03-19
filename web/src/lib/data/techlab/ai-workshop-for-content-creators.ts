@@ -6,6 +6,7 @@ export const techlabAiWorkshopForContentCreators = {
 	sku: 'CM-TR-005',
 	title: 'AI Workshop for Tech Writers and Content Creators',
 	nickname: 'Seven-week cohort for technical communicators',
+	eventTypeLabel: 'LIVE TRAINING',
 	tagline: 'Get real results from your content with AI-powered workflows in just seven weeks.',
 	heroImage: '/images/generated/training/ai-workshop-for-content-creators/hero-landscape.jpg',
 	heroImageAlt: 'AI Workshop for Tech Writers and Content Creators illustration',
@@ -169,102 +170,102 @@ export const techlabAiWorkshopForContentCreators = {
 	},
 	faqs: [
 		{
-			"key": "will_i_receive_a_certificate_of_completion",
-			"question": "Will I receive a certificate of completion?",
-			"blocks": [
+			key: 'will_i_receive_a_certificate_of_completion',
+			question: 'Will I receive a certificate of completion?',
+			blocks: [
 				{
-					"type": "paragraph",
-					"text": "Yes. Graduates receive a digital certificate after presenting their final project."
+					type: 'paragraph',
+					text: 'Yes. Graduates receive a digital certificate after presenting their final project.'
 				}
 			]
 		},
 		{
-			"key": "will_there_be_makeup_dates",
-			"question": "Will there be makeup dates?",
-			"blocks": [
+			key: 'will_there_be_makeup_dates',
+			question: 'Will there be makeup dates?',
+			blocks: [
 				{
-					"type": "paragraph",
-					"text": "There are no official makeup dates, but Bill accommodates reasonable requests when scheduling conflicts arise."
+					type: 'paragraph',
+					text: 'There are no official makeup dates, but Bill accommodates reasonable requests when scheduling conflicts arise.'
 				}
 			]
 		},
 		{
-			"key": "do_i_need_anything_before_the_workshop_starts",
-			"question": "Do I need anything before the workshop starts?",
-			"blocks": [
+			key: 'do_i_need_anything_before_the_workshop_starts',
+			question: 'Do I need anything before the workshop starts?',
+			blocks: [
 				{
-					"type": "paragraph",
-					"text": "Bring access to a paid generative AI account (ChatGPT, Claude, Gemini, Copilot, etc.) and a project where you can apply the lessons."
+					type: 'paragraph',
+					text: 'Bring access to a paid generative AI account (ChatGPT, Claude, Gemini, Copilot, etc.) and a project where you can apply the lessons.'
 				}
 			]
 		},
 		{
-			"key": "are_the_meetings_virtual_or_in_person",
-			"question": "Are the meetings virtual or in-person?",
-			"blocks": [
+			key: 'are_the_meetings_virtual_or_in_person',
+			question: 'Are the meetings virtual or in-person?',
+			blocks: [
 				{
-					"type": "paragraph",
-					"text": "All cohort sessions are hosted live on Zoom."
+					type: 'paragraph',
+					text: 'All cohort sessions are hosted live on Zoom.'
 				}
 			]
 		},
 		{
-			"key": "how_can_i_ask_questions_about_the_course",
-			"question": "How can I ask questions about the course?",
-			"blocks": [
+			key: 'how_can_i_ask_questions_about_the_course',
+			question: 'How can I ask questions about the course?',
+			blocks: [
 				{
-					"type": "paragraph",
-					"text": "Use the \"Contact the Host\" link on the Lu.ma event page or reach out through the Cambermast contact form."
+					type: 'paragraph',
+					text: 'Use the "Contact the Host" link on the Lu.ma event page or reach out through the Cambermast contact form.'
 				}
 			]
 		},
 		{
-			"key": "will_there_be_exercises_and_take_home_work",
-			"question": "Will there be exercises and take-home work?",
-			"blocks": [
+			key: 'will_there_be_exercises_and_take_home_work',
+			question: 'Will there be exercises and take-home work?',
+			blocks: [
 				{
-					"type": "paragraph",
-					"text": "Yes. Expect optional take-home exercises and encouragement to apply each lesson directly to your content programs."
+					type: 'paragraph',
+					text: 'Yes. Expect optional take-home exercises and encouragement to apply each lesson directly to your content programs.'
 				}
 			]
 		},
 		{
-			"key": "are_there_scheduled_collaboration_meetings_after_each_class",
-			"question": "Are there scheduled collaboration meetings after each class?",
-			"blocks": [
+			key: 'are_there_scheduled_collaboration_meetings_after_each_class',
+			question: 'Are there scheduled collaboration meetings after each class?',
+			blocks: [
 				{
-					"type": "paragraph",
-					"text": "Not formally, but Bill hosts weekly office hours and maintains a discussion thread for ongoing peer support."
+					type: 'paragraph',
+					text: 'Not formally, but Bill hosts weekly office hours and maintains a discussion thread for ongoing peer support.'
 				}
 			]
 		},
 		{
-			"key": "i_can_t_take_this_course_are_there_others",
-			"question": "I can't take this course. Are there others?",
-			"blocks": [
+			key: 'i_can_t_take_this_course_are_there_others',
+			question: "I can't take this course. Are there others?",
+			blocks: [
 				{
-					"type": "paragraph",
-					"text": "Browse the events calendar at /events and subscribe to the Bill Talks AI newsletter for upcoming offerings."
+					type: 'paragraph',
+					text: 'Browse the events calendar at /events and subscribe to the Bill Talks AI newsletter for upcoming offerings.'
 				}
 			]
 		},
 		{
-			"key": "what_are_the_benefits_of_this_course",
-			"question": "What are the benefits of this course?",
-			"blocks": [
+			key: 'what_are_the_benefits_of_this_course',
+			question: 'What are the benefits of this course?',
+			blocks: [
 				{
-					"type": "paragraph",
-					"text": "You will master AI use cases tailored to content creation and gain access to a supportive learning community."
+					type: 'paragraph',
+					text: 'You will master AI use cases tailored to content creation and gain access to a supportive learning community.'
 				}
 			]
 		},
 		{
-			"key": "what_makes_bill_s_training_unique",
-			"question": "What makes Bill's training unique?",
-			"blocks": [
+			key: 'what_makes_bill_s_training_unique',
+			question: "What makes Bill's training unique?",
+			blocks: [
 				{
-					"type": "paragraph",
-					"text": "Bill filters out hype, focuses on realistic outcomes, and delivers a fun, professional learning experience that celebrates individual styles."
+					type: 'paragraph',
+					text: 'Bill filters out hype, focuses on realistic outcomes, and delivers a fun, professional learning experience that celebrates individual styles.'
 				}
 			]
 		}

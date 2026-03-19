@@ -51,6 +51,7 @@
 		date: string;
 		timeLines: string[];
 		location?: string;
+		typeLabel?: string;
 		registerUrl?: string;
 	};
 
@@ -162,6 +163,7 @@
 			date: entry.date,
 			timeLines: toTimeLines(entry.time),
 			location: entry.location,
+			typeLabel: program.eventTypeLabel,
 			registerUrl: entry.registerUrl ?? undefined
 		};
 		const existing = upcomingSessionsByRoute.get(program.route) ?? [];

@@ -6,6 +6,7 @@ export const techlabAiPowerPromptingDraft = {
 	sku: 'CM-TR-DRAFT-001',
 	title: 'AI Power Prompting Lab (Draft)',
 	nickname: 'Experimental prompt lab for early testers',
+	eventTypeLabel: 'LIVE TRAINING',
 	tagline: 'Preview the next iteration of our AI Power Prompting experience before it launches.',
 	heroImage: '/images/ai-fundamentals.jpeg',
 	heroImageAlt: 'AI Power Prompting lab concept art',

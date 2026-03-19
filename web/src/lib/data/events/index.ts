@@ -21,7 +21,7 @@ const PACIFIC_TIME_ZONE = 'America/Los_Angeles';
 const events = (eventsData.events ?? []) as EventSource[];
 
 const DEFAULT_TYPE_LABELS: Record<string, string> = {
-	training_session: 'Training session',
+	training_session: 'LIVE TRAINING',
 	webinar: 'Webinar',
 	conference_talk: 'Conference talk',
 	community: 'Community',
@@ -91,7 +91,8 @@ const toPublicLocationLabel = (event: EventSource): string => {
 const resolveEvent = (event: EventSource): Event => {
 	const bounds = getEventSessionBounds(event);
 	const startAtUtc = bounds?.startAtUtc ?? event.sessions[0]?.startAtUtc ?? '';
-	const endAtUtc = bounds?.endAtUtc ?? event.sessions[event.sessions.length - 1]?.endAtUtc ?? startAtUtc;
+	const endAtUtc =
+		bounds?.endAtUtc ?? event.sessions[event.sessions.length - 1]?.endAtUtc ?? startAtUtc;
 	const visibility = coerceVisibility(event);
 	const lifecycleStatus = coerceLifecycleStatus(event.lifecycleStatus);
 	const registrationStatus = coerceRegistrationStatus(event);

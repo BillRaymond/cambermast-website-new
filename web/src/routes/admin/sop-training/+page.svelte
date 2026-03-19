@@ -116,7 +116,6 @@
 	title={pageMeta.title}
 	description={pageMeta.description}
 	path="/admin/sop-training"
-	useDefaultImage={false}
 />
 
 <svelte:head>
@@ -164,9 +163,8 @@
 		Derived commerce feed coverage lives at <code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
 			>/api/commerce-products.json</code
 		>
-		for preview and <code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
-			>/feed/openai-products.jsonl.gz</code
-		>
+		for preview and
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">/feed/openai-products.jsonl.gz</code>
 		for the gzip export used by OpenAI commerce ingestion.
 	</p>
 </section>
@@ -223,6 +221,12 @@
 			an existing program SKU.
 		</li>
 		<li>
+			Confirm <code class="rounded bg-gray-100 px-1 py-0.5 text-xs">event.typeLabel</code>
+			matches the source program’s
+			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">eventTypeLabel</code>
+			value so public cards and APIs stay aligned.
+		</li>
+		<li>
 			Confirm <code class="rounded bg-gray-100 px-1 py-0.5 text-xs">event.agenda[].details</code>
 			stays an array of bullet strings copied from the source training program unless an intentional
 			event-specific curriculum change is required.
@@ -266,6 +270,13 @@
 			registry program as their canonical card/row source.
 		</li>
 		<li>
+			Public training card/chip copy is source-driven from <code
+				class="rounded bg-gray-100 px-1 py-0.5 text-xs">program.eventTypeLabel</code
+			>
+			in the training registry. Training-derived events must inherit that same label into
+			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">event.typeLabel</code>.
+		</li>
+		<li>
 			Training-specific API contract is <code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
 				>web/src/lib/data/api/schemas/training-api.schema.json</code
 			>
@@ -283,9 +294,9 @@
 		</li>
 		<li>
 			Commerce rows are derived only from published training programs plus future public
-			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">training_session</code> events.
-			Evergreen programs remain search-only; cohorts become checkout-eligible only when they have a
-			public absolute registration URL, explicit USD ticketing amount, and the standard policy URLs.
+			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">training_session</code> events. Evergreen
+			programs remain search-only; cohorts become checkout-eligible only when they have a public absolute
+			registration URL, explicit USD ticketing amount, and the standard policy URLs.
 		</li>
 		<li>
 			Keep these fields feed-safe whenever you edit training or event data: price, hero image, FAQ
@@ -340,7 +351,10 @@
 			and include <code class="rounded bg-gray-100 px-1 py-0.5 text-xs">programRef.sku</code> plus
 			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">schedule</code> and
 			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">template.kind = training_event_v1</code
-			>.
+			>, and the public-facing
+			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">typeLabel</code>
+			should mirror the linked program’s
+			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">eventTypeLabel</code>.
 		</li>
 		<li>
 			Program route values should stay under <code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
@@ -375,6 +389,12 @@
 		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">summary</code>,
 		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">order</code>, and optional display fields
 		like image and bullets.
+	</p>
+	<p class="mt-2 max-w-3xl text-gray-700">
+		Every training program must also set <code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
+			>eventTypeLabel</code
+		>
+		for the canonical public chip text used on training-derived cards and events.
 	</p>
 	<p class="mt-2 max-w-3xl text-gray-700">
 		Do not store testimonials in the training registry. Program pages read testimonials from

@@ -13,7 +13,7 @@
 	export let imageAlt: string | undefined = undefined;
 	export let certificateText: string | undefined = undefined;
 	export let videoUrl: string | undefined = undefined;
-	export let typeLabel = 'Training';
+	export let typeLabel: string | undefined = undefined;
 	export let registerUrl: string | undefined = undefined;
 	export let registerLabel = 'Register now';
 	export let statusLabel: string | undefined = undefined;
@@ -91,7 +91,9 @@
 	$: metaDateTextClass = isCarousel ? 'text-base text-gray-700' : 'text-sm text-gray-700';
 	$: metaTimeClass = isCarousel ? 'text-sm text-gray-700' : 'text-xs text-gray-600';
 	$: metaLocationClass = isCarousel ? 'text-sm text-gray-700' : 'text-xs text-gray-500';
-	$: chipsWrapClass = isCarousel ? 'mt-1.5 flex flex-wrap items-center gap-2' : 'mt-2 flex flex-wrap items-center gap-2';
+	$: chipsWrapClass = isCarousel
+		? 'mt-1.5 flex flex-wrap items-center gap-2'
+		: 'mt-2 flex flex-wrap items-center gap-2';
 	$: ctaWrapClass = isCarousel
 		? 'mt-2.5 flex w-full flex-col items-stretch gap-2 sm:mt-3 sm:flex-row sm:items-center sm:gap-3'
 		: 'mt-3 flex w-full items-center gap-3';
