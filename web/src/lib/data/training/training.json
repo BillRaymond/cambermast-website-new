@@ -455,7 +455,13 @@
 					]
 				}
 			],
+			"presentation": {
+				"partnershipLabel": "In partnership with TechLAB"
+			},
 			"eventDefaults": {
+				"partnerCodes": [
+					"TLB"
+				],
 				"hosts": [
 					{
 						"name": "Bill Raymond",

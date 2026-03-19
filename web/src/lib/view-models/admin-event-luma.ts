@@ -68,6 +68,7 @@ const normalizeMarkdownInput = (value: string): string => {
 	return value;
 };
 const siteOrigin = SITE_ORIGIN.replace(/\/$/, '');
+const fallbackFormatLabel = 'Live online';
 
 const dedupeStrings = (values: Array<string | undefined>): string[] => {
 	const seen = new Set<string>();
@@ -138,16 +139,92 @@ const getDescriptionText = (event: EventUiModel, relatedProgram?: TrainingProgra
 		typeof event.description === 'string'
 			? event.description
 			: (event.description?.bodyMd ?? event.description?.summary ?? '');
+	const hasEventSpecificDescription = Boolean(eventDescription.trim());
 	const sections = dedupeStrings([
 		eventDescription,
-		event.summary,
-		relatedProgram ? toProgramDescriptionText(relatedProgram) : undefined
+		hasEventSpecificDescription || !relatedProgram ? undefined : toProgramDescriptionText(relatedProgram)
 	]);
 
 	return sections.map((section) => normalizeMarkdownCopy(section)).join('\n\n').trim();
 };
 
-const formatFaqBlock = (block: { type: string; text?: string; label?: string; href?: string; subject?: string; body?: string }): string => {
+const normalizeTitleForLumaName = (title: string): string =>
+	title.replace(/\s*\(([^()]+,\s*\d{4})\)\s*$/, ', $1').trim();
+
+const formatCompactNameDateRange = (sessions: NormalizedEventSession[]): string => {
+	if (!sessions.length) return '';
+	const first = sessions[0];
+	const last = sessions[sessions.length - 1];
+	if (sessions.length === 1) return ptDateFormatter.format(first.startTimestamp);
+	return `${ptDateFormatter.format(first.startTimestamp)} - ${ptDateFormatter.format(last.startTimestamp)}`;
+};
+
+const formatNameCopy = (event: EventUiModel): string => {
+	const sessions = normalizeEventSessions(event.sessions ?? []);
+	const baseTitle = normalizeTitleForLumaName(event.title);
+	const dateRange = formatCompactNameDateRange(sessions);
+	if (!dateRange) return baseTitle;
+	if (event.type === 'training_session' && sessions.length > 1) {
+		return `${baseTitle} (${sessions.length}-Weeks, ${dateRange})`;
+	}
+	if (sessions.length > 1) {
+		return `${baseTitle} (${sessions.length} Sessions, ${dateRange})`;
+	}
+	return `${baseTitle} (${dateRange})`;
+};
+
+const applyTemplateVariables = (value: string, variables: Record<string, string>): string => {
+	let result = value;
+	for (const [token, replacement] of Object.entries(variables)) {
+		if (!token || !replacement) continue;
+		result = result.split(token).join(replacement);
+	}
+	return result;
+};
+
+const formatCurrencyCopy = (event: EventUiModel): string => {
+	const amountUsd = event.ticketing?.amountUsd;
+	if (amountUsd === undefined || !Number.isFinite(amountUsd)) return '';
+	return `$${amountUsd.toFixed(2)} USD`;
+};
+
+const getFormatCopy = (event: EventUiModel, relatedProgram?: TrainingProgram): string => {
+	const programFormat = relatedProgram?.stats
+		?.find((stat) => stat.label.trim().toLowerCase() === 'format')
+		?.value;
+	if (typeof programFormat === 'string' && programFormat.trim()) return programFormat.trim();
+	if (Array.isArray(programFormat)) {
+		const firstTextValue = programFormat.find(
+			(value): value is string => typeof value === 'string' && value.trim().length > 0
+		);
+		if (firstTextValue) return firstTextValue.trim();
+	}
+
+	if (event.locationMeta?.publicLabel?.trim()) {
+		return event.locationMeta.mode === 'online'
+			? `${fallbackFormatLabel} (${event.locationMeta.publicLabel.trim()})`
+			: event.locationMeta.publicLabel.trim();
+	}
+
+	return event.locationMeta?.mode === 'online' ? fallbackFormatLabel : '';
+};
+
+const getFaqTemplateVariables = (
+	event: EventUiModel,
+	relatedProgram: TrainingProgram | undefined,
+	sessions: NormalizedEventSession[]
+): Record<string, string> => ({
+	'[Program Name]': event.title,
+	'[Dates]': formatDateRangeLine(sessions),
+	'[Cost]': formatCurrencyCopy(event),
+	'[Format]': getFormatCopy(event, relatedProgram),
+	'[Program/Event URL]': `${siteOrigin}/events/${event.slug}`
+});
+
+const formatFaqBlock = (
+	block: { type: string; text?: string; label?: string; href?: string; subject?: string; body?: string },
+	templateVariables: Record<string, string>
+): string => {
 	if (block.type === 'paragraph') return normalizeMarkdownCopy(block.text?.trim() ?? '');
 	if (block.type === 'link') {
 		const label = block.label?.trim();
@@ -157,24 +234,43 @@ const formatFaqBlock = (block: { type: string; text?: string; label?: string; hr
 	}
 	if (block.type === 'email_template') {
 		const lines = dedupeStrings([
-			block.subject ? `**Email subject:** ${block.subject}` : undefined,
-			block.body ? normalizeMarkdownCopy(block.body) : undefined
+			block.subject
+				? `**Email subject:** ${applyTemplateVariables(block.subject, templateVariables)}`
+				: undefined,
+			block.body
+				? normalizeMarkdownCopy(applyTemplateVariables(block.body, templateVariables))
+				: undefined
 		]);
 		return lines.join('\n');
 	}
 	return '';
 };
 
-const formatFaqSection = (event: EventUiModel, relatedProgram?: TrainingProgram): string => {
+const formatFaqSection = (
+	event: EventUiModel,
+	relatedProgram: TrainingProgram | undefined,
+	sessions: NormalizedEventSession[]
+): string => {
 	const faqs = event.faq?.length ? event.faq : (relatedProgram?.faqs ?? []);
 	if (!faqs.length) return '';
+	const templateVariables = getFaqTemplateVariables(event, relatedProgram, sessions);
 
 	return [
 		'## Frequently Asked Questions',
 		...faqs.flatMap((faq) => {
 			const answer = faq.blocks
 				.map((block) =>
-					formatFaqBlock(block as { type: string; text?: string; label?: string; href?: string; subject?: string; body?: string })
+					formatFaqBlock(
+						block as {
+							type: string;
+							text?: string;
+							label?: string;
+							href?: string;
+							subject?: string;
+							body?: string;
+						},
+						templateVariables
+					)
 				)
 				.filter(Boolean)
 				.join('\n\n');
@@ -295,15 +391,35 @@ const deriveImageCandidates = (value: string | undefined): string[] => {
 	]);
 };
 
+const formatHostingLine = (event: EventUiModel): string => {
+	const partnerNames = dedupeStrings(
+		(event.partners ?? [])
+			.map((partnerRef) => getPartnerByCode(partnerRef.code)?.name ?? partnerRef.code)
+			.filter((name) => name && name !== 'NONE' && name !== 'Cambermast')
+	);
+
+	if (!partnerNames.length) {
+		return 'This event is hosted by **Cambermast**. If you want more details, please visit this link:';
+	}
+
+	if (partnerNames.length === 1) {
+		return `This event is hosted by **Cambermast** in partnership with **${partnerNames[0]}**. If you want more details, please visit this link:`;
+	}
+
+	const leadingPartners = partnerNames.slice(0, -1).map((name) => `**${name}**`).join(', ');
+	const finalPartner = `**${partnerNames.at(-1)}**`;
+	return `This event is hosted by **Cambermast** in partnership with ${leadingPartners}, and ${finalPartner}. If you want more details, please visit this link:`;
+};
+
 const buildDescriptionCopy = (event: EventUiModel, relatedProgram: TrainingProgram | undefined): string => {
 	const sessions = normalizeEventSessions(event.sessions ?? []);
 	const eventUrl = `${siteOrigin}/events/${event.slug}`;
 	const trainingTermsUrl = `${siteOrigin}/training/terms`;
-	const introLines = dedupeStrings([
+	const attributionLines = dedupeStrings([
 		event.videoUrl ?? relatedProgram?.videoUrl
 			? `🎥 Watch the intro video here: ${event.videoUrl ?? relatedProgram?.videoUrl}`
 			: undefined,
-		'This event is hosted by Cambermast. If you want more details, please visit this link:',
+		formatHostingLine(event),
 		eventUrl
 	]);
 	const scheduleLines = dedupeStrings([
@@ -314,13 +430,13 @@ const buildDescriptionCopy = (event: EventUiModel, relatedProgram: TrainingProgr
 	const body = getDescriptionText(event, relatedProgram);
 	const syllabus = formatAgendaSection(event, relatedProgram, sessions);
 	const fullSchedule = sessions.length > 1 ? formatFullScheduleSection(sessions) : '';
-	const faq = formatFaqSection(event, relatedProgram);
+	const faq = formatFaqSection(event, relatedProgram, sessions);
 	const terms = `## Terms\n\nBy registering, you agree to the [training terms and conditions](${trainingTermsUrl}).`;
 
 	return dedupeStrings([
-		introLines.join('\n'),
-		scheduleLines.join('\n'),
 		body,
+		scheduleLines.join('\n'),
+		attributionLines.join('\n'),
 		syllabus,
 		fullSchedule,
 		faq,
@@ -389,7 +505,7 @@ export const buildAdminEventLumaEntries = (events: EventUiModel[]): AdminEventLu
 			imageCopyCandidates: imageCandidates,
 			imageCopyLabel: imageCandidates[0]?.toLowerCase().includes('.png') ? 'Copy PNG' : 'Copy image',
 			youtubeUrl: event.videoUrl ?? relatedProgram?.videoUrl,
-			nameCopy: event.title,
+			nameCopy: formatNameCopy(event),
 			descriptionCopy: buildDescriptionCopy(event, relatedProgram)
 		};
 	});

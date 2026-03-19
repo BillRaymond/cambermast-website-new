@@ -392,9 +392,10 @@
 			],
 			"visibility": "public",
 			"lifecycleStatus": "scheduled",
-			"registrationStatus": "none",
+			"registrationStatus": "external",
 			"cta": {
-				"label": "Open soon",
+				"label": "Register now",
+				"url": "https://luma.com/sglfbm89",
 				"campaignId": "aicd26"
 			},
 			"timeZoneIana": "America/Los_Angeles",
@@ -416,6 +417,12 @@
 			"programRef": {
 				"sku": "CM-TR-006"
 			},
+			"partners": [
+				{
+					"code": "TLB",
+					"role": "partner"
+				}
+			],
 			"template": {
 				"kind": "training_event_v1",
 				"sourceProgramSku": "CM-TR-006",
