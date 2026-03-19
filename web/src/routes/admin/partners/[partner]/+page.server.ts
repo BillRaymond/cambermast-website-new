@@ -6,7 +6,7 @@ import { listCampaignUi } from '$lib/view-models/campaigns';
 import { listEventUi } from '$lib/view-models/events';
 import type { PageServerLoad } from './$types';
 
-export const prerender = false;
+export const prerender = true;
 
 const origin = SITE_ORIGIN.replace(/\/$/, '');
 const IMAGE_EXTENSIONS = new Set(['.jpg', '.jpeg', '.png', '.gif', '.webp', '.avif', '.svg']);

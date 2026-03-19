@@ -355,7 +355,7 @@
 <SeoHead
 	title={pageTitle}
 	description={pageDescription}
-	path={`/admin/campaigns/partners/${partnerSlug}`}
+	path={`/admin/partners/${partnerSlug}`}
 	useDefaultImage={false}
 />
 

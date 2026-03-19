@@ -13,6 +13,7 @@
 		{ href: '/admin/events/luma', label: '📋 Luma Copy' },
 		{ href: '/admin/drafts', label: '📝 Draft Events' },
 		{ href: '/admin/campaigns', label: '📣 Campaigns' },
+		{ href: '/admin/partners', label: '🤝 Partner Pages' },
 		{ href: '/admin/qr', label: '🔳 Route QR' },
 		{ href: '/admin/forms', label: '🧾 Forms' }
 	] as const;

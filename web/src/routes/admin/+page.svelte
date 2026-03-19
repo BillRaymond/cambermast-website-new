@@ -70,7 +70,7 @@
 	</a>
 
 	<a
-		href="/admin/campaigns/partners"
+		href="/admin/partners"
 		class="group rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition hover:border-gray-300"
 	>
 		<p class="text-xs font-semibold tracking-wide text-gray-500 uppercase">Partner</p>

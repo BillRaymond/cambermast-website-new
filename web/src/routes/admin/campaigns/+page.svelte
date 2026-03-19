@@ -101,8 +101,8 @@
 					slug: campaign.partner ?? 'cambermast',
 					label: campaign.partnerLabel ?? campaign.partner ?? 'Cambermast',
 					logo: partnersBySlug.get(campaign.partner ?? 'cambermast')?.logo,
-					path: `/admin/campaigns/partners/${campaign.partner ?? 'cambermast'}`,
-					shareUrl: `${prodOrigin}/admin/campaigns/partners/${campaign.partner ?? 'cambermast'}`,
+					path: `/admin/partners/${campaign.partner ?? 'cambermast'}`,
+					shareUrl: `${prodOrigin}/admin/partners/${campaign.partner ?? 'cambermast'}`,
 					campaignCount: campaigns.filter(
 						(entry) => (entry.partner ?? 'cambermast') === (campaign.partner ?? 'cambermast')
 					).length
@@ -332,7 +332,7 @@
 				</p>
 			</div>
 			<a
-				href="/admin/campaigns/partners"
+				href="/admin/partners"
 				class="inline-flex items-center rounded border border-blue-200 bg-blue-50 px-3 py-1.5 text-xs font-semibold text-blue-700 transition hover:border-blue-300 hover:bg-blue-100"
 			>
 				Open partner hub
@@ -745,7 +745,7 @@
 							<div class="flex flex-wrap gap-2 text-xs text-gray-600">
 								{#if campaign.partner}
 									<a
-										href={`/admin/campaigns/partners/${campaign.partner}`}
+										href={`/admin/partners/${campaign.partner}`}
 										class="rounded-full bg-blue-50 px-2 py-1 font-semibold text-blue-700 transition hover:bg-blue-100"
 									>
 										Partner page: {campaign.partner}

@@ -33,7 +33,7 @@
 					slug: campaign.partner ?? 'cambermast',
 					label: campaign.partnerLabel ?? campaign.partner ?? 'Cambermast',
 					logo: partnersBySlug.get(campaign.partner ?? 'cambermast')?.logo,
-					href: `/admin/campaigns/partners/${campaign.partner ?? 'cambermast'}`,
+					href: `/admin/partners/${campaign.partner ?? 'cambermast'}`,
 					campaignCount: campaigns.filter(
 						(entry) => (entry.partner ?? 'cambermast') === (campaign.partner ?? 'cambermast')
 					).length
@@ -119,7 +119,7 @@
 <SeoHead
 	title={pageTitle}
 	description={pageDescription}
-	path="/admin/campaigns/partners"
+	path="/admin/partners"
 	useDefaultImage={false}
 />
 

@@ -267,7 +267,7 @@
 								<div class="mt-3 flex flex-wrap gap-2 text-xs text-gray-600">
 									{#if campaign.partner}
 										<a
-											href={`/campaigns/partners/${campaign.partner}`}
+											href={`/admin/partners/${campaign.partner}`}
 											class="rounded-full bg-blue-50 px-2 py-1 font-semibold text-blue-700 transition hover:bg-blue-100"
 										>
 											Partner: {campaign.partner}
