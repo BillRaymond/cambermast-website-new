@@ -22,6 +22,10 @@ This repository powers the public marketing site for Cambermast. It contains the
 - **Tailwind CSS 4:** Base styles, typography, and form controls are composed with Tailwind plus the official `@tailwindcss/forms` and `@tailwindcss/typography` plugins.
 - **Linting & formatting:** ESLint 9 + `eslint-plugin-svelte` ensure component quality, and Prettier (with Tailwind + Svelte plugins) keeps the codebase consistent.
 
+## Maintenance TODOs
+
+- In June 2026, re-check `.github/workflows/pages.yml` against the latest GitHub Actions releases and remove the temporary `FORCE_JAVASCRIPT_ACTIONS_TO_NODE24=true` workflow setting once `actions/deploy-pages` publishes a Node 24-compatible release or GitHub documents that it is no longer needed.
+
 ## Accessibility & ARIA Patterns
 
 - **Global navigation controls** (`web/src/routes/+layout.svelte` and `web/src/lib/components/Nav.svelte`) expose `aria-label`, `aria-controls`, and `aria-expanded` so toggles and links announce their state to assistive tech.
