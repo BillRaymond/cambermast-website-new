@@ -23,10 +23,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # Fetch repository contents
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       # Prepare Node.js and npm cache
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: 20
           cache: npm
@@ -45,7 +45,7 @@ jobs:
         working-directory: web
 
       # Upload the generated site for the deploy job
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v4
         with:
           path: web/build
 
