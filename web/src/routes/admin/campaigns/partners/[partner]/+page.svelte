@@ -7,7 +7,6 @@
 	import AdminRouteChips from '$lib/components/admin/AdminRouteChips.svelte';
 	import SeoHead from '$lib/components/SeoHead.svelte';
 	import { SITE_ORIGIN } from '$lib/config/site';
-	import { getCampaignShortPath } from '$lib/data/campaigns';
 	import { getPartnerByCode } from '$lib/data/partners';
 	import { listCampaignUi } from '$lib/view-models/campaigns';
 	import { listEventUi } from '$lib/view-models/events';
@@ -37,6 +36,7 @@
 		...campaign,
 		shortUrlProd: campaign.shortUrl
 	}));
+	const shortPathByCampaignId = new Map(campaigns.map((campaign) => [campaign.id, campaign.shortPath]));
 	const events = listEventUi({ includeDrafts: true, includeUnlisted: true });
 
 	let activeFilter: 'all' | 'events' | 'campaigns' = 'events';
@@ -290,7 +290,7 @@
 		)
 		.map((event) => {
 			const campaignId = event.cta?.campaignId ?? event.campaignId;
-			const shortPath = campaignId ? getCampaignShortPath(campaignId) : undefined;
+			const shortPath = campaignId ? shortPathByCampaignId.get(campaignId) : undefined;
 			const shortUrlProd = shortPath ? `${prodOrigin}${shortPath}` : undefined;
 
 			return {
