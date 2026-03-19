@@ -162,5 +162,18 @@
     "source": "training-testimonial",
     "createdAt": "2026-03-18T22:02:33.452Z",
     "allowPublicUse": true
+  },
+  {
+    "id": "tm-cm-tr-005-006",
+    "programSku": "CM-TR-005",
+    "programSlug": "ai-workshop-for-content-creators",
+    "programRoute": "/training/ai-workshop-for-content-creators",
+    "displayName": "Michelle G",
+    "jobTitle": "Tech Docs Lead",
+    "rating": 5,
+    "quote": "How did I miss Deep Research? This is going to change how I evaluate my content library against my competitors. Bill is such a great trainer!",
+    "source": "training-testimonial",
+    "createdAt": "2026-03-19T15:19:51.721Z",
+    "allowPublicUse": true
   }
 ]
