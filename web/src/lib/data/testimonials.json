@@ -149,5 +149,18 @@
     "allowPublicUse": true,
     "source": "training-testimonial",
     "createdAt": "2026-02-04T20:56:42.792Z"
+  },
+  {
+    "id": "tm-cm-tr-005-009",
+    "programSku": "CM-TR-005",
+    "programSlug": "ai-workshop-for-content-creators",
+    "programRoute": "/training/ai-workshop-for-content-creators",
+    "displayName": "Kelly Thompson",
+    "jobTitle": "Tech Docs Lead",
+    "rating": 5,
+    "quote": "I appreciated how approachable everything felt. It helped build confidence and gave me ideas I could use with my team right away.",
+    "source": "training-testimonial",
+    "createdAt": "2026-03-19T16:20:48.910Z",
+    "allowPublicUse": true
   }
 ]
