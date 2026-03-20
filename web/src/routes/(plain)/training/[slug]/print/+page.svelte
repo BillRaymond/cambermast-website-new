@@ -127,17 +127,6 @@
 			.brochure-agenda-card-title {
 				font-size: 0.9rem !important;
 				line-height: 1.2 !important;
-				letter-spacing: -0.015em;
-				text-wrap: balance;
-			}
-
-			.brochure-agenda .brochure-list {
-				font-size: 0.88rem !important;
-				line-height: 1.35 !important;
-			}
-
-			.brochure-agenda .brochure-list li + li {
-				margin-top: 0.45rem !important;
 			}
 
 			.print-page-break-after {
@@ -156,11 +145,21 @@
 			}
 
 			.brochure-list {
-				font-size: 0.95rem;
+				font-size: 0.88rem !important;
+				line-height: 1.35 !important;
 			}
 
 			.brochure-list li {
 				padding-left: 1rem;
+			}
+
+			.brochure-list li + li {
+				margin-top: 0.45rem !important;
+			}
+
+			.brochure-copy {
+				font-size: 0.88rem !important;
+				line-height: 1.35 !important;
 			}
 
 			.brochure-inline-footer {
@@ -201,7 +200,7 @@
 					</div>
 				</div>
 
-				<div class="space-y-4 text-base leading-relaxed text-gray-700">
+				<div class="brochure-copy space-y-4 text-base leading-relaxed text-gray-700">
 					<p class="brochure-cover-tagline max-w-3xl text-xl leading-relaxed text-gray-700">{brochure.tagline}</p>
 					<p>{brochure.summary}</p>
 					{#if brochure.secondarySummary}
@@ -296,7 +295,7 @@
 						<p class="text-sm font-medium text-blue-700">{brochure.trainer.role}</p>
 					</div>
 				</div>
-				<p class="mt-5 text-sm leading-relaxed text-gray-700">{brochure.trainer.summary}</p>
+				<p class="brochure-copy mt-5 text-sm leading-relaxed text-gray-700">{brochure.trainer.summary}</p>
 				{#if brochure.trainer.highlights.length}
 					<div class="mt-5">
 						<ul class="brochure-list space-y-2 text-sm text-gray-700">
@@ -317,7 +316,7 @@
 				<div class="brochure-agenda-grid mt-5 grid gap-4">
 					{#each brochure.agenda as block}
 						<article class="brochure-card rounded-2xl border border-gray-100 bg-gray-50 p-4 break-inside-avoid">
-							<h3 class="brochure-agenda-card-title text-lg font-semibold text-gray-950">{block.title}</h3>
+							<h3 class="brochure-agenda-card-title text-base font-semibold leading-tight text-gray-950">{block.title}</h3>
 							<ul class="brochure-list mt-3 space-y-2 text-sm leading-relaxed text-gray-700">
 								{#each block.details as detail}
 									<li>{detail}</li>
@@ -344,7 +343,7 @@
 			{#if brochure.stats.environment || brochure.stats.partner}
 				<section class="brochure-card rounded-[1.75rem] border border-amber-100 bg-amber-50 p-6 shadow-sm break-inside-avoid">
 					<h2 class="text-2xl font-semibold text-gray-950">Why teams choose this program</h2>
-					<div class="mt-4 space-y-3 text-sm leading-relaxed text-gray-700">
+					<div class="brochure-copy mt-4 space-y-3 text-sm leading-relaxed text-gray-700">
 						{#if brochure.stats.environment}
 							<p>{brochure.stats.environment}</p>
 						{/if}
