@@ -49,6 +49,7 @@ export type TrainingBrochureModel = {
 	title: string;
 	tagline: string;
 	nickname?: string;
+	partnershipLabel?: string;
 	sku?: string;
 	route: string;
 	printUrl: string;
@@ -89,6 +90,7 @@ export const buildTrainingBrochureModel = (program: TrainingProgram): TrainingBr
 	title: program.title,
 	tagline: program.tagline,
 	nickname: program.nickname,
+	partnershipLabel: program.presentation?.partnershipLabel,
 	sku: program.sku,
 	route: program.route ?? `/training/${program.slug}`,
 	printUrl: getTrainingPrintUrl(program),

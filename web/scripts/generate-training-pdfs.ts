@@ -36,11 +36,14 @@ const formatGeneratedAt = (date: Date): string =>
 		timeZone: 'UTC'
 	}).format(date) + ' UTC';
 
-const buildHeaderTemplate = (title: string): string => `
+const buildHeaderTemplate = (title: string, sku?: string): string => `
 	<div style="width: 100%; padding: 0 0.5in; font-size: 8px; color: #4b5563; font-family: Arial, sans-serif;">
-		<div style="width: 100%; border-bottom: 1px solid #d1d5db; padding-bottom: 6px; display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+		<div style="position: relative; width: 100%; border-bottom: 1px solid #d1d5db; padding-bottom: 6px;">
+			<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
 			<span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${escapeHtml(title)}</span>
 			<span style="white-space: nowrap;">https://cambermast.com</span>
+			</div>
+			<span style="position: absolute; left: 50%; top: 0; transform: translateX(-50%); white-space: nowrap; text-align: center;">${sku ? escapeHtml(sku) : ''}</span>
 		</div>
 	</div>
 `;
@@ -94,6 +97,7 @@ const printPrograms = listTrainingPrograms()
 	.map((program) => ({
 		slug: program.slug,
 		title: program.title,
+		sku: program.sku,
 		printPath: `${program.route ?? `/training/${program.slug}`}/print`,
 		outputPath: path.join(downloadsDir, `${program.slug}.pdf`)
 	}));
@@ -125,7 +129,7 @@ const run = async () => {
 				format: 'Letter',
 				printBackground: true,
 				displayHeaderFooter: true,
-				headerTemplate: buildHeaderTemplate(program.title),
+				headerTemplate: buildHeaderTemplate(program.title, program.sku),
 				footerTemplate: buildFooterTemplate(generatedAt),
 				margin: {
 					top: '0.75in',

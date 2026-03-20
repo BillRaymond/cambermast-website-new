@@ -320,14 +320,14 @@
 						<p class="text-sm font-semibold tracking-[0.22em] text-blue-700 uppercase">
 							Cambermast Training Brochure
 						</p>
-						{#if brochure.sku}
-							<p class="mt-2 text-xs font-semibold tracking-[0.2em] text-gray-500 uppercase">
-								{brochure.sku}
-							</p>
-						{/if}
 						<h1 class="brochure-cover-title mt-3 text-4xl font-bold tracking-tight text-gray-950">{brochure.title}</h1>
 						{#if brochure.nickname}
 							<p class="mt-2 text-base font-medium text-blue-700">{brochure.nickname}</p>
+						{/if}
+						{#if brochure.partnershipLabel}
+							<p class="mt-2 text-xs font-semibold tracking-wide text-amber-700 uppercase">
+								{brochure.partnershipLabel}
+							</p>
 						{/if}
 					</div>
 				</div>

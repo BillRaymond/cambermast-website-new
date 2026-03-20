@@ -27,6 +27,10 @@ const sourceRelevantEntries: RelevantEntry[] = [
 		kind: 'file'
 	},
 	{
+		path: path.join('scripts', 'generate-training-pdfs.ts'),
+		kind: 'file'
+	},
+	{
 		path: path.join('src', 'lib', 'data', 'training'),
 		kind: 'dir'
 	},

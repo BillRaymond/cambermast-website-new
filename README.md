@@ -120,6 +120,7 @@ If existing event records drift out of sync, run `npm --prefix web run campaigns
 - The current brochure watcher contract includes:
   - `web/src/routes/(plain)/training/[slug]/print/+page.svelte`
   - `web/src/routes/(plain)/training/[slug]/print/+page.ts`
+  - `web/scripts/generate-training-pdfs.ts`
   - `web/src/lib/data/training/**`
   - `web/src/lib/data/training/brochure.ts`
   - `web/src/lib/data/testimonials.json`
