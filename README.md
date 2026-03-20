@@ -116,6 +116,16 @@ If existing event records drift out of sync, run `npm --prefix web run campaigns
 - Existing hard page breaks in brochure layouts are intentional editorial choices and must not be removed unless explicitly requested.
 - Brochure QA should focus on content quality, visual cleanliness, and working links. There is no required brochure page count.
 - In development, brochure footer links should resolve against the active local server origin; in production they should resolve against the canonical site origin.
+- `npm --prefix web run dev` now starts a brochure PDF watcher alongside Vite. It rebuilds PDFs only when brochure-impacting sources change, instead of rebuilding on every refresh.
+- The current brochure watcher contract includes:
+  - `web/src/routes/(plain)/training/[slug]/print/+page.svelte`
+  - `web/src/routes/(plain)/training/[slug]/print/+page.ts`
+  - `web/src/lib/data/training/**`
+  - `web/src/lib/data/testimonials.json`
+  - `web/src/lib/data/testimonials.ts`
+  - `web/src/lib/data/partners.ts`
+  - `web/src/routes/about/+page.svelte`
+- Use `npm --prefix web run generate:training-pdfs:dev` when you want a manual rebuild outside the watcher flow.
 
 ## Form Submission Standard
 

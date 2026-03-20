@@ -8,6 +8,15 @@ Start by checking the cleanliness and standardization of the built output PDFs b
 Current context:
 - Current local work is in `web/src/routes/(plain)/training/[slug]/print/+page.svelte`
 - PDFs are generated locally with `npm --prefix web run generate:training-pdfs:dev`
+- In development, `npm --prefix web run dev` also runs a watcher that regenerates brochure PDFs only when brochure-impacting source files change
+- The current watcher contract includes:
+  - `web/src/routes/(plain)/training/[slug]/print/+page.svelte`
+  - `web/src/routes/(plain)/training/[slug]/print/+page.ts`
+  - `web/src/lib/data/training/**`
+  - `web/src/lib/data/testimonials.json`
+  - `web/src/lib/data/testimonials.ts`
+  - `web/src/lib/data/partners.ts`
+  - `web/src/routes/about/+page.svelte`
 - The Docker image includes `poppler-utils` for PDF inspection
 - The brochure print route has already been simplified substantially for pagination work
 - The agenda must start on a new page

@@ -53,6 +53,16 @@ Use this file to keep automated changes aligned with the site’s governance and
 ## Training brochure PDF debugging
 - The training brochure print route is `web/src/routes/(plain)/training/[slug]/print/+page.svelte`.
 - Generate local brochure PDFs with `npm --prefix web run generate:training-pdfs:dev`.
+- In development, `npm --prefix web run dev` now starts a brochure PDF watcher. It regenerates PDFs only when brochure-impacting sources change, rather than on every refresh.
+- The current brochure watcher contract includes these sources:
+  - `web/src/routes/(plain)/training/[slug]/print/+page.svelte`
+  - `web/src/routes/(plain)/training/[slug]/print/+page.ts`
+  - `web/src/lib/data/training/**`
+  - `web/src/lib/data/testimonials.json`
+  - `web/src/lib/data/testimonials.ts`
+  - `web/src/lib/data/partners.ts`
+  - `web/src/routes/about/+page.svelte`
+- If brochure PDFs seem stale in development, verify the changed file is inside that contract before assuming the watcher is broken.
 - The Docker image includes `poppler-utils`; use `pdfinfo`, `pdftoppm`, and `pdftotext` to inspect the built PDFs before making further pagination changes.
 - For print-layout debugging, prioritize content fidelity, clean rendering, and working links over hitting a target page count. Brochures do not have a required number of pages.
 - Do not remove existing hard page breaks in the brochure print layout unless the user explicitly asks for that tradeoff.
