@@ -49,3 +49,10 @@ Use this file to keep automated changes aligned with the site’s governance and
 
 ## Preferred workflow checks
 - Use `web/scripts/sync-site-metadata.mjs` (or `npm --prefix web run dev/build/preview`) to keep `web/static/ai.txt` and `web/static/llms.txt` in sync.
+
+## Training brochure PDF debugging
+- The training brochure print route is `web/src/routes/(plain)/training/[slug]/print/+page.svelte`.
+- Generate local brochure PDFs with `npm --prefix web run generate:training-pdfs:dev`.
+- The Docker image includes `poppler-utils`; use `pdfinfo`, `pdftoppm`, and `pdftotext` to inspect the built PDFs before making further pagination changes.
+- For print-layout debugging, check the cleanliness and standardization of the output PDFs as a first step, then debug page breaks and spacing.
+- Do not remove existing hard page breaks in the brochure print layout unless the user explicitly asks for that tradeoff.

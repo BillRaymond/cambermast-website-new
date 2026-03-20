@@ -24,17 +24,17 @@
 <svelte:head>
 	<meta name="robots" content="noindex,follow" />
 	<style>
-		:global(.brochure-list) {
+		.brochure-list {
 			list-style: none;
 			padding-left: 0;
 		}
 
-		:global(.brochure-list li) {
+		.brochure-list li {
 			position: relative;
 			padding-left: 1.1rem;
 		}
 
-		:global(.brochure-list li::before) {
+		.brochure-list li::before {
 			content: '•';
 			position: absolute;
 			left: 0;
@@ -43,7 +43,7 @@
 			font-weight: 700;
 		}
 
-		:global(body) {
+		body {
 			background:
 				radial-gradient(circle at top, rgba(191, 219, 254, 0.3), transparent 40%),
 				linear-gradient(180deg, #eff6ff 0%, #ffffff 26%);
@@ -51,37 +51,95 @@
 		}
 
 		@media print {
-			:global(.brochure-main) {
+			.brochure-main {
 				display: block !important;
 			}
 
-			:global(.brochure-main > * + *) {
-				margin-top: 1.5rem;
+			.brochure-main > * + * {
+				margin-top: 1rem;
 			}
 
-			:global(body) {
+			.brochure-main {
+				padding-top: 0 !important;
+				padding-bottom: 0 !important;
+			}
+
+			body {
 				background: #fff;
 			}
 
-			:global(a) {
+			a {
 				color: inherit;
 				text-decoration: none;
 			}
 
-			:global(.print-page-break-after) {
+			.brochure-cover {
+				break-inside: avoid;
+			}
+
+			.brochure-card {
+				break-inside: avoid;
+				box-shadow: none;
+				padding: 1.25rem !important;
+			}
+
+			.brochure-hero-heading {
+				gap: 1rem !important;
+			}
+
+			.brochure-cover-title {
+				font-size: 2rem !important;
+				line-height: 1.1 !important;
+			}
+
+			.brochure-cover-tagline {
+				font-size: 1.125rem !important;
+				line-height: 1.5 !important;
+			}
+
+			.brochure-grid-section {
+				display: block !important;
+			}
+
+			.brochure-grid-section > * + * {
+				margin-top: 1.25rem;
+			}
+
+			.brochure-agenda {
+				break-inside: avoid;
+			}
+
+			.print-page-break-after {
 				display: block;
 				break-after: page;
 				page-break-after: always;
+			}
+
+			.brochure-agenda-heading {
+				break-after: avoid-page;
+				page-break-after: avoid;
+			}
+
+			.brochure-sidebar > * + * {
+				margin-top: 1.25rem;
+			}
+
+			.brochure-list {
+				font-size: 0.95rem;
+			}
+
+			.brochure-list li {
+				padding-left: 1rem;
 			}
 		}
 	</style>
 </svelte:head>
 
 <main class="brochure-main mx-auto flex max-w-5xl flex-col gap-6 px-6 py-8 text-gray-900 print:max-w-none print:px-0">
-	<section class="px-2 print:px-0">
+	<section class="brochure-cover px-2 print:px-0">
 		<div class="grid gap-8 md:grid-cols-[1.5fr_0.9fr]">
 			<div class="space-y-6">
-				<div class="grid gap-6 print:grid-cols-[10rem_1fr] print:items-start md:grid-cols-[11rem_1fr] md:items-start">
+				<div class="brochure-hero-heading grid gap-6 print:grid-cols-[10rem_1fr] print:items-start md:grid-cols-[11rem_1fr] md:items-start">
 				{#if brochure.heroImage}
 					<div class="overflow-hidden rounded-[1.5rem] border border-blue-100 bg-blue-50 shadow-sm print:w-40">
 						<img
@@ -101,7 +159,7 @@
 								{brochure.sku}
 							</p>
 						{/if}
-						<h1 class="mt-3 text-4xl font-bold tracking-tight text-gray-950">{brochure.title}</h1>
+						<h1 class="brochure-cover-title mt-3 text-4xl font-bold tracking-tight text-gray-950">{brochure.title}</h1>
 						{#if brochure.nickname}
 							<p class="mt-2 text-base font-medium text-blue-700">{brochure.nickname}</p>
 						{/if}
@@ -109,7 +167,7 @@
 				</div>
 
 				<div class="space-y-4 text-base leading-relaxed text-gray-700">
-					<p class="max-w-3xl text-xl leading-relaxed text-gray-700">{brochure.tagline}</p>
+					<p class="brochure-cover-tagline max-w-3xl text-xl leading-relaxed text-gray-700">{brochure.tagline}</p>
 					<p>{brochure.summary}</p>
 					{#if brochure.secondarySummary}
 						<p>{brochure.secondarySummary}</p>
@@ -152,7 +210,7 @@
 
 	{#if brochure.outcomes.length}
 		<section class="px-2 print:px-0">
-			<div class="rounded-[1.75rem] border border-blue-100 bg-blue-50 p-6 shadow-sm break-inside-avoid">
+			<div class="brochure-card rounded-[1.75rem] border border-blue-100 bg-blue-50 p-6 shadow-sm break-inside-avoid">
 				<h2 class="text-2xl font-semibold text-gray-950">Outcomes</h2>
 				<ul class="brochure-list mt-4 space-y-3 text-gray-800">
 					{#each brochure.outcomes as item}
@@ -165,7 +223,7 @@
 
 	{#if brochure.audience.length}
 		<section class="px-2 print:px-0">
-			<div class="rounded-[1.75rem] border border-gray-200 bg-white p-6 shadow-sm break-inside-avoid">
+			<div class="brochure-card rounded-[1.75rem] border border-gray-200 bg-white p-6 shadow-sm break-inside-avoid">
 				<h2 class="text-2xl font-semibold text-gray-950">Who this is for</h2>
 				<ul class="brochure-list mt-4 space-y-3 text-gray-700">
 					{#each brochure.audience as item}
@@ -186,7 +244,7 @@
 
 	{#if brochure.trainer}
 		<section class={`px-2 print:px-0 ${brochure.agenda.length ? 'print-page-break-after' : ''}`}>
-			<div class="rounded-[1.75rem] border border-blue-100 bg-white p-6 shadow-sm break-inside-avoid">
+			<div class="brochure-card rounded-[1.75rem] border border-blue-100 bg-white p-6 shadow-sm break-inside-avoid">
 				<p class="text-sm font-semibold tracking-wide text-blue-700 uppercase">
 					{brochure.trainer.title}
 				</p>
@@ -217,13 +275,13 @@
 		</section>
 	{/if}
 
-	<section class="grid gap-6 print:break-before-page md:grid-cols-[1.15fr_0.85fr]">
+	<section class="brochure-grid-section grid gap-6 md:grid-cols-[1.15fr_0.85fr]">
 		{#if brochure.agenda.length}
-			<div class="px-2 print:px-0">
-				<h2 class="text-2xl font-semibold text-gray-950">Agenda highlights</h2>
+			<div class="brochure-agenda px-2 print:px-0">
+				<h2 class="brochure-agenda-heading text-2xl font-semibold text-gray-950">Agenda highlights</h2>
 				<div class="mt-5 grid gap-4">
 					{#each brochure.agenda as block}
-						<article class="rounded-2xl border border-gray-100 bg-gray-50 p-4 break-inside-avoid">
+						<article class="brochure-card rounded-2xl border border-gray-100 bg-gray-50 p-4 break-inside-avoid">
 							<h3 class="text-lg font-semibold text-gray-950">{block.title}</h3>
 							<ul class="brochure-list mt-3 space-y-2 text-sm leading-relaxed text-gray-700">
 								{#each block.details as detail}
@@ -236,9 +294,9 @@
 			</div>
 		{/if}
 
-		<div class="space-y-6">
+		<div class="brochure-sidebar space-y-6">
 			{#if brochure.takeaways.length}
-				<section class="rounded-[1.75rem] border border-gray-200 bg-white p-6 shadow-sm break-inside-avoid">
+				<section class="brochure-card rounded-[1.75rem] border border-gray-200 bg-white p-6 shadow-sm break-inside-avoid">
 					<h2 class="text-2xl font-semibold text-gray-950">What you'll leave with</h2>
 					<ul class="brochure-list mt-4 space-y-3 text-gray-700">
 						{#each brochure.takeaways as item}
@@ -249,7 +307,7 @@
 			{/if}
 
 			{#if brochure.stats.environment || brochure.stats.partner}
-				<section class="rounded-[1.75rem] border border-amber-100 bg-amber-50 p-6 shadow-sm break-inside-avoid">
+				<section class="brochure-card rounded-[1.75rem] border border-amber-100 bg-amber-50 p-6 shadow-sm break-inside-avoid">
 					<h2 class="text-2xl font-semibold text-gray-950">Why teams choose this program</h2>
 					<div class="mt-4 space-y-3 text-sm leading-relaxed text-gray-700">
 						{#if brochure.stats.environment}
