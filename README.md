@@ -121,10 +121,12 @@ If existing event records drift out of sync, run `npm --prefix web run campaigns
   - `web/src/routes/(plain)/training/[slug]/print/+page.svelte`
   - `web/src/routes/(plain)/training/[slug]/print/+page.ts`
   - `web/src/lib/data/training/**`
+  - `web/src/lib/data/training/brochure.ts`
   - `web/src/lib/data/testimonials.json`
   - `web/src/lib/data/testimonials.ts`
   - `web/src/lib/data/partners.ts`
   - `web/src/routes/about/+page.svelte`
+  - brochure-linked `/images/**` assets referenced by training brochure data, testimonials, the print route, and the About page
 - Use `npm --prefix web run generate:training-pdfs:dev` when you want a manual rebuild outside the watcher flow.
 
 ## Form Submission Standard

@@ -58,10 +58,12 @@ Use this file to keep automated changes aligned with the site’s governance and
   - `web/src/routes/(plain)/training/[slug]/print/+page.svelte`
   - `web/src/routes/(plain)/training/[slug]/print/+page.ts`
   - `web/src/lib/data/training/**`
+  - `web/src/lib/data/training/brochure.ts`
   - `web/src/lib/data/testimonials.json`
   - `web/src/lib/data/testimonials.ts`
   - `web/src/lib/data/partners.ts`
   - `web/src/routes/about/+page.svelte`
+  - brochure-linked `/images/**` assets referenced by training brochure data, testimonials, the print route, and the About page
 - If brochure PDFs seem stale in development, verify the changed file is inside that contract before assuming the watcher is broken.
 - The Docker image includes `poppler-utils`; use `pdfinfo`, `pdftoppm`, and `pdftotext` to inspect the built PDFs before making further pagination changes.
 - For print-layout debugging, prioritize content fidelity, clean rendering, and working links over hitting a target page count. Brochures do not have a required number of pages.

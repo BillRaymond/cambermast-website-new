@@ -13,10 +13,12 @@ Current context:
   - `web/src/routes/(plain)/training/[slug]/print/+page.svelte`
   - `web/src/routes/(plain)/training/[slug]/print/+page.ts`
   - `web/src/lib/data/training/**`
+  - `web/src/lib/data/training/brochure.ts`
   - `web/src/lib/data/testimonials.json`
   - `web/src/lib/data/testimonials.ts`
   - `web/src/lib/data/partners.ts`
   - `web/src/routes/about/+page.svelte`
+  - brochure-linked `/images/**` assets referenced by training brochure data, testimonials, the print route, and the About page
 - The Docker image includes `poppler-utils` for PDF inspection
 - The brochure print route has already been simplified substantially for pagination work
 - The agenda must start on a new page
