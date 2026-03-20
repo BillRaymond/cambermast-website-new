@@ -4,15 +4,147 @@
 	import SeoHead from '$lib/components/SeoHead.svelte';
 	import { SITE_ORIGIN } from '$lib/config/site';
 	import { buildTrainingBrochureModel } from '$lib/data/training/brochure';
+	import { listTestimonialsForSlug, type Testimonial } from '$lib/data/testimonials';
+	import type { TrainingBrochureModel } from '$lib/data/training/brochure';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
 
 	const brochure = buildTrainingBrochureModel(data.program);
+	const ABOUT_CAMBERMAST = {
+		title: 'Cambermast at a Glance',
+		image: '/images/cambermast-logo-small-square-white.png',
+		imageAlt: 'Cambermast logo',
+		summary:
+			'We guide teams from pilot to production with lightweight governance, structured build labs, and lasting knowledge transfer.',
+		bullets: [
+			'AI training programs tailored to your workflows',
+			'Advisory sprints that surface quick wins and guardrails',
+			'Automation engagements that blend human oversight with AI speed'
+		],
+		outro:
+			'Our clients tell us they value clear communication, honest assessments, and experiencing AI in action during every engagement.'
+	};
+	const PARTNER_PROFILES = [
+		{
+			keywords: ['the content wrangler', 'scott abel'],
+			name: 'Scott Abel',
+			role: 'The Content Wrangler',
+			description:
+				'Scott Abel, known as The Content Wrangler, is a content strategy evangelist and CEO who helps organizations improve customer experiences through modern content practices, education, and advocacy.',
+			link: 'https://www.thecontentwrangler.com',
+			image: '/images/the-content-wrangler.jpeg',
+			imageAlt: 'The Content Wrangler logo',
+			imageFit: 'contain' as const
+		},
+		{
+			keywords: ['techlab'],
+			name: 'TechLAB Innovation Center LLC',
+			role: 'Technology Entrepreneurship Growth Partner',
+			description:
+				'TechLAB Innovation Center mission is to help early and mid-stage technology entrepreneurs with a developed product/service, scale up business operations to achieve sustainable growth.',
+			bullets: [
+				'A technology-driven environment focused on achieving results',
+				'A strong network of mentors',
+				'Access to a leading ecosystem in the investment community',
+				'Extensive industry expertise for partnerships, investment, and acquisitions'
+			],
+			descriptionOutro:
+				'We welcome entrepreneurs, local, national and international, to base and cultivate their operations at TechLAB Innovation Center!',
+			link: 'https://techlabcenter.com',
+			image: '/images/TechLAB-Innovation-Center.png',
+			imageAlt: 'TechLAB Innovation Center logo',
+			imageFit: 'contain' as const
+		},
+		{
+			keywords: ['jennifer hufnagel', 'hufnagel consulting'],
+			name: 'Jennifer Hufnagel',
+			role: 'AI Educator and Change Leadership',
+			description:
+				'Jennifer Hufnagel is an AI educator and consultant with over 20 years of experience helping organizations transform through training, digital innovation, and community-driven leadership.',
+			link: 'https://www.linkedin.com/in/jennifer-hufnagel/',
+			image: '/images/jennifer-hufnagel-headshot.jpg',
+			imageAlt: 'Jennifer Hufnagel headshot',
+			imageFit: 'cover' as const
+		},
+		{
+			keywords: ['project hosts'],
+			name: 'Project Hosts',
+			role: 'Secure Cloud Hosting for Microsoft Project Server',
+			description:
+				'Project Hosts delivers FedRAMP, DoD IL, and HITRUST compliant environments so organizations can keep Microsoft Project Server online while Microsoft winds down native support. They partner with Cambermast to migrate, host, and support regulated PMO workloads.',
+			link: 'https://projecthosts.com',
+			image: '/images/project-hosts-logo.png',
+			imageAlt: 'Project Hosts logo',
+			imageFit: 'contain' as const
+		}
+	];
+	const buildAgendaChunks = (
+		agenda: TrainingBrochureModel['agenda']
+	): TrainingBrochureModel['agenda'][] => {
+		if (agenda.length <= 6) return [agenda];
+
+		const maxCardsPerPage = 6;
+		const pageCount = Math.ceil(agenda.length / maxCardsPerPage);
+		const baseSize = Math.floor(agenda.length / pageCount);
+		const remainder = agenda.length % pageCount;
+		const chunks: TrainingBrochureModel['agenda'][] = [];
+		let startIndex = 0;
+
+		for (let index = 0; index < pageCount; index += 1) {
+			const chunkSize = baseSize + (index < remainder ? 1 : 0);
+			chunks.push(agenda.slice(startIndex, startIndex + chunkSize));
+			startIndex += chunkSize;
+		}
+
+		return chunks;
+	};
+	const formatTestimonialRole = (testimonial: Testimonial): string =>
+		testimonial.jobTitle && testimonial.company
+			? `${testimonial.jobTitle}, ${testimonial.company}`
+			: testimonial.jobTitle ?? testimonial.company ?? '';
+	const sortTestimonialsForPrint = (left: Testimonial, right: Testimonial): number => {
+		const photoDelta = Number(Boolean(right.photoUrl)) - Number(Boolean(left.photoUrl));
+		if (photoDelta !== 0) return photoDelta;
+
+		return new Date(right.createdAt).getTime() - new Date(left.createdAt).getTime();
+	};
+	const truncateQuote = (quote: string, maxLength = 120): string => {
+		const normalized = quote.trim();
+		if (normalized.length <= maxLength) return normalized;
+
+		const shortened = normalized.slice(0, maxLength);
+		const boundary = Math.max(shortened.lastIndexOf('. '), shortened.lastIndexOf(' '));
+		const trimmed = boundary > maxLength * 0.6 ? shortened.slice(0, boundary) : shortened;
+		return `${trimmed.trim()}...`;
+	};
+	const resolvePartnerProfile = (candidateText: string | undefined) => {
+		if (!candidateText) return undefined;
+
+		const normalized = candidateText.toLowerCase();
+		return PARTNER_PROFILES.find((profile) =>
+			profile.keywords.some((keyword) => normalized.includes(keyword))
+		);
+	};
 	const seoTitle = `${brochure.title} Brochure | Cambermast`;
 	const seoDescription = brochure.tagline;
 	const pagePath = brochure.printUrl;
 	const copyrightYear = new Date().getFullYear();
+	const agendaChunks = buildAgendaChunks(brochure.agenda);
+	const selectedTestimonials = listTestimonialsForSlug(brochure.slug)
+		.filter((testimonial) => testimonial.allowPublicUse !== false)
+		.sort(sortTestimonialsForPrint)
+		.slice(0, 2)
+		.map((testimonial) => ({
+			...testimonial,
+			formattedRole: formatTestimonialRole(testimonial),
+			shortQuote: truncateQuote(testimonial.quote)
+		}));
+	const partnerProfile = resolvePartnerProfile(
+		brochure.stats.partner ??
+			data.program.presentation?.partnershipLabel ??
+			data.program.sessions?.find((session) => session.partner)?.partner
+	);
 	const defaultOrigin = SITE_ORIGIN.replace(/\/$/, '');
 	let brochureOrigin = defaultOrigin;
 	let brochureAbsoluteUrl = `${defaultOrigin}${brochure.route}`;
@@ -311,21 +443,25 @@
 
 	<section class="brochure-grid-section grid gap-6 md:grid-cols-[1.15fr_0.85fr]">
 		{#if brochure.agenda.length}
-			<div class="brochure-agenda px-2 print:px-0">
-				<h2 class="brochure-agenda-heading text-2xl font-semibold text-gray-950">Agenda highlights</h2>
-				<div class="brochure-agenda-grid mt-5 grid gap-4">
-					{#each brochure.agenda as block}
-						<article class="brochure-card rounded-2xl border border-gray-100 bg-gray-50 p-4 break-inside-avoid">
-							<h3 class="brochure-agenda-card-title text-base font-semibold leading-tight text-gray-950">{block.title}</h3>
-							<ul class="brochure-list mt-3 space-y-2 text-sm leading-relaxed text-gray-700">
-								{#each block.details as detail}
-									<li>{detail}</li>
-								{/each}
-							</ul>
-						</article>
-					{/each}
+			{#each agendaChunks as agendaChunk, chunkIndex}
+				<div class={`brochure-agenda px-2 print:px-0 ${chunkIndex < agendaChunks.length - 1 ? 'print-page-break-after' : ''}`}>
+					<h2 class="brochure-agenda-heading text-2xl font-semibold text-gray-950">
+						{chunkIndex === 0 ? 'Agenda highlights' : 'Agenda highlights continued'}
+					</h2>
+					<div class="brochure-agenda-grid mt-5 grid gap-4">
+						{#each agendaChunk as block}
+							<article class="brochure-card rounded-2xl border border-gray-100 bg-gray-50 p-4 break-inside-avoid">
+								<h3 class="brochure-agenda-card-title text-base font-semibold leading-tight text-gray-950">{block.title}</h3>
+								<ul class="brochure-list mt-3 space-y-2 text-sm leading-relaxed text-gray-700">
+									{#each block.details as detail}
+										<li>{detail}</li>
+									{/each}
+								</ul>
+							</article>
+						{/each}
+					</div>
 				</div>
-			</div>
+			{/each}
 		{/if}
 
 		<div class="brochure-sidebar space-y-6">
@@ -351,8 +487,93 @@
 							<p>{brochure.stats.partner}</p>
 						{/if}
 					</div>
+					{#if selectedTestimonials.length}
+						<div class="mt-5 grid gap-3 print:grid-cols-2">
+							{#each selectedTestimonials as testimonial}
+								<article class="rounded-2xl border border-amber-200/70 bg-white/85 p-3">
+									<div class="flex items-start gap-3">
+										{#if testimonial.photoUrl}
+											<img
+												src={testimonial.photoUrl}
+												alt={testimonial.displayName}
+												class="h-10 w-10 rounded-xl border border-gray-200 object-cover"
+											/>
+										{/if}
+										<div class="min-w-0">
+											<p class="text-sm font-semibold leading-tight text-gray-950">{testimonial.displayName}</p>
+											{#if testimonial.formattedRole}
+												<p class="text-[11px] leading-tight text-gray-500">{testimonial.formattedRole}</p>
+											{/if}
+										</div>
+									</div>
+									<blockquote class="mt-2 text-sm leading-relaxed text-gray-700">
+										“{testimonial.shortQuote}”
+									</blockquote>
+								</article>
+							{/each}
+						</div>
+					{/if}
 				</section>
 			{/if}
+
+			<div class={`grid gap-4 ${partnerProfile ? 'print:grid-cols-2' : ''}`}>
+				<section class="brochure-card rounded-[1.75rem] border bg-white p-5 shadow-sm break-inside-avoid">
+					<div class="flex items-center gap-3">
+						<div class="flex h-14 w-14 items-center justify-center rounded-2xl border border-gray-200 bg-white shadow">
+							<img
+								src={ABOUT_CAMBERMAST.image}
+								alt={ABOUT_CAMBERMAST.imageAlt}
+								class="h-10 w-10 object-contain"
+							/>
+						</div>
+						<h2 class="text-xl font-semibold text-gray-950">{ABOUT_CAMBERMAST.title}</h2>
+					</div>
+					<p class="brochure-copy mt-3 text-sm leading-relaxed text-gray-700">
+						{ABOUT_CAMBERMAST.summary}
+					</p>
+					<ul class="brochure-list mt-3 space-y-2 text-sm text-gray-700">
+						{#each ABOUT_CAMBERMAST.bullets as bullet}
+							<li>{bullet}</li>
+						{/each}
+					</ul>
+					<p class="brochure-copy mt-3 text-sm leading-relaxed text-gray-700">
+						{ABOUT_CAMBERMAST.outro}
+					</p>
+				</section>
+
+				{#if partnerProfile}
+					<section class="brochure-card rounded-[1.75rem] border bg-white p-5 shadow-sm break-inside-avoid">
+						<div class="flex items-center gap-3">
+							{#if partnerProfile.image}
+								<img
+									src={partnerProfile.image}
+									alt={partnerProfile.imageAlt}
+									class="h-14 w-14 rounded-2xl border border-gray-200 bg-white shadow"
+									class:object-cover={partnerProfile.imageFit !== 'contain'}
+									class:object-contain={partnerProfile.imageFit === 'contain'}
+								/>
+							{/if}
+							<div>
+								<h2 class="text-lg font-semibold leading-tight text-gray-950">{partnerProfile.name}</h2>
+								<p class="text-sm text-gray-500">{partnerProfile.role}</p>
+							</div>
+						</div>
+						<div class="brochure-copy mt-3 space-y-3 text-sm leading-relaxed text-gray-700">
+							<p>{partnerProfile.description}</p>
+							{#if partnerProfile.bullets?.length}
+								<ul class="brochure-list space-y-2">
+									{#each partnerProfile.bullets as bullet}
+										<li>{bullet}</li>
+									{/each}
+								</ul>
+							{/if}
+							{#if partnerProfile.descriptionOutro}
+								<p>{partnerProfile.descriptionOutro}</p>
+							{/if}
+						</div>
+					</section>
+				{/if}
+			</div>
 		</div>
 	</section>
 
