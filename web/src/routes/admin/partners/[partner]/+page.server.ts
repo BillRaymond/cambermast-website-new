@@ -2,6 +2,7 @@ import { access, readdir, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { SITE_ORIGIN } from '$lib/config/site';
 import { getPartnerByCode } from '$lib/data/partners';
+import { listTrainingPrograms } from '$lib/data/training';
 import { listCampaignUi } from '$lib/view-models/campaigns';
 import { listEventUi } from '$lib/view-models/events';
 import type { PageServerLoad } from './$types';
@@ -13,6 +14,7 @@ const IMAGE_EXTENSIONS = new Set(['.jpg', '.jpeg', '.png', '.gif', '.webp', '.av
 const VIDEO_EXTENSIONS = new Set(['.mp4', '.webm', '.mov', '.m4v', '.ogv', '.ogg']);
 const TEXT_EXTENSIONS = new Set(['.txt', '.md', '.json', '.csv', '.log', '.yaml', '.yml']);
 const GENERATED_EVENTS_PREFIX = '/images/generated/events/';
+const GENERATED_TRAINING_PREFIX = '/images/generated/training/';
 
 type AssetKind = 'image' | 'video' | 'text' | 'file';
 
@@ -39,6 +41,15 @@ const toGeneratedEventSlugFromImagePath = (imagePath?: string): string | null =>
 	return slug?.trim() ? slug : null;
 };
 
+const toGeneratedTrainingSlugFromImagePath = (imagePath?: string): string | null => {
+	if (!imagePath) return null;
+	const trimmed = imagePath.trim();
+	if (!trimmed.startsWith(GENERATED_TRAINING_PREFIX)) return null;
+	const relative = trimmed.slice(GENERATED_TRAINING_PREFIX.length);
+	const [slug] = relative.split('/');
+	return slug?.trim() ? slug : null;
+};
+
 const toEventSlug = (landingPath: string): string | null => {
 	const match = landingPath.match(/^\/events\/([^/?#]+)/);
 	return match?.[1] ?? null;
@@ -60,9 +71,19 @@ const toPublicAssetUrl = (eventSlug: string, relativePath: string): string => {
 	return `/images/generated/events/${encodeURIComponent(eventSlug)}/${encodedPath}`;
 };
 
+const toPublicTrainingAssetUrl = (trainingSlug: string, relativePath: string): string => {
+	const encodedPath = relativePath
+		.split('/')
+		.filter(Boolean)
+		.map((segment) => encodeURIComponent(segment))
+		.join('/');
+	return `/images/generated/training/${encodeURIComponent(trainingSlug)}/${encodedPath}`;
+};
+
 const listAssetsRecursively = async (
 	directory: string,
-	eventSlug: string,
+	slug: string,
+	toPublicUrl: (slug: string, relativePath: string) => string,
 	prefix = ''
 ): Promise<CampaignAsset[]> => {
 	const entries = await readdir(directory, { withFileTypes: true });
@@ -73,7 +94,12 @@ const listAssetsRecursively = async (
 		const absolutePath = path.join(directory, entry.name);
 		const relativePath = prefix ? `${prefix}/${entry.name}` : entry.name;
 		if (entry.isDirectory()) {
-			const nestedAssets = await listAssetsRecursively(absolutePath, eventSlug, relativePath);
+			const nestedAssets = await listAssetsRecursively(
+				absolutePath,
+				slug,
+				toPublicUrl,
+				relativePath
+			);
 			assets.push(...nestedAssets);
 			continue;
 		}
@@ -84,7 +110,7 @@ const listAssetsRecursively = async (
 		assets.push({
 			name: entry.name,
 			relativePath,
-			url: toPublicAssetUrl(eventSlug, relativePath),
+			url: toPublicUrl(slug, relativePath),
 			extension,
 			sizeBytes: fileStat.size,
 			kind: toAssetKind(extension)
@@ -108,12 +134,31 @@ const resolveGeneratedEventsRoot = async (): Promise<string | null> => {
 	return null;
 };
 
+const resolveGeneratedTrainingRoot = async (): Promise<string | null> => {
+	const cwd = process.cwd();
+	const candidates = [
+		path.join(cwd, 'static', 'images', 'generated', 'training'),
+		path.join(cwd, 'web', 'static', 'images', 'generated', 'training')
+	];
+
+	for (const candidate of candidates) {
+		if (await pathExists(candidate)) return candidate;
+	}
+
+	return null;
+};
+
 export const load: PageServerLoad = async ({ params }) => {
 	const partnerKey = params.partner?.toLowerCase() ?? '';
 	const campaigns = listCampaignUi(origin).filter(
 		(campaign) => campaign.partner?.toLowerCase() === partnerKey
 	);
 	const events = listEventUi({ includeDrafts: true, includeUnlisted: true });
+	const trainingPrograms = listTrainingPrograms({ includeDrafts: true }).filter((program) =>
+		program.eventDefaults?.partnerCodes?.some(
+			(code) => getPartnerByCode(code)?.slug?.toLowerCase() === partnerKey
+		)
+	);
 
 	const generatedSlugByCampaignId = new Map<string, string>();
 	for (const event of events) {
@@ -125,8 +170,10 @@ export const load: PageServerLoad = async ({ params }) => {
 	}
 
 	const generatedEventsRoot = await resolveGeneratedEventsRoot();
+	const generatedTrainingRoot = await resolveGeneratedTrainingRoot();
 	const campaignGeneratedAssets: Record<string, CampaignAsset[]> = {};
 	const eventGeneratedAssets: Record<string, CampaignAsset[]> = {};
+	const trainingGeneratedAssets: Record<string, CampaignAsset[]> = {};
 
 	if (generatedEventsRoot) {
 		for (const event of events) {
@@ -145,7 +192,11 @@ export const load: PageServerLoad = async ({ params }) => {
 				continue;
 			}
 
-			eventGeneratedAssets[event.slug] = await listAssetsRecursively(eventDir, generatedSlug);
+			eventGeneratedAssets[event.slug] = await listAssetsRecursively(
+				eventDir,
+				generatedSlug,
+				toPublicAssetUrl
+			);
 		}
 
 		for (const campaign of campaigns) {
@@ -162,9 +213,33 @@ export const load: PageServerLoad = async ({ params }) => {
 				continue;
 			}
 
-			campaignGeneratedAssets[campaign.id] = await listAssetsRecursively(eventDir, eventSlug);
+			campaignGeneratedAssets[campaign.id] = await listAssetsRecursively(
+				eventDir,
+				eventSlug,
+				toPublicAssetUrl
+			);
 		}
 	}
 
-	return { campaignGeneratedAssets, eventGeneratedAssets };
+	if (generatedTrainingRoot) {
+		for (const program of trainingPrograms) {
+			const generatedSlug =
+				toGeneratedTrainingSlugFromImagePath(program.heroImage) ??
+				toGeneratedTrainingSlugFromImagePath(program.ogImage) ??
+				program.slug;
+			const trainingDir = path.join(generatedTrainingRoot, generatedSlug);
+			if (!(await pathExists(trainingDir))) {
+				trainingGeneratedAssets[program.slug] = [];
+				continue;
+			}
+
+			trainingGeneratedAssets[program.slug] = await listAssetsRecursively(
+				trainingDir,
+				generatedSlug,
+				toPublicTrainingAssetUrl
+			);
+		}
+	}
+
+	return { campaignGeneratedAssets, eventGeneratedAssets, trainingGeneratedAssets };
 };
