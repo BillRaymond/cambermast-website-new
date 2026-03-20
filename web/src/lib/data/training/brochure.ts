@@ -11,6 +11,9 @@ const statValueToArray = (value?: string | string[]): string[] =>
 const statValueToText = (value?: string | string[]): string =>
 	statValueToArray(value).join(', ');
 
+const cleanStatText = (value: string): string =>
+	value.replace(/^[^\p{L}\p{N}$]+/u, '').trim();
+
 const trimList = (items: string[] | undefined, maxItems: number): string[] =>
 	(items ?? [])
 		.map((item) => item.trim())
@@ -33,7 +36,16 @@ export const getTrainingPrintUrl = (program: TrainingProgram): string =>
 export const getTrainingPdfUrl = (program: TrainingProgram): string =>
 	`/downloads/training/${program.slug}.pdf`;
 
+const brochureImageOverrides: Record<string, string> = {
+	'ai-workshop-for-content-creators':
+		'/images/generated/training/ai-workshop-for-content-creators/hero-square.jpg'
+};
+
+const getTrainingBrochureImage = (program: TrainingProgram): string | undefined =>
+	brochureImageOverrides[program.slug] ?? program.heroImage;
+
 export type TrainingBrochureModel = {
+	slug: string;
 	title: string;
 	tagline: string;
 	nickname?: string;
@@ -73,6 +85,7 @@ export type TrainingBrochureModel = {
 };
 
 export const buildTrainingBrochureModel = (program: TrainingProgram): TrainingBrochureModel => ({
+	slug: program.slug,
 	title: program.title,
 	tagline: program.tagline,
 	nickname: program.nickname,
@@ -80,17 +93,19 @@ export const buildTrainingBrochureModel = (program: TrainingProgram): TrainingBr
 	route: program.route ?? `/training/${program.slug}`,
 	printUrl: getTrainingPrintUrl(program),
 	pdfUrl: getTrainingPdfUrl(program),
-	heroImage: program.heroImage,
+	heroImage: getTrainingBrochureImage(program),
 	heroImageAlt: program.heroImageAlt ?? program.title,
 	summary: program.description,
 	secondarySummary: program.secondaryDescription,
 	stats: {
-		duration: statValueToText(getStat(program.stats, 'duration')?.value) || undefined,
-		format: statValueToArray(getStat(program.stats, 'format')?.value),
-		cost: statValueToText(getStat(program.stats, 'cost')?.value) || undefined,
-		certificate: statValueToText(getStat(program.stats, 'certificate')?.value) || undefined,
-		environment: statValueToText(getStat(program.stats, 'environment')?.value) || undefined,
-		partner: statValueToText(getStat(program.stats, 'partner')?.value) || undefined
+		duration: cleanStatText(statValueToText(getStat(program.stats, 'duration')?.value)) || undefined,
+		format: statValueToArray(getStat(program.stats, 'format')?.value).map(cleanStatText),
+		cost: cleanStatText(statValueToText(getStat(program.stats, 'cost')?.value)) || undefined,
+		certificate:
+			cleanStatText(statValueToText(getStat(program.stats, 'certificate')?.value)) || undefined,
+		environment:
+			cleanStatText(statValueToText(getStat(program.stats, 'environment')?.value)) || undefined,
+		partner: cleanStatText(statValueToText(getStat(program.stats, 'partner')?.value)) || undefined
 	},
 	audience: trimList(program.audience, 4),
 	audienceExamples: trimList(program.audienceExamples, 4),

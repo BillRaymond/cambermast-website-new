@@ -32,7 +32,8 @@
 	});
 
 	$: hideChrome =
-		$page.url.pathname.startsWith('/training/print') || $page.url.pathname.startsWith('/techlab');
+		(/^\/training(?:\/[^/]+)?\/print$/.test($page.url.pathname) ||
+			$page.url.pathname.startsWith('/techlab'));
 	$: isEventDetailRoute = /^\/events\/[^/]+$/.test($page.url.pathname);
 	$: hideSiteHeader = (() => {
 		if (!isEventDetailRoute) return false;
@@ -263,7 +264,7 @@
 	</footer>
 {/if}
 
-{#if showConsentPanel}
+{#if showConsentPanel && !hideChrome}
 	<div
 		class="fixed inset-x-0 bottom-0 z-40 border-t border-gray-200 bg-white/95 shadow-xl shadow-black/5 backdrop-blur"
 		role="dialog"

@@ -155,7 +155,7 @@ export const techlabAiAdvancedWorkshop: TechlabProgram = {
 			'Author of the Bill Talks AI newsletter.',
 			'Founding member of the AI Collective.',
 			'NASA award winner and Microsoft MVP.',
-			'Host of the Agile in Action podcast with 130+ episodes.'
+			'Host of the Agile in Action podcast.'
 		]
 	},
 	faqs: [

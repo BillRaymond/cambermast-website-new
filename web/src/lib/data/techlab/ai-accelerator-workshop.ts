@@ -140,7 +140,7 @@ export const techlabAiAcceleratorWorkshop = {
 			'Founding member of the AI Collective.',
 			'NASA award winner.',
 			'Microsoft MVP.',
-			'Host of the Agile in Action podcast with 130+ episodes.'
+			'Host of the Agile in Action podcast.'
 		]
 	},
 	faqs: [
