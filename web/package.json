@@ -6,9 +6,9 @@
 	"scripts": {
 		"prebuild": "node ./scripts/sync-site-metadata.mjs && npm run validate:events && npm run validate:campaigns && npm run validate:registries && npm run validate:api && npm run validate:public-endpoints && npm run validate:schema-governance && npm run validate:ui-adapters && npm run validate:no-duplicate-files",
 		"dev": "vite dev",
-		"predev": "node ./scripts/sync-site-metadata.mjs && npm run validate:events && npm run validate:campaigns && npm run validate:registries && npm run validate:api && npm run validate:public-endpoints && npm run validate:schema-governance && npm run validate:ui-adapters && npm run validate:no-duplicate-files",
+		"predev": "node ./scripts/sync-site-metadata.mjs && npm run validate:events && npm run validate:campaigns && npm run validate:registries && npm run validate:api && npm run validate:public-endpoints && npm run validate:schema-governance && npm run validate:ui-adapters && npm run validate:no-duplicate-files && tsx ./scripts/generate-training-pdfs.ts --mode=dev",
 		"dev:host": "vite dev --host 0.0.0.0 --port 5173",
-		"build": "vite build && node ./scripts/write-static-admin-campaign-redirect.mjs",
+		"build": "tsx ./scripts/reset-generated-output.ts && vite build && node ./scripts/write-static-admin-campaign-redirect.mjs && tsx ./scripts/generate-training-pdfs.ts",
 		"preview": "vite preview",
 		"prepreview": "node ./scripts/sync-site-metadata.mjs && npm run validate:events && npm run validate:campaigns && npm run validate:registries && npm run validate:api && npm run validate:public-endpoints && npm run validate:schema-governance && npm run validate:ui-adapters && npm run validate:no-duplicate-files",
 		"prepare": "svelte-kit sync || echo ''",
@@ -37,7 +37,9 @@
 		"validate:no-duplicate-files": "node ./scripts/validate-no-duplicate-suffix-files.mjs",
 		"validate:schema-governance": "node ./scripts/validate-schema-governance.mjs",
 		"validate:ui-adapters": "tsx ./scripts/validate-ui-adapters.ts",
-		"featured:compose-default": "node ./scripts/compose-featured-images.mjs"
+		"featured:compose-default": "node ./scripts/compose-featured-images.mjs",
+		"generate:training-pdfs": "tsx ./scripts/generate-training-pdfs.ts",
+		"generate:training-pdfs:dev": "tsx ./scripts/generate-training-pdfs.ts --mode=dev"
 	},
 	"devDependencies": {
 		"@eslint/compat": "^1.2.5",

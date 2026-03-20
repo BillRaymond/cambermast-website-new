@@ -1,4 +1,5 @@
 import { listTrainingPrograms } from '$lib/data/training';
+import { getTrainingPdfUrl, getTrainingPrintUrl } from '$lib/data/training/brochure';
 
 type BuildTrainingApiPayloadInput = {
 	origin: string;
@@ -37,7 +38,19 @@ const mapUrlsToAbsolute = (value: unknown, origin: string): unknown => {
 
 export const buildTrainingApiPayload = ({ origin, generatedAt }: BuildTrainingApiPayloadInput) => ({
 	generatedAt: generatedAt ?? new Date().toISOString(),
-	programs: mapUrlsToAbsolute(listTrainingPrograms(), origin) as ReturnType<typeof listTrainingPrograms>
+	programs: mapUrlsToAbsolute(
+		listTrainingPrograms().map((program) => ({
+			...program,
+			printUrl: getTrainingPrintUrl(program),
+			pdfUrl: getTrainingPdfUrl(program)
+		})),
+		origin
+	) as Array<
+		ReturnType<typeof listTrainingPrograms>[number] & {
+			printUrl: string;
+			pdfUrl: string;
+		}
+	>
 });
 
 export const buildTrainingApiExamples = (origin: string) => {

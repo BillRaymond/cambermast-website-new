@@ -167,6 +167,15 @@
 		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">/feed/openai-products.jsonl.gz</code>
 		for the gzip export used by OpenAI commerce ingestion.
 	</p>
+	<p class="mt-2 max-w-3xl text-gray-700">
+		Training brochures are generated from the same registry at build time. Each published program now
+		exposes a print source route at <code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
+			>/training/[slug]/print</code
+		>
+		and a static downloadable PDF at <code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
+			>/downloads/training/[slug].pdf</code
+		>.
+	</p>
 </section>
 
 <section class="mt-8">
@@ -197,6 +206,14 @@
 		<li>
 			Review the training route and card visibility on <code
 				class="rounded bg-gray-100 px-1 py-0.5 text-xs">/training</code
+			>.
+		</li>
+		<li>
+			Review the brochure source at <code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
+				>/training/[slug]/print</code
+			>
+			and confirm the generated PDF exists under <code
+				class="rounded bg-gray-100 px-1 py-0.5 text-xs">/downloads/training/[slug].pdf</code
 			>.
 		</li>
 		<li>Run validation gates before merge.</li>

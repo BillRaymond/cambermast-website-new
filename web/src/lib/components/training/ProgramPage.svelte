@@ -12,6 +12,8 @@
 		listUpcomingTrainingEntriesForProgram,
 		type TrainingScheduleEntry
 	} from '$lib/data/training/schedule';
+	import { getTrainingPdfUrl } from '$lib/data/training/brochure';
+	import { runtimeDev } from '$lib/utils/runtime-env';
 	import {
 		listTestimonialsForSku,
 		listTestimonialsForSlug,
@@ -39,6 +41,7 @@
 	let faqsWithTerms: TrainingFaq[] = [];
 	let faqTemplateVariables: Record<string, string> = {};
 	let curriculumItems: CurriculumItem[] = [];
+	let brochurePdfUrl = '';
 
 	const normalizeLabel = (label?: string): string | undefined => label?.toLowerCase().trim();
 	const scheduleTeamLabel = 'schedule your team';
@@ -149,6 +152,7 @@
 			title: block.title,
 			details: block.details ?? []
 		})) ?? [];
+	$: brochurePdfUrl = program ? getTrainingPdfUrl(program) : '';
 
 	$: {
 		if (!registerableSessions.length) {
@@ -340,6 +344,15 @@
 					>
 						{program.secondaryCta.label}
 					</a>
+					{#if runtimeDev}
+						<a
+							href={brochurePdfUrl}
+							rel="external"
+							class="text-blue-700 underline decoration-blue-200 underline-offset-4 transition hover:text-blue-900"
+						>
+							Download brochure PDF
+						</a>
+					{/if}
 				</div>
 			</div>
 			{#if program.stats?.length}
