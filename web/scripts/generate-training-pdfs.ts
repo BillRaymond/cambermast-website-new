@@ -21,6 +21,40 @@ const serverOrigin = `http://127.0.0.1:${serverPort}`;
 const downloadsDir =
 	mode === 'dev' ? staticDownloadsDir : path.join(buildDir, 'downloads', 'training');
 
+const escapeHtml = (value: string): string =>
+	value
+		.replaceAll('&', '&amp;')
+		.replaceAll('<', '&lt;')
+		.replaceAll('>', '&gt;')
+		.replaceAll('"', '&quot;')
+		.replaceAll("'", '&#39;');
+
+const formatGeneratedAt = (date: Date): string =>
+	new Intl.DateTimeFormat('en-US', {
+		dateStyle: 'long',
+		timeStyle: 'short',
+		timeZone: 'UTC'
+	}).format(date) + ' UTC';
+
+const buildHeaderTemplate = (title: string): string => `
+	<div style="width: 100%; padding: 0 0.5in; font-size: 8px; color: #4b5563; font-family: Arial, sans-serif;">
+		<div style="width: 100%; border-bottom: 1px solid #d1d5db; padding-bottom: 6px; display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+			<span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${escapeHtml(title)}</span>
+			<span style="white-space: nowrap;">https://cambermast.com</span>
+		</div>
+	</div>
+`;
+
+const buildFooterTemplate = (generatedAt: string): string => `
+	<div style="width: 100%; padding: 0 0.5in; font-size: 8px; color: #4b5563; font-family: Arial, sans-serif;">
+		<div style="width: 100%; border-top: 1px solid #d1d5db; padding-top: 6px; display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+			<span>Copyright CAMBERMAST LLC&trade;</span>
+			<span>Generated ${escapeHtml(generatedAt)}</span>
+			<span>Page <span class="pageNumber"></span> of <span class="totalPages"></span></span>
+		</div>
+	</div>
+`;
+
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const waitForServer = async (url: string, attempts = 40) => {
@@ -59,6 +93,7 @@ const printPrograms = listTrainingPrograms()
 	.filter((program) => program.catalog?.published ?? true)
 	.map((program) => ({
 		slug: program.slug,
+		title: program.title,
 		printPath: `${program.route ?? `/training/${program.slug}`}/print`,
 		outputPath: path.join(downloadsDir, `${program.slug}.pdf`)
 	}));
@@ -82,16 +117,20 @@ const run = async () => {
 		for (const program of printPrograms) {
 			const page = await browser.newPage();
 			const url = `${serverOrigin}${program.printPath}`;
+			const generatedAt = formatGeneratedAt(new Date());
 			console.log(`Generating PDF for ${program.slug} from ${url}`);
 			await page.goto(url, { waitUntil: 'networkidle' });
 			await page.pdf({
 				path: program.outputPath,
 				format: 'Letter',
 				printBackground: true,
+				displayHeaderFooter: true,
+				headerTemplate: buildHeaderTemplate(program.title),
+				footerTemplate: buildFooterTemplate(generatedAt),
 				margin: {
-					top: '0.5in',
+					top: '0.75in',
 					right: '0.5in',
-					bottom: '0.5in',
+					bottom: '0.85in',
 					left: '0.5in'
 				}
 			});
