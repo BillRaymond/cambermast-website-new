@@ -35,13 +35,14 @@ export const getTrainingPrintUrl = (program: TrainingProgram): string =>
 export const getTrainingPdfUrl = (program: TrainingProgram): string =>
 	`/downloads/training/${program.slug}.pdf`;
 
-const brochureImageOverrides: Record<string, string> = {
-	'ai-workshop-for-content-creators':
-		'/images/generated/training/ai-workshop-for-content-creators/hero-square.jpg'
+const getSquareBrochureImage = (heroImage?: string): string | undefined => {
+	if (!heroImage) return undefined;
+
+	return heroImage.replace(/\/hero-landscape([^/]*)\.(png|jpe?g)$/i, '/hero-square$1.$2');
 };
 
 const getTrainingBrochureImage = (program: TrainingProgram): string | undefined =>
-	brochureImageOverrides[program.slug] ?? program.heroImage;
+	getSquareBrochureImage(program.heroImage) ?? program.heroImage;
 
 export type TrainingBrochureModel = {
 	slug: string;
