@@ -25,6 +25,7 @@ This repository powers the public marketing site for Cambermast. It contains the
 ## Maintenance TODOs
 
 - In June 2026, re-check `.github/workflows/pages.yml` against the latest GitHub Actions releases and remove the temporary `FORCE_JAVASCRIPT_ACTIONS_TO_NODE24=true` workflow setting once `actions/deploy-pages` publishes a Node 24-compatible release or GitHub documents that it is no longer needed.
+- Add tagged-PDF/accessibility metadata support to the training brochure generation workflow so downloadable brochures are more standards-friendly.
 
 ## Accessibility & ARIA Patterns
 
@@ -108,6 +109,13 @@ If existing event records drift out of sync, run `npm --prefix web run campaigns
 - `web/src/routes/training/terms/+page.svelte` is the canonical set of Training Terms (refunds, credits, transfers, conduct, materials, disputes).
 - Include a visible link to `/training/terms` on every registration form, landing page, or program overview so attendees know where to review policy details.
 - When policy language changes, update that file first and then refresh any marketing copy or registration emails that describe the guarantees.
+
+## Training Brochure PDF Rules
+
+- Training brochure content should preserve the full published curriculum. Do not hard-cap agenda length for the print/PDF brochure.
+- Existing hard page breaks in brochure layouts are intentional editorial choices and must not be removed unless explicitly requested.
+- Brochure QA should focus on content quality, visual cleanliness, and working links. There is no required brochure page count.
+- In development, brochure footer links should resolve against the active local server origin; in production they should resolve against the canonical site origin.
 
 ## Form Submission Standard
 

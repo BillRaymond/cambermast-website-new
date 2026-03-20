@@ -22,10 +22,9 @@ const trimList = (items: string[] | undefined, maxItems: number): string[] =>
 
 const trimAgenda = (
 	agenda: TrainingProgram['agenda'],
-	maxSections: number,
 	maxDetailsPerSection: number
 ) =>
-	(agenda ?? []).slice(0, maxSections).map((block) => ({
+	(agenda ?? []).map((block) => ({
 		title: block.title,
 		details: trimList(block.details, maxDetailsPerSection)
 	}));
@@ -111,7 +110,7 @@ export const buildTrainingBrochureModel = (program: TrainingProgram): TrainingBr
 	audienceExamples: trimList(program.audienceExamples, 4),
 	outcomes: trimList(program.objectives, 5),
 	takeaways: trimList(program.takeaways, 5),
-	agenda: trimAgenda(program.agenda, 5, 3),
+	agenda: trimAgenda(program.agenda, 3),
 	trainer: program.aboutTrainer
 		? {
 				title: program.aboutTrainer.title,

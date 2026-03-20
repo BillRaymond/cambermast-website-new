@@ -214,7 +214,9 @@
 			>
 			and confirm the generated PDF exists under <code
 				class="rounded bg-gray-100 px-1 py-0.5 text-xs">/downloads/training/[slug].pdf</code
-			>.
+			>. Preserve all published agenda items, treat existing hard page breaks as intentional unless a
+			specific layout change is requested, and judge the brochure by content quality rather than a
+			target page count.
 		</li>
 		<li>Run validation gates before merge.</li>
 		<li>

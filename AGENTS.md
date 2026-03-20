@@ -54,5 +54,6 @@ Use this file to keep automated changes aligned with the site’s governance and
 - The training brochure print route is `web/src/routes/(plain)/training/[slug]/print/+page.svelte`.
 - Generate local brochure PDFs with `npm --prefix web run generate:training-pdfs:dev`.
 - The Docker image includes `poppler-utils`; use `pdfinfo`, `pdftoppm`, and `pdftotext` to inspect the built PDFs before making further pagination changes.
-- For print-layout debugging, check the cleanliness and standardization of the output PDFs as a first step, then debug page breaks and spacing.
+- For print-layout debugging, prioritize content fidelity, clean rendering, and working links over hitting a target page count. Brochures do not have a required number of pages.
 - Do not remove existing hard page breaks in the brochure print layout unless the user explicitly asks for that tradeoff.
+- Treat existing hard page breaks as intentional editorial layout controls, not as defects to clean up.

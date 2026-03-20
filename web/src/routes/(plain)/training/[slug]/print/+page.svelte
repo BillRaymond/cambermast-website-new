@@ -1,5 +1,8 @@
 <script lang="ts">
+	import { browser } from '$app/environment';
+	import { page } from '$app/stores';
 	import SeoHead from '$lib/components/SeoHead.svelte';
+	import { SITE_ORIGIN } from '$lib/config/site';
 	import { buildTrainingBrochureModel } from '$lib/data/training/brochure';
 	import type { PageData } from './$types';
 
@@ -10,6 +13,12 @@
 	const seoDescription = brochure.tagline;
 	const pagePath = brochure.printUrl;
 	const copyrightYear = new Date().getFullYear();
+	const defaultOrigin = SITE_ORIGIN.replace(/\/$/, '');
+	let brochureOrigin = defaultOrigin;
+	let brochureAbsoluteUrl = `${defaultOrigin}${brochure.route}`;
+
+	$: brochureOrigin = browser ? $page.url.origin.replace(/\/$/, '') : defaultOrigin;
+	$: brochureAbsoluteUrl = `${brochureOrigin}${brochure.route}`;
 </script>
 
 <SeoHead
@@ -325,8 +334,8 @@
 	<footer class="flex flex-col gap-2 border-t border-gray-200 pt-4 text-sm text-gray-600 md:flex-row md:items-center md:justify-between">
 		<p>Cambermast LLC · AI Agility in Action · {copyrightYear}</p>
 		<p>
-			<a href={brochure.route} class="font-semibold text-blue-700 underline decoration-blue-200 underline-offset-4">
-				{brochure.route}
+			<a href={brochureAbsoluteUrl} class="font-semibold text-blue-700 underline decoration-blue-200 underline-offset-4">
+				{brochureAbsoluteUrl}
 			</a>
 		</p>
 	</footer>
