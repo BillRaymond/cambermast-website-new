@@ -42,6 +42,9 @@
 	let faqTemplateVariables: Record<string, string> = {};
 	let curriculumItems: CurriculumItem[] = [];
 	let brochurePdfUrl = '';
+	let showAllUpcomingSessions = false;
+	let canToggleUpcomingSessions = false;
+	let displayedRegisterableSessionCards: EventCardModel[] = [];
 
 	const normalizeLabel = (label?: string): string | undefined => label?.toLowerCase().trim();
 	const scheduleTeamLabel = 'schedule your team';
@@ -153,6 +156,12 @@
 			details: block.details ?? []
 		})) ?? [];
 	$: brochurePdfUrl = program && hasTrainingPdf(program) ? getTrainingPdfUrl(program) : '';
+	$: canToggleUpcomingSessions = registerableSessionCards.length > 1;
+	$: displayedRegisterableSessionCards = canToggleUpcomingSessions
+		? showAllUpcomingSessions
+			? registerableSessionCards
+			: registerableSessionCards.slice(0, 1)
+		: registerableSessionCards;
 
 	$: {
 		if (!registerableSessions.length) {
@@ -212,19 +221,39 @@
 						loading="lazy"
 					/>
 				{/if}
-				{#if program.presentation?.partnershipLabel || program.videoUrl}
-					<div class="mt-2 flex flex-col gap-1 text-sm font-semibold text-blue-700">
+				{#if certificateText || brochurePdfUrl || program.videoUrl}
+					<div class="mt-2 flex flex-wrap items-center gap-2">
+						{#if certificateText}
+							<span
+								class="inline-flex shrink-0 items-center rounded-full border border-blue-100 bg-blue-50 px-2 py-0.5 text-[0.65rem] font-semibold whitespace-nowrap text-blue-700"
+							>
+								📜 CERTIFICATE
+							</span>
+						{/if}
+						{#if brochurePdfUrl}
+							<a
+								href={brochurePdfUrl}
+								target="_blank"
+								rel="noopener noreferrer"
+								class="inline-flex shrink-0 items-center rounded-full border border-blue-100 bg-blue-50 px-2 py-0.5 text-[0.65rem] font-semibold whitespace-nowrap text-blue-700 transition hover:bg-blue-100"
+							>
+								BROCHURE
+							</a>
+						{/if}
 						{#if program.videoUrl}
 							<a
 								href={program.videoUrl}
 								target="_blank"
 								rel="noopener noreferrer"
-								class="inline-flex items-center gap-2 text-blue-700 underline decoration-blue-200 underline-offset-4 transition hover:text-blue-800"
+								class="inline-flex shrink-0 items-center rounded-full border border-blue-100 bg-blue-50 px-2 py-0.5 text-[0.65rem] font-semibold whitespace-nowrap text-blue-700 transition hover:bg-blue-100"
 							>
-								🎬 {program.presentation?.trailerLinkLabel ?? 'Watch the trailer'}
-								<span aria-hidden="true">↗</span>
+								▶ TRAILER
 							</a>
 						{/if}
+					</div>
+				{/if}
+				{#if program.presentation?.partnershipLabel}
+					<div class="mt-2 flex flex-col gap-1 text-sm font-semibold text-blue-700">
 						{#if program.presentation?.partnershipLabel}
 							<p class="text-xs font-semibold tracking-wide text-amber-700 uppercase">
 								{program.presentation.partnershipLabel}
@@ -233,27 +262,6 @@
 					</div>
 				{/if}
 				<h1 class="mt-1.5 text-4xl font-bold text-gray-900">{program.title}</h1>
-				{#if certificateText || program.videoUrl}
-					<div class="mt-1.5 flex flex-wrap items-center gap-2">
-						{#if certificateText}
-							<span
-								class="inline-flex items-center rounded-full border border-blue-100 bg-blue-50 px-2.5 py-0.5 text-[0.7rem] font-medium text-blue-700/80 normal-case"
-							>
-								📜 Certificate
-							</span>
-						{/if}
-						{#if program.videoUrl}
-							<a
-								href={program.videoUrl}
-								target="_blank"
-								rel="noopener noreferrer"
-								class="inline-flex items-center rounded-full border border-blue-100 bg-blue-50 px-2.5 py-0.5 text-[0.7rem] font-medium text-blue-700/80 normal-case transition hover:border-blue-200 hover:bg-blue-100"
-							>
-								🎬 Watch the trailer
-							</a>
-						{/if}
-					</div>
-				{/if}
 				{#if program.nickname}
 					<p class="mt-1 text-sm font-medium text-blue-600">{program.nickname}</p>
 				{/if}
@@ -264,9 +272,21 @@
 						>
 							<span class="h-2 w-2 rounded-full bg-blue-500"></span>
 							Upcoming dates
+							{#if canToggleUpcomingSessions}
+								<span aria-hidden="true">•</span>
+								<button
+									type="button"
+									class="cursor-pointer text-xs font-semibold text-blue-700 uppercase underline decoration-blue-200 underline-offset-4 transition hover:text-blue-900"
+									on:click={() => (showAllUpcomingSessions = !showAllUpcomingSessions)}
+								>
+									{showAllUpcomingSessions
+										? 'Show fewer'
+										: `Show all (${registerableSessionCards.length})`}
+								</button>
+							{/if}
 						</p>
 						<div class="mt-3 grid gap-3">
-							{#each registerableSessionCards as session (session.id)}
+							{#each displayedRegisterableSessionCards as session (session.id)}
 								<EventCard
 									title={session.title}
 									tagline={session.tagline}
@@ -315,46 +335,66 @@
 									allowfullscreen
 								></iframe>
 							</div>
-						{/if}
-						<div class="flex flex-col gap-1.5 text-sm font-semibold text-blue-700">
-							{#if program.videoUrl}
-								<a
-									href={program.videoUrl}
-									target="_blank"
-									rel="noopener noreferrer"
-									class="inline-flex items-center gap-2 text-blue-700 underline decoration-blue-200 underline-offset-4 transition hover:text-blue-800"
-								>
-									Watch the trailer
-									<span aria-hidden="true">↗</span>
-								</a>
+							{#if certificateText || brochurePdfUrl || program.videoUrl}
+								<div class="mt-2 flex flex-wrap items-center gap-2">
+									{#if certificateText}
+										<span
+											class="inline-flex shrink-0 items-center rounded-full border border-blue-100 bg-blue-50 px-2 py-0.5 text-[0.65rem] font-semibold whitespace-nowrap text-blue-700"
+										>
+											📜 CERTIFICATE
+										</span>
+									{/if}
+									{#if brochurePdfUrl}
+										<a
+											href={brochurePdfUrl}
+											target="_blank"
+											rel="noopener noreferrer"
+											class="inline-flex shrink-0 items-center rounded-full border border-blue-100 bg-blue-50 px-2 py-0.5 text-[0.65rem] font-semibold whitespace-nowrap text-blue-700 transition hover:bg-blue-100"
+										>
+											BROCHURE
+										</a>
+									{/if}
+									{#if program.videoUrl}
+										<a
+											href={program.videoUrl}
+											target="_blank"
+											rel="noopener noreferrer"
+											class="inline-flex shrink-0 items-center rounded-full border border-blue-100 bg-blue-50 px-2 py-0.5 text-[0.65rem] font-semibold whitespace-nowrap text-blue-700 transition hover:bg-blue-100"
+										>
+											▶ TRAILER
+										</a>
+									{/if}
+								</div>
 							{/if}
-						</div>
+						{/if}
 					</div>
 				{/if}
-				<div class="mt-5 flex flex-wrap items-center gap-4 text-sm font-semibold">
-					<a
-						href={program.primaryCta.url}
-						class="text-blue-700 underline decoration-blue-200 underline-offset-4 transition hover:text-blue-900"
-						class:schedule-team-button={isScheduleTeamLabel(program.primaryCta?.label)}
-					>
-						{program.primaryCta.label}
-					</a>
-					<a
-						href={program.secondaryCta.url}
-						class="text-blue-700 underline decoration-blue-200 underline-offset-4 transition hover:text-blue-900"
-					>
-						{program.secondaryCta.label}
-					</a>
+				{#if !program.videoUrl}
+					<div class="mt-5 flex flex-wrap items-center gap-4 text-sm font-semibold">
+						<a
+							href={program.primaryCta.url}
+							class="text-blue-700 underline decoration-blue-200 underline-offset-4 transition hover:text-blue-900"
+							class:schedule-team-button={isScheduleTeamLabel(program.primaryCta?.label)}
+						>
+							{program.primaryCta.label}
+						</a>
+						<a
+							href={program.secondaryCta.url}
+							class="text-blue-700 underline decoration-blue-200 underline-offset-4 transition hover:text-blue-900"
+						>
+							{program.secondaryCta.label}
+						</a>
 						{#if runtimeDev && brochurePdfUrl}
 							<a
 								href={brochurePdfUrl}
 								rel="external"
-							class="text-blue-700 underline decoration-blue-200 underline-offset-4 transition hover:text-blue-900"
-						>
-							Download brochure PDF
-						</a>
-					{/if}
-				</div>
+								class="text-blue-700 underline decoration-blue-200 underline-offset-4 transition hover:text-blue-900"
+							>
+								Download brochure PDF
+							</a>
+						{/if}
+					</div>
+				{/if}
 			</div>
 			{#if program.stats?.length}
 				<div
@@ -492,51 +532,66 @@
 		</section>
 	{/if}
 
-	{#if program.takeaways?.length || registerableSessions.length}
+	{#if program.takeaways?.length}
 		<section class="grid gap-6 md:grid-cols-2">
-			{#if program.takeaways?.length}
-				<div class="rounded-2xl border border-blue-100 bg-white p-5 shadow">
-					<h2 class="text-2xl font-semibold text-gray-900">Results you can use</h2>
-					<ul class="bullet-list mt-3.5 space-y-2.5 text-gray-700">
-						{#each program.takeaways as takeaway}
-							<li>{takeaway}</li>
-						{/each}
-					</ul>
-				</div>
-			{/if}
-			{#if registerableSessions.length}
-				<div class="rounded-2xl bg-white p-5 shadow">
+			<div class="rounded-2xl border border-blue-100 bg-white p-5 shadow">
+				<h2 class="text-2xl font-semibold text-gray-900">Results you can use</h2>
+				<ul class="bullet-list mt-3.5 space-y-2.5 text-gray-700">
+					{#each program.takeaways as takeaway}
+						<li>{takeaway}</li>
+					{/each}
+				</ul>
+			</div>
+		</section>
+	{/if}
+
+	{#if registerableSessions.length}
+		<section>
+			<div class="rounded-2xl bg-white p-5 shadow">
+				<div class="flex flex-wrap items-center gap-2">
 					<h3 class="text-lg font-semibold text-gray-900">Upcoming dates</h3>
-					<ul class="mt-3.5 space-y-4">
-						{#each registerableSessionCards as session (session.id)}
-							<li>
-								<EventCard
-									title={session.title}
-									tagline={session.tagline}
-									date={session.date}
-									time={session.time}
-									location={session.location}
-									image={session.image}
-									imageAlt={session.imageAlt}
-									certificateText={session.certificateText}
-									videoUrl={session.videoUrl}
-									typeLabel={session.typeLabel}
-									brochureUrl={session.brochureUrl}
-									statusLabel={session.statusLabel}
-									registerUrl={session.registerUrl}
-									registerLabel={session.registerLabel ?? 'Register now'}
-									learnMoreUrl={session.learnMoreUrl}
-									hostText={session.hostText}
-									partnerText={session.partnerText}
-									speakerText={session.speakerText}
-									tone={session.tone}
-									variant="catalog"
-								/>
-							</li>
-						{/each}
-					</ul>
+					{#if canToggleUpcomingSessions}
+						<span aria-hidden="true" class="text-gray-400">•</span>
+						<button
+							type="button"
+							class="cursor-pointer text-xs font-semibold tracking-wide text-blue-700 uppercase underline decoration-blue-200 underline-offset-4 transition hover:text-blue-900"
+							on:click={() => (showAllUpcomingSessions = !showAllUpcomingSessions)}
+						>
+							{showAllUpcomingSessions
+								? 'Show fewer'
+								: `Show all (${registerableSessionCards.length})`}
+						</button>
+					{/if}
 				</div>
-			{/if}
+				<ul class="mt-3.5 space-y-4">
+					{#each displayedRegisterableSessionCards as session (session.id)}
+						<li>
+							<EventCard
+								title={session.title}
+								tagline={session.tagline}
+								date={session.date}
+								time={session.time}
+								location={session.location}
+								image={session.image}
+								imageAlt={session.imageAlt}
+								certificateText={session.certificateText}
+								videoUrl={session.videoUrl}
+								typeLabel={session.typeLabel}
+								brochureUrl={session.brochureUrl}
+								statusLabel={session.statusLabel}
+								registerUrl={session.registerUrl}
+								registerLabel={session.registerLabel ?? 'Register now'}
+								learnMoreUrl={session.learnMoreUrl}
+								hostText={session.hostText}
+								partnerText={session.partnerText}
+								speakerText={session.speakerText}
+								tone={session.tone}
+								variant="catalog"
+							/>
+						</li>
+					{/each}
+				</ul>
+			</div>
 		</section>
 	{/if}
 
