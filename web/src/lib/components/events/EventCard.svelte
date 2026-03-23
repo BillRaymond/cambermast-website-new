@@ -14,6 +14,7 @@
 	export let certificateText: string | undefined = undefined;
 	export let videoUrl: string | undefined = undefined;
 	export let typeLabel: string | undefined = undefined;
+	export let brochureUrl: string | undefined = undefined;
 	export let registerUrl: string | undefined = undefined;
 	export let registerLabel = 'Register now';
 	export let statusLabel: string | undefined = undefined;
@@ -144,6 +145,16 @@
 					>
 						{typeLabel}
 					</span>
+				{/if}
+				{#if brochureUrl}
+					<a
+						href={brochureUrl}
+						target="_blank"
+						rel="noopener noreferrer"
+						class="pointer-events-auto relative z-30 mt-2 inline-flex w-full items-center justify-center rounded-full border border-blue-100 bg-blue-50 px-2 py-0.5 text-[0.65rem] font-semibold whitespace-nowrap text-blue-700 uppercase transition hover:bg-blue-100"
+					>
+						BROCHURE
+					</a>
 				{/if}
 			</div>
 		{/if}

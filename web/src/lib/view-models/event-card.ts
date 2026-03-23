@@ -3,6 +3,7 @@ import { getEventOccurrenceState, getEventSessionBounds } from '$lib/data/events
 import { isEventOpenSoon } from '$lib/data/events';
 import { getPartnerByCode } from '$lib/data/partners';
 import { getTrainingProgramBySku } from '$lib/data/training';
+import { getTrainingPdfUrl, hasTrainingPdf } from '$lib/data/training/brochure';
 import {
 	getProgramCertificateText,
 	getProgramEventTypeLabel
@@ -29,6 +30,7 @@ export type EventCardModel = {
 	image?: string;
 	imageAlt?: string;
 	typeLabel: string;
+	brochureUrl?: string;
 	statusLabel?: string;
 	certificateText?: string;
 	videoUrl?: string;
@@ -175,6 +177,8 @@ export const toEventCardModel = (
 		imageAlt:
 			event.imageAlt ?? relatedProgram?.ogImageAlt ?? relatedProgram?.heroImageAlt ?? event.title,
 		typeLabel,
+		brochureUrl:
+			relatedProgram && hasTrainingPdf(relatedProgram) ? getTrainingPdfUrl(relatedProgram) : undefined,
 		statusLabel: options.statusLabelOverride ?? statusLabelDefault,
 		certificateText: relatedProgram ? getProgramCertificateText(relatedProgram) : undefined,
 		videoUrl: relatedProgram?.videoUrl,

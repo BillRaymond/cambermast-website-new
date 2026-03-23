@@ -193,6 +193,7 @@
 												certificateText={entry.certificateText}
 												videoUrl={entry.videoUrl}
 												typeLabel={entry.typeLabel}
+												brochureUrl={entry.brochureUrl}
 												statusLabel={entry.statusLabel}
 												registerUrl={entry.registerUrl}
 												registerLabel={entry.registerLabel}
@@ -271,6 +272,7 @@
 								certificateText={entry.certificateText}
 								videoUrl={entry.videoUrl}
 								typeLabel={entry.typeLabel}
+								brochureUrl={entry.brochureUrl}
 								statusLabel={entry.statusLabel}
 								learnMoreUrl={entry.learnMoreUrl}
 								hostText={entry.hostText}

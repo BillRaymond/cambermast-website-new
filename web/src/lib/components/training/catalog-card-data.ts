@@ -9,6 +9,7 @@ export type CatalogCardData = {
 	image?: string;
 	imageAlt?: string;
 	route?: string;
+	brochureUrl?: string;
 	sku?: string;
 	duration?: string | string[];
 	videoUrl?: string;

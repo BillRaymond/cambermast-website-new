@@ -250,6 +250,7 @@
 						certificateText={entry.card.certificateText}
 						videoUrl={entry.card.videoUrl}
 						typeLabel={entry.card.typeLabel}
+						brochureUrl={entry.card.brochureUrl}
 						registerUrl={entry.card.registerUrl}
 						registerLabel={entry.card.registerLabel}
 						statusLabel={entry.card.statusLabel}

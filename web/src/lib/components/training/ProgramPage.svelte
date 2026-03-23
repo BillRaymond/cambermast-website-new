@@ -278,6 +278,7 @@
 									certificateText={session.certificateText}
 									videoUrl={session.videoUrl}
 									typeLabel={session.typeLabel}
+									brochureUrl={session.brochureUrl}
 									statusLabel={session.statusLabel}
 									registerUrl={session.registerUrl}
 									registerLabel={session.registerLabel ?? 'Register now'}
@@ -520,6 +521,7 @@
 									certificateText={session.certificateText}
 									videoUrl={session.videoUrl}
 									typeLabel={session.typeLabel}
+									brochureUrl={session.brochureUrl}
 									statusLabel={session.statusLabel}
 									registerUrl={session.registerUrl}
 									registerLabel={session.registerLabel ?? 'Register now'}

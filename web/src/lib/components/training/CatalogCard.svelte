@@ -91,6 +91,16 @@
 					loading="lazy"
 				/>
 			{/if}
+			{#if item.brochureUrl}
+				<a
+					href={item.brochureUrl}
+					target="_blank"
+					rel="noopener noreferrer"
+					class="inline-flex w-full items-center justify-center rounded-full border border-blue-100 bg-blue-50 px-2 py-0.5 text-[0.65rem] font-semibold text-blue-700 uppercase transition hover:bg-blue-100"
+				>
+					BROCHURE
+				</a>
+			{/if}
 			{#if showBullets && item.bullets?.length && hasUpcomingOrHappening}
 				<ul class="bullet-list hidden space-y-1.5 text-left text-gray-700 md:block">
 					{#each item.bullets as bullet}
@@ -182,6 +192,7 @@
 								certificateText={session.certificateText ?? item.certificateText}
 								videoUrl={session.videoUrl ?? item.videoUrl}
 								typeLabel={session.typeLabel}
+								brochureUrl={session.brochureUrl ?? item.brochureUrl}
 								statusLabel={session.statusLabel}
 								startTimestamp={session.startTimestamp}
 								registerUrl={session.registerUrl}
@@ -237,6 +248,7 @@
 										certificateText={session.certificateText ?? item.certificateText}
 										videoUrl={session.videoUrl ?? item.videoUrl}
 										typeLabel={session.typeLabel}
+										brochureUrl={session.brochureUrl ?? item.brochureUrl}
 										statusLabel={session.statusLabel}
 										startTimestamp={session.startTimestamp}
 										learnMoreUrl={session.learnMoreUrl ?? item.route}

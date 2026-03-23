@@ -8,6 +8,7 @@
 	import { toEventUiModel } from '$lib/view-models/events';
 	import { getSeo } from '$lib/seo';
 	import SeoHead from '$lib/components/SeoHead.svelte';
+	import { getTrainingPdfUrl, hasTrainingPdf } from '$lib/data/training/brochure';
 	import { findProgramStat, getProgramCertificateText } from '$lib/data/training/program-meta';
 	import {
 		listHappeningTrainingEntriesForProgram,
@@ -59,6 +60,7 @@
 				image: program.catalog?.image ?? program.heroImage,
 				imageAlt: program.catalog?.imageAlt ?? program.heroImageAlt ?? program.title,
 				route: program.route,
+				brochureUrl: hasTrainingPdf(program) ? getTrainingPdfUrl(program) : undefined,
 				sku: program.sku,
 				duration: durationStat?.value,
 				videoUrl: program.videoUrl,

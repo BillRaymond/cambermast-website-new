@@ -152,6 +152,7 @@
 							certificateText={slide.certificateText}
 							videoUrl={slide.videoUrl}
 							typeLabel={slide.typeLabel}
+							brochureUrl={slide.brochureUrl}
 							statusLabel={slide.statusLabel}
 							registerUrl={slide.registerUrl}
 							registerLabel={slide.registerLabel ?? 'Register now'}
