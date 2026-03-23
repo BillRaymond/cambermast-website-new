@@ -8,7 +8,8 @@
 	import SeoHead from '$lib/components/SeoHead.svelte';
 	import { SITE_ORIGIN } from '$lib/config/site';
 	import { getPartnerByCode, listPartners } from '$lib/data/partners';
-	import { listTrainingPrograms } from '$lib/data/training';
+	import { getTrainingProgramBySku, listTrainingPrograms } from '$lib/data/training';
+	import { getTrainingPdfUrl, hasTrainingPdf } from '$lib/data/training/brochure';
 	import { listCampaignUi } from '$lib/view-models/campaigns';
 	import { listEventUi } from '$lib/view-models/events';
 
@@ -117,6 +118,7 @@
 	};
 
 	const makeFileName = (campaignId: string, ext: 'png' | 'svg') => `${campaignId}-prod.${ext}`;
+	const makePdfFileName = (slug: string) => `${slug}.pdf`;
 
 	const generateQr = async (campaignId: string, value: string) => {
 		if (!browser) return;
@@ -319,12 +321,21 @@
 			const campaignId = event.cta?.campaignId ?? event.campaignId;
 			const shortPath = campaignId ? shortPathByCampaignId.get(campaignId) : undefined;
 			const shortUrlProd = shortPath ? `${prodOrigin}${shortPath}` : undefined;
+			const relatedProgram = event.programRef?.sku
+				? getTrainingProgramBySku(event.programRef.sku)
+				: undefined;
+			const brochurePdfPath =
+				relatedProgram && hasTrainingPdf(relatedProgram) ? getTrainingPdfUrl(relatedProgram) : undefined;
+			const brochurePdfUrl = brochurePdfPath ? `${prodOrigin}${brochurePdfPath}` : undefined;
 
 			return {
 				...event,
 				campaignId,
 				shortPath,
-				shortUrlProd
+				shortUrlProd,
+				brochurePdfPath,
+				brochurePdfUrl,
+				brochurePdfFileName: relatedProgram ? makePdfFileName(relatedProgram.slug) : undefined
 			};
 		})
 		.sort((a, b) => {
@@ -369,10 +380,13 @@
 	});
 	$: partnerTrainingPrograms = trainingPrograms
 		.filter((program) => program.eventDefaults?.partnerCodes?.includes(partnerCode))
-		.map((program) => ({
-			...program,
-			fullUrl: `${prodOrigin}${program.route}`
-		}))
+			.map((program) => ({
+				...program,
+				fullUrl: `${prodOrigin}${program.route}`,
+				brochurePdfPath: hasTrainingPdf(program) ? getTrainingPdfUrl(program) : undefined,
+				brochurePdfUrl: hasTrainingPdf(program) ? `${prodOrigin}${getTrainingPdfUrl(program)}` : undefined,
+				brochurePdfFileName: hasTrainingPdf(program) ? makePdfFileName(program.slug) : undefined
+			}))
 		.sort((a, b) => a.title.localeCompare(b.title));
 	$: filteredPartnerTrainingPrograms = partnerTrainingPrograms.filter((program) => {
 		if (!normalizedSearchQuery) return true;
@@ -390,8 +404,17 @@
 
 	onMount(() => {
 		if (!browser) return;
+		const qrTargets = new Map<string, string>();
 		partnerCampaigns.forEach((campaign) => {
-			void generateQr(campaign.id, campaign.shortUrlProd);
+			qrTargets.set(campaign.id, campaign.shortUrlProd);
+		});
+		partnerEvents.forEach((event) => {
+			if (event.campaignId && event.shortUrlProd) {
+				qrTargets.set(event.campaignId, event.shortUrlProd);
+			}
+		});
+		qrTargets.forEach((shortUrlProd, campaignId) => {
+			void generateQr(campaignId, shortUrlProd);
 		});
 	});
 
@@ -588,44 +611,98 @@
 							</a>
 						</div>
 
-						{#if event.shortUrlProd}
+						{#if event.shortUrlProd || event.brochurePdfUrl}
 							<div class="mt-3 rounded-lg border border-gray-200 bg-white p-4">
 								<p class="text-[11px] font-semibold tracking-wide text-gray-500 uppercase">
-									Short link + QR
+									PDF + QR
 								</p>
-								<div class="mt-3 grid gap-4 sm:grid-cols-[144px_minmax(0,1fr)]">
-									<div class="flex items-start justify-center sm:justify-start">
-										{#if event.campaignId && qrAssets[event.campaignId]?.pngDataUrl}
-											<img
-												src={qrAssets[event.campaignId].pngDataUrl}
-												alt={`QR code for ${event.title}`}
-												class="aspect-square w-32 rounded-lg border border-gray-100 bg-white p-1.5 shadow-sm"
-												loading="lazy"
-											/>
-										{:else if event.campaignId && qrAssets[event.campaignId]?.loading}
-											<p class="text-xs text-gray-500">Generating…</p>
+								<div class="mt-3 grid gap-4 lg:grid-cols-2">
+									<div class="rounded-xl border border-gray-200 bg-gray-50 p-4">
+										<p class="text-[11px] font-semibold tracking-wide text-gray-500 uppercase">
+											Brochure PDF
+										</p>
+										{#if event.brochurePdfUrl}
+											<code class="mt-3 block break-all rounded bg-white px-3 py-2 text-sm text-gray-800">
+												{event.brochurePdfUrl}
+											</code>
+											<div class="mt-3 flex flex-wrap gap-2">
+												<button
+													type="button"
+													class={actionClass(`event-pdf-copy:${event.slug}`)}
+													aria-label={`Copy brochure PDF link for ${event.title}`}
+													on:click={() =>
+														copyToClipboard(event.brochurePdfUrl ?? '', `event-pdf-copy:${event.slug}`)}
+												>
+													{#if copiedKey === `event-pdf-copy:${event.slug}`}
+														Copied PDF link
+													{:else}
+														Copy PDF link
+													{/if}
+												</button>
+												<a
+													href={event.brochurePdfPath}
+													target="_blank"
+													rel="noopener noreferrer"
+													class={actionClass(`event-pdf-open:${event.slug}`)}
+												>
+													Open PDF
+												</a>
+												<a
+													href={event.brochurePdfPath}
+													download={event.brochurePdfFileName}
+													class={actionClass(`event-pdf-download:${event.slug}`)}
+													on:click={() => setCopied(`event-pdf-download:${event.slug}`)}
+												>
+													{#if copiedKey === `event-pdf-download:${event.slug}`}
+														Downloaded PDF
+													{:else}
+														Download PDF
+													{/if}
+												</a>
+											</div>
 										{:else}
-											<p class="text-xs text-gray-500">QR unavailable.</p>
+											<p class="mt-3 text-xs text-gray-500">No training brochure PDF is linked to this event.</p>
 										{/if}
 									</div>
 
-									<div class="min-w-0">
-										<code class="block break-all rounded bg-gray-50 px-3 py-2 text-sm text-gray-800">
-											{event.shortUrlProd}
-										</code>
+									<div class="rounded-xl border border-gray-200 bg-gray-50 p-4">
+										<p class="text-[11px] font-semibold tracking-wide text-gray-500 uppercase">
+											Short link + QR
+										</p>
+										{#if event.shortUrlProd}
+											<code class="mt-3 block break-all rounded bg-white px-3 py-2 text-sm text-gray-800">
+												{event.shortUrlProd}
+											</code>
+										{/if}
+										<div class="mt-3 flex items-start justify-center sm:justify-start">
+											{#if event.campaignId && qrAssets[event.campaignId]?.pngDataUrl}
+												<img
+													src={qrAssets[event.campaignId].pngDataUrl}
+													alt={`QR code for ${event.title}`}
+													class="aspect-square w-32 rounded-lg border border-gray-100 bg-white p-1.5 shadow-sm"
+													loading="lazy"
+												/>
+											{:else if event.campaignId && qrAssets[event.campaignId]?.loading}
+												<p class="text-xs text-gray-500">Generating…</p>
+											{:else}
+												<p class="text-xs text-gray-500">QR unavailable.</p>
+											{/if}
+										</div>
 										<div class="mt-3 flex flex-wrap gap-2">
-											<button
-												type="button"
-												class={actionClass(`event:${event.slug}`)}
-												aria-label={`Copy short link for ${event.title}`}
-												on:click={() => copyToClipboard(event.shortUrlProd ?? '', `event:${event.slug}`)}
-											>
-												{#if copiedKey === `event:${event.slug}`}
-													Copied link
-												{:else}
-													Copy link
-												{/if}
-											</button>
+											{#if event.shortUrlProd}
+												<button
+													type="button"
+													class={actionClass(`event:${event.slug}`)}
+													aria-label={`Copy short link for ${event.title}`}
+													on:click={() => copyToClipboard(event.shortUrlProd ?? '', `event:${event.slug}`)}
+												>
+													{#if copiedKey === `event:${event.slug}`}
+														Copied link
+													{:else}
+														Copy link
+													{/if}
+												</button>
+											{/if}
 											{#if event.campaignId && qrAssets[event.campaignId]?.pngDataUrl}
 												<button
 													type="button"
@@ -695,7 +772,7 @@
 								</div>
 							</div>
 						{:else}
-							<p class="mt-3 text-xs text-gray-500">No campaign short link assigned yet.</p>
+							<p class="mt-3 text-xs text-gray-500">No campaign short link or brochure PDF assigned yet.</p>
 						{/if}
 
 						<details class="mt-3 rounded-lg border border-gray-200 bg-white px-3 py-3">
@@ -963,29 +1040,81 @@
 						</div>
 
 						<div class="mt-3 rounded-lg border border-gray-200 bg-white p-4">
-							<p class="text-[11px] font-semibold tracking-wide text-gray-500 uppercase">Program URL</p>
-							<div class="mt-3 grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto_auto] sm:items-center">
-								<code class="block break-all rounded bg-gray-50 px-3 py-2 text-sm text-gray-800">
-									{program.fullUrl}
-								</code>
-								<button
-									type="button"
-									class={actionClass(`training-link:${program.slug}`)}
-									aria-label={`Copy program URL for ${program.title}`}
-									on:click={() => copyToClipboard(program.fullUrl, `training-link:${program.slug}`)}
-								>
-									{#if copiedKey === `training-link:${program.slug}`}
-										Copied link
+							<div class="grid gap-4 lg:grid-cols-2">
+								<div class="rounded-xl border border-gray-200 bg-gray-50 p-4">
+									<p class="text-[11px] font-semibold tracking-wide text-gray-500 uppercase">Program URL</p>
+									<code class="mt-3 block break-all rounded bg-white px-3 py-2 text-sm text-gray-800">
+										{program.fullUrl}
+									</code>
+									<div class="mt-3 flex flex-wrap gap-2">
+										<button
+											type="button"
+											class={actionClass(`training-link:${program.slug}`)}
+											aria-label={`Copy program URL for ${program.title}`}
+											on:click={() => copyToClipboard(program.fullUrl, `training-link:${program.slug}`)}
+										>
+											{#if copiedKey === `training-link:${program.slug}`}
+												Copied link
+											{:else}
+												Copy link
+											{/if}
+										</button>
+										<a
+											href={program.route}
+											class={actionClass(`training-open:${program.slug}`)}
+										>
+											Open
+										</a>
+									</div>
+								</div>
+
+								<div class="rounded-xl border border-gray-200 bg-gray-50 p-4">
+									<p class="text-[11px] font-semibold tracking-wide text-gray-500 uppercase">Brochure PDF</p>
+									{#if program.brochurePdfUrl && program.brochurePdfPath && program.brochurePdfFileName}
+										<code class="mt-3 block break-all rounded bg-white px-3 py-2 text-sm text-gray-800">
+											{program.brochurePdfUrl}
+										</code>
+										<div class="mt-3 flex flex-wrap gap-2">
+											<button
+												type="button"
+												class={actionClass(`training-pdf-link:${program.slug}`)}
+												aria-label={`Copy brochure PDF link for ${program.title}`}
+												on:click={() =>
+													copyToClipboard(program.brochurePdfUrl ?? '', `training-pdf-link:${program.slug}`)}
+											>
+												{#if copiedKey === `training-pdf-link:${program.slug}`}
+													Copied PDF link
+												{:else}
+													Copy PDF link
+												{/if}
+											</button>
+											<a
+												href={program.brochurePdfPath}
+												target="_blank"
+												rel="noopener noreferrer"
+												class={actionClass(`training-pdf-open:${program.slug}`)}
+											>
+												Open PDF
+											</a>
+											<a
+												href={program.brochurePdfPath}
+												download={program.brochurePdfFileName}
+												class={actionClass(`training-pdf-download:${program.slug}`)}
+												on:click={() => setCopied(`training-pdf-download:${program.slug}`)}
+											>
+												{#if copiedKey === `training-pdf-download:${program.slug}`}
+													Downloaded PDF
+												{:else}
+													Download PDF
+												{/if}
+											</a>
+										</div>
 									{:else}
-										Copy link
+										<p class="mt-3 text-xs text-gray-500">
+											No brochure PDF is available for this program yet.
+										</p>
 									{/if}
-								</button>
-								<a
-									href={program.route}
-									class={actionClass(`training-open:${program.slug}`)}
-								>
-									Open
-								</a>
+								</div>
 							</div>
 						</div>
 
