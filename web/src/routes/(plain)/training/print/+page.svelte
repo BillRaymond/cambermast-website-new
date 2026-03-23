@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { getTrainingPdfUrl, hasTrainingPdf } from '$lib/data/training/brochure';
 	import { listTrainingPrograms } from '$lib/data/training';
 	import { getSeo } from '$lib/seo';
 	import SeoHead from '$lib/components/SeoHead.svelte';
@@ -29,6 +30,7 @@
 				cost,
 				summary: program.catalog?.summary ?? program.tagline,
 				certificateText,
+				pdfUrl: hasTrainingPdf(program) ? getTrainingPdfUrl(program) : undefined,
 				videoUrl: program.videoUrl
 			};
 		});
@@ -91,7 +93,7 @@
 						{#if program.summary}
 							<p class="mt-1 text-xs text-gray-600">{program.summary}</p>
 						{/if}
-						{#if program.certificateText || program.videoUrl}
+						{#if program.certificateText || program.pdfUrl || program.videoUrl}
 							<div class="mt-1.5 flex flex-wrap items-center gap-2">
 								{#if program.certificateText}
 									<span
@@ -99,6 +101,16 @@
 									>
 										📜 Certificate
 									</span>
+								{/if}
+								{#if program.pdfUrl}
+									<a
+										href={program.pdfUrl}
+										target="_blank"
+										rel="noopener noreferrer"
+										class="inline-flex items-center rounded-full border border-blue-100 bg-blue-50 px-2.5 py-0.5 text-[0.7rem] font-medium text-blue-700/80 normal-case"
+									>
+										📄 PDF
+									</a>
 								{/if}
 								{#if program.videoUrl}
 									<a

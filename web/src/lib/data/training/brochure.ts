@@ -35,6 +35,9 @@ export const getTrainingPrintUrl = (program: TrainingProgram): string =>
 export const getTrainingPdfUrl = (program: TrainingProgram): string =>
 	`/downloads/training/${program.slug}.pdf`;
 
+export const hasTrainingPdf = (program: TrainingProgram): boolean =>
+	!program.draft && (program.catalog?.published ?? true);
+
 const getSquareBrochureImage = (heroImage?: string): string | undefined => {
 	if (!heroImage) return undefined;
 

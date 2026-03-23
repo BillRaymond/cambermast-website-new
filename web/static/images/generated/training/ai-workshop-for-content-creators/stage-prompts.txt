@@ -1,0 +1,8 @@
+Square prompt:
+Recreate this image. Reduce the graininess. Make for tech writers and content creators more bold and downplay AI workshop
+
+Landscape prompt:
+Recreate the provided template image as a landscape. Avoid the top and bottom 25%.
+
+Portrait prompt:
+Recreate the provided template image in portrait format. Avoid the top and bottom 25%.

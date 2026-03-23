@@ -51,7 +51,10 @@
 				},
 				{
 					"label": "Format",
-					"value": ["🔴 Live online", "🏫 In-person available"]
+					"value": [
+						"🔴 Live online",
+						"🏫 In-person available"
+					]
 				},
 				{
 					"label": "Cost",
@@ -102,7 +105,10 @@
 				{
 					"name": "🌐 February 3, 2026 Public Cohort",
 					"date": "Tuesday, Feb 3, 2026",
-					"time": ["1:00 pm-5:00 pm PT", "4:00-8:00 pm ET"],
+					"time": [
+						"1:00 pm-5:00 pm PT",
+						"4:00-8:00 pm ET"
+					],
 					"startDate": "2026-02-03",
 					"endDate": "2026-02-03",
 					"location": "Live on Zoom",
@@ -300,7 +306,10 @@
 				},
 				{
 					"label": "Format",
-					"value": ["🔴 Live online", "🏫 In-person available"]
+					"value": [
+						"🔴 Live online",
+						"🏫 In-person available"
+					]
 				},
 				{
 					"label": "Cost",
@@ -511,7 +520,10 @@
 				},
 				{
 					"label": "Format",
-					"value": ["🔴 Live online", "🏫 In-person available"]
+					"value": [
+						"🔴 Live online",
+						"🏫 In-person available"
+					]
 				},
 				{
 					"label": "Cost",
@@ -789,7 +801,10 @@
 				},
 				{
 					"label": "Format",
-					"value": ["🔴 Live online", "🏫 In-person available"]
+					"value": [
+						"🔴 Live online",
+						"🏫 In-person available"
+					]
 				},
 				{
 					"label": "Cost",
@@ -846,7 +861,10 @@
 				{
 					"name": "Winter 2025-2026 Open Enrollment",
 					"date": "Dec 4, 2025 - Jan 22, 2026 (Wednesdays)",
-					"time": ["10:00 am-12:00 pm PT", "1:00-3:00 pm ET"],
+					"time": [
+						"10:00 am-12:00 pm PT",
+						"1:00-3:00 pm ET"
+					],
 					"startDate": "2025-12-04",
 					"endDate": "2026-01-22",
 					"location": "Live on Zoom",
@@ -985,7 +1003,7 @@
 			"catalog": {
 				"id": "training-ai-workshop-content-creators",
 				"summary": "Seven-week cohort that helps content and documentation teams layer AI into their workflows.",
-				"image": "/images/generated/training/ai-workshop-for-content-creators/hero-landscape.jpg",
+				"image": "/images/generated/training/ai-workshop-for-content-creators/hero-landscape-v2.jpg",
 				"imageAlt": "AI Workshop for Tech Writers and Content Creators illustration",
 				"bullets": [
 					"Automate repetitive content production tasks with AI",
@@ -999,9 +1017,9 @@
 			"nickname": "Seven-week cohort for technical communicators",
 			"eventTypeLabel": "LIVE TRAINING",
 			"tagline": "Get real results from your content with AI-powered workflows in just seven weeks.",
-			"heroImage": "/images/generated/training/ai-workshop-for-content-creators/hero-landscape.jpg",
+			"heroImage": "/images/generated/training/ai-workshop-for-content-creators/hero-landscape-v2.jpg",
 			"heroImageAlt": "AI Workshop for Tech Writers and Content Creators illustration",
-			"ogImage": "/images/generated/training/ai-workshop-for-content-creators/hero-landscape.jpg",
+			"ogImage": "/images/generated/training/ai-workshop-for-content-creators/hero-landscape-v2.jpg",
 			"ogImageAlt": "Open graph image for the AI Workshop for Tech Writers and Content Creators training program",
 			"videoUrl": "https://www.youtube.com/watch?v=pDMU-xyu8GA",
 			"description": "The AI Workshop for Tech Writers and Content Creators is a live, seven-week cohort that helps technical communicators and content teams weave generative AI into their daily production workflows.",
@@ -1033,7 +1051,10 @@
 				},
 				{
 					"label": "Format",
-					"value": ["🔴 Live online", "🏫 In-person available"]
+					"value": [
+						"🔴 Live online",
+						"🏫 In-person available"
+					]
 				},
 				{
 					"label": "Cost",
@@ -1082,7 +1103,10 @@
 				{
 					"name": "❄️ Winter 2025 Open Enrollment",
 					"date": "Nov 4 - Dec 30, 2025 (Tuesdays)",
-					"time": ["10:00 am-12:00 pm PT", "1:00-3:00 pm ET"],
+					"time": [
+						"10:00 am-12:00 pm PT",
+						"1:00-3:00 pm ET"
+					],
 					"partner": "In partnership with The Content Wrangler",
 					"startDate": "2025-11-04",
 					"endDate": "2025-12-30",
@@ -1093,7 +1117,10 @@
 				{
 					"name": "🌷 Spring 2026 Open Enrollment",
 					"date": "Jan 27 - Mar 10, 2026 (Tuesdays)",
-					"time": ["10:00 am-12:00 pm PT", "1:00-3:00 pm ET"],
+					"time": [
+						"10:00 am-12:00 pm PT",
+						"1:00-3:00 pm ET"
+					],
 					"partner": "In partnership with The Content Wrangler",
 					"startDate": "2026-01-27",
 					"endDate": "2026-03-10",
@@ -1291,7 +1318,9 @@
 						"photoAlt": "Bill Raymond"
 					}
 				],
-				"partnerCodes": ["TCW"]
+				"partnerCodes": [
+					"TCW"
+				]
 			}
 		},
 		{
@@ -1345,7 +1374,10 @@
 				},
 				{
 					"label": "Format",
-					"value": ["🔴 Live online", "🏫 In-person available"]
+					"value": [
+						"🔴 Live online",
+						"🏫 In-person available"
+					]
 				},
 				{
 					"label": "Cost",
@@ -1585,7 +1617,9 @@
 						"photoAlt": "Bill Raymond"
 					}
 				],
-				"partnerCodes": ["TLB"]
+				"partnerCodes": [
+					"TLB"
+				]
 			}
 		},
 		{
@@ -1638,7 +1672,10 @@
 				},
 				{
 					"label": "Format",
-					"value": ["🔴 Live online (draft)", "🏫 On-site TBD"]
+					"value": [
+						"🔴 Live online (draft)",
+						"🏫 On-site TBD"
+					]
 				},
 				{
 					"label": "Cost",
@@ -1678,7 +1715,10 @@
 					]
 				}
 			],
-			"resources": ["Draft workbook (placeholder link).", "Feedback template for reviewers."],
+			"resources": [
+				"Draft workbook (placeholder link).",
+				"Feedback template for reviewers."
+			],
 			"aboutTrainer": {
 				"title": "About your facilitator",
 				"name": "Bill Raymond",

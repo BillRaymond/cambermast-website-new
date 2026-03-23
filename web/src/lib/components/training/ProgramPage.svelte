@@ -12,7 +12,7 @@
 		listUpcomingTrainingEntriesForProgram,
 		type TrainingScheduleEntry
 	} from '$lib/data/training/schedule';
-	import { getTrainingPdfUrl } from '$lib/data/training/brochure';
+	import { getTrainingPdfUrl, hasTrainingPdf } from '$lib/data/training/brochure';
 	import { runtimeDev } from '$lib/utils/runtime-env';
 	import {
 		listTestimonialsForSku,
@@ -152,7 +152,7 @@
 			title: block.title,
 			details: block.details ?? []
 		})) ?? [];
-	$: brochurePdfUrl = program ? getTrainingPdfUrl(program) : '';
+	$: brochurePdfUrl = program && hasTrainingPdf(program) ? getTrainingPdfUrl(program) : '';
 
 	$: {
 		if (!registerableSessions.length) {
@@ -344,10 +344,10 @@
 					>
 						{program.secondaryCta.label}
 					</a>
-					{#if runtimeDev}
-						<a
-							href={brochurePdfUrl}
-							rel="external"
+						{#if runtimeDev && brochurePdfUrl}
+							<a
+								href={brochurePdfUrl}
+								rel="external"
 							class="text-blue-700 underline decoration-blue-200 underline-offset-4 transition hover:text-blue-900"
 						>
 							Download brochure PDF

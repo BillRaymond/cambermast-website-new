@@ -1,5 +1,6 @@
 <script lang="ts">
 	import catalog from '$lib/data/catalog.json';
+	import { getTrainingPdfUrl, hasTrainingPdf } from '$lib/data/training/brochure';
 	import { listTrainingPrograms } from '$lib/data/training';
 	import { getSeo } from '$lib/seo';
 	import SeoHead from '$lib/components/SeoHead.svelte';
@@ -34,6 +35,7 @@
 				formatLines,
 				cost,
 				certificateText,
+					pdfUrl: hasTrainingPdf(program) ? getTrainingPdfUrl(program) : undefined,
 				videoUrl: program.videoUrl,
 				scheduleLabel: program.primaryCta?.label ?? 'Schedule your team',
 				scheduleUrl: program.primaryCta?.url ?? '/contact',
@@ -101,7 +103,7 @@
 							{#if program.summary}
 								<p class="text-xs text-gray-500">{program.summary}</p>
 							{/if}
-							{#if program.certificateText || program.videoUrl}
+							{#if program.certificateText || program.pdfUrl || program.videoUrl}
 								<div class="mt-1.5 flex flex-wrap items-center gap-2">
 									{#if program.certificateText}
 										<span
@@ -109,6 +111,16 @@
 										>
 											📜 Certificate
 										</span>
+									{/if}
+									{#if program.pdfUrl}
+										<a
+											href={program.pdfUrl}
+											target="_blank"
+											rel="noopener noreferrer"
+											class="inline-flex items-center rounded-full border border-blue-100 bg-blue-50 px-2.5 py-0.5 text-[0.7rem] font-medium text-blue-700/80 normal-case transition hover:border-blue-200 hover:bg-blue-100"
+										>
+											📄 PDF
+										</a>
 									{/if}
 									{#if program.videoUrl}
 										<a

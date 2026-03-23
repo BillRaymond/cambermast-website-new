@@ -1,7 +1,23 @@
 {
 	"version": 1,
-	"updatedAt": "2026-03-18T21:01:38.098Z",
+	"updatedAt": "2026-03-20T18:38:55.959Z",
 	"standards": [
+		{
+			"id": "efd64866fee84ee2",
+			"createdAt": "2026-03-20T18:38:55.958Z",
+			"destinationType": "training",
+			"slug": "training/ai-workshop-for-content-creators",
+			"assetKeys": {
+				"square": "training/ai-workshop-for-content-creators/hero-square-v2.jpg",
+				"landscape": "training/ai-workshop-for-content-creators/hero-landscape-v2.jpg",
+				"portrait": "training/ai-workshop-for-content-creators/hero-portrait.jpg"
+			},
+			"prompts": {
+				"square": "Recreate this image. Reduce the graininess. Make for tech writers and content creators more bold and downplay AI workshop",
+				"landscape": "Recreate the provided template image as a landscape. Avoid the top and bottom 25%.",
+				"portrait": "Recreate the provided template image in portrait format. Avoid the top and bottom 25%."
+			}
+		},
 		{
 			"id": "f2b05f2f0d5b40bc",
 			"createdAt": "2026-03-18T21:01:38.096Z",

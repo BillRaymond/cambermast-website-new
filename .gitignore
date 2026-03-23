@@ -4,4 +4,5 @@ dist
 build
 .env
 .generated-trash
+.svelte-kit-temp-reset
 web/static/downloads
