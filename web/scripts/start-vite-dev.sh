@@ -3,8 +3,9 @@ set -euo pipefail
 
 cd "$(dirname "$0")/.."
 DEV_LOG="/tmp/cambermast-dev.log"
-DEV_CMD="npm run dev:host"
+DEV_CMD='VITE_DEV_CMD="npm run dev:host" bash ./scripts/run-dev-with-training-pdf-watch.sh'
 DEV_MATCH="vite dev --host 0.0.0.0 --port 5173"
+DEV_HEALTHCHECK_URL="http://127.0.0.1:5173/"
 
 if [ ! -d node_modules ] || [ -z "$(ls -A node_modules 2>/dev/null)" ]; then
   if [ -f package-lock.json ]; then
@@ -16,6 +17,21 @@ fi
 
 # Keep published metadata files in sync before running dev
 npm run predev
+
+is_dev_server_healthy() {
+  command -v curl >/dev/null 2>&1 && curl -fsS --max-time 1 "$DEV_HEALTHCHECK_URL" >/dev/null 2>&1
+}
+
+if pgrep -f "[v]ite dev --host 0.0.0.0 --port 5173" >/dev/null; then
+  if is_dev_server_healthy; then
+    echo "Vite dev already running."
+    exit 0
+  fi
+
+  echo "Found stale Vite dev process entries; restarting host dev server."
+  pkill -f "[v]ite dev --host 0.0.0.0 --port 5173" >/dev/null 2>&1 || true
+  sleep 1
+fi
 
 if ! pgrep -f "[v]ite dev --host 0.0.0.0 --port 5173" >/dev/null; then
   : >"$DEV_LOG"
@@ -29,17 +45,15 @@ if ! pgrep -f "[v]ite dev --host 0.0.0.0 --port 5173" >/dev/null; then
 
   for _ in {1..20}; do
     if pgrep -f "[v]ite dev --host 0.0.0.0 --port 5173" >/dev/null; then
-      if command -v curl >/dev/null 2>&1 && curl -fsS --max-time 1 http://127.0.0.1:5173/ >/dev/null 2>&1; then
-        echo "Started Vite dev server in background (logs: $DEV_LOG)."
+      if is_dev_server_healthy; then
+        echo "Started Vite dev server and brochure PDF watcher in background (logs: $DEV_LOG)."
         exit 0
       fi
     fi
     sleep 0.5
   done
 
-  echo "Vite failed to start. Last log lines:"
+  echo "Dev startup failed. Last log lines:"
   tail -n 40 "$DEV_LOG" || true
   exit 1
-else
-  echo "Vite dev already running."
 fi

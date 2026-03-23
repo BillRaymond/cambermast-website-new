@@ -3,6 +3,8 @@ set -euo pipefail
 
 cd "$(dirname "$0")/.."
 
+VITE_DEV_CMD="${VITE_DEV_CMD:-npm run dev:vite}"
+
 npm run watch:training-pdfs &
 WATCH_PID=$!
 
@@ -14,4 +16,4 @@ cleanup() {
 
 trap cleanup EXIT INT TERM
 
-exec npm run dev:vite
+exec bash -lc "$VITE_DEV_CMD"

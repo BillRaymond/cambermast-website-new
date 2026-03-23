@@ -117,6 +117,7 @@ If existing event records drift out of sync, run `npm --prefix web run campaigns
 - Brochure QA should focus on content quality, visual cleanliness, and working links. There is no required brochure page count.
 - In development, brochure footer links should resolve against the active local server origin; in production they should resolve against the canonical site origin.
 - `npm --prefix web run dev` now starts a brochure PDF watcher alongside Vite. It rebuilds PDFs only when brochure-impacting sources change, instead of rebuilding on every refresh.
+- The devcontainer auto-start path (`./web/scripts/start-vite-dev.sh`) now uses that same watcher-enabled dev flow while still serving Vite on `0.0.0.0:5173`.
 - The current brochure watcher contract includes:
   - `web/src/routes/(plain)/training/[slug]/print/+page.svelte`
   - `web/src/routes/(plain)/training/[slug]/print/+page.ts`
@@ -128,6 +129,8 @@ If existing event records drift out of sync, run `npm --prefix web run campaigns
   - `web/src/lib/data/partners.ts`
   - `web/src/routes/about/+page.svelte`
   - brochure-linked `/images/**` assets referenced by training brochure data, testimonials, the print route, and the About page
+- Generated brochure PDFs are written to `web/static/downloads/training/`.
+- On startup, the watcher compares brochure-input mtimes to the generated PDFs and only rebuilds when the PDFs are missing or stale.
 - Use `npm --prefix web run generate:training-pdfs:dev` when you want a manual rebuild outside the watcher flow.
 
 ## Form Submission Standard
