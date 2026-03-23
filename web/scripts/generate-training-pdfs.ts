@@ -16,10 +16,13 @@ type Mode = 'build' | 'dev';
 
 const requestedMode = process.argv.includes('--mode=dev') ? 'dev' : 'build';
 const mode: Mode = requestedMode === 'dev' ? 'dev' : 'build';
+const requestedOriginArg = process.argv.find((argument) => argument.startsWith('--origin='));
+const requestedOrigin = requestedOriginArg?.slice('--origin='.length).trim() || undefined;
 const serverPort = mode === 'dev' ? 4174 : 4173;
 const serverOrigin = `http://127.0.0.1:${serverPort}`;
 const downloadsDir =
 	mode === 'dev' ? staticDownloadsDir : path.join(buildDir, 'downloads', 'training');
+const forcedOrigin = requestedOrigin?.replace(/\/$/, '') || undefined;
 
 const escapeHtml = (value: string): string =>
 	value
@@ -120,10 +123,13 @@ const run = async () => {
 
 		for (const program of printPrograms) {
 			const page = await browser.newPage();
-			const url = `${serverOrigin}${program.printPath}`;
+			const url = new URL(`${serverOrigin}${program.printPath}`);
+			if (forcedOrigin) {
+				url.searchParams.set('origin', forcedOrigin);
+			}
 			const generatedAt = formatGeneratedAt(new Date());
-			console.log(`Generating PDF for ${program.slug} from ${url}`);
-			await page.goto(url, { waitUntil: 'networkidle' });
+			console.log(`Generating PDF for ${program.slug} from ${url.toString()}`);
+			await page.goto(url.toString(), { waitUntil: 'networkidle' });
 			await page.pdf({
 				path: program.outputPath,
 				format: 'Letter',

@@ -9,7 +9,7 @@
 		"dev:vite": "vite dev",
 		"predev": "node ./scripts/sync-site-metadata.mjs && npm run validate:events && npm run validate:campaigns && npm run validate:registries && npm run validate:api && npm run validate:public-endpoints && npm run validate:schema-governance && npm run validate:ui-adapters && npm run validate:no-duplicate-files",
 		"dev:host": "vite dev --host 0.0.0.0 --port 5173",
-		"build": "tsx ./scripts/reset-generated-output.ts && vite build && node ./scripts/write-static-admin-campaign-redirect.mjs && tsx ./scripts/generate-training-pdfs.ts",
+		"build": "tsx ./scripts/reset-generated-output.ts && tsx ./scripts/generate-training-pdfs.ts --mode=dev --origin=https://www.cambermast.com && vite build && node ./scripts/write-static-admin-campaign-redirect.mjs",
 		"preview": "vite preview",
 		"prepreview": "node ./scripts/sync-site-metadata.mjs && npm run validate:events && npm run validate:campaigns && npm run validate:registries && npm run validate:api && npm run validate:public-endpoints && npm run validate:schema-governance && npm run validate:ui-adapters && npm run validate:no-duplicate-files",
 		"prepare": "svelte-kit sync || echo ''",

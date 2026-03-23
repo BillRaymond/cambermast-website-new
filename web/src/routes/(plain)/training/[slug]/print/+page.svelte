@@ -148,8 +148,14 @@
 	const defaultOrigin = SITE_ORIGIN.replace(/\/$/, '');
 	let brochureOrigin = defaultOrigin;
 	let brochureAbsoluteUrl = `${defaultOrigin}${brochure.route}`;
+	const getRequestedOrigin = (): string | undefined => {
+		const origin = $page.url.searchParams.get('origin')?.trim();
+		return origin ? origin.replace(/\/$/, '') : undefined;
+	};
 
-	$: brochureOrigin = browser ? $page.url.origin.replace(/\/$/, '') : defaultOrigin;
+	$: brochureOrigin = browser
+		? getRequestedOrigin() ?? $page.url.origin.replace(/\/$/, '')
+		: defaultOrigin;
 	$: brochureAbsoluteUrl = `${brochureOrigin}${brochure.route}`;
 </script>
 
