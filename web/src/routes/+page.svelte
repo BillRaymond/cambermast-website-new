@@ -1,7 +1,7 @@
 <script lang="ts">
 	import catalog from '$lib/data/catalog.json';
 	import Card from '$lib/components/ServiceCard.svelte';
-	import UpcomingSessionsCarousel from '$lib/components/home/UpcomingSessionsCarousel.svelte';
+	import UpcomingSessionsStrip from '$lib/components/home/UpcomingSessionsStrip.svelte';
 	import { isEventUpcomingUi, listEventUi } from '$lib/view-models/events';
 	import { toEventCardModel, type EventCardModel } from '$lib/view-models/event-card';
 	import { listTrainingPrograms } from '$lib/data/training';
@@ -302,40 +302,11 @@
 	<link rel="manifest" href="/site.webmanifest" />
 </svelte:head>
 
-<section class="mx-auto mt-4 w-full px-4">
-	<div class="sessions-strip mx-auto max-w-5xl px-4 py-4">
-		<div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-			<div class="flex flex-col gap-1">
-				<h1
-					class="sessions-strip-title text-lg font-extrabold tracking-tight text-gray-900 sm:text-xl"
-				>
-					Upcoming sessions & events
-				</h1>
-				<p class="sessions-strip-tagline text-sm text-gray-700">
-					Register for public cohorts, workshops, and upcoming partner events.
-				</p>
-			</div>
-			<a
-				href="/calendar"
-				class="sessions-strip-link inline-flex items-center justify-center rounded-full border border-blue-200 bg-white px-3 py-2 text-xs font-semibold text-blue-700 transition hover:border-blue-300 hover:bg-blue-50 focus:ring-2 focus:ring-blue-200 focus:outline-none"
-			>
-				View calendar →
-			</a>
-		</div>
-
-		{#if upcomingSlides.length}
-			<div class="mt-4">
-				<UpcomingSessionsCarousel slides={upcomingSlides} />
-			</div>
-		{:else}
-			<div
-				class="mt-4 rounded-2xl border border-blue-100 bg-white/70 px-4 py-3 text-sm text-gray-700"
-			>
-				No upcoming sessions are listed right now. Check the calendar for the latest updates.
-			</div>
-		{/if}
-	</div>
-</section>
+<UpcomingSessionsStrip
+	slides={upcomingSlides}
+	title="Upcoming sessions & events"
+	tagline="Register for public cohorts, workshops, and upcoming partner events."
+/>
 
 <section class="mx-auto mt-6 w-full px-4">
 	<div class="mx-auto max-w-5xl px-4">
@@ -504,16 +475,6 @@
 		outline-offset: 2px;
 	}
 
-	.sessions-strip {
-		position: relative;
-		overflow: visible;
-		border-radius: 30px;
-		padding: 1.5rem 1.25rem;
-		border: 1px solid rgba(148, 197, 253, 0.45);
-		background: rgba(226, 237, 255, 0.55);
-		box-shadow: 0 22px 44px -40px rgba(30, 64, 175, 0.45);
-	}
-
 	.home-trust-band {
 		display: flex;
 		flex-direction: column;
@@ -525,23 +486,6 @@
 	}
 
 	@media (max-width: 640px) {
-		.sessions-strip {
-			padding: 1rem;
-			border-radius: 22px;
-		}
-
-		.sessions-strip-title {
-			font-size: 1.05rem;
-		}
-
-		.sessions-strip-tagline {
-			font-size: 0.85rem;
-		}
-
-		.sessions-strip-link {
-			align-self: flex-start;
-		}
-
 		.home-trust-band {
 			padding: 1rem;
 		}

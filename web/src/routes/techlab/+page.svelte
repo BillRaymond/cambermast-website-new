@@ -1,30 +1,19 @@
 <script lang="ts">
-	import catalog from '$lib/data/catalog.json';
-	import Card from '$lib/components/ServiceCard.svelte';
-	import SeoHead from '$lib/components/SeoHead.svelte';
 	import { browser } from '$app/environment';
 	import { page } from '$app/stores';
+	import UpcomingSessionsStrip from '$lib/components/home/UpcomingSessionsStrip.svelte';
+	import SeoHead from '$lib/components/SeoHead.svelte';
+	import { getSeo } from '$lib/seo';
 	import { listTechlabPrograms } from '$lib/data/techlab';
 	import type { TechlabProgram } from '$lib/data/techlab/types';
+	import { isEventUpcomingUi, listEventUi } from '$lib/view-models/events';
+	import { toEventCardModel, type EventCardModel } from '$lib/view-models/event-card';
 
 	const programs: TechlabProgram[] = listTechlabPrograms();
-	type HomeServiceCard = {
-		icon?: string;
-		label?: string;
-		headline?: string;
-		route?: string;
-	};
-	const serviceCardOrder = ['training', 'agents', 'strategy'] as const;
-	const homeServiceCards: HomeServiceCard[] = serviceCardOrder
-		.map((key) => (catalog as Record<string, HomeServiceCard>)[key])
-		.filter((card): card is HomeServiceCard => Boolean(card));
 
-	const pageTitle = 'TechLAB × Cambermast | AI Training & Automation with Bill Raymond';
-	const pageDescription =
-		'TechLAB and Cambermast partnered to provide AI training, agentic AI automations, and hands-on practice for founders and operators, guided by Bill Raymond for TechLAB teams.';
-
+	const pageMeta = getSeo('/techlab');
 	const ctaPrimary = { label: 'Schedule with the team', url: '/contact' };
-	const ctaSecondary = { label: 'Talk with Bill', url: '/contact' };
+	const ctaSecondary = { label: 'Talk with us', url: '/contact' };
 
 	type QrLandingContext = {
 		isQr: boolean;
@@ -35,6 +24,96 @@
 		utmCampaign?: string;
 		utmContent?: string;
 	};
+
+	type Highlight = {
+		title: string;
+		copy: string;
+	};
+
+	type ProgramCardStat = {
+		duration?: string;
+		format?: string;
+	};
+
+	const normalizeToday = (reference: Date = new Date()): Date => {
+		const normalized = new Date(reference);
+		normalized.setHours(0, 0, 0, 0);
+		return normalized;
+	};
+
+	const today = normalizeToday();
+
+	const statBlocks = [
+		{ label: 'Focus', value: 'Founder-first AI literacy, agentic automations, fieldwork' },
+		{ label: 'Audience', value: 'Founders, operators, GTM, product, and technical teams' },
+		{ label: 'Formats', value: 'Live labs, private cohorts, automation pilots' },
+		{ label: 'Partner', value: 'Delivered with TechLAB + Cambermast' }
+	];
+
+	const valueProps = [
+		'Give founders investor-ready AI workflows, storylines, and proof points.',
+		'Design agentic automations with human-in-the-loop guardrails TechLAB trusts.',
+		'Equip operators with prompts, playbooks, and governance checklists they can run tomorrow.',
+		'Pair every sprint with hands-on lab time so teams leave with measurable wins.'
+	];
+
+	const supportGroups: Highlight[] = [
+		{
+			title: 'Founders & operators',
+			copy: 'Frame the AI vision, keep investor messaging sharp, and prove traction with shipped workflows.'
+		},
+		{
+			title: 'Product & engineering',
+			copy: 'Design agentic loops, custom GPTs, and research systems that stay reliable in production.'
+		},
+		{
+			title: 'Content & GTM teams',
+			copy: 'Scale storytelling, docs, and customer comms while protecting brand and approvals.'
+		}
+	];
+
+	const founderDeliverables: Highlight[] = [
+		{
+			title: 'Agentic automation briefs',
+			copy: 'Define the trigger logic, human checkpoints, and KPIs for agent-powered workflows founders can explain to investors.'
+		},
+		{
+			title: 'Pitch deck storyboards',
+			copy: 'Use structured prompts to shape story arcs, traction slides, and founder narratives that stay consistent across talk tracks.'
+		},
+		{
+			title: 'Market intel briefs',
+			copy: 'Spin up AI-assisted battle cards and competitive tear-downs with citations, so diligence and positioning stay fresh.'
+		},
+		{
+			title: 'VC communications',
+			copy: 'Draft investor updates, outreach sequences, and follow-up notes that adapt to each fund’s focus while staying on-brand.'
+		}
+	];
+
+	const whyTechlab = [
+		'Joint TechLAB × Cambermast curriculum tailored for founders and operators.',
+		'Agentic automation labs built on Cambermast delivery playbooks and TechLAB diligence.',
+		'Hands-on sessions, clear templates, and real build examples rather than abstract theory.'
+	];
+
+	const formatProgramStats = (program: TechlabProgram): ProgramCardStat => {
+		const format = program.stats?.find((item) => item.label.toLowerCase() === 'format')?.value;
+		const duration = program.stats?.find((item) => item.label.toLowerCase() === 'duration')?.value;
+
+		return {
+			duration: Array.isArray(duration) ? duration.join(', ') : duration?.toString(),
+			format: Array.isArray(format) ? format.join(', ') : format?.toString()
+		};
+	};
+
+	const upcomingSlides: EventCardModel[] = listEventUi()
+		.filter((event) => isEventUpcomingUi(event, today))
+		.map((event) => toEventCardModel(event))
+		.sort((a, b) => {
+			if (a.tone !== b.tone) return a.tone === 'happening' ? 1 : -1;
+			return (a.startTimestamp ?? Infinity) - (b.startTimestamp ?? Infinity);
+		});
 
 	let qrLandingContext: QrLandingContext;
 	let lastTrackedSearch = '';
@@ -85,863 +164,252 @@
 			page_path: '/techlab'
 		});
 	}
-
-	const statBlocks = [
-		{ label: 'Focus', value: 'Founder-first AI literacy, agentic automations, fieldwork' },
-		{ label: 'Audience', value: 'Founders, operators, GTM, product, and technical teams' },
-		{ label: 'Formats', value: 'Live labs, private cohorts, automation pilots' },
-		{ label: 'Partner', value: 'Delivered with TechLAB + Cambermast' }
-	];
-
-	const valueProps = [
-		'Give founders investor-ready AI workflows, storylines, and proof points.',
-		'Design agentic automations with human-in-the-loop guardrails TechLAB trusts.',
-		'Equip operators with prompts, playbooks, and governance checklists they can run tomorrow.',
-		'Pair every sprint with hands-on lab time so teams leave with measurable wins.'
-	];
-
-	const supportGroups = [
-		{
-			title: 'Founders & operators',
-			copy: 'Frame the AI vision, keep investor messaging sharp, and prove traction with shipped workflows.'
-		},
-		{
-			title: 'Product & engineering',
-			copy: 'Design agentic loops, custom GPTs, and research systems that stay reliable in production.'
-		},
-		{
-			title: 'Content & GTM teams',
-			copy: 'Scale storytelling, docs, and customer comms while protecting brand and approvals.'
-		}
-	];
-
-	const founderDeliverables = [
-		{
-			title: 'Agentic automation briefs',
-			copy: 'Define the trigger logic, human checkpoints, and KPIs for agent-powered workflows founders can explain to investors.'
-		},
-		{
-			title: 'Pitch deck storyboards',
-			copy: 'Use structured prompts to shape story arcs, traction slides, and founder narratives that stay consistent across talk tracks.'
-		},
-		{
-			title: 'Market intel briefs',
-			copy: 'Spin up AI-assisted battle cards and competitive tear-downs with citations, so diligence and positioning stay fresh.'
-		},
-		{
-			title: 'VC communications',
-			copy: 'Draft investor updates, outreach sequences, and follow-up notes that adapt to each fund’s focus while staying on-brand.'
-		}
-	];
-
-	const whyTechlab = [
-		'Joint TechLAB × Cambermast curriculum tailored for founders and operators.',
-		'Agentic automation labs built on Cambermast’s delivery playbooks and TechLAB diligence.',
-		'Hands-on sessions, clear templates, and real TechLAB build examples—not theory.'
-	];
-
-	const formatStat = (program: TechlabProgram): string | undefined =>
-		program.stats?.find((item) => item.label.toLowerCase() === 'format')?.value?.toString();
-	const durationStat = (program: TechlabProgram): string | undefined =>
-		program.stats?.find((item) => item.label.toLowerCase() === 'duration')?.value?.toString();
 </script>
 
-<SeoHead title={pageTitle} description={pageDescription} path="/techlab" />
+<SeoHead title={pageMeta.title} description={pageMeta.description} path="/techlab" />
 
-<svelte:head>
-	<meta name="robots" content="noindex" />
-	<link rel="preconnect" href="https://fonts.googleapis.com" />
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
-	<link
-		rel="stylesheet"
-		href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;600;700;900&display=swap"
-	/>
-</svelte:head>
-
-<div class="techlab-shell">
-	<header class="techlab-header">
-		<div class="techlab-header__brand">
-			<img
-				src="/images/TechLAB-Innovation-Center.png"
-				alt="TechLAB Innovation Center LLC logo"
-				class="techlab-logo"
-			/>
-			<div class="techlab-pair">
-				<a
-					class="techlab-pill"
-					href="https://www.techlabcenter.com#home"
-					target="_blank"
-					rel="noreferrer noopener"
-				>
-					TechLAB Innovation Center LLC
-				</a>
-				<a
-					class="techlab-pill techlab-pill--light"
-					href="https://cambermast.com"
-					target="_blank"
-					rel="noreferrer noopener"
-				>
-					Cambermast
-				</a>
-			</div>
-		</div>
-		<div class="techlab-header__actions">
-			<a class="techlab-link" href="/contact">Contact</a>
-		</div>
-	</header>
-
-	<main class="techlab-main">
-		<section class="hero">
-			<div class="hero__content">
-				<p class="eyebrow">Official AI Education Partner</p>
-				<h1>TechLAB × Cambermast</h1>
-				<p class="lead">
-					TechLAB Innovation Center LLC and Cambermast partnered to provide AI training, agentic
-					AI automations, and hands-on practice for founders and operators. Bill Raymond leads
-					every session with TechLAB Innovation Center LLC's builders, operators, and technical
-					teams.
-				</p>
-				<div class="hero__cta">
-					<a class="btn btn--primary" href={ctaPrimary.url}>{ctaPrimary.label}</a>
-					<a class="btn btn--ghost" href={ctaSecondary.url}>{ctaSecondary.label}</a>
-				</div>
-				<div class="hero__meta">
-					<span>Bill Raymond • Founder, Cambermast</span>
-					<span class="dot" aria-hidden="true"></span>
-					<span>Delivered with TechLAB Innovation Center LLC</span>
-				</div>
-			</div>
-			<div class="hero__card">
-				<h3>Built for fast-moving teams</h3>
-				<ul>
-					<li>
-						Founders leave each week with investor-ready narratives, prompts, and proof points.
-					</li>
-					<li>
-						Operators co-build agentic automations with Cambermast guardrails to stay reliable.
-					</li>
-					<li>
-						Tap TechLAB Innovation Center LLC's mentor network plus Cambermast delivery
-						experience to move fast with confidence.
-					</li>
-				</ul>
-			</div>
-		</section>
-
-		<section class="mt-7 grid items-start gap-4 md:grid-cols-3">
-			{#each homeServiceCards as card}
-				<Card
-					icon={card.icon}
-					label={card.label}
-					headline={card.headline}
-					route={card.route}
-					hasUpcomingSessions={false}
-					upcomingSessions={[]}
+<section class="mx-auto mt-6 w-full px-4">
+	<div class="mx-auto max-w-5xl rounded-[2rem] border border-slate-200 bg-gradient-to-br from-slate-950 via-blue-900 to-sky-700 px-6 py-8 text-white shadow-[0_24px_64px_-28px_rgba(15,23,42,0.65)] sm:px-8">
+		<div class="max-w-4xl">
+			<div class="flex flex-wrap items-center gap-3">
+				<img
+					src="/images/TechLAB-Innovation-Center.png"
+					alt="TechLAB Innovation Center LLC logo"
+					class="h-12 w-auto rounded-lg bg-white px-3 py-2"
 				/>
-			{/each}
-		</section>
+				<span class="rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-semibold tracking-wide uppercase">
+					Official AI Education Partner
+				</span>
+			</div>
+			<h1 class="mt-6 text-3xl font-bold tracking-tight sm:text-4xl">TechLAB × Cambermast</h1>
+			<p class="mt-4 max-w-4xl text-base leading-7 text-blue-50">
+				TechLAB Innovation Center LLC and Cambermast partnered to provide AI training, agentic AI
+				automations, and hands-on practice for founders and operators. Bill Raymond leads every
+				session with TechLAB builders, operators, and technical teams.
+			</p>
+		</div>
+	</div>
+</section>
 
-		<section class="stats">
-			{#each statBlocks as stat}
-				<div class="stat">
-					<p class="stat__label">{stat.label}</p>
-					<p class="stat__value">{stat.value}</p>
-				</div>
-			{/each}
-		</section>
+<UpcomingSessionsStrip
+	slides={upcomingSlides}
+	title="Upcoming sessions & events"
+	tagline="See the same live Cambermast calendar preview featured on the homepage, then explore the founder-focused TechLAB partnership below."
+/>
 
-		<section class="panel">
-			<div class="panel__content">
-				<h2>About the collaboration</h2>
-				<p>
-					TechLAB Innovation Center LLC and Cambermast partnered to provide AI training, agentic
-					AI automations, and hands-on practice for founders and operators. Every program is led
-					by Bill Raymond with content tuned for TechLAB Innovation Center LLC's community, which
-					is fast-moving, pragmatic, and ready to launch.
-				</p>
-				<div class="pill-row">
-					<span class="techlab-pill">AI training</span>
-					<span class="techlab-pill">Agentic automations</span>
-					<span class="techlab-pill">Hands-on founder labs</span>
-				</div>
-			</div>
-			<div class="panel__content panel__content--alt">
-				<h3>Why it works</h3>
-				<ul class="bullet">
-					{#each whyTechlab as reason}
-						<li>{reason}</li>
-					{/each}
-				</ul>
-			</div>
-		</section>
+<section class="mx-auto mt-6 w-full px-4">
+	<div class="mx-auto max-w-5xl rounded-3xl border border-slate-200 bg-gradient-to-r from-slate-900 via-blue-900 to-sky-700 p-6 text-white shadow-[0_18px_48px_-28px_rgba(15,23,42,0.65)]">
+		<h2 class="text-lg font-semibold text-white">Built for fast-moving teams</h2>
+		<ul class="mt-4 space-y-3 text-sm leading-6 text-blue-50">
+			<li>Founders leave with investor-ready narratives, prompts, and proof points.</li>
+			<li>Operators co-build agentic automations with Cambermast guardrails.</li>
+			<li>Teams tap TechLAB mentorship plus Cambermast delivery experience to move faster.</li>
+		</ul>
+		<div class="mt-6 flex flex-wrap gap-3">
+			<a
+				class="inline-flex items-center justify-center rounded-full bg-white px-4 py-2 text-sm font-semibold text-blue-700 transition hover:bg-blue-50 focus:ring-2 focus:ring-white/60 focus:outline-none"
+				href={ctaPrimary.url}
+			>
+				{ctaPrimary.label}
+			</a>
+			<a
+				class="inline-flex items-center justify-center rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/20 focus:ring-2 focus:ring-white/60 focus:outline-none"
+				href={ctaSecondary.url}
+			>
+				{ctaSecondary.label}
+			</a>
+		</div>
+		<div class="mt-5 flex flex-wrap items-center gap-3 text-sm font-medium text-blue-100">
+			<span>Bill Raymond • Founder, Cambermast</span>
+			<span class="h-1.5 w-1.5 rounded-full bg-sky-200" aria-hidden="true"></span>
+			<span>Delivered with TechLAB Innovation Center LLC</span>
+		</div>
+	</div>
+</section>
 
-		<section class="panel panel--grid">
-			<div class="panel__content">
-				<h2>Value for founders and operators</h2>
-				<ul class="bullet">
-					{#each valueProps as item}
-						<li>{item}</li>
-					{/each}
-				</ul>
+<section class="mx-auto mt-6 w-full px-4">
+	<div class="mx-auto grid max-w-5xl gap-4 md:grid-cols-4">
+		{#each statBlocks as stat}
+			<div class="rounded-2xl border border-gray-200 bg-white px-5 py-4 shadow-sm">
+				<p class="text-xs font-semibold tracking-[0.18em] text-gray-500 uppercase">{stat.label}</p>
+				<p class="mt-2 text-sm font-semibold leading-6 text-gray-900">{stat.value}</p>
 			</div>
-			<div class="panel__content">
-				<h3>Who this supports</h3>
-				<div class="support-grid">
-					{#each supportGroups as group}
-						<div class="support-card">
-							<p class="support-title">{group.title}</p>
-							<p class="support-copy">{group.copy}</p>
-						</div>
-					{/each}
-				</div>
-			</div>
-		</section>
+		{/each}
+	</div>
+</section>
 
-		<section class="panel panel--founder">
-			<div class="panel__content">
-				<p class="eyebrow eyebrow--small">Founder-ready workflows</p>
-				<h2>Work on real startup deliverables in each session</h2>
-				<p>
-					Every TechLAB program bakes in lab time for the material founders need to fundraise,
-					validate markets, and keep investors confident.
-				</p>
+<section class="mx-auto mt-8 w-full px-4">
+	<div class="mx-auto grid max-w-5xl gap-6 lg:grid-cols-[1.15fr,0.85fr]">
+		<div class="rounded-3xl border border-blue-100 bg-white p-6 shadow-sm">
+			<p class="text-xs font-semibold tracking-[0.18em] text-blue-600 uppercase">
+				About the collaboration
+			</p>
+			<h2 class="mt-3 text-2xl font-bold text-gray-900">Practical AI work for founder-led teams</h2>
+			<p class="mt-4 max-w-3xl text-gray-700">
+				Every program is led by Bill Raymond with content tuned for TechLAB's community: fast-moving,
+				pragmatic teams that want to learn AI by applying it to real startup work.
+			</p>
+			<div class="mt-5 flex flex-wrap gap-2">
+				<span class="rounded-full bg-blue-50 px-3 py-1 text-sm font-medium text-blue-700">AI training</span>
+				<span class="rounded-full bg-blue-50 px-3 py-1 text-sm font-medium text-blue-700">Agentic automations</span>
+				<span class="rounded-full bg-blue-50 px-3 py-1 text-sm font-medium text-blue-700">Hands-on founder labs</span>
 			</div>
-			<div class="panel__content">
-				<div class="founder-grid">
-					{#each founderDeliverables as deliverable}
-						<div class="founder-card">
-							<h3>{deliverable.title}</h3>
-							<p>{deliverable.copy}</p>
-						</div>
-					{/each}
-				</div>
-			</div>
-		</section>
+		</div>
+		<div class="rounded-3xl border border-slate-200 bg-slate-50 p-6 shadow-sm">
+			<h2 class="text-xl font-bold text-gray-900">Why it works</h2>
+			<ul class="mt-4 space-y-3 text-sm leading-6 text-gray-700">
+				{#each whyTechlab as reason}
+					<li>{reason}</li>
+				{/each}
+			</ul>
+		</div>
+	</div>
+</section>
 
-		<section class="catalog">
-			<div class="catalog__header">
-				<div>
-					<p class="eyebrow">AI Training Catalog</p>
-					<h2>TechLAB programs with Bill Raymond</h2>
-					<p class="catalog__lede">
-						Explore AI training and automation programs designed for TechLAB members and partner
-						teams.
-					</p>
-				</div>
-				<a class="btn btn--ghost" href="/contact">Ask about private delivery</a>
-			</div>
-			<div class="catalog__grid">
-				{#each programs as program (program.slug)}
-					<article class="catalog-card">
-						{#if program.heroImage}
-							<img
-								src={program.heroImage}
-								alt={program.heroImageAlt ?? program.title}
-								class="catalog-card__image"
-								loading="lazy"
-							/>
-						{/if}
-						<div class="catalog-card__body">
-							<p class="eyebrow eyebrow--small">TechLAB training</p>
-							<h3>{program.title}</h3>
-							<p class="catalog-card__tagline">{program.tagline}</p>
-							<div class="catalog-card__meta">
-								{#if durationStat(program)}
-									<span>{durationStat(program)}</span>
-								{/if}
-								{#if formatStat(program)}
-									<span>{formatStat(program)}</span>
-								{/if}
-							</div>
-							<ul class="catalog-card__bullets">
-								{#each program.objectives?.slice(0, 3) ?? [] as objective}
-									<li>{objective}</li>
-								{/each}
-							</ul>
-							<div class="catalog-card__actions">
-								<a class="btn btn--primary" href={program.route}>View program</a>
-								<a class="btn btn--ghost" href={program.primaryCta.url}>Schedule</a>
-							</div>
-						</div>
-					</article>
+<section class="mx-auto mt-8 w-full px-4">
+	<div class="mx-auto grid max-w-5xl gap-6 lg:grid-cols-2">
+		<div class="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">
+			<h2 class="text-2xl font-bold text-gray-900">Value for founders and operators</h2>
+			<ul class="mt-4 space-y-3 text-sm leading-6 text-gray-700">
+				{#each valueProps as item}
+					<li>{item}</li>
+				{/each}
+			</ul>
+		</div>
+		<div class="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">
+			<h2 class="text-2xl font-bold text-gray-900">Who this supports</h2>
+			<div class="mt-4 grid gap-4">
+				{#each supportGroups as group}
+					<div class="rounded-2xl border border-gray-100 bg-slate-50 px-4 py-4">
+						<p class="text-sm font-semibold text-gray-900">{group.title}</p>
+						<p class="mt-2 text-sm leading-6 text-gray-700">{group.copy}</p>
+					</div>
 				{/each}
 			</div>
-		</section>
+		</div>
+	</div>
+</section>
 
-		<section class="cta-block">
-			<div>
-				<p class="eyebrow">Ready to move</p>
-				<h2>Bring TechLAB + Cambermast into your next sprint</h2>
-				<p>Set dates for your team, or ask about automation pilots built alongside the training.</p>
-			</div>
-			<div class="cta-block__actions">
-				<a class="btn btn--primary" href={ctaPrimary.url}>Schedule your team</a>
-				<a class="btn btn--ghost" href={ctaSecondary.url}>Talk with Bill</a>
-			</div>
-		</section>
-	</main>
+<section class="mx-auto mt-8 w-full px-4">
+	<div class="mx-auto max-w-5xl rounded-3xl border border-blue-100 bg-gradient-to-br from-blue-50 to-white p-6 shadow-sm">
+		<p class="text-xs font-semibold tracking-[0.18em] text-blue-600 uppercase">
+			Founder-ready workflows
+		</p>
+		<h2 class="mt-3 text-2xl font-bold text-gray-900">
+			Work on real startup deliverables in each session
+		</h2>
+		<p class="mt-4 max-w-3xl text-gray-700">
+			Every TechLAB program bakes in lab time for the material founders need to fundraise, validate
+			markets, and keep investors confident.
+		</p>
+		<div class="mt-6 grid gap-4 md:grid-cols-2">
+			{#each founderDeliverables as deliverable}
+				<div class="rounded-2xl border border-white bg-white/90 px-5 py-5 shadow-sm">
+					<h3 class="text-lg font-semibold text-gray-900">{deliverable.title}</h3>
+					<p class="mt-3 text-sm leading-6 text-gray-700">{deliverable.copy}</p>
+				</div>
+			{/each}
+		</div>
+	</div>
+</section>
 
-	<footer class="techlab-footer">
-		<div class="footer__brand">
-			<img
-				src="/images/TechLAB-Innovation-Center.png"
-				alt="TechLAB Innovation Center LLC logo"
-				class="techlab-logo techlab-logo--small"
-			/>
+<section class="mx-auto mt-10 w-full px-4">
+	<div class="mx-auto max-w-5xl">
+		<div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
 			<div>
-				<p class="footer__title">TechLAB Innovation Center LLC</p>
-				<p class="footer__subtitle">In collaboration with Cambermast</p>
+				<p class="text-xs font-semibold tracking-[0.18em] text-blue-600 uppercase">
+					AI training catalog
+				</p>
+				<h2 class="mt-2 text-2xl font-bold text-gray-900">TechLAB programs with Bill Raymond</h2>
+				<p class="mt-3 max-w-3xl text-gray-700">
+					Explore AI training and automation programs designed for TechLAB members and partner
+					teams.
+				</p>
+			</div>
+			<a
+				class="inline-flex items-center justify-center rounded-full border border-blue-200 bg-white px-4 py-2 text-sm font-semibold text-blue-700 transition hover:border-blue-300 hover:bg-blue-50 focus:ring-2 focus:ring-blue-200 focus:outline-none"
+				href="/contact"
+			>
+				Ask about private delivery
+			</a>
+		</div>
+
+		<div class="mt-6 grid gap-5 lg:grid-cols-2">
+			{#each programs as program (program.slug)}
+				{@const meta = formatProgramStats(program)}
+				<article class="overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-sm">
+					{#if program.heroImage}
+						<img
+							src={program.heroImage}
+							alt={program.heroImageAlt ?? program.title}
+							class="h-52 w-full object-cover"
+							loading="lazy"
+						/>
+					{/if}
+					<div class="p-6">
+						<p class="text-xs font-semibold tracking-[0.18em] text-blue-600 uppercase">
+							TechLAB training
+						</p>
+						<h3 class="mt-2 text-xl font-bold text-gray-900">{program.title}</h3>
+						<p class="mt-3 text-sm leading-6 text-gray-700">{program.tagline}</p>
+						<div class="mt-4 flex flex-wrap gap-2 text-xs font-semibold text-gray-600">
+							{#if meta.duration}
+								<span class="rounded-full bg-gray-100 px-3 py-1">{meta.duration}</span>
+							{/if}
+							{#if meta.format}
+								<span class="rounded-full bg-gray-100 px-3 py-1">{meta.format}</span>
+							{/if}
+						</div>
+						<ul class="mt-4 space-y-2 text-sm leading-6 text-gray-700">
+							{#each program.objectives?.slice(0, 3) ?? [] as objective}
+								<li>{objective}</li>
+							{/each}
+						</ul>
+						<div class="mt-5 flex flex-wrap gap-3">
+							<a
+								class="inline-flex items-center justify-center rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700 focus:ring-2 focus:ring-blue-200 focus:outline-none"
+								href={program.route}
+							>
+								View program
+							</a>
+							<a
+								class="inline-flex items-center justify-center rounded-full border border-blue-200 bg-white px-4 py-2 text-sm font-semibold text-blue-700 transition hover:border-blue-300 hover:bg-blue-50 focus:ring-2 focus:ring-blue-200 focus:outline-none"
+								href={program.primaryCta.url}
+							>
+								Schedule
+							</a>
+						</div>
+					</div>
+				</article>
+			{/each}
+		</div>
+	</div>
+</section>
+
+<section class="mx-auto mt-10 w-full px-4">
+	<div class="mx-auto max-w-5xl rounded-3xl border border-slate-200 bg-slate-900 px-6 py-8 text-white shadow-sm">
+		<div class="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
+			<div>
+				<p class="text-xs font-semibold tracking-[0.18em] text-sky-300 uppercase">Ready to move</p>
+				<h2 class="mt-2 text-2xl font-bold">Bring TechLAB + Cambermast into your next sprint</h2>
+				<p class="mt-3 max-w-2xl text-sm leading-6 text-slate-200">
+					Set dates for your team, or ask about automation pilots built alongside the training.
+				</p>
+			</div>
+			<div class="flex flex-wrap gap-3">
+				<a
+					class="inline-flex items-center justify-center rounded-full bg-white px-4 py-2 text-sm font-semibold text-slate-900 transition hover:bg-slate-100 focus:ring-2 focus:ring-white/60 focus:outline-none"
+					href={ctaPrimary.url}
+				>
+					Schedule your team
+				</a>
+				<a
+					class="inline-flex items-center justify-center rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/20 focus:ring-2 focus:ring-white/60 focus:outline-none"
+					href={ctaSecondary.url}
+				>
+					Talk with Bill
+				</a>
 			</div>
 		</div>
-		<div class="footer__links">
-			<a href="/contact" class="techlab-link">Contact</a>
-		</div>
-	</footer>
-</div>
-
-<style>
-	.techlab-shell {
-		font-family: 'Lato', 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
-		color: #0d1a2b;
-		background:
-			radial-gradient(circle at 12% 18%, rgba(0, 136, 201, 0.09), transparent 32%),
-			radial-gradient(circle at 88% 12%, rgba(0, 136, 201, 0.08), transparent 28%),
-			linear-gradient(180deg, #f9fbff 0%, #eef3f9 100%);
-		min-height: 100vh;
-	}
-
-	.techlab-main {
-		max-width: 1100px;
-		margin: 0 auto;
-		padding: 2.5rem 1.25rem 4rem;
-	}
-
-	.techlab-header {
-		max-width: 1100px;
-		margin: 0 auto;
-		padding: 1.25rem 1.25rem 0.5rem;
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		gap: 1rem;
-	}
-
-	.techlab-logo {
-		height: 52px;
-		width: auto;
-		object-fit: contain;
-	}
-
-	.techlab-logo--small {
-		height: 36px;
-	}
-
-	.techlab-header__brand {
-		display: flex;
-		align-items: center;
-		gap: 1rem;
-	}
-
-	.techlab-header__actions {
-		display: flex;
-		gap: 0.75rem;
-		align-items: center;
-	}
-
-	.techlab-link {
-		color: #0b6fbf;
-		font-weight: 600;
-		text-decoration: none;
-		border-bottom: 1px solid transparent;
-	}
-
-	.techlab-link:hover {
-		border-color: #0b6fbf;
-	}
-
-	.techlab-pair {
-		display: flex;
-		gap: 0.5rem;
-		flex-wrap: wrap;
-	}
-
-	.techlab-pill {
-		background: #0b6fbf;
-		color: #ffffff;
-		border-radius: 999px;
-		padding: 0.35rem 0.9rem;
-		font-weight: 700;
-		font-size: 0.85rem;
-		letter-spacing: 0.01em;
-	}
-
-	.techlab-pill--light {
-		background: #0d1a2b;
-	}
-
-	.hero {
-		display: grid;
-		grid-template-columns: 1.4fr 0.9fr;
-		gap: 1.5rem;
-		padding: 2.5rem;
-		background: linear-gradient(135deg, #0d1a2b 0%, #0b6fbf 60%, #0d9fd6 100%);
-		color: #ffffff;
-		border-radius: 24px;
-		box-shadow: 0 24px 64px -24px rgba(13, 26, 43, 0.35);
-	}
-
-	.hero__content h1 {
-		font-size: clamp(2.2rem, 3vw, 2.6rem);
-		line-height: 1.1;
-		margin: 0.35rem 0 0.65rem;
-		letter-spacing: -0.01em;
-	}
-
-	.hero__content .lead {
-		font-size: 1.05rem;
-		max-width: 640px;
-		line-height: 1.6;
-		color: #e8f3fb;
-	}
-
-	.eyebrow {
-		text-transform: uppercase;
-		font-weight: 800;
-		letter-spacing: 0.08em;
-		font-size: 0.75rem;
-		color: #b9dfff;
-	}
-
-	.eyebrow--small {
-		font-size: 0.72rem;
-		color: #0b6fbf;
-	}
-
-	.hero__cta {
-		display: flex;
-		gap: 0.75rem;
-		margin: 1.25rem 0 0.75rem;
-		flex-wrap: wrap;
-	}
-
-	.hero__meta {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.6rem;
-		align-items: center;
-		color: #d8e9f6;
-		font-weight: 600;
-	}
-
-	.dot {
-		width: 7px;
-		height: 7px;
-		border-radius: 999px;
-		background: #8bd3ff;
-		display: inline-flex;
-	}
-
-	.hero__card {
-		background: rgba(255, 255, 255, 0.12);
-		border: 1px solid rgba(255, 255, 255, 0.22);
-		border-radius: 18px;
-		padding: 1.5rem;
-		backdrop-filter: blur(4px);
-	}
-
-	.hero__card h3 {
-		margin: 0 0 0.75rem;
-		font-size: 1.1rem;
-		color: #ffffff;
-	}
-
-	.hero__card ul {
-		list-style: none;
-		padding: 0;
-		margin: 0;
-		display: grid;
-		gap: 0.45rem;
-		color: #e5f1fb;
-		font-weight: 600;
-	}
-
-	.btn {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		padding: 0.9rem 1.15rem;
-		border-radius: 12px;
-		font-weight: 700;
-		text-decoration: none;
-		font-size: 0.98rem;
-	}
-
-	.btn--primary {
-		background: #00a5e3;
-		color: #0d1a2b;
-		border: 1px solid #00a5e3;
-		box-shadow: 0 12px 28px -12px rgba(0, 165, 227, 0.6);
-	}
-
-	.btn--primary:hover {
-		background: #00b5ff;
-		border-color: #00b5ff;
-	}
-
-	.btn--ghost {
-		background: rgba(255, 255, 255, 0.1);
-		color: #ffffff;
-		border: 1px solid rgba(255, 255, 255, 0.4);
-	}
-
-	.hero .btn--ghost {
-		color: #e8f3fb;
-	}
-
-	.btn--ghost:hover {
-		background: rgba(255, 255, 255, 0.18);
-	}
-
-	.stats {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-		gap: 1rem;
-		margin: 1.5rem 0 2.5rem;
-	}
-
-	.stat {
-		background: #ffffff;
-		border-radius: 18px;
-		padding: 1.25rem;
-		box-shadow: 0 10px 30px -18px rgba(13, 26, 43, 0.35);
-		border: 1px solid #e4ecf5;
-	}
-
-	.stat__label {
-		color: #0b6fbf;
-		font-weight: 700;
-		text-transform: uppercase;
-		font-size: 0.78rem;
-		letter-spacing: 0.06em;
-		margin: 0 0 0.35rem;
-	}
-
-	.stat__value {
-		margin: 0;
-		font-weight: 700;
-		font-size: 1rem;
-		color: #0d1a2b;
-	}
-
-	.panel {
-		display: grid;
-		grid-template-columns: 1.15fr 0.85fr;
-		gap: 1rem;
-		margin: 0 0 2rem;
-	}
-
-	.panel__content {
-		background: #ffffff;
-		border-radius: 18px;
-		padding: 1.5rem;
-		border: 1px solid #e4ecf5;
-		box-shadow: 0 12px 32px -22px rgba(13, 26, 43, 0.4);
-	}
-
-	.panel__content h2,
-	.panel__content h3 {
-		margin-top: 0;
-		margin-bottom: 0.75rem;
-		letter-spacing: -0.01em;
-	}
-
-	.panel__content p {
-		margin: 0 0 0.75rem;
-		color: #1e2c3d;
-		line-height: 1.55;
-		font-size: 1rem;
-	}
-
-	.panel__content--alt {
-		background: linear-gradient(135deg, #0d1a2b 0%, #0b6fbf 100%);
-		color: #e7f1fb;
-		border: none;
-	}
-
-	.panel__content--alt h3 {
-		color: #ffffff;
-	}
-
-	.panel__content--alt .bullet li::marker {
-		color: #8bd3ff;
-	}
-
-	.panel--grid {
-		grid-template-columns: 1fr 1fr;
-	}
-
-	.panel--founder {
-		grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-		gap: 1.5rem;
-	}
-
-	.bullet {
-		list-style: disc;
-		margin: 0.5rem 0 0;
-		padding-left: 1.25rem;
-		display: grid;
-		gap: 0.5rem;
-	}
-
-	.pill-row {
-		display: flex;
-		gap: 0.5rem;
-		flex-wrap: wrap;
-		margin-top: 0.5rem;
-	}
-
-	.support-grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-		gap: 0.75rem;
-	}
-
-	.support-card {
-		background: rgba(11, 111, 191, 0.08);
-		border: 1px solid rgba(11, 111, 191, 0.2);
-		border-radius: 12px;
-		padding: 0.9rem;
-	}
-
-	.support-title {
-		font-weight: 800;
-		color: #0d1a2b;
-		margin: 0 0 0.25rem;
-	}
-
-	.support-copy {
-		margin: 0;
-		color: #23364a;
-		font-size: 0.95rem;
-	}
-
-	.founder-grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-		gap: 1rem;
-	}
-
-	.founder-card {
-		background: rgba(255, 255, 255, 0.86);
-		border: 1px solid #e4ecf5;
-		border-radius: 16px;
-		padding: 1rem;
-		box-shadow: 0 12px 32px -28px rgba(13, 26, 43, 0.55);
-	}
-
-	.founder-card h3 {
-		margin: 0 0 0.4rem;
-		font-size: 1.1rem;
-		color: #0b6fbf;
-	}
-
-	.founder-card p {
-		margin: 0;
-		color: #1e2c3d;
-		line-height: 1.5;
-		font-size: 0.95rem;
-	}
-
-	.catalog {
-		background: #ffffff;
-		border-radius: 22px;
-		padding: 1.5rem;
-		border: 1px solid #e4ecf5;
-		box-shadow: 0 12px 32px -22px rgba(13, 26, 43, 0.4);
-		margin-bottom: 2rem;
-	}
-
-	.catalog__header {
-		display: flex;
-		justify-content: space-between;
-		gap: 1rem;
-		align-items: flex-end;
-		flex-wrap: wrap;
-	}
-
-	.catalog__lede {
-		margin: 0.35rem 0 0.5rem;
-		color: #2c3e52;
-		max-width: 720px;
-		font-size: 1rem;
-	}
-
-	.catalog__grid {
-		margin-top: 1.4rem;
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-		gap: 1rem;
-	}
-
-	.catalog-card {
-		background: #f6f9fd;
-		border: 1px solid #e1ebf4;
-		border-radius: 16px;
-		overflow: hidden;
-		display: flex;
-		flex-direction: column;
-		box-shadow: 0 12px 32px -24px rgba(13, 26, 43, 0.3);
-	}
-
-	.catalog-card__image {
-		width: 100%;
-		height: 160px;
-		object-fit: cover;
-	}
-
-	.catalog-card__body {
-		padding: 1rem 1rem 1.25rem;
-		display: flex;
-		flex-direction: column;
-		gap: 0.5rem;
-	}
-
-	.catalog-card__tagline {
-		margin: 0;
-		color: #1e2c3d;
-		font-weight: 600;
-	}
-
-	.catalog-card__meta {
-		display: flex;
-		gap: 0.5rem;
-		flex-wrap: wrap;
-	}
-
-	.catalog-card__meta span {
-		background: #ffffff;
-		border-radius: 999px;
-		padding: 0.25rem 0.75rem;
-		font-weight: 700;
-		font-size: 0.82rem;
-		border: 1px solid #d6e4f2;
-		color: #0d1a2b;
-	}
-
-	.catalog-card__bullets {
-		list-style: disc;
-		margin: 0.25rem 0;
-		padding-left: 1.1rem;
-		display: grid;
-		gap: 0.35rem;
-		color: #2b3c50;
-	}
-
-	.catalog-card__actions {
-		display: flex;
-		gap: 0.5rem;
-		flex-wrap: wrap;
-		margin-top: 0.5rem;
-	}
-
-	.catalog-card .btn {
-		width: auto;
-		flex: 1 1 auto;
-		justify-content: center;
-	}
-
-	.catalog-card .btn--ghost {
-		color: #0d1a2b;
-		border-color: #c7daee;
-		background: #ffffff;
-	}
-
-	.cta-block {
-		background: linear-gradient(120deg, #0d1a2b 0%, #0b6fbf 60%, #0d9fd6 100%);
-		color: #ffffff;
-		border-radius: 20px;
-		padding: 1.6rem;
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		justify-content: space-between;
-		gap: 1rem;
-		box-shadow: 0 20px 48px -24px rgba(0, 79, 143, 0.55);
-	}
-
-	.cta-block h2 {
-		margin: 0.25rem 0 0.35rem;
-	}
-
-	.cta-block p {
-		margin: 0;
-		color: #e4f1fb;
-		font-weight: 600;
-	}
-
-	.cta-block__actions {
-		display: flex;
-		gap: 0.6rem;
-		flex-wrap: wrap;
-	}
-
-	.techlab-footer {
-		max-width: 1100px;
-		margin: 1.5rem auto 0;
-		padding: 1.5rem 1.25rem 2.25rem;
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		flex-wrap: wrap;
-		color: #1e2c3d;
-	}
-
-	.footer__brand {
-		display: flex;
-		gap: 0.85rem;
-		align-items: center;
-	}
-
-	.footer__title {
-		margin: 0;
-		font-weight: 800;
-	}
-
-	.footer__subtitle {
-		margin: 0.15rem 0 0;
-		color: #4d627b;
-		font-size: 0.95rem;
-	}
-
-	.footer__links {
-		display: flex;
-		gap: 0.85rem;
-	}
-
-	@media (max-width: 960px) {
-		.hero {
-			grid-template-columns: 1fr;
-		}
-
-		.panel {
-			grid-template-columns: 1fr;
-		}
-
-		.catalog-card .btn {
-			flex: 1 1 100%;
-		}
-	}
-
-	@media (max-width: 640px) {
-		.techlab-header,
-		.techlab-main,
-		.techlab-footer {
-			padding-left: 1rem;
-			padding-right: 1rem;
-		}
-
-		.hero {
-			padding: 1.6rem;
-		}
-	}
-</style>
+	</div>
+</section>

@@ -1,6 +1,7 @@
 import { SITE_ORIGIN } from '$lib/config/site';
 import catalog from '$lib/data/catalog.json';
 import { listNewsPosts } from '$lib/data/news';
+import { listTechlabPrograms } from '$lib/data/techlab';
 import { listTrainingPrograms } from '$lib/data/training';
 import { listEventUi } from '$lib/view-models/events';
 
@@ -29,6 +30,7 @@ const staticRoutes = [
 	'/resources/attendee-training-tips',
 	'/gdpr',
 	'/services/microsoft-project-server',
+	'/techlab',
 	'/llms.txt',
 	'/ai.txt',
 	'/api/catalog.json',
@@ -51,7 +53,7 @@ const staticRoutes = [
 	'/feed/training-programs.xml'
 ];
 
-const excludedPrefixes = ['/internal', '/admin', '/forms', '/tools', '/campaigns', '/techlab'];
+const excludedPrefixes = ['/internal', '/admin', '/forms', '/tools', '/campaigns'];
 
 const shouldExclude = (route: string): boolean =>
 	excludedPrefixes.some((prefix) => route === prefix || route.startsWith(`${prefix}/`));
@@ -71,6 +73,8 @@ const getCatalogRoutes = (): string[] =>
 
 const getTrainingRoutes = (): string[] =>
 	listTrainingPrograms().map((program) => program.route ?? `/training/${program.slug}`);
+const getTechlabRoutes = (): string[] =>
+	listTechlabPrograms().map((program) => program.route ?? `/techlab/${program.slug}`);
 
 const getNewsRoutes = (): string[] => listNewsPosts().map((post) => `/news/${post.slug}`);
 const getEventRoutes = (): string[] =>
@@ -83,6 +87,7 @@ const uniquePaths = (): string[] => {
 		...staticRoutes,
 		...getCatalogRoutes(),
 		...getTrainingRoutes(),
+		...getTechlabRoutes(),
 		...getNewsRoutes(),
 		...getEventRoutes()
 	]) {

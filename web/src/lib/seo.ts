@@ -145,6 +145,11 @@ export const pageSeo: SeoOverrides = {
 		description:
 			'Move off Microsoft Project Server 2013/2016/2019 with Cambermast and Project Hosts before end-of-support hits July 14, 2026.'
 	},
+	'/techlab': {
+		title: 'TechLAB × Cambermast | AI Training & Automation for Founders',
+		description:
+			'Explore TechLAB and Cambermast training, founder-ready AI workflows, and upcoming public sessions led by Bill Raymond.'
+	},
 	'/feed/openai-products.jsonl.gz': {
 		title: 'OpenAI Product Feed | Cambermast',
 		description:

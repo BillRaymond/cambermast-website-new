@@ -31,9 +31,7 @@
 		logo: `${SITE_ORIGIN.replace(/\/$/, '')}/images/cambermast-logo-full.png`
 	});
 
-	$: hideChrome =
-		(/^\/training(?:\/[^/]+)?\/print$/.test($page.url.pathname) ||
-			$page.url.pathname.startsWith('/techlab'));
+	$: hideChrome = /^\/training(?:\/[^/]+)?\/print$/.test($page.url.pathname);
 	$: isEventDetailRoute = /^\/events\/[^/]+$/.test($page.url.pathname);
 	$: hideSiteHeader = (() => {
 		if (!isEventDetailRoute) return false;
