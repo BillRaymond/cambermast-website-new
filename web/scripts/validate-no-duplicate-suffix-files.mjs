@@ -14,6 +14,7 @@ const IGNORED_DIRS = new Set([
 	'.netlify',
 	'.wrangler'
 ]);
+const IGNORED_RELATIVE_PATHS = new Set(['static/downloads']);
 
 const duplicateSuffixPattern = / \d+(?:\.[^/]+)?$/;
 const offenders = [];
@@ -22,7 +23,15 @@ function shouldSkipDir(name) {
 	return IGNORED_DIRS.has(name);
 }
 
+function shouldSkipPath(relParts) {
+	return IGNORED_RELATIVE_PATHS.has(relParts.join('/'));
+}
+
 function scanDir(dirPath, relParts = []) {
+	if (shouldSkipPath(relParts)) {
+		return;
+	}
+
 	const entries = fs.readdirSync(dirPath, { withFileTypes: true });
 
 	for (const entry of entries) {
