@@ -138,19 +138,41 @@
 			{:else if step.id === 'git'}
 				<div class="mt-3 space-y-2 text-sm text-gray-600">
 					<p>
-						On Mac, open the Terminal app from Applications, Utilities, or use Spotlight search
-						and type <code>Terminal</code>.
+						On Windows, go to
+						<a
+							href="https://git-scm.com/install/windows"
+							class="font-semibold text-blue-700 underline decoration-blue-200 underline-offset-4 hover:text-blue-900"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							git-scm.com/install/windows
+						</a>
+						and run the installer executable.
 					</p>
 					<p>
-						On Windows, open Windows Terminal or PowerShell from the Start menu.
+						On macOS, open the Terminal app from Applications, Utilities, or press
+						<code>Command</code> + <code>Space</code>, type <code>Terminal</code>, and press
+						<code>Return</code>.
 					</p>
-					<p>Then run this command:</p>
+					<p>Then install Homebrew by pasting this command into Terminal:</p>
 					<pre
 						class="overflow-x-auto rounded-lg border border-slate-200 bg-slate-50 p-3 text-xs leading-5 text-slate-700"
-					><code>git --version</code></pre>
+					><code>/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"</code></pre>
 					<p>
-						You should see a result that starts with something like <code>git version</code>,
-						followed by a version number.
+						After Homebrew is installed on macOS, run:
+					</p>
+					<pre
+						class="overflow-x-auto rounded-lg border border-slate-200 bg-slate-50 p-3 text-xs leading-5 text-slate-700"
+					><code>brew install git</code></pre>
+					<p>After Git is installed, open Terminal, Windows Terminal, or PowerShell and run:</p>
+					<pre
+						class="overflow-x-auto rounded-lg border border-slate-200 bg-slate-50 p-3 text-xs leading-5 text-slate-700"
+					><code>git config --global user.name "John Doe"
+git config --global user.email johndoe@example.com
+git config --global init.defaultBranch main</code></pre>
+					<p>
+						Then confirm Git is available by running <code>git --version</code>. You should see a
+						result that starts with <code>git version</code>, followed by a version number.
 					</p>
 				</div>
 			{:else if step.id === 'github'}
