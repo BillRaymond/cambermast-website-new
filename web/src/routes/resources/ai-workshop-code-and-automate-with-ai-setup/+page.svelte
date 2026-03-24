@@ -10,6 +10,14 @@
 		'/images/generated/resources/ai-workshop-code-and-automate-with-ai-setup/hero-landscape-v2.jpg';
 	const heroImageAlt =
 		resource?.imageAlt ?? 'AI Workshop: Code and Automate with AI setup guide hero image.';
+	const homebrewInstallCommand =
+		'/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"';
+	const brewInstallGitCommand = 'brew install git';
+	const gitConfigCommands = `git config --global user.name "John Doe"
+git config --global user.email johndoe@example.com
+git config --global init.defaultBranch main`;
+	let copiedCommandId = '';
+	let copyTimer: ReturnType<typeof setTimeout> | undefined;
 
 	const setupSteps = [
 		{
@@ -20,11 +28,11 @@
 			linkHref: 'https://code.visualstudio.com/'
 		},
 		{
-			id: 'vscode-extension',
-			name: 'Codex or Claude VS Code extension (free)',
-			why: 'Install one AI coding extension in VS Code so you can work inside the editor during the workshop.',
-			linkLabel: 'Open VS Code Extensions Marketplace',
-			linkHref: 'https://code.visualstudio.com/docs/configure/extensions/extension-marketplace'
+			id: 'ai-account',
+			name: 'ChatGPT Plus or Claude Pro',
+			why: 'We recommend ChatGPT Plus or Claude Pro so you have reliable access during the live sessions.',
+			linkLabel: '',
+			linkHref: ''
 		},
 		{
 			id: 'git',
@@ -48,18 +56,37 @@
 			linkHref: 'https://docs.docker.com/desktop/setup/install/'
 		},
 		{
-			id: 'ai-account',
-			name: 'Claude or ChatGPT (paid)',
-			why: 'You need a paid Claude or OpenAI account available during the live sessions.',
-			linkLabel: 'Open Claude',
-			linkHref: 'https://claude.ai/'
+			id: 'vscode-extension',
+			name: 'Codex or Claude VS Code extension (free)',
+			why: 'Install one AI coding extension in VS Code so you can work inside the editor during the workshop.',
+			linkLabel: 'Open VS Code Extensions Marketplace',
+			linkHref: 'https://code.visualstudio.com/docs/configure/extensions/extension-marketplace'
 		}
 	];
+
+	const handleCopyCommand = async (id: string, value: string) => {
+		if (typeof navigator === 'undefined' || !navigator.clipboard) return;
+
+		try {
+			await navigator.clipboard.writeText(value);
+			copiedCommandId = id;
+
+			if (copyTimer) {
+				clearTimeout(copyTimer);
+			}
+
+			copyTimer = setTimeout(() => {
+				copiedCommandId = '';
+			}, 1600);
+		} catch (error) {
+			console.warn('Unable to copy command', error);
+		}
+	};
 </script>
 
 <ResourceHeader
 	title={pageMeta.title.replace(' | Cambermast', '')}
-	description="Install Visual Studio Code, a Codex or Claude VS Code extension, Git, GitHub, Docker Desktop, and make sure your paid Claude or ChatGPT account is ready before AI Workshop: Code and Automate with AI."
+	description="Install Visual Studio Code, a Codex or Claude VS Code extension, Git, GitHub, Docker Desktop, and make sure your ChatGPT Plus or Claude Pro account is ready before AI Workshop: Code and Automate with AI."
 	path="/resources/ai-workshop-code-and-automate-with-ai-setup"
 	imageSrc={heroImage}
 	imageAlt={heroImageAlt}
@@ -76,11 +103,11 @@
 		</p>
 		<ul class="list-disc space-y-2 pl-5 text-gray-700">
 			<li>Visual Studio Code (free)</li>
-			<li>Codex or Claude VS Code extension (free)</li>
+			<li>Purchase or verify your ChatGPT Plus or Claude Pro account in your browser</li>
 			<li>Git (free)</li>
 			<li>GitHub account (free)</li>
 			<li>Docker account and Docker Desktop app (free account required)</li>
-			<li>Claude or ChatGPT account ready in your browser (paid)</li>
+			<li>Codex or Claude VS Code extension (free)</li>
 		</ul>
 	</div>
 
@@ -88,12 +115,40 @@
 		<h2 class="text-2xl font-semibold text-gray-900">Recommended order</h2>
 		<ol class="list-decimal space-y-2 pl-5 text-gray-700">
 			<li>Install Visual Studio Code.</li>
-			<li>Install a Codex or Claude extension in VS Code.</li>
+			<li>Confirm your ChatGPT Plus or Claude Pro login works in the browser.</li>
 			<li>Install Git.</li>
 			<li>Create or confirm your GitHub account.</li>
 			<li>Create your Docker account and install Docker Desktop.</li>
-			<li>Confirm your paid Claude or ChatGPT login works in the browser.</li>
+			<li>Install a Codex or Claude extension in VS Code and sign in.</li>
 		</ol>
+		<div class="rounded-2xl border border-blue-200 bg-blue-50 p-4">
+			<p class="text-sm text-blue-950">
+				Prefer to start with a walkthrough? Watch the setup video on YouTube, then use this page
+				as your reference as you go. This page may include more detail and follow-up notes than the
+				video.
+			</p>
+			<div class="mt-4 overflow-hidden rounded-2xl border border-blue-200 bg-white shadow-sm">
+				<div class="aspect-video">
+					<iframe
+						class="h-full w-full"
+						src="https://www.youtube.com/embed/hRuR8nDUfdo"
+						title="AI Workshop setup video"
+						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+						allowfullscreen
+					></iframe>
+				</div>
+			</div>
+			<p class="mt-3">
+				<a
+					href="https://youtu.be/hRuR8nDUfdo"
+					target="_blank"
+					rel="noopener noreferrer"
+					class="inline-flex items-center rounded-full border border-blue-300 bg-white px-3 py-1.5 text-sm font-semibold text-blue-700 transition hover:border-blue-400 hover:bg-blue-100 hover:text-blue-900"
+				>
+					Open the setup video on YouTube
+				</a>
+			</p>
+		</div>
 	</div>
 </section>
 
@@ -109,30 +164,54 @@
 				<h2 class="text-xl font-semibold text-gray-900">{step.name}</h2>
 			</div>
 			<p class="text-gray-700">{step.why}</p>
-			<p class="mt-3">
-				<a
-					href={step.linkHref}
-					class="font-semibold text-blue-700 underline decoration-blue-200 underline-offset-4 hover:text-blue-900"
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					{step.linkLabel}
-				</a>
-			</p>
+			{#if step.linkHref && step.linkLabel}
+				<p class="mt-3">
+					<a
+						href={step.linkHref}
+						class="font-semibold text-blue-700 underline decoration-blue-200 underline-offset-4 hover:text-blue-900"
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						{step.linkLabel}
+					</a>
+				</p>
+			{/if}
 			{#if step.id === 'vscode'}
 				<p class="mt-3 text-sm text-gray-600">
 					Install the stable release and open it once so the app can finish first-run setup.
 				</p>
-			{:else if step.id === 'vscode-extension'}
+			{:else if step.id === 'ai-account'}
 				<div class="mt-3 space-y-2 text-sm text-gray-600">
 					<p>
-						In VS Code, the Extensions tab is the area where you browse and install add-ons for the editor.
-						Look for the square icon on the left sidebar, or open it from the View menu.
+						You do not need to install a desktop app for ChatGPT or Claude. We recommend ChatGPT
+						Plus or Claude Pro, and you should make sure your account works in the browser before
+						the workshop starts.
 					</p>
-					<p>Open the Extensions tab and install either the Codex extension or the Claude extension.</p>
 					<p>
-						After installation, sign in to the extension and make sure it appears in VS Code as
-						ready to use before the workshop starts.
+						Set up your AI account before moving on to Git so you know your login is working and
+						ready for the workshop.
+					</p>
+					<p>
+						ChatGPT Plus:
+						<a
+							href="https://openai.com/chatgpt/pricing/"
+							class="font-semibold text-blue-700 underline decoration-blue-200 underline-offset-4 hover:text-blue-900"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							openai.com/chatgpt/pricing
+						</a>
+					</p>
+					<p>
+						Claude Pro:
+						<a
+							href="https://www.anthropic.com/pricing"
+							class="font-semibold text-blue-700 underline decoration-blue-200 underline-offset-4 hover:text-blue-900"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							anthropic.com/pricing
+						</a>
 					</p>
 				</div>
 			{:else if step.id === 'git'}
@@ -154,26 +233,154 @@
 						<code>Command</code> + <code>Space</code>, type <code>Terminal</code>, and press
 						<code>Return</code>.
 					</p>
+					<p>On macOS, open Terminal first, then install Homebrew, then install Git, and then configure Git.</p>
 					<p>Then install Homebrew by pasting this command into Terminal:</p>
-					<pre
-						class="overflow-x-auto rounded-lg border border-slate-200 bg-slate-50 p-3 text-xs leading-5 text-slate-700"
-					><code>/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"</code></pre>
+					<div class="command-block rounded-lg border border-slate-200 bg-slate-50">
+						<div class="flex items-center justify-between gap-3 border-b border-slate-200 px-3 py-2">
+							<p class="text-[11px] font-semibold tracking-[0.18em] text-slate-500 uppercase">
+								Terminal command
+							</p>
+							<button
+								class="copy-button inline-flex items-center gap-1.5 rounded-full border border-slate-300 bg-white px-2.5 py-1 text-[11px] font-semibold text-slate-700 shadow-sm transition hover:border-slate-400 hover:bg-slate-100"
+								class:copied={copiedCommandId === 'homebrew-install'}
+								type="button"
+								aria-label="Copy Homebrew install command"
+								on:click={() => handleCopyCommand('homebrew-install', homebrewInstallCommand)}
+							>
+								{#if copiedCommandId === 'homebrew-install'}
+									<svg class="h-3.5 w-3.5" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+										<path
+											d="M3.5 8.5 6.5 11.5 12.5 4.5"
+											stroke="currentColor"
+											stroke-width="1.7"
+											stroke-linecap="round"
+											stroke-linejoin="round"
+										/>
+									</svg>
+									<span>Copied</span>
+								{:else}
+									<svg class="h-3.5 w-3.5" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+										<rect
+											x="5"
+											y="3"
+											width="8"
+											height="10"
+											rx="1.5"
+											stroke="currentColor"
+											stroke-width="1.4"
+										/>
+										<path
+											d="M3 10V5.5C3 4.672 3.672 4 4.5 4H10"
+											stroke="currentColor"
+											stroke-width="1.4"
+											stroke-linecap="round"
+										/>
+									</svg>
+									<span>Copy</span>
+								{/if}
+							</button>
+						</div>
+						<pre class="overflow-x-auto p-3 text-xs leading-5 text-slate-700"><code>{homebrewInstallCommand}</code></pre>
+					</div>
 					<p>
 						After Homebrew is installed on macOS, run:
 					</p>
-					<pre
-						class="overflow-x-auto rounded-lg border border-slate-200 bg-slate-50 p-3 text-xs leading-5 text-slate-700"
-					><code>brew install git</code></pre>
+					<div class="command-block rounded-lg border border-slate-200 bg-slate-50">
+						<div class="flex items-center justify-between gap-3 border-b border-slate-200 px-3 py-2">
+							<p class="text-[11px] font-semibold tracking-[0.18em] text-slate-500 uppercase">
+								Terminal command
+							</p>
+							<button
+								class="copy-button inline-flex items-center gap-1.5 rounded-full border border-slate-300 bg-white px-2.5 py-1 text-[11px] font-semibold text-slate-700 shadow-sm transition hover:border-slate-400 hover:bg-slate-100"
+								class:copied={copiedCommandId === 'brew-install-git'}
+								type="button"
+								aria-label="Copy brew install git command"
+								on:click={() => handleCopyCommand('brew-install-git', brewInstallGitCommand)}
+							>
+								{#if copiedCommandId === 'brew-install-git'}
+									<svg class="h-3.5 w-3.5" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+										<path
+											d="M3.5 8.5 6.5 11.5 12.5 4.5"
+											stroke="currentColor"
+											stroke-width="1.7"
+											stroke-linecap="round"
+											stroke-linejoin="round"
+										/>
+									</svg>
+									<span>Copied</span>
+								{:else}
+									<svg class="h-3.5 w-3.5" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+										<rect
+											x="5"
+											y="3"
+											width="8"
+											height="10"
+											rx="1.5"
+											stroke="currentColor"
+											stroke-width="1.4"
+										/>
+										<path
+											d="M3 10V5.5C3 4.672 3.672 4 4.5 4H10"
+											stroke="currentColor"
+											stroke-width="1.4"
+											stroke-linecap="round"
+										/>
+									</svg>
+									<span>Copy</span>
+								{/if}
+							</button>
+						</div>
+						<pre class="overflow-x-auto p-3 text-xs leading-5 text-slate-700"><code>{brewInstallGitCommand}</code></pre>
+					</div>
 					<p>After Git is installed, open Terminal, Windows Terminal, or PowerShell and run:</p>
-					<pre
-						class="overflow-x-auto rounded-lg border border-slate-200 bg-slate-50 p-3 text-xs leading-5 text-slate-700"
-					><code>git config --global user.name "John Doe"
-git config --global user.email johndoe@example.com
-git config --global init.defaultBranch main</code></pre>
-					<p>
-						Then confirm Git is available by running <code>git --version</code>. You should see a
-						result that starts with <code>git version</code>, followed by a version number.
-					</p>
+					<div class="command-block rounded-lg border border-slate-200 bg-slate-50">
+						<div class="flex items-center justify-between gap-3 border-b border-slate-200 px-3 py-2">
+							<p class="text-[11px] font-semibold tracking-[0.18em] text-slate-500 uppercase">
+								Terminal commands
+							</p>
+							<button
+								class="copy-button inline-flex items-center gap-1.5 rounded-full border border-slate-300 bg-white px-2.5 py-1 text-[11px] font-semibold text-slate-700 shadow-sm transition hover:border-slate-400 hover:bg-slate-100"
+								class:copied={copiedCommandId === 'git-config'}
+								type="button"
+								aria-label="Copy git configuration commands"
+								on:click={() => handleCopyCommand('git-config', gitConfigCommands)}
+							>
+								{#if copiedCommandId === 'git-config'}
+									<svg class="h-3.5 w-3.5" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+										<path
+											d="M3.5 8.5 6.5 11.5 12.5 4.5"
+											stroke="currentColor"
+											stroke-width="1.7"
+											stroke-linecap="round"
+											stroke-linejoin="round"
+										/>
+									</svg>
+									<span>Copied</span>
+								{:else}
+									<svg class="h-3.5 w-3.5" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+										<rect
+											x="5"
+											y="3"
+											width="8"
+											height="10"
+											rx="1.5"
+											stroke="currentColor"
+											stroke-width="1.4"
+										/>
+										<path
+											d="M3 10V5.5C3 4.672 3.672 4 4.5 4H10"
+											stroke="currentColor"
+											stroke-width="1.4"
+											stroke-linecap="round"
+										/>
+									</svg>
+									<span>Copy</span>
+								{/if}
+							</button>
+						</div>
+						<pre class="overflow-x-auto p-3 text-xs leading-5 text-slate-700"><code>{gitConfigCommands}</code></pre>
+					</div>
+					<p>These commands set your Git username, email, and default branch to <code>main</code>.</p>
 				</div>
 			{:else if step.id === 'github'}
 				<div class="mt-3 space-y-2 text-sm text-gray-600">
@@ -193,36 +400,28 @@ git config --global init.defaultBranch main</code></pre>
 						in to the app with that account.
 					</p>
 					<p>
-						After installation, launch Docker Desktop and wait until it reports that Docker is
-						running.
+						After installation, launch Docker Desktop, complete the first-run setup, and wait
+						until it reports that Docker is running.
 					</p>
+					<p>Install Docker first, then open Docker Desktop and complete the setup right away.</p>
 				</div>
-			{:else if step.id === 'ai-account'}
+			{:else if step.id === 'vscode-extension'}
 				<div class="mt-3 space-y-2 text-sm text-gray-600">
 					<p>
-						You do not need to install a desktop app for Claude or OpenAI. Just make sure your paid account works in the browser before the workshop starts.
+						In VS Code, the Extensions tab is the area where you browse and install add-ons for the editor.
+						Look for the square icon on the left sidebar, or open it from the View menu.
+					</p>
+					<p>Open the Extensions tab and install either the Codex extension or the Claude extension.</p>
+					<p>
+						If you use ChatGPT, install the Codex extension first, then complete its sign-in flow.
 					</p>
 					<p>
-						Claude:
-						<a
-							href="https://claude.ai/"
-							class="font-semibold text-blue-700 underline decoration-blue-200 underline-offset-4 hover:text-blue-900"
-							target="_blank"
-							rel="noopener noreferrer"
-						>
-							claude.ai
-						</a>
+						If you use Claude, install the Claude Code extension next and authenticate it in VS
+						Code.
 					</p>
 					<p>
-						OpenAI:
-						<a
-							href="https://chatgpt.com/"
-							class="font-semibold text-blue-700 underline decoration-blue-200 underline-offset-4 hover:text-blue-900"
-							target="_blank"
-							rel="noopener noreferrer"
-						>
-							chatgpt.com
-						</a>
+						After installation, sign in to the extension and make sure it appears in VS Code as
+						ready to use before the workshop starts.
 					</p>
 				</div>
 			{/if}
@@ -237,11 +436,11 @@ git config --global init.defaultBranch main</code></pre>
 			<li>✓ VS Code opens normally.</li>
 			<li>✓ Your Codex or Claude extension is installed in VS Code and signed in.</li>
 			<li>✓ You know how to open Terminal on Mac or Terminal/PowerShell on Windows.</li>
-			<li>✓ <code>git --version</code> works in your terminal.</li>
+			<li>✓ Git is installed, your username and email are configured, and your default branch is set to <code>main</code>.</li>
 			<li>✓ You can sign in to GitHub with two-factor authentication enabled.</li>
 			<li>✓ You can close your browser, reopen it, and sign back in to GitHub successfully.</li>
 			<li>✓ Docker Desktop starts successfully and you can sign in to the app.</li>
-			<li>✓ You can sign in to Claude or OpenAI with your paid account.</li>
+			<li>✓ You can sign in to ChatGPT Plus or Claude Pro in your browser.</li>
 		</ul>
 	</div>
 
@@ -252,3 +451,64 @@ git config --global init.defaultBranch main</code></pre>
 		unblocked before Week 1.
 	</p>
 </section>
+
+<style>
+	.copy-button {
+		transition:
+			transform 150ms ease,
+			box-shadow 150ms ease,
+			border-color 150ms ease,
+			background-color 150ms ease,
+			color 150ms ease;
+	}
+
+	.command-block .copy-button:hover {
+		animation: copyPulse 900ms ease-in-out infinite;
+	}
+
+	.copy-button.copied {
+		animation: copyConfirm 480ms ease;
+		box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.2);
+		border-color: #22c55e;
+		color: #166534;
+	}
+
+	.copy-button:active {
+		transform: scale(0.96);
+	}
+
+	@keyframes copyPulse {
+		0% {
+			box-shadow: 0 0 0 0 rgba(148, 163, 184, 0.25);
+		}
+		70% {
+			box-shadow: 0 0 0 6px rgba(148, 163, 184, 0);
+		}
+		100% {
+			box-shadow: 0 0 0 0 rgba(148, 163, 184, 0);
+		}
+	}
+
+	@keyframes copyConfirm {
+		0% {
+			transform: scale(1);
+			box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.2);
+		}
+		50% {
+			transform: scale(1.03);
+			box-shadow: 0 0 0 6px rgba(34, 197, 94, 0);
+		}
+		100% {
+			transform: scale(1);
+			box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.copy-button,
+		.command-block .copy-button:hover,
+		.copy-button.copied {
+			animation: none;
+		}
+	}
+</style>
