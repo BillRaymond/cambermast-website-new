@@ -4,8 +4,16 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 DEV_LOG="/tmp/cambermast-dev.log"
 DEV_CMD='VITE_DEV_CMD="npm run dev:host" bash ./scripts/run-dev-with-training-pdf-watch.sh'
-DEV_MATCH="vite dev --host 0.0.0.0 --port 5173"
 DEV_HEALTHCHECK_URL="http://127.0.0.1:5173/"
+
+print_success_message() {
+  cat <<EOF
+Cambermast dev server is running at http://localhost:5173/
+Brochure PDF watcher is running alongside Vite.
+Logs: $DEV_LOG
+Note: the VS Code post-start terminal will close after this command finishes.
+EOF
+}
 
 if [ ! -d node_modules ] || [ -z "$(ls -A node_modules 2>/dev/null)" ]; then
   if [ -f package-lock.json ]; then
@@ -24,7 +32,7 @@ is_dev_server_healthy() {
 
 if pgrep -f "[v]ite dev --host 0.0.0.0 --port 5173" >/dev/null; then
   if is_dev_server_healthy; then
-    echo "Vite dev already running."
+    print_success_message
     exit 0
   fi
 
@@ -46,7 +54,7 @@ if ! pgrep -f "[v]ite dev --host 0.0.0.0 --port 5173" >/dev/null; then
   for _ in {1..20}; do
     if pgrep -f "[v]ite dev --host 0.0.0.0 --port 5173" >/dev/null; then
       if is_dev_server_healthy; then
-        echo "Started Vite dev server and brochure PDF watcher in background (logs: $DEV_LOG)."
+        print_success_message
         exit 0
       fi
     fi

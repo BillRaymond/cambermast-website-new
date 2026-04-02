@@ -118,6 +118,7 @@ If existing event records drift out of sync, run `npm --prefix web run campaigns
 - In development, brochure footer links should resolve against the active local server origin; in production they should resolve against the canonical site origin.
 - `npm --prefix web run dev` now starts a brochure PDF watcher alongside Vite. It rebuilds PDFs only when brochure-impacting sources change, instead of rebuilding on every refresh.
 - The devcontainer auto-start path (`./web/scripts/start-vite-dev.sh`) now uses that same watcher-enabled dev flow while still serving Vite on `0.0.0.0:5173`.
+- In the devcontainer, the post-start command launches Vite and the brochure watcher in the background, then exits. Seeing `Done. Press any key to close the terminal.` after startup is expected; the site should still be available at `http://localhost:5173/`.
 - The current brochure watcher contract includes:
   - `web/src/routes/(plain)/training/[slug]/print/+page.svelte`
   - `web/src/routes/(plain)/training/[slug]/print/+page.ts`
