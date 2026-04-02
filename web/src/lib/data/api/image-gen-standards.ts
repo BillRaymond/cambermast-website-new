@@ -11,7 +11,7 @@ type BuildImageGenStandardsApiPayloadInput = {
 };
 
 const toAbsoluteImageUrl = (assetKey: string, origin: string): string =>
-	`${origin}/images/generated/${assetKey}`;
+	`${origin}/images/${assetKey}`;
 
 const resolveWebRoot = (): string => {
 	const cwd = process.cwd();
@@ -26,7 +26,7 @@ const webRoot = resolveWebRoot();
 
 const assetKeyExists = (assetKey: string): boolean => {
 	const normalized = assetKey.replace(/^\/+/, '');
-	const absolutePath = path.join(webRoot, 'static', 'images', 'generated', normalized);
+	const absolutePath = path.join(webRoot, 'static', 'images', normalized);
 	return existsSync(absolutePath);
 };
 

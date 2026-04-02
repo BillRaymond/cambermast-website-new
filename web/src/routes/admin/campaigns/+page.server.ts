@@ -39,7 +39,7 @@ const toEventSlug = (landingPath: string): string | null => {
 	return match?.[1] ?? null;
 };
 
-const GENERATED_EVENTS_PREFIX = '/images/generated/events/';
+const GENERATED_EVENTS_PREFIX = '/images/events/';
 
 const toGeneratedEventSlugFromImagePath = (imagePath?: string): string | null => {
 	if (!imagePath) return null;
@@ -58,8 +58,8 @@ const pathExists = async (targetPath: string): Promise<boolean> =>
 const resolveGeneratedEventsRoot = async (): Promise<string | null> => {
 	const cwd = process.cwd();
 	const candidates = [
-		path.join(cwd, 'static', 'images', 'generated', 'events'),
-		path.join(cwd, 'web', 'static', 'images', 'generated', 'events')
+		path.join(cwd, 'static', 'images', 'events'),
+		path.join(cwd, 'web', 'static', 'images', 'events')
 	];
 
 	for (const candidate of candidates) {
@@ -82,7 +82,7 @@ const toPublicAssetUrl = (eventSlug: string, relativePath: string): string => {
 		.filter(Boolean)
 		.map((segment) => encodeURIComponent(segment))
 		.join('/');
-	return `/images/generated/events/${encodeURIComponent(eventSlug)}/${encodedPath}`;
+	return `/images/events/${encodeURIComponent(eventSlug)}/${encodedPath}`;
 };
 
 const listAssetsRecursively = async (

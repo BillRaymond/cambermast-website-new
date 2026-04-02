@@ -1,4 +1,0 @@
-path: events/code-your-next-app-with-ai-workshop-april-2026
-square: https://minio-on-hstgr.tail8a5127.ts.net/browser/blobs/cambermastweb/generated/events/code-your-next-app-with-ai-workshop-april-2026/square/e7fb9f72-2f09-4d05-8d07-95893d22962d/candidate-3.png
-landscape: https://minio-on-hstgr.tail8a5127.ts.net/browser/blobs/cambermastweb/generated/events/code-your-next-app-with-ai-workshop-april-2026/landscape/802429f3-2b66-4e34-b8b0-ee5e0393e6e0/candidate-1.png
-portrait: https://minio-on-hstgr.tail8a5127.ts.net/browser/blobs/cambermastweb/generated/events/code-your-next-app-with-ai-workshop-april-2026/portrait/e39deddd-2652-4b8b-8b58-0dd5484754f2/candidate-2.png

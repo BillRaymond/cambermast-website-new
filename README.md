@@ -174,12 +174,12 @@ When publishing significant messaging or offer changes:
 
 ## Generated Image Workflow
 
-- Canonical generated-image storage lives under `web/static/images/generated/<type>/<slug>/`.
+- Canonical generated-image storage lives under `web/static/images/<type>/<slug>/`.
 - Supported typed destinations are `events`, `training`, `resources`, `featured-images`, and `custom`.
 - The admin image generator shows the full MinIO browser URL for every generated candidate and supports copy/paste directly from the UI.
-- Preserve every generated square, landscape, portrait, prompt file, and MinIO-location file unless deletion is explicitly requested.
-- Saving a new selected set must version existing files with `-v2`, `-v3`, etc. rather than overwriting prior outputs.
-- Training program generated assets now live under `web/static/images/generated/training/<program-slug>/`; update any program `heroImage` or `ogImage` references to that canonical path.
+- Keep the current live generated set for each slug folder and prune older superseded versions when doing cleanup.
+- Saving a new selected set still versions existing files with `-v2`, `-v3`, etc. rather than overwriting prior outputs.
+- Training program generated assets now live under `web/static/images/training/<program-slug>/`; update any program `heroImage` or `ogImage` references to that canonical path.
 
 ## Schema-First Rule
 

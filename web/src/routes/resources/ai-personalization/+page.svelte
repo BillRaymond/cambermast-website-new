@@ -3,7 +3,7 @@
 	import { getSeo } from '$lib/seo';
 
 	const pageMeta = getSeo('/resources/ai-personalization');
-	const heroImage = '/images/generated/resources/ai-personalization/hero-landscape.jpg';
+	const heroImage = '/images/resources/ai-personalization/hero-landscape.jpg';
 	const heroImageAlt = 'Smiling person holding a tablet with AI Personalization title text.';
 	let copied = false;
 	let copyTimer: ReturnType<typeof setTimeout> | undefined;

@@ -193,7 +193,7 @@
 
 	const fallbackOgImage =
 		defaultProgram?.ogImage ??
-		'/images/generated/training/ai-workshop-for-content-creators/hero-landscape.jpg';
+		'/images/training/ai-workshop-for-content-creators/hero-landscape-v2.jpg';
 	const fallbackOgAlt =
 		defaultProgram?.ogImageAlt ??
 		'Open graph image for the AI Workshop for Tech Writers and Content Creators training program';

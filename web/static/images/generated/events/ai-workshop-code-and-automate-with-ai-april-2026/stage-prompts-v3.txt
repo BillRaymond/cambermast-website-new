@@ -1,8 +1,0 @@
-Square prompt:
-Recreate this image, reduce the graininess. The title is CODE YOUR NEXT APP WITH AI WORKSHOP. The subtitle is SPRING, 2026, and make that text more prominent.
-
-Landscape prompt:
-Recreate the provided template image as a landscape. Avoid the top and bottom 25%. Reduce the graininess.
-
-Portrait prompt:
-Recreate the provided template image in portrait format. Avoid the top and bottom 25%. Reduce the graininess.

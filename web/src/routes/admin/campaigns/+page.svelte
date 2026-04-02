@@ -1343,7 +1343,7 @@
 										</p>
 										<p class="mt-1 text-xs text-gray-600">
 											Images, videos, and files from
-											<code>/static/images/generated/events/*</code>.
+											<code>/static/images/events/*</code>.
 										</p>
 									</div>
 									<span class="rounded-full bg-white px-3 py-1 text-xs text-gray-700">
@@ -1788,7 +1788,7 @@
 												</p>
 												<p class="mt-1 text-xs text-gray-600">
 													Images, videos, and files from
-													<code>/static/images/generated/events/*</code>.
+													<code>/static/images/events/*</code>.
 												</p>
 											</div>
 											<span class="rounded-full bg-gray-100 px-3 py-1 text-xs text-gray-700">

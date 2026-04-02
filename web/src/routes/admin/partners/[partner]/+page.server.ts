@@ -13,8 +13,8 @@ const origin = SITE_ORIGIN.replace(/\/$/, '');
 const IMAGE_EXTENSIONS = new Set(['.jpg', '.jpeg', '.png', '.gif', '.webp', '.avif', '.svg']);
 const VIDEO_EXTENSIONS = new Set(['.mp4', '.webm', '.mov', '.m4v', '.ogv', '.ogg']);
 const TEXT_EXTENSIONS = new Set(['.txt', '.md', '.json', '.csv', '.log', '.yaml', '.yml']);
-const GENERATED_EVENTS_PREFIX = '/images/generated/events/';
-const GENERATED_TRAINING_PREFIX = '/images/generated/training/';
+const GENERATED_EVENTS_PREFIX = '/images/events/';
+const GENERATED_TRAINING_PREFIX = '/images/training/';
 
 type AssetKind = 'image' | 'video' | 'text' | 'file';
 
@@ -68,7 +68,7 @@ const toPublicAssetUrl = (eventSlug: string, relativePath: string): string => {
 		.filter(Boolean)
 		.map((segment) => encodeURIComponent(segment))
 		.join('/');
-	return `/images/generated/events/${encodeURIComponent(eventSlug)}/${encodedPath}`;
+	return `/images/events/${encodeURIComponent(eventSlug)}/${encodedPath}`;
 };
 
 const toPublicTrainingAssetUrl = (trainingSlug: string, relativePath: string): string => {
@@ -77,7 +77,7 @@ const toPublicTrainingAssetUrl = (trainingSlug: string, relativePath: string): s
 		.filter(Boolean)
 		.map((segment) => encodeURIComponent(segment))
 		.join('/');
-	return `/images/generated/training/${encodeURIComponent(trainingSlug)}/${encodedPath}`;
+	return `/images/training/${encodeURIComponent(trainingSlug)}/${encodedPath}`;
 };
 
 const listAssetsRecursively = async (
@@ -123,8 +123,8 @@ const listAssetsRecursively = async (
 const resolveGeneratedEventsRoot = async (): Promise<string | null> => {
 	const cwd = process.cwd();
 	const candidates = [
-		path.join(cwd, 'static', 'images', 'generated', 'events'),
-		path.join(cwd, 'web', 'static', 'images', 'generated', 'events')
+		path.join(cwd, 'static', 'images', 'events'),
+		path.join(cwd, 'web', 'static', 'images', 'events')
 	];
 
 	for (const candidate of candidates) {
@@ -137,8 +137,8 @@ const resolveGeneratedEventsRoot = async (): Promise<string | null> => {
 const resolveGeneratedTrainingRoot = async (): Promise<string | null> => {
 	const cwd = process.cwd();
 	const candidates = [
-		path.join(cwd, 'static', 'images', 'generated', 'training'),
-		path.join(cwd, 'web', 'static', 'images', 'generated', 'training')
+		path.join(cwd, 'static', 'images', 'training'),
+		path.join(cwd, 'web', 'static', 'images', 'training')
 	];
 
 	for (const candidate of candidates) {

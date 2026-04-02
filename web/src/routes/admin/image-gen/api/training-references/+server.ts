@@ -49,7 +49,7 @@ const isUsableReferenceUrl = async (value: string): Promise<boolean> => {
 	return localPublicUrlExists(value);
 };
 
-const toPublicGeneratedUrl = (assetKey: string): string => `/images/generated/${assetKey.replace(/^\/+/, '')}`;
+const toPublicGeneratedUrl = (assetKey: string): string => `/images/${assetKey.replace(/^\/+/, '')}`;
 
 const toSiblingPngAssetKey = (assetKey: string): string | null => {
 	const normalized = assetKey.replace(/^\/+/, '');

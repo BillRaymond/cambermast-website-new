@@ -126,8 +126,8 @@
 		<h2 class="text-2xl font-semibold">Final Save Contract</h2>
 		<p class="mt-2 max-w-3xl text-gray-700">
 			After selecting one square, one landscape, and one portrait candidate, the mini app saves
-			files into <code>web/static/images/generated/{"<type>"}/{"<slug>"}/</code> or the explicit
-			custom path under <code>web/static/images/generated/</code>.
+			files into <code>web/static/images/{"<type>"}/{"<slug>"}/</code> or the explicit
+			custom path under <code>web/static/images/</code>.
 		</p>
 		<ul class="mt-3 list-disc space-y-2 pl-5 text-gray-700">
 			<li><code>hero-square.jpg</code></li>

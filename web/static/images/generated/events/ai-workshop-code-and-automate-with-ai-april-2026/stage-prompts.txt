@@ -1,8 +1,0 @@
-Square prompt:
-Use the provided template image as a visual style and composition reference with the same title. Keep the border, but feel free to add flourishes. Add the subtitle "APRIL 2026 COHORT" and include a background and imagery that evokes that month. Avoid: dark backgrounds, visual clichés, and imagery that anthropomorphizes AI. Avoid the top and bottom 25%.
-
-Landscape prompt:
-Recreate the provided template image as a landscape. Avoid the top and bottom 25%.
-
-Portrait prompt:
-Recreate the provided template image in portrait format. Avoid the top and bottom 25%.

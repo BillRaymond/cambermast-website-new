@@ -1,4 +1,0 @@
-path: training/code-your-next-app-with-ai-workshop
-square: https://minio-on-hstgr.tail8a5127.ts.net/browser/blobs/cambermastweb/generated/training/code-your-next-app-with-ai-workshop/square/23d58588-8d68-4bd0-8465-96ebefa9fc98/candidate-1.png
-landscape: https://minio-on-hstgr.tail8a5127.ts.net/browser/blobs/cambermastweb/generated/training/code-your-next-app-with-ai-workshop/landscape/bdc911fa-e831-4827-ab1d-31d6d53b5b7e/candidate-1.png
-portrait: https://minio-on-hstgr.tail8a5127.ts.net/browser/blobs/cambermastweb/generated/training/code-your-next-app-with-ai-workshop/portrait/e6618de1-ebd8-4423-83fc-ac6666540322/candidate-2.png

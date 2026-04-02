@@ -29,7 +29,7 @@
 		{ value: 'events', label: 'Event', description: 'Event-specific generated images' },
 		{ value: 'resources', label: 'Resource', description: 'Resource page images' },
 		{ value: 'training', label: 'Training program', description: 'Training and TechLab program images' },
-		{ value: 'custom', label: 'Custom', description: 'Explicit custom subpath under /images/generated/' }
+		{ value: 'custom', label: 'Custom', description: 'Explicit custom subpath under /images/' }
 	];
 	type StageAPromptPreset = {
 		label: string;
@@ -353,10 +353,10 @@ STRICT AVOIDANCE RULES
 	};
 	const getSavePath = (): string => {
 		const relative = getDestinationPath();
-		return relative ? `/images/generated/${relative}/` : '/images/generated/<type>/<slug>/';
+		return relative ? `/images/${relative}/` : '/images/<type>/<slug>/';
 	};
 	let destinationInputHasError = false;
-	let resolvedPathPreview = '/images/generated/<type>/<slug>/';
+	let resolvedPathPreview = '/images/<type>/<slug>/';
 	let destinationInputErrorMessage = '';
 	const getCandidateMinioUrl = (candidate: Candidate): string =>
 		candidate.minioBrowserUrl || getBlobBrowserUrl(candidate.minioKey);
@@ -880,8 +880,8 @@ STRICT AVOIDANCE RULES
 
 	$: resolvedPathPreview =
 		destinationType === 'custom'
-			? `/images/generated/${customBasePath.trim() || '<custom-base>'}/${slug.trim() || '<slug>'}/`
-			: `/images/generated/${destinationType}/${slug.trim() || '<slug>'}/`;
+			? `/images/${customBasePath.trim() || '<custom-base>'}/${slug.trim() || '<slug>'}/`
+			: `/images/${destinationType}/${slug.trim() || '<slug>'}/`;
 
 	$: availableDestinationOptions =
 		destinationType === 'custom' ? [] : destinationOptions[destinationType] ?? [];
@@ -1036,7 +1036,7 @@ STRICT AVOIDANCE RULES
 					class="mt-2 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
 				/>
 				<p class="mt-1 text-xs text-gray-500">
-					Optional. Stored under <code>/images/generated/&lt;custom-base&gt;/&lt;slug&gt;/</code>.
+					Optional. Stored under <code>/images/&lt;custom-base&gt;/&lt;slug&gt;/</code>.
 				</p>
 			{:else if mode === 'standalone' && availableDestinationOptions.length > 0}
 				<label class="mt-4 block text-sm font-semibold text-gray-800" for={`slug-${mode}`}>

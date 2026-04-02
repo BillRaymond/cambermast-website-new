@@ -64,7 +64,7 @@ const webRoot = resolveWebRoot();
 const assetKeyExists = (assetKey?: string): assetKey is string => {
 	if (!assetKey) return false;
 	const normalized = assetKey.replace(/^\/+/, '');
-	return existsSync(path.join(webRoot, 'static', 'images', 'generated', normalized));
+	return existsSync(path.join(webRoot, 'static', 'images', normalized));
 };
 
 const localPublicUrlExists = (url?: string): url is string => {
@@ -74,7 +74,7 @@ const localPublicUrlExists = (url?: string): url is string => {
 };
 
 const toPublicGeneratedUrl = (assetKey: string): string =>
-	`/images/generated/${assetKey.replace(/^\/+/, '')}`;
+	`/images/${assetKey.replace(/^\/+/, '')}`;
 
 const toSiblingPngAssetKey = (assetKey: string): string | null => {
 	const normalized = assetKey.replace(/^\/+/, '');
@@ -117,10 +117,10 @@ const toPreferredLocalPublicUrl = (url?: string): { url: string; fallbackUrl: st
 const toPreferredPublicUrl = (url?: string): { url: string; fallbackUrl: string } | null => {
 	if (!url?.trim()) return null;
 	const trimmed = url.trim();
-	if (!trimmed.startsWith('/images/generated/')) {
+	if (!trimmed.startsWith('/images/')) {
 		return toPreferredLocalPublicUrl(trimmed) ?? { url: trimmed, fallbackUrl: trimmed };
 	}
-	const assetKey = trimmed.replace(/^\/images\/generated\//, '');
+	const assetKey = trimmed.replace(/^\/images\//, '');
 	return toPreferredGeneratedUrl(assetKey) ?? { url: trimmed, fallbackUrl: trimmed };
 };
 
@@ -207,7 +207,7 @@ const toTrainingReference = (
 };
 
 const listFeaturedImageOptions = async (): Promise<DestinationOption[]> => {
-	const featuredImagesDir = path.join(webRoot, 'static', 'images', 'generated', 'featured-images');
+	const featuredImagesDir = path.join(webRoot, 'static', 'images', 'featured-images');
 	const entries = await readdir(featuredImagesDir, { withFileTypes: true }).catch(() => []);
 
 	return entries
@@ -222,7 +222,7 @@ const listFeaturedImageOptions = async (): Promise<DestinationOption[]> => {
 const listFeaturedImageReferences = async (
 	latestStandardsBySlug: Map<string, ImageGenPromptStandard>
 ): Promise<DestinationReference[]> => {
-	const featuredImagesDir = path.join(webRoot, 'static', 'images', 'generated', 'featured-images');
+	const featuredImagesDir = path.join(webRoot, 'static', 'images', 'featured-images');
 	const entries = await readdir(featuredImagesDir, { withFileTypes: true }).catch(() => []);
 	const references: DestinationReference[] = [];
 
@@ -245,7 +245,7 @@ const listFeaturedImageReferences = async (
 		const fileNames = await readdir(absoluteDir).catch(() => []);
 		const chosenFile = chooseFeaturedImageFile(fileNames);
 		if (!chosenFile) continue;
-		const publicUrl = `/images/generated/featured-images/${slug}/${chosenFile}`;
+		const publicUrl = `/images/featured-images/${slug}/${chosenFile}`;
 		references.push({
 			id: fullSlug,
 			slug,

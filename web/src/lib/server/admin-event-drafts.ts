@@ -18,6 +18,7 @@ import {
 	type CampaignRegistry,
 	type EventRegistry
 } from '$lib/server/event-campaign-integrity';
+import { DEFAULT_OG_IMAGE } from '$lib/config/site';
 import {
 	eventsPath,
 	eventsSchemaPath,
@@ -243,8 +244,8 @@ const toExternalEvent = (payload: DraftRequestPayload): EventSource => {
 			publicLabel: locationPublicLabel,
 			detailsVisibility: input.locationDetailsVisibility ?? 'public'
 		},
-		heroImage: toTrimmed(input.heroImage) || '/images/cambermast-social-sharing-1.png',
-		image: toTrimmed(input.image) || '/images/cambermast-social-sharing-1.png',
+		heroImage: toTrimmed(input.heroImage) || DEFAULT_OG_IMAGE,
+		image: toTrimmed(input.image) || DEFAULT_OG_IMAGE,
 		heroImageAlt: toTrimmed(input.heroImageAlt) || title,
 		imageAlt: toTrimmed(input.imageAlt) || title,
 		partners: (input.partnerCodes ?? []).map((code) => ({ code })),

@@ -94,7 +94,7 @@ export const resolveImageDestinationPathOrThrow = (input: {
 			destinationSlug,
 			customBasePath: customBasePath || undefined,
 			relativeDir,
-			publicBaseUrl: `/images/generated/${relativeDir}`
+			publicBaseUrl: `/images/${relativeDir}`
 		};
 	}
 
@@ -102,7 +102,7 @@ export const resolveImageDestinationPathOrThrow = (input: {
 		destinationType,
 		destinationSlug,
 		relativeDir: `${DESTINATION_TYPE_PATHS[destinationType]}/${destinationSlug}`,
-		publicBaseUrl: `/images/generated/${DESTINATION_TYPE_PATHS[destinationType]}/${destinationSlug}`
+		publicBaseUrl: `/images/${DESTINATION_TYPE_PATHS[destinationType]}/${destinationSlug}`
 	};
 };
 
@@ -184,7 +184,7 @@ export const saveSelectedImagesToWebsite = async (input: SaveImageInput) => {
 		destinationSlug: input.destinationSlug,
 		customBasePath: input.customBasePath
 	});
-	const targetDir = path.join(webRoot, 'static', 'images', 'generated', destination.relativeDir);
+	const targetDir = path.join(webRoot, 'static', 'images', destination.relativeDir);
 	await fs.mkdir(targetDir, { recursive: true });
 
 	const writePlan: WritePlanEntry[] = [
