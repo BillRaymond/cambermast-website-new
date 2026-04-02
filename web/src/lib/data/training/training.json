@@ -1404,7 +1404,7 @@
 				"Builders who want to move faster with AI-assisted coding workflows.",
 				"Operators looking to create internal tools, apps, and automations.",
 				"Consultants who want to prototype solutions for client and internal work.",
-				"IT professionals exploring practical ways to use AI for coding and technical problem solving.",
+				"IT professionals exploring practical ways to use AI for coding and technical problem-solving.",
 				"Aspiring developers who want guided practice building with AI."
 			],
 			"audienceExamples": [
@@ -1540,7 +1540,7 @@
 					"blocks": [
 						{
 							"type": "paragraph",
-							"text": "No. The workshop teaches transferable skills and workflows that can be applied across AI coding tools, chat interfaces, editor integrations, and future platforms."
+							"text": "No. You can use either ChatGPT or Claude, but you should have a paid account for at least one of them."
 						}
 					]
 				},

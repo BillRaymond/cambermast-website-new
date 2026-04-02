@@ -1,0 +1,4 @@
+path: events/ai-workshop-code-and-automate-with-ai-april-2026
+square: https://minio-on-hstgr.tail8a5127.ts.net/browser/blobs/cambermastweb/generated/events/ai-workshop-code-and-automate-with-ai-april-2026/square/c785137a-cb12-48dd-bd70-692f2262e1ce/candidate-3.png
+landscape: https://minio-on-hstgr.tail8a5127.ts.net/browser/blobs/cambermastweb/generated/events/ai-workshop-code-and-automate-with-ai-april-2026/landscape/6de87f9f-dcfe-42ff-9bf1-724264360080/candidate-1.png
+portrait: https://minio-on-hstgr.tail8a5127.ts.net/browser/blobs/cambermastweb/generated/events/ai-workshop-code-and-automate-with-ai-april-2026/portrait/f64f5452-1fc9-43be-8363-9efb9644d148/candidate-1.png

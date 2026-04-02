@@ -1,0 +1,8 @@
+Square prompt:
+Use the provided template image as a visual style and composition reference. Create a new image of the same type and reduce the graininess. Change "SPRING, 2026" to "APRIL, 2026". Avoid the top and bottom 25%.
+
+Landscape prompt:
+Recreate the provided template image as a landscape. Avoid the top and bottom 25%. Reduce the graininess.
+
+Portrait prompt:
+Recreate the provided template image in portrait format. Avoid the top and bottom 25%. Reduce the graininess.
