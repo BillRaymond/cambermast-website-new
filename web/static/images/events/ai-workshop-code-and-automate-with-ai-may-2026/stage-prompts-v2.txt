@@ -1,0 +1,8 @@
+Square prompt:
+Use the provided template image as a visual style and composition reference. Create a new image of the same type. Modify the text to say "May, 2026" and make it stand out more. Create a new, clean symbol that represents coding and indicates this is an evening event. The reason is that the event starts at 5:30 pm, but you won't put that in the image, as it is just for context.
+
+Landscape prompt:
+Recreate the provided template image as a landscape. Avoid the top and bottom 25%.
+
+Portrait prompt:
+Recreate the provided template image in portrait format. Avoid the top and bottom 25%.

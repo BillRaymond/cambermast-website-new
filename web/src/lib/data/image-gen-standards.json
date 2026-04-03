@@ -1,7 +1,23 @@
 {
 	"version": 1,
-	"updatedAt": "2026-04-02T22:58:34.717Z",
+	"updatedAt": "2026-04-02T23:21:50.504Z",
 	"standards": [
+		{
+			"id": "aa22ad0c241940c8",
+			"createdAt": "2026-04-02T23:21:50.501Z",
+			"destinationType": "events",
+			"slug": "events/ai-workshop-code-and-automate-with-ai-may-2026",
+			"assetKeys": {
+				"square": "events/ai-workshop-code-and-automate-with-ai-may-2026/hero-square-v2.jpg",
+				"landscape": "events/ai-workshop-code-and-automate-with-ai-may-2026/hero-landscape-v2.jpg",
+				"portrait": "events/ai-workshop-code-and-automate-with-ai-may-2026/hero-portrait-v2.jpg"
+			},
+			"prompts": {
+				"square": "Use the provided template image as a visual style and composition reference. Create a new image of the same type. Modify the text to say \"May, 2026\" and make it stand out more. Create a new, clean symbol that represents coding and indicates this is an evening event. The reason is that the event starts at 5:30 pm, but you won't put that in the image, as it is just for context.",
+				"landscape": "Recreate the provided template image as a landscape. Avoid the top and bottom 25%.",
+				"portrait": "Recreate the provided template image in portrait format. Avoid the top and bottom 25%."
+			}
+		},
 		{
 			"id": "12a1081db2df456c",
 			"createdAt": "2026-04-02T22:58:34.715Z",

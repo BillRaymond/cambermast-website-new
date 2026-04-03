@@ -1,0 +1,4 @@
+path: events/ai-workshop-code-and-automate-with-ai-may-2026
+square: https://.../browser/blobs/cambermastweb/generated/events/ai-workshop-code-and-automate-with-ai-may-2026/square/5ec64058-0982-48f2-be8b-cee3a8297483/candidate-1.png
+landscape: https://.../browser/blobs/cambermastweb/generated/events/ai-workshop-code-and-automate-with-ai-may-2026/landscape/d17b9b63-741b-4a08-88d8-32bc0c591625/candidate-1.png
+portrait: https://.../browser/blobs/cambermastweb/generated/events/ai-workshop-code-and-automate-with-ai-may-2026/portrait/de31e629-5655-442e-bbf7-8ce71f3cdab1/candidate-1.png
