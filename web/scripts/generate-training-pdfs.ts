@@ -1,3 +1,4 @@
+import { existsSync } from 'node:fs';
 import { mkdir, rm } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -23,6 +24,10 @@ const serverOrigin = `http://127.0.0.1:${serverPort}`;
 const downloadsDir =
 	mode === 'dev' ? staticDownloadsDir : path.join(buildDir, 'downloads', 'training');
 const forcedOrigin = requestedOrigin?.replace(/\/$/, '') || undefined;
+
+if (!process.env.PLAYWRIGHT_BROWSERS_PATH && existsSync('/ms-playwright')) {
+	process.env.PLAYWRIGHT_BROWSERS_PATH = '/ms-playwright';
+}
 
 const escapeHtml = (value: string): string =>
 	value
@@ -95,6 +100,19 @@ const startServer = () => {
 	return child;
 };
 
+const ensureServer = async () => {
+	const healthcheckUrl = `${serverOrigin}/training`;
+
+	try {
+		await waitForServer(healthcheckUrl, 1);
+		return { server: null, reusedExistingServer: true };
+	} catch {
+		const server = startServer();
+		await waitForServer(healthcheckUrl);
+		return { server, reusedExistingServer: false };
+	}
+};
+
 const printPrograms = listTrainingPrograms()
 	.filter((program) => program.catalog?.published ?? true)
 	.map((program) => ({
@@ -114,12 +132,14 @@ const run = async () => {
 	await rm(downloadsDir, { recursive: true, force: true });
 	await mkdir(downloadsDir, { recursive: true });
 
-	const previewServer = startServer();
+	const { server: previewServer, reusedExistingServer } = await ensureServer();
 	let browser;
 
 	try {
-		await waitForServer(`${serverOrigin}/training`);
 		browser = await chromium.launch({ headless: true });
+		if (reusedExistingServer) {
+			console.log(`Reusing existing browser-render server at ${serverOrigin}.`);
+		}
 
 		for (const program of printPrograms) {
 			const page = await browser.newPage();
@@ -148,7 +168,7 @@ const run = async () => {
 		}
 	} finally {
 		await browser?.close();
-		if (!previewServer.killed) {
+		if (previewServer && !previewServer.killed) {
 			previewServer.kill('SIGTERM');
 		}
 	}

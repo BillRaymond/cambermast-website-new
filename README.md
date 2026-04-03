@@ -30,6 +30,7 @@ This repository powers the public marketing site for Cambermast. It contains the
 - The image also preinstalls `@openai/codex` globally and bakes Playwright browsers into `/ms-playwright` so fresh devcontainers can run e2e tests without downloading browsers during startup.
 - The devcontainer mounts `web/node_modules` as a volume. On startup, [`web/scripts/start-vite-dev.sh`](/workspaces/cambermast-website-new/web/scripts/start-vite-dev.sh) treats `web/package-lock.json` as authoritative and automatically runs `npm ci` when dependencies are missing, stale, or fail `npm ls --depth=0`.
 - If the dependency volume ever gets stuck in a bad state, recover with `rm -rf web/node_modules && npm --prefix web ci` inside the container, or recreate the named volume from your container tooling and restart the devcontainer.
+- Playwright browsers are intentionally shared outside the workspace. The devcontainer/image uses `/ms-playwright`, while GitHub Actions caches `~/.cache/ms-playwright` between runs so browser binaries do not accumulate under the repo working tree.
 
 ## Maintenance TODOs
 
@@ -52,6 +53,13 @@ This repository powers the public marketing site for Cambermast. It contains the
 These two documents live in the repo root as the source of truth. The SvelteKit app copies them into `web/static/` during `npm run dev`, `npm run build`, and `npm run preview` so they are published as `/llms.txt` and `/ai.txt` on cambermast.com.
 
 Generated build output under `web/build` is disposable and must not be treated as source. Do not archive copied builds inside `web/` using folders such as `build-prev`, `build-stale`, or collision-style names like `about 2.html`; if a backup is needed, store it outside the repo working tree or use one clean archive location without numeric suffix copies.
+
+## Disk Hygiene
+
+- Run `npm --prefix web run clean:artifacts` to remove disposable generated outputs, Playwright run artifacts, and any archived generated trash from prior runs.
+- `web/build`, `web/build-prev`, `web/build-stale`, `web/.svelte-kit/output`, `web/test-results`, and `web/playwright-report` are safe to delete; they are recreated by normal build or test flows.
+- `web/scripts/reset-generated-output.ts` now keeps only the newest two archived snapshots per generated target in `/.generated-trash` so resets stay debuggable without growing unbounded.
+- Do not delete `/ms-playwright` as part of routine cleanup inside the devcontainer; it is the shared browser store that keeps Playwright and brochure generation fast.
 
 ## URL Aliases & Redirects
 

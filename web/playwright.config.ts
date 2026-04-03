@@ -1,4 +1,10 @@
+import { existsSync } from 'node:fs';
+
 import { defineConfig, devices } from '@playwright/test';
+
+if (!process.env.PLAYWRIGHT_BROWSERS_PATH && existsSync('/ms-playwright')) {
+	process.env.PLAYWRIGHT_BROWSERS_PATH = '/ms-playwright';
+}
 
 export default defineConfig({
 	testDir: './tests',
