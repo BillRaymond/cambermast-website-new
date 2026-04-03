@@ -1,4 +1,5 @@
 import type { TechlabProgram } from './types';
+import { createEntityImages } from '$lib/data/image-contract';
 
 export const techlabAiWorkshopForContentCreators = {
 	slug: 'ai-workshop-for-content-creators',
@@ -8,11 +9,15 @@ export const techlabAiWorkshopForContentCreators = {
 	nickname: 'Seven-week cohort for technical communicators',
 	eventTypeLabel: 'LIVE TRAINING',
 	tagline: 'Get real results from your content with AI-powered workflows in just seven weeks.',
-	heroImage: '/images/training/ai-workshop-for-content-creators/hero-landscape-v2.jpg',
-	heroImageAlt: 'AI Workshop for Tech Writers and Content Creators illustration',
-	ogImage: '/images/training/ai-workshop-for-content-creators/hero-landscape-v2.jpg',
-	ogImageAlt:
-		'Open graph image for the AI Workshop for Tech Writers and Content Creators training program',
+	images: createEntityImages({
+		landscape: '/images/training/ai-workshop-for-content-creators/hero-landscape-v2.jpg',
+		alt: 'AI Workshop for Tech Writers and Content Creators illustration',
+		historyId: 'manual:techlab-ai-workshop-for-content-creators',
+		reference: {
+			sourceType: 'manual',
+			label: 'Manually curated TechLAB program image'
+		}
+	}),
 	description:
 		'The AI Workshop for Tech Writers and Content Creators is a live, seven-week cohort that helps technical communicators and content teams weave generative AI into their daily production workflows.',
 	secondaryDescription:

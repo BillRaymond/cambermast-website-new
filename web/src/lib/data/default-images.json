@@ -1,0 +1,24 @@
+{
+	"version": 1,
+	"updatedAt": "2026-04-03T00:00:00.000Z",
+	"defaults": {
+		"events": {
+			"square": "/images/featured-images/cambermast-default/hero-square.jpg",
+			"landscape": "/images/featured-images/cambermast-default/hero-landscape.jpg",
+			"portrait": "/images/featured-images/cambermast-default/hero-portrait.jpg",
+			"alt": "Cambermast default event image"
+		},
+		"training": {
+			"square": "/images/featured-images/cambermast-default/hero-square.jpg",
+			"landscape": "/images/featured-images/cambermast-default/hero-landscape.jpg",
+			"portrait": "/images/featured-images/cambermast-default/hero-portrait.jpg",
+			"alt": "Cambermast default training image"
+		},
+		"resources": {
+			"square": "/images/featured-images/cambermast-default/hero-square.jpg",
+			"landscape": "/images/featured-images/cambermast-default/hero-landscape.jpg",
+			"portrait": "/images/featured-images/cambermast-default/hero-portrait.jpg",
+			"alt": "Cambermast default resource image"
+		}
+	}
+}

@@ -1000,10 +1000,10 @@
 											class="h-20 w-20 shrink-0 rounded-lg border border-gray-200 bg-white object-cover"
 											loading="lazy"
 										/>
-									{:else if program.heroImage}
+									{:else if program.images?.current?.landscape?.url}
 										<img
-											src={program.heroImage}
-											alt={program.heroImageAlt ?? `${program.title} preview`}
+											src={program.images.current.landscape.url}
+											alt={program.images.current.alt ?? `${program.title} preview`}
 										class="h-20 w-20 shrink-0 rounded-lg border border-gray-200 bg-white object-cover"
 										loading="lazy"
 									/>

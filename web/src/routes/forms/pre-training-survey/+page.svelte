@@ -4,6 +4,7 @@
 	import SeoHead from '$lib/components/SeoHead.svelte';
 	import TurnstileField from '$lib/components/forms/TurnstileField.svelte';
 	import { listTrainingPrograms } from '$lib/data/training';
+	import { getImageAlt, getLandscapeImageUrl } from '$lib/data/image-contract';
 	import {
 		getWebhookSubmissionErrorMessage,
 		postJsonWithTimeout
@@ -192,10 +193,10 @@
 	let hasMounted = false;
 
 	const fallbackOgImage =
-		defaultProgram?.ogImage ??
+		getLandscapeImageUrl(defaultProgram?.images) ??
 		'/images/training/ai-workshop-for-content-creators/hero-landscape-v2.jpg';
 	const fallbackOgAlt =
-		defaultProgram?.ogImageAlt ??
+		getImageAlt(defaultProgram?.images) ??
 		'Open graph image for the AI Workshop for Tech Writers and Content Creators training program';
 
 	const getProgramSlugFromParam = (param: string | null): string | undefined => {
@@ -241,8 +242,8 @@
 		description: selectedProgramData?.title
 			? `Help Bill fine-tune ${displayProgramTitle} by sharing your goals, tools, and expectations.`
 			: 'Share your goals, tools, and expectations so Bill can fine-tune your upcoming training.',
-		image: selectedProgramData?.ogImage ?? fallbackOgImage,
-		imageAlt: selectedProgramData?.ogImageAlt ?? fallbackOgAlt
+		image: getLandscapeImageUrl(selectedProgramData?.images) ?? fallbackOgImage,
+		imageAlt: getImageAlt(selectedProgramData?.images) ?? fallbackOgAlt
 	};
 
 	const getTurnstileWindow = (): TurnstileWindow | undefined => {

@@ -1,0 +1,36 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://cambermast.com/schemas/default-images-api.schema.json",
+	"title": "Default Images API Response",
+	"type": "object",
+	"additionalProperties": false,
+	"required": ["generatedAt", "version", "updatedAt", "defaults"],
+	"properties": {
+		"generatedAt": { "type": "string", "format": "date-time" },
+		"version": { "type": "integer", "const": 1 },
+		"updatedAt": { "type": "string", "format": "date-time" },
+		"defaults": {
+			"type": "object",
+			"additionalProperties": false,
+			"required": ["events", "training", "resources"],
+			"properties": {
+				"events": { "$ref": "#/$defs/defaultImageSet" },
+				"training": { "$ref": "#/$defs/defaultImageSet" },
+				"resources": { "$ref": "#/$defs/defaultImageSet" }
+			}
+		}
+	},
+	"$defs": {
+		"defaultImageSet": {
+			"type": "object",
+			"additionalProperties": false,
+			"required": ["square", "landscape", "portrait", "alt"],
+			"properties": {
+				"square": { "type": "string", "pattern": "^https?://" },
+				"landscape": { "type": "string", "pattern": "^https?://" },
+				"portrait": { "type": "string", "pattern": "^https?://" },
+				"alt": { "type": "string", "minLength": 1 }
+			}
+		}
+	}
+}

@@ -14,6 +14,7 @@
 	} from '$lib/data/training/schedule';
 	import { getTrainingPdfUrl, hasTrainingPdf } from '$lib/data/training/brochure';
 	import { runtimeDev } from '$lib/utils/runtime-env';
+	import { getImageAlt, getLandscapeImageUrl } from '$lib/data/image-contract';
 	import {
 		listTestimonialsForSku,
 		listTestimonialsForSlug,
@@ -213,10 +214,10 @@
 						({program.sku})
 					</p>
 				{/if}
-				{#if program.heroImage}
+				{#if getLandscapeImageUrl(program.images)}
 					<img
-						src={program.heroImage}
-						alt={program.heroImageAlt ?? program.title}
+						src={getLandscapeImageUrl(program.images)}
+						alt={getImageAlt(program.images) ?? program.title}
 						class="mt-5 w-full rounded-2xl border border-blue-100 object-cover"
 						loading="lazy"
 					/>

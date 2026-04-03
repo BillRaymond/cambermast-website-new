@@ -55,10 +55,20 @@ const toApiEvent = (event: Event, origin: string) => ({
 	campaignId: event.campaignId,
 	links: event.links,
 	videoUrl: event.videoUrl,
-	heroImage: event.heroImage,
-	heroImageAlt: event.heroImageAlt,
-	image: event.image,
-	imageAlt: event.imageAlt,
+	images: {
+		current: {
+			...event.images.current,
+			square: { url: `${origin}${event.images.current.square.url}` },
+			landscape: { url: `${origin}${event.images.current.landscape.url}` },
+			portrait: { url: `${origin}${event.images.current.portrait.url}` },
+			reference: {
+				...event.images.current.reference,
+				url: event.images.current.reference.url
+					? `${origin}${event.images.current.reference.url}`
+					: null
+			}
+		}
+	},
 	url: `${origin}/events/${event.slug}`
 });
 

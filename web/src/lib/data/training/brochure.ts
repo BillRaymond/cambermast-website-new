@@ -1,4 +1,5 @@
 import type { TrainingProgram, TrainingStat } from './types';
+import { getImageAlt, getLandscapeImageUrl, getSquareImageUrl } from '$lib/data/image-contract';
 
 const normalizeLabel = (label?: string): string | undefined => label?.toLowerCase().trim();
 
@@ -38,14 +39,8 @@ export const getTrainingPdfUrl = (program: TrainingProgram): string =>
 export const hasTrainingPdf = (program: TrainingProgram): boolean =>
 	!program.draft && (program.catalog?.published ?? true);
 
-const getSquareBrochureImage = (heroImage?: string): string | undefined => {
-	if (!heroImage) return undefined;
-
-	return heroImage.replace(/\/hero-landscape([^/]*)\.(png|jpe?g)$/i, '/hero-square$1.$2');
-};
-
 const getTrainingBrochureImage = (program: TrainingProgram): string | undefined =>
-	getSquareBrochureImage(program.heroImage) ?? program.heroImage;
+	getSquareImageUrl(program.images) ?? getLandscapeImageUrl(program.images);
 
 export type TrainingBrochureModel = {
 	slug: string;
@@ -99,7 +94,7 @@ export const buildTrainingBrochureModel = (program: TrainingProgram): TrainingBr
 	printUrl: getTrainingPrintUrl(program),
 	pdfUrl: getTrainingPdfUrl(program),
 	heroImage: getTrainingBrochureImage(program),
-	heroImageAlt: program.heroImageAlt ?? program.title,
+	heroImageAlt: getImageAlt(program.images) ?? program.title,
 	summary: program.description,
 	secondarySummary: program.secondaryDescription,
 	stats: {

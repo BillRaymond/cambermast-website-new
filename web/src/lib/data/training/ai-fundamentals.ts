@@ -1,4 +1,5 @@
 import type { TrainingProgram } from './types';
+import { createEntityImages } from '$lib/data/image-contract';
 
 export const aiFundamentals = {
 	slug: 'ai-fundamentals',
@@ -8,8 +9,6 @@ export const aiFundamentals = {
 		id: 'training-ai-fundamentals',
 		summary:
 			'Primer on prompting that explains how AI works and shows you how to prompt successfully.',
-		image: '/images/ai-fundamentals.jpeg',
-		imageAlt: 'AI Power Prompting training workshop illustration',
 		bullets: [
 			'Understand how today’s AI models generate answers',
 			'Learn four core prompt types you can reuse anywhere',
@@ -22,11 +21,15 @@ export const aiFundamentals = {
 	nickname: 'Your AI fundamentals • From prompting to productivity',
 	eventTypeLabel: 'LIVE TRAINING',
 	tagline: 'A live primer on prompting: learn how AI works and how to prompt successfully.',
-	// Match the top-of-page hero copy so the landing page and email promo stay in sync.
-	heroImage: '/images/ai-fundamentals.jpeg',
-	heroImageAlt: 'AI Power Prompting training workshop illustration',
-	ogImage: '/images/cambermast-content-1-ai-fundamentals-ai-power-prompting-og.jpeg',
-	ogImageAlt: 'Open graph image for the AI Power Prompting training program',
+	images: createEntityImages({
+		landscape: '/images/ai-fundamentals.jpeg',
+		alt: 'AI Power Prompting training workshop illustration',
+		historyId: 'manual:ai-fundamentals',
+		reference: {
+			sourceType: 'manual',
+			label: 'Manually curated training program image'
+		}
+	}),
 	description:
 		'AI Power Prompting is a four-hour crash course that explains how modern AI systems work and shows you how to craft prompts that consistently deliver results.',
 	// Mention the tool mix here whenever we shift platforms so expectations stay current.

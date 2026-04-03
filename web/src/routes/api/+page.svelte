@@ -34,6 +34,12 @@
 			label: 'Resources API',
 			description:
 				'Resource library metadata for setup guides, attendee prep, pricing explainers, and related assets.'
+		},
+		{
+			href: '/api/default-images.json',
+			label: 'Default Images API',
+			description:
+				'Domain-level default square, landscape, and portrait image sets for events, training, and resources.'
 		}
 	];
 
@@ -81,6 +87,11 @@
 		{ href: '/api/training.json', title: 'Cambermast Training API', type: 'application/json' },
 		{ href: '/api/catalog.json', title: 'Cambermast Offerings API', type: 'application/json' },
 		{ href: '/api/resources.json', title: 'Cambermast Resources API', type: 'application/json' },
+		{
+			href: '/api/default-images.json',
+			title: 'Cambermast Default Images API',
+			type: 'application/json'
+		},
 		{ href: '/api/redirects.json', title: 'Cambermast Redirects API', type: 'application/json' }
 	]}
 />

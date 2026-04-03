@@ -8,9 +8,33 @@
 			"summary": "Install Visual Studio Code, a Codex or Claude extension, Git, GitHub, and Docker Desktop, then confirm your paid AI account works in the browser.",
 			"category": "workshop-setup",
 			"publishedAt": "2026-03-10",
-			"imageSrc": "/images/resources/ai-workshop-code-and-automate-with-ai-setup/hero-landscape-v2.jpg",
-			"imageAlt": "AI Workshop: Code and Automate with AI setup guide featured image.",
-			"label": "Workshop setup"
+			"label": "Workshop setup",
+			"images": {
+				"current": {
+					"square": {
+						"url": "/images/resources/ai-workshop-code-and-automate-with-ai-setup/hero-square-v2.jpg"
+					},
+					"landscape": {
+						"url": "/images/resources/ai-workshop-code-and-automate-with-ai-setup/hero-landscape-v2.jpg"
+					},
+					"portrait": {
+						"url": "/images/resources/ai-workshop-code-and-automate-with-ai-setup/hero-portrait-v2.jpg"
+					},
+					"alt": "AI Workshop: Code and Automate with AI setup guide featured image.",
+					"kind": "generated",
+					"prompts": {
+						"square": "Use the provided template image as a visual style and composition reference. Create a new image of the same type. Have the people sit together at a desk. \n\nChange the subtitle to \"WORKSHOP PRE-WORK\" and get rid of that symbol\n\nAvoid the top and bottom 25%.",
+						"landscape": "Recreate the provided template image as a landscape. Avoid the top and bottom 25%.",
+						"portrait": "Recreate the provided template image in portrait format. Avoid the top and bottom 25%."
+					},
+					"reference": {
+						"url": null,
+						"sourceType": "legacy_migration",
+						"label": "Legacy migration: reference image URL was not preserved"
+					},
+					"historyId": "f2b05f2f0d5b40bc"
+				}
+			}
 		},
 		{
 			"id": "resource-ask-me-anything-pricing",
@@ -20,9 +44,33 @@
 			"summary": "Select from AMAs we can deliver right now or schedule a tailor-made Ask Me Anything (AMA) event.",
 			"category": "pricing-guide",
 			"publishedAt": "2026-03-03",
-			"imageSrc": "/images/resources/ama/hero-landscape.jpg",
-			"imageAlt": "Ask Me Anything Pricing featured image.",
-			"label": "Pricing guide"
+			"label": "Pricing guide",
+			"images": {
+				"current": {
+					"square": {
+						"url": "/images/resources/ama/hero-landscape.jpg"
+					},
+					"landscape": {
+						"url": "/images/resources/ama/hero-landscape.jpg"
+					},
+					"portrait": {
+						"url": "/images/resources/ama/hero-landscape.jpg"
+					},
+					"alt": "Ask Me Anything Pricing featured image.",
+					"kind": "manual",
+					"prompts": {
+						"square": "Ask Me Anything Pricing featured image.. Migrated from legacy image data without preserved generation prompts.",
+						"landscape": "Ask Me Anything Pricing featured image.. Migrated from legacy image data without preserved generation prompts.",
+						"portrait": "Ask Me Anything Pricing featured image.. Migrated from legacy image data without preserved generation prompts."
+					},
+					"reference": {
+						"url": null,
+						"sourceType": "legacy_migration",
+						"label": "Legacy migration: image preserved without generation provenance"
+					},
+					"historyId": "a7bf3c78ecdabd5e"
+				}
+			}
 		},
 		{
 			"id": "resource-attendee-training-tips",
@@ -32,9 +80,33 @@
 			"summary": "Quick preparation steps that help everyone stay focused and get more from our live workshops.",
 			"category": "training-success",
 			"publishedAt": "2026-01-26",
-			"imageSrc": "/images/resources/get-ready-for-training/hero-landscape.jpg",
-			"imageAlt": "Attendee training tips featured image.",
-			"label": "Training success"
+			"label": "Training success",
+			"images": {
+				"current": {
+					"square": {
+						"url": "/images/resources/get-ready-for-training/hero-landscape.jpg"
+					},
+					"landscape": {
+						"url": "/images/resources/get-ready-for-training/hero-landscape.jpg"
+					},
+					"portrait": {
+						"url": "/images/resources/get-ready-for-training/hero-landscape.jpg"
+					},
+					"alt": "Attendee training tips featured image.",
+					"kind": "manual",
+					"prompts": {
+						"square": "Attendee training tips featured image.. Migrated from legacy image data without preserved generation prompts.",
+						"landscape": "Attendee training tips featured image.. Migrated from legacy image data without preserved generation prompts.",
+						"portrait": "Attendee training tips featured image.. Migrated from legacy image data without preserved generation prompts."
+					},
+					"reference": {
+						"url": null,
+						"sourceType": "legacy_migration",
+						"label": "Legacy migration: image preserved without generation provenance"
+					},
+					"historyId": "8e94f42f6a177d06"
+				}
+			}
 		},
 		{
 			"id": "resource-ai-personalization",
@@ -44,9 +116,33 @@
 			"summary": "Practical guidance on when to personalize, how to do it, and the exact preferences I use.",
 			"category": "ai-guidance",
 			"publishedAt": "2026-01-30",
-			"imageSrc": "/images/resources/ai-personalization/hero-landscape.jpg",
-			"imageAlt": "AI Personalization featured image.",
-			"label": "Resource"
+			"label": "Resource",
+			"images": {
+				"current": {
+					"square": {
+						"url": "/images/resources/ai-personalization/hero-landscape.jpg"
+					},
+					"landscape": {
+						"url": "/images/resources/ai-personalization/hero-landscape.jpg"
+					},
+					"portrait": {
+						"url": "/images/resources/ai-personalization/hero-landscape.jpg"
+					},
+					"alt": "AI Personalization featured image.",
+					"kind": "manual",
+					"prompts": {
+						"square": "AI Personalization featured image.. Migrated from legacy image data without preserved generation prompts.",
+						"landscape": "AI Personalization featured image.. Migrated from legacy image data without preserved generation prompts.",
+						"portrait": "AI Personalization featured image.. Migrated from legacy image data without preserved generation prompts."
+					},
+					"reference": {
+						"url": null,
+						"sourceType": "legacy_migration",
+						"label": "Legacy migration: image preserved without generation provenance"
+					},
+					"historyId": "d9b59f29534af07a"
+				}
+			}
 		}
 	]
 }

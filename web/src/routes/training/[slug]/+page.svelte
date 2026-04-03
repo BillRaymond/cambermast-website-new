@@ -4,6 +4,7 @@
 	import { SITE_ORIGIN } from '$lib/config/site';
 	import { browser } from '$app/environment';
 	import { page } from '$app/stores';
+	import { getImageAlt, getLandscapeImageUrl } from '$lib/data/image-contract';
 
 	import type { PageData } from './$types';
 
@@ -33,8 +34,8 @@
 	$: canonicalPath = data.program.route ?? `/training/${data.program.slug}`;
 	$: seoTitle = `${data.program.title} Training | Cambermast`;
 	$: seoDescription = data.program.tagline ?? data.program.description;
-	$: seoImage = data.program.ogImage ?? data.program.heroImage;
-	$: seoImageAlt = data.program.ogImageAlt ?? data.program.heroImageAlt ?? data.program.title;
+	$: seoImage = getLandscapeImageUrl(data.program.images);
+	$: seoImageAlt = getImageAlt(data.program.images) ?? data.program.title;
 	$: courseJsonLd = JSON.stringify({
 		'@context': 'https://schema.org',
 		'@type': 'Course',

@@ -254,6 +254,7 @@
 				<a class="underline" href="/api/training.json" rel="external">Training API</a> ·
 				<a class="underline" href="/api/catalog.json" rel="external">Offerings API</a> ·
 				<a class="underline" href="/api/resources.json" rel="external">Resources API</a> ·
+				<a class="underline" href="/api/default-images.json" rel="external">Default Images API</a> ·
 				<a class="underline" href="/api/redirects.json" rel="external">Redirects API</a> ·
 				<a class="underline" href="/api">Public APIs</a> ·
 				<a class="underline" href="/llms.txt" rel="external">LLMs guide</a>

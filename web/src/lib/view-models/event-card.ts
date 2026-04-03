@@ -9,6 +9,7 @@ import {
 	getProgramEventTypeLabel
 } from '$lib/data/training/program-meta';
 import type { TrainingProgram } from '$lib/data/training/types';
+import { getImageAlt, getLandscapeImageUrl } from '$lib/data/image-contract';
 import {
 	getEventStartTimestampUi,
 	getEventTypeLabelUi,
@@ -173,9 +174,8 @@ export const toEventCardModel = (
 		time: toConciseEventTimeLabel(event.time) ?? undefined,
 		location: event.location ?? defaultLocationLabel,
 		hostText: hostText || undefined,
-		image: event.image ?? relatedProgram?.ogImage ?? relatedProgram?.heroImage,
-		imageAlt:
-			event.imageAlt ?? relatedProgram?.ogImageAlt ?? relatedProgram?.heroImageAlt ?? event.title,
+		image: getLandscapeImageUrl(event.images) ?? getLandscapeImageUrl(relatedProgram?.images),
+		imageAlt: getImageAlt(event.images) ?? getImageAlt(relatedProgram?.images) ?? event.title,
 		typeLabel,
 		brochureUrl:
 			relatedProgram && hasTrainingPdf(relatedProgram) ? getTrainingPdfUrl(relatedProgram) : undefined,

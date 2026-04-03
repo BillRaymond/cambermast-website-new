@@ -61,9 +61,9 @@
 			<li>Folder-based template previews from the same template directory</li>
 			<li>
 				Training program references from
-				<code>heroImage</code>
+				<code>images.current.square.url</code>
 				and
-				<code>ogImage</code>
+				<code>images.current.landscape.url</code>
 				via
 				<code>GET /admin/image-gen/api/training-references</code>
 			</li>
@@ -109,10 +109,9 @@
 			<code>cambermastweb/generated/{"<destination-path-or-unspecified>"}/{"<stage>"}/{"<run-id>"}/prompt.json</code>
 		</p>
 		<p class="mt-2 max-w-3xl text-gray-700">
-			Each <code>prompt.json</code> stores <code>runId</code>, <code>stage</code>,
-			<code>destinationType</code>, <code>destinationSlug</code>,
-			<code>customBasePath</code>, <code>destinationPath</code>, <code>size</code>,
-			<code>n</code>, <code>prompt</code>, and <code>createdAt</code>.
+			Each <code>prompt.json</code> stores run metadata for recovery and debugging only. Durable
+			system state now lives in the entity registry plus
+			<code>web/src/lib/data/image-gen-standards.json</code>.
 		</p>
 		<p class="mt-2 max-w-3xl text-gray-700">
 			The UI requires a destination type up front: <code>events</code>, <code>training</code>,
@@ -140,8 +139,8 @@
 			<li><code>hero-landscape.png</code></li>
 			<li><code>hero-portrait.jpg</code></li>
 			<li><code>hero-portrait.png</code></li>
-			<li><code>selected-minio-locations.txt</code></li>
-			<li><code>stage-prompts.txt</code></li>
+			<li><code>selected-minio-locations.txt</code> (debug artifact only)</li>
+			<li><code>stage-prompts.txt</code> (debug artifact only)</li>
 		</ul>
 		<p class="mt-2 max-w-3xl text-gray-700">
 			JPG files remain the live site assets for faster loading. Matching PNG files are
@@ -150,8 +149,10 @@
 		</p>
 		<p class="mt-2 max-w-3xl text-gray-700">
 			In standalone mode, saves for <code>events</code>, <code>resources</code>, and
-			<code>training</code> also update the matching registry record to use the saved landscape JPG
-			as the featured/live image. Embedded event creation does not auto-write registries.
+			<code>training</code> also update the matching registry record by writing
+			<code>images.current.square.url</code>, <code>images.current.landscape.url</code>,
+			<code>images.current.portrait.url</code>, prompts, reference provenance, and
+			<code>historyId</code>. Embedded event creation does not auto-write registries.
 		</p>
 		<p class="mt-2 max-w-3xl text-gray-700">
 			Never delete prior square, landscape, portrait, or metadata files unless explicitly requested.
@@ -170,6 +171,12 @@
 			<code>/api/image-gen-standards.json</code>. API response schema:
 			<code>web/src/lib/data/api/schemas/image-gen-standards-api.schema.json</code>.
 		</p>
+		<p class="mt-2 max-w-3xl text-gray-700">
+			Default image sets are stored separately in
+			<code>web/src/lib/data/default-images.json</code>, publish at
+			<code>/api/default-images.json</code>, and use API schema
+			<code>web/src/lib/data/api/schemas/default-images-api.schema.json</code>.
+		</p>
 	</div>
 
 	<div>
@@ -185,7 +192,7 @@
 			</li>
 			<li>
 				<code>GET /admin/image-gen/api/training-references</code> lists deduplicated training
-				<code>heroImage</code> and <code>ogImage</code> URLs for template reference selection.
+				<code>images.current</code> URLs for template reference selection.
 			</li>
 			<li>
 				<code>POST /admin/image-gen/api/save-selected</code> saves chosen variants into static site

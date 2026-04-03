@@ -9,6 +9,7 @@
 	import { getSeo } from '$lib/seo';
 	import SeoHead from '$lib/components/SeoHead.svelte';
 	import { findProgramStat, getProgramCertificateText } from '$lib/data/training/program-meta';
+	import { getImageAlt, getLandscapeImageUrl } from '$lib/data/image-contract';
 	import {
 		listHappeningTrainingEntriesForProgram,
 		listUpcomingTrainingEntriesForProgram
@@ -69,8 +70,8 @@
 
 			return {
 				...item,
-				image: item.image ?? program?.heroImage,
-				imageAlt: item.imageAlt ?? program?.heroImageAlt ?? item.title,
+				image: item.image ?? getLandscapeImageUrl(program?.images),
+				imageAlt: item.imageAlt ?? getImageAlt(program?.images) ?? item.title,
 				duration: durationStat?.value,
 				videoUrl: program?.videoUrl,
 				certificateText: getProgramCertificateText(program),

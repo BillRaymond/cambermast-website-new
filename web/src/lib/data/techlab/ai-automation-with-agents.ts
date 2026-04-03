@@ -1,4 +1,5 @@
 import type { TechlabProgram } from './types';
+import { createEntityImages } from '$lib/data/image-contract';
 
 export const techlabAiAutomationWithAgents = {
 	slug: 'ai-automation-with-agents',
@@ -9,10 +10,15 @@ export const techlabAiAutomationWithAgents = {
 	eventTypeLabel: 'LIVE TRAINING',
 	tagline:
 		'Automate internal processes with AI agents that act like team members, across six weeks of guided practice.',
-	heroImage: '/images/ai-automation.jpg',
-	heroImageAlt: 'AI Automation with Agents Workshop illustration',
-	ogImage: '/images/cambermast-content-4-ai-automation-with-agents-workshop-og.jpeg',
-	ogImageAlt: 'Open graph image for the AI Automation with Agents workshop training program',
+	images: createEntityImages({
+		landscape: '/images/ai-automation.jpg',
+		alt: 'AI Automation with Agents Workshop illustration',
+		historyId: 'manual:techlab-ai-automation-with-agents',
+		reference: {
+			sourceType: 'manual',
+			label: 'Manually curated TechLAB program image'
+		}
+	}),
 	description:
 		'The AI Automation with Agents Workshop is a live, six-week cohort on automating internal processes with reliable AI agents. We tackle real-world scenarios where an agent behaves like a teammate, coordinating steps and escalating to people when necessary.',
 	secondaryDescription:

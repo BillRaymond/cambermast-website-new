@@ -106,6 +106,11 @@ export const pageSeo: SeoOverrides = {
 		description:
 			'Preview the normalized OpenAI commerce feed rows for Cambermast training programs and feed-ready public cohorts.'
 	},
+	'/api/default-images.json': {
+		title: 'Default Images API | Cambermast',
+		description:
+			'Domain-level default square, landscape, and portrait image contracts for events, training, and resources.'
+	},
 	'/resources': {
 		title: 'Resources for AI Training & Delivery | Cambermast',
 		description:

@@ -36,6 +36,7 @@ Public machine-readable endpoints:
 - Events calendar: `https://cambermast.com/api/events.json`
 - Offerings API: `https://cambermast.com/api/catalog.json` (legacy alias: `https://cambermast.com/catalog.json`)
 - Resources: `https://cambermast.com/api/resources.json`
+- Default image sets: `https://cambermast.com/api/default-images.json`
 - Redirect registry: `https://cambermast.com/api/redirects.json`
 - FAQ presets: `https://cambermast.com/api/faq-presets.json`
 - Testimonials: `https://cambermast.com/api/testimonials.json`
@@ -97,6 +98,7 @@ Authoritative sources:
 - https://cambermast.com/api/events.json
 - https://cambermast.com/catalog.json
 - https://cambermast.com/api/resources.json
+- https://cambermast.com/api/default-images.json
 - https://cambermast.com/api/redirects.json
 - https://cambermast.com/api/faq-presets.json
 - https://cambermast.com/api/testimonials.json

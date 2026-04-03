@@ -2,14 +2,15 @@
 	import ResourceHeader from '$lib/components/resources/ResourceHeader.svelte';
 	import { getResource } from '$lib/data/resources';
 	import { getSeo } from '$lib/seo';
+	import { getImageAlt, getLandscapeImageUrl } from '$lib/data/image-contract';
 
 	const pageMeta = getSeo('/resources/ai-workshop-code-and-automate-with-ai-setup');
 	const resource = getResource('ai-workshop-code-and-automate-with-ai-setup');
 	const heroImage =
-		resource?.imageSrc ??
+		getLandscapeImageUrl(resource?.images) ??
 		'/images/resources/ai-workshop-code-and-automate-with-ai-setup/hero-landscape-v2.jpg';
 	const heroImageAlt =
-		resource?.imageAlt ?? 'AI Workshop: Code and Automate with AI setup guide hero image.';
+		getImageAlt(resource?.images) ?? 'AI Workshop: Code and Automate with AI setup guide hero image.';
 	const homebrewInstallCommand =
 		'/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"';
 	const brewInstallGitCommand = 'brew install git';

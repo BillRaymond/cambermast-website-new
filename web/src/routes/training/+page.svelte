@@ -10,6 +10,7 @@
 	import SeoHead from '$lib/components/SeoHead.svelte';
 	import { getTrainingPdfUrl, hasTrainingPdf } from '$lib/data/training/brochure';
 	import { findProgramStat, getProgramCertificateText } from '$lib/data/training/program-meta';
+	import { getImageAlt, getLandscapeImageUrl } from '$lib/data/image-contract';
 	import {
 		listHappeningTrainingEntriesForProgram,
 		listUpcomingTrainingEntriesForProgram
@@ -57,8 +58,8 @@
 				title: program.title,
 				summary: program.catalog?.summary ?? program.tagline,
 				bullets: program.catalog?.bullets,
-				image: program.catalog?.image ?? program.heroImage,
-				imageAlt: program.catalog?.imageAlt ?? program.heroImageAlt ?? program.title,
+				image: getLandscapeImageUrl(program.images),
+				imageAlt: getImageAlt(program.images) ?? program.title,
 				route: program.route,
 				brochureUrl: hasTrainingPdf(program) ? getTrainingPdfUrl(program) : undefined,
 				sku: program.sku,

@@ -59,15 +59,29 @@ export const POST = async ({ request }) => {
 			destinationSlug: result.destination.destinationSlug,
 			customBasePath: result.destination.customBasePath,
 			prompts: body.prompts,
-			writes: result.files
+			writes: result.files,
+			reference: body.reference
 		});
 		const destinationUpdateWrites = body.autoUpdateDestinationRecord
 			? await syncGeneratedImageToDestinationRecord({
 					destinationType: result.destination.destinationType,
 					destinationSlug: result.destination.destinationSlug,
+					squarePublicUrl:
+						result.files.find((write) => write.variant === 'square')?.publicUrl ??
+						result.destination.publicBaseUrl,
 					landscapePublicUrl:
 						result.files.find((write) => write.variant === 'landscape')?.publicUrl ??
-						result.destination.publicBaseUrl
+						result.destination.publicBaseUrl,
+					portraitPublicUrl:
+						result.files.find((write) => write.variant === 'portrait')?.publicUrl ??
+						result.destination.publicBaseUrl,
+					prompts: body.prompts,
+					reference: {
+						url: promptStandard.reference.url ?? null,
+						sourceType: promptStandard.reference.sourceType,
+						label: promptStandard.reference.label
+					},
+					historyId: promptStandard.id
 				})
 			: [];
 

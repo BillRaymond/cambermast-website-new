@@ -21,8 +21,20 @@ const toApiResource = (resource: ReturnType<typeof listResources>[number], origi
 	category: resource.category,
 	publishedAt: resource.publishedAt,
 	author: resource.author,
-	imageSrc: resource.imageSrc ? toAbsoluteUrl(resource.imageSrc, origin) : undefined,
-	imageAlt: resource.imageAlt,
+	images: {
+		current: {
+			...resource.images.current,
+			square: { url: toAbsoluteUrl(resource.images.current.square.url, origin) },
+			landscape: { url: toAbsoluteUrl(resource.images.current.landscape.url, origin) },
+			portrait: { url: toAbsoluteUrl(resource.images.current.portrait.url, origin) },
+			reference: {
+				...resource.images.current.reference,
+				url: resource.images.current.reference.url
+					? toAbsoluteUrl(resource.images.current.reference.url, origin)
+					: null
+			}
+		}
+	},
 	label: resource.label
 });
 

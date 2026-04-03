@@ -21,6 +21,7 @@
 					"title",
 					"eventTypeLabel",
 					"tagline",
+					"images",
 					"description",
 					"primaryCta",
 					"secondaryCta",
@@ -40,8 +41,6 @@
 						"properties": {
 							"id": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
 							"summary": { "type": "string", "minLength": 1 },
-							"image": { "type": "string", "pattern": "^https?://" },
-							"imageAlt": { "type": "string", "minLength": 1 },
 							"bullets": { "type": "array", "items": { "type": "string", "minLength": 1 } },
 							"order": { "type": "integer", "minimum": 0 },
 							"published": { "type": "boolean" }
@@ -51,10 +50,7 @@
 					"nickname": { "type": "string", "minLength": 1 },
 					"eventTypeLabel": { "type": "string", "minLength": 1 },
 					"tagline": { "type": "string", "minLength": 1 },
-					"heroImage": { "type": "string", "pattern": "^https?://" },
-					"heroImageAlt": { "type": "string", "minLength": 1 },
-					"ogImage": { "type": "string", "pattern": "^https?://" },
-					"ogImageAlt": { "type": "string", "minLength": 1 },
+					"images": { "$ref": "#/$defs/entityImages" },
 					"videoUrl": { "type": "string", "pattern": "^https?://" },
 					"description": { "type": "string", "minLength": 1 },
 					"secondaryDescription": { "type": "string", "minLength": 1 },
@@ -288,6 +284,79 @@
 							"termsQuestion": { "type": "string", "minLength": 1 },
 							"termsAnswer": { "type": "string", "minLength": 1 }
 						}
+					}
+				}
+			}
+		}
+	},
+	"$defs": {
+		"imageVariant": {
+			"type": "object",
+			"additionalProperties": false,
+			"required": ["url"],
+			"properties": {
+				"url": { "type": "string", "pattern": "^https?://" }
+			}
+		},
+		"imagePrompts": {
+			"type": "object",
+			"additionalProperties": false,
+			"required": ["square", "landscape", "portrait"],
+			"properties": {
+				"square": { "type": "string" },
+				"landscape": { "type": "string" },
+				"portrait": { "type": "string" }
+			}
+		},
+		"imageReference": {
+			"type": "object",
+			"additionalProperties": false,
+			"required": ["sourceType", "label"],
+			"properties": {
+				"url": { "type": ["string", "null"], "pattern": "^https?://" },
+				"sourceType": {
+					"type": "string",
+					"enum": [
+						"none",
+						"default_image",
+						"training_reference",
+						"local_template",
+						"upload",
+						"generated_asset",
+						"manual",
+						"legacy_migration"
+					]
+				},
+				"label": { "type": "string", "minLength": 1 }
+			}
+		},
+		"entityImages": {
+			"type": "object",
+			"additionalProperties": false,
+			"required": ["current"],
+			"properties": {
+				"current": {
+					"type": "object",
+					"additionalProperties": false,
+					"required": [
+						"square",
+						"landscape",
+						"portrait",
+						"alt",
+						"kind",
+						"prompts",
+						"reference",
+						"historyId"
+					],
+					"properties": {
+						"square": { "$ref": "#/$defs/imageVariant" },
+						"landscape": { "$ref": "#/$defs/imageVariant" },
+						"portrait": { "$ref": "#/$defs/imageVariant" },
+						"alt": { "type": "string", "minLength": 1 },
+						"kind": { "type": "string", "enum": ["default", "generated", "manual"] },
+						"prompts": { "$ref": "#/$defs/imagePrompts" },
+						"reference": { "$ref": "#/$defs/imageReference" },
+						"historyId": { "type": "string", "pattern": "^[a-z0-9]{8,64}$" }
 					}
 				}
 			}

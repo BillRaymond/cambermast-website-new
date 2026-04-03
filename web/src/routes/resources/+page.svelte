@@ -3,6 +3,7 @@
 	import ResourceCard from '$lib/components/resources/ResourceCard.svelte';
 	import { listResources } from '$lib/data/resources';
 	import { getSeo } from '$lib/seo';
+	import { getImageAlt, getLandscapeImageUrl } from '$lib/data/image-contract';
 
 	const pageMeta = getSeo('/resources');
 	const heroImage = '/images/cambermast-content-8-resources-og.jpeg';
@@ -37,8 +38,8 @@
 			href={resource.route}
 			title={resource.title}
 			description={resource.summary}
-			imageSrc={resource.imageSrc}
-			imageAlt={resource.imageAlt}
+			imageSrc={getLandscapeImageUrl(resource.images)}
+			imageAlt={getImageAlt(resource.images)}
 			label={resource.label ?? 'Resource'}
 		/>
 	{/each}

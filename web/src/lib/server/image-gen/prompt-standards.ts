@@ -6,6 +6,7 @@ import Ajv from 'ajv/dist/2020.js';
 import addFormats from 'ajv-formats';
 import type { ImageGenDestinationType, ImageGenStage } from '$lib/server/image-gen/types';
 import type { ImageGenPromptStandardsRegistry } from '$lib/data/image-gen-standards';
+import type { ImageReference } from '$lib/data/image-contract';
 import { resolveImageDestinationPathOrThrow } from '$lib/server/image-gen/files';
 
 type PromptSet = {
@@ -26,6 +27,7 @@ type AppendImageGenPromptStandardInput = {
 	customBasePath?: string;
 	prompts: PromptSet;
 	writes: WriteResultLike[];
+	reference?: Partial<ImageReference>;
 };
 
 const resolveWebRoot = (): string => {
@@ -58,6 +60,13 @@ const ensurePrompt = (value: string, label: string): string => {
 	if (!prompt) throw new Error(`${label} prompt is required.`);
 	return prompt;
 };
+
+const getEntitySlug = (destination: {
+	destinationType: ImageGenDestinationType;
+	destinationSlug: string;
+	relativeDir: string;
+}): string =>
+	destination.destinationType === 'custom' ? destination.relativeDir : destination.destinationSlug;
 
 const readRegistry = async (): Promise<ImageGenPromptStandardsRegistry> => {
 	const raw = await fs.readFile(registryPath, 'utf-8');
@@ -109,14 +118,19 @@ export const appendImageGenPromptStandard = async (
 	const entry = {
 		id: randomUUID().replace(/-/g, '').slice(0, 16),
 		createdAt: new Date().toISOString(),
-		destinationType: destination.destinationType,
-		slug: destination.relativeDir,
+		entityType: destination.destinationType,
+		entitySlug: getEntitySlug(destination),
 		assetKeys: {
 			square: toAssetKey(square),
 			landscape: toAssetKey(landscape),
 			portrait: toAssetKey(portrait)
 		},
-		prompts
+		prompts,
+		reference: {
+			url: input.reference?.url ?? null,
+			sourceType: input.reference?.sourceType ?? 'none',
+			label: input.reference?.label?.trim() || 'No reference image used'
+		}
 	} as const;
 
 	const registry = await readRegistry();

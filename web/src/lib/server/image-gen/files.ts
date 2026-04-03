@@ -4,6 +4,7 @@ import { existsSync } from 'node:fs';
 import { Buffer } from 'node:buffer';
 import sharp from 'sharp';
 import type { ImageGenDestinationType } from '$lib/server/image-gen/types';
+import type { ImagePromptSet, ImageReference } from '$lib/data/image-contract';
 import { getMinioBrowserUrl } from '$lib/utils/storage-urls';
 
 type SaveImageInput = {
@@ -359,11 +360,36 @@ const updateJsonFile = async <T>(
 export const syncGeneratedImageToDestinationRecord = async (input: {
 	destinationType: ImageGenDestinationType;
 	destinationSlug: string;
+	squarePublicUrl: string;
 	landscapePublicUrl: string;
+	portraitPublicUrl: string;
+	prompts: ImagePromptSet;
+	reference: ImageReference;
+	historyId: string;
 }): Promise<DestinationUpdateWrite[]> => {
 	if (input.destinationType === 'custom' || input.destinationType === 'featured-images') {
 		return [];
 	}
+
+	const buildImages = (current: Record<string, unknown> | undefined, fallbackAlt: string) => ({
+		current: {
+			square: { url: input.squarePublicUrl },
+			landscape: { url: input.landscapePublicUrl },
+			portrait: { url: input.portraitPublicUrl },
+			alt:
+				typeof current?.alt === 'string' && current.alt.trim().length > 0
+					? current.alt
+					: fallbackAlt,
+			kind: 'generated',
+			prompts: input.prompts,
+			reference: {
+				url: input.reference.url ?? null,
+				sourceType: input.reference.sourceType,
+				label: input.reference.label
+			},
+			historyId: input.historyId
+		}
+	});
 
 	if (input.destinationType === 'events') {
 		const eventsPath = path.join(dataRoot, 'events', 'events.json');
@@ -377,10 +403,13 @@ export const syncGeneratedImageToDestinationRecord = async (input: {
 					events: (current.events ?? []).map((event) => {
 						if (event.slug !== input.destinationSlug) return event;
 						changed = true;
+						const currentImages =
+							event.images && typeof event.images === 'object'
+								? ((event.images as Record<string, unknown>).current as Record<string, unknown> | undefined)
+								: undefined;
 						return {
 							...event,
-							heroImage: input.landscapePublicUrl,
-							image: input.landscapePublicUrl
+							images: buildImages(currentImages, typeof event.title === 'string' ? event.title : 'Event image')
 						};
 					})
 				};
@@ -401,7 +430,17 @@ export const syncGeneratedImageToDestinationRecord = async (input: {
 					resources: (current.resources ?? []).map((resource) => {
 						if (resource.slug !== input.destinationSlug) return resource;
 						changed = true;
-						return { ...resource, imageSrc: input.landscapePublicUrl };
+						const currentImages =
+							resource.images && typeof resource.images === 'object'
+								? ((resource.images as Record<string, unknown>).current as Record<string, unknown> | undefined)
+								: undefined;
+						return {
+							...resource,
+							images: buildImages(
+								currentImages,
+								typeof resource.title === 'string' ? `${resource.title} featured image.` : 'Resource image'
+							)
+						};
 					})
 				};
 				return { next, changed };
@@ -426,18 +465,16 @@ export const syncGeneratedImageToDestinationRecord = async (input: {
 						programs: (current.programs ?? []).map((program) => {
 							if (program.slug !== input.destinationSlug) return program;
 							changed = true;
-							const catalog =
-								program.catalog && typeof program.catalog === 'object'
-									? {
-											...(program.catalog as Record<string, unknown>),
-											image: input.landscapePublicUrl
-										}
-									: program.catalog;
+							const currentImages =
+								program.images && typeof program.images === 'object'
+									? ((program.images as Record<string, unknown>).current as Record<string, unknown> | undefined)
+									: undefined;
 							return {
 								...program,
-								catalog,
-								heroImage: input.landscapePublicUrl,
-								ogImage: input.landscapePublicUrl
+								images: buildImages(
+									currentImages,
+									typeof program.title === 'string' ? program.title : 'Training image'
+								)
 							};
 						})
 					};

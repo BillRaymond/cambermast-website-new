@@ -1,13 +1,14 @@
 import { json } from '@sveltejs/kit';
 import { listTrainingPrograms } from '$lib/data/training';
 import { listImageGenPromptStandards } from '$lib/data/image-gen-standards';
+import { getLandscapeImageUrl, getSquareImageUrl } from '$lib/data/image-contract';
 import path from 'node:path';
 import { access } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 
 export const prerender = false;
 
-type TrainingReferenceField = 'generatedSquare' | 'generatedLandscape' | 'heroImage' | 'ogImage';
+type TrainingReferenceField = 'generatedSquare' | 'generatedLandscape' | 'currentLandscape';
 
 type TrainingReference = {
 	programSku?: string;
@@ -74,8 +75,8 @@ const getLatestTrainingStandardAssetUrls = (): Map<string, { square?: string; la
 	const latestBySlug = new Map<string, { createdAt: string; square?: string; landscape?: string }>();
 
 	for (const entry of listImageGenPromptStandards()) {
-		if (entry.destinationType !== 'training') continue;
-		const slug = entry.slug.replace(/^training\//, '').trim();
+		if (entry.entityType !== 'training') continue;
+		const slug = entry.entitySlug.trim();
 		if (!slug) continue;
 
 		const current = latestBySlug.get(slug);
@@ -114,8 +115,7 @@ export const GET = async () => {
 		const entries: Array<{ field: TrainingReferenceField; url?: string }> = [
 			{ field: 'generatedSquare', url: preferredGeneratedSquareUrl },
 			{ field: 'generatedLandscape', url: preferredGeneratedLandscapeUrl },
-			{ field: 'heroImage', url: program.heroImage },
-			{ field: 'ogImage', url: program.ogImage }
+			{ field: 'currentLandscape', url: getLandscapeImageUrl(program.images) }
 		];
 
 		let selected: { field: TrainingReferenceField; url: string } | undefined;

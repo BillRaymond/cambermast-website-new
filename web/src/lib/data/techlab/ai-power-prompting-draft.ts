@@ -1,4 +1,5 @@
 import type { TechlabProgram } from './types';
+import { createEntityImages } from '$lib/data/image-contract';
 // This is an example of a draft training program data file for internal review purposes.
 export const techlabAiPowerPromptingDraft = {
 	slug: 'ai-power-prompting-draft',
@@ -8,10 +9,15 @@ export const techlabAiPowerPromptingDraft = {
 	nickname: 'Experimental prompt lab for early testers',
 	eventTypeLabel: 'LIVE TRAINING',
 	tagline: 'Preview the next iteration of our AI Power Prompting experience before it launches.',
-	heroImage: '/images/ai-fundamentals.jpeg',
-	heroImageAlt: 'AI Power Prompting lab concept art',
-	ogImage: '/images/cambermast-content-1-ai-fundamentals-ai-power-prompting-og.jpeg',
-	ogImageAlt: 'Open graph image for the AI Power Prompting lab training program',
+	images: createEntityImages({
+		landscape: '/images/ai-fundamentals.jpeg',
+		alt: 'AI Power Prompting lab concept art',
+		historyId: 'manual:techlab-ai-power-prompting-draft',
+		reference: {
+			sourceType: 'manual',
+			label: 'Manually curated TechLAB program image'
+		}
+	}),
 	description:
 		'This is a staging version of our AI Power Prompting program that we use to test new exercises, prompts, and formats. Content is subject to change and feedback is encouraged.',
 	secondaryDescription:

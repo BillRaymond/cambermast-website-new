@@ -7,6 +7,11 @@ import { toTrainingEventAgenda } from '$lib/data/events/agenda';
 import { listCampaignUi } from '$lib/view-models/campaigns';
 import { listEventUi } from '$lib/view-models/events';
 import {
+	getImageAlt,
+	getLandscapeImageUrl,
+	getSquareImageUrl
+} from '$lib/data/image-contract';
+import {
 	DEFAULT_LANDSCAPE_PROMPT,
 	DEFAULT_PORTRAIT_PROMPT,
 	DEFAULT_SQUARE_PROMPT,
@@ -40,10 +45,10 @@ export const load: PageServerLoad = async () => {
 			audience: program.audience ?? [],
 			agenda: toTrainingEventAgenda(program.agenda) ?? [],
 			faqs: program.faqs ?? [],
-			heroImage: program.heroImage,
-			heroImageAlt: program.heroImageAlt,
-			ogImage: program.ogImage,
-			ogImageAlt: program.ogImageAlt,
+			heroImage: getSquareImageUrl(program.images),
+			heroImageAlt: getImageAlt(program.images),
+			ogImage: getLandscapeImageUrl(program.images),
+			ogImageAlt: getImageAlt(program.images),
 			eventDefaults: program.eventDefaults
 		}))
 		.sort((a, b) => (a.sku ?? '').localeCompare(b.sku ?? ''));
@@ -77,10 +82,10 @@ export const load: PageServerLoad = async () => {
 			programRef: event.programRef,
 			schedule: event.schedule,
 			campaignId: event.campaignId,
-			heroImage: event.heroImage,
-			heroImageAlt: event.heroImageAlt,
-			image: event.image,
-			imageAlt: event.imageAlt
+			heroImage: event.images.current.square.url,
+			heroImageAlt: event.images.current.alt,
+			image: event.images.current.landscape.url,
+			imageAlt: event.images.current.alt
 		}))
 		.sort((a, b) => a.title.localeCompare(b.title));
 

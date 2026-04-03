@@ -14,15 +14,15 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["id", "createdAt", "destinationType", "slug", "assetKeys", "assetUrls", "assetAvailability", "referenceAssetUrls", "prompts"],
+        "required": ["id", "createdAt", "entityType", "entitySlug", "assetKeys", "assetUrls", "assetAvailability", "referenceAssetUrls", "prompts", "reference"],
         "properties": {
           "id": { "type": "string", "pattern": "^[a-z0-9]{8,64}$" },
           "createdAt": { "type": "string", "format": "date-time" },
-          "destinationType": {
+          "entityType": {
             "type": "string",
             "enum": ["events", "training", "resources", "featured-images", "custom"]
           },
-          "slug": {
+          "entitySlug": {
             "type": "string",
             "pattern": "^[a-z0-9][a-z0-9-]*(?:/[a-z0-9][a-z0-9-]*)*$"
           },
@@ -33,15 +33,15 @@
             "properties": {
               "square": {
                 "type": "string",
-                "pattern": "^[a-z0-9][a-z0-9-]*(?:/[a-z0-9][a-z0-9-]*)*/[^/]+$"
+                "pattern": "^[a-z0-9][a-z0-9-]*(?:/[a-z0-9][a-z0-9-]*)*(?:\\.[^/]+|/[^/]+)$"
               },
               "landscape": {
                 "type": "string",
-                "pattern": "^[a-z0-9][a-z0-9-]*(?:/[a-z0-9][a-z0-9-]*)*/[^/]+$"
+                "pattern": "^[a-z0-9][a-z0-9-]*(?:/[a-z0-9][a-z0-9-]*)*(?:\\.[^/]+|/[^/]+)$"
               },
               "portrait": {
                 "type": "string",
-                "pattern": "^[a-z0-9][a-z0-9-]*(?:/[a-z0-9][a-z0-9-]*)*/[^/]+$"
+                "pattern": "^[a-z0-9][a-z0-9-]*(?:/[a-z0-9][a-z0-9-]*)*(?:\\.[^/]+|/[^/]+)$"
               }
             }
           },
@@ -92,6 +92,31 @@
               "square": { "type": "string", "minLength": 1 },
               "landscape": { "type": "string", "minLength": 1 },
               "portrait": { "type": "string", "minLength": 1 }
+            }
+          },
+          "reference": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["sourceType", "label"],
+            "properties": {
+              "url": {
+                "type": ["string", "null"],
+                "pattern": "^https?://"
+              },
+              "sourceType": {
+                "type": "string",
+                "enum": [
+                  "none",
+                  "default_image",
+                  "training_reference",
+                  "local_template",
+                  "upload",
+                  "generated_asset",
+                  "manual",
+                  "legacy_migration"
+                ]
+              },
+              "label": { "type": "string", "minLength": 1 }
             }
           }
         }

@@ -8,8 +8,6 @@
 			"catalog": {
 				"id": "training-ai-fundamentals",
 				"summary": "Primer on prompting that explains how AI works and shows you how to prompt successfully.",
-				"image": "/images/ai-fundamentals.jpeg",
-				"imageAlt": "AI Power Prompting training workshop illustration",
 				"bullets": [
 					"Understand how today’s AI models generate answers",
 					"Learn four core prompt types you can reuse anywhere",
@@ -22,10 +20,6 @@
 			"nickname": "Your AI fundamentals • From prompting to productivity",
 			"eventTypeLabel": "LIVE TRAINING",
 			"tagline": "A live primer on prompting: learn how AI works and how to prompt successfully.",
-			"heroImage": "/images/ai-fundamentals.jpeg",
-			"heroImageAlt": "AI Power Prompting training workshop illustration",
-			"ogImage": "/images/cambermast-content-1-ai-fundamentals-ai-power-prompting-og.jpeg",
-			"ogImageAlt": "Open graph image for the AI Power Prompting training program",
 			"description": "AI Power Prompting is a four-hour crash course that explains how modern AI systems work and shows you how to craft prompts that consistently deliver results.",
 			"secondaryDescription": "Build confidence through guided demos and exercises with ChatGPT, Copilot, Claude, and Gemini so you know when to reach for each tool and how to collaborate with it.",
 			"primaryCta": {
@@ -253,6 +247,32 @@
 						"photoAlt": "Bill Raymond"
 					}
 				]
+			},
+			"images": {
+				"current": {
+					"square": {
+						"url": "/images/ai-fundamentals.jpeg"
+					},
+					"landscape": {
+						"url": "/images/ai-fundamentals.jpeg"
+					},
+					"portrait": {
+						"url": "/images/ai-fundamentals.jpeg"
+					},
+					"alt": "AI Power Prompting training workshop illustration",
+					"kind": "manual",
+					"prompts": {
+						"square": "AI Power Prompting training workshop illustration. Migrated from legacy image data without preserved generation prompts.",
+						"landscape": "AI Power Prompting training workshop illustration. Migrated from legacy image data without preserved generation prompts.",
+						"portrait": "AI Power Prompting training workshop illustration. Migrated from legacy image data without preserved generation prompts."
+					},
+					"reference": {
+						"url": null,
+						"sourceType": "legacy_migration",
+						"label": "Legacy migration: image preserved without generation provenance"
+					},
+					"historyId": "1c4a73b429a60e07"
+				}
 			}
 		},
 		{
@@ -263,8 +283,6 @@
 			"catalog": {
 				"id": "training-ai-accelerator",
 				"summary": "Extends the AI Power prompting course as a multi-week AI workshop so you can tap powerful new AI features to run your business.",
-				"image": "/images/ai-accelerator.jpeg",
-				"imageAlt": "AI Accelerator Workshop illustration",
 				"bullets": [
 					"Understand how today’s AI models generate answers",
 					"Custom GPTs tuned to your workflows",
@@ -277,10 +295,6 @@
 			"nickname": "From core prompting to professional AI systems",
 			"eventTypeLabel": "LIVE TRAINING",
 			"tagline": "Bundle AI Power Prompting with advanced build labs so your team launches repeatable AI workflows that run the business better.",
-			"heroImage": "/images/ai-accelerator.jpeg",
-			"heroImageAlt": "AI Accelerator Workshop illustration",
-			"ogImage": "/images/cambermast-content-2-ai-accelerator-workshop-og.jpeg",
-			"ogImageAlt": "Open graph image for the AI Accelerator Workshop training program",
 			"description": "The AI Accelerator Workshop includes the AI Power Prompting course and layers on professional AI features so you can run your business more efficiently. You will leave with hands-on practice using custom GPTs, AI projects, and research frameworks tailored to your workflows across four focused weeks.",
 			"secondaryDescription": "This blended, four-week program is ideal for teams who want a head start with AI fundamentals and the confidence to operationalize advanced capabilities without reinventing the wheel each time.",
 			"primaryCta": {
@@ -467,6 +481,32 @@
 						"photoAlt": "Bill Raymond"
 					}
 				]
+			},
+			"images": {
+				"current": {
+					"square": {
+						"url": "/images/ai-accelerator.jpeg"
+					},
+					"landscape": {
+						"url": "/images/ai-accelerator.jpeg"
+					},
+					"portrait": {
+						"url": "/images/ai-accelerator.jpeg"
+					},
+					"alt": "AI Accelerator Workshop illustration",
+					"kind": "manual",
+					"prompts": {
+						"square": "AI Accelerator Workshop illustration. Migrated from legacy image data without preserved generation prompts.",
+						"landscape": "AI Accelerator Workshop illustration. Migrated from legacy image data without preserved generation prompts.",
+						"portrait": "AI Accelerator Workshop illustration. Migrated from legacy image data without preserved generation prompts."
+					},
+					"reference": {
+						"url": null,
+						"sourceType": "legacy_migration",
+						"label": "Legacy migration: image preserved without generation provenance"
+					},
+					"historyId": "4ffb9e6a8c899712"
+				}
 			}
 		},
 		{
@@ -477,8 +517,6 @@
 			"catalog": {
 				"id": "training-ai-advanced",
 				"summary": "Seven-week cohort for cross-functional teams to integrate AI across planning, delivery, and reporting.",
-				"image": "/images/ai-advanced.jpeg",
-				"imageAlt": "AI Workshop for Modern Teams illustration",
 				"bullets": [
 					"Automate repetitive work with reusable AI workflows",
 					"Co-create prompts and playbooks that fit your standards",
@@ -491,10 +529,6 @@
 			"nickname": "Seven-week cohort for cross-functional teams",
 			"eventTypeLabel": "LIVE TRAINING",
 			"tagline": "AI-enhanced team workflows that deliver measurable results in seven weeks.",
-			"heroImage": "/images/ai-advanced.jpeg",
-			"heroImageAlt": "AI Workshop for Modern Teams illustration",
-			"ogImage": "/images/cambermast-content-3-ai-workshop-for-modern-teams-og.jpeg",
-			"ogImageAlt": "Open graph image for the AI Workshop for Modern Teams training program",
 			"description": "The AI Workshop for Modern Teams is a live, seven-week cohort that helps cross-functional teams weave generative AI into everyday planning, delivery, and reporting workflows.",
 			"secondaryDescription": "Each week blends strategic discussions with hands-on practice so your team can automate routine work, improve decision quality, and collaborate with AI responsibly.",
 			"primaryCta": {
@@ -748,6 +782,32 @@
 						"photoAlt": "Bill Raymond"
 					}
 				]
+			},
+			"images": {
+				"current": {
+					"square": {
+						"url": "/images/ai-advanced.jpeg"
+					},
+					"landscape": {
+						"url": "/images/ai-advanced.jpeg"
+					},
+					"portrait": {
+						"url": "/images/ai-advanced.jpeg"
+					},
+					"alt": "AI Workshop for Modern Teams illustration",
+					"kind": "manual",
+					"prompts": {
+						"square": "AI Workshop for Modern Teams illustration. Migrated from legacy image data without preserved generation prompts.",
+						"landscape": "AI Workshop for Modern Teams illustration. Migrated from legacy image data without preserved generation prompts.",
+						"portrait": "AI Workshop for Modern Teams illustration. Migrated from legacy image data without preserved generation prompts."
+					},
+					"reference": {
+						"url": null,
+						"sourceType": "legacy_migration",
+						"label": "Legacy migration: image preserved without generation provenance"
+					},
+					"historyId": "9dbda20d42fec6bc"
+				}
 			}
 		},
 		{
@@ -758,8 +818,6 @@
 			"catalog": {
 				"id": "training-ai-automation-with-agents",
 				"summary": "Hands-on agent building with n8n, OpenAI, and your internal APIs.",
-				"image": "/images/ai-automation.jpg",
-				"imageAlt": "AI Automation with Agents Workshop illustration",
 				"bullets": [
 					"Design human-in-the-loop automations",
 					"Build working agents in guided labs",
@@ -772,10 +830,6 @@
 			"nickname": "Six-week cohort for applied agent builders",
 			"eventTypeLabel": "LIVE TRAINING",
 			"tagline": "Automate internal processes with AI agents that act like team members, across six weeks of guided practice.",
-			"heroImage": "/images/ai-automation.jpg",
-			"heroImageAlt": "AI Automation with Agents Workshop illustration",
-			"ogImage": "/images/cambermast-content-4-ai-automation-with-agents-workshop-og.jpeg",
-			"ogImageAlt": "Open graph image for the AI Automation with Agents workshop training program",
 			"description": "The AI Automation with Agents Workshop is a live, six-week cohort on automating internal processes with reliable AI agents. We tackle real-world scenarios where an agent behaves like a teammate, coordinating steps and escalating to people when necessary.",
 			"secondaryDescription": "Across weekly 2-hour sessions you will design, build, and optimize agents using tools like n8n, OpenAI, and best-practice API integrations. That way your team leaves with something running.",
 			"primaryCta": {
@@ -993,6 +1047,32 @@
 						"photoAlt": "Bill Raymond"
 					}
 				]
+			},
+			"images": {
+				"current": {
+					"square": {
+						"url": "/images/ai-automation.jpg"
+					},
+					"landscape": {
+						"url": "/images/ai-automation.jpg"
+					},
+					"portrait": {
+						"url": "/images/ai-automation.jpg"
+					},
+					"alt": "AI Automation with Agents Workshop illustration",
+					"kind": "manual",
+					"prompts": {
+						"square": "AI Automation with Agents Workshop illustration. Migrated from legacy image data without preserved generation prompts.",
+						"landscape": "AI Automation with Agents Workshop illustration. Migrated from legacy image data without preserved generation prompts.",
+						"portrait": "AI Automation with Agents Workshop illustration. Migrated from legacy image data without preserved generation prompts."
+					},
+					"reference": {
+						"url": null,
+						"sourceType": "legacy_migration",
+						"label": "Legacy migration: image preserved without generation provenance"
+					},
+					"historyId": "8b969ffc2eb30b37"
+				}
 			}
 		},
 		{
@@ -1003,8 +1083,6 @@
 			"catalog": {
 				"id": "training-ai-workshop-content-creators",
 				"summary": "Seven-week cohort that helps content and documentation teams layer AI into their workflows.",
-				"image": "/images/training/ai-workshop-for-content-creators/hero-landscape-v2.jpg",
-				"imageAlt": "AI Workshop for Tech Writers and Content Creators illustration",
 				"bullets": [
 					"Automate repetitive content production tasks with AI",
 					"Preserve brand voice with reusable prompts and guardrails",
@@ -1017,10 +1095,6 @@
 			"nickname": "Seven-week cohort for technical communicators",
 			"eventTypeLabel": "LIVE TRAINING",
 			"tagline": "Get real results from your content with AI-powered workflows in just seven weeks.",
-			"heroImage": "/images/training/ai-workshop-for-content-creators/hero-landscape-v2.jpg",
-			"heroImageAlt": "AI Workshop for Tech Writers and Content Creators illustration",
-			"ogImage": "/images/training/ai-workshop-for-content-creators/hero-landscape-v2.jpg",
-			"ogImageAlt": "Open graph image for the AI Workshop for Tech Writers and Content Creators training program",
 			"videoUrl": "https://www.youtube.com/watch?v=pDMU-xyu8GA",
 			"description": "The AI Workshop for Tech Writers and Content Creators is a live, seven-week cohort that helps technical communicators and content teams weave generative AI into their daily production workflows.",
 			"secondaryDescription": "Across weekly 2-hour sessions, participants combine strategy discussions with hands-on practice to automate repetitive tasks, preserve brand voice, and publish higher-impact content faster.",
@@ -1321,6 +1395,32 @@
 				"partnerCodes": [
 					"TCW"
 				]
+			},
+			"images": {
+				"current": {
+					"square": {
+						"url": "/images/training/ai-workshop-for-content-creators/hero-square-v2.jpg"
+					},
+					"landscape": {
+						"url": "/images/training/ai-workshop-for-content-creators/hero-landscape-v2.jpg"
+					},
+					"portrait": {
+						"url": "/images/training/ai-workshop-for-content-creators/hero-portrait.jpg"
+					},
+					"alt": "AI Workshop for Tech Writers and Content Creators illustration",
+					"kind": "generated",
+					"prompts": {
+						"square": "Recreate this image. Reduce the graininess. Make for tech writers and content creators more bold and downplay AI workshop",
+						"landscape": "Recreate the provided template image as a landscape. Avoid the top and bottom 25%.",
+						"portrait": "Recreate the provided template image in portrait format. Avoid the top and bottom 25%."
+					},
+					"reference": {
+						"url": null,
+						"sourceType": "legacy_migration",
+						"label": "Legacy migration: reference image URL was not preserved"
+					},
+					"historyId": "efd64866fee84ee2"
+				}
 			}
 		},
 		{
@@ -1331,8 +1431,6 @@
 			"catalog": {
 				"id": "training-ai-workshop-code-and-automate-with-ai",
 				"summary": "A four-week hands-on cohort for builders who want to code, automate workflows, and ship practical tools with AI.",
-				"image": "/images/training/ai-workshop-code-and-automate-with-ai/hero-landscape-v6.jpg",
-				"imageAlt": "AI Workshop: Code and Automate with AI illustration",
 				"bullets": [
 					"Turn plain-language ideas into a working web app",
 					"Practice using Git, GitHub, Docker, and AI-assisted iteration",
@@ -1345,10 +1443,6 @@
 			"nickname": "Four-week coding and automation cohort",
 			"eventTypeLabel": "LIVE TRAINING",
 			"tagline": "A four-week hands-on cohort for coding and automation with AI.",
-			"heroImage": "/images/training/ai-workshop-code-and-automate-with-ai/hero-landscape-v6.jpg",
-			"heroImageAlt": "AI Workshop: Code and Automate with AI illustration",
-			"ogImage": "/images/training/ai-workshop-code-and-automate-with-ai/hero-landscape-v6.jpg",
-			"ogImageAlt": "Open graph image for the AI Workshop: Code and Automate with AI training program",
 			"description": "You already understand software development concepts, and you are ready to bring your ideas to life. Now you need the skills to turn those ideas into working software and practical automations whenever you decide it is time to build. AI-assisted coding now enables teams to create real apps, internal tools, and workflow automations through structured conversations with AI tools. Learning strong prompting techniques, review habits, and delivery practices is the new essential skill for modern builders and operators.",
 			"secondaryDescription": "In this four-week workshop, you will start with a prompt and progressively design, build, and refine practical apps and automations using chat-based AI tools. Each session combines short learning sessions with hands-on building. By the end of every week, you will have something working that you can continue improving. By week four, you will have a practical project deployed from your own code repository or workflow environment. If you have some prior software experience and are ready to build, you are a strong fit for this workshop.",
 			"primaryCta": {
@@ -1620,6 +1714,32 @@
 				"partnerCodes": [
 					"TLB"
 				]
+			},
+			"images": {
+				"current": {
+					"square": {
+						"url": "/images/training/ai-workshop-code-and-automate-with-ai/hero-square-v6.jpg"
+					},
+					"landscape": {
+						"url": "/images/training/ai-workshop-code-and-automate-with-ai/hero-landscape-v6.jpg"
+					},
+					"portrait": {
+						"url": "/images/training/ai-workshop-code-and-automate-with-ai/hero-portrait-v6.jpg"
+					},
+					"alt": "AI Workshop: Code and Automate with AI illustration",
+					"kind": "generated",
+					"prompts": {
+						"square": "Recreate this image, reduce the graininess, and call it \"AI WORKSHOP: CODE AND AUTOMATE WITH AI\"",
+						"landscape": "Recreate the provided template image as a landscape. Avoid the top and bottom 25%. Reduce the graininess.",
+						"portrait": "Recreate the provided template image in portrait format. Avoid the top and bottom 25%. Reduce the graininess."
+					},
+					"reference": {
+						"url": null,
+						"sourceType": "legacy_migration",
+						"label": "Legacy migration: reference image URL was not preserved"
+					},
+					"historyId": "0c9c90d630964ded"
+				}
 			}
 		},
 		{
@@ -1629,8 +1749,6 @@
 			"catalog": {
 				"id": "training-ai-power-prompting-draft",
 				"summary": "Draft program data used for internal review and QA only.",
-				"image": "/images/ai-fundamentals.jpeg",
-				"imageAlt": "AI Power Prompting lab concept art",
 				"bullets": [
 					"Internal-only curriculum review",
 					"Validate layout and content flow",
@@ -1643,10 +1761,6 @@
 			"nickname": "Experimental prompt lab for early testers",
 			"eventTypeLabel": "LIVE TRAINING",
 			"tagline": "Preview the next iteration of our AI Power Prompting experience before it launches.",
-			"heroImage": "/images/ai-fundamentals.jpeg",
-			"heroImageAlt": "AI Power Prompting lab concept art",
-			"ogImage": "/images/cambermast-content-1-ai-fundamentals-ai-power-prompting-og.jpeg",
-			"ogImageAlt": "Open graph image for the AI Power Prompting lab training program",
 			"description": "This is a staging version of our AI Power Prompting program that we use to test new exercises, prompts, and formats. Content is subject to change and feedback is encouraged.",
 			"secondaryDescription": "If you are previewing this page, you are likely reviewing copy or flow before launch. Make sure to double-check CTAs, scheduling details, and testimonials prior to removing the draft flag.",
 			"primaryCta": {
@@ -1734,6 +1848,32 @@
 						"shortBio": "Bill is running this lab to fine-tune the prompts, scripts, and examples ahead of our next release."
 					}
 				]
+			},
+			"images": {
+				"current": {
+					"square": {
+						"url": "/images/ai-fundamentals.jpeg"
+					},
+					"landscape": {
+						"url": "/images/ai-fundamentals.jpeg"
+					},
+					"portrait": {
+						"url": "/images/ai-fundamentals.jpeg"
+					},
+					"alt": "AI Power Prompting lab concept art",
+					"kind": "manual",
+					"prompts": {
+						"square": "AI Power Prompting lab concept art. Migrated from legacy image data without preserved generation prompts.",
+						"landscape": "AI Power Prompting lab concept art. Migrated from legacy image data without preserved generation prompts.",
+						"portrait": "AI Power Prompting lab concept art. Migrated from legacy image data without preserved generation prompts."
+					},
+					"reference": {
+						"url": null,
+						"sourceType": "legacy_migration",
+						"label": "Legacy migration: image preserved without generation provenance"
+					},
+					"historyId": "0f58eab5d0d3ca2b"
+				}
 			}
 		}
 	]

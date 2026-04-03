@@ -1,20 +1,18 @@
 import standardsData from './image-gen-standards.json';
+import type { ImagePromptSet, ImageReference } from '$lib/data/image-contract';
 
 export type ImageGenPromptStandard = {
 	id: string;
 	createdAt: string;
-	destinationType: 'events' | 'training' | 'resources' | 'featured-images' | 'custom';
-	slug: string;
+	entityType: 'events' | 'training' | 'resources' | 'featured-images' | 'custom';
+	entitySlug: string;
 	assetKeys: {
 		square: string;
 		landscape: string;
 		portrait: string;
 	};
-	prompts: {
-		square: string;
-		landscape: string;
-		portrait: string;
-	};
+	prompts: ImagePromptSet;
+	reference: ImageReference;
 };
 
 export type ImageGenPromptStandardsRegistry = {

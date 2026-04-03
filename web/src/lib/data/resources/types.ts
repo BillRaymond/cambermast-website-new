@@ -1,3 +1,5 @@
+import type { EntityImages } from '$lib/data/image-contract';
+
 export type ResourceEntry = {
 	id: string;
 	slug: string;
@@ -7,8 +9,7 @@ export type ResourceEntry = {
 	category: string;
 	publishedAt: string;
 	author?: string;
-	imageSrc?: string;
-	imageAlt?: string;
+	images: EntityImages;
 	label?: string;
 	draft?: boolean;
 };

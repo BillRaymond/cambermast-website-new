@@ -6,6 +6,7 @@ import { getTrainingProgramBySku } from '../training';
 import { getProgramEventTypeLabel } from '../training/program-meta';
 import type { TrainingProgram } from '../training/types';
 import { getFaqPresetItemsSnapshot } from '../faq-presets';
+import { getDefaultImageSet } from '../default-images';
 
 type BuildTrainingEventInput = {
 	program: TrainingProgram;
@@ -281,10 +282,26 @@ export const buildTrainingSessionEventFromProgram = (
 		speakers: eventSpeakers,
 		partners: partnerCodes?.map((code) => ({ code })),
 		videoUrl: program.videoUrl,
-		heroImage: program.heroImage ?? program.ogImage,
-		heroImageAlt: program.heroImageAlt ?? program.ogImageAlt ?? program.title,
-		image: program.ogImage ?? program.heroImage,
-		imageAlt: program.ogImageAlt ?? program.heroImageAlt ?? program.title
+		images: program.images ?? {
+			current: {
+				square: { url: getDefaultImageSet('training').square },
+				landscape: { url: getDefaultImageSet('training').landscape },
+				portrait: { url: getDefaultImageSet('training').portrait },
+				alt: program.title,
+				kind: 'default',
+				prompts: {
+					square: '',
+					landscape: '',
+					portrait: ''
+				},
+				reference: {
+					url: getDefaultImageSet('training').landscape,
+					sourceType: 'default_image',
+					label: 'Training default image set'
+				},
+				historyId: 'defaulttraining0001'
+			}
+		}
 	};
 };
 

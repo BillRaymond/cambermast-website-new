@@ -32,8 +32,6 @@
 			"properties": {
 				"id": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
 				"summary": { "type": "string", "minLength": 1 },
-				"image": { "$ref": "#/$defs/urlOrPath" },
-				"imageAlt": { "type": "string", "minLength": 1 },
 				"bullets": {
 					"type": "array",
 					"items": { "type": "string", "minLength": 1 }
@@ -234,6 +232,81 @@
 				"termsAnswer": { "type": "string", "minLength": 1 }
 			}
 		},
+		"imageVariant": {
+			"type": "object",
+			"additionalProperties": false,
+			"required": ["url"],
+			"properties": {
+				"url": { "$ref": "#/$defs/urlOrPath" }
+			}
+		},
+		"imagePrompts": {
+			"type": "object",
+			"additionalProperties": false,
+			"required": ["square", "landscape", "portrait"],
+			"properties": {
+				"square": { "type": "string" },
+				"landscape": { "type": "string" },
+				"portrait": { "type": "string" }
+			}
+		},
+		"imageReference": {
+			"type": "object",
+			"additionalProperties": false,
+			"required": ["sourceType", "label"],
+			"properties": {
+				"url": {
+					"type": ["string", "null"],
+					"pattern": "^(\\/|https?:\\/\\/|mailto:|tel:).+"
+				},
+				"sourceType": {
+					"type": "string",
+					"enum": [
+						"none",
+						"default_image",
+						"training_reference",
+						"local_template",
+						"upload",
+						"generated_asset",
+						"manual",
+						"legacy_migration"
+					]
+				},
+				"label": { "type": "string", "minLength": 1 }
+			}
+		},
+		"entityCurrentImageSet": {
+			"type": "object",
+			"additionalProperties": false,
+			"required": [
+				"square",
+				"landscape",
+				"portrait",
+				"alt",
+				"kind",
+				"prompts",
+				"reference",
+				"historyId"
+			],
+			"properties": {
+				"square": { "$ref": "#/$defs/imageVariant" },
+				"landscape": { "$ref": "#/$defs/imageVariant" },
+				"portrait": { "$ref": "#/$defs/imageVariant" },
+				"alt": { "type": "string", "minLength": 1 },
+				"kind": { "type": "string", "enum": ["default", "generated", "manual"] },
+				"prompts": { "$ref": "#/$defs/imagePrompts" },
+				"reference": { "$ref": "#/$defs/imageReference" },
+				"historyId": { "type": "string", "pattern": "^[a-z0-9]{8,64}$" }
+			}
+		},
+		"entityImages": {
+			"type": "object",
+			"additionalProperties": false,
+			"required": ["current"],
+			"properties": {
+				"current": { "$ref": "#/$defs/entityCurrentImageSet" }
+			}
+		},
 		"trainingProgram": {
 			"type": "object",
 			"additionalProperties": false,
@@ -244,6 +317,7 @@
 				"title",
 				"eventTypeLabel",
 				"tagline",
+				"images",
 				"description",
 				"primaryCta",
 				"secondaryCta",
@@ -259,10 +333,7 @@
 				"nickname": { "type": "string", "minLength": 1 },
 				"eventTypeLabel": { "type": "string", "minLength": 1 },
 				"tagline": { "type": "string", "minLength": 1 },
-				"heroImage": { "$ref": "#/$defs/urlOrPath" },
-				"heroImageAlt": { "type": "string", "minLength": 1 },
-				"ogImage": { "$ref": "#/$defs/urlOrPath" },
-				"ogImageAlt": { "type": "string", "minLength": 1 },
+				"images": { "$ref": "#/$defs/entityImages" },
 				"videoUrl": { "$ref": "#/$defs/urlOrPath" },
 				"description": { "type": "string", "minLength": 1 },
 				"secondaryDescription": { "type": "string", "minLength": 1 },

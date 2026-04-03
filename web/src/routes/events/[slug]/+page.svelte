@@ -8,6 +8,7 @@
 	import FaqBlocks from '$lib/components/faq/FaqBlocks.svelte';
 	import { renderMarkdownToSafeHtml } from '$lib/utils/markdown';
 	import { getCampaignShortPathUi } from '$lib/view-models/campaigns';
+	import { getImageAlt, getLandscapeImageUrl } from '$lib/data/image-contract';
 	import { getEventTypeLabelUi, isEventOpenSoonUi } from '$lib/view-models/events';
 	import { getProgramCertificateText } from '$lib/data/training/program-meta';
 	import { listTestimonialsForSku } from '$lib/data/testimonials';
@@ -265,8 +266,8 @@
 	const trailerUrl = event.videoUrl ?? relatedProgram?.videoUrl;
 	const recordingUrl = event.links?.recordingUrl;
 	const slidesUrl = event.links?.slidesUrl;
-	const heroImage = event.heroImage ?? event.image;
-	const heroImageAlt = event.heroImageAlt ?? event.imageAlt ?? event.title;
+	const heroImage = getLandscapeImageUrl(event.images);
+	const heroImageAlt = getImageAlt(event.images) ?? event.title;
 	const locationDetailsNote = getLocationDetailsNote();
 	const locationModeLabel = getLocationModeLabel();
 	const deliveryLabel =
@@ -421,8 +422,8 @@
 	title={pageTitle}
 	description={pageDescription}
 	path={pagePath}
-	image={event.image ?? heroImage}
-	imageAlt={event.imageAlt ?? heroImageAlt}
+	image={heroImage}
+	imageAlt={heroImageAlt}
 	imageWidth={1536}
 	imageHeight={1024}
 	type="article"

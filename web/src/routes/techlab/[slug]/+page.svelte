@@ -2,6 +2,7 @@
 	import SeoHead from '$lib/components/SeoHead.svelte';
 	import ProgramPage from '$lib/components/techlab/ProgramPage.svelte';
 	import { SITE_ORIGIN } from '$lib/config/site';
+	import { getImageAlt, getLandscapeImageUrl } from '$lib/data/image-contract';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
@@ -9,8 +10,8 @@
 	const canonicalPath = data.program.route ?? `/techlab/${data.program.slug}`;
 	const seoTitle = `${data.program.title} | TechLAB × Cambermast`;
 	const seoDescription = data.program.tagline ?? data.program.description;
-	const seoImage = data.program.ogImage ?? data.program.heroImage;
-	const seoImageAlt = data.program.ogImageAlt ?? data.program.heroImageAlt ?? data.program.title;
+	const seoImage = getLandscapeImageUrl(data.program.images);
+	const seoImageAlt = getImageAlt(data.program.images) ?? data.program.title;
 	const courseJsonLd = JSON.stringify({
 		'@context': 'https://schema.org',
 		'@type': 'Course',

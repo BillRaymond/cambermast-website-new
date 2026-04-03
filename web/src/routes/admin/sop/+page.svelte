@@ -430,9 +430,9 @@
 			Timezone and media rule: set <code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
 				>timeZoneIana = America/Los_Angeles</code
 			>
-			for every event and provide both
-			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">heroImage</code>
-			(page image) and <code class="rounded bg-gray-100 px-1 py-0.5 text-xs">image</code> (OG image).
+			for every event and provide a complete
+			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">images.current</code> set with square,
+			landscape, and portrait variants.
 		</li>
 		<li>
 			Ticketing and registration options: set <code class="rounded bg-gray-100 px-1 py-0.5 text-xs"

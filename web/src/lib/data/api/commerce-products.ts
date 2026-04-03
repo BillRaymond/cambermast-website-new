@@ -1,6 +1,7 @@
 import type { Event } from '$lib/data/events/types';
 import { isEventUpcoming, listEvents } from '$lib/data/events';
 import type { FaqBlock, FaqItem } from '$lib/data/faq/types';
+import { getLandscapeImageUrl } from '$lib/data/image-contract';
 import { listTestimonialsForSku } from '$lib/data/testimonials';
 import { listTrainingPrograms } from '$lib/data/training';
 import type { TrainingProgram, TrainingStat } from '$lib/data/training/types';
@@ -225,7 +226,7 @@ const programHasCheckoutReadyCohort = (sku?: string, now: Date = new Date()): bo
 };
 
 const getProgramImageUrl = (program: TrainingProgram, origin: string): string | undefined =>
-	toAbsoluteUrl(program.heroImage ?? program.catalog?.image ?? program.ogImage, origin);
+	toAbsoluteUrl(getLandscapeImageUrl(program.images), origin);
 
 const buildProgramDescription = (program: TrainingProgram): string => {
 	const parts = [
@@ -323,7 +324,10 @@ const buildCohortItem = (
 		return null;
 	}
 
-	const imageUrl = toAbsoluteUrl(event.heroImage ?? event.image ?? program.heroImage, origin);
+	const imageUrl = toAbsoluteUrl(
+		getLandscapeImageUrl(event.images) ?? getLandscapeImageUrl(program.images),
+		origin
+	);
 	const productUrl = `${origin}/events/${event.slug}`;
 	if (!imageUrl || !productUrl) return null;
 

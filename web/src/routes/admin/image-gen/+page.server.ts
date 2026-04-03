@@ -2,6 +2,7 @@ import { dev } from '$app/environment';
 import path from 'node:path';
 import { existsSync } from 'node:fs';
 import { readdir } from 'node:fs/promises';
+import { getLandscapeImageUrl } from '$lib/data/image-contract';
 import { listResources } from '$lib/data/resources';
 import { listTrainingPrograms } from '$lib/data/training';
 import { listEventUi } from '$lib/view-models/events';
@@ -150,9 +151,10 @@ const chooseFeaturedImageFile = (fileNames: string[]): string | null => {
 const getLatestStandardsBySlug = (): Map<string, ImageGenPromptStandard> => {
 	const latestBySlug = new Map<string, ImageGenPromptStandard>();
 	for (const entry of listImageGenPromptStandards()) {
-		const current = latestBySlug.get(entry.slug);
+		const key = `${entry.entityType}/${entry.entitySlug}`;
+		const current = latestBySlug.get(key);
 		if (!current || new Date(entry.createdAt).valueOf() > new Date(current.createdAt).valueOf()) {
-			latestBySlug.set(entry.slug, entry);
+			latestBySlug.set(key, entry);
 		}
 	}
 	return latestBySlug;
@@ -194,7 +196,7 @@ const toTrainingReference = (
 	);
 	if (standardReference) return standardReference;
 
-	const preferred = toPreferredPublicUrl(program.heroImage ?? program.ogImage ?? program.catalog?.image);
+	const preferred = toPreferredPublicUrl(getLandscapeImageUrl(program.images));
 	if (!preferred) return null;
 	return {
 		id: fullSlug,
@@ -295,7 +297,7 @@ export const load: PageServerLoad = async () => {
 			);
 			if (standardReference) return standardReference;
 
-			const preferred = toPreferredPublicUrl(resource.imageSrc);
+			const preferred = toPreferredPublicUrl(getLandscapeImageUrl(resource.images));
 			if (!preferred) return null;
 			return {
 				id: fullSlug,
@@ -333,7 +335,7 @@ export const load: PageServerLoad = async () => {
 					latestStandardsBySlug.get(fullSlug)
 				) ??
 				(() => {
-					const preferred = toPreferredPublicUrl(event.heroImage ?? event.image);
+					const preferred = toPreferredPublicUrl(getLandscapeImageUrl(event.images));
 					if (!preferred) return null;
 					return {
 						id: fullSlug,

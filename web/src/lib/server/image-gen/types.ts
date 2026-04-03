@@ -53,6 +53,18 @@ export type SaveSelectedRequest = {
 	destinationSlug: string;
 	customBasePath?: string;
 	autoUpdateDestinationRecord?: boolean;
+	reference?: {
+		url?: string | null;
+		sourceType?:
+			| 'none'
+			| 'default_image'
+			| 'training_reference'
+			| 'local_template'
+			| 'upload'
+			| 'generated_asset'
+			| 'manual';
+		label?: string;
+	};
 	prompts?: {
 		square: string;
 		landscape: string;

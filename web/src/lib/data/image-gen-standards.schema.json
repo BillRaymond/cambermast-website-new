@@ -31,38 +31,63 @@
       "properties": {
         "square": {
           "type": "string",
-          "pattern": "^[a-z0-9][a-z0-9-]*(?:/[a-z0-9][a-z0-9-]*)*/[^/]+$"
+          "pattern": "^[a-z0-9][a-z0-9-]*(?:/[a-z0-9][a-z0-9-]*)*(?:\\.[^/]+|/[^/]+)$"
         },
         "landscape": {
           "type": "string",
-          "pattern": "^[a-z0-9][a-z0-9-]*(?:/[a-z0-9][a-z0-9-]*)*/[^/]+$"
+          "pattern": "^[a-z0-9][a-z0-9-]*(?:/[a-z0-9][a-z0-9-]*)*(?:\\.[^/]+|/[^/]+)$"
         },
         "portrait": {
           "type": "string",
-          "pattern": "^[a-z0-9][a-z0-9-]*(?:/[a-z0-9][a-z0-9-]*)*/[^/]+$"
+          "pattern": "^[a-z0-9][a-z0-9-]*(?:/[a-z0-9][a-z0-9-]*)*(?:\\.[^/]+|/[^/]+)$"
         }
       }
     },
     "standard": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["id", "createdAt", "destinationType", "slug", "assetKeys", "prompts"],
+      "required": ["id", "createdAt", "entityType", "entitySlug", "assetKeys", "prompts", "reference"],
       "properties": {
         "id": {
           "type": "string",
           "pattern": "^[a-z0-9]{8,64}$"
         },
         "createdAt": { "type": "string", "format": "date-time" },
-        "destinationType": {
+        "entityType": {
           "type": "string",
           "enum": ["events", "training", "resources", "featured-images", "custom"]
         },
-        "slug": {
+        "entitySlug": {
           "type": "string",
           "pattern": "^[a-z0-9][a-z0-9-]*(?:/[a-z0-9][a-z0-9-]*)*$"
         },
         "assetKeys": { "$ref": "#/$defs/assetKeySet" },
-        "prompts": { "$ref": "#/$defs/promptSet" }
+        "prompts": { "$ref": "#/$defs/promptSet" },
+        "reference": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["sourceType", "label"],
+          "properties": {
+            "url": {
+              "type": ["string", "null"],
+              "pattern": "^(\\/|https?:\\/\\/).+"
+            },
+            "sourceType": {
+              "type": "string",
+              "enum": [
+                "none",
+                "default_image",
+                "training_reference",
+                "local_template",
+                "upload",
+                "generated_asset",
+                "manual",
+                "legacy_migration"
+              ]
+            },
+            "label": { "type": "string", "minLength": 1 }
+          }
+        }
       }
     }
   }

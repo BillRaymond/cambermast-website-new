@@ -1,12 +1,285 @@
 {
 	"version": 1,
-	"updatedAt": "2026-04-02T23:21:50.504Z",
+	"updatedAt": "2026-04-03T14:50:18.251Z",
 	"standards": [
+		{
+			"id": "1c4a73b429a60e07",
+			"createdAt": "2026-04-03T14:50:18.251Z",
+			"entityType": "training",
+			"entitySlug": "ai-fundamentals",
+			"assetKeys": {
+				"square": "ai-fundamentals.jpeg",
+				"landscape": "ai-fundamentals.jpeg",
+				"portrait": "ai-fundamentals.jpeg"
+			},
+			"prompts": {
+				"square": "AI Power Prompting training workshop illustration. Migrated from legacy image data without preserved generation prompts.",
+				"landscape": "AI Power Prompting training workshop illustration. Migrated from legacy image data without preserved generation prompts.",
+				"portrait": "AI Power Prompting training workshop illustration. Migrated from legacy image data without preserved generation prompts."
+			},
+			"reference": {
+				"url": null,
+				"sourceType": "legacy_migration",
+				"label": "Legacy migration: image preserved without generation provenance"
+			}
+		},
+		{
+			"id": "4ffb9e6a8c899712",
+			"createdAt": "2026-04-03T14:50:18.251Z",
+			"entityType": "training",
+			"entitySlug": "ai-accelerator-workshop",
+			"assetKeys": {
+				"square": "ai-accelerator.jpeg",
+				"landscape": "ai-accelerator.jpeg",
+				"portrait": "ai-accelerator.jpeg"
+			},
+			"prompts": {
+				"square": "AI Accelerator Workshop illustration. Migrated from legacy image data without preserved generation prompts.",
+				"landscape": "AI Accelerator Workshop illustration. Migrated from legacy image data without preserved generation prompts.",
+				"portrait": "AI Accelerator Workshop illustration. Migrated from legacy image data without preserved generation prompts."
+			},
+			"reference": {
+				"url": null,
+				"sourceType": "legacy_migration",
+				"label": "Legacy migration: image preserved without generation provenance"
+			}
+		},
+		{
+			"id": "9dbda20d42fec6bc",
+			"createdAt": "2026-04-03T14:50:18.251Z",
+			"entityType": "training",
+			"entitySlug": "ai-advanced-workshop",
+			"assetKeys": {
+				"square": "ai-advanced.jpeg",
+				"landscape": "ai-advanced.jpeg",
+				"portrait": "ai-advanced.jpeg"
+			},
+			"prompts": {
+				"square": "AI Workshop for Modern Teams illustration. Migrated from legacy image data without preserved generation prompts.",
+				"landscape": "AI Workshop for Modern Teams illustration. Migrated from legacy image data without preserved generation prompts.",
+				"portrait": "AI Workshop for Modern Teams illustration. Migrated from legacy image data without preserved generation prompts."
+			},
+			"reference": {
+				"url": null,
+				"sourceType": "legacy_migration",
+				"label": "Legacy migration: image preserved without generation provenance"
+			}
+		},
+		{
+			"id": "8b969ffc2eb30b37",
+			"createdAt": "2026-04-03T14:50:18.251Z",
+			"entityType": "training",
+			"entitySlug": "ai-automation-with-agents",
+			"assetKeys": {
+				"square": "ai-automation.jpg",
+				"landscape": "ai-automation.jpg",
+				"portrait": "ai-automation.jpg"
+			},
+			"prompts": {
+				"square": "AI Automation with Agents Workshop illustration. Migrated from legacy image data without preserved generation prompts.",
+				"landscape": "AI Automation with Agents Workshop illustration. Migrated from legacy image data without preserved generation prompts.",
+				"portrait": "AI Automation with Agents Workshop illustration. Migrated from legacy image data without preserved generation prompts."
+			},
+			"reference": {
+				"url": null,
+				"sourceType": "legacy_migration",
+				"label": "Legacy migration: image preserved without generation provenance"
+			}
+		},
+		{
+			"id": "0f58eab5d0d3ca2b",
+			"createdAt": "2026-04-03T14:50:18.251Z",
+			"entityType": "training",
+			"entitySlug": "ai-power-prompting-draft",
+			"assetKeys": {
+				"square": "ai-fundamentals.jpeg",
+				"landscape": "ai-fundamentals.jpeg",
+				"portrait": "ai-fundamentals.jpeg"
+			},
+			"prompts": {
+				"square": "AI Power Prompting lab concept art. Migrated from legacy image data without preserved generation prompts.",
+				"landscape": "AI Power Prompting lab concept art. Migrated from legacy image data without preserved generation prompts.",
+				"portrait": "AI Power Prompting lab concept art. Migrated from legacy image data without preserved generation prompts."
+			},
+			"reference": {
+				"url": null,
+				"sourceType": "legacy_migration",
+				"label": "Legacy migration: image preserved without generation provenance"
+			}
+		},
+		{
+			"id": "d9b59f29534af07a",
+			"createdAt": "2026-04-03T14:50:18.251Z",
+			"entityType": "resources",
+			"entitySlug": "ai-personalization",
+			"assetKeys": {
+				"square": "resources/ai-personalization/hero-landscape.jpg",
+				"landscape": "resources/ai-personalization/hero-landscape.jpg",
+				"portrait": "resources/ai-personalization/hero-landscape.jpg"
+			},
+			"prompts": {
+				"square": "AI Personalization featured image.. Migrated from legacy image data without preserved generation prompts.",
+				"landscape": "AI Personalization featured image.. Migrated from legacy image data without preserved generation prompts.",
+				"portrait": "AI Personalization featured image.. Migrated from legacy image data without preserved generation prompts."
+			},
+			"reference": {
+				"url": null,
+				"sourceType": "legacy_migration",
+				"label": "Legacy migration: image preserved without generation provenance"
+			}
+		},
+		{
+			"id": "a7bf3c78ecdabd5e",
+			"createdAt": "2026-04-03T14:50:18.251Z",
+			"entityType": "resources",
+			"entitySlug": "ask-me-anything-pricing",
+			"assetKeys": {
+				"square": "resources/ama/hero-landscape.jpg",
+				"landscape": "resources/ama/hero-landscape.jpg",
+				"portrait": "resources/ama/hero-landscape.jpg"
+			},
+			"prompts": {
+				"square": "Ask Me Anything Pricing featured image.. Migrated from legacy image data without preserved generation prompts.",
+				"landscape": "Ask Me Anything Pricing featured image.. Migrated from legacy image data without preserved generation prompts.",
+				"portrait": "Ask Me Anything Pricing featured image.. Migrated from legacy image data without preserved generation prompts."
+			},
+			"reference": {
+				"url": null,
+				"sourceType": "legacy_migration",
+				"label": "Legacy migration: image preserved without generation provenance"
+			}
+		},
+		{
+			"id": "8e94f42f6a177d06",
+			"createdAt": "2026-04-03T14:50:18.251Z",
+			"entityType": "resources",
+			"entitySlug": "attendee-training-tips",
+			"assetKeys": {
+				"square": "resources/get-ready-for-training/hero-landscape.jpg",
+				"landscape": "resources/get-ready-for-training/hero-landscape.jpg",
+				"portrait": "resources/get-ready-for-training/hero-landscape.jpg"
+			},
+			"prompts": {
+				"square": "Attendee training tips featured image.. Migrated from legacy image data without preserved generation prompts.",
+				"landscape": "Attendee training tips featured image.. Migrated from legacy image data without preserved generation prompts.",
+				"portrait": "Attendee training tips featured image.. Migrated from legacy image data without preserved generation prompts."
+			},
+			"reference": {
+				"url": null,
+				"sourceType": "legacy_migration",
+				"label": "Legacy migration: image preserved without generation provenance"
+			}
+		},
+		{
+			"id": "7d41c24f3ff03987",
+			"createdAt": "2026-04-03T14:50:18.250Z",
+			"entityType": "events",
+			"entitySlug": "ai-workshop-for-tech-writers-and-content-creators-winter-2025",
+			"assetKeys": {
+				"square": "events/ai-workshop-for-content-creators-winter-2025/hero-square.jpg",
+				"landscape": "events/ai-workshop-for-content-creators-winter-2025/hero-landscape.jpg",
+				"portrait": "events/ai-workshop-for-content-creators-winter-2025/hero-portrait.jpg"
+			},
+			"prompts": {
+				"square": "AI Workshop for Tech Writers and Content Creators. Migrated from legacy image data without preserved generation prompts.",
+				"landscape": "AI Workshop for Tech Writers and Content Creators. Migrated from legacy image data without preserved generation prompts.",
+				"portrait": "AI Workshop for Tech Writers and Content Creators. Migrated from legacy image data without preserved generation prompts."
+			},
+			"reference": {
+				"url": null,
+				"sourceType": "legacy_migration",
+				"label": "Legacy migration: image preserved without generation provenance"
+			}
+		},
+		{
+			"id": "bcf33060e76ebed5",
+			"createdAt": "2026-04-03T14:50:18.250Z",
+			"entityType": "events",
+			"entitySlug": "ai-workshop-for-tech-writers-and-content-creators-summer-2026-k4f8n1",
+			"assetKeys": {
+				"square": "events/ai-workshop-for-content-creators-summer-2026/hero-square.jpg",
+				"landscape": "events/ai-workshop-for-content-creators-summer-2026/hero-landscape.jpg",
+				"portrait": "events/ai-workshop-for-content-creators-summer-2026/hero-portrait.jpg"
+			},
+			"prompts": {
+				"square": "AI Workshop for Tech Writers and Content Creators illustration. Migrated from legacy image data without preserved generation prompts.",
+				"landscape": "AI Workshop for Tech Writers and Content Creators illustration. Migrated from legacy image data without preserved generation prompts.",
+				"portrait": "AI Workshop for Tech Writers and Content Creators illustration. Migrated from legacy image data without preserved generation prompts."
+			},
+			"reference": {
+				"url": null,
+				"sourceType": "legacy_migration",
+				"label": "Legacy migration: image preserved without generation provenance"
+			}
+		},
+		{
+			"id": "338ea236ab1039ca",
+			"createdAt": "2026-04-03T14:50:18.250Z",
+			"entityType": "events",
+			"entitySlug": "ai-workshop-for-tech-writers-and-content-creators-spring-2026-s6twc1",
+			"assetKeys": {
+				"square": "events/ai-workshop-for-content-creators-spring-2026/hero-square.jpg",
+				"landscape": "events/ai-workshop-for-content-creators-spring-2026/hero-landscape.jpg",
+				"portrait": "events/ai-workshop-for-content-creators-spring-2026/hero-portrait.jpg"
+			},
+			"prompts": {
+				"square": "AI Workshop for Tech Writers and Content Creators illustration. Migrated from legacy image data without preserved generation prompts.",
+				"landscape": "AI Workshop for Tech Writers and Content Creators illustration. Migrated from legacy image data without preserved generation prompts.",
+				"portrait": "AI Workshop for Tech Writers and Content Creators illustration. Migrated from legacy image data without preserved generation prompts."
+			},
+			"reference": {
+				"url": null,
+				"sourceType": "legacy_migration",
+				"label": "Legacy migration: image preserved without generation provenance"
+			}
+		},
+		{
+			"id": "544121e624402bc4",
+			"createdAt": "2026-04-03T14:50:18.250Z",
+			"entityType": "events",
+			"entitySlug": "ai-workshop-for-tech-writers-and-content-creators-fall-2026-m7w2q5",
+			"assetKeys": {
+				"square": "events/ai-workshop-for-content-creators-fall-2026/hero-square.jpg",
+				"landscape": "events/ai-workshop-for-content-creators-fall-2026/hero-landscape.jpg",
+				"portrait": "events/ai-workshop-for-content-creators-fall-2026/hero-portrait.jpg"
+			},
+			"prompts": {
+				"square": "AI Workshop for Tech Writers and Content Creators illustration. Migrated from legacy image data without preserved generation prompts.",
+				"landscape": "AI Workshop for Tech Writers and Content Creators illustration. Migrated from legacy image data without preserved generation prompts.",
+				"portrait": "AI Workshop for Tech Writers and Content Creators illustration. Migrated from legacy image data without preserved generation prompts."
+			},
+			"reference": {
+				"url": null,
+				"sourceType": "legacy_migration",
+				"label": "Legacy migration: image preserved without generation provenance"
+			}
+		},
+		{
+			"id": "0e4894b83cac5844",
+			"createdAt": "2026-04-03T14:50:18.250Z",
+			"entityType": "events",
+			"entitySlug": "ai-workshop-for-tech-writers-and-content-creators-winter-2026-w26cc1",
+			"assetKeys": {
+				"square": "events/ai-workshop-for-content-creators-winter-2026/hero-square.jpg",
+				"landscape": "events/ai-workshop-for-content-creators-winter-2026/hero-landscape.jpg",
+				"portrait": "events/ai-workshop-for-content-creators-winter-2026/hero-portrait.jpg"
+			},
+			"prompts": {
+				"square": "AI Workshop for Tech Writers and Content Creators illustration. Migrated from legacy image data without preserved generation prompts.",
+				"landscape": "AI Workshop for Tech Writers and Content Creators illustration. Migrated from legacy image data without preserved generation prompts.",
+				"portrait": "AI Workshop for Tech Writers and Content Creators illustration. Migrated from legacy image data without preserved generation prompts."
+			},
+			"reference": {
+				"url": null,
+				"sourceType": "legacy_migration",
+				"label": "Legacy migration: image preserved without generation provenance"
+			}
+		},
 		{
 			"id": "aa22ad0c241940c8",
 			"createdAt": "2026-04-02T23:21:50.501Z",
-			"destinationType": "events",
-			"slug": "events/ai-workshop-code-and-automate-with-ai-may-2026",
+			"entityType": "events",
+			"entitySlug": "ai-workshop-code-and-automate-with-ai-may-2026",
 			"assetKeys": {
 				"square": "events/ai-workshop-code-and-automate-with-ai-may-2026/hero-square-v2.jpg",
 				"landscape": "events/ai-workshop-code-and-automate-with-ai-may-2026/hero-landscape-v2.jpg",
@@ -16,13 +289,18 @@
 				"square": "Use the provided template image as a visual style and composition reference. Create a new image of the same type. Modify the text to say \"May, 2026\" and make it stand out more. Create a new, clean symbol that represents coding and indicates this is an evening event. The reason is that the event starts at 5:30 pm, but you won't put that in the image, as it is just for context.",
 				"landscape": "Recreate the provided template image as a landscape. Avoid the top and bottom 25%.",
 				"portrait": "Recreate the provided template image in portrait format. Avoid the top and bottom 25%."
+			},
+			"reference": {
+				"url": null,
+				"sourceType": "legacy_migration",
+				"label": "Legacy migration: reference image URL was not preserved"
 			}
 		},
 		{
 			"id": "12a1081db2df456c",
 			"createdAt": "2026-04-02T22:58:34.715Z",
-			"destinationType": "events",
-			"slug": "events/ai-workshop-code-and-automate-with-ai-may-2026",
+			"entityType": "events",
+			"entitySlug": "ai-workshop-code-and-automate-with-ai-may-2026",
 			"assetKeys": {
 				"square": "events/ai-workshop-code-and-automate-with-ai-may-2026/hero-square.jpg",
 				"landscape": "events/ai-workshop-code-and-automate-with-ai-may-2026/hero-landscape.jpg",
@@ -32,13 +310,18 @@
 				"square": "Use the provided template image as a visual style and composition reference. Create a new image of the same type. Modify the text to say \"May, 2026\" and make it stand out more. Create a new, clean symbol that represents coding",
 				"landscape": "Recreate the provided template image as a landscape. Avoid the top and bottom 25%.",
 				"portrait": "Recreate the provided template image in portrait format. Avoid the top and bottom 25%."
+			},
+			"reference": {
+				"url": null,
+				"sourceType": "legacy_migration",
+				"label": "Legacy migration: reference image URL was not preserved"
 			}
 		},
 		{
 			"id": "efd64866fee84ee2",
 			"createdAt": "2026-03-20T18:38:55.958Z",
-			"destinationType": "training",
-			"slug": "training/ai-workshop-for-content-creators",
+			"entityType": "training",
+			"entitySlug": "ai-workshop-for-content-creators",
 			"assetKeys": {
 				"square": "training/ai-workshop-for-content-creators/hero-square-v2.jpg",
 				"landscape": "training/ai-workshop-for-content-creators/hero-landscape-v2.jpg",
@@ -48,13 +331,18 @@
 				"square": "Recreate this image. Reduce the graininess. Make for tech writers and content creators more bold and downplay AI workshop",
 				"landscape": "Recreate the provided template image as a landscape. Avoid the top and bottom 25%.",
 				"portrait": "Recreate the provided template image in portrait format. Avoid the top and bottom 25%."
+			},
+			"reference": {
+				"url": null,
+				"sourceType": "legacy_migration",
+				"label": "Legacy migration: reference image URL was not preserved"
 			}
 		},
 		{
 			"id": "f2b05f2f0d5b40bc",
 			"createdAt": "2026-03-18T21:01:38.096Z",
-			"destinationType": "resources",
-			"slug": "resources/ai-workshop-code-and-automate-with-ai-setup",
+			"entityType": "resources",
+			"entitySlug": "ai-workshop-code-and-automate-with-ai-setup",
 			"assetKeys": {
 				"square": "resources/ai-workshop-code-and-automate-with-ai-setup/hero-square-v2.jpg",
 				"landscape": "resources/ai-workshop-code-and-automate-with-ai-setup/hero-landscape-v2.jpg",
@@ -64,13 +352,18 @@
 				"square": "Use the provided template image as a visual style and composition reference. Create a new image of the same type. Have the people sit together at a desk. \n\nChange the subtitle to \"WORKSHOP PRE-WORK\" and get rid of that symbol\n\nAvoid the top and bottom 25%.",
 				"landscape": "Recreate the provided template image as a landscape. Avoid the top and bottom 25%.",
 				"portrait": "Recreate the provided template image in portrait format. Avoid the top and bottom 25%."
+			},
+			"reference": {
+				"url": null,
+				"sourceType": "legacy_migration",
+				"label": "Legacy migration: reference image URL was not preserved"
 			}
 		},
 		{
 			"id": "559c489d91964686",
 			"createdAt": "2026-03-18T20:28:00.192Z",
-			"destinationType": "events",
-			"slug": "events/ai-workshop-code-and-automate-with-ai-april-2026",
+			"entityType": "events",
+			"entitySlug": "ai-workshop-code-and-automate-with-ai-april-2026",
 			"assetKeys": {
 				"square": "events/ai-workshop-code-and-automate-with-ai-april-2026/hero-square-v5.jpg",
 				"landscape": "events/ai-workshop-code-and-automate-with-ai-april-2026/hero-landscape-v5.jpg",
@@ -80,13 +373,18 @@
 				"square": "Use the provided template image as a visual style and composition reference. Create a new image of the same type and reduce the graininess. Change \"SPRING, 2026\" to \"APRIL, 2026\". Avoid the top and bottom 25%.",
 				"landscape": "Recreate the provided template image as a landscape. Avoid the top and bottom 25%. Reduce the graininess.",
 				"portrait": "Recreate the provided template image in portrait format. Avoid the top and bottom 25%. Reduce the graininess."
+			},
+			"reference": {
+				"url": null,
+				"sourceType": "legacy_migration",
+				"label": "Legacy migration: reference image URL was not preserved"
 			}
 		},
 		{
 			"id": "376284dee6ed422f",
 			"createdAt": "2026-03-18T17:01:29.096Z",
-			"destinationType": "events",
-			"slug": "events/ai-workshop-code-and-automate-with-ai-april-2026",
+			"entityType": "events",
+			"entitySlug": "ai-workshop-code-and-automate-with-ai-april-2026",
 			"assetKeys": {
 				"square": "events/ai-workshop-code-and-automate-with-ai-april-2026/hero-square-v4.jpg",
 				"landscape": "events/ai-workshop-code-and-automate-with-ai-april-2026/hero-landscape-v4.jpg",
@@ -96,13 +394,18 @@
 				"square": "Recreate this image, reduce the graininess, and add a subtitle of \"SPRING, 2026\" in a different color or callout",
 				"landscape": "Recreate the provided template image as a landscape. Avoid the top and bottom 25%. Reduce the graininess.",
 				"portrait": "Recreate the provided template image in portrait format. Avoid the top and bottom 25%. Reduce the graininess."
+			},
+			"reference": {
+				"url": null,
+				"sourceType": "legacy_migration",
+				"label": "Legacy migration: reference image URL was not preserved"
 			}
 		},
 		{
 			"id": "0c9c90d630964ded",
 			"createdAt": "2026-03-18T16:54:35.952Z",
-			"destinationType": "training",
-			"slug": "training/ai-workshop-code-and-automate-with-ai",
+			"entityType": "training",
+			"entitySlug": "ai-workshop-code-and-automate-with-ai",
 			"assetKeys": {
 				"square": "training/ai-workshop-code-and-automate-with-ai/hero-square-v6.jpg",
 				"landscape": "training/ai-workshop-code-and-automate-with-ai/hero-landscape-v6.jpg",
@@ -112,13 +415,18 @@
 				"square": "Recreate this image, reduce the graininess, and call it \"AI WORKSHOP: CODE AND AUTOMATE WITH AI\"",
 				"landscape": "Recreate the provided template image as a landscape. Avoid the top and bottom 25%. Reduce the graininess.",
 				"portrait": "Recreate the provided template image in portrait format. Avoid the top and bottom 25%. Reduce the graininess."
+			},
+			"reference": {
+				"url": null,
+				"sourceType": "legacy_migration",
+				"label": "Legacy migration: reference image URL was not preserved"
 			}
 		},
 		{
 			"id": "67dcecdd642746cf",
 			"createdAt": "2026-03-12T21:06:33.349Z",
-			"destinationType": "events",
-			"slug": "events/ai-workshop-code-and-automate-with-ai-april-2026",
+			"entityType": "events",
+			"entitySlug": "ai-workshop-code-and-automate-with-ai-april-2026",
 			"assetKeys": {
 				"square": "events/ai-workshop-code-and-automate-with-ai-april-2026/hero-square-v3.jpg",
 				"landscape": "events/ai-workshop-code-and-automate-with-ai-april-2026/hero-landscape-v3.jpg",
@@ -128,13 +436,18 @@
 				"square": "Recreate this image, reduce the graininess. The title is AI WORKSHOP: CODE AND AUTOMATE WITH AI. The subtitle is APRIL, 2026, and make that text more prominent.",
 				"landscape": "Recreate the provided template image as a landscape. Avoid the top and bottom 25%. Reduce the graininess.",
 				"portrait": "Recreate the provided template image in portrait format. Avoid the top and bottom 25%. Reduce the graininess."
+			},
+			"reference": {
+				"url": null,
+				"sourceType": "legacy_migration",
+				"label": "Legacy migration: reference image URL was not preserved"
 			}
 		},
 		{
 			"id": "8035ff50e3fe4542",
 			"createdAt": "2026-03-12T20:48:20.897Z",
-			"destinationType": "training",
-			"slug": "training/ai-workshop-code-and-automate-with-ai",
+			"entityType": "training",
+			"entitySlug": "ai-workshop-code-and-automate-with-ai",
 			"assetKeys": {
 				"square": "training/ai-workshop-code-and-automate-with-ai/hero-square-v5.jpg",
 				"landscape": "training/ai-workshop-code-and-automate-with-ai/hero-landscape-v5.jpg",
@@ -144,13 +457,18 @@
 				"square": "Recreate this image, reduce the graininess and call it AI WORKSHOP: CODE AND AUTOMATE WITH AI",
 				"landscape": "Recreate the provided template image as a landscape. Avoid the top and bottom 25%. Reduce the graininess.",
 				"portrait": "Recreate the provided template image in portrait format. Avoid the top and bottom 25%. Reduce the graininess."
+			},
+			"reference": {
+				"url": null,
+				"sourceType": "legacy_migration",
+				"label": "Legacy migration: reference image URL was not preserved"
 			}
 		},
 		{
 			"id": "b19d4fe6906a4691",
 			"createdAt": "2026-03-12T18:13:05.314Z",
-			"destinationType": "events",
-			"slug": "events/ai-workshop-code-and-automate-with-ai-april-2026",
+			"entityType": "events",
+			"entitySlug": "ai-workshop-code-and-automate-with-ai-april-2026",
 			"assetKeys": {
 				"square": "events/ai-workshop-code-and-automate-with-ai-april-2026/hero-square-v2.jpg",
 				"landscape": "events/ai-workshop-code-and-automate-with-ai-april-2026/hero-landscape-v2.jpg",
@@ -160,13 +478,18 @@
 				"square": "Use the provided template image as a visual style and composition reference. Create a new image of the same type and clean up some of the graininess.\n\nLeave the existing title and symbol. Add the subtitle \"APRIL, 2026\" in a different color to make it stand out.\n\nAvoid the top and bottom 25%.",
 				"landscape": "Recreate the provided template image in landscape orientation. Avoid the top and bottom 25%. Remove some of the graininess.",
 				"portrait": "Recreate the provided template image in portrait format. Avoid the top and bottom 25%. Remove some of the graininess."
+			},
+			"reference": {
+				"url": null,
+				"sourceType": "legacy_migration",
+				"label": "Legacy migration: reference image URL was not preserved"
 			}
 		},
 		{
 			"id": "93f6878509ed42c3",
 			"createdAt": "2026-03-12T17:01:21.880Z",
-			"destinationType": "training",
-			"slug": "training/ai-workshop-code-and-automate-with-ai",
+			"entityType": "training",
+			"entitySlug": "ai-workshop-code-and-automate-with-ai",
 			"assetKeys": {
 				"square": "training/ai-workshop-code-and-automate-with-ai/hero-square-v4.jpg",
 				"landscape": "training/ai-workshop-code-and-automate-with-ai/hero-landscape-v4.jpg",
@@ -176,13 +499,18 @@
 				"square": "GENERATE A BACKGROUND\nAbstract geometric background inspired by a modern sail or forward motion shape, using deep navy #012072 as the dominant base with layered bold blue #0037BE, bright blue #0063F2, mint green #8BD8BD, and a bright orange #F49F1C accent.\n\nClean, overlapping angular panels with smooth, blended transitions and a very soft, fine-grained texture. Composition should frame the edges and corners, leaving a calm, open negative space in the center for text placement. Professional, training-focused, confident corporate style. No white, no glow, no light beams, no dark vignette, no clutter. Balanced contrast to support overlay text.\n\nOVERLAY TEXT\nAdd the text \"AI WORKSHOP: CODE AND AUTOMATE WITH AI\".\n\nOVERLAY ELEMENTS\nA photorealistic and diverse group of people walking out of a corridor, facing the camera with layered shapes, light, or visual panels that feel like progress markers. Add a prominent symbol that represents the training program as a whole, almost like a logo or icon.\n\nSTRICT OVERLAY RULES\nFocus on placing text and elements in the center of the image.\n\nSTRICT AVOIDANCE RULES\n* Avoid the top and bottom 25% of the image\n* Visual cliches like AI brains and circuits.\n* Imagery that anthropomorphizes AI.",
 				"landscape": "Recreate the provided template image as a landscape. Avoid the top and bottom 25%.",
 				"portrait": "Recreate the provided template image in portrait format. Avoid the top and bottom 25%."
+			},
+			"reference": {
+				"url": null,
+				"sourceType": "legacy_migration",
+				"label": "Legacy migration: reference image URL was not preserved"
 			}
 		},
 		{
 			"id": "69cbb4ff0e27421e",
 			"createdAt": "2026-03-11T20:56:09.996Z",
-			"destinationType": "training",
-			"slug": "training/ai-workshop-code-and-automate-with-ai",
+			"entityType": "training",
+			"entitySlug": "ai-workshop-code-and-automate-with-ai",
 			"assetKeys": {
 				"square": "training/ai-workshop-code-and-automate-with-ai/hero-square-v3.jpg",
 				"landscape": "training/ai-workshop-code-and-automate-with-ai/hero-landscape-v3.jpg",
@@ -192,13 +520,18 @@
 				"square": "Re-create this image, but replace those three examples with:\nLet’s build my startup idea\nLet’s ship a working version\nLet’s scale this!",
 				"landscape": "Recreate the provided template image as a landscape. Avoid the top and bottom 25%.",
 				"portrait": "Recreate the provided template image in portrait format. Avoid the top and bottom 25%."
+			},
+			"reference": {
+				"url": null,
+				"sourceType": "legacy_migration",
+				"label": "Legacy migration: reference image URL was not preserved"
 			}
 		},
 		{
 			"id": "8ac111c296c14683",
 			"createdAt": "2026-03-11T20:55:01.616Z",
-			"destinationType": "featured-images",
-			"slug": "featured-images/training/ai-workshop-code-and-automate-with-ai",
+			"entityType": "featured-images",
+			"entitySlug": "training/ai-workshop-code-and-automate-with-ai",
 			"assetKeys": {
 				"square": "featured-images/training/ai-workshop-code-and-automate-with-ai/hero-square.jpg",
 				"landscape": "featured-images/training/ai-workshop-code-and-automate-with-ai/hero-landscape.jpg",
@@ -208,13 +541,18 @@
 				"square": "Re-create this image, but replace those three examples with:\nLet’s build my startup idea\nLet’s ship a working version\nLet’s scale this!",
 				"landscape": "Recreate the provided template image as a landscape. Avoid the top and bottom 25%.",
 				"portrait": "Recreate the provided template image in portrait format. Avoid the top and bottom 25%."
+			},
+			"reference": {
+				"url": null,
+				"sourceType": "legacy_migration",
+				"label": "Legacy migration: reference image URL was not preserved"
 			}
 		},
 		{
 			"id": "a0fd4e4a61624a1e",
 			"createdAt": "2026-03-11T17:31:17.137Z",
-			"destinationType": "training",
-			"slug": "training/ai-workshop-code-and-automate-with-ai",
+			"entityType": "training",
+			"entitySlug": "ai-workshop-code-and-automate-with-ai",
 			"assetKeys": {
 				"square": "training/ai-workshop-code-and-automate-with-ai/hero-square-v2.jpg",
 				"landscape": "training/ai-workshop-code-and-automate-with-ai/hero-landscape-v2.jpg",
@@ -224,13 +562,18 @@
 				"square": "GENERATE A BACKGROUND\nAbstract geometric background inspired by a modern sail or forward motion shape, using deep navy #012072 as the dominant base with layered bold blue #0037BE, bright blue #0063F2, mint green #8BD8BD, and a bright orange #F49F1C accent. Clean, overlapping angular panels with smooth, blended transitions and a very soft, fine-grained texture. Composition should frame the edges and corners, leaving a calm, open negative space in the center for text placement. Professional, training-focused, confident corporate style. No white, no glow, no light beams, no dark vignette, no clutter. Balanced contrast to support overlay text.\n\nOVERLAY TEXT\nAdd the text \"AI WORKSHOP: CODE AND AUTOMATE WITH AI\".\n\nOVERLAY ELEMENTS\nIncorporate a photorealistic image of a happy and diverse group of people witnessing their jobs transform for the better through AI-assisted coding. There is always a woman in control. The composition should feel open and integrated into the existing background, not like a title card. Keep overall styling bright and clean, with minimal effects, with a strong focus on legibility. Add hints about what good prompts are like in a unique way. Add a prominent symbol that represents the training program as a whole, almost like a logo or icon.\n\nSTRICT OVERLAY RULES\nFocus on placing text and elements in the center of the image.\n\nSTRICT AVOIDANCE RULES\n* Avoid The top and bottom 25% of the image\n* Visual cliches like AI brains and circuits.\n* Imagery that anthropomorphizes AI.",
 				"landscape": "Recreate the provided template image as a landscape. Avoid the top and bottom 25%.",
 				"portrait": "Recreate the provided template image in portrait format. Avoid the top and bottom 25%."
+			},
+			"reference": {
+				"url": null,
+				"sourceType": "legacy_migration",
+				"label": "Legacy migration: reference image URL was not preserved"
 			}
 		},
 		{
 			"id": "c34b6ccdc13a4618",
 			"createdAt": "2026-03-10T21:57:43.803Z",
-			"destinationType": "resources",
-			"slug": "resources/ai-workshop-code-and-automate-with-ai-setup",
+			"entityType": "resources",
+			"entitySlug": "ai-workshop-code-and-automate-with-ai-setup",
 			"assetKeys": {
 				"square": "resources/ai-workshop-code-and-automate-with-ai-setup/hero-square.jpg",
 				"landscape": "resources/ai-workshop-code-and-automate-with-ai-setup/hero-landscape.jpg",
@@ -240,13 +583,18 @@
 				"square": "Use the provided template image as a visual style and composition reference. Create a new image of the same type with the current title. Add a subtitle \"WORKSHOP PRE-WORK\" and use a slightly different color.",
 				"landscape": "Recreate the provided template image as a landscape. Avoid the top and bottom 25%.",
 				"portrait": "Recreate the provided template image in portrait format. Avoid the top and bottom 25%."
+			},
+			"reference": {
+				"url": null,
+				"sourceType": "legacy_migration",
+				"label": "Legacy migration: reference image URL was not preserved"
 			}
 		},
 		{
 			"id": "a6909598429f4254",
 			"createdAt": "2026-03-10T20:29:56.001Z",
-			"destinationType": "events",
-			"slug": "events/ai-workshop-for-content-creators-winter-2026",
+			"entityType": "events",
+			"entitySlug": "ai-workshop-for-content-creators-winter-2026",
 			"assetKeys": {
 				"square": "events/ai-workshop-for-content-creators-winter-2026/hero-square.jpg",
 				"landscape": "events/ai-workshop-for-content-creators-winter-2026/hero-landscape.jpg",
@@ -256,13 +604,18 @@
 				"square": "Use the provided template image as a visual style and composition reference. Create a new image of the same type. Change the subtitle to \"WINTER 2026\". Avoid the top and bottom 25%.",
 				"landscape": "Recreate the provided template image as a landscape. Avoid the top and bottom 25%.",
 				"portrait": "Recreate the provided template image in portrait format. Avoid the top and bottom 25%."
+			},
+			"reference": {
+				"url": null,
+				"sourceType": "legacy_migration",
+				"label": "Legacy migration: reference image URL was not preserved"
 			}
 		},
 		{
 			"id": "d0ce8dc4328a415e",
 			"createdAt": "2026-03-10T16:59:41.641Z",
-			"destinationType": "events",
-			"slug": "events/ai-workshop-code-and-automate-with-ai-april-2026",
+			"entityType": "events",
+			"entitySlug": "ai-workshop-code-and-automate-with-ai-april-2026",
 			"assetKeys": {
 				"square": "events/ai-workshop-code-and-automate-with-ai-april-2026/hero-square.jpg",
 				"landscape": "events/ai-workshop-code-and-automate-with-ai-april-2026/hero-landscape.jpg",
@@ -272,13 +625,18 @@
 				"square": "Use the provided template image as a visual style and composition reference with the same title. Keep the border, but feel free to add flourishes. Add the subtitle \"APRIL 2026 COHORT\" and include a background and imagery that evokes that month. Avoid: dark backgrounds, visual clichés, and imagery that anthropomorphizes AI. Avoid the top and bottom 25%.",
 				"landscape": "Recreate the provided template image as a landscape. Avoid the top and bottom 25%.",
 				"portrait": "Recreate the provided template image in portrait format. Avoid the top and bottom 25%."
+			},
+			"reference": {
+				"url": null,
+				"sourceType": "legacy_migration",
+				"label": "Legacy migration: reference image URL was not preserved"
 			}
 		},
 		{
 			"id": "1255fe207bb74d22",
 			"createdAt": "2026-03-10T16:47:05.198Z",
-			"destinationType": "training",
-			"slug": "training/ai-workshop-code-and-automate-with-ai",
+			"entityType": "training",
+			"entitySlug": "ai-workshop-code-and-automate-with-ai",
 			"assetKeys": {
 				"square": "training/ai-workshop-code-and-automate-with-ai/hero-square.jpg",
 				"landscape": "training/ai-workshop-code-and-automate-with-ai/hero-landscape.jpg",
@@ -288,13 +646,18 @@
 				"square": "GENERATE A BACKGROUND\nAbstract geometric background inspired by a modern sail or forward motion shape, using orange #F49F1C as the dominant base with layered bold blue #0037BE, bright blue #0063F2, mint green #8BD8BD, and a subtle deep navy #012072 accent. Clean, overlapping angular panels with smooth, blended transitions and a very soft, fine-grained texture. Composition should frame the edges and corners, leaving a calm, open negative space in the center for text placement. Professional, training-focused, confident corporate style. No white, no glow, no light beams, no dark vignette, no clutter. Balanced contrast to support overlay text.\n\nOVERLAY TEXT\nAdd the text \"AI WORKSHOP: CODE AND AUTOMATE WITH AI\".\n\nOVERLAY ELEMENTS\nIncorporate a photorealistic image of a diverse group of happy people learning to code with AI together, integrated into the overall design. The composition should feel open and integrated into the existing background, not like a title card. Keep overall styling bright and clean, with minimal effects, with a strong focus on legibility. Add hints about what good prompts are like in a unique way.\n\nSTRICT OVERLAY RULES\nFocus on placing text and elements in the center of the image.\n\nSTRICT AVOIDANCE RULES\n* Visual cliches like AI brains and circuits.\n* Imagery that anthropomorphizes AI.",
 				"landscape": "Recreate the provided template image as a landscape. Avoid the top and bottom 25%.",
 				"portrait": "Recreate the provided template image in portrait format. Avoid the top and bottom 25%."
+			},
+			"reference": {
+				"url": null,
+				"sourceType": "legacy_migration",
+				"label": "Legacy migration: reference image URL was not preserved"
 			}
 		},
 		{
 			"id": "989bcb444d674e3e",
 			"createdAt": "2026-03-05T23:29:21.058Z",
-			"destinationType": "featured-images",
-			"slug": "featured-images/cambermast-default",
+			"entityType": "featured-images",
+			"entitySlug": "cambermast-default",
 			"assetKeys": {
 				"square": "featured-images/cambermast-default/hero-square.jpg",
 				"landscape": "featured-images/cambermast-default/hero-landscape.jpg",
@@ -304,13 +667,18 @@
 				"square": "Abstract geometric background inspired by a modern sail or sense of forward motion, filling the entire image. Bright blue #0063F2 as the dominant base with layered shapes of bold blue #0037BE, mint green #8BD8BD, orange #F49F1C, and subtle deep navy #012072 accents.\n\nDesign should feel light, airy, and background-oriented. Shapes should appear semi-transparent with low opacity, softly blended into one another. Use reduced contrast and slightly desaturated colors so the composition remains calm and unobtrusive.\n\nClean overlapping angular panels with very soft edges and smooth gradients. Extremely subtle layering and depth, with a faint fine-grained texture.\n\nMaintain a quiet visual hierarchy so the background does not compete with foreground text or imagery. No sharp edges, no high contrast areas, no focal point. The composition should feel soft, diffused, and atmospheric.",
 				"landscape": "Recreate the provided template image as a landscape. Avoid the top and bottom 25%.",
 				"portrait": "Recreate the provided template image in portrait format. Avoid the top and bottom 25%."
+			},
+			"reference": {
+				"url": null,
+				"sourceType": "default_image",
+				"label": "Cambermast default featured image set"
 			}
 		},
 		{
 			"id": "2239e57a51aa41a0",
 			"createdAt": "2026-03-05T16:24:57.445Z",
-			"destinationType": "events",
-			"slug": "events/ai-workshop-for-content-creators-fall-2026",
+			"entityType": "events",
+			"entitySlug": "ai-workshop-for-content-creators-fall-2026",
 			"assetKeys": {
 				"square": "events/ai-workshop-for-content-creators-fall-2026/hero-square-v2.jpg",
 				"landscape": "events/ai-workshop-for-content-creators-fall-2026/hero-landscape-v2.jpg",
@@ -320,13 +688,18 @@
 				"square": "Use the provided template image as a visual style and composition reference. Create a new image of the same type and capitalize all text. Add the subtitle \"FALL 2026\" and make it stand out. Keep the current borders, but add light flourishes of fall around the border, and add a fall scene behind the people. Avoid: dark backgrounds, visual clichés, and imagery that anthropomorphizes AI. Avoid the top and bottom 25%.",
 				"landscape": "Recreate the provided template image as a landscape. Avoid the top and bottom 25%.",
 				"portrait": "Recreate the provided template image in portrait format. Avoid the top and bottom 25%."
+			},
+			"reference": {
+				"url": null,
+				"sourceType": "legacy_migration",
+				"label": "Legacy migration: reference image URL was not preserved"
 			}
 		},
 		{
 			"id": "b540428664464e61",
 			"createdAt": "2026-03-05T15:42:34.414Z",
-			"destinationType": "events",
-			"slug": "events/ai-workshop-for-content-creators-fall-2026",
+			"entityType": "events",
+			"entitySlug": "ai-workshop-for-content-creators-fall-2026",
 			"assetKeys": {
 				"square": "events/ai-workshop-for-content-creators-fall-2026/hero-square.jpg",
 				"landscape": "events/ai-workshop-for-content-creators-fall-2026/hero-landscape.jpg",
@@ -336,13 +709,18 @@
 				"square": "Abstract geometric background inspired by a modern sail or forward motion shape, using deep navy #012072 as the dominant base with layered bold blue #0037BE, bright blue #0063F2, mint green #8BD8BD, and a subtle orange #F49F1C accent. Clean, overlapping angular panels with smooth, blended transitions and a very soft, fine-grained texture. Composition should frame the edges and corners, leaving a calm, open negative space in the center for text placement. Professional, training-focused, confident corporate style. No white, no glow, no light beams, no dark vignette, no clutter. Balanced contrast to support overlay text.\n\nCreate a webinar hero treatment for \"AI POWER PROMPTING\" and \"MARCH 2026\". Generate two separate elements: (1) the headline text and (2) a photorealistic image of a diverse group of happy people learning how to prompt together that is integrated into the overall design. The composition should feel open and integrated into the existing background, not like a title card. Keep overall styling bright and clean, with minimal effects with a strong focus on legibility.\n\nFocus on placing text and elements in the center of the image.\n\nSTRICT AVOIDANCE RULES\n* Visual cliches like AI brains and circuits.\n* Imagery that anthropomorphizes AI.",
 				"landscape": "Recreate the provided template image as a landscape. Avoid the top and bottom 25%.",
 				"portrait": "Recreate the provided template image in portrait format. Avoid the top and bottom 25%."
+			},
+			"reference": {
+				"url": null,
+				"sourceType": "legacy_migration",
+				"label": "Legacy migration: reference image URL was not preserved"
 			}
 		},
 		{
 			"id": "65827f434bd44d92",
 			"createdAt": "2026-03-05T15:24:12.524Z",
-			"destinationType": "events",
-			"slug": "events/ai-workshop-for-content-creators-summer-2026",
+			"entityType": "events",
+			"entitySlug": "ai-workshop-for-content-creators-summer-2026",
 			"assetKeys": {
 				"square": "events/ai-workshop-for-content-creators-summer-2026/hero-square.jpg",
 				"landscape": "events/ai-workshop-for-content-creators-summer-2026/hero-landscape.jpg",
@@ -352,13 +730,18 @@
 				"square": "Use the provided template image as a visual style and composition reference. Create a new image of the same type with all letters capitalized. Add the subtitle \"SUMMER 2026\" and make it stand out for more attention. Include subtle imagery around the outside that represents summer. In the background, include a summery scene with the sun shining at the top-right. Slightly reduce the graininess. Avoid: dark backgrounds, visual clichés, and imagery that anthropomorphizes AI. Avoid the top and bottom 25%.",
 				"landscape": "Recreate the provided template image as a landscape. Avoid the top and bottom 25%.",
 				"portrait": "Recreate the provided template image in portrait format. Avoid the top and bottom 25%."
+			},
+			"reference": {
+				"url": null,
+				"sourceType": "legacy_migration",
+				"label": "Legacy migration: reference image URL was not preserved"
 			}
 		},
 		{
 			"id": "50cf2bd944984af4",
 			"createdAt": "2026-03-05T03:07:55.273Z",
-			"destinationType": "events",
-			"slug": "events/ai-workshop-for-content-creators-winter-2025",
+			"entityType": "events",
+			"entitySlug": "ai-workshop-for-content-creators-winter-2025",
 			"assetKeys": {
 				"square": "events/ai-workshop-for-content-creators-winter-2025/hero-square.jpg",
 				"landscape": "events/ai-workshop-for-content-creators-winter-2025/hero-landscape.jpg",
@@ -368,6 +751,11 @@
 				"square": "Use the provided template image as a visual style and composition reference. Create a new image of the same type. Add the subtitle \"WINTER, 2025\". Add some subtle hints and background that represent winter. Avoid the top and bottom 25%.",
 				"landscape": "Recreate the provided template image as a landscape. Avoid the top and bottom 25%.",
 				"portrait": "Recreate the provided template image in portrait format. Avoid the top and bottom 25%."
+			},
+			"reference": {
+				"url": null,
+				"sourceType": "legacy_migration",
+				"label": "Legacy migration: reference image URL was not preserved"
 			}
 		}
 	]

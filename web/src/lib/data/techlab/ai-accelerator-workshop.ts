@@ -1,4 +1,5 @@
 import type { TechlabProgram } from './types';
+import { createEntityImages } from '$lib/data/image-contract';
 
 export const techlabAiAcceleratorWorkshop = {
 	slug: 'ai-accelerator-workshop',
@@ -9,10 +10,15 @@ export const techlabAiAcceleratorWorkshop = {
 	eventTypeLabel: 'LIVE TRAINING',
 	tagline:
 		'Bundle AI Power Prompting with advanced build labs so your team launches repeatable AI workflows that run the business better.',
-	heroImage: '/images/ai-accelerator.jpeg',
-	heroImageAlt: 'AI Accelerator Workshop illustration',
-	ogImage: '/images/cambermast-content-2-ai-accelerator-workshop-og.jpeg',
-	ogImageAlt: 'Open graph image for the AI Accelerator Workshop training program',
+	images: createEntityImages({
+		landscape: '/images/ai-accelerator.jpeg',
+		alt: 'AI Accelerator Workshop illustration',
+		historyId: 'manual:techlab-ai-accelerator-workshop',
+		reference: {
+			sourceType: 'manual',
+			label: 'Manually curated TechLAB program image'
+		}
+	}),
 	description:
 		'The AI Accelerator Workshop includes the AI Power Prompting course and layers on professional AI features so you can run your business more efficiently. You will leave with hands-on practice using custom GPTs, AI projects, and research frameworks tailored to your workflows across four focused weeks.',
 	secondaryDescription:

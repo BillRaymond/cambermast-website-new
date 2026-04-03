@@ -11,6 +11,7 @@
 	import ReviewCard from '$lib/components/ReviewCard.svelte';
 	import EventCard from '$lib/components/events/EventCard.svelte';
 	import type { TechlabProgram } from '$lib/data/techlab/types';
+	import { getImageAlt, getLandscapeImageUrl } from '$lib/data/image-contract';
 	import {
 		listTestimonialsForSku,
 		listTestimonialsForSlug,
@@ -129,10 +130,10 @@
 			</div>
 		</div>
 		<div class="tlp-hero__panel">
-			{#if program.heroImage}
+			{#if getLandscapeImageUrl(program.images)}
 				<img
-					src={program.heroImage}
-					alt={program.heroImageAlt ?? program.title}
+					src={getLandscapeImageUrl(program.images)}
+					alt={getImageAlt(program.images) ?? program.title}
 					class="tlp-hero__image"
 					loading="lazy"
 				/>

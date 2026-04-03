@@ -1,4 +1,5 @@
 import type { TechlabProgram } from './types';
+import { createEntityImages } from '$lib/data/image-contract';
 
 export const techlabAiAdvancedWorkshop: TechlabProgram = {
 	slug: 'ai-advanced-workshop',
@@ -9,10 +10,15 @@ export const techlabAiAdvancedWorkshop: TechlabProgram = {
 	eventTypeLabel: 'LIVE TRAINING',
 	tagline:
 		'Kick-start AI adoption for startup founders and their teams, with measurable results in seven weeks.',
-	heroImage: '/images/ai-advanced.jpeg',
-	heroImageAlt: 'AI Workshop for Modern Teams illustration',
-	ogImage: '/images/cambermast-content-3-ai-workshop-for-modern-teams-og.jpeg',
-	ogImageAlt: 'Open graph image for the AI Workshop for Modern Teams training program',
+	images: createEntityImages({
+		landscape: '/images/ai-advanced.jpeg',
+		alt: 'AI Workshop for Modern Teams illustration',
+		historyId: 'manual:techlab-ai-advanced-workshop',
+		reference: {
+			sourceType: 'manual',
+			label: 'Manually curated TechLAB program image'
+		}
+	}),
 	description:
 		'The AI Workshop for Modern Teams is a live, seven-week cohort that helps startup founders and their core teams weave generative AI into everyday planning, delivery, and reporting workflows.',
 	secondaryDescription:

@@ -25,6 +25,7 @@
 	};
 	type Mode = 'embedded' | 'standalone';
 	const NO_TEMPLATE_OPTION = '__no-template__';
+	const TEMPLATE_PUBLIC_PREFIX = '/images/admin/image-gen/templates/';
 	const DESTINATION_TYPE_OPTIONS: Array<{ value: DestinationType; label: string; description: string }> = [
 		{ value: 'featured-images', label: 'Featured image', description: 'Sitewide featured and default social images' },
 		{ value: 'events', label: 'Event', description: 'Event-specific generated images' },
@@ -170,12 +171,25 @@ STRICT AVOIDANCE RULES
 		};
 	};
 
+	type SaveReference = {
+		url?: string | null;
+		sourceType:
+			| 'none'
+			| 'default_image'
+			| 'training_reference'
+			| 'local_template'
+			| 'upload'
+			| 'generated_asset'
+			| 'manual';
+		label: string;
+	};
+
 	type PromptStandardsApiResponse = {
 		standards?: Array<{
 			id?: unknown;
 			createdAt?: unknown;
-			destinationType?: unknown;
-			slug?: unknown;
+			entityType?: unknown;
+			entitySlug?: unknown;
 			assetKeys?: Partial<Record<ImageGenStage, unknown>>;
 			assetUrls?: Partial<Record<ImageGenStage, unknown>>;
 			assetAvailability?: Partial<Record<ImageGenStage, unknown>>;
@@ -391,6 +405,43 @@ STRICT AVOIDANCE RULES
 		await navigator.clipboard.writeText(value);
 	};
 	const shouldFilterHistoryByDestination = (): boolean => destinationType !== 'custom';
+	const getSaveReference = (): SaveReference => {
+		if (selectedDestinationReference) {
+			return {
+				url: selectedDestinationReference.url,
+				sourceType: 'training_reference',
+				label: selectedDestinationReference.label
+			};
+		}
+		if (uploadedTemplateName.trim()) {
+			return {
+				url: null,
+				sourceType: 'upload',
+				label: uploadedTemplateName.trim()
+			};
+		}
+		if (noTemplateSelected) {
+			return {
+				url: null,
+				sourceType: 'none',
+				label: 'No reference image used'
+			};
+		}
+		if (selectedTemplateUrl && selectedTemplateUrl !== NO_TEMPLATE_OPTION) {
+			return {
+				url: selectedTemplateUrl,
+				sourceType: selectedTemplateUrl.startsWith(TEMPLATE_PUBLIC_PREFIX)
+					? 'local_template'
+					: 'manual',
+				label: getFileNameFromPublicUrl(selectedTemplateUrl) || 'Selected template image'
+			};
+		}
+		return {
+			url: null,
+			sourceType: 'none',
+			label: 'No reference image used'
+		};
+	};
 
 	const openPreview = (candidate: Candidate) => {
 		previewCandidate = candidate;
@@ -580,14 +631,14 @@ STRICT AVOIDANCE RULES
 				if (!entry || typeof entry !== 'object') return null;
 				const id = typeof entry.id === 'string' ? entry.id : '';
 				const createdAt = typeof entry.createdAt === 'string' ? entry.createdAt : '';
-				const slugValue = typeof entry.slug === 'string' ? entry.slug : '';
+				const entitySlug = typeof entry.entitySlug === 'string' ? entry.entitySlug : '';
 				const entryDestinationType =
-					entry.destinationType === 'events' ||
-					entry.destinationType === 'training' ||
-					entry.destinationType === 'resources' ||
-					entry.destinationType === 'featured-images' ||
-					entry.destinationType === 'custom'
-						? entry.destinationType
+					entry.entityType === 'events' ||
+					entry.entityType === 'training' ||
+					entry.entityType === 'resources' ||
+					entry.entityType === 'featured-images' ||
+					entry.entityType === 'custom'
+						? entry.entityType
 						: null;
 				const prompts = entry.prompts;
 				const assetKeys = entry.assetKeys;
@@ -597,7 +648,7 @@ STRICT AVOIDANCE RULES
 				if (
 					!id ||
 					!createdAt ||
-					!slugValue ||
+					!entitySlug ||
 					!entryDestinationType ||
 					!prompts ||
 					typeof prompts.square !== 'string' ||
@@ -626,7 +677,7 @@ STRICT AVOIDANCE RULES
 					id,
 					createdAt,
 					destinationType: entryDestinationType,
-					slug: slugValue,
+					slug: `${entryDestinationType}/${entitySlug}`,
 					assetKeys: {
 						square: assetKeys.square,
 						landscape: assetKeys.landscape,
@@ -832,6 +883,7 @@ STRICT AVOIDANCE RULES
 					destinationSlug: slug.trim().toLowerCase(),
 					customBasePath: destinationType === 'custom' ? customBasePath.trim().toLowerCase() : undefined,
 					autoUpdateDestinationRecord,
+					reference: getSaveReference(),
 					prompts: promptSnapshot,
 					selected: {
 						squareCandidateId: selectedSquareCandidateId,

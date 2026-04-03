@@ -3,6 +3,7 @@ import path from 'node:path';
 import { dev } from '$app/environment';
 import { fail, redirect } from '@sveltejs/kit';
 import { SITE_ORIGIN } from '$lib/config/site';
+import { getLandscapeImageUrl } from '$lib/data/image-contract';
 import type { Campaign } from '$lib/data/campaigns';
 import { listCampaignUi } from '$lib/view-models/campaigns';
 import { listEventUi } from '$lib/view-models/events';
@@ -201,8 +202,7 @@ export const load: PageServerLoad = async () => {
 	const generatedSlugByCampaignId = new Map<string, string>();
 	for (const event of events) {
 		const generatedSlug =
-			toGeneratedEventSlugFromImagePath(event.heroImage) ??
-			toGeneratedEventSlugFromImagePath(event.image) ??
+			toGeneratedEventSlugFromImagePath(getLandscapeImageUrl(event.images)) ??
 			event.slug;
 		generatedSlugByCampaignId.set(event.campaignId, generatedSlug);
 	}

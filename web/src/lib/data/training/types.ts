@@ -1,4 +1,5 @@
 import type { FaqItem } from '$lib/data/faq/types';
+import type { EntityImages } from '$lib/data/image-contract';
 
 export type TrainingCta = {
 	label: string;
@@ -8,8 +9,6 @@ export type TrainingCta = {
 export type TrainingCatalogMeta = {
 	id: string;
 	summary: string;
-	image?: string;
-	imageAlt?: string;
 	bullets?: string[];
 	order: number;
 	published?: boolean;
@@ -96,10 +95,7 @@ export type TrainingProgram = {
 	nickname?: string;
 	eventTypeLabel: string;
 	tagline: string;
-	heroImage?: string;
-	heroImageAlt?: string;
-	ogImage?: string;
-	ogImageAlt?: string;
+	images: EntityImages;
 	videoUrl?: string;
 	description: string;
 	secondaryDescription?: string;

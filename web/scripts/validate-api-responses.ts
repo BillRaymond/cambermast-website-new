@@ -11,6 +11,7 @@ import toolsApiSchema from '../src/lib/data/api/schemas/tools-api.schema.json';
 import faqPresetsApiSchema from '../src/lib/data/api/schemas/faq-presets-api.schema.json';
 import imageGenStandardsApiSchema from '../src/lib/data/api/schemas/image-gen-standards-api.schema.json';
 import resourcesApiSchema from '../src/lib/data/api/schemas/resources-api.schema.json';
+import defaultImagesApiSchema from '../src/lib/data/api/schemas/default-images-api.schema.json';
 import redirectsApiSchema from '../src/lib/data/api/schemas/redirects-api.schema.json';
 import commerceProductsApiSchema from '../src/lib/data/api/schemas/commerce-products-api.schema.json';
 import { buildEventsApiExamples, buildEventsApiPayload } from '../src/lib/data/api/events';
@@ -32,6 +33,10 @@ import {
 	buildImageGenStandardsApiPayload
 } from '../src/lib/data/api/image-gen-standards';
 import { buildResourcesApiExamples, buildResourcesApiPayload } from '../src/lib/data/api/resources';
+import {
+	buildDefaultImagesApiExamples,
+	buildDefaultImagesApiPayload
+} from '../src/lib/data/api/default-images';
 import { buildRedirectsApiExamples, buildRedirectsApiPayload } from '../src/lib/data/api/redirects';
 import {
 	buildCommerceProductsApiExamples,
@@ -150,6 +155,18 @@ const resourcesPayload = buildResourcesApiPayload({
 const resourcesExamples = buildResourcesApiExamples(origin);
 assertValid('resources api payload', resourcesApiSchema as object, resourcesPayload);
 assertValid('resources api example', resourcesApiSchema as object, resourcesExamples.example);
+
+const defaultImagesPayload = buildDefaultImagesApiPayload({
+	origin,
+	generatedAt: '2026-03-11T10:05:00.000Z'
+});
+const defaultImagesExamples = buildDefaultImagesApiExamples(origin);
+assertValid('default images api payload', defaultImagesApiSchema as object, defaultImagesPayload);
+assertValid(
+	'default images api example',
+	defaultImagesApiSchema as object,
+	defaultImagesExamples.example
+);
 
 const redirectsPayload = buildRedirectsApiPayload({
 	origin,

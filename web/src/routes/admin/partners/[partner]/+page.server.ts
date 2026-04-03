@@ -1,6 +1,7 @@
 import { access, readdir, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { SITE_ORIGIN } from '$lib/config/site';
+import { getLandscapeImageUrl } from '$lib/data/image-contract';
 import { getPartnerByCode } from '$lib/data/partners';
 import { listTrainingPrograms } from '$lib/data/training';
 import { listCampaignUi } from '$lib/view-models/campaigns';
@@ -163,8 +164,7 @@ export const load: PageServerLoad = async ({ params }) => {
 	const generatedSlugByCampaignId = new Map<string, string>();
 	for (const event of events) {
 		const generatedSlug =
-			toGeneratedEventSlugFromImagePath(event.heroImage) ??
-			toGeneratedEventSlugFromImagePath(event.image) ??
+			toGeneratedEventSlugFromImagePath(getLandscapeImageUrl(event.images)) ??
 			event.slug;
 		generatedSlugByCampaignId.set(event.campaignId, generatedSlug);
 	}
@@ -183,8 +183,7 @@ export const load: PageServerLoad = async ({ params }) => {
 			if (!isPartnerEvent) continue;
 
 			const generatedSlug =
-				toGeneratedEventSlugFromImagePath(event.heroImage) ??
-				toGeneratedEventSlugFromImagePath(event.image) ??
+				toGeneratedEventSlugFromImagePath(getLandscapeImageUrl(event.images)) ??
 				event.slug;
 			const eventDir = path.join(generatedEventsRoot, generatedSlug);
 			if (!(await pathExists(eventDir))) {
@@ -224,8 +223,7 @@ export const load: PageServerLoad = async ({ params }) => {
 	if (generatedTrainingRoot) {
 		for (const program of trainingPrograms) {
 			const generatedSlug =
-				toGeneratedTrainingSlugFromImagePath(program.heroImage) ??
-				toGeneratedTrainingSlugFromImagePath(program.ogImage) ??
+				toGeneratedTrainingSlugFromImagePath(getLandscapeImageUrl(program.images)) ??
 				program.slug;
 			const trainingDir = path.join(generatedTrainingRoot, generatedSlug);
 			if (!(await pathExists(trainingDir))) {

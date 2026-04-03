@@ -3,6 +3,7 @@
 	import { page } from '$app/stores';
 	import UpcomingSessionsStrip from '$lib/components/home/UpcomingSessionsStrip.svelte';
 	import SeoHead from '$lib/components/SeoHead.svelte';
+	import { getImageAlt, getLandscapeImageUrl } from '$lib/data/image-contract';
 	import { getSeo } from '$lib/seo';
 	import { listTechlabPrograms } from '$lib/data/techlab';
 	import type { TechlabProgram } from '$lib/data/techlab/types';
@@ -338,10 +339,10 @@
 			{#each programs as program (program.slug)}
 				{@const meta = formatProgramStats(program)}
 				<article class="overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-sm">
-					{#if program.heroImage}
+					{#if getLandscapeImageUrl(program.images)}
 						<img
-							src={program.heroImage}
-							alt={program.heroImageAlt ?? program.title}
+							src={getLandscapeImageUrl(program.images)}
+							alt={getImageAlt(program.images) ?? program.title}
 							class="h-52 w-full object-cover"
 							loading="lazy"
 						/>

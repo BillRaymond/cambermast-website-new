@@ -1,4 +1,5 @@
 import type { TrainingProgram } from './types';
+import { createEntityImages } from '$lib/data/image-contract';
 
 export const aiAdvancedWorkshop: TrainingProgram = {
 	slug: 'ai-advanced-workshop',
@@ -8,8 +9,6 @@ export const aiAdvancedWorkshop: TrainingProgram = {
 		id: 'training-ai-advanced',
 		summary:
 			'Seven-week cohort for cross-functional teams to integrate AI across planning, delivery, and reporting.',
-		image: '/images/ai-advanced.jpeg',
-		imageAlt: 'AI Workshop for Modern Teams illustration',
 		bullets: [
 			'Automate repetitive work with reusable AI workflows',
 			'Co-create prompts and playbooks that fit your standards',
@@ -22,10 +21,15 @@ export const aiAdvancedWorkshop: TrainingProgram = {
 	nickname: 'Seven-week cohort for cross-functional teams',
 	eventTypeLabel: 'LIVE TRAINING',
 	tagline: 'AI-enhanced team workflows that deliver measurable results in seven weeks.',
-	heroImage: '/images/ai-advanced.jpeg',
-	heroImageAlt: 'AI Workshop for Modern Teams illustration',
-	ogImage: '/images/cambermast-content-3-ai-workshop-for-modern-teams-og.jpeg',
-	ogImageAlt: 'Open graph image for the AI Workshop for Modern Teams training program',
+	images: createEntityImages({
+		landscape: '/images/ai-advanced.jpeg',
+		alt: 'AI Workshop for Modern Teams illustration',
+		historyId: 'manual:ai-advanced-workshop',
+		reference: {
+			sourceType: 'manual',
+			label: 'Manually curated training program image'
+		}
+	}),
 	description:
 		'The AI Workshop for Modern Teams is a live, seven-week cohort that helps cross-functional teams weave generative AI into everyday planning, delivery, and reporting workflows.',
 	secondaryDescription:

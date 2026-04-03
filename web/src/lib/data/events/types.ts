@@ -1,4 +1,5 @@
 import type { FaqItem } from '$lib/data/faq/types';
+import type { EntityImages } from '$lib/data/image-contract';
 
 export type KnownEventType =
 	| 'training_session'
@@ -139,8 +140,7 @@ export type EventSource = {
 	outcomes?: string[];
 	agenda?: EventAgendaItem[];
 	faq?: EventFaqItem[];
-	image?: string;
-	imageAlt?: string;
+	images: EntityImages;
 	speakers?: EventSpeaker[];
 	programRef?: EventProgramRef;
 	schedule?: EventSchedule;
@@ -154,8 +154,6 @@ export type EventSource = {
 	registrationClosesAtUtc?: string;
 	ticketing?: EventTicketing;
 	registrationSettings?: EventRegistrationSettings;
-	heroImage?: string;
-	heroImageAlt?: string;
 };
 
 export type Event = Omit<EventSource, 'location'> & {

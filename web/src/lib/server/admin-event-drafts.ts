@@ -19,6 +19,7 @@ import {
 	type EventRegistry
 } from '$lib/server/event-campaign-integrity';
 import { DEFAULT_OG_IMAGE } from '$lib/config/site';
+import { getDefaultImageSet } from '$lib/data/default-images';
 import {
 	eventsPath,
 	eventsSchemaPath,
@@ -244,10 +245,26 @@ const toExternalEvent = (payload: DraftRequestPayload): EventSource => {
 			publicLabel: locationPublicLabel,
 			detailsVisibility: input.locationDetailsVisibility ?? 'public'
 		},
-		heroImage: toTrimmed(input.heroImage) || DEFAULT_OG_IMAGE,
-		image: toTrimmed(input.image) || DEFAULT_OG_IMAGE,
-		heroImageAlt: toTrimmed(input.heroImageAlt) || title,
-		imageAlt: toTrimmed(input.imageAlt) || title,
+		images: {
+			current: {
+				square: { url: toTrimmed(input.heroImage) || getDefaultImageSet('events').square },
+				landscape: { url: toTrimmed(input.image) || DEFAULT_OG_IMAGE },
+				portrait: { url: toTrimmed(input.image) || getDefaultImageSet('events').portrait },
+				alt: toTrimmed(input.imageAlt) || toTrimmed(input.heroImageAlt) || title,
+				kind: 'manual',
+				prompts: {
+					square: '',
+					landscape: '',
+					portrait: ''
+				},
+				reference: {
+					url: null,
+					sourceType: 'manual',
+					label: 'Admin draft image selection'
+				},
+				historyId: 'manualdraft000001'
+			}
+		},
 		partners: (input.partnerCodes ?? []).map((code) => ({ code })),
 		campaignId: id
 	};
@@ -328,10 +345,12 @@ const toTrainingEvent = (payload: DraftRequestPayload): EventSource => {
 			}))
 			.filter((item) => item.question && item.blocks[0].text);
 	}
-	if (toTrimmed(input.heroImage)) event.heroImage = toTrimmed(input.heroImage);
-	if (toTrimmed(input.image)) event.image = toTrimmed(input.image);
-	if (toTrimmed(input.heroImageAlt)) event.heroImageAlt = toTrimmed(input.heroImageAlt);
-	if (toTrimmed(input.imageAlt)) event.imageAlt = toTrimmed(input.imageAlt);
+	if (toTrimmed(input.heroImage)) event.images.current.square.url = toTrimmed(input.heroImage);
+	if (toTrimmed(input.image)) event.images.current.landscape.url = toTrimmed(input.image);
+	if (toTrimmed(input.image)) event.images.current.portrait.url = toTrimmed(input.image);
+	if (toTrimmed(input.heroImageAlt) || toTrimmed(input.imageAlt)) {
+		event.images.current.alt = toTrimmed(input.imageAlt) || toTrimmed(input.heroImageAlt);
+	}
 	if (input.sessions?.length) {
 		event.sessions = input.sessions.map((session, index) => {
 			const startAtUtc = toTrimmed(session.startAtUtc);
@@ -361,10 +380,12 @@ const applyImageSelection = (event: EventSource, payload: DraftRequestPayload): 
 	const image = toTrimmed(selection.image);
 	const heroImageAlt = toTrimmed(selection.heroImageAlt);
 	const imageAlt = toTrimmed(selection.imageAlt);
-	if (heroImage) next.heroImage = heroImage;
-	if (image) next.image = image;
-	if (heroImageAlt) next.heroImageAlt = heroImageAlt;
-	if (imageAlt) next.imageAlt = imageAlt;
+	if (heroImage) next.images.current.square.url = heroImage;
+	if (image) {
+		next.images.current.landscape.url = image;
+		next.images.current.portrait.url = image;
+	}
+	if (heroImageAlt || imageAlt) next.images.current.alt = imageAlt || heroImageAlt;
 	return next;
 };
 
@@ -511,9 +532,9 @@ export const buildDrafts = async (payload: DraftRequestPayload): Promise<DraftRe
 	);
 	eventDraft = applyImageSelection(eventDraft, payload);
 
-	if (!eventDraft.heroImage || !eventDraft.image) {
+	if (!eventDraft.images?.current.square.url || !eventDraft.images?.current.landscape.url) {
 		throw new Error(
-			'heroImage and image are required. Generate/select images or set URLs manually.'
+			'Draft events require image variants. Generate/select images or set URLs manually.'
 		);
 	}
 

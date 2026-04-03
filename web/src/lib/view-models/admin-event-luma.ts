@@ -8,6 +8,7 @@ import {
 import { getPartnerByCode } from '$lib/data/partners';
 import { getTrainingProgramBySku } from '$lib/data/training';
 import type { TrainingProgram } from '$lib/data/training/types';
+import { getImageAlt, getLandscapeImageUrl } from '$lib/data/image-contract';
 import {
 	toEventCardModel,
 	type EventCardModel,
@@ -489,10 +490,7 @@ export const buildAdminEventLumaEntries = (events: EventUiModel[]): AdminEventLu
 			.filter((name) => name && name !== 'NONE');
 		const occurrence = getOccurrence(event);
 		const imageUrl =
-			event.image ??
-			relatedProgram?.ogImage ??
-			relatedProgram?.heroImage ??
-			relatedProgram?.catalog?.image;
+			getLandscapeImageUrl(event.images) ?? getLandscapeImageUrl(relatedProgram?.images);
 		const imageCandidates = deriveImageCandidates(imageUrl);
 		const hasLumaRegistration = isLumaRegistrationUrl(event.cta?.url ?? '');
 
@@ -526,12 +524,7 @@ export const buildAdminEventLumaEntries = (events: EventUiModel[]): AdminEventLu
 			registrationUrl: event.cta?.url,
 			partnerNames,
 			previewImageUrl: imageUrl,
-			imageAlt:
-				event.imageAlt ??
-				relatedProgram?.ogImageAlt ??
-				relatedProgram?.heroImageAlt ??
-				relatedProgram?.catalog?.imageAlt ??
-				event.title,
+			imageAlt: getImageAlt(event.images) ?? getImageAlt(relatedProgram?.images) ?? event.title,
 			imageCopyCandidates: imageCandidates,
 			imageCopyLabel: imageCandidates[0]?.toLowerCase().includes('.png') ? 'Copy PNG' : 'Copy image',
 			youtubeUrl: event.videoUrl ?? relatedProgram?.videoUrl,

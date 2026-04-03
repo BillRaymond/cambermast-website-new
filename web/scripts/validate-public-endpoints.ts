@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { GET as getCatalogApi } from '../src/routes/api/catalog.json/+server';
 import { GET as getCommerceApi } from '../src/routes/api/commerce-products.json/+server';
 import { GET as getEventsApi } from '../src/routes/api/events.json/+server';
+import { GET as getDefaultImagesApi } from '../src/routes/api/default-images.json/+server';
 import { GET as getRedirectsApi } from '../src/routes/api/redirects.json/+server';
 import { GET as getResourcesApi } from '../src/routes/api/resources.json/+server';
 import { GET as getTrainingApi } from '../src/routes/api/training.json/+server';
@@ -117,6 +118,16 @@ const validateJsonEndpoints = async () => {
 			}
 		},
 		{
+			label: '/api/default-images.json',
+			response: getDefaultImagesApi(),
+			validate: (payload: any) => {
+				assert(
+					payload.defaults && typeof payload.defaults === 'object',
+					'default images payload must include defaults'
+				);
+			}
+		},
+		{
 			label: '/api/redirects.json',
 			response: getRedirectsApi(mockUrlEvent('/api/redirects.json')),
 			validate: (payload: any) => {
@@ -194,6 +205,7 @@ const validateMachineReadableLinks = async () => {
 		'/api/training.json',
 		'/api/catalog.json',
 		'/api/resources.json',
+		'/api/default-images.json',
 		'/api/redirects.json',
 		'/feed/openai-products.jsonl.gz',
 		'/feed/events.xml',

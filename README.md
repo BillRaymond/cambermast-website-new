@@ -180,7 +180,8 @@ When publishing significant messaging or offer changes:
 - The admin image generator shows the full MinIO browser URL for every generated candidate and supports copy/paste directly from the UI.
 - Keep the current live generated set for each slug folder and prune older superseded versions when doing cleanup.
 - Saving a new selected set still versions existing files with `-v2`, `-v3`, etc. rather than overwriting prior outputs.
-- Training program generated assets now live under `web/static/images/training/<program-slug>/`; update any program `heroImage` or `ogImage` references to that canonical path.
+- Entity image state is canonicalized in `images.current` with square, landscape, portrait, prompts, reference provenance, and `historyId`.
+- Default image fallbacks live in `web/src/lib/data/default-images.json` and publish at `/api/default-images.json`.
 
 ## Schema-First Rule
 

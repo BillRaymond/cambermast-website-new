@@ -84,6 +84,18 @@ const manifest = {
 			}
 		]
 	},
+	'default-images': {
+		registrySchema: 'src/lib/data/default-images.schema.json',
+		apiSchema: 'src/lib/data/api/schemas/default-images-api.schema.json',
+		apiBuilder: 'src/lib/data/api/default-images.ts',
+		apiRoute: 'src/routes/api/default-images.json/+server.ts',
+		sopMentions: [
+			{
+				file: 'src/routes/admin/sop-image-gen/+page.svelte',
+				patterns: ['/api/default-images.json', 'default-images-api.schema.json']
+			}
+		]
+	},
 	redirects: {
 		registrySchema: 'src/lib/data/redirects/redirects.schema.json',
 		apiSchema: 'src/lib/data/api/schemas/redirects-api.schema.json',

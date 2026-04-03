@@ -48,8 +48,8 @@ const toExistingReferenceAssetUrl = (assetKey: string, origin: string): string |
 const toApiStandard = (entry: ImageGenPromptStandard, origin: string) => ({
 	id: entry.id,
 	createdAt: entry.createdAt,
-	destinationType: entry.destinationType,
-	slug: entry.slug,
+	entityType: entry.entityType,
+	entitySlug: entry.entitySlug,
 	assetKeys: entry.assetKeys,
 	assetUrls: {
 		square: toAbsoluteImageUrl(entry.assetKeys.square, origin),
@@ -66,7 +66,16 @@ const toApiStandard = (entry: ImageGenPromptStandard, origin: string) => ({
 		landscape: toExistingReferenceAssetUrl(entry.assetKeys.landscape, origin),
 		portrait: toExistingReferenceAssetUrl(entry.assetKeys.portrait, origin)
 	},
-	prompts: entry.prompts
+	prompts: entry.prompts,
+	reference: {
+		url: entry.reference.url
+			? entry.reference.url.startsWith('/')
+				? `${origin}${entry.reference.url}`
+				: entry.reference.url
+			: null,
+		sourceType: entry.reference.sourceType,
+		label: entry.reference.label
+	}
 });
 
 export const buildImageGenStandardsApiPayload = ({

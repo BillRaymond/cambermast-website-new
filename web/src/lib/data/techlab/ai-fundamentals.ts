@@ -1,4 +1,5 @@
 import type { TechlabProgram } from './types';
+import { createEntityImages } from '$lib/data/image-contract';
 
 export const techlabAiFundamentals = {
 	slug: 'ai-fundamentals',
@@ -8,10 +9,15 @@ export const techlabAiFundamentals = {
 	nickname: 'Your AI fundamentals • From prompting to productivity',
 	eventTypeLabel: 'LIVE TRAINING',
 	tagline: 'A live primer on prompting: learn how AI works and how to prompt successfully.',
-	heroImage: '/images/ai-fundamentals.jpeg',
-	heroImageAlt: 'AI Power Prompting training workshop illustration',
-	ogImage: '/images/cambermast-content-1-ai-fundamentals-ai-power-prompting-og.jpeg',
-	ogImageAlt: 'Open graph image for the AI Power Prompting training program',
+	images: createEntityImages({
+		landscape: '/images/ai-fundamentals.jpeg',
+		alt: 'AI Power Prompting training workshop illustration',
+		historyId: 'manual:techlab-ai-fundamentals',
+		reference: {
+			sourceType: 'manual',
+			label: 'Manually curated TechLAB program image'
+		}
+	}),
 	description:
 		'AI Power Prompting is a four-hour crash course that explains how modern AI systems work and shows you how to craft prompts that consistently deliver results.',
 	secondaryDescription:
