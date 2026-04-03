@@ -5,8 +5,8 @@
 		"context": ".."
 	},
 	"workspaceFolder": "/workspaces/cambermast-website-new",
-	"runArgs": ["-p", "5173:5173"],
-	"forwardPorts": [5173],
+	"runArgs": ["-p", "5173:5173", "-p", "6080:6080"],
+	"forwardPorts": [5173, 6080],
 	"overrideCommand": true,
 	"postStartCommand": "bash -lc './web/scripts/start-vite-dev.sh'",
 	"mounts": [
@@ -15,6 +15,10 @@
 	"portsAttributes": {
 		"5173": {
 			"label": "Vite dev server",
+			"onAutoForward": "notify"
+		},
+		"6080": {
+			"label": "Remote desktop (noVNC)",
 			"onAutoForward": "notify"
 		}
 	},

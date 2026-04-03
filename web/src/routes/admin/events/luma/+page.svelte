@@ -7,18 +7,21 @@
 		AdminEventLumaEntry,
 		AdminEventLumaOccurrence
 	} from '$lib/view-models/admin-event-luma';
-	import type { PageData } from './$types';
+	import type { ActionData, PageData } from './$types';
 
 	export let data: PageData;
+	export let form: ActionData;
 
 	type OccurrenceFilter = 'all' | AdminEventLumaOccurrence;
+	type WorkflowFilter = 'actionable' | 'all' | string;
 
 	const pageMeta = {
-		title: 'Luma event copy helper | Admin | Cambermast',
-		description: 'Internal helper for assembling copy-ready event details for Luma.'
+		title: 'Luma workflow | Admin | Cambermast',
+		description: 'Internal workflow for creating private Luma events, reviewing them, and linking the live URL.'
 	};
 
 	const events = data.events ?? [];
+	const runtimeConfig = data.runtimeConfig;
 	const occurrenceLabels: Record<OccurrenceFilter, string> = {
 		all: 'All',
 		future: 'Future',
@@ -29,11 +32,42 @@
 
 	let search = '';
 	let occurrenceFilter: OccurrenceFilter = 'all';
+	let workflowFilter: WorkflowFilter = 'actionable';
 	let onlyMissingRegistration = true;
 	let selectedSlug = events[0]?.slug ?? '';
 	let copiedKey = '';
 	let copiedLabel = 'Copied';
 	let copyError = '';
+
+	const workflowLabels: Record<string, string> = {
+		actionable: 'Actionable',
+		ready_to_create_private: 'Ready',
+		late_review: 'Late review',
+		awaiting_luma_review: 'Awaiting review',
+		ready_to_link_live_url: 'Link live URL',
+		missing_required_fields: 'Missing fields',
+		too_early: 'Too early',
+		not_applicable: 'Not applicable'
+	};
+
+	const workflowBadgeClass = (status: string): string =>
+		status === 'ready_to_create_private'
+			? 'border-emerald-200 bg-emerald-50 text-emerald-800'
+			: status === 'late_review'
+				? 'border-amber-200 bg-amber-50 text-amber-800'
+				: status === 'awaiting_luma_review'
+					? 'border-sky-200 bg-sky-50 text-sky-800'
+					: status === 'ready_to_link_live_url'
+						? 'border-indigo-200 bg-indigo-50 text-indigo-800'
+						: status === 'missing_required_fields'
+							? 'border-rose-200 bg-rose-50 text-rose-800'
+							: 'border-gray-200 bg-gray-50 text-gray-700';
+
+	const isActionableStatus = (status: string): boolean =>
+		status === 'ready_to_create_private' ||
+		status === 'late_review' ||
+		status === 'awaiting_luma_review' ||
+		status === 'ready_to_link_live_url';
 
 	const setCopied = (key: string, label = 'Copied') => {
 		copiedKey = key;
@@ -56,10 +90,19 @@
 	const countByOccurrence = (occurrence: OccurrenceFilter): number =>
 		events.filter((event) => occurrence === 'all' || event.occurrence === occurrence).length;
 
+	const countByWorkflow = (workflow: WorkflowFilter): number =>
+		events.filter((event) => {
+			if (workflow === 'all') return true;
+			if (workflow === 'actionable') return isActionableStatus(event.workflow.status);
+			return event.workflow.status === workflow;
+		}).length;
+
 	$: normalizedSearch = search.trim().toLowerCase();
 	$: filteredEvents = events.filter((event) => {
 		if (onlyMissingRegistration && event.hasLumaRegistration) return false;
 		if (occurrenceFilter !== 'all' && event.occurrence !== occurrenceFilter) return false;
+		if (workflowFilter === 'actionable' && !isActionableStatus(event.workflow.status)) return false;
+		if (workflowFilter !== 'actionable' && workflowFilter !== 'all' && event.workflow.status !== workflowFilter) return false;
 		if (normalizedSearch && !event.searchText.includes(normalizedSearch)) return false;
 		return true;
 	});
@@ -136,15 +179,38 @@
 </svelte:head>
 
 <header class="flex flex-col">
-	<h1 class="mb-6 text-3xl font-bold">Luma event copy helper</h1>
+	<h1 class="mb-6 text-3xl font-bold">Luma workflow</h1>
 	<AdminRouteChips />
 	<p class="max-w-3xl text-gray-700">
-		Find internal events, review the existing calendar card, and copy a Luma-ready event name,
-		description, and image without changing the source registry content.
+		Create a private Luma event first, do a final review in Luma, then attach the live URL only
+		after you publish it there. The public Cambermast event stays in
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">Open soon</code> until that final step.
 	</p>
 </header>
 
 <section class="mt-8 rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
+	<div class="rounded-2xl border border-gray-100 bg-gray-50 px-4 py-3 text-sm text-gray-700">
+		<p>
+			<span class="font-semibold text-gray-900">Playwright session:</span>
+			<code class="ml-1 rounded bg-white px-1 py-0.5 text-xs">{runtimeConfig.storageStatePath}</code>
+		</p>
+		<p class="mt-1">
+			<span class="font-semibold text-gray-900">Available:</span>
+			{runtimeConfig.storageStateExists ? 'Yes' : 'No'}
+			<span class="ml-3 font-semibold text-gray-900">Create URL:</span>
+			<code class="ml-1 rounded bg-white px-1 py-0.5 text-xs">{runtimeConfig.createUrl}</code>
+		</p>
+	</div>
+
+	{#if form?.message}
+		<p class="mt-4 rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm text-emerald-800">
+			{form.message}
+		</p>
+	{/if}
+	{#if form?.message && form?.targetId}
+		<p class="mt-2 text-xs text-gray-500">Event: {form.targetId}</p>
+	{/if}
+
 	<div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
 		<div class="min-w-0 flex-1">
 			<label class="text-xs font-semibold tracking-wide text-gray-500 uppercase" for="luma-search">
@@ -189,6 +255,22 @@
 		{/each}
 	</div>
 
+	<div class="mt-4 flex flex-wrap gap-2">
+		{#each Object.entries(workflowLabels) as [key, label]}
+			<button
+				type="button"
+				class={`inline-flex items-center rounded-full border px-3 py-1.5 text-xs font-semibold transition ${
+					workflowFilter === key
+						? 'border-blue-200 bg-blue-50 text-blue-800'
+						: 'border-gray-200 bg-white text-gray-700 hover:border-gray-300 hover:text-gray-900'
+				}`}
+				on:click={() => (workflowFilter = key as WorkflowFilter)}
+			>
+				{label} ({countByWorkflow(key as WorkflowFilter)})
+			</button>
+		{/each}
+	</div>
+
 	<p class="mt-4 text-sm text-gray-600">
 		Showing <span class="font-semibold text-gray-900">{filteredEvents.length}</span> of
 		<span class="font-semibold text-gray-900">{events.length}</span> internal events.
@@ -215,6 +297,9 @@
 					<div class="mb-3 flex flex-wrap items-center justify-between gap-3">
 						<div class="flex flex-wrap items-center gap-2 text-[11px] font-semibold tracking-wide text-gray-500 uppercase">
 							<span>{occurrenceLabels[entry.occurrence]}</span>
+							<span class={`rounded-full border px-2 py-0.5 ${workflowBadgeClass(entry.workflow.status)}`}>
+								{entry.workflow.statusLabel}
+							</span>
 							{#if entry.hasLumaRegistration}
 								<span class="rounded-full border border-emerald-200 bg-emerald-50 px-2 py-0.5 text-emerald-700">
 									Has Luma link
@@ -283,11 +368,173 @@
 								{selectedEvent.eventUrl}
 							</a>
 						</p>
+						<div class="mt-3 flex flex-wrap items-center gap-2">
+							<span class={`rounded-full border px-2.5 py-1 text-xs font-semibold ${workflowBadgeClass(selectedEvent.workflow.status)}`}>
+								{selectedEvent.workflow.statusLabel}
+							</span>
+							<span class="rounded-full border border-gray-200 bg-gray-50 px-2.5 py-1 text-xs text-gray-700">
+								Window: {selectedEvent.workflow.recommendedWindowLabel}
+							</span>
+							{#if selectedEvent.workflow.firstSessionStartInDays !== undefined}
+								<span class="rounded-full border border-gray-200 bg-gray-50 px-2.5 py-1 text-xs text-gray-700">
+									Starts in {selectedEvent.workflow.firstSessionStartInDays} day{selectedEvent.workflow.firstSessionStartInDays === 1 ? '' : 's'}
+								</span>
+							{/if}
+						</div>
 					</div>
 					<div class="text-right text-xs text-gray-500">
 						<p>{occurrenceLabels[selectedEvent.occurrence]}</p>
 						<p class="mt-1">{selectedEvent.typeLabel}</p>
 					</div>
+				</div>
+
+				<div class="mt-4 rounded-2xl border border-gray-200 bg-gray-50 p-4 text-sm text-gray-700">
+					<p class="font-semibold text-gray-900">Workflow status</p>
+					<p class="mt-2">{selectedEvent.workflow.statusReason}</p>
+					{#if selectedEvent.workflow.missingFields.length}
+						<p class="mt-2 text-rose-700">
+							Missing: {selectedEvent.workflow.missingFields.join(', ')}
+						</p>
+					{/if}
+					{#if selectedEvent.privateCreatedAt}
+						<p class="mt-2">
+							<span class="font-semibold text-gray-900">Private created:</span>
+							{selectedEvent.privateCreatedAt}
+						</p>
+					{/if}
+					{#if selectedEvent.privateManageUrl}
+						<p class="mt-2 break-all">
+							<span class="font-semibold text-gray-900">Private manage URL:</span>
+							<a
+								class="ml-1 text-blue-700 hover:text-blue-900 hover:underline"
+								href={selectedEvent.privateManageUrl}
+								rel="external"
+							>
+								{selectedEvent.privateManageUrl}
+							</a>
+						</p>
+					{/if}
+					{#if selectedEvent.publicUrl}
+						<p class="mt-2 break-all">
+							<span class="font-semibold text-gray-900">Recorded public URL:</span>
+							<a
+								class="ml-1 text-blue-700 hover:text-blue-900 hover:underline"
+								href={selectedEvent.publicUrl}
+								rel="external"
+							>
+								{selectedEvent.publicUrl}
+							</a>
+						</p>
+					{/if}
+					{#if selectedEvent.lastRunOutcome}
+						<p class="mt-2">
+							<span class="font-semibold text-gray-900">Last run:</span>
+							{selectedEvent.lastRunOutcome}
+							{#if selectedEvent.lastRunAt}
+								· {selectedEvent.lastRunAt}
+							{/if}
+						</p>
+					{/if}
+					{#if selectedEvent.lastError}
+						<p class="mt-2 text-rose-700">{selectedEvent.lastError}</p>
+					{/if}
+					{#if selectedEvent.lastArtifactDir}
+						<p class="mt-2 break-all text-xs text-gray-500">
+							Artifacts: {selectedEvent.lastArtifactDir}
+						</p>
+					{/if}
+				</div>
+
+				<div class="mt-4 grid gap-3 md:grid-cols-2">
+					<form method="POST" action="?/createPrivate" class="rounded-2xl border border-gray-200 bg-white p-4">
+						<input type="hidden" name="eventId" value={selectedEvent.id} />
+						<p class="text-xs font-semibold tracking-wide text-gray-500 uppercase">Private create</p>
+						<p class="mt-2 text-sm text-gray-600">
+							Run Playwright, create the event in Luma with the most private visibility available,
+							then stop for manual review.
+						</p>
+						<div class="mt-3 flex flex-wrap gap-2">
+							<button
+								type="submit"
+								class="inline-flex items-center rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
+							>
+								Create private Luma event
+							</button>
+						</div>
+					</form>
+
+					<form method="POST" action="?/createPrivate" class="rounded-2xl border border-gray-200 bg-white p-4">
+						<input type="hidden" name="eventId" value={selectedEvent.id} />
+						<input type="hidden" name="force" value="true" />
+						<p class="text-xs font-semibold tracking-wide text-gray-500 uppercase">Force create</p>
+						<p class="mt-2 text-sm text-gray-600">
+							Use this only when the timing gate says too early or missing the preferred window,
+							but you still want to create the private Luma page now.
+						</p>
+						<div class="mt-3 flex flex-wrap gap-2">
+							<button
+								type="submit"
+								class="inline-flex items-center rounded-xl border border-amber-200 bg-amber-50 px-4 py-2 text-sm font-semibold text-amber-800 hover:bg-amber-100"
+							>
+								Force create private event
+							</button>
+						</div>
+					</form>
+				</div>
+
+				<div class="mt-4 grid gap-3 md:grid-cols-2">
+					<form method="POST" action="?/markReviewed" class="rounded-2xl border border-gray-200 bg-white p-4">
+						<input type="hidden" name="eventId" value={selectedEvent.id} />
+						<p class="text-xs font-semibold tracking-wide text-gray-500 uppercase">Review complete</p>
+						<p class="mt-2 text-sm text-gray-600">
+							Use this after you review the private Luma page and are ready to publish it there.
+						</p>
+						<div class="mt-3 flex flex-wrap gap-2">
+							<button
+								type="submit"
+								class="inline-flex items-center rounded-xl border border-sky-200 bg-sky-50 px-4 py-2 text-sm font-semibold text-sky-800 hover:bg-sky-100"
+							>
+								Mark reviewed
+							</button>
+						</div>
+					</form>
+
+					<form method="POST" action="?/attachLiveUrl" class="rounded-2xl border border-gray-200 bg-white p-4">
+						<input type="hidden" name="eventId" value={selectedEvent.id} />
+						<p class="text-xs font-semibold tracking-wide text-gray-500 uppercase">Attach live URL</p>
+						<p class="mt-2 text-sm text-gray-600">
+							After publishing the event on Luma, paste the final public event URL here to update
+							the site event record.
+						</p>
+						<label class="mt-3 block text-xs font-semibold tracking-wide text-gray-500 uppercase" for="live-url">
+							Live Luma URL
+						</label>
+						<input
+							id="live-url"
+							name="liveUrl"
+							type="url"
+							placeholder="https://lu.ma/..."
+							class="mt-2 w-full rounded-xl border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none"
+						/>
+						<label class="mt-3 block text-xs font-semibold tracking-wide text-gray-500 uppercase" for="cta-label">
+							CTA label
+						</label>
+						<input
+							id="cta-label"
+							name="ctaLabel"
+							type="text"
+							value="Register now"
+							class="mt-2 w-full rounded-xl border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none"
+						/>
+						<div class="mt-3 flex flex-wrap gap-2">
+							<button
+								type="submit"
+								class="inline-flex items-center rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-2 text-sm font-semibold text-emerald-800 hover:bg-emerald-100"
+							>
+								Attach live Luma URL
+							</button>
+						</div>
+					</form>
 				</div>
 
 				<div class="mt-6 space-y-6">

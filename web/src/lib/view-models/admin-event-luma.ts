@@ -22,6 +22,12 @@ export type AdminEventLumaEntry = {
 	id: string;
 	slug: string;
 	title: string;
+	visibility: string;
+	lifecycleStatus: string;
+	registrationStatus: string;
+	firstSessionStartAtUtc?: string;
+	firstSessionEndAtUtc?: string;
+	locationLabel: string;
 	startDateTimeCopy: string;
 	tagline: string;
 	priceCopy: string;
@@ -498,6 +504,12 @@ export const buildAdminEventLumaEntries = (events: EventUiModel[]): AdminEventLu
 			id: event.id,
 			slug: event.slug,
 			title: event.title,
+			visibility: event.visibility,
+			lifecycleStatus: event.lifecycleStatus,
+			registrationStatus: event.registrationStatus,
+			firstSessionStartAtUtc: event.startAtUtc,
+			firstSessionEndAtUtc: event.endAtUtc,
+			locationLabel: event.location,
 			startDateTimeCopy: formatStartDateTimeCopy(normalizeEventSessions(event.sessions ?? [])),
 			tagline: event.tagline,
 			priceCopy: formatPriceCopy(event),

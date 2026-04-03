@@ -29,3 +29,6 @@ export const campaignsSchemaPath = path.join(
 	'data',
 	'campaigns.schema.json'
 );
+export const privateDataRoot = path.join(webRoot, 'data');
+export const lumaPublishRegistryPath = path.join(privateDataRoot, 'luma-publish-registry.json');
+export const lumaArtifactsRoot = path.join(privateDataRoot, 'luma-artifacts');

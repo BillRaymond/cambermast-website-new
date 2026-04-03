@@ -91,6 +91,11 @@ RUN apt-get update \
 		poppler-utils \
 		procps \
 		ripgrep \
+		openbox \
+		novnc \
+		websockify \
+		x11vnc \
+		xauth \
 		xfonts-scalable \
 		xvfb \
 	&& rm -rf /var/lib/apt/lists/*
