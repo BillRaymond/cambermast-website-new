@@ -50,6 +50,22 @@
 			}
 		},
 		{
+			"id": "aidm26",
+			"partner": "cambermast",
+			"partnerLabel": "Cambermast",
+			"landingPath": "/events/ai-workshop-code-and-automate-with-ai-daytime-may-2026",
+			"description": "Campaign short link for the AI Workshop: Code and Automate with AI May 2026 daytime edition event page.",
+			"createdAt": "2026-04-03T00:00:00.000Z",
+			"params": {
+				"utm_source": "qr",
+				"utm_medium": "offline",
+				"utm_campaign": "events",
+				"utm_content": "aidm26",
+				"src": "qr",
+				"ad": "cambermast"
+			}
+		},
+		{
 			"id": "k4f8n1",
 			"partner": "the-content-wrangler",
 			"partnerLabel": "The Content Wrangler",

@@ -1,7 +1,49 @@
 {
 	"version": 1,
-	"updatedAt": "2026-04-03T14:50:18.251Z",
+	"updatedAt": "2026-04-03T17:19:54.038Z",
 	"standards": [
+		{
+			"id": "f5e3d68648a5462e",
+			"createdAt": "2026-04-03T17:19:54.036Z",
+			"entityType": "training",
+			"entitySlug": "ai-workshop-code-and-automate-with-ai-daytime-may-2026",
+			"assetKeys": {
+				"square": "training/ai-workshop-code-and-automate-with-ai-daytime-may-2026/hero-square-v2.jpg",
+				"landscape": "training/ai-workshop-code-and-automate-with-ai-daytime-may-2026/hero-landscape-v2.jpg",
+				"portrait": "training/ai-workshop-code-and-automate-with-ai-daytime-may-2026/hero-portrait-v2.jpg"
+			},
+			"prompts": {
+				"square": "Use the provided template image as a visual style and composition reference. Create a new image of the same type. Change \"May, 2026\" to \"May, 2026, Daytime Edition\". Change the symbol so it represents the daytime, and maybe brighten up the image a bit",
+				"landscape": "Recreate the provided template image in landscape orientation. Avoid the top and bottom 25%. Make sure the sun symbol is in coding style angle brackets <>",
+				"portrait": "Recreate the provided template image in portrait format. Avoid the top and bottom 25%."
+			},
+			"reference": {
+				"url": null,
+				"sourceType": "upload",
+				"label": "hero-square-v2.jpg"
+			}
+		},
+		{
+			"id": "cbb919774edd4ae0",
+			"createdAt": "2026-04-03T17:15:41.530Z",
+			"entityType": "training",
+			"entitySlug": "ai-workshop-code-and-automate-with-ai-daytime-may-2026",
+			"assetKeys": {
+				"square": "training/ai-workshop-code-and-automate-with-ai-daytime-may-2026/hero-square.jpg",
+				"landscape": "training/ai-workshop-code-and-automate-with-ai-daytime-may-2026/hero-landscape.jpg",
+				"portrait": "training/ai-workshop-code-and-automate-with-ai-daytime-may-2026/hero-portrait.jpg"
+			},
+			"prompts": {
+				"square": "Use the provided template image as a visual style and composition reference. Create a new image of the same type. Change \"May, 2026\" to \"May, 2026, Daytime Edition\". Change the symbol so it represents the daytime, and maybe brighten up the image a bit",
+				"landscape": "Recreate the provided template image in landscape orientation. Avoid the top and bottom 25%. Make sure the sun symbol is in coding style angle brackets <>",
+				"portrait": "Recreate the provided template image in portrait format. Avoid the top and bottom 25%."
+			},
+			"reference": {
+				"url": null,
+				"sourceType": "upload",
+				"label": "hero-square-v2.jpg"
+			}
+		},
 		{
 			"id": "1c4a73b429a60e07",
 			"createdAt": "2026-04-03T14:50:18.251Z",

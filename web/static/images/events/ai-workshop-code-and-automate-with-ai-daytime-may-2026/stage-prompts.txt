@@ -1,0 +1,8 @@
+Square prompt:
+Use the provided template image as a visual style and composition reference. Create a new image of the same type. Change "May, 2026" to "May, 2026, Daytime Edition". Change the symbol so it represents the daytime, and maybe brighten up the image a bit
+
+Landscape prompt:
+Recreate the provided template image in landscape orientation. Avoid the top and bottom 25%. Make sure the sun symbol is in coding style angle brackets <>
+
+Portrait prompt:
+Recreate the provided template image in portrait format. Avoid the top and bottom 25%.

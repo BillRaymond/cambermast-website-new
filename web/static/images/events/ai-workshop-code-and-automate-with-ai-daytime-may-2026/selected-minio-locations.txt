@@ -1,0 +1,4 @@
+path: training/ai-workshop-code-and-automate-with-ai-daytime-may-2026
+square: https://.../browser/blobs/cambermastweb/generated/training/ai-workshop-code-and-automate-with-ai-daytime-may-2026/square/e071ab22-6c01-48a4-96ae-29a220a28515/candidate-2.png
+landscape: https://.../browser/blobs/cambermastweb/generated/training/ai-workshop-code-and-automate-with-ai-daytime-may-2026/landscape/dcd9f569-bcd3-4cc1-a062-58d587bc550e/candidate-2.png
+portrait: https://.../browser/blobs/cambermastweb/generated/training/ai-workshop-code-and-automate-with-ai-daytime-may-2026/portrait/45d36edf-c1c7-4ec1-8ee3-a6d91878a60f/candidate-1.png
