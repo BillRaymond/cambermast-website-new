@@ -30,7 +30,7 @@ This repository powers the public marketing site for Cambermast. It contains the
 - The image also preinstalls `@openai/codex` globally and bakes Playwright browsers into `/ms-playwright` so fresh devcontainers can run e2e tests without downloading browsers during startup.
 - The devcontainer mounts `web/node_modules` as a volume. On startup, [`web/scripts/start-vite-dev.sh`](/workspaces/cambermast-website-new/web/scripts/start-vite-dev.sh) treats `web/package-lock.json` as authoritative and automatically runs `npm ci` when dependencies are missing, stale, or fail `npm ls --depth=0`.
 - If the dependency volume ever gets stuck in a bad state, recover with `rm -rf web/node_modules && npm --prefix web ci` inside the container, or recreate the named volume from your container tooling and restart the devcontainer.
-- Playwright browsers are intentionally shared outside the workspace. The devcontainer/image uses `/ms-playwright`, while GitHub Actions caches `~/.cache/ms-playwright` between runs so browser binaries do not accumulate under the repo working tree.
+- Playwright browsers are intentionally shared outside the workspace. The devcontainer/image uses `/ms-playwright`, while GitHub Actions caches a runner temp Playwright browser directory between runs so browser binaries do not accumulate under the repo working tree.
 
 ## Maintenance TODOs
 

@@ -10,7 +10,6 @@ on:
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-  PLAYWRIGHT_BROWSERS_PATH: ${{ runner.temp }}/ms-playwright
 
 permissions:
   contents: read
@@ -43,16 +42,20 @@ jobs:
       - name: Cache Playwright browsers
         uses: actions/cache@v4
         with:
-          path: ${{ env.PLAYWRIGHT_BROWSERS_PATH }}
+          path: ${{ runner.temp }}/ms-playwright
           key: ${{ runner.os }}-playwright-${{ hashFiles('web/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-playwright-
 
       - run: npm exec playwright install --with-deps chromium
         working-directory: web
+        env:
+          PLAYWRIGHT_BROWSERS_PATH: ${{ runner.temp }}/ms-playwright
 
       - run: npm run build
         working-directory: web
+        env:
+          PLAYWRIGHT_BROWSERS_PATH: ${{ runner.temp }}/ms-playwright
 
       # Write the commit SHA into the artifact so production can be verified
       - name: Stamp build with commit SHA
