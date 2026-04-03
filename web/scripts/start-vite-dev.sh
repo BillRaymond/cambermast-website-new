@@ -5,6 +5,8 @@ cd "$(dirname "$0")/.."
 DEV_LOG="/tmp/cambermast-dev.log"
 DEV_CMD='VITE_DEV_CMD="npm run dev:host" bash ./scripts/run-dev-with-training-pdf-watch.sh'
 DEV_HEALTHCHECK_URL="http://127.0.0.1:5173/"
+LOCKFILE_PATH="package-lock.json"
+INSTALLED_LOCKFILE_PATH="node_modules/.package-lock.json"
 
 print_success_message() {
   cat <<EOF
@@ -15,13 +17,39 @@ Note: the VS Code post-start terminal will close after this command finishes.
 EOF
 }
 
-if [ ! -d node_modules ] || [ -z "$(ls -A node_modules 2>/dev/null)" ]; then
-  if [ -f package-lock.json ]; then
-    npm ci
-  else
-    npm install
+node_modules_need_refresh() {
+  if [ ! -d node_modules ] || [ -z "$(ls -A node_modules 2>/dev/null)" ]; then
+    return 0
   fi
-fi
+
+  if [ ! -f "$LOCKFILE_PATH" ] || [ ! -f "$INSTALLED_LOCKFILE_PATH" ]; then
+    return 0
+  fi
+
+  if [ "$LOCKFILE_PATH" -nt "$INSTALLED_LOCKFILE_PATH" ]; then
+    return 0
+  fi
+
+  if ! npm ls --depth=0 >/dev/null 2>&1; then
+    return 0
+  fi
+
+  return 1
+}
+
+refresh_node_modules_if_needed() {
+  if [ ! -f "$LOCKFILE_PATH" ]; then
+    echo "Missing $LOCKFILE_PATH; cannot restore dependencies with npm ci."
+    exit 1
+  fi
+
+  if node_modules_need_refresh; then
+    echo "Refreshing node_modules with npm ci to match $LOCKFILE_PATH."
+    npm ci
+  fi
+}
+
+refresh_node_modules_if_needed
 
 # Keep published metadata files in sync before running dev
 npm run predev

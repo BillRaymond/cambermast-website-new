@@ -19,7 +19,7 @@ Marketing site for Cambermast LLC, highlighting AI training, advisory services, 
 
 ```sh
 cd web
-npm install
+npm ci
 npm run dev
 # or automatically open the dev server in your browser
 npm run dev -- --open

@@ -131,7 +131,12 @@ jobs:
           export EXPECTED_SHA="${expected_sha}"
           export PAGE_URL="${page_url}"
 
-          payload=$(python3 -c 'import json, os; print(json.dumps({"status": os.environ["STATUS"], "message": os.environ["MESSAGE"], "sha": os.environ["EXPECTED_SHA"], "page_url": os.environ["PAGE_URL"]}))')
+          payload=$(jq -cn \
+            --arg status "${STATUS}" \
+            --arg message "${MESSAGE}" \
+            --arg sha "${EXPECTED_SHA}" \
+            --arg page_url "${PAGE_URL}" \
+            '{status: $status, message: $message, sha: $sha, page_url: $page_url}')
 
           echo "Sending deployment ${status} notification"
           echo "Webhook workflow reference: ${webhook_workflow_ref}"

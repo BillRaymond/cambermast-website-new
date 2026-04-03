@@ -22,6 +22,15 @@ This repository powers the public marketing site for Cambermast. It contains the
 - **Tailwind CSS 4:** Base styles, typography, and form controls are composed with Tailwind plus the official `@tailwindcss/forms` and `@tailwindcss/typography` plugins.
 - **Linting & formatting:** ESLint 9 + `eslint-plugin-svelte` ensure component quality, and Prettier (with Tailwind + Svelte plugins) keeps the codebase consistent.
 
+## Devcontainer and Docker Image Contract
+
+- The repo-owned Docker image is the source of truth for preinstalled development tooling.
+- The current base image is Node `20.20.2` on Debian Bookworm slim, pinned by digest in [`Dockerfile`](/workspaces/cambermast-website-new/Dockerfile).
+- The image preinstalls core repo tools and troubleshooting utilities used in daily work: `git`, `jq`, `ripgrep`, `curl`, `procps`, `iproute2` (`ss`), `poppler-utils`, `libvips`, and the browser/runtime packages required for Playwright.
+- The image also preinstalls `@openai/codex` globally and bakes Playwright browsers into `/ms-playwright` so fresh devcontainers can run e2e tests without downloading browsers during startup.
+- The devcontainer mounts `web/node_modules` as a volume. On startup, [`web/scripts/start-vite-dev.sh`](/workspaces/cambermast-website-new/web/scripts/start-vite-dev.sh) treats `web/package-lock.json` as authoritative and automatically runs `npm ci` when dependencies are missing, stale, or fail `npm ls --depth=0`.
+- If the dependency volume ever gets stuck in a bad state, recover with `rm -rf web/node_modules && npm --prefix web ci` inside the container, or recreate the named volume from your container tooling and restart the devcontainer.
+
 ## Maintenance TODOs
 
 - In June 2026, re-check `.github/workflows/pages.yml` against the latest GitHub Actions releases and remove the temporary `FORCE_JAVASCRIPT_ACTIONS_TO_NODE24=true` workflow setting once `actions/deploy-pages` publishes a Node 24-compatible release or GitHub documents that it is no longer needed.
