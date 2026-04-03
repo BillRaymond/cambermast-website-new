@@ -1,4 +1,4 @@
 path: resources/ai-workshop-code-and-automate-with-ai-setup
-square: https://minio-on-hstgr.tail8a5127.ts.net/browser/blobs/cambermastweb/generated/resources/ai-workshop-code-and-automate-with-ai-setup/square/34648eb5-2012-491f-9b4d-040f95eed6f9/candidate-1.png
-landscape: https://minio-on-hstgr.tail8a5127.ts.net/browser/blobs/cambermastweb/generated/resources/ai-workshop-code-and-automate-with-ai-setup/landscape/0b0bb560-34ba-4bd5-b189-27607e69479a/candidate-2.png
-portrait: https://minio-on-hstgr.tail8a5127.ts.net/browser/blobs/cambermastweb/generated/resources/ai-workshop-code-and-automate-with-ai-setup/portrait/94b559ba-e0d3-4e93-b9ef-81a8879fc215/candidate-2.png
+square: https://.../browser/blobs/cambermastweb/generated/resources/ai-workshop-code-and-automate-with-ai-setup/square/34648eb5-2012-491f-9b4d-040f95eed6f9/candidate-1.png
+landscape: https://.../browser/blobs/cambermastweb/generated/resources/ai-workshop-code-and-automate-with-ai-setup/landscape/0b0bb560-34ba-4bd5-b189-27607e69479a/candidate-2.png
+portrait: https://.../browser/blobs/cambermastweb/generated/resources/ai-workshop-code-and-automate-with-ai-setup/portrait/94b559ba-e0d3-4e93-b9ef-81a8879fc215/candidate-2.png

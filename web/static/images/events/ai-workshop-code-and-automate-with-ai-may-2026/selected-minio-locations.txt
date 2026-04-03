@@ -1,4 +1,4 @@
 path: events/ai-workshop-code-and-automate-with-ai-may-2026
-square: https://minio-on-hstgr.tail8a5127.ts.net/browser/blobs/cambermastweb/generated/events/ai-workshop-code-and-automate-with-ai-may-2026/square/9b3f36ea-19a1-487c-8d48-3836a07190e6/candidate-1.png
-landscape: https://minio-on-hstgr.tail8a5127.ts.net/browser/blobs/cambermastweb/generated/events/ai-workshop-code-and-automate-with-ai-may-2026/landscape/b50e0438-ef74-4937-b8b6-4dc78a63131b/candidate-2.png
-portrait: https://minio-on-hstgr.tail8a5127.ts.net/browser/blobs/cambermastweb/generated/events/ai-workshop-code-and-automate-with-ai-may-2026/portrait/6a0efb2b-423e-4d67-918f-24b48a95d594/candidate-1.png
+square: https://.../browser/blobs/cambermastweb/generated/events/ai-workshop-code-and-automate-with-ai-may-2026/square/9b3f36ea-19a1-487c-8d48-3836a07190e6/candidate-1.png
+landscape: https://.../browser/blobs/cambermastweb/generated/events/ai-workshop-code-and-automate-with-ai-may-2026/landscape/b50e0438-ef74-4937-b8b6-4dc78a63131b/candidate-2.png
+portrait: https://.../browser/blobs/cambermastweb/generated/events/ai-workshop-code-and-automate-with-ai-may-2026/portrait/6a0efb2b-423e-4d67-918f-24b48a95d594/candidate-1.png

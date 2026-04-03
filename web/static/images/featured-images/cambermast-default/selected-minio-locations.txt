@@ -1,4 +1,4 @@
 slug: featured-images/cambermast-default
-square: https://minio-on-hstgr.tail8a5127.ts.net/browser/blobs/cambermastweb/events/image-gen/featured-images/cambermast-default/square/e0faea7e-1cf3-4709-a93b-a1c61c00b8b1/candidate-2.png
-landscape: https://minio-on-hstgr.tail8a5127.ts.net/browser/blobs/cambermastweb/events/image-gen/featured-images/cambermast-default/landscape/9223670b-0cea-4b62-8907-159243e844d4/candidate-1.png
-portrait: https://minio-on-hstgr.tail8a5127.ts.net/browser/blobs/cambermastweb/events/image-gen/featured-images/cambermast-default/portrait/2b67ccdb-f334-4149-8551-5445200063b7/candidate-1.png
+square: https://.../browser/blobs/cambermastweb/events/image-gen/featured-images/cambermast-default/square/e0faea7e-1cf3-4709-a93b-a1c61c00b8b1/candidate-2.png
+landscape: https://.../browser/blobs/cambermastweb/events/image-gen/featured-images/cambermast-default/landscape/9223670b-0cea-4b62-8907-159243e844d4/candidate-1.png
+portrait: https://.../browser/blobs/cambermastweb/events/image-gen/featured-images/cambermast-default/portrait/2b67ccdb-f334-4149-8551-5445200063b7/candidate-1.png

@@ -1,4 +1,5 @@
 import { json } from '@sveltejs/kit';
+import { env } from '$env/dynamic/private';
 import {
 	saveSelectedImagesToWebsite,
 	syncGeneratedImageToDestinationRecord
@@ -50,7 +51,8 @@ export const POST = async ({ request }) => {
 				landscape: { minioKey: landscape.minioKey, minioUrl: landscape.minioUrl },
 				portrait: { minioKey: portrait.minioKey, minioUrl: portrait.minioUrl }
 			},
-			prompts: body.prompts
+			prompts: body.prompts,
+			minioBrowserBase: env.MINIO_BROWSER_BASE?.trim()
 		});
 		const promptStandard = await appendImageGenPromptStandard({
 			destinationType: result.destination.destinationType,

@@ -2,7 +2,7 @@ import { json } from '@sveltejs/kit';
 import { randomUUID } from 'node:crypto';
 import { Buffer } from 'node:buffer';
 import { env } from '$env/dynamic/private';
-import { getC3ApiBase, uploadBytesToC3, uploadToC3 } from '$lib/server/image-gen/c3';
+import { uploadBytesToC3, uploadToC3 } from '$lib/server/image-gen/c3';
 import { generateImagesWithOpenAi } from '$lib/server/image-gen/openai';
 import {
 	IMAGE_GEN_MAX_COUNT,
@@ -15,12 +15,12 @@ import {
 	resolveImageDestinationPathOrThrow,
 	validateSlugOrThrow
 } from '$lib/server/image-gen/files';
+import { getC3ApiBase, getMinioBrowserUrl } from '$lib/utils/storage-urls';
 
 export const prerender = false;
 
 const getErrorMessage = (error: unknown): string =>
 	error instanceof Error ? error.message : 'Unknown error';
-const MINIO_BROWSER_BASE = 'https://minio-on-hstgr.tail8a5127.ts.net/browser/blobs/';
 
 export const POST = async ({ request }) => {
 	if (!import.meta.env.DEV) {
@@ -30,6 +30,7 @@ export const POST = async ({ request }) => {
 	const openaiKey = env.OPENAI_API_KEY?.trim();
 	const c3Key = env.C3_API_KEY?.trim();
 	const c3Base = getC3ApiBase(env.C3_API_BASE?.trim());
+	const minioBrowserBase = env.MINIO_BROWSER_BASE?.trim();
 
 	if (!openaiKey) {
 		return json({ error: 'OPENAI_API_KEY is missing' }, { status: 500 });
@@ -130,7 +131,7 @@ export const POST = async ({ request }) => {
 				fileName: 'prompt.json'
 			});
 			promptBackupUrl = uploadedPrompt.url;
-			promptBackupBrowserUrl = `${MINIO_BROWSER_BASE}${uploadedPrompt.key}`;
+			promptBackupBrowserUrl = getMinioBrowserUrl(uploadedPrompt.key, minioBrowserBase);
 		} catch (error) {
 			promptBackupError = getErrorMessage(error);
 			console.error('[image-gen] prompt backup failed', {
@@ -159,7 +160,7 @@ export const POST = async ({ request }) => {
 						height: body.size.split('x')[1],
 						minioKey: uploaded.key,
 						minioUrl: uploaded.url,
-						minioBrowserUrl: `${MINIO_BROWSER_BASE}${uploaded.key}`
+						minioBrowserUrl: getMinioBrowserUrl(uploaded.key, minioBrowserBase)
 					};
 				} catch (error) {
 					console.error('[image-gen] c3 upload failed', {
@@ -174,7 +175,7 @@ export const POST = async ({ request }) => {
 						width: body.size.split('x')[0],
 						height: body.size.split('x')[1],
 						minioKey,
-						minioBrowserUrl: `${MINIO_BROWSER_BASE}${minioKey}`,
+						minioBrowserUrl: getMinioBrowserUrl(minioKey, minioBrowserBase),
 						minioBackupError: getErrorMessage(error)
 					};
 				}

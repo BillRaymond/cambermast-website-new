@@ -30,6 +30,12 @@ const assert = (condition: unknown, message: string): asserts condition => {
 	}
 };
 
+const includesHrefWithRelExternal = (source: string, href: string): boolean => {
+	const escapedHref = href.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+	const pattern = new RegExp(`href="${escapedHref}"\\s+rel="external"`);
+	return pattern.test(source);
+};
+
 const assertResponseOk = (label: string, response: Response) => {
 	assert(response.ok, `${label} failed with status ${response.status}`);
 };
@@ -203,26 +209,23 @@ const validateMachineReadableLinks = async () => {
 	}
 
 	assert(
-		apiPageSource.includes('href={endpoint.href}\n\t\t\t\trel="external"') ||
-			apiPageSource.includes('href={endpoint.href}\r\n\t\t\t\trel="external"'),
+		/href=\{endpoint\.href\}\s+rel="external"/.test(apiPageSource),
 		'/api page endpoint cards must use rel="external"'
 	);
 	assert(
-		apiPageSource.includes('href={feed.href} rel="external"'),
+		/href=\{feed\.href\}\s+rel="external"/.test(apiPageSource),
 		'/api page feed links must use rel="external"'
 	);
 	assert(
-		apiPageSource.includes('href={file.href} rel="external"'),
+		/href=\{file\.href\}\s+rel="external"/.test(apiPageSource),
 		'/api page guidance links must use rel="external"'
 	);
 	assert(
-		adminPageSource.includes('href="/api/commerce-products.json"\n\t\t\t\trel="external"') ||
-			adminPageSource.includes('href="/api/commerce-products.json"\r\n\t\t\t\trel="external"'),
+		includesHrefWithRelExternal(adminPageSource, '/api/commerce-products.json'),
 		'admin commerce API shortcut must use rel="external"'
 	);
 	assert(
-		adminPageSource.includes('href="/feed/openai-products.jsonl.gz"\n\t\t\t\trel="external"') ||
-			adminPageSource.includes('href="/feed/openai-products.jsonl.gz"\r\n\t\t\t\trel="external"'),
+		includesHrefWithRelExternal(adminPageSource, '/feed/openai-products.jsonl.gz'),
 		'admin commerce feed shortcut must use rel="external"'
 	);
 };

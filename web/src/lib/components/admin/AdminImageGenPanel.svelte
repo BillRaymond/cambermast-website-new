@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { createEventDispatcher, onMount } from 'svelte';
+	import { getMinioBrowserUrl } from '$lib/utils/storage-urls';
 
 	type ImageGenStage = 'square' | 'landscape' | 'portrait';
 	type DestinationType = 'events' | 'training' | 'resources' | 'featured-images' | 'custom';
@@ -270,7 +271,6 @@ STRICT AVOIDANCE RULES
 	let availableDestinationOptions: DestinationOption[] = [];
 	let selectedDestinationOptionDescription = '';
 
-	const MINIO_BROWSER_BASE = 'https://minio-on-hstgr.tail8a5127.ts.net/browser/blobs/';
 	const PROMPT_HISTORY_MAX_ITEMS = 150;
 	const PROMPT_HISTORY_RECENT_VISIBLE = 1;
 	const applyDefaultSquarePrompt = () => {
@@ -338,8 +338,7 @@ STRICT AVOIDANCE RULES
 		}
 	};
 
-	const getBlobBrowserUrl = (minioKey: string): string =>
-		`${MINIO_BROWSER_BASE}${minioKey.replace(/^\/+/, '')}`;
+	const getBlobBrowserUrl = (minioKey: string): string => getMinioBrowserUrl(minioKey);
 	const toDestinationLabel = (value: DestinationType): string =>
 		DESTINATION_TYPE_OPTIONS.find((option) => option.value === value)?.label ?? value;
 	const getDestinationPath = (): string => {

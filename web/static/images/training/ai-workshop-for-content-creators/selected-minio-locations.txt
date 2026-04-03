@@ -1,4 +1,4 @@
 path: training/ai-workshop-for-content-creators
-square: https://minio-on-hstgr.tail8a5127.ts.net/browser/blobs/cambermastweb/generated/training/ai-workshop-for-content-creators/square/5a0d0b0a-60c2-4c1e-b085-f5ffa2d2ef2d/candidate-2.png
-landscape: https://minio-on-hstgr.tail8a5127.ts.net/browser/blobs/cambermastweb/generated/training/ai-workshop-for-content-creators/landscape/d71c638c-fa8d-4d05-b385-bc3d6499ec4a/candidate-1.png
-portrait: https://minio-on-hstgr.tail8a5127.ts.net/browser/blobs/cambermastweb/generated/training/ai-workshop-for-content-creators/portrait/864cba00-dad8-4680-891a-a889316065ba/candidate-2.png
+square: https://.../browser/blobs/cambermastweb/generated/training/ai-workshop-for-content-creators/square/5a0d0b0a-60c2-4c1e-b085-f5ffa2d2ef2d/candidate-2.png
+landscape: https://.../browser/blobs/cambermastweb/generated/training/ai-workshop-for-content-creators/landscape/d71c638c-fa8d-4d05-b385-bc3d6499ec4a/candidate-1.png
+portrait: https://.../browser/blobs/cambermastweb/generated/training/ai-workshop-for-content-creators/portrait/864cba00-dad8-4680-891a-a889316065ba/candidate-2.png

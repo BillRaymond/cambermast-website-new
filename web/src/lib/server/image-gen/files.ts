@@ -4,6 +4,7 @@ import { existsSync } from 'node:fs';
 import { Buffer } from 'node:buffer';
 import sharp from 'sharp';
 import type { ImageGenDestinationType } from '$lib/server/image-gen/types';
+import { getMinioBrowserUrl } from '$lib/utils/storage-urls';
 
 type SaveImageInput = {
 	destinationType: ImageGenDestinationType;
@@ -22,6 +23,7 @@ type SaveImageInput = {
 		landscape: string;
 		portrait: string;
 	};
+	minioBrowserBase?: string;
 };
 
 type WritePlanEntry = {
@@ -38,8 +40,6 @@ type MetadataWritePlanEntry = {
 };
 
 const TEMPLATE_PUBLIC_PREFIX = '/images/admin/image-gen/templates/';
-const MINIO_BROWSER_BASE = 'https://minio-on-hstgr.tail8a5127.ts.net/browser/blobs/';
-
 const resolveWebRoot = (): string => {
 	const cwd = process.cwd();
 	const direct = path.join(cwd, 'static');
@@ -232,10 +232,10 @@ export const saveSelectedImagesToWebsite = async (input: SaveImageInput) => {
 	const writtenPaths: string[] = [];
 
 	const getMinioLocation = (entry?: { minioKey?: string; minioUrl?: string }): string => {
-		if (entry?.minioUrl?.trim()) return entry.minioUrl.trim();
 		if (entry?.minioKey?.trim()) {
-			return `${MINIO_BROWSER_BASE}${entry.minioKey.trim().replace(/^\/+/, '')}`;
+			return getMinioBrowserUrl(entry.minioKey.trim());
 		}
+		if (entry?.minioUrl?.trim()) return 'https://.../browser/blobs/<unknown-key>';
 		return 'not-available';
 	};
 

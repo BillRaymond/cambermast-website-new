@@ -1,4 +1,4 @@
 slug: events/ai-workshop-for-content-creators-fall-2026
-square: https://minio-on-hstgr.tail8a5127.ts.net/browser/blobs/cambermastweb/events/image-gen/events/ai-workshop-for-content-creators-fall-2026/square/35ed588c-5bbe-4a1c-a3be-cfdfda1a2d3d/candidate-3.png
-landscape: https://minio-on-hstgr.tail8a5127.ts.net/browser/blobs/cambermastweb/events/image-gen/events/ai-workshop-for-content-creators-fall-2026/landscape/1970df8c-a4ab-41ce-a23e-c198eceae476/candidate-2.png
-portrait: https://minio-on-hstgr.tail8a5127.ts.net/browser/blobs/cambermastweb/events/image-gen/events/ai-workshop-for-content-creators-fall-2026/portrait/344946c1-b9f4-4462-941a-66dfcec6e0c1/candidate-3.png
+square: https://.../browser/blobs/cambermastweb/events/image-gen/events/ai-workshop-for-content-creators-fall-2026/square/35ed588c-5bbe-4a1c-a3be-cfdfda1a2d3d/candidate-3.png
+landscape: https://.../browser/blobs/cambermastweb/events/image-gen/events/ai-workshop-for-content-creators-fall-2026/landscape/1970df8c-a4ab-41ce-a23e-c198eceae476/candidate-2.png
+portrait: https://.../browser/blobs/cambermastweb/events/image-gen/events/ai-workshop-for-content-creators-fall-2026/portrait/344946c1-b9f4-4462-941a-66dfcec6e0c1/candidate-3.png

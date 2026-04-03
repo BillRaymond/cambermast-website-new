@@ -1,12 +1,6 @@
 import type { MinioUploadResult } from '$lib/server/image-gen/types';
 import { Buffer } from 'node:buffer';
-
-const DEFAULT_C3_API_BASE = 'https://django-on-hstgr-11.tail8a5127.ts.net/api/c3';
-
-const trimTrailingSlash = (value: string): string => value.replace(/\/+$/, '');
-
-export const getC3ApiBase = (configuredApiBase?: string): string =>
-	trimTrailingSlash(configuredApiBase ?? DEFAULT_C3_API_BASE);
+import { getC3ApiBase } from '$lib/utils/storage-urls';
 
 const toErrorText = (value: unknown): string => {
 	if (typeof value === 'string') return value;
@@ -60,7 +54,7 @@ export const uploadBytesToC3 = async (input: {
 		input.fileName
 	);
 
-	const response = await fetch(`${trimTrailingSlash(input.apiBase)}/upload`, {
+	const response = await fetch(`${getC3ApiBase(input.apiBase)}/upload`, {
 		method: 'POST',
 		headers: {
 			'X-C3-API-Key': input.apiKey

@@ -39,7 +39,11 @@
 			<li><code>C3_API_KEY</code> (required)</li>
 			<li>
 				<code>C3_API_BASE</code> (optional, defaults to
-				<code>https://django-on-hstgr-11.tail8a5127.ts.net/api/c3</code>)
+				<code>https://.../api/c3</code>)
+			</li>
+			<li>
+				<code>MINIO_BROWSER_BASE</code> (optional, defaults to
+				<code>https://.../browser/blobs/</code>)
 			</li>
 		</ul>
 		<p class="mt-2 max-w-3xl text-sm text-gray-600">
@@ -118,7 +122,7 @@
 		<p class="mt-2 max-w-3xl text-gray-700">
 			Each candidate card shows the full MinIO browser URL as visible, copyable text and links it
 			in a new tab:
-			<code>https://minio-on-hstgr.tail8a5127.ts.net/browser/blobs/{"<key>"}</code>.
+			<code>https://.../browser/blobs/{"<key>"}</code>.
 		</p>
 	</div>
 

@@ -1,4 +1,4 @@
 slug: ai-workshop-for-content-creators-winter-2026
-square: https://minio-on-hstgr.tail8a5127.ts.net/browser/blobs/cambermastweb/events/image-gen/ai-workshop-for-content-creators-winter-2026/square/f6404c49-f590-4acf-b209-3d19529b236f/candidate-1.png
-landscape: https://minio-on-hstgr.tail8a5127.ts.net/browser/blobs/cambermastweb/events/image-gen/ai-workshop-for-content-creators-winter-2026/landscape/a1d627a6-f9bf-4187-8692-aae5403c23cf/candidate-2.png
-portrait: https://minio-on-hstgr.tail8a5127.ts.net/browser/blobs/cambermastweb/events/image-gen/ai-workshop-for-content-creators-winter-2026/portrait/148ba200-d695-4da2-816f-75d7c5d4d6d0/candidate-2.png
+square: https://.../browser/blobs/cambermastweb/events/image-gen/ai-workshop-for-content-creators-winter-2026/square/f6404c49-f590-4acf-b209-3d19529b236f/candidate-1.png
+landscape: https://.../browser/blobs/cambermastweb/events/image-gen/ai-workshop-for-content-creators-winter-2026/landscape/a1d627a6-f9bf-4187-8692-aae5403c23cf/candidate-2.png
+portrait: https://.../browser/blobs/cambermastweb/events/image-gen/ai-workshop-for-content-creators-winter-2026/portrait/148ba200-d695-4da2-816f-75d7c5d4d6d0/candidate-2.png
