@@ -11,6 +11,12 @@ import { listEventUi } from '$lib/view-models/events';
 import { eventsPath, eventsSchemaPath, lumaArtifactsRoot, webRoot } from '$lib/server/data-paths';
 import { uploadImageIfPossible } from '$lib/server/luma-image-upload';
 import { capturePublicLumaUrlFromManagePage } from '$lib/server/luma-share-url';
+import {
+	RAW_MARKDOWN_TOKENS,
+	resolveDescriptionEditor,
+	pasteDescriptionIntoEditor,
+	type LumaDescriptionInsertResult
+} from '$lib/server/luma-description-paste';
 import type { LumaPublishRecord } from '$lib/server/luma-publish-registry';
 import { chromium } from '@playwright/test';
 
@@ -607,24 +613,51 @@ const setTimezoneIfPossible = async (
 const fillDescriptionModal = async (
 	page: import('@playwright/test').Page,
 	value: string,
+	artifactDir: string,
 	log: (message: string) => void
-): Promise<boolean> => {
-	if (!value.trim()) return false;
+): Promise<LumaDescriptionInsertResult | null> => {
+	if (!value.trim()) return null;
+
 	const opened = await clickFirstAvailable(page, [
 		'[role="button"]:has-text("Add Description")',
 		'text=Add Description'
 	]);
-	if (!opened) return false;
-	await page.waitForTimeout(500);
+	if (!opened) return null;
+	await page.waitForTimeout(600);
 
-	const editor = page.getByRole('textbox').last();
-	if ((await editor.count()) === 0) return false;
-	await editor.click();
-	await editor.fill(value);
+	// Screenshot immediately after opening the modal
+	await page
+		.screenshot({ path: path.join(artifactDir, '02a-description-modal-open.png'), fullPage: true })
+		.catch(() => null);
+
+	const editor = await resolveDescriptionEditor(page);
+	if (!editor) return null;
+
+	const result = await pasteDescriptionIntoEditor(page, editor, value, log);
+
+	// Screenshot after paste, before closing the modal
+	await page
+		.screenshot({ path: path.join(artifactDir, '02b-description-after-paste.png'), fullPage: true })
+		.catch(() => null);
+
+	if (result.editorValidationOutcome === 'failed') {
+		// Capture a dedicated failure screenshot and fail the run
+		await page
+			.screenshot({
+				path: path.join(artifactDir, '02c-description-validation-failure.png'),
+				fullPage: true
+			})
+			.catch(() => null);
+		throw new Error(
+			`Description paste validation failed: ${result.verificationNotes ?? 'Unknown reason'}. ` +
+				`Check artifact screenshots in ${artifactDir} for details.`
+		);
+	}
+
 	await page.getByRole('button', { name: /^done$/i }).click().catch(() => null);
 	await page.waitForTimeout(300);
-	log('Filled description.');
-	return true;
+	log(`Description inserted via ${result.method}. Validation: ${result.editorValidationOutcome}.`);
+	return result;
 };
 
 const setLocation = async (
@@ -764,6 +797,8 @@ export const createPrivateLumaEvent = async (
 			locale: 'en-US',
 			timezoneId: entry.timeZoneIana?.trim() || 'America/Los_Angeles'
 		});
+		// Grant clipboard permissions so the paste-based description workflow can write to the clipboard
+		await context.grantPermissions(['clipboard-read', 'clipboard-write']).catch(() => null);
 		const page = await context.newPage();
 		await openLumaCreatePage(page, config.createUrl, log);
 		await page.screenshot({ path: path.join(artifactDir, '01-create-page.png'), fullPage: true });
@@ -778,7 +813,8 @@ export const createPrivateLumaEvent = async (
 
 		await chooseMostPrivateVisibility(page, log);
 
-		if (!(await fillDescriptionModal(page, entry.descriptionCopy, log))) {
+		const descriptionResult = await fillDescriptionModal(page, entry.descriptionCopy, artifactDir, log);
+		if (!descriptionResult) {
 			log('Skipped description because no compatible description editor was found.');
 		}
 
@@ -876,6 +912,24 @@ export const createPrivateLumaEvent = async (
 		if (!/https?:\/\/(?:www\.)?(?:lu\.ma|luma\.com)\//i.test(privateManageUrl)) {
 			throw new Error('Luma did not navigate to a recognizable event management URL after create.');
 		}
+
+		// Best-effort post-submit verification: check the manage page for raw markdown leaking through
+		await (async () => {
+			try {
+				const pageText = await page.locator('body').textContent().catch(() => '');
+				const leakedTokens = RAW_MARKDOWN_TOKENS.filter((token) => pageText?.includes(token));
+				if (leakedTokens.length > 0) {
+					log(`post_submit_verification: Raw markdown tokens visible on manage page after create: ${leakedTokens.join(', ')}. Review the event description in Luma.`);
+				} else {
+					log('post_submit_verification: No raw markdown tokens detected on the manage page.');
+				}
+				await page
+					.screenshot({ path: path.join(artifactDir, '04b-post-submit-verification.png'), fullPage: true })
+					.catch(() => null);
+			} catch {
+				log('post_submit_verification: Unable to inspect manage page for markdown leakage (page may have navigated away).');
+			}
+		})();
 
 		const publicUrl = await capturePublicLumaUrlFromManagePage(page, {
 			log,

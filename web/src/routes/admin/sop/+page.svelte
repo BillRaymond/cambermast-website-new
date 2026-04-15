@@ -892,3 +892,49 @@
 		</article>
 	{/each}
 </section>
+
+<section class="mt-10">
+	<h2 class="text-2xl font-semibold">Luma description workflow — paste, not fill</h2>
+	<p class="mt-2 max-w-3xl text-gray-700">
+		When the Playwright automation creates a private Luma event, the event description is
+		<strong>pasted</strong> into the Luma editor, not filled as plain text. This is required because
+		Luma&apos;s editor only renders markdown (headings, bold, links) when content is received
+		through a paste event. Filling via keyboard input writes literal characters and Luma shows the
+		raw markdown syntax to registrants.
+	</p>
+	<div class="mt-4 max-w-3xl space-y-3 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
+		<p class="font-semibold">Why this matters</p>
+		<p>
+			If the description is inserted by any path other than a real or synthetic paste event, the
+			saved Luma page will show characters like <code class="rounded bg-amber-100 px-1 py-0.5 text-xs">## </code>,
+			<code class="rounded bg-amber-100 px-1 py-0.5 text-xs">**bold**</code>, and
+			<code class="rounded bg-amber-100 px-1 py-0.5 text-xs">](</code> literally in the rendered
+			event description. These are not rendered as formatted content by Luma unless the editor
+			receives a clipboard paste event.
+		</p>
+	</div>
+	<div class="mt-4 max-w-3xl space-y-2 text-sm text-gray-700">
+		<p class="font-semibold text-gray-900">How the workflow handles it</p>
+		<ol class="ml-5 list-decimal space-y-1">
+			<li>The browser context is granted <code class="rounded bg-gray-100 px-1 py-0.5 text-xs">clipboard-read</code> and <code class="rounded bg-gray-100 px-1 py-0.5 text-xs">clipboard-write</code> permissions before the create flow starts.</li>
+			<li>The markdown is written to <code class="rounded bg-gray-100 px-1 py-0.5 text-xs">navigator.clipboard</code> and a keyboard paste (<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">Ctrl+V</code> / <code class="rounded bg-gray-100 px-1 py-0.5 text-xs">Meta+V</code>) is triggered.</li>
+			<li>If the clipboard paste appears to have been ignored, a synthetic <code class="rounded bg-gray-100 px-1 py-0.5 text-xs">ClipboardEvent('paste')</code> is dispatched directly into the focused editor element.</li>
+			<li>After paste, the editor is inspected: raw markdown tokens (<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">## </code>, <code class="rounded bg-gray-100 px-1 py-0.5 text-xs">**</code>, <code class="rounded bg-gray-100 px-1 py-0.5 text-xs">](</code>) must not be visible and rendered HTML elements must be present.</li>
+			<li>If both checks fail, the run stops, saves a screenshot named <code class="rounded bg-gray-100 px-1 py-0.5 text-xs">02c-description-validation-failure.png</code>, and reports the error — it does not silently save broken content.</li>
+		</ol>
+	</div>
+	<div class="mt-4 max-w-3xl space-y-2 text-sm text-gray-700">
+		<p class="font-semibold text-gray-900">Artifact screenshots to check first</p>
+		<ul class="ml-5 list-disc space-y-1">
+			<li><code class="rounded bg-gray-100 px-1 py-0.5 text-xs">02a-description-modal-open.png</code> — state of the editor modal immediately after it opens.</li>
+			<li><code class="rounded bg-gray-100 px-1 py-0.5 text-xs">02b-description-after-paste.png</code> — state of the editor after paste and before the Done button is clicked. Look for rendered headings and no literal <code class="rounded bg-gray-100 px-1 py-0.5 text-xs">##</code>.</li>
+			<li><code class="rounded bg-gray-100 px-1 py-0.5 text-xs">02c-description-validation-failure.png</code> — only present on a failed run. Shows what the editor contained when validation failed.</li>
+			<li><code class="rounded bg-gray-100 px-1 py-0.5 text-xs">04b-post-submit-verification.png</code> — best-effort screenshot of the manage page after creation. Check whether the saved description preview shows raw markdown or rendered content.</li>
+		</ul>
+	</div>
+	<p class="mt-4 max-w-3xl text-sm text-gray-600">
+		The <a href="/admin/events/luma" class="text-blue-700 hover:underline">Luma workflow admin page</a>
+		runs all of this automatically. If a run fails at the description step, start with the artifact screenshots
+		listed above rather than re-running immediately — they contain the exact editor state that caused the failure.
+	</p>
+</section>

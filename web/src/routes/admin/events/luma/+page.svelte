@@ -516,9 +516,11 @@
 							then stop for manual review.
 						</p>
 						<p class="mt-2 text-xs text-gray-500">
-							The workflow now tries to upload the event&apos;s square hero image automatically.
-							If Luma changes the upload UI, check the artifact screenshots and run log first to see
-							whether the image step was skipped or left unconfirmed.
+							Description rendering is validated automatically: the workflow pastes markdown into the
+							Luma editor and confirms it rendered as rich text. If validation fails, the run stops
+							and saves a dedicated screenshot — check the artifact folder first before re-running.
+							Image upload is also attempted automatically. Artifact screenshots are the first
+							debugging stop whenever Luma changes its description or image UI.
 						</p>
 						<div class="mt-3 flex flex-wrap gap-2">
 							<button
