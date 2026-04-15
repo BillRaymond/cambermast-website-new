@@ -990,10 +990,10 @@
 			],
 			"visibility": "public",
 			"lifecycleStatus": "scheduled",
-			"registrationStatus": "none",
+			"registrationStatus": "external",
 			"cta": {
-				"label": "Open soon",
-				"url": "",
+				"label": "Register now",
+				"url": "https://luma.com/78i612r0",
 				"campaignId": "aidm26"
 			},
 			"timeZoneIana": "America/Los_Angeles",
