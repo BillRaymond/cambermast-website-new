@@ -38,3 +38,8 @@ vite.config.ts.timestamp-*
 test-results/
 playwright-report/
 .playwright/
+
+# Local Luma automation state
+.auth/
+data/luma-artifacts/
+data/luma-publish-registry.json
