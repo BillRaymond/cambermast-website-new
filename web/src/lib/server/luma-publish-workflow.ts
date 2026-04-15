@@ -9,6 +9,7 @@ import { normalizeEventSessions } from '$lib/data/events/timeline';
 import { buildAdminEventLumaEntries, type AdminEventLumaEntry } from '$lib/view-models/admin-event-luma';
 import { listEventUi } from '$lib/view-models/events';
 import { eventsPath, eventsSchemaPath, lumaArtifactsRoot, webRoot } from '$lib/server/data-paths';
+import { capturePublicLumaUrlFromManagePage } from '$lib/server/luma-share-url';
 import type { LumaPublishRecord } from '$lib/server/luma-publish-registry';
 import { chromium } from '@playwright/test';
 
@@ -51,13 +52,24 @@ export type LumaCreatePrivateResult = {
 	logs: string[];
 };
 
+export type LumaRefreshPublicUrlResult = {
+	eventId: string;
+	status: 'success';
+	privateManageUrl: string;
+	publicUrl: string;
+	startedAt: string;
+	finishedAt: string;
+	artifactDir: string;
+	logs: string[];
+};
+
 const ajv = new Ajv({ allErrors: true, strict: true });
 addFormats(ajv);
 
 let cachedValidateEvents: ReturnType<typeof ajv.compile> | null = null;
 
 const MS_IN_DAY = 24 * 60 * 60 * 1000;
-const createUrlDefault = 'https://lu.ma/create';
+const createUrlDefault = 'https://luma.com/calendar/manage/cal-WiCb89B8ouz3ZFH';
 const storageStateDefault = path.join(webRoot, '.auth', 'luma.json');
 
 const lateReviewDays = 3;
@@ -85,6 +97,13 @@ const formatLumaDate = (timestamp: number, timeZone: string): string =>
 		month: 'short',
 		day: 'numeric',
 		year: 'numeric'
+	}).format(timestamp);
+
+const formatLumaDateNeedle = (timestamp: number, timeZone: string): string =>
+	new Intl.DateTimeFormat('en-US', {
+		timeZone,
+		month: 'short',
+		day: 'numeric'
 	}).format(timestamp);
 
 const getLumaDateParts = (
@@ -368,6 +387,50 @@ const uploadImageIfPossible = async (
 	return false;
 };
 
+const openLumaCreatePage = async (
+	page: import('@playwright/test').Page,
+	createUrl: string,
+	log: (message: string) => void
+): Promise<void> => {
+	await page.goto(createUrl, { waitUntil: 'domcontentloaded' });
+	await page.waitForTimeout(1200);
+
+	if (/\/create(?:\?|$)/i.test(page.url())) {
+		log(`Opened Luma create page directly from ${createUrl}.`);
+		return;
+	}
+
+	const addEventButton = page.getByRole('button', { name: /add event/i }).first();
+	if ((await addEventButton.count()) > 0 && (await addEventButton.isVisible().catch(() => false))) {
+		await addEventButton.click();
+		await page.waitForTimeout(300);
+
+		const createNewEventOption = page.getByText(/Create New Event/i).first();
+		if ((await createNewEventOption.count()) === 0) {
+			throw new Error('Opened the calendar Events menu, but Create New Event was not available.');
+		}
+
+		await createNewEventOption.click();
+		await page.waitForLoadState('domcontentloaded').catch(() => null);
+		await page.waitForTimeout(1200);
+		log('Opened the create form from the calendar Events plus menu.');
+		return;
+	}
+
+	const createEventLink = page.getByRole('link', { name: /^Create Event$/i }).first();
+	if ((await createEventLink.count()) > 0 && (await createEventLink.isVisible().catch(() => false))) {
+		await createEventLink.click();
+		await page.waitForLoadState('domcontentloaded').catch(() => null);
+		await page.waitForTimeout(1200);
+		log('Opened the create form from the calendar Create Event link.');
+		return;
+	}
+
+	throw new Error(
+		'Unable to open the Luma create form. Expected either a calendar Events plus button or a Create Event link.'
+	);
+};
+
 const fillNthVisible = async (
 	page: import('@playwright/test').Page,
 	selector: string,
@@ -395,10 +458,17 @@ const dismissFloatingPortalIfPresent = async (
 	if ((await portal.count()) === 0) return;
 	await page.keyboard.press('Escape').catch(() => null);
 	await page.waitForTimeout(200);
+	await page
+		.evaluate(() => {
+			const active = document.activeElement as HTMLElement | null;
+			active?.blur?.();
+		})
+		.catch(() => null);
+	await page.waitForTimeout(100);
 	await page.keyboard.press('Tab').catch(() => null);
 	await page.waitForTimeout(100);
-	await page.mouse.click(16, 16).catch(() => null);
-	await page.waitForTimeout(200);
+	await page.keyboard.press('Escape').catch(() => null);
+	await page.waitForTimeout(150);
 };
 
 const setLumaTime = async (
@@ -472,31 +542,38 @@ const pickLumaDate = async (
 ): Promise<boolean> => {
 	const input = page.locator('input[type="text"].dt-input').nth(inputIndex);
 	if ((await input.count()) === 0) return false;
-	const targetLabel = formatLumaDate(timestamp, timeZone);
-	await input.click({ timeout: 5000 }).catch(() => null);
-	await input.fill(targetLabel).catch(() => null);
-	await page.keyboard.press('Enter').catch(() => null);
-	await page.keyboard.press('Tab').catch(() => null);
-	await page.waitForTimeout(300);
-	const currentValue = (await input.inputValue().catch(() => '')).trim();
-	if (currentValue === targetLabel) {
+	const { year, month, day } = getLumaDateParts(timestamp, timeZone);
+	const targetMonthSelector = `[data-lux-date-picker-month="${year.toString()}-${month.toString()}"]`;
+	const targetNeedle = formatLumaDateNeedle(timestamp, timeZone);
+
+	for (let outerAttempt = 0; outerAttempt < 2; outerAttempt += 1) {
 		await dismissFloatingPortalIfPresent(page);
-		return true;
+		await input.click({ timeout: 5000, force: true }).catch(() => null);
+		await page.waitForTimeout(300);
+
+		for (let monthAdvance = 0; monthAdvance < 12; monthAdvance += 1) {
+			const dayCell = page
+				.locator(`${targetMonthSelector} .day:not(.disabled)`)
+				.filter({ hasText: new RegExp(`^${day.toString()}$`) })
+				.first();
+			if ((await dayCell.count()) > 0) {
+				await dayCell.click({ timeout: 5000 }).catch(() => null);
+				await page.waitForTimeout(300);
+				await dismissFloatingPortalIfPresent(page);
+				const currentValue = (await input.inputValue().catch(() => '')).trim();
+				if (currentValue.includes(targetNeedle)) return true;
+				break;
+			}
+
+			const nextMonthButton = page.locator('[data-floating-ui-portal] .header .icon.right:not(.disabled)').last();
+			if ((await nextMonthButton.count()) === 0) break;
+			await nextMonthButton.click({ timeout: 5000 }).catch(() => null);
+			await page.waitForTimeout(250);
+		}
 	}
 
-	await input.click({ timeout: 5000 }).catch(() => null);
-	await page.waitForTimeout(300);
-
-	const { year, month, day } = getLumaDateParts(timestamp, timeZone);
-	const dayCell = page
-		.locator(`[data-lux-date-picker-month="${year.toString()}-${month.toString()}"] .day`)
-		.filter({ hasText: new RegExp(`^${day.toString()}$`) })
-		.first();
-	if ((await dayCell.count()) === 0) return false;
-	await dayCell.click({ timeout: 5000 }).catch(() => null);
-	await page.waitForTimeout(300);
 	await dismissFloatingPortalIfPresent(page);
-	return true;
+	return false;
 };
 
 const clickButtonByName = async (
@@ -657,16 +734,6 @@ const chooseMostPrivateVisibility = async (
 	throw new Error('Unable to select a private or unlisted visibility option in the Luma UI.');
 };
 
-const extractKnownUrl = (text: string): string | undefined => {
-	const match = text.match(/https?:\/\/(?:www\.)?(?:lu\.ma|luma\.com)\/[^\s)"']+/i);
-	return match?.[0];
-};
-
-const capturePossiblePublicUrl = async (page: import('@playwright/test').Page): Promise<string | undefined> => {
-	const text = await page.locator('body').innerText().catch(() => '');
-	return extractKnownUrl(text);
-};
-
 export const createPrivateLumaEvent = async (
 	entry: AdminEventLumaEntry,
 	options: { force?: boolean } = {}
@@ -714,7 +781,7 @@ export const createPrivateLumaEvent = async (
 			timezoneId: entry.timeZoneIana?.trim() || 'America/Los_Angeles'
 		});
 		const page = await context.newPage();
-		await page.goto(config.createUrl, { waitUntil: 'domcontentloaded' });
+		await openLumaCreatePage(page, config.createUrl, log);
 		await page.screenshot({ path: path.join(artifactDir, '01-create-page.png'), fullPage: true });
 
 		const titleFilled = await fillFirstAvailable(page, [
@@ -734,10 +801,24 @@ export const createPrivateLumaEvent = async (
 		await setTimezoneIfPossible(page, entry.timeZoneIana, log);
 
 		const eventTimeZone = entry.timeZoneIana?.trim() || 'America/Los_Angeles';
-		await pickLumaDate(page, 0, firstSessionRecord.startTimestamp, eventTimeZone);
-		await setLumaTime(page, 0, firstSessionRecord.startTimestamp, eventTimeZone);
-		await pickLumaDate(page, 1, lastSessionRecord.startTimestamp, eventTimeZone);
-		await setLumaTime(page, 1, lastSessionRecord.endTimestamp, eventTimeZone);
+		const startDatePicked = await pickLumaDate(page, 0, firstSessionRecord.startTimestamp, eventTimeZone);
+		const startTimeSet = await setLumaTime(page, 0, firstSessionRecord.startTimestamp, eventTimeZone);
+		const endDatePicked = await pickLumaDate(page, 1, lastSessionRecord.startTimestamp, eventTimeZone);
+		const endTimeSet = await setLumaTime(page, 1, lastSessionRecord.endTimestamp, eventTimeZone);
+		const startDateValue = (await page.locator('input[type="text"].dt-input').nth(0).inputValue().catch(() => '')).trim();
+		const endDateValue = (await page.locator('input[type="text"].dt-input').nth(1).inputValue().catch(() => '')).trim();
+		if (
+			!startDatePicked ||
+			!startTimeSet ||
+			!endDatePicked ||
+			!endTimeSet ||
+			!startDateValue.includes(formatLumaDateNeedle(firstSessionRecord.startTimestamp, eventTimeZone)) ||
+			!endDateValue.includes(formatLumaDateNeedle(lastSessionRecord.startTimestamp, eventTimeZone))
+		) {
+			throw new Error(
+				`Unable to set the Luma event schedule correctly. Start="${startDateValue}" End="${endDateValue}".`
+			);
+		}
 		log('Filled first session timing.');
 
 		if (entry.locationLabel.trim() || entry.locationMode === 'online') {
@@ -747,12 +828,16 @@ export const createPrivateLumaEvent = async (
 		}
 
 		if (entry.priceCopy.trim()) {
-			await fillFirstAvailable(
+			const filledPrice = await fillFirstAvailable(
 				page,
 				['input[name*="price" i]', 'input[placeholder*="price" i]', 'input[inputmode="decimal"]'],
 				entry.priceCopy
 			);
-			log('Filled price.');
+			if (filledPrice) {
+				log('Filled price.');
+			} else {
+				log('Skipped price because no compatible price input was found.');
+			}
 		}
 
 		const uploadedImage = await uploadImageIfPossible(page, imagePath);
@@ -784,7 +869,10 @@ export const createPrivateLumaEvent = async (
 			throw new Error('Luma did not navigate to a recognizable event management URL after create.');
 		}
 
-		const publicUrl = await capturePossiblePublicUrl(page);
+		const publicUrl = await capturePublicLumaUrlFromManagePage(page, {
+			log,
+			screenshotPath: path.join(artifactDir, '04-share-section.png')
+		});
 		const finishedAt = new Date().toISOString();
 		await fs.writeFile(path.join(artifactDir, 'run-log.txt'), `${logs.join('\n')}\n`, 'utf-8');
 
@@ -792,6 +880,69 @@ export const createPrivateLumaEvent = async (
 			eventId: entry.id,
 			status: 'success',
 			privateManageUrl,
+			publicUrl,
+			startedAt,
+			finishedAt,
+			artifactDir,
+			logs
+		};
+	} catch (error) {
+		await fs.writeFile(path.join(artifactDir, 'run-log.txt'), `${logs.join('\n')}\n`, 'utf-8').catch(() => null);
+		throw error;
+	} finally {
+		await browser.close();
+	}
+};
+
+export const refreshExistingLumaPublicUrl = async (input: {
+	entry: AdminEventLumaEntry;
+	privateManageUrl: string;
+}): Promise<LumaRefreshPublicUrlResult> => {
+	if (!process.env.PLAYWRIGHT_BROWSERS_PATH && existsSync('/ms-playwright')) {
+		process.env.PLAYWRIGHT_BROWSERS_PATH = '/ms-playwright';
+	}
+
+	const config = getLumaRuntimeConfig();
+	if (!config.storageStateExists) {
+		throw new Error(
+			`Missing Luma storage state at ${config.storageStatePath}. Sign in with Playwright and save storage state before refreshing the public Luma URL.`
+		);
+	}
+	if (!/https?:\/\/(?:www\.)?(?:lu\.ma|luma\.com)\//i.test(input.privateManageUrl)) {
+		throw new Error('Private manage URL must be a valid Luma or Lu.ma URL.');
+	}
+
+	const artifactId = `${input.entry.id}-refresh-${new Date().toISOString().replace(/[:.]/g, '-')}`;
+	const artifactDir = path.join(lumaArtifactsRoot, artifactId);
+	await fs.mkdir(artifactDir, { recursive: true });
+
+	const logs: string[] = [];
+	const log = (message: string) => logs.push(`[${new Date().toISOString()}] ${message}`);
+	const startedAt = new Date().toISOString();
+	const browser = await chromium.launch({ headless: config.headless });
+
+	try {
+		const context = await browser.newContext({
+			storageState: config.storageStatePath,
+			locale: 'en-US',
+			timezoneId: input.entry.timeZoneIana?.trim() || 'America/Los_Angeles'
+		});
+		const page = await context.newPage();
+		await page.goto(input.privateManageUrl, { waitUntil: 'domcontentloaded' });
+		await page.screenshot({ path: path.join(artifactDir, '01-manage-page.png'), fullPage: true });
+		log(`Opened existing private manage page ${input.privateManageUrl}.`);
+
+		const publicUrl = await capturePublicLumaUrlFromManagePage(page, {
+			log,
+			screenshotPath: path.join(artifactDir, '02-share-section.png')
+		});
+		const finishedAt = new Date().toISOString();
+		await fs.writeFile(path.join(artifactDir, 'run-log.txt'), `${logs.join('\n')}\n`, 'utf-8');
+
+		return {
+			eventId: input.entry.id,
+			status: 'success',
+			privateManageUrl: input.privateManageUrl,
 			publicUrl,
 			startedAt,
 			finishedAt,

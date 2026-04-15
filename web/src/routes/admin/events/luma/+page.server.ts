@@ -6,6 +6,7 @@ import {
 	attachLiveLumaUrlToEvent,
 	createPrivateLumaEvent,
 	deriveLumaPublishStatus,
+	refreshExistingLumaPublicUrl,
 	getEventForLumaWorkflow,
 	getLumaRuntimeConfig
 } from '$lib/server/luma-publish-workflow';
@@ -135,6 +136,63 @@ export const actions: Actions = {
 			await writeLumaPublishRegistryToDisk(nextRegistry);
 			return fail(400, {
 				message: error instanceof Error ? error.message : 'Unable to create the private Luma event.',
+				targetId: eventId
+			});
+		}
+	},
+	refreshPublicUrl: async ({ request }) => {
+		const devFailure = ensureDevWrite();
+		if (devFailure) return devFailure;
+
+		const formData = await getEventIdFromForm(request);
+		const eventId = String(formData.get('eventId') ?? '').trim();
+		const entry = getEventForLumaWorkflow(eventId);
+		if (!entry) return fail(404, { message: `Unable to find event ${eventId}.`, targetId: eventId });
+
+		const registry = await readLumaPublishRegistryFromDisk();
+		const record = getLumaPublishRecord(registry, eventId);
+		if (!record?.privateManageUrl) {
+			return fail(400, {
+				message: 'Create the private Luma event first so there is a manage URL to refresh.',
+				targetId: eventId
+			});
+		}
+
+		try {
+			const result = await refreshExistingLumaPublicUrl({
+				entry,
+				privateManageUrl: record.privateManageUrl
+			});
+			const nextRegistry = upsertLumaPublishRecord(registry, {
+				...record,
+				eventId,
+				publicUrl: result.publicUrl,
+				lastRunAt: result.finishedAt,
+				lastRunStartedAt: result.startedAt,
+				lastRunFinishedAt: result.finishedAt,
+				lastRunOutcome: 'success',
+				lastError: undefined,
+				lastArtifactDir: result.artifactDir
+			});
+			await writeLumaPublishRegistryToDisk(nextRegistry);
+			return {
+				message: 'Refreshed the public Luma URL from the existing draft.',
+				targetId: eventId
+			};
+		} catch (error) {
+			const timestamp = new Date().toISOString();
+			const nextRegistry = upsertLumaPublishRecord(registry, {
+				...record,
+				eventId,
+				lastRunAt: timestamp,
+				lastRunStartedAt: timestamp,
+				lastRunFinishedAt: timestamp,
+				lastRunOutcome: 'failed',
+				lastError: error instanceof Error ? error.message : 'Unable to refresh the public Luma URL.'
+			});
+			await writeLumaPublishRegistryToDisk(nextRegistry);
+			return fail(400, {
+				message: error instanceof Error ? error.message : 'Unable to refresh the public Luma URL.',
 				targetId: eventId
 			});
 		}

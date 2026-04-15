@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
+	import { applyAction, enhance } from '$app/forms';
+	import type { SubmitFunction } from '@sveltejs/kit';
 	import SeoHead from '$lib/components/SeoHead.svelte';
 	import AdminRouteChips from '$lib/components/admin/AdminRouteChips.svelte';
 	import EventCard from '$lib/components/events/EventCard.svelte';
@@ -38,6 +40,31 @@
 	let copiedKey = '';
 	let copiedLabel = 'Copied';
 	let copyError = '';
+	let pendingAction:
+		| {
+				name: 'createPrivate' | 'forceCreate' | 'markReviewed' | 'refreshPublicUrl' | 'attachLiveUrl';
+				eventId: string;
+		  }
+		| null = null;
+
+	const pendingActionLabels = {
+		createPrivate: 'Creating private Luma event',
+		forceCreate: 'Force-creating private Luma event',
+		markReviewed: 'Marking the event as reviewed',
+		refreshPublicUrl: 'Refreshing the public URL from the existing draft',
+		attachLiveUrl: 'Attaching the live Luma URL'
+	} as const;
+
+	const pendingActionDescriptions = {
+		createPrivate:
+			'Running Playwright in the background. This can take a bit while Luma loads, fills the form, and opens the draft manage page.',
+		forceCreate:
+			'Running Playwright in the background with the timing gate bypassed. This can take a bit while Luma loads, fills the form, and opens the draft manage page.',
+		markReviewed: 'Updating the internal workflow state on the server.',
+		refreshPublicUrl:
+			'Opening the stored Luma manage page and reading the Share section again.',
+		attachLiveUrl: 'Updating the site event record with the public Luma URL.'
+	} as const;
 
 	const workflowLabels: Record<string, string> = {
 		actionable: 'Actionable',
@@ -166,6 +193,23 @@
 
 		copyError = 'Unable to copy the event image. PNG was unavailable and JPG fallback also failed.';
 	};
+
+	const isMutationPending = (): boolean => pendingAction !== null;
+
+	const enhanceMutationForm = (
+		name: NonNullable<typeof pendingAction>['name'],
+		eventId: string
+	): SubmitFunction =>
+		() => {
+			pendingAction = { name, eventId };
+			return async ({ result }) => {
+				pendingAction = null;
+				await applyAction(result);
+			};
+		};
+
+	$: pendingActionLabel = pendingAction ? pendingActionLabels[pendingAction.name] : '';
+	$: pendingActionDescription = pendingAction ? pendingActionDescriptions[pendingAction.name] : '';
 </script>
 
 <SeoHead
@@ -209,6 +253,19 @@
 	{/if}
 	{#if form?.message && form?.targetId}
 		<p class="mt-2 text-xs text-gray-500">Event: {form.targetId}</p>
+	{/if}
+	{#if pendingAction}
+		<div class="mt-4 rounded-2xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-900 shadow-sm">
+			<div class="flex flex-wrap items-center gap-2">
+				<span class="inline-flex h-2.5 w-2.5 animate-pulse rounded-full bg-blue-600"></span>
+				<p class="font-semibold">{pendingActionLabel}</p>
+				<p class="text-xs text-blue-700">Event: {pendingAction.eventId}</p>
+			</div>
+			<p class="mt-2 text-blue-800">{pendingActionDescription}</p>
+			<p class="mt-2 text-xs text-blue-700">
+				Action buttons are temporarily disabled until the server responds.
+			</p>
+		</div>
 	{/if}
 
 	<div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
@@ -446,7 +503,12 @@
 				</div>
 
 				<div class="mt-4 grid gap-3 md:grid-cols-2">
-					<form method="POST" action="?/createPrivate" class="rounded-2xl border border-gray-200 bg-white p-4">
+					<form
+						method="POST"
+						action="?/createPrivate"
+						use:enhance={enhanceMutationForm('createPrivate', selectedEvent.id)}
+						class="rounded-2xl border border-gray-200 bg-white p-4"
+					>
 						<input type="hidden" name="eventId" value={selectedEvent.id} />
 						<p class="text-xs font-semibold tracking-wide text-gray-500 uppercase">Private create</p>
 						<p class="mt-2 text-sm text-gray-600">
@@ -456,14 +518,24 @@
 						<div class="mt-3 flex flex-wrap gap-2">
 							<button
 								type="submit"
-								class="inline-flex items-center rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
+								disabled={isMutationPending()}
+								class={`inline-flex items-center rounded-xl px-4 py-2 text-sm font-semibold text-white ${
+									isMutationPending() ? 'cursor-not-allowed bg-blue-300' : 'bg-blue-600 hover:bg-blue-700'
+								}`}
 							>
-								Create private Luma event
+								{pendingAction?.name === 'createPrivate'
+									? 'Creating private event...'
+									: 'Create private Luma event'}
 							</button>
 						</div>
 					</form>
 
-					<form method="POST" action="?/createPrivate" class="rounded-2xl border border-gray-200 bg-white p-4">
+					<form
+						method="POST"
+						action="?/createPrivate"
+						use:enhance={enhanceMutationForm('forceCreate', selectedEvent.id)}
+						class="rounded-2xl border border-gray-200 bg-white p-4"
+					>
 						<input type="hidden" name="eventId" value={selectedEvent.id} />
 						<input type="hidden" name="force" value="true" />
 						<p class="text-xs font-semibold tracking-wide text-gray-500 uppercase">Force create</p>
@@ -474,16 +546,28 @@
 						<div class="mt-3 flex flex-wrap gap-2">
 							<button
 								type="submit"
-								class="inline-flex items-center rounded-xl border border-amber-200 bg-amber-50 px-4 py-2 text-sm font-semibold text-amber-800 hover:bg-amber-100"
+								disabled={isMutationPending()}
+								class={`inline-flex items-center rounded-xl border px-4 py-2 text-sm font-semibold ${
+									isMutationPending()
+										? 'cursor-not-allowed border-amber-100 bg-amber-50 text-amber-400'
+										: 'border-amber-200 bg-amber-50 text-amber-800 hover:bg-amber-100'
+								}`}
 							>
-								Force create private event
+								{pendingAction?.name === 'forceCreate'
+									? 'Force-creating event...'
+									: 'Force create private event'}
 							</button>
 						</div>
 					</form>
 				</div>
 
 				<div class="mt-4 grid gap-3 md:grid-cols-2">
-					<form method="POST" action="?/markReviewed" class="rounded-2xl border border-gray-200 bg-white p-4">
+					<form
+						method="POST"
+						action="?/markReviewed"
+						use:enhance={enhanceMutationForm('markReviewed', selectedEvent.id)}
+						class="rounded-2xl border border-gray-200 bg-white p-4"
+					>
 						<input type="hidden" name="eventId" value={selectedEvent.id} />
 						<p class="text-xs font-semibold tracking-wide text-gray-500 uppercase">Review complete</p>
 						<p class="mt-2 text-sm text-gray-600">
@@ -492,14 +576,55 @@
 						<div class="mt-3 flex flex-wrap gap-2">
 							<button
 								type="submit"
-								class="inline-flex items-center rounded-xl border border-sky-200 bg-sky-50 px-4 py-2 text-sm font-semibold text-sky-800 hover:bg-sky-100"
+								disabled={isMutationPending()}
+								class={`inline-flex items-center rounded-xl border px-4 py-2 text-sm font-semibold ${
+									isMutationPending()
+										? 'cursor-not-allowed border-sky-100 bg-sky-50 text-sky-400'
+										: 'border-sky-200 bg-sky-50 text-sky-800 hover:bg-sky-100'
+								}`}
 							>
-								Mark reviewed
+								{pendingAction?.name === 'markReviewed' ? 'Marking reviewed...' : 'Mark reviewed'}
 							</button>
 						</div>
 					</form>
 
-					<form method="POST" action="?/attachLiveUrl" class="rounded-2xl border border-gray-200 bg-white p-4">
+					<form
+						method="POST"
+						action="?/refreshPublicUrl"
+						use:enhance={enhanceMutationForm('refreshPublicUrl', selectedEvent.id)}
+						class="rounded-2xl border border-gray-200 bg-white p-4"
+					>
+						<input type="hidden" name="eventId" value={selectedEvent.id} />
+						<p class="text-xs font-semibold tracking-wide text-gray-500 uppercase">Refresh public URL</p>
+						<p class="mt-2 text-sm text-gray-600">
+							Open the existing Luma manage page, read the Share section, and store the current
+							public event URL without recreating the event.
+						</p>
+						<div class="mt-3 flex flex-wrap gap-2">
+							<button
+								type="submit"
+								disabled={isMutationPending()}
+								class={`inline-flex items-center rounded-xl border px-4 py-2 text-sm font-semibold ${
+									isMutationPending()
+										? 'cursor-not-allowed border-indigo-100 bg-indigo-50 text-indigo-400'
+										: 'border-indigo-200 bg-indigo-50 text-indigo-800 hover:bg-indigo-100'
+								}`}
+							>
+								{pendingAction?.name === 'refreshPublicUrl'
+									? 'Refreshing draft URL...'
+									: 'Refresh from existing draft'}
+							</button>
+						</div>
+					</form>
+				</div>
+
+				<div class="mt-4">
+					<form
+						method="POST"
+						action="?/attachLiveUrl"
+						use:enhance={enhanceMutationForm('attachLiveUrl', selectedEvent.id)}
+						class="rounded-2xl border border-gray-200 bg-white p-4"
+					>
 						<input type="hidden" name="eventId" value={selectedEvent.id} />
 						<p class="text-xs font-semibold tracking-wide text-gray-500 uppercase">Attach live URL</p>
 						<p class="mt-2 text-sm text-gray-600">
@@ -514,6 +639,7 @@
 							name="liveUrl"
 							type="url"
 							placeholder="https://lu.ma/..."
+							disabled={isMutationPending()}
 							class="mt-2 w-full rounded-xl border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none"
 						/>
 						<label class="mt-3 block text-xs font-semibold tracking-wide text-gray-500 uppercase" for="cta-label">
@@ -524,14 +650,22 @@
 							name="ctaLabel"
 							type="text"
 							value="Register now"
+							disabled={isMutationPending()}
 							class="mt-2 w-full rounded-xl border border-gray-300 px-3 py-2 text-sm text-gray-900 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none"
 						/>
 						<div class="mt-3 flex flex-wrap gap-2">
 							<button
 								type="submit"
-								class="inline-flex items-center rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-2 text-sm font-semibold text-emerald-800 hover:bg-emerald-100"
+								disabled={isMutationPending()}
+								class={`inline-flex items-center rounded-xl border px-4 py-2 text-sm font-semibold ${
+									isMutationPending()
+										? 'cursor-not-allowed border-emerald-100 bg-emerald-50 text-emerald-400'
+										: 'border-emerald-200 bg-emerald-50 text-emerald-800 hover:bg-emerald-100'
+								}`}
 							>
-								Attach live Luma URL
+								{pendingAction?.name === 'attachLiveUrl'
+									? 'Attaching live URL...'
+									: 'Attach live Luma URL'}
 							</button>
 						</div>
 					</form>
