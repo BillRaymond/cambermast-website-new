@@ -46,41 +46,49 @@ is_pid_running() {
   kill -0 "$pid" >/dev/null 2>&1
 }
 
-if ! is_pid_running "$XVFB_PID_FILE"; then
-  Xvfb "$DISPLAY_NUM" -screen 0 1440x960x24 -nolisten tcp >"$DESKTOP_ROOT/xvfb.log" 2>&1 &
-  echo "$!" >"$XVFB_PID_FILE"
+clear_stale_pid_file() {
+  local pid_file="$1"
+  if ! is_pid_running "$pid_file"; then
+    rm -f "$pid_file"
+  fi
+}
+
+start_detached() {
+  local pid_file="$1"
+  local log_file="$2"
+  shift 2
+
+  clear_stale_pid_file "$pid_file"
+  if is_pid_running "$pid_file"; then
+    return 0
+  fi
+
+  nohup "$@" >"$log_file" 2>&1 </dev/null &
+  echo "$!" >"$pid_file"
   sleep 1
-fi
+}
+
+start_detached "$XVFB_PID_FILE" "$DESKTOP_ROOT/xvfb.log" \
+  Xvfb "$DISPLAY_NUM" -screen 0 1440x960x24 -nolisten tcp
 
 export DISPLAY="$DISPLAY_NUM"
 
-if ! is_pid_running "$OPENBOX_PID_FILE"; then
-  openbox >"$DESKTOP_ROOT/openbox.log" 2>&1 &
-  echo "$!" >"$OPENBOX_PID_FILE"
-  sleep 1
-fi
+start_detached "$OPENBOX_PID_FILE" "$DESKTOP_ROOT/openbox.log" \
+  openbox
 
-if ! is_pid_running "$X11VNC_PID_FILE"; then
+start_detached "$X11VNC_PID_FILE" "$DESKTOP_ROOT/x11vnc.log" \
   x11vnc \
-    -display "$DISPLAY_NUM" \
-    -forever \
-    -shared \
-    -nopw \
-    -rfbport "$DISPLAY_PORT" \
-    >"$DESKTOP_ROOT/x11vnc.log" 2>&1 &
-  echo "$!" >"$X11VNC_PID_FILE"
-  sleep 1
-fi
+  -display "$DISPLAY_NUM" \
+  -forever \
+  -shared \
+  -nopw \
+  -rfbport "$DISPLAY_PORT"
 
-if ! is_pid_running "$WEBSOCKIFY_PID_FILE"; then
+start_detached "$WEBSOCKIFY_PID_FILE" "$DESKTOP_ROOT/websockify.log" \
   websockify \
-    --web "$NOVNC_PATH" \
-    "$NOVNC_PORT" \
-    "127.0.0.1:$DISPLAY_PORT" \
-    >"$DESKTOP_ROOT/websockify.log" 2>&1 &
-  echo "$!" >"$WEBSOCKIFY_PID_FILE"
-  sleep 1
-fi
+  --web "$NOVNC_PATH" \
+  "$NOVNC_PORT" \
+  "127.0.0.1:$DISPLAY_PORT"
 
 cat <<EOF
 Remote desktop is running.

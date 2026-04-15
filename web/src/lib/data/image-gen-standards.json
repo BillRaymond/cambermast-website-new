@@ -1,7 +1,28 @@
 {
 	"version": 1,
-	"updatedAt": "2026-04-03T17:19:54.038Z",
+	"updatedAt": "2026-04-14T21:20:00.272Z",
 	"standards": [
+		{
+			"id": "f49a7b1bd5fa4372",
+			"createdAt": "2026-04-14T21:20:00.269Z",
+			"entityType": "training",
+			"entitySlug": "ai-workshop-code-and-automate-with-ai",
+			"assetKeys": {
+				"square": "training/ai-workshop-code-and-automate-with-ai/hero-square.jpg",
+				"landscape": "training/ai-workshop-code-and-automate-with-ai/hero-landscape.jpg",
+				"portrait": "training/ai-workshop-code-and-automate-with-ai/hero-portrait.jpg"
+			},
+			"prompts": {
+				"square": "Use the provided template image as a visual style and composition reference. Create a new image of the same type. Change the symbol to a colorful <AI> code-like symbol. Reduce image graininess. Avoid the top and bottom 25%.",
+				"landscape": "Recreate the provided template image as a landscape. Avoid the top and bottom 25%. Reduce the graininess.",
+				"portrait": "Recreate the provided template image in portrait format. Avoid the top and bottom 25%. Reduce the graininess."
+			},
+			"reference": {
+				"url": "/images/training/ai-workshop-code-and-automate-with-ai/hero-square-v6.png",
+				"sourceType": "training_reference",
+				"label": "AI Workshop: Code and Automate with AI"
+			}
+		},
 		{
 			"id": "f5e3d68648a5462e",
 			"createdAt": "2026-04-03T17:19:54.036Z",

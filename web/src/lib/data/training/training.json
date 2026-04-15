@@ -1718,27 +1718,27 @@
 			"images": {
 				"current": {
 					"square": {
-						"url": "/images/training/ai-workshop-code-and-automate-with-ai/hero-square-v6.jpg"
+						"url": "/images/training/ai-workshop-code-and-automate-with-ai/hero-square.jpg"
 					},
 					"landscape": {
-						"url": "/images/training/ai-workshop-code-and-automate-with-ai/hero-landscape-v6.jpg"
+						"url": "/images/training/ai-workshop-code-and-automate-with-ai/hero-landscape.jpg"
 					},
 					"portrait": {
-						"url": "/images/training/ai-workshop-code-and-automate-with-ai/hero-portrait-v6.jpg"
+						"url": "/images/training/ai-workshop-code-and-automate-with-ai/hero-portrait.jpg"
 					},
 					"alt": "AI Workshop: Code and Automate with AI illustration",
 					"kind": "generated",
 					"prompts": {
-						"square": "Recreate this image, reduce the graininess, and call it \"AI WORKSHOP: CODE AND AUTOMATE WITH AI\"",
+						"square": "Use the provided template image as a visual style and composition reference. Create a new image of the same type. Change the symbol to a colorful <AI> code-like symbol. Reduce image graininess. Avoid the top and bottom 25%.",
 						"landscape": "Recreate the provided template image as a landscape. Avoid the top and bottom 25%. Reduce the graininess.",
 						"portrait": "Recreate the provided template image in portrait format. Avoid the top and bottom 25%. Reduce the graininess."
 					},
 					"reference": {
-						"url": null,
-						"sourceType": "legacy_migration",
-						"label": "Legacy migration: reference image URL was not preserved"
+						"url": "/images/training/ai-workshop-code-and-automate-with-ai/hero-square-v6.png",
+						"sourceType": "training_reference",
+						"label": "AI Workshop: Code and Automate with AI"
 					},
-					"historyId": "0c9c90d630964ded"
+					"historyId": "f49a7b1bd5fa4372"
 				}
 			}
 		},
