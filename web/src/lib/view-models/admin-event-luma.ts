@@ -22,11 +22,15 @@ export type AdminEventLumaEntry = {
 	id: string;
 	slug: string;
 	title: string;
+	timeZoneIana?: string;
 	visibility: string;
 	lifecycleStatus: string;
 	registrationStatus: string;
 	firstSessionStartAtUtc?: string;
 	firstSessionEndAtUtc?: string;
+	lastSessionStartAtUtc?: string;
+	lastSessionEndAtUtc?: string;
+	locationMode?: string;
 	locationLabel: string;
 	startDateTimeCopy: string;
 	tagline: string;
@@ -495,6 +499,7 @@ export const buildAdminEventLumaEntries = (events: EventUiModel[]): AdminEventLu
 			.map((partnerRef) => getPartnerByCode(partnerRef.code)?.name ?? partnerRef.code)
 			.filter((name) => name && name !== 'NONE');
 		const occurrence = getOccurrence(event);
+		const sessions = normalizeEventSessions(event.sessions ?? []);
 		const imageUrl =
 			getLandscapeImageUrl(event.images) ?? getLandscapeImageUrl(relatedProgram?.images);
 		const imageCandidates = deriveImageCandidates(imageUrl);
@@ -504,11 +509,15 @@ export const buildAdminEventLumaEntries = (events: EventUiModel[]): AdminEventLu
 			id: event.id,
 			slug: event.slug,
 			title: event.title,
+			timeZoneIana: event.timeZoneIana,
 			visibility: event.visibility,
 			lifecycleStatus: event.lifecycleStatus,
 			registrationStatus: event.registrationStatus,
 			firstSessionStartAtUtc: event.startAtUtc,
 			firstSessionEndAtUtc: event.endAtUtc,
+			lastSessionStartAtUtc: sessions.at(-1)?.startAtUtc,
+			lastSessionEndAtUtc: sessions.at(-1)?.endAtUtc,
+			locationMode: event.locationMeta?.mode,
 			locationLabel: event.location,
 			startDateTimeCopy: formatStartDateTimeCopy(normalizeEventSessions(event.sessions ?? [])),
 			tagline: event.tagline,

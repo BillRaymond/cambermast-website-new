@@ -78,6 +78,52 @@ const toJsonString = (value: unknown): string => `${JSON.stringify(value, null, 
 
 const toTimestamp = (value?: string): number => (value ? new Date(value).valueOf() : Number.NaN);
 
+const formatLumaDate = (timestamp: number, timeZone: string): string =>
+	new Intl.DateTimeFormat('en-US', {
+		timeZone,
+		weekday: 'short',
+		month: 'short',
+		day: 'numeric',
+		year: 'numeric'
+	}).format(timestamp);
+
+const getLumaDateParts = (
+	timestamp: number,
+	timeZone: string
+): { year: number; month: number; day: number } => {
+	const parts = new Intl.DateTimeFormat('en-US', {
+		timeZone,
+		year: 'numeric',
+		month: 'numeric',
+		day: 'numeric'
+	}).formatToParts(timestamp);
+	return {
+		year: Number(parts.find((part) => part.type === 'year')?.value ?? '0'),
+		month: Number(parts.find((part) => part.type === 'month')?.value ?? '0'),
+		day: Number(parts.find((part) => part.type === 'day')?.value ?? '0')
+	};
+};
+
+const formatLumaTime = (timestamp: number, timeZone: string): string => {
+	const parts = new Intl.DateTimeFormat('en-US', {
+		timeZone,
+		hour: '2-digit',
+		minute: '2-digit',
+		hour12: false
+	}).formatToParts(timestamp);
+	const hour = parts.find((part) => part.type === 'hour')?.value ?? '00';
+	const minute = parts.find((part) => part.type === 'minute')?.value ?? '00';
+	return `${hour}:${minute}`;
+};
+
+const formatLumaTimeOption = (timestamp: number, timeZone: string): string =>
+	new Intl.DateTimeFormat('en-US', {
+		timeZone,
+		hour: 'numeric',
+		minute: '2-digit',
+		hour12: true
+	}).format(timestamp);
+
 const toLocalImagePath = (imageUrl?: string): string | undefined => {
 	const trimmed = imageUrl?.trim();
 	if (!trimmed || !trimmed.startsWith('/')) return undefined;
@@ -322,6 +368,137 @@ const uploadImageIfPossible = async (
 	return false;
 };
 
+const fillNthVisible = async (
+	page: import('@playwright/test').Page,
+	selector: string,
+	index: number,
+	value: string,
+	options: { afterFillPress?: string } = {}
+): Promise<boolean> => {
+	if (!value.trim()) return false;
+	const locator = page.locator(selector).nth(index);
+	if ((await locator.count()) === 0) return false;
+	await locator.waitFor({ state: 'visible', timeout: 5000 }).catch(() => null);
+	if (!(await locator.isVisible().catch(() => false))) return false;
+	await locator.click({ timeout: 5000 }).catch(() => null);
+	await locator.fill(value);
+	if (options.afterFillPress) {
+		await page.keyboard.press(options.afterFillPress).catch(() => null);
+	}
+	return true;
+};
+
+const dismissFloatingPortalIfPresent = async (
+	page: import('@playwright/test').Page
+): Promise<void> => {
+	const portal = page.locator('[data-floating-ui-portal]').last();
+	if ((await portal.count()) === 0) return;
+	await page.keyboard.press('Escape').catch(() => null);
+	await page.waitForTimeout(200);
+	await page.keyboard.press('Tab').catch(() => null);
+	await page.waitForTimeout(100);
+	await page.mouse.click(16, 16).catch(() => null);
+	await page.waitForTimeout(200);
+};
+
+const setLumaTime = async (
+	page: import('@playwright/test').Page,
+	inputIndex: number,
+	timestamp: number,
+	timeZone: string
+): Promise<boolean> => {
+	const input = page.locator('input[type="time"]').nth(inputIndex);
+	if ((await input.count()) === 0) return false;
+	await input.click({ timeout: 5000 }).catch(() => null);
+	await page.waitForTimeout(200);
+
+	const optionLabel = formatLumaTimeOption(timestamp, timeZone);
+	const option = page.locator('[data-floating-ui-portal]').last().getByText(optionLabel, { exact: true }).first();
+	if ((await option.count()) > 0) {
+		await option.click({ force: true }).catch(() => null);
+		await page.waitForTimeout(200);
+		await dismissFloatingPortalIfPresent(page);
+		return true;
+	}
+
+	await input.fill(formatLumaTime(timestamp, timeZone)).catch(() => null);
+	await page.keyboard.press('Tab').catch(() => null);
+	await page.waitForTimeout(200);
+	await dismissFloatingPortalIfPresent(page);
+	return true;
+};
+
+const escapeRegExp = (value: string): string => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+const normalizeLumaTitleNeedle = (value: string): string =>
+	value
+		.replace(/^[^\p{L}\p{N}]+/u, '')
+		.replace(/\s*\([^)]*\)\s*/g, ' ')
+		.replace(/\s+/g, ' ')
+		.trim();
+
+const openCreatedEventFromEventsList = async (
+	page: import('@playwright/test').Page,
+	entry: AdminEventLumaEntry,
+	log: (message: string) => void
+): Promise<boolean> => {
+	if (!/https?:\/\/(?:www\.)?(?:lu\.ma|luma\.com)\/events/i.test(page.url())) return false;
+	const titleNeedle = normalizeLumaTitleNeedle(entry.title) || normalizeLumaTitleNeedle(entry.nameCopy);
+	if (!titleNeedle) return false;
+
+	const heading = page.getByText(new RegExp(escapeRegExp(titleNeedle), 'i')).first();
+	if ((await heading.count()) === 0) return false;
+
+	const card = heading.locator('xpath=ancestor::div[contains(@class, "content-card")]').first();
+	if ((await card.count()) === 0) return false;
+
+	const manageButton = card.getByText(/manage event/i).first();
+	if ((await manageButton.count()) > 0) {
+		await manageButton.click({ force: true }).catch(() => null);
+	} else {
+		await card.click({ force: true }).catch(() => null);
+	}
+	await page.waitForLoadState('domcontentloaded').catch(() => null);
+	await page.waitForTimeout(1500);
+	log('Opened created event from the Luma events list.');
+	return !/\/events(?:\/?$|\?)/i.test(page.url());
+};
+
+const pickLumaDate = async (
+	page: import('@playwright/test').Page,
+	inputIndex: number,
+	timestamp: number,
+	timeZone: string
+): Promise<boolean> => {
+	const input = page.locator('input[type="text"].dt-input').nth(inputIndex);
+	if ((await input.count()) === 0) return false;
+	const targetLabel = formatLumaDate(timestamp, timeZone);
+	await input.click({ timeout: 5000 }).catch(() => null);
+	await input.fill(targetLabel).catch(() => null);
+	await page.keyboard.press('Enter').catch(() => null);
+	await page.keyboard.press('Tab').catch(() => null);
+	await page.waitForTimeout(300);
+	const currentValue = (await input.inputValue().catch(() => '')).trim();
+	if (currentValue === targetLabel) {
+		await dismissFloatingPortalIfPresent(page);
+		return true;
+	}
+
+	await input.click({ timeout: 5000 }).catch(() => null);
+	await page.waitForTimeout(300);
+
+	const { year, month, day } = getLumaDateParts(timestamp, timeZone);
+	const dayCell = page
+		.locator(`[data-lux-date-picker-month="${year.toString()}-${month.toString()}"] .day`)
+		.filter({ hasText: new RegExp(`^${day.toString()}$`) })
+		.first();
+	if ((await dayCell.count()) === 0) return false;
+	await dayCell.click({ timeout: 5000 }).catch(() => null);
+	await page.waitForTimeout(300);
+	await dismissFloatingPortalIfPresent(page);
+	return true;
+};
+
 const clickButtonByName = async (
 	page: import('@playwright/test').Page,
 	patterns: RegExp[]
@@ -333,6 +510,93 @@ const clickButtonByName = async (
 			return true;
 		}
 	}
+	return false;
+};
+
+const setTimezoneIfPossible = async (
+	page: import('@playwright/test').Page,
+	timeZoneIana: string | undefined,
+	log: (message: string) => void
+): Promise<boolean> => {
+	if (!timeZoneIana) return false;
+
+	const preferredLabels = {
+		'America/Los_Angeles': 'Pacific Time - Los Angeles'
+	} as const;
+	const label = preferredLabels[timeZoneIana as keyof typeof preferredLabels];
+	if (!label) return false;
+
+	const opened =
+		(await clickFirstAvailable(page, [
+			'text=GMT+00:00',
+			'text=UTC',
+			'[class*="tz-input"]',
+			'[class*="tz-display"]'
+		])) || (await clickButtonByName(page, [/utc/i, /gmt/i]));
+	if (!opened) return false;
+
+	await page.waitForTimeout(500);
+	const option = page.getByText(label, { exact: true }).first();
+	if ((await option.count()) === 0) return false;
+	await option.click();
+	log(`Selected timezone ${label}.`);
+	return true;
+};
+
+const fillDescriptionModal = async (
+	page: import('@playwright/test').Page,
+	value: string,
+	log: (message: string) => void
+): Promise<boolean> => {
+	if (!value.trim()) return false;
+	const opened = await clickFirstAvailable(page, [
+		'[role="button"]:has-text("Add Description")',
+		'text=Add Description'
+	]);
+	if (!opened) return false;
+	await page.waitForTimeout(500);
+
+	const editor = page.getByRole('textbox').last();
+	if ((await editor.count()) === 0) return false;
+	await editor.click();
+	await editor.fill(value);
+	await page.getByRole('button', { name: /^done$/i }).click().catch(() => null);
+	await page.waitForTimeout(300);
+	log('Filled description.');
+	return true;
+};
+
+const setLocation = async (
+	page: import('@playwright/test').Page,
+	entry: AdminEventLumaEntry,
+	log: (message: string) => void
+): Promise<boolean> => {
+	const opened = await clickFirstAvailable(page, [
+		'text=Add Event Location',
+		'[role="button"]:has-text("Add Event Location")'
+	]);
+	if (!opened) return false;
+	await page.waitForTimeout(500);
+
+	if (entry.locationMode === 'online') {
+		const zoomOption = page.getByText('Create Zoom meeting', { exact: true }).first();
+		if ((await zoomOption.count()) > 0) {
+			await zoomOption.click();
+			await page.waitForTimeout(500);
+			log('Selected Create Zoom meeting for location.');
+			return true;
+		}
+	}
+
+	if (entry.locationLabel.trim()) {
+		const textarea = page.locator('textarea[placeholder*="location" i], textarea[placeholder*="virtual link" i]').first();
+		if ((await textarea.count()) > 0) {
+			await textarea.fill(entry.locationLabel);
+			log('Filled location text.');
+			return true;
+		}
+	}
+
 	return false;
 };
 
@@ -351,16 +615,43 @@ const chooseMostPrivateVisibility = async (
 	}
 
 	if (await clickButtonByName(page, [/visibility/i, /public/i])) {
-		for (const pattern of directOptions) {
-			const option =
-				page.getByRole('menuitemradio', { name: pattern }).first() ||
-				page.getByRole('option', { name: pattern }).first();
-			if ((await option.count()) > 0) {
-				await option.click().catch(() => null);
-				log(`Selected visibility option matching ${pattern.toString()} from menu.`);
-				return;
+		await page.waitForTimeout(400);
+		const floatingMenu = page.locator('[data-floating-ui-portal]').last();
+		const menuOptions = [
+			{
+				locator: floatingMenu.getByText(/^Private$/, { exact: true }).first(),
+				label: 'Private'
+			},
+			{
+				locator: floatingMenu.getByText(/Unlisted/, { exact: false }).first(),
+				label: 'Unlisted'
+			},
+			{
+				locator: page.locator('[data-floating-ui-portal] .title').filter({ hasText: /^Private$/ }).first(),
+				label: 'Private'
+			},
+			{
+				locator: page.locator('[data-floating-ui-portal] .title').filter({ hasText: /^Unlisted$/ }).first(),
+				label: 'Unlisted'
+			},
+			{
+				locator: page.locator('[data-floating-ui-portal] .desc').filter({
+					hasText: 'Only people with the link can register.'
+				}).first(),
+				label: 'Unlisted'
 			}
+		];
+		for (const option of menuOptions) {
+			if ((await option.locator.count()) === 0) continue;
+			await option.locator.click({ force: true }).catch(() => null);
+			log(`Selected visibility option ${option.label} from menu.`);
+			return;
 		}
+
+		await page.keyboard.press('ArrowDown').catch(() => null);
+		await page.keyboard.press('Enter').catch(() => null);
+		log('Selected visibility option with keyboard fallback.');
+		return;
 	}
 
 	throw new Error('Unable to select a private or unlisted visibility option in the Luma UI.');
@@ -405,55 +696,54 @@ export const createPrivateLumaEvent = async (
 	const startedAt = new Date().toISOString();
 	const imagePath = toLocalImagePath(entry.previewImageUrl);
 	const firstSession = normalizeEventSessions([
-		{
-			startAtUtc: entry.firstSessionStartAtUtc ?? '',
-			endAtUtc: entry.firstSessionEndAtUtc ?? entry.firstSessionStartAtUtc ?? ''
-		}
-	])[0];
+		{ startAtUtc: entry.firstSessionStartAtUtc ?? '', endAtUtc: entry.firstSessionEndAtUtc ?? '' },
+		{ startAtUtc: entry.lastSessionStartAtUtc ?? '', endAtUtc: entry.lastSessionEndAtUtc ?? '' }
+	]).filter((session) => Number.isFinite(session.startTimestamp));
+	const firstSessionRecord = firstSession[0];
+	const lastSessionRecord = firstSession.at(-1);
 
-	if (!firstSession) {
+	if (!firstSessionRecord || !lastSessionRecord) {
 		throw new Error('The event must have a valid first session to create a private Luma event.');
 	}
 
 	const browser = await chromium.launch({ headless: config.headless });
 	try {
-		const context = await browser.newContext({ storageState: config.storageStatePath });
+		const context = await browser.newContext({
+			storageState: config.storageStatePath,
+			locale: 'en-US',
+			timezoneId: entry.timeZoneIana?.trim() || 'America/Los_Angeles'
+		});
 		const page = await context.newPage();
 		await page.goto(config.createUrl, { waitUntil: 'domcontentloaded' });
 		await page.screenshot({ path: path.join(artifactDir, '01-create-page.png'), fullPage: true });
 
-		const titleFilled = await fillFirstAvailable(page, ['input[name="title"]', 'input[placeholder*="title" i]'], entry.nameCopy);
+		const titleFilled = await fillFirstAvailable(page, [
+			'textarea[placeholder="Event Name"]',
+			'input[name="title"]',
+			'input[placeholder*="title" i]'
+		], entry.nameCopy);
 		if (!titleFilled) throw new Error('Unable to find the event title field in the Luma create form.');
 		log('Filled event title.');
 
-		await fillFirstAvailable(
-			page,
-			['textarea[name="description"]', 'textarea[placeholder*="description" i]', '[contenteditable="true"]'],
-			entry.descriptionCopy
-		);
-		log('Filled description.');
+		await chooseMostPrivateVisibility(page, log);
 
-		await fillFirstAvailable(page, ['input[type="date"]', 'input[name*="date" i]'], new Date(firstSession.startTimestamp).toISOString().slice(0, 10));
-		await fillFirstAvailable(
-			page,
-			['input[type="time"]', 'input[name*="start" i]', 'input[placeholder*="start time" i]'],
-			new Date(firstSession.startTimestamp).toISOString().slice(11, 16)
-		);
-		await fillFirstAvailable(
-			page,
-			['input[name*="end" i]', 'input[placeholder*="end time" i]'],
-			new Date(firstSession.endTimestamp).toISOString().slice(11, 16)
-		);
+		if (!(await fillDescriptionModal(page, entry.descriptionCopy, log))) {
+			log('Skipped description because no compatible description editor was found.');
+		}
+
+		await setTimezoneIfPossible(page, entry.timeZoneIana, log);
+
+		const eventTimeZone = entry.timeZoneIana?.trim() || 'America/Los_Angeles';
+		await pickLumaDate(page, 0, firstSessionRecord.startTimestamp, eventTimeZone);
+		await setLumaTime(page, 0, firstSessionRecord.startTimestamp, eventTimeZone);
+		await pickLumaDate(page, 1, lastSessionRecord.startTimestamp, eventTimeZone);
+		await setLumaTime(page, 1, lastSessionRecord.endTimestamp, eventTimeZone);
 		log('Filled first session timing.');
 
-		if (entry.locationLabel.trim()) {
-			await clickButtonByName(page, [/online/i, /virtual/i]).catch(() => null);
-			await fillFirstAvailable(
-				page,
-				['input[name*="location" i]', 'input[placeholder*="location" i]', 'input[placeholder*="where" i]'],
-				entry.locationLabel
-			);
-			log('Filled location.');
+		if (entry.locationLabel.trim() || entry.locationMode === 'online') {
+			if (!(await setLocation(page, entry, log))) {
+				log('Skipped location because no compatible location editor was found.');
+			}
 		}
 
 		if (entry.priceCopy.trim()) {
@@ -472,19 +762,21 @@ export const createPrivateLumaEvent = async (
 			log('Skipped image upload because no compatible file input was found.');
 		}
 
-		await chooseMostPrivateVisibility(page, log);
 		await page.screenshot({ path: path.join(artifactDir, '02-filled-private.png'), fullPage: true });
 
-		const submitted =
+		let submitted =
 			(await clickButtonByName(page, [/create event/i, /continue/i, /save/i, /next/i])) ||
 			(await clickFirstAvailable(page, ['button[type="submit"]']));
-		if (!submitted) {
+		if (submitted) {
+			log('Submitted private event creation form.');
+			await page.waitForLoadState('domcontentloaded').catch(() => null);
+			await page.waitForTimeout(2500);
+		} else if (await openCreatedEventFromEventsList(page, entry, log)) {
+			submitted = true;
+		} else {
 			throw new Error('Unable to find the final create/save button in the Luma create form.');
 		}
-		log('Submitted private event creation form.');
 
-		await page.waitForLoadState('domcontentloaded');
-		await page.waitForTimeout(2500);
 		await page.screenshot({ path: path.join(artifactDir, '03-after-submit.png'), fullPage: true });
 
 		const privateManageUrl = page.url();
