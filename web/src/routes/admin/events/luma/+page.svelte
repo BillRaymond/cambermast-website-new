@@ -515,6 +515,11 @@
 							Run Playwright, create the event in Luma with the most private visibility available,
 							then stop for manual review.
 						</p>
+						<p class="mt-2 text-xs text-gray-500">
+							The workflow now tries to upload the event&apos;s square hero image automatically.
+							If Luma changes the upload UI, check the artifact screenshots and run log first to see
+							whether the image step was skipped or left unconfirmed.
+						</p>
 						<div class="mt-3 flex flex-wrap gap-2">
 							<button
 								type="submit"

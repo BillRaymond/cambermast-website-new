@@ -9,6 +9,7 @@ import { normalizeEventSessions } from '$lib/data/events/timeline';
 import { buildAdminEventLumaEntries, type AdminEventLumaEntry } from '$lib/view-models/admin-event-luma';
 import { listEventUi } from '$lib/view-models/events';
 import { eventsPath, eventsSchemaPath, lumaArtifactsRoot, webRoot } from '$lib/server/data-paths';
+import { uploadImageIfPossible } from '$lib/server/luma-image-upload';
 import { capturePublicLumaUrlFromManagePage } from '$lib/server/luma-share-url';
 import type { LumaPublishRecord } from '$lib/server/luma-publish-registry';
 import { chromium } from '@playwright/test';
@@ -368,23 +369,6 @@ const clickFirstAvailable = async (
 	if (!locator) return false;
 	await locator.click();
 	return true;
-};
-
-const uploadImageIfPossible = async (
-	page: import('@playwright/test').Page,
-	imagePath: string | undefined
-): Promise<boolean> => {
-	if (!imagePath || !existsSync(imagePath)) return false;
-
-	for (const selector of ['input[type="file"]', 'input[accept*="image"]']) {
-		const locator = page.locator(selector).first();
-		if ((await locator.count()) > 0) {
-			await locator.setInputFiles(imagePath);
-			return true;
-		}
-	}
-
-	return false;
 };
 
 const openLumaCreatePage = async (
@@ -840,14 +824,38 @@ export const createPrivateLumaEvent = async (
 			}
 		}
 
-		const uploadedImage = await uploadImageIfPossible(page, imagePath);
-		if (uploadedImage) {
-			log(`Uploaded image from ${imagePath}.`);
+		const imageUpload = await uploadImageIfPossible(page, imagePath);
+		if (imageUpload.attempted) {
+			const methodLabel =
+				imageUpload.method === 'direct_input'
+					? 'direct file input'
+					: imageUpload.method === 'file_chooser'
+						? 'native file chooser'
+						: 'unknown method';
+			log(
+				`Attempted image upload from ${imagePath} using ${methodLabel}${
+					imageUpload.triggerDescription ? ` (${imageUpload.triggerDescription})` : ''
+				}.`
+			);
+			if (imageUpload.confirmed) {
+				log(
+					`Confirmed image upload via ${imageUpload.confirmationReason ?? 'an available UI signal'}.`
+				);
+			} else {
+				log(
+					imageUpload.warning ??
+						'Image upload was attempted, but no confirmation signal appeared in the Luma UI.'
+				);
+			}
+			await page.screenshot({ path: path.join(artifactDir, '02-image-upload-attempt.png'), fullPage: true });
 		} else {
-			log('Skipped image upload because no compatible file input was found.');
+			log(
+				imageUpload.warning ??
+					'Skipped image upload because no compatible Luma upload control was found.'
+			);
 		}
 
-		await page.screenshot({ path: path.join(artifactDir, '02-filled-private.png'), fullPage: true });
+		await page.screenshot({ path: path.join(artifactDir, '03-filled-private.png'), fullPage: true });
 
 		let submitted =
 			(await clickButtonByName(page, [/create event/i, /continue/i, /save/i, /next/i])) ||
@@ -862,7 +870,7 @@ export const createPrivateLumaEvent = async (
 			throw new Error('Unable to find the final create/save button in the Luma create form.');
 		}
 
-		await page.screenshot({ path: path.join(artifactDir, '03-after-submit.png'), fullPage: true });
+		await page.screenshot({ path: path.join(artifactDir, '04-after-submit.png'), fullPage: true });
 
 		const privateManageUrl = page.url();
 		if (!/https?:\/\/(?:www\.)?(?:lu\.ma|luma\.com)\//i.test(privateManageUrl)) {
@@ -871,7 +879,7 @@ export const createPrivateLumaEvent = async (
 
 		const publicUrl = await capturePublicLumaUrlFromManagePage(page, {
 			log,
-			screenshotPath: path.join(artifactDir, '04-share-section.png')
+			screenshotPath: path.join(artifactDir, '05-share-section.png')
 		});
 		const finishedAt = new Date().toISOString();
 		await fs.writeFile(path.join(artifactDir, 'run-log.txt'), `${logs.join('\n')}\n`, 'utf-8');
