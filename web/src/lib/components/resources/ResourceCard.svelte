@@ -12,7 +12,7 @@
 	class="group flex flex-col gap-4 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition hover:border-blue-200 hover:bg-blue-50/60 sm:flex-row sm:items-start"
 >
 	{#if imageSrc}
-		<figure class="w-full overflow-hidden rounded-2xl border border-gray-200 bg-white sm:w-48">
+		<figure class="w-full overflow-hidden rounded-2xl border border-gray-200 bg-white sm:w-48 sm:shrink-0">
 			<img
 				class="h-auto w-full object-contain"
 				src={imageSrc}
@@ -28,7 +28,7 @@
 			Image coming soon
 		</div>
 	{/if}
-	<div class="space-y-2 text-left">
+	<div class="min-w-0 space-y-2 text-left">
 		<p class="text-xs font-semibold tracking-wide text-blue-600 uppercase">{label}</p>
 		<h2 class="text-2xl font-semibold text-gray-900">{title}</h2>
 		<p class="text-sm text-gray-700">
