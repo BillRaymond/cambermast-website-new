@@ -1,11 +1,7 @@
 <script lang="ts">
 	import ResourceHeader from '$lib/components/resources/ResourceHeader.svelte';
 	import { getResource } from '$lib/data/resources';
-	import {
-		aiCodingPromptGuide,
-		aiCodingPromptGuidePdfUrl,
-		aiCodingPromptGuidePrintUrl
-	} from '$lib/data/resources/printable/ai-coding-prompt-guide';
+	import { aiCodingPromptGuide } from '$lib/data/resources/printable/ai-coding-prompt-guide';
 	import { getImageAlt, getLandscapeImageUrl } from '$lib/data/image-contract';
 
 	const resource = getResource('ai-coding-prompt-guide');
@@ -23,20 +19,9 @@
 	label={resource?.label ?? aiCodingPromptGuide.label}
 >
 	<div slot="actions" class="flex flex-wrap gap-3 pt-1">
-		<a
-			href={aiCodingPromptGuidePdfUrl}
-			target="_blank"
-			rel="noopener noreferrer"
-			class="inline-flex items-center justify-center rounded-full border border-blue-700 bg-blue-600 px-4 py-1.5 text-sm font-semibold text-white shadow-sm transition hover:border-blue-800 hover:bg-blue-700"
-		>
-			Download the PDF
-		</a>
-		<a
-			href={aiCodingPromptGuidePrintUrl}
-			class="inline-flex items-center justify-center rounded-full border border-blue-200 bg-white px-4 py-1.5 text-sm font-semibold text-blue-700 shadow-sm transition hover:border-blue-300 hover:bg-blue-50 hover:text-blue-900"
-		>
-			Open print view
-		</a>
+		<span class="inline-flex items-center justify-center rounded-full border border-gray-300 bg-gray-100 px-4 py-1.5 text-sm font-semibold text-gray-500">
+			Printable PDF version coming soon
+		</span>
 	</div>
 </ResourceHeader>
 

@@ -12,27 +12,27 @@
 			"images": {
 				"current": {
 					"square": {
-						"url": "/images/cambermast-content-8-resources-og.jpeg"
+						"url": "/images/resources/ai-coding-prompt-guide/hero-square.jpg"
 					},
 					"landscape": {
-						"url": "/images/cambermast-content-8-resources-og.jpeg"
+						"url": "/images/resources/ai-coding-prompt-guide/hero-landscape.jpg"
 					},
 					"portrait": {
-						"url": "/images/cambermast-content-8-resources-og.jpeg"
+						"url": "/images/resources/ai-coding-prompt-guide/hero-portrait.jpg"
 					},
 					"alt": "AI Coding Prompt Guide featured image.",
-					"kind": "manual",
+					"kind": "generated",
 					"prompts": {
-						"square": "AI Coding Prompt Guide placeholder hero image using the shared resources OG asset.",
-						"landscape": "AI Coding Prompt Guide placeholder hero image using the shared resources OG asset.",
-						"portrait": "AI Coding Prompt Guide placeholder hero image using the shared resources OG asset."
+						"square": "Abstract geometric background inspired by a modern sail or sense of forward motion, filling the entire image. Bright blue #0063F2 as the dominant base with layered shapes of bold blue #0037BE, mint green #8BD8BD, orange #F49F1C, and subtle deep navy #012072 accents.\n\nDesign should feel light, airy, and background-oriented. Shapes should appear semi-transparent with low opacity, softly blended into one another. Use reduced contrast and slightly desaturated colors to keep the composition calm and unobtrusive.\n\nClean overlapping angular panels with very soft edges and smooth gradients. Extremely subtle layering and depth, with a faint fine-grained texture.\n\nMaintain a quiet visual hierarchy so the background does not compete with foreground text or imagery. No sharp edges, no high contrast areas, no focal point. The composition should feel soft, diffused, and atmospheric.\n\nIn the center, add the text AI CODING PROMPTING GUIDE (could be one or two lines). Add a colorful visual symbol <AI> that matches the overall design aesthetic.\n",
+						"landscape": "Recreate the provided template image as a landscape. Avoid the top and bottom 25%.",
+						"portrait": "Recreate the provided template image in portrait format. Avoid the top and bottom 25%."
 					},
 					"reference": {
 						"url": "/images/cambermast-content-8-resources-og.jpeg",
-						"sourceType": "manual",
-						"label": "Shared resources OG placeholder"
+						"sourceType": "training_reference",
+						"label": "AI Coding Prompt Guide"
 					},
-					"historyId": "ai20260417guide"
+					"historyId": "11536cec1496448b"
 				}
 			}
 		},

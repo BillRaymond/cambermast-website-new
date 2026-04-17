@@ -15,6 +15,11 @@ type RelevantEntry = {
 	kind: 'file' | 'dir';
 };
 
+const resourcePageEntries: RelevantEntry[] = listPrintableResources().map((resource) => ({
+	path: path.join('src', 'routes', 'resources', resource.slug, '+page.svelte'),
+	kind: 'file' as const
+}));
+
 const sourceRelevantEntries: RelevantEntry[] = [
 	{
 		path: path.join('src', 'routes', '(plain)', 'resources', '[slug]', 'print', '+page.svelte'),
@@ -24,10 +29,7 @@ const sourceRelevantEntries: RelevantEntry[] = [
 		path: path.join('src', 'routes', '(plain)', 'resources', '[slug]', 'print', '+page.ts'),
 		kind: 'file'
 	},
-	{
-		path: path.join('src', 'routes', 'resources', 'ai-coding-prompt-guide', '+page.svelte'),
-		kind: 'file'
-	},
+	...resourcePageEntries,
 	{
 		path: path.join('scripts', 'generate-resource-pdfs.ts'),
 		kind: 'file'

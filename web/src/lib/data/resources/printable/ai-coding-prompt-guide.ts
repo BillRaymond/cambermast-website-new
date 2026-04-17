@@ -88,8 +88,8 @@ export const aiCodingPromptGuide: PrintableResource = {
 		'A visual quick-reference guide for choosing plan mode or a focused chat, writing clearer AI prompts, and handling Git and GitHub follow-through with less friction.',
 	label: 'AI coding',
 	publishedAt: '2026-04-17',
-	heroImage: '/images/cambermast-content-8-resources-og.jpeg',
-	heroImageAlt: 'Cambermast resources hero image for the AI Coding Prompt Guide.',
+	heroImage: '/images/resources/ai-coding-prompt-guide/hero-landscape.jpg',
+	heroImageAlt: 'AI Coding Prompt Guide featured image.',
 	quickStart: {
 		eyebrow: 'Start here',
 		title: 'Use the right mode before you write the prompt',
