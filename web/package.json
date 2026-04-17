@@ -11,7 +11,7 @@
 		"dev:host": "vite dev --host 0.0.0.0 --port 5173",
 		"desktop:start": "bash ./scripts/start-remote-desktop.sh",
 		"luma:auth": "bash ./scripts/capture-luma-auth.sh",
-		"build": "tsx ./scripts/reset-generated-output.ts && tsx ./scripts/generate-training-pdfs.ts --mode=dev --origin=https://www.cambermast.com && vite build && node ./scripts/write-static-admin-campaign-redirect.mjs",
+		"build": "tsx ./scripts/reset-generated-output.ts && tsx ./scripts/generate-training-pdfs.ts --mode=dev --origin=https://www.cambermast.com && tsx ./scripts/generate-resource-pdfs.ts --mode=dev --origin=https://www.cambermast.com && vite build && node ./scripts/write-static-admin-campaign-redirect.mjs",
 		"clean:artifacts": "tsx ./scripts/cleanup-generated-artifacts.ts",
 		"preview": "vite preview",
 		"prepreview": "node ./scripts/sync-site-metadata.mjs && npm run validate:events && npm run validate:campaigns && npm run validate:registries && npm run validate:api && npm run validate:public-endpoints && npm run validate:schema-governance && npm run validate:ui-adapters && npm run validate:no-duplicate-files",
@@ -45,7 +45,10 @@
 		"featured:compose-default": "node ./scripts/compose-featured-images.mjs",
 		"generate:training-pdfs": "tsx ./scripts/generate-training-pdfs.ts",
 		"watch:training-pdfs": "tsx ./scripts/watch-training-pdfs.ts",
-		"generate:training-pdfs:dev": "tsx ./scripts/generate-training-pdfs.ts --mode=dev"
+		"generate:training-pdfs:dev": "tsx ./scripts/generate-training-pdfs.ts --mode=dev",
+		"generate:resource-pdfs": "tsx ./scripts/generate-resource-pdfs.ts",
+		"watch:resource-pdfs": "tsx ./scripts/watch-resource-pdfs.ts",
+		"generate:resource-pdfs:dev": "tsx ./scripts/generate-resource-pdfs.ts --mode=dev"
 	},
 	"devDependencies": {
 		"@eslint/compat": "^1.4.1",

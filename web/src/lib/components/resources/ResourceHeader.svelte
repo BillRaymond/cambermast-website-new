@@ -20,6 +20,7 @@
 				{#if description}
 					<p class="text-lg text-gray-700">{description}</p>
 				{/if}
+				<slot name="actions" />
 			</div>
 			{#if imageSrc}
 				<figure

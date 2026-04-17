@@ -17,11 +17,17 @@ if is_expected_dev_running; then
 fi
 
 npm run watch:training-pdfs &
-WATCH_PID=$!
+TRAINING_WATCH_PID=$!
+npm run watch:resource-pdfs &
+RESOURCE_WATCH_PID=$!
 
 cleanup() {
-  if kill -0 "$WATCH_PID" >/dev/null 2>&1; then
-    kill "$WATCH_PID" >/dev/null 2>&1 || true
+  if kill -0 "$TRAINING_WATCH_PID" >/dev/null 2>&1; then
+    kill "$TRAINING_WATCH_PID" >/dev/null 2>&1 || true
+  fi
+
+  if kill -0 "$RESOURCE_WATCH_PID" >/dev/null 2>&1; then
+    kill "$RESOURCE_WATCH_PID" >/dev/null 2>&1 || true
   fi
 }
 

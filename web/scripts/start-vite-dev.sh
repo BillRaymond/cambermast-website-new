@@ -11,7 +11,7 @@ INSTALLED_LOCKFILE_PATH="node_modules/.package-lock.json"
 print_success_message() {
   cat <<EOF
 Cambermast dev server is running at http://localhost:5173/
-Brochure PDF watcher is running alongside Vite.
+Training and resource PDF watchers are running alongside Vite.
 Logs: $DEV_LOG
 Note: the VS Code post-start terminal will close after this command finishes.
 EOF

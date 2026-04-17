@@ -84,6 +84,7 @@ Authoritative sources:
 - https://cambermast.com/training/ai-workshop-code-and-automate-with-ai
 - https://cambermast.com/training/terms
 - https://cambermast.com/resources
+- https://cambermast.com/resources/ai-coding-prompt-guide
 - https://cambermast.com/resources/ai-workshop-code-and-automate-with-ai-setup
 - https://cambermast.com/resources/ai-personalization
 - https://cambermast.com/resources/ask-me-anything-pricing

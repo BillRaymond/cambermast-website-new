@@ -1,6 +1,42 @@
 {
 	"resources": [
 		{
+			"id": "resource-ai-coding-prompt-guide",
+			"slug": "ai-coding-prompt-guide",
+			"route": "/resources/ai-coding-prompt-guide",
+			"title": "AI Coding Prompt Guide",
+			"summary": "A visual quick-reference guide for choosing plan mode or a short chat, writing clearer AI prompts, and handling Git and GitHub follow-through with less friction.",
+			"category": "ai-guidance",
+			"publishedAt": "2026-04-17",
+			"label": "AI coding",
+			"images": {
+				"current": {
+					"square": {
+						"url": "/images/cambermast-content-8-resources-og.jpeg"
+					},
+					"landscape": {
+						"url": "/images/cambermast-content-8-resources-og.jpeg"
+					},
+					"portrait": {
+						"url": "/images/cambermast-content-8-resources-og.jpeg"
+					},
+					"alt": "AI Coding Prompt Guide featured image.",
+					"kind": "manual",
+					"prompts": {
+						"square": "AI Coding Prompt Guide placeholder hero image using the shared resources OG asset.",
+						"landscape": "AI Coding Prompt Guide placeholder hero image using the shared resources OG asset.",
+						"portrait": "AI Coding Prompt Guide placeholder hero image using the shared resources OG asset."
+					},
+					"reference": {
+						"url": "/images/cambermast-content-8-resources-og.jpeg",
+						"sourceType": "manual",
+						"label": "Shared resources OG placeholder"
+					},
+					"historyId": "ai20260417guide"
+				}
+			}
+		},
+		{
 			"id": "resource-ai-workshop-code-and-automate-with-ai-setup",
 			"slug": "ai-workshop-code-and-automate-with-ai-setup",
 			"route": "/resources/ai-workshop-code-and-automate-with-ai-setup",

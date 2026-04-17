@@ -151,6 +151,13 @@ If existing event records drift out of sync, run `npm --prefix web run campaigns
 - On startup, the watcher compares brochure-input mtimes to the generated PDFs and only rebuilds when the PDFs are missing or stale.
 - Use `npm --prefix web run generate:training-pdfs:dev` when you want a manual rebuild outside the watcher flow.
 
+## Printable Resource PDF Rules
+
+- Printable resource PDFs reuse the same overall pattern as training brochures: a dedicated print route, a Playwright-based PDF generator, and published files under `web/static/downloads/resources/`.
+- The first printable resource is `web/src/routes/resources/ai-coding-prompt-guide/+page.svelte`, with its print route at `web/src/routes/(plain)/resources/[slug]/print/+page.svelte`.
+- `npm --prefix web run dev` now starts both the training brochure watcher and the printable-resource watcher alongside Vite.
+- Use `npm --prefix web run generate:resource-pdfs:dev` when you want to manually rebuild printable resource PDFs during development.
+
 ## Form Submission Standard
 
 - Use `web/src/lib/components/forms/TurnstileField.svelte` for Cloudflare Turnstile in new forms.

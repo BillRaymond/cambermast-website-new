@@ -76,6 +76,11 @@ export const pageSeo: SeoOverrides = {
 		description:
 			'Install Visual Studio Code, a Codex or Claude extension, Git, GitHub, and Docker Desktop, then confirm your paid Claude or ChatGPT account works in the browser.'
 	},
+	'/resources/ai-coding-prompt-guide': {
+		title: 'AI Coding Prompt Guide | Cambermast',
+		description:
+			'Learn when to start in plan mode, when to use a standard chat, and how to ask an AI coder for small changes, commits, syncing, and verification.'
+	},
 	'/resources/ai-personalization': {
 		title: 'AI Personalization | Clearer, Faster AI Responses | Cambermast',
 		description:
