@@ -14,9 +14,23 @@
 	const homebrewInstallCommand =
 		'/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"';
 	const brewInstallGitCommand = 'brew install git';
-	const gitConfigCommands = `git config --global user.name "John Doe"
-git config --global user.email johndoe@example.com
-git config --global init.defaultBranch main`;
+	const gitConfigCommands = [
+		{
+			id: 'git-config-name',
+			label: 'Set Git username',
+			command: 'git config --global user.name "John Doe"'
+		},
+		{
+			id: 'git-config-email',
+			label: 'Set Git email',
+			command: 'git config --global user.email johndoe@example.com'
+		},
+		{
+			id: 'git-config-branch',
+			label: 'Set default branch',
+			command: 'git config --global init.defaultBranch main'
+		}
+	];
 	let copiedCommandId = '';
 	let copyTimer: ReturnType<typeof setTimeout> | undefined;
 
@@ -99,63 +113,105 @@ git config --global init.defaultBranch main`;
 		<h2 class="text-2xl font-semibold text-gray-900">What you need</h2>
 		<p class="text-gray-700">
 			Install everything on the laptop you plan to use during the workshop. No custom scripts are
-			required for setup. You only need the standard product installs and active accounts listed
-			here.
+			required for setup.
 		</p>
-		<ul class="list-disc space-y-2 pl-5 text-gray-700">
-			<li>Visual Studio Code (free)</li>
-			<li>Purchase or verify your ChatGPT Plus or Claude Pro account in your browser</li>
-			<li>Git (free)</li>
-			<li>GitHub account (free)</li>
-			<li>Docker account and Docker Desktop app (free account required)</li>
-			<li>Codex or Claude VS Code extension (free)</li>
-		</ul>
+		<div class="rounded-2xl border border-gray-200 bg-gray-50 p-4">
+			<p class="text-gray-700">
+				You need six things: Visual Studio Code, a working ChatGPT Plus or Claude Pro account in
+				your browser, Git, a GitHub account, a Docker account with Docker Desktop installed, and
+				one Codex or Claude extension in VS Code.
+			</p>
+			<p class="mt-3 text-sm text-gray-600">
+				Use the
+				<a
+					href="#vscode"
+					class="font-semibold text-blue-700 underline decoration-blue-200 underline-offset-4 hover:text-blue-900"
+				>
+					setup instructions below
+				</a>
+				for the full step-by-step guide.
+			</p>
+		</div>
+	</div>
+
+	<div class="rounded-2xl border border-blue-200 bg-blue-50 p-4">
+		<p class="text-sm text-blue-950">
+			Prefer to start with a walkthrough? Watch the setup video on YouTube, then use this page
+			as your reference as you go. This page may include more detail and follow-up notes than the
+			video.
+		</p>
+		<div class="mt-4 overflow-hidden rounded-2xl border border-blue-200 bg-white shadow-sm">
+			<div class="aspect-video">
+				<iframe
+					class="h-full w-full"
+					src="https://www.youtube.com/embed/hRuR8nDUfdo"
+					title="AI Workshop setup video"
+					allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+					allowfullscreen
+				></iframe>
+			</div>
+		</div>
+		<p class="mt-3">
+			<a
+				href="https://youtu.be/hRuR8nDUfdo"
+				target="_blank"
+				rel="noopener noreferrer"
+				class="inline-flex items-center rounded-full border border-blue-300 bg-white px-3 py-1.5 text-sm font-semibold text-blue-700 transition hover:border-blue-400 hover:bg-blue-100 hover:text-blue-900"
+			>
+				Open the setup video on YouTube
+			</a>
+		</p>
 	</div>
 
 	<div class="space-y-3">
-		<h2 class="text-2xl font-semibold text-gray-900">Recommended order</h2>
-		<ol class="list-decimal space-y-2 pl-5 text-gray-700">
-			<li>Install Visual Studio Code.</li>
-			<li>Confirm your ChatGPT Plus or Claude Pro login works in the browser.</li>
-			<li>Install Git.</li>
-			<li>Create or confirm your GitHub account.</li>
-			<li>Create your Docker account and install Docker Desktop.</li>
-			<li>Install a Codex or Claude extension in VS Code and sign in.</li>
-		</ol>
-		<div class="rounded-2xl border border-blue-200 bg-blue-50 p-4">
-			<p class="text-sm text-blue-950">
-				Prefer to start with a walkthrough? Watch the setup video on YouTube, then use this page
-				as your reference as you go. This page may include more detail and follow-up notes than the
-				video.
-			</p>
-			<div class="mt-4 overflow-hidden rounded-2xl border border-blue-200 bg-white shadow-sm">
-				<div class="aspect-video">
-					<iframe
-						class="h-full w-full"
-						src="https://www.youtube.com/embed/hRuR8nDUfdo"
-						title="AI Workshop setup video"
-						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-						allowfullscreen
-					></iframe>
-				</div>
-			</div>
-			<p class="mt-3">
-				<a
-					href="https://youtu.be/hRuR8nDUfdo"
-					target="_blank"
-					rel="noopener noreferrer"
-					class="inline-flex items-center rounded-full border border-blue-300 bg-white px-3 py-1.5 text-sm font-semibold text-blue-700 transition hover:border-blue-400 hover:bg-blue-100 hover:text-blue-900"
-				>
-					Open the setup video on YouTube
-				</a>
-			</p>
+		<h2 class="text-2xl font-semibold text-gray-900">What's in this article</h2>
+		<p class="text-gray-700">
+			Use these links to jump to the full setup instructions for each item. This is a table of
+			contents, not the complete setup guide.
+		</p>
+		<div class="grid grid-cols-1 gap-x-8 gap-y-2 sm:grid-cols-2">
+			<ol class="article-contents-list space-y-2 text-gray-700">
+				{#each setupSteps.slice(0, 4) as step}
+					<li>
+						<a
+							href={`#${step.id}`}
+							class="font-semibold text-blue-700 underline decoration-blue-200 underline-offset-4 hover:text-blue-900"
+						>
+							{step.name}
+						</a>
+					</li>
+				{/each}
+			</ol>
+			<ol start="5" class="article-contents-list space-y-2 text-gray-700" style="--start: 5;">
+				{#each setupSteps.slice(4) as step}
+					<li>
+						<a
+							href={`#${step.id}`}
+							class="font-semibold text-blue-700 underline decoration-blue-200 underline-offset-4 hover:text-blue-900"
+						>
+							{step.name}
+						</a>
+					</li>
+				{/each}
+				<li>
+					<a
+						href="#checklist"
+						class="font-semibold text-blue-700 underline decoration-blue-200 underline-offset-4 hover:text-blue-900"
+					>
+						Checklist before Week 1
+					</a>
+				</li>
+			</ol>
 		</div>
 	</div>
 </section>
 
 <section class="mx-auto mb-12 max-w-3xl space-y-6">
 	{#each setupSteps as step, index}
-		<div id={step.id} class="rounded-3xl border border-gray-200 bg-white p-5 shadow-sm">
+		<div
+			id={step.id}
+			class="scroll-mt-24 rounded-3xl border border-gray-200 bg-white p-5 shadow-sm"
+		>
 			<div class="mb-3 flex items-center gap-3">
 				<span
 					class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-blue-50 text-sm font-semibold text-blue-700"
@@ -333,53 +389,57 @@ git config --global init.defaultBranch main`;
 						</div>
 						<pre class="overflow-x-auto p-3 text-xs leading-5 text-slate-700"><code>{brewInstallGitCommand}</code></pre>
 					</div>
-					<p>After Git is installed, open Terminal, Windows Terminal, or PowerShell and run:</p>
-					<div class="command-block rounded-lg border border-slate-200 bg-slate-50">
-						<div class="flex items-center justify-between gap-3 border-b border-slate-200 px-3 py-2">
-							<p class="text-[11px] font-semibold tracking-[0.18em] text-slate-500 uppercase">
-								Terminal commands
-							</p>
-							<button
-								class="copy-button inline-flex items-center gap-1.5 rounded-full border border-slate-300 bg-white px-2.5 py-1 text-[11px] font-semibold text-slate-700 shadow-sm transition hover:border-slate-400 hover:bg-slate-100"
-								class:copied={copiedCommandId === 'git-config'}
-								type="button"
-								aria-label="Copy git configuration commands"
-								on:click={() => handleCopyCommand('git-config', gitConfigCommands)}
-							>
-								{#if copiedCommandId === 'git-config'}
-									<svg class="h-3.5 w-3.5" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-										<path
-											d="M3.5 8.5 6.5 11.5 12.5 4.5"
-											stroke="currentColor"
-											stroke-width="1.7"
-											stroke-linecap="round"
-											stroke-linejoin="round"
-										/>
-									</svg>
-									<span>Copied</span>
-								{:else}
-									<svg class="h-3.5 w-3.5" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-										<rect
-											x="5"
-											y="3"
-											width="8"
-											height="10"
-											rx="1.5"
-											stroke="currentColor"
-											stroke-width="1.4"
-										/>
-										<path
-											d="M3 10V5.5C3 4.672 3.672 4 4.5 4H10"
-											stroke="currentColor"
-											stroke-width="1.4"
-											stroke-linecap="round"
-										/>
-									</svg>
-									<span>Copy</span>
-								{/if}
-							</button>
-						</div>
-						<pre class="overflow-x-auto p-3 text-xs leading-5 text-slate-700"><code>{gitConfigCommands}</code></pre>
+					<p>After Git is installed, open Terminal, Windows Terminal, or PowerShell and run these commands one at a time:</p>
+					<div class="space-y-3">
+						{#each gitConfigCommands as gitCommand}
+							<div class="command-block rounded-lg border border-slate-200 bg-slate-50">
+								<div class="flex items-center justify-between gap-3 border-b border-slate-200 px-3 py-2">
+									<p class="text-[11px] font-semibold tracking-[0.18em] text-slate-500 uppercase">
+										{gitCommand.label}
+									</p>
+									<button
+										class="copy-button inline-flex items-center gap-1.5 rounded-full border border-slate-300 bg-white px-2.5 py-1 text-[11px] font-semibold text-slate-700 shadow-sm transition hover:border-slate-400 hover:bg-slate-100"
+										class:copied={copiedCommandId === gitCommand.id}
+										type="button"
+										aria-label={`Copy command: ${gitCommand.label}`}
+										on:click={() => handleCopyCommand(gitCommand.id, gitCommand.command)}
+									>
+										{#if copiedCommandId === gitCommand.id}
+											<svg class="h-3.5 w-3.5" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+												<path
+													d="M3.5 8.5 6.5 11.5 12.5 4.5"
+													stroke="currentColor"
+													stroke-width="1.7"
+													stroke-linecap="round"
+													stroke-linejoin="round"
+												/>
+											</svg>
+											<span>Copied</span>
+										{:else}
+											<svg class="h-3.5 w-3.5" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+												<rect
+													x="5"
+													y="3"
+													width="8"
+													height="10"
+													rx="1.5"
+													stroke="currentColor"
+													stroke-width="1.4"
+												/>
+												<path
+													d="M3 10V5.5C3 4.672 3.672 4 4.5 4H10"
+													stroke="currentColor"
+													stroke-width="1.4"
+													stroke-linecap="round"
+												/>
+											</svg>
+											<span>Copy</span>
+										{/if}
+									</button>
+								</div>
+								<pre class="overflow-x-auto p-3 text-xs leading-5 text-slate-700"><code>{gitCommand.command}</code></pre>
+							</div>
+						{/each}
 					</div>
 					<p>These commands set your Git username, email, and default branch to <code>main</code>.</p>
 				</div>
@@ -430,7 +490,7 @@ git config --global init.defaultBranch main`;
 	{/each}
 </section>
 
-<section class="mx-auto mb-16 max-w-3xl space-y-6">
+<section id="checklist" class="mx-auto mb-16 max-w-3xl scroll-mt-24 space-y-6">
 	<div class="rounded-3xl border border-emerald-200 bg-emerald-50 p-5">
 		<h2 class="text-xl font-semibold text-emerald-900">Checklist before Week 1</h2>
 		<ul class="mt-3 list-none space-y-2 pl-0 text-emerald-900">
@@ -461,6 +521,35 @@ git config --global init.defaultBranch main`;
 			border-color 150ms ease,
 			background-color 150ms ease,
 			color 150ms ease;
+	}
+
+	.article-contents-list {
+		list-style: none;
+		padding-left: 0;
+		counter-reset: item calc(var(--start, 1) - 1);
+	}
+
+	.article-contents-list li {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+	}
+
+	.article-contents-list li::before {
+		content: counter(item);
+		counter-increment: item;
+		display: inline-flex;
+		flex: 0 0 auto;
+		height: 1.6rem;
+		width: 1.6rem;
+		align-items: center;
+		justify-content: center;
+		border-radius: 9999px;
+		background: #eff6ff;
+		color: #1d4ed8;
+		font-size: 0.8125rem;
+		font-weight: 600;
+		line-height: 1;
 	}
 
 	.command-block .copy-button:hover {
