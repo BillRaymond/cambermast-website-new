@@ -9,6 +9,11 @@
 			"category": "ai-guidance",
 			"publishedAt": "2026-04-17",
 			"label": "AI coding",
+			"pdf": {
+				"enabled": true,
+				"printRoute": "/resources/ai-coding-prompt-guide/print",
+				"url": "/downloads/resources/ai-coding-prompt-guide.pdf"
+			},
 			"images": {
 				"current": {
 					"square": {

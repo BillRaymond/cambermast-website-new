@@ -83,7 +83,7 @@ export const aiCodingPromptGuide: PrintableResource = {
 	route,
 	title: 'AI Coding Prompt Guide',
 	description:
-		'Learn how to chat with an AI coder successfully, when to start in plan mode versus a focused chat, and how to use Git and GitHub prompts to finish the work cleanly.',
+		'Learn how to use AI effectively for coding objectives, when to start in plan mode versus a focused chat, and how to use Git and GitHub prompts to finish the work cleanly.',
 	summary:
 		'A visual quick-reference guide for choosing plan mode or a focused chat, writing clearer AI prompts, and handling Git and GitHub follow-through with less friction.',
 	label: 'AI coding',
@@ -94,7 +94,7 @@ export const aiCodingPromptGuide: PrintableResource = {
 		eyebrow: 'Start here',
 		title: 'Use the right mode before you write the prompt',
 		intro:
-			'You do not need to talk like a developer to get useful results from an AI coder. Start by picking the right kind of conversation, then say what outcome you want and whether you also want help with Git or GitHub.',
+			'You do not need to talk like a developer to get useful results from AI. Start by picking the right kind of conversation, then say what outcome you want and whether you also want help with Git or GitHub.',
 		audience: [
 			'Explain the result you want in plain language instead of trying to guess the perfect technical command.',
 			'Choose the right chat mode first so the AI knows whether to plan the work or just make the change.',
@@ -107,7 +107,7 @@ export const aiCodingPromptGuide: PrintableResource = {
 		]
 	},
 	workModes: {
-		title: 'Two ways to work with an AI coder',
+		title: 'Two ways to get results with AI',
 		intro:
 			'The most important choice is not perfect wording. It is whether you need the AI to create a Product Requirements Document (PRD) first or jump into a focused chat scoped to one area that gets the work done.',
 		modes: [
@@ -240,7 +240,7 @@ export const aiCodingPromptGuide: PrintableResource = {
 		]
 	},
 	promptFormula: {
-		title: 'A simple prompt formula',
+		title: 'An AI prompting formula',
 		intro:
 			'Before you write your prompt, choose the right mode. Then use this formula to give the AI what it needs. You do not need perfect wording, just enough context for the AI to understand the outcome and the finish line.',
 		modeCallout: 'Choose your mode first. Use plan mode for bigger work with open questions. Use a focused chat for scoped changes in one area.',

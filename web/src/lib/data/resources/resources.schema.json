@@ -107,6 +107,22 @@
 				"publishedAt": { "type": "string", "format": "date" },
 				"author": { "type": "string", "minLength": 1 },
 				"images": { "$ref": "#/$defs/entityImages" },
+				"pdf": {
+					"type": "object",
+					"additionalProperties": false,
+					"required": ["enabled", "printRoute", "url"],
+					"properties": {
+						"enabled": { "type": "boolean" },
+						"printRoute": {
+							"type": "string",
+							"pattern": "^/resources/[a-z0-9]+(?:-[a-z0-9]+)*/print$"
+						},
+						"url": {
+							"type": "string",
+							"pattern": "^/downloads/resources/[a-z0-9]+(?:-[a-z0-9]+)*\\.pdf$"
+						}
+					}
+				},
 				"label": { "type": "string", "minLength": 1 },
 				"draft": { "type": "boolean" }
 			}

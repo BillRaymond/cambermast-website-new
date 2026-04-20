@@ -69,8 +69,8 @@
 	<h2 class="text-2xl font-semibold">Purpose</h2>
 	<p class="mt-2 max-w-3xl text-gray-700">
 		The resources registry is the canonical source for the public resources listing page and the RSS
-		feed. Keep titles, summaries, publish dates, and routes aligned with the corresponding public
-		resource pages.
+		feed. Keep titles, summaries, publish dates, routes, and printable PDF settings aligned with the
+		corresponding public resource pages.
 	</p>
 </section>
 
@@ -94,6 +94,11 @@
 			and API output at <code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
 				>/api/resources.json</code
 			>.
+		</li>
+		<li>
+			If the resource should expose a printable PDF, add the canonical
+			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">pdf</code> block in the registry entry
+			and confirm the page actions, print route, and generated file all agree.
 		</li>
 		<li>Run validation gates before merge.</li>
 	</ol>
@@ -133,6 +138,22 @@
 			>.
 		</li>
 		<li>
+			Printable resource content:
+			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
+				>web/src/lib/data/resources/printable/*.ts</code
+			>.
+		</li>
+		<li>
+			PDF generator and watcher:
+			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
+				>web/scripts/generate-resource-pdfs.ts</code
+			>
+			and
+			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
+				>web/scripts/watch-resource-pdfs.ts</code
+			>.
+		</li>
+		<li>
 			Validation commands:
 			<code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
 				>npm --prefix web run validate:resources</code
@@ -143,6 +164,32 @@
 			>.
 		</li>
 	</ol>
+</section>
+
+<section class="mt-8">
+	<h2 class="text-2xl font-semibold">Printable PDF Rules</h2>
+	<p class="mt-2 max-w-3xl text-gray-700">
+		Printable availability is part of the canonical resources contract. A resource only has a public
+		PDF when its registry entry includes a valid <code class="rounded bg-gray-100 px-1 py-0.5 text-xs"
+			>pdf</code
+		> block. The resources API mirrors that metadata, and the page-level PDF actions must be driven by
+		the same contract.
+	</p>
+	<p class="mt-3 max-w-3xl text-gray-700">
+		Print routes are presentation variants of the same resource content, not separate editorial
+		documents. Printable resources must use one canonical content source, and print styling may
+		reflow or simplify the layout without dropping, summarizing, or rewriting substantive sections.
+	</p>
+	<p class="mt-3 max-w-3xl text-gray-700">
+		The printable-resource watcher regenerates only the affected PDF for direct resource-specific
+		changes like that resource page, printable content file, or direct image assets. Shared printable
+		infrastructure changes rebuild all enabled resource PDFs.
+	</p>
+	<p class="mt-3 max-w-3xl text-gray-700">
+		Do not introduce sliced arrays, summary-only print variants, or print-route-only body copy unless
+		the product explicitly adds a separate summary-PDF contract later. Validation now checks that the
+		AI Coding Prompt Guide page and print route share the same canonical renderer.
+	</p>
 </section>
 
 <section class="mt-8 rounded-2xl border bg-white p-5 shadow-sm">

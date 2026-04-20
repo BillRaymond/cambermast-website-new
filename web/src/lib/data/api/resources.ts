@@ -35,6 +35,12 @@ const toApiResource = (resource: ReturnType<typeof listResources>[number], origi
 			}
 		}
 	},
+	pdf: resource.pdf
+		? {
+				...resource.pdf,
+				url: toAbsoluteUrl(resource.pdf.url, origin)
+			}
+		: undefined,
 	label: resource.label
 });
 

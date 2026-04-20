@@ -154,8 +154,11 @@ If existing event records drift out of sync, run `npm --prefix web run campaigns
 ## Printable Resource PDF Rules
 
 - Printable resource PDFs reuse the same overall pattern as training brochures: a dedicated print route, a Playwright-based PDF generator, and published files under `web/static/downloads/resources/`.
+- PDF availability is canonicalized per resource in `web/src/lib/data/resources/resources.json` via the `pdf` block. If `pdf` is absent, that resource is not printable.
 - The first printable resource is `web/src/routes/resources/ai-coding-prompt-guide/+page.svelte`, with its print route at `web/src/routes/(plain)/resources/[slug]/print/+page.svelte`.
 - `npm --prefix web run dev` now starts both the training brochure watcher and the printable-resource watcher alongside Vite.
+- The printable-resource watcher rebuilds only the affected resource PDF for direct resource-specific changes. Shared printable-resource infrastructure changes rebuild all enabled resource PDFs.
+- Training changes do not rebuild resource PDFs unless a printable resource explicitly depends on a training-domain file.
 - Use `npm --prefix web run generate:resource-pdfs:dev` when you want to manually rebuild printable resource PDFs during development.
 
 ## Form Submission Standard
