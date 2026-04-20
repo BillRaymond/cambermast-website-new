@@ -1,5 +1,5 @@
 import { json } from '@sveltejs/kit';
-import { listTemplateImageUrls } from '$lib/server/image-gen/files';
+import { listTemplateEntries } from '$lib/server/image-gen/files';
 
 export const prerender = false;
 
@@ -8,6 +8,6 @@ export const GET = async () => {
 		return json({ error: 'Not found' }, { status: 404 });
 	}
 
-	const templates = await listTemplateImageUrls();
+	const templates = await listTemplateEntries();
 	return json({ templates });
 };

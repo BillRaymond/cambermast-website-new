@@ -6,6 +6,7 @@ export type ImageGenDestinationType =
 	| 'training'
 	| 'resources'
 	| 'featured-images'
+	| 'static-templates'
 	| 'custom';
 
 export const IMAGE_GEN_MODEL = 'gpt-image-1.5';

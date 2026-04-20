@@ -3,7 +3,13 @@
 	import { getMinioBrowserUrl } from '$lib/utils/storage-urls';
 
 	type ImageGenStage = 'square' | 'landscape' | 'portrait';
-	type DestinationType = 'events' | 'training' | 'resources' | 'featured-images' | 'custom';
+	type DestinationType =
+		| 'events'
+		| 'training'
+		| 'resources'
+		| 'featured-images'
+		| 'static-templates'
+		| 'custom';
 	type DestinationOption = {
 		slug: string;
 		label: string;
@@ -24,10 +30,19 @@
 		};
 	};
 	type Mode = 'embedded' | 'standalone';
+	type TemplateOption = {
+		url: string;
+		prompt?: string | null;
+	};
 	const NO_TEMPLATE_OPTION = '__no-template__';
 	const TEMPLATE_PUBLIC_PREFIX = '/images/admin/image-gen/templates/';
 	const DESTINATION_TYPE_OPTIONS: Array<{ value: DestinationType; label: string; description: string }> = [
 		{ value: 'featured-images', label: 'Featured image', description: 'Sitewide featured and default social images' },
+		{
+			value: 'static-templates',
+			label: 'Static template',
+			description: 'Save one selected square image into the reusable template folder with the next number'
+		},
 		{ value: 'events', label: 'Event', description: 'Event-specific generated images' },
 		{ value: 'resources', label: 'Resource', description: 'Resource page images' },
 		{ value: 'training', label: 'Training program', description: 'Training and TechLab program images' },
@@ -238,7 +253,7 @@ STRICT AVOIDANCE RULES
 	let landscapeN = Math.min(maxN, Math.max(minN, 2));
 	let portraitN = Math.min(maxN, Math.max(minN, 2));
 
-	let templates: string[] = [];
+	let templates: TemplateOption[] = [];
 	let selectedTemplateUrl = defaultTemplateUrl;
 	let templateImageDataUrl = '';
 	let uploadedTemplateName = '';
@@ -305,7 +320,7 @@ STRICT AVOIDANCE RULES
 			reader.readAsDataURL(file);
 		});
 
-	const setTemplateFromUrl = async (url: string) => {
+	const setTemplateFromUrl = async (url: string, prompt?: string | null) => {
 		const response = await fetch(url);
 		if (!response.ok) throw new Error(`Unable to load template (${response.status.toString()})`);
 		const blob = await response.blob();
@@ -313,7 +328,7 @@ STRICT AVOIDANCE RULES
 		selectedTemplateUrl = url;
 		uploadedTemplateName = '';
 		noTemplateSelected = false;
-		applyDefaultSquarePrompt();
+		squarePrompt = typeof prompt === 'string' && prompt.trim() ? prompt.trim() : defaultPrompts.square;
 	};
 
 	const setTemplateFromPreferredUrl = async (preferredUrl: string, fallbackUrl?: string) => {
@@ -339,13 +354,29 @@ STRICT AVOIDANCE RULES
 			const response = await fetch('/admin/image-gen/api/templates');
 			const json = await response.json();
 			if (!response.ok) throw new Error(json?.error ?? 'Unable to load templates');
-			templates = Array.isArray(json.templates) ? json.templates : [];
+			templates = Array.isArray(json.templates)
+				? json.templates
+						.map((entry: unknown) => {
+							if (typeof entry === 'string') {
+								return { url: entry, prompt: null } satisfies TemplateOption;
+							}
+							if (!entry || typeof entry !== 'object') return null;
+							const row = entry as { url?: unknown; prompt?: unknown };
+							if (typeof row.url !== 'string') return null;
+							return {
+								url: row.url,
+								prompt: typeof row.prompt === 'string' ? row.prompt : null
+							} satisfies TemplateOption;
+						})
+						.filter((entry: TemplateOption | null): entry is TemplateOption => entry !== null)
+				: [];
 			if (noTemplateSelected) return;
-			if (templates.length > 0 && !templates.includes(selectedTemplateUrl)) {
-				selectedTemplateUrl = templates[0];
+			if (templates.length > 0 && !templates.some((template) => template.url === selectedTemplateUrl)) {
+				selectedTemplateUrl = templates[0].url;
 			}
 			if (selectedTemplateUrl) {
-				await setTemplateFromUrl(selectedTemplateUrl);
+				const selectedTemplate = templates.find((template) => template.url === selectedTemplateUrl);
+				await setTemplateFromUrl(selectedTemplateUrl, selectedTemplate?.prompt);
 			}
 		} finally {
 			templatesLoading = false;
@@ -355,7 +386,9 @@ STRICT AVOIDANCE RULES
 	const getBlobBrowserUrl = (minioKey: string): string => getMinioBrowserUrl(minioKey);
 	const toDestinationLabel = (value: DestinationType): string =>
 		DESTINATION_TYPE_OPTIONS.find((option) => option.value === value)?.label ?? value;
+	const isStaticTemplateDestination = (): boolean => destinationType === 'static-templates';
 	const getDestinationPath = (): string => {
+		if (isStaticTemplateDestination()) return 'admin/image-gen/templates';
 		const trimmedSlug = slug.trim().toLowerCase();
 		if (!trimmedSlug) return '';
 		if (destinationType === 'custom') {
@@ -404,7 +437,8 @@ STRICT AVOIDANCE RULES
 		if (!value || typeof navigator === 'undefined' || !navigator.clipboard) return;
 		await navigator.clipboard.writeText(value);
 	};
-	const shouldFilterHistoryByDestination = (): boolean => destinationType !== 'custom';
+	const shouldFilterHistoryByDestination = (): boolean =>
+		destinationType !== 'custom' && destinationType !== 'static-templates';
 	const getSaveReference = (): SaveReference => {
 		if (selectedDestinationReference) {
 			return {
@@ -637,6 +671,7 @@ STRICT AVOIDANCE RULES
 					entry.entityType === 'training' ||
 					entry.entityType === 'resources' ||
 					entry.entityType === 'featured-images' ||
+					entry.entityType === 'static-templates' ||
 					entry.entityType === 'custom'
 						? entry.entityType
 						: null;
@@ -852,13 +887,17 @@ STRICT AVOIDANCE RULES
 		saveReferenceWrites = [];
 		saveMetadataWrites = [];
 		destinationUpdateWrites = [];
-		if (!slug.trim()) {
-			errorMessage = 'Destination slug is required before saving.';
+			if (!slug.trim() && !isStaticTemplateDestination()) {
+				errorMessage = 'Destination slug is required before saving.';
+				return;
+			}
+		if (!selectedSquareCandidateId) {
+			errorMessage = 'Select a square image before saving.';
 			return;
 		}
-		if (!selectedSquareCandidateId || !selectedLandscapeCandidateId || !selectedPortraitCandidateId) {
-			errorMessage = 'Select one square, one landscape, and one portrait image before saving.';
-			return;
+		if (!selectedLandscapeCandidateId || !selectedPortraitCandidateId) {
+				errorMessage = 'Select one square, one landscape, and one portrait image before saving.';
+				return;
 		}
 
 		const candidateMap = Object.fromEntries(
@@ -879,9 +918,11 @@ STRICT AVOIDANCE RULES
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({
-					destinationType,
-					destinationSlug: slug.trim().toLowerCase(),
-					customBasePath: destinationType === 'custom' ? customBasePath.trim().toLowerCase() : undefined,
+						destinationType,
+						destinationSlug: isStaticTemplateDestination()
+							? 'templates'
+							: slug.trim().toLowerCase(),
+						customBasePath: destinationType === 'custom' ? customBasePath.trim().toLowerCase() : undefined,
 					autoUpdateDestinationRecord,
 					reference: getSaveReference(),
 					prompts: promptSnapshot,
@@ -901,6 +942,13 @@ STRICT AVOIDANCE RULES
 			saveMetadataWrites = parseMetadataWriteResults(json.metadataWrites);
 			destinationUpdateWrites = parseDestinationUpdateWrites(json.destinationUpdateWrites);
 			saveMessage = `Saved selected images to "${json?.destination?.relativeDir ?? getDestinationPath()}".`;
+			if (isStaticTemplateDestination()) {
+				await loadTemplates();
+				const savedSquareUrl = saveWrites.find((write) => write.variant === 'square')?.publicUrl;
+				if (savedSquareUrl) {
+					await setTemplateFromUrl(savedSquareUrl, promptSnapshot.square);
+				}
+			}
 			await loadPromptHistory();
 
 			const urls = {
@@ -932,13 +980,17 @@ STRICT AVOIDANCE RULES
 	$: resolvedPathPreview =
 		destinationType === 'custom'
 			? `/images/${customBasePath.trim() || '<custom-base>'}/${slug.trim() || '<slug>'}/`
-			: `/images/${destinationType}/${slug.trim() || '<slug>'}/`;
+			: destinationType === 'static-templates'
+				? '/images/admin/image-gen/templates/'
+				: `/images/${destinationType}/${slug.trim() || '<slug>'}/`;
 
 	$: availableDestinationOptions =
-		destinationType === 'custom' ? [] : destinationOptions[destinationType] ?? [];
+		destinationType === 'custom' || destinationType === 'static-templates'
+			? []
+			: destinationOptions[destinationType] ?? [];
 
 	$: visibleDestinationReferences =
-		destinationType === 'custom'
+		destinationType === 'custom' || destinationType === 'static-templates'
 			? []
 			: (destinationReferences[destinationType] ?? []).filter((reference) =>
 					destinationType === 'featured-images' || !slug.trim()
@@ -949,11 +1001,13 @@ STRICT AVOIDANCE RULES
 	$: selectedDestinationOptionDescription =
 		availableDestinationOptions.find((option) => option.slug === slug)?.description ?? '';
 
-	$: destinationInputErrorMessage = !slug.trim()
-		? 'Destination slug is required.'
-		: destinationType === 'custom' && !customBasePath.trim()
-			? 'Custom base path is required when Custom is selected.'
-			: '';
+	$: destinationInputErrorMessage = destinationType === 'static-templates'
+		? ''
+		: !slug.trim()
+			? 'Destination slug is required.'
+			: destinationType === 'custom' && !customBasePath.trim()
+				? 'Custom base path is required when Custom is selected.'
+				: '';
 
 	$: destinationInputHasError = destinationInputErrorMessage.length > 0;
 
@@ -961,9 +1015,14 @@ STRICT AVOIDANCE RULES
 		customBasePath = '';
 	}
 
+	$: if (destinationType === 'static-templates' && slug !== 'templates') {
+		slug = 'templates';
+	}
+
 	$: if (
 		mode === 'standalone' &&
 		destinationType !== 'custom' &&
+		destinationType !== 'static-templates' &&
 		availableDestinationOptions.length > 0 &&
 		!availableDestinationOptions.some((option) => option.slug === slug)
 	) {
@@ -972,17 +1031,18 @@ STRICT AVOIDANCE RULES
 
 	$: if (
 		destinationType !== 'custom' &&
+		destinationType !== 'static-templates' &&
 		visibleDestinationReferences.length > 0 &&
 		!visibleDestinationReferences.some((reference) => reference.id === selectedDestinationReferenceId)
 	) {
 		selectedDestinationReferenceId = visibleDestinationReferences[0].id;
 	}
 
-	$: if (destinationType === 'custom' && selectedDestinationReferenceId) {
+	$: if ((destinationType === 'custom' || destinationType === 'static-templates') && selectedDestinationReferenceId) {
 		selectedDestinationReferenceId = '';
 	}
 
-	$: if (destinationType === 'custom' && lastAutoLoadedDestinationReferenceKey) {
+	$: if ((destinationType === 'custom' || destinationType === 'static-templates') && lastAutoLoadedDestinationReferenceKey) {
 		lastAutoLoadedDestinationReferenceKey = '';
 	}
 
@@ -993,9 +1053,9 @@ STRICT AVOIDANCE RULES
 	$: {
 		const referenceToSync = selectedDestinationReference;
 		const autoLoadKey =
-			destinationType === 'custom' || !referenceToSync
-				? ''
-				: `${destinationType}:${slug.trim()}:${referenceToSync.id}`;
+				destinationType === 'custom' || destinationType === 'static-templates' || !referenceToSync
+					? ''
+					: `${destinationType}:${slug.trim()}:${referenceToSync.id}`;
 		if (!autoLoadKey) {
 			lastAutoLoadedDestinationReferenceKey = '';
 		} else if (referenceToSync && autoLoadKey !== lastAutoLoadedDestinationReferenceKey) {
@@ -1065,10 +1125,10 @@ STRICT AVOIDANCE RULES
 			<p class="mt-2 text-xs text-gray-600">
 				{DESTINATION_TYPE_OPTIONS.find((option) => option.value === destinationType)?.description}
 			</p>
-			{#if destinationType === 'custom'}
-				<label class="mt-4 block text-sm font-semibold text-gray-800" for={`slug-${mode}`}>
-					Destination slug
-				</label>
+				{#if destinationType === 'custom'}
+					<label class="mt-4 block text-sm font-semibold text-gray-800" for={`slug-${mode}`}>
+						Destination slug
+					</label>
 				<input
 					id={`slug-${mode}`}
 					type="text"
@@ -1086,12 +1146,16 @@ STRICT AVOIDANCE RULES
 					bind:value={customBasePath}
 					class="mt-2 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
 				/>
-				<p class="mt-1 text-xs text-gray-500">
-					Optional. Stored under <code>/images/&lt;custom-base&gt;/&lt;slug&gt;/</code>.
-				</p>
-			{:else if mode === 'standalone' && availableDestinationOptions.length > 0}
-				<label class="mt-4 block text-sm font-semibold text-gray-800" for={`slug-${mode}`}>
-					Destination slug
+					<p class="mt-1 text-xs text-gray-500">
+						Optional. Stored under <code>/images/&lt;custom-base&gt;/&lt;slug&gt;/</code>.
+					</p>
+				{:else if destinationType === 'static-templates'}
+					<div class="mt-4 rounded-lg border border-blue-200 bg-blue-50 p-3 text-sm text-blue-900">
+						Static templates save into <code>/images/admin/image-gen/templates/</code> and automatically use the next numbered filename.
+					</div>
+				{:else if mode === 'standalone' && availableDestinationOptions.length > 0}
+					<label class="mt-4 block text-sm font-semibold text-gray-800" for={`slug-${mode}`}>
+						Destination slug
 				</label>
 				<select
 					id={`slug-${mode}`}
@@ -1257,18 +1321,18 @@ STRICT AVOIDANCE RULES
 						</button>
 						{#each templates as template}
 							<button
-								class={`w-24 rounded-lg border p-1.5 text-left ${selectedTemplateUrl === template ? 'border-blue-400 bg-blue-50' : 'border-gray-200 bg-white'}`}
+								class={`w-24 rounded-lg border p-1.5 text-left ${selectedTemplateUrl === template.url ? 'border-blue-400 bg-blue-50' : 'border-gray-200 bg-white'}`}
 								type="button"
 								on:click={async () => {
 									try {
-										await setTemplateFromUrl(template);
+										await setTemplateFromUrl(template.url, template.prompt);
 									} catch (error) {
 										errorMessage = error instanceof Error ? error.message : 'Unable to load template';
 									}
 								}}
 							>
-								<img class="h-16 w-full rounded object-cover" src={template} alt={template} />
-								<p class="mt-1 truncate text-[10px] text-gray-700">{template.split('/').pop()}</p>
+								<img class="h-16 w-full rounded object-cover" src={template.url} alt={template.url} />
+								<p class="mt-1 truncate text-[10px] text-gray-700">{template.url.split('/').pop()}</p>
 							</button>
 						{/each}
 					</div>
@@ -1750,11 +1814,16 @@ STRICT AVOIDANCE RULES
 		</div>
 
 		<div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
-			<h2 class="text-xl font-semibold">Final Save</h2>
-			<p class="mt-2 text-sm text-gray-600">
-				Save selected square, landscape, and portrait files to
-				<code>{resolvedPathPreview}</code>.
-			</p>
+				<h2 class="text-xl font-semibold">Final Save</h2>
+				<p class="mt-2 text-sm text-gray-600">
+					{#if isStaticTemplateDestination()}
+						Save the selected square, landscape, and portrait images as the next static template set in
+						<code>{resolvedPathPreview}</code>.
+					{:else}
+						Save selected square, landscape, and portrait files to
+						<code>{resolvedPathPreview}</code>.
+					{/if}
+				</p>
 			{#if destinationInputHasError}
 				<div class="mt-3 rounded-lg border border-rose-200 bg-rose-50 p-3 text-sm font-semibold text-rose-800">
 					Final save path is incomplete. {destinationInputErrorMessage}
@@ -1763,17 +1832,21 @@ STRICT AVOIDANCE RULES
 			<button
 				class="mt-4 rounded-xl bg-emerald-600 px-5 py-2 text-sm font-semibold text-white hover:bg-emerald-700 disabled:opacity-50"
 				type="button"
-				disabled={
-					saving ||
-					destinationInputHasError ||
-					!selectedSquareCandidateId ||
-					!selectedLandscapeCandidateId ||
-					!selectedPortraitCandidateId
-				}
-				on:click={saveSelected}
-			>
-				{saving ? 'Saving...' : 'Save Selected Images'}
-			</button>
+					disabled={
+						saving ||
+						destinationInputHasError ||
+						!selectedSquareCandidateId ||
+						!selectedLandscapeCandidateId ||
+						!selectedPortraitCandidateId
+					}
+					on:click={saveSelected}
+				>
+					{saving
+						? 'Saving...'
+						: isStaticTemplateDestination()
+							? 'Save Static Template'
+							: 'Save Selected Images'}
+				</button>
 			{#if saveMessage}
 				<p class="mt-3 text-sm font-semibold text-emerald-700">{saveMessage}</p>
 			{/if}

@@ -12,8 +12,13 @@
 	};
 
 	let slug = '';
-	let destinationType: 'events' | 'training' | 'resources' | 'featured-images' | 'custom' =
-		'featured-images';
+	let destinationType:
+		| 'events'
+		| 'training'
+		| 'resources'
+		| 'featured-images'
+		| 'static-templates'
+		| 'custom' = 'featured-images';
 </script>
 
 <SeoHead title={pageMeta.title} description={pageMeta.description} path="/admin/image-gen" />
@@ -39,7 +44,11 @@
 		bind:destinationType
 		destinationOptions={data.destinationOptions}
 		destinationReferences={data.destinationReferences}
-		autoUpdateDestinationRecord={destinationType !== 'custom' && destinationType !== 'featured-images'}
+		autoUpdateDestinationRecord={
+			destinationType !== 'custom' &&
+			destinationType !== 'featured-images' &&
+			destinationType !== 'static-templates'
+		}
 		defaultTemplateUrl={data.defaultTemplateUrl}
 		defaultPrompts={data.defaultPrompts}
 		defaultN={data.defaultN}

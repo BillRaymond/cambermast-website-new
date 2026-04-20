@@ -1,0 +1,4 @@
+path: resources/ai-coding-prompt-guide
+square: https://.../browser/blobs/cambermastweb/generated/resources/ai-coding-prompt-guide/square/13576d99-9388-4c88-9999-e4a02cb81caa/candidate-3.png
+landscape: https://.../browser/blobs/cambermastweb/generated/resources/ai-coding-prompt-guide/landscape/0eb6bd71-e4f0-4630-803c-a507d45fd13d/candidate-2.png
+portrait: https://.../browser/blobs/cambermastweb/generated/resources/ai-coding-prompt-guide/portrait/9dd3c3e5-84a6-4fdf-9f87-fbdc953be371/candidate-2.png

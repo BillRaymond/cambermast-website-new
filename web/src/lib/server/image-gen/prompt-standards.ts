@@ -5,9 +5,14 @@ import { randomUUID } from 'node:crypto';
 import Ajv from 'ajv/dist/2020.js';
 import addFormats from 'ajv-formats';
 import type { ImageGenDestinationType, ImageGenStage } from '$lib/server/image-gen/types';
-import type { ImageGenPromptStandardsRegistry } from '$lib/data/image-gen-standards';
+import type {
+	ImageGenPromptStandard,
+	ImageGenPromptStandardsRegistry
+} from '$lib/data/image-gen-standards';
 import type { ImageReference } from '$lib/data/image-contract';
 import { resolveImageDestinationPathOrThrow } from '$lib/server/image-gen/files';
+
+type PromptStandardDestinationType = Exclude<ImageGenDestinationType, 'static-templates'>;
 
 type PromptSet = {
 	square: string;
@@ -22,7 +27,7 @@ type WriteResultLike = {
 };
 
 type AppendImageGenPromptStandardInput = {
-	destinationType: ImageGenDestinationType;
+	destinationType: PromptStandardDestinationType;
 	destinationSlug: string;
 	customBasePath?: string;
 	prompts: PromptSet;
@@ -44,9 +49,7 @@ const registryPath = path.join(webRoot, 'src', 'lib', 'data', 'image-gen-standar
 const schemaPath = path.join(webRoot, 'src', 'lib', 'data', 'image-gen-standards.schema.json');
 const ajv = new Ajv({ allErrors: true, strict: true });
 addFormats(ajv);
-let validateRegistry:
-	| ReturnType<Ajv['compile']>
-	| null = null;
+let validateRegistry: ReturnType<Ajv['compile']> | null = null;
 
 const toJsonString = (value: unknown): string => `${JSON.stringify(value, null, '\t')}\n`;
 
@@ -80,9 +83,7 @@ const getRegistryValidator = async () => {
 	return validateRegistry;
 };
 
-export const appendImageGenPromptStandard = async (
-	input: AppendImageGenPromptStandardInput
-) => {
+export const appendImageGenPromptStandard = async (input: AppendImageGenPromptStandardInput) => {
 	const destination = resolveImageDestinationPathOrThrow({
 		destinationType: input.destinationType,
 		destinationSlug: input.destinationSlug,
@@ -97,7 +98,11 @@ export const appendImageGenPromptStandard = async (
 
 	const byVariant = new Map<ImageGenStage, WriteResultLike>();
 	for (const write of input.writes) {
-		if (write.variant === 'square' || write.variant === 'landscape' || write.variant === 'portrait') {
+		if (
+			write.variant === 'square' ||
+			write.variant === 'landscape' ||
+			write.variant === 'portrait'
+		) {
 			byVariant.set(write.variant, write);
 		}
 	}
@@ -106,7 +111,9 @@ export const appendImageGenPromptStandard = async (
 	const landscape = byVariant.get('landscape');
 	const portrait = byVariant.get('portrait');
 	if (!square || !landscape || !portrait) {
-		throw new Error('Square, landscape, and portrait files are required to record prompt standards.');
+		throw new Error(
+			'Square, landscape, and portrait files are required to record prompt standards.'
+		);
 	}
 
 	const toAssetKey = (write: WriteResultLike): string => {
@@ -115,10 +122,10 @@ export const appendImageGenPromptStandard = async (
 		return `${destination.relativeDir}/${fileName}`;
 	};
 
-	const entry = {
+	const entry: ImageGenPromptStandard = {
 		id: randomUUID().replace(/-/g, '').slice(0, 16),
 		createdAt: new Date().toISOString(),
-		entityType: destination.destinationType,
+		entityType: input.destinationType,
 		entitySlug: getEntitySlug(destination),
 		assetKeys: {
 			square: toAssetKey(square),
@@ -131,7 +138,7 @@ export const appendImageGenPromptStandard = async (
 			sourceType: input.reference?.sourceType ?? 'none',
 			label: input.reference?.label?.trim() || 'No reference image used'
 		}
-	} as const;
+	};
 
 	const registry = await readRegistry();
 	const nextRegistry: ImageGenPromptStandardsRegistry = {
@@ -142,7 +149,9 @@ export const appendImageGenPromptStandard = async (
 
 	const validate = await getRegistryValidator();
 	if (!validate(nextRegistry)) {
-		throw new Error(`Image gen standards schema validation failed: ${ajv.errorsText(validate.errors)}`);
+		throw new Error(
+			`Image gen standards schema validation failed: ${ajv.errorsText(validate.errors)}`
+		);
 	}
 
 	await fs.writeFile(registryPath, toJsonString(nextRegistry), 'utf-8');

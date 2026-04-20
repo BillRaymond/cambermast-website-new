@@ -1,0 +1,15 @@
+Abstract geometric background inspired by a modern sail or forward motion shape, using mint green #8BD8BD as the dominant background.
+
+Create evenly distributed geometric “sail-like” panels that frame all edges, top, bottom, and corners with consistent visual weight on each side. The shapes should feel balanced and symmetrical overall, without any one side appearing heavier than the others.
+
+Use layered colors of bold blue #0037BE, bright blue #0063F2, orange #F49F1C, and subtle deep navy #012072 as accents within the border shapes. Keep the mint green center area clean and uninterrupted.
+
+Draw clean, overlapping angular panels with smooth, blended transitions and a very soft, fine-grained texture. Ensure the border elements taper naturally toward the center without intruding into the main content space.
+
+Composition should clearly frame a calm, open central area for text placement, with strong visual focus on the center.
+
+Professional, training-focused, confident corporate style. No white, no glow, no light beams, no dark vignette, no clutter. Maintain balanced contrast to support overlay text.
+
+STRICT AVOIDANCE RULES:
+* Visual cliches like AI brains and circuits.
+* Imagery that anthropomorphizes AI.

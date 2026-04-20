@@ -17,27 +17,27 @@
 			"images": {
 				"current": {
 					"square": {
-						"url": "/images/resources/ai-coding-prompt-guide/hero-square.jpg"
+						"url": "/images/resources/ai-coding-prompt-guide/hero-square-v2.jpg"
 					},
 					"landscape": {
-						"url": "/images/resources/ai-coding-prompt-guide/hero-landscape.jpg"
+						"url": "/images/resources/ai-coding-prompt-guide/hero-landscape-v2.jpg"
 					},
 					"portrait": {
-						"url": "/images/resources/ai-coding-prompt-guide/hero-portrait.jpg"
+						"url": "/images/resources/ai-coding-prompt-guide/hero-portrait-v2.jpg"
 					},
 					"alt": "AI Coding Prompt Guide featured image.",
 					"kind": "generated",
 					"prompts": {
-						"square": "Abstract geometric background inspired by a modern sail or sense of forward motion, filling the entire image. Bright blue #0063F2 as the dominant base with layered shapes of bold blue #0037BE, mint green #8BD8BD, orange #F49F1C, and subtle deep navy #012072 accents.\n\nDesign should feel light, airy, and background-oriented. Shapes should appear semi-transparent with low opacity, softly blended into one another. Use reduced contrast and slightly desaturated colors to keep the composition calm and unobtrusive.\n\nClean overlapping angular panels with very soft edges and smooth gradients. Extremely subtle layering and depth, with a faint fine-grained texture.\n\nMaintain a quiet visual hierarchy so the background does not compete with foreground text or imagery. No sharp edges, no high contrast areas, no focal point. The composition should feel soft, diffused, and atmospheric.\n\nIn the center, add the text AI CODING PROMPTING GUIDE (could be one or two lines). Add a colorful visual symbol <AI> that matches the overall design aesthetic.\n",
-						"landscape": "Recreate the provided template image as a landscape. Avoid the top and bottom 25%.",
-						"portrait": "Recreate the provided template image in portrait format. Avoid the top and bottom 25%."
+						"square": "COLORS:\n\n* {{primary_background}} = {{bright_blue}}\n\n* {{mint_green}} = #8BD8BD\n* {{bold_blue}} = #0037BE\n* {{bright_blue}} = #0063F2\n* {{orange}} = #F49F1C\n* {{deep_navy}} = #012072\n\n* {{accent_palette}} = all colors EXCEPT {{primary_background}}\n\n---\n\nAbstract geometric background inspired by a modern sail or forward motion shape, using {{primary_background}} as the dominant background color.\n\nCreate evenly distributed geometric “sail-like” panels that frame all edges, top, bottom, and corners with consistent visual weight on each side. The shapes should feel balanced and symmetrical overall, without any one side appearing heavier than the others.\n\nUse layered colors from {{accent_palette}} as accents within the border shapes. Do not use {{primary_background}} in any border or sail elements. Reserve it strictly for the background.\n\nDraw clean, overlapping angular panels with smooth, blended transitions and a very soft, fine-grained texture. Ensure the border elements taper naturally toward the center without intruding into the main content space.\n\nComposition should clearly frame a calm, open central area for text placement, with strong visual focus on the center.\n\nProfessional, training-focused, confident corporate style. No white, no glow, no light beams, no dark vignette, no clutter. Maintain balanced contrast to support overlay text.\n\nOVERLAYS:\nTitle: AI CODING PROMPT GUIDANCE\nSymbol: A colorful <AI> symbol\nPerson: A photorealistic image of two happy and diverse people facing the camera, who are AI-coding using prompts.\nOverlays should be bold and large, filling the center of the {{primary_background}} space.\n\nSTRICT AVOIDANCE RULES:\n* Visual cliches like AI brains and circuits.\n* Imagery that anthropomorphizes AI.\n* Overlays should not go past the outside ",
+						"landscape": "Recreate the provided template image in landscape orientation. Reduce graininess. Avoid the top and bottom 25%.",
+						"portrait": "Recreate the provided template image in portrait format. Reduce graininess. Avoid the top and bottom 25%."
 					},
 					"reference": {
-						"url": "/images/cambermast-content-8-resources-og.jpeg",
+						"url": "/images/resources/ai-coding-prompt-guide/hero-square.png",
 						"sourceType": "training_reference",
 						"label": "AI Coding Prompt Guide"
 					},
-					"historyId": "11536cec1496448b"
+					"historyId": "e7dc7dcff5ca47b4"
 				}
 			}
 		},

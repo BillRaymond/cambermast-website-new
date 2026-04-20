@@ -1,7 +1,49 @@
 {
 	"version": 1,
-	"updatedAt": "2026-04-17T20:41:24.050Z",
+	"updatedAt": "2026-04-20T15:38:30.491Z",
 	"standards": [
+		{
+			"id": "e7dc7dcff5ca47b4",
+			"createdAt": "2026-04-20T15:38:30.489Z",
+			"entityType": "resources",
+			"entitySlug": "ai-coding-prompt-guide",
+			"assetKeys": {
+				"square": "resources/ai-coding-prompt-guide/hero-square-v2.jpg",
+				"landscape": "resources/ai-coding-prompt-guide/hero-landscape-v2.jpg",
+				"portrait": "resources/ai-coding-prompt-guide/hero-portrait-v2.jpg"
+			},
+			"prompts": {
+				"square": "COLORS:\n\n* {{primary_background}} = {{bright_blue}}\n\n* {{mint_green}} = #8BD8BD\n* {{bold_blue}} = #0037BE\n* {{bright_blue}} = #0063F2\n* {{orange}} = #F49F1C\n* {{deep_navy}} = #012072\n\n* {{accent_palette}} = all colors EXCEPT {{primary_background}}\n\n---\n\nAbstract geometric background inspired by a modern sail or forward motion shape, using {{primary_background}} as the dominant background color.\n\nCreate evenly distributed geometric “sail-like” panels that frame all edges, top, bottom, and corners with consistent visual weight on each side. The shapes should feel balanced and symmetrical overall, without any one side appearing heavier than the others.\n\nUse layered colors from {{accent_palette}} as accents within the border shapes. Do not use {{primary_background}} in any border or sail elements. Reserve it strictly for the background.\n\nDraw clean, overlapping angular panels with smooth, blended transitions and a very soft, fine-grained texture. Ensure the border elements taper naturally toward the center without intruding into the main content space.\n\nComposition should clearly frame a calm, open central area for text placement, with strong visual focus on the center.\n\nProfessional, training-focused, confident corporate style. No white, no glow, no light beams, no dark vignette, no clutter. Maintain balanced contrast to support overlay text.\n\nOVERLAYS:\nTitle: AI CODING PROMPT GUIDANCE\nSymbol: A colorful <AI> symbol\nPerson: A photorealistic image of two happy and diverse people facing the camera, who are AI-coding using prompts.\nOverlays should be bold and large, filling the center of the {{primary_background}} space.\n\nSTRICT AVOIDANCE RULES:\n* Visual cliches like AI brains and circuits.\n* Imagery that anthropomorphizes AI.\n* Overlays should not go past the outside",
+				"landscape": "Recreate the provided template image in landscape orientation. Reduce graininess. Avoid the top and bottom 25%.",
+				"portrait": "Recreate the provided template image in portrait format. Reduce graininess. Avoid the top and bottom 25%."
+			},
+			"reference": {
+				"url": "/images/resources/ai-coding-prompt-guide/hero-square.png",
+				"sourceType": "training_reference",
+				"label": "AI Coding Prompt Guide"
+			}
+		},
+		{
+			"id": "55f546648414436a",
+			"createdAt": "2026-04-20T14:48:07.361Z",
+			"entityType": "featured-images",
+			"entitySlug": "cambermast-default",
+			"assetKeys": {
+				"square": "featured-images/cambermast-default/hero-square-v2.jpg",
+				"landscape": "featured-images/cambermast-default/hero-landscape-v2.jpg",
+				"portrait": "featured-images/cambermast-default/hero-portrait-v2.jpg"
+			},
+			"prompts": {
+				"square": "Abstract geometric background inspired by a modern sail or forward motion shape, using orange #F49F1C as the dominant base with layered bold blue #0037BE, bright blue #0063F2, mint green #8BD8BD, and a subtle deep navy #012072 accent. Draw clean, overlapping angular panels with smooth, blended transitions and a very soft, fine-grained texture. Composition should frame the edges and corners, leaving a calm, open negative space in the center for text placement. Professional, training-focused, confident corporate style. No white, no glow, no light beams, no dark vignette, no clutter. Balanced contrast to support overlay text.\n\nSTRICT AVOIDANCE RULES:\n* Visual cliches like AI brains and circuits.\n* Imagery that anthropomorphizes AI.",
+				"landscape": "Abstract geometric background inspired by a modern sail or forward motion shape, using orange #F49F1C as the dominant base with layered bold blue #0037BE, bright blue #0063F2, mint green #8BD8BD, and a subtle deep navy #012072 accent. Draw clean, overlapping angular panels with smooth, blended transitions and a very soft, fine-grained texture. Composition should frame the edges and corners, leaving a calm, open negative space in the center for text placement. Professional, training-focused, confident corporate style. No white, no glow, no light beams, no dark vignette, no clutter. Balanced contrast to support overlay text.\n\nSTRICT AVOIDANCE RULES:\n* Visual cliches like AI brains and circuits.\n* Imagery that anthropomorphizes AI.",
+				"portrait": "Abstract geometric background inspired by a modern sail or forward motion shape, using orange #F49F1C as the dominant base with layered bold blue #0037BE, bright blue #0063F2, mint green #8BD8BD, and a subtle deep navy #012072 accent. Draw clean, overlapping angular panels with smooth, blended transitions and a very soft, fine-grained texture. Composition should frame the edges and corners, leaving a calm, open negative space in the center for text placement. Professional, training-focused, confident corporate style. No white, no glow, no light beams, no dark vignette, no clutter. Balanced contrast to support overlay text.\n\nSTRICT AVOIDANCE RULES:\n* Visual cliches like AI brains and circuits.\n* Imagery that anthropomorphizes AI."
+			},
+			"reference": {
+				"url": "/images/featured-images/cambermast-default/hero-square.jpg",
+				"sourceType": "training_reference",
+				"label": "Cambermast Default"
+			}
+		},
 		{
 			"id": "11536cec1496448b",
 			"createdAt": "2026-04-17T20:41:24.048Z",

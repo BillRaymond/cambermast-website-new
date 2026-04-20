@@ -40,7 +40,13 @@ type MetadataWritePlanEntry = {
 	contents: string;
 };
 
+export type TemplateListEntry = {
+	url: string;
+	prompt: string | null;
+};
+
 const TEMPLATE_PUBLIC_PREFIX = '/images/admin/image-gen/templates/';
+const STATIC_TEMPLATES_RELATIVE_DIR = 'admin/image-gen/templates';
 const resolveWebRoot = (): string => {
 	const cwd = process.cwd();
 	const direct = path.join(cwd, 'static');
@@ -59,7 +65,8 @@ const DESTINATION_TYPE_PATHS: Record<Exclude<ImageGenDestinationType, 'custom'>,
 	events: 'events',
 	training: 'training',
 	resources: 'resources',
-	'featured-images': 'featured-images'
+	'featured-images': 'featured-images',
+	'static-templates': STATIC_TEMPLATES_RELATIVE_DIR
 };
 
 export const validateSlugOrThrow = (slug: string): string => {
@@ -84,6 +91,14 @@ export const resolveImageDestinationPathOrThrow = (input: {
 	publicBaseUrl: string;
 } => {
 	const destinationType = input.destinationType ?? 'custom';
+	if (destinationType === 'static-templates') {
+		return {
+			destinationType,
+			destinationSlug: 'templates',
+			relativeDir: STATIC_TEMPLATES_RELATIVE_DIR,
+			publicBaseUrl: '/images/admin/image-gen/templates'
+		};
+	}
 	const destinationSlug = validateSlugOrThrow(input.destinationSlug);
 	if (destinationType === 'custom') {
 		const customBasePath = input.customBasePath?.trim()
@@ -121,7 +136,10 @@ const buildVersionedFileName = (baseName: string, version: number): string => {
 	return version === 1 ? baseName : `${stem}-v${version.toString()}${ext}`;
 };
 
-const buildVersionedPath = async (dir: string, baseName: string): Promise<{ fileName: string; version: number }> => {
+const buildVersionedPath = async (
+	dir: string,
+	baseName: string
+): Promise<{ fileName: string; version: number }> => {
 	const ext = path.extname(baseName);
 	const stem = baseName.slice(0, -ext.length);
 	let version = 1;
@@ -136,6 +154,27 @@ const buildVersionedPath = async (dir: string, baseName: string): Promise<{ file
 			return { fileName, version };
 		}
 	}
+};
+
+const getNextStaticTemplateFileName = async (
+	dir: string
+): Promise<{ fileName: string; version: number }> => {
+	const entries = await fs.readdir(dir, { withFileTypes: true }).catch(() => []);
+	const maxVersion = entries
+		.filter((entry) => entry.isFile())
+		.map((entry) => entry.name)
+		.filter((name) => /\.(png|jpe?g|webp)$/i.test(name))
+		.reduce((max, name) => {
+			const match = name.match(/^(\d+)-/);
+			if (!match) return max;
+			const version = Number.parseInt(match[1] ?? '0', 10);
+			return Number.isFinite(version) ? Math.max(max, version) : max;
+		}, 0);
+	const version = maxVersion + 1;
+	return {
+		fileName: `${version.toString().padStart(2, '0')}-template-square.jpg`,
+		version
+	};
 };
 
 const buildVersionedImagePair = async (
@@ -168,16 +207,45 @@ const buildVersionedImagePair = async (
 	}
 };
 
-export const listTemplateImageUrls = async (): Promise<string[]> => {
+const getTemplatePromptPath = (templatesDir: string, imageFileName: string): string => {
+	const ext = path.extname(imageFileName);
+	const stem = imageFileName.slice(0, -ext.length);
+	return path.join(templatesDir, `${stem}.prompt.txt`);
+};
+
+const isSquareTemplateFile = (name: string): boolean =>
+	/\bsquare\.(png|jpe?g|webp)$/i.test(name);
+
+const buildStaticTemplateFileName = (
+	version: number,
+	variant: 'square' | 'landscape' | 'portrait'
+): string => `${version.toString().padStart(2, '0')}-template-${variant}.jpg`;
+
+export const listTemplateEntries = async (): Promise<TemplateListEntry[]> => {
 	const templatesDir = path.join(webRoot, 'static', 'images', 'admin', 'image-gen', 'templates');
 	const entries = await fs.readdir(templatesDir, { withFileTypes: true }).catch(() => []);
 	const files = entries
 		.filter((entry) => entry.isFile())
 		.map((entry) => entry.name)
 		.filter((name) => /\.(png|jpe?g|webp)$/i.test(name))
+		.filter((name) => isSquareTemplateFile(name))
 		.sort((a, b) => a.localeCompare(b));
-	return files.map((name) => `${TEMPLATE_PUBLIC_PREFIX}${name}`);
+	return Promise.all(
+		files.map(async (name) => {
+			const prompt = await fs
+				.readFile(getTemplatePromptPath(templatesDir, name), 'utf8')
+				.then((value) => value.trim() || null)
+				.catch(() => null);
+			return {
+				url: `${TEMPLATE_PUBLIC_PREFIX}${name}`,
+				prompt
+			};
+		})
+	);
 };
+
+export const listTemplateImageUrls = async (): Promise<string[]> =>
+	(await listTemplateEntries()).map((entry) => entry.url);
 
 export const saveSelectedImagesToWebsite = async (input: SaveImageInput) => {
 	const destination = resolveImageDestinationPathOrThrow({
@@ -241,6 +309,45 @@ export const saveSelectedImagesToWebsite = async (input: SaveImageInput) => {
 	};
 
 	try {
+		if (destination.destinationType === 'static-templates') {
+			const templateWrite = await getNextStaticTemplateFileName(targetDir);
+			const staticTemplateWritePlan: Array<{
+				variant: 'square' | 'landscape' | 'portrait';
+				dataUrl: string;
+				prompt: string;
+			}> = [
+				{ variant: 'square', dataUrl: input.squareDataUrl, prompt: input.prompts.square },
+				{ variant: 'landscape', dataUrl: input.landscapeDataUrl, prompt: input.prompts.landscape },
+				{ variant: 'portrait', dataUrl: input.portraitDataUrl, prompt: input.prompts.portrait }
+			];
+
+			for (const item of staticTemplateWritePlan) {
+				const fileName = buildStaticTemplateFileName(templateWrite.version, item.variant);
+				const absolutePath = path.join(targetDir, fileName);
+				const promptAbsolutePath = getTemplatePromptPath(targetDir, fileName);
+				const buffer = decodeDataUrlToBuffer(item.dataUrl);
+				await sharp(buffer, { failOn: 'none' })
+					.jpeg({ quality: 92, mozjpeg: true })
+					.toFile(absolutePath);
+				await fs.writeFile(promptAbsolutePath, `${item.prompt.trim()}\n`, 'utf8');
+				writtenPaths.push(absolutePath, promptAbsolutePath);
+				writes.push({
+					variant: item.variant,
+					absolutePath,
+					publicUrl: `${destination.publicBaseUrl}/${fileName}`,
+					fileName,
+					version: templateWrite.version
+				});
+			}
+
+			return {
+				destination,
+				files: writes,
+				referenceFiles,
+				metadataFiles: metadataWrites
+			};
+		}
+
 		for (const item of writePlan) {
 			const pairWrite = await buildVersionedImagePair(
 				targetDir,
@@ -252,14 +359,8 @@ export const saveSelectedImagesToWebsite = async (input: SaveImageInput) => {
 			const jpgAbsolutePath = path.join(targetDir, pairWrite.jpgFileName);
 			const pngAbsolutePath = path.join(targetDir, pairWrite.pngFileName);
 			await Promise.all([
-				image
-					.clone()
-					.jpeg({ quality: 92, mozjpeg: true })
-					.toFile(jpgAbsolutePath),
-				image
-					.clone()
-					.png()
-					.toFile(pngAbsolutePath)
+				image.clone().jpeg({ quality: 92, mozjpeg: true }).toFile(jpgAbsolutePath),
+				image.clone().png().toFile(pngAbsolutePath)
 			]);
 			writtenPaths.push(jpgAbsolutePath, pngAbsolutePath);
 			writes.push({
@@ -405,11 +506,16 @@ export const syncGeneratedImageToDestinationRecord = async (input: {
 						changed = true;
 						const currentImages =
 							event.images && typeof event.images === 'object'
-								? ((event.images as Record<string, unknown>).current as Record<string, unknown> | undefined)
+								? ((event.images as Record<string, unknown>).current as
+										| Record<string, unknown>
+										| undefined)
 								: undefined;
 						return {
 							...event,
-							images: buildImages(currentImages, typeof event.title === 'string' ? event.title : 'Event image')
+							images: buildImages(
+								currentImages,
+								typeof event.title === 'string' ? event.title : 'Event image'
+							)
 						};
 					})
 				};
@@ -432,13 +538,17 @@ export const syncGeneratedImageToDestinationRecord = async (input: {
 						changed = true;
 						const currentImages =
 							resource.images && typeof resource.images === 'object'
-								? ((resource.images as Record<string, unknown>).current as Record<string, unknown> | undefined)
+								? ((resource.images as Record<string, unknown>).current as
+										| Record<string, unknown>
+										| undefined)
 								: undefined;
 						return {
 							...resource,
 							images: buildImages(
 								currentImages,
-								typeof resource.title === 'string' ? `${resource.title} featured image.` : 'Resource image'
+								typeof resource.title === 'string'
+									? `${resource.title} featured image.`
+									: 'Resource image'
 							)
 						};
 					})
@@ -454,55 +564,60 @@ export const syncGeneratedImageToDestinationRecord = async (input: {
 	const writes: DestinationUpdateWrite[] = [];
 
 	writes.push(
-		...(
-			await updateJsonFile<{ programs: Array<Record<string, unknown>> }>(
-				trainingPath,
-				'training.json',
-				(current) => {
-					let changed = false;
-					const next = {
-						...current,
-						programs: (current.programs ?? []).map((program) => {
-							if (program.slug !== input.destinationSlug) return program;
-							changed = true;
-							const currentImages =
-								program.images && typeof program.images === 'object'
-									? ((program.images as Record<string, unknown>).current as Record<string, unknown> | undefined)
-									: undefined;
-							return {
-								...program,
-								images: buildImages(
-									currentImages,
-									typeof program.title === 'string' ? program.title : 'Training image'
-								)
-							};
-						})
-					};
-					return { next, changed };
-				}
-			)
-		)
+		...(await updateJsonFile<{ programs: Array<Record<string, unknown>> }>(
+			trainingPath,
+			'training.json',
+			(current) => {
+				let changed = false;
+				const next = {
+					...current,
+					programs: (current.programs ?? []).map((program) => {
+						if (program.slug !== input.destinationSlug) return program;
+						changed = true;
+						const currentImages =
+							program.images && typeof program.images === 'object'
+								? ((program.images as Record<string, unknown>).current as
+										| Record<string, unknown>
+										| undefined)
+								: undefined;
+						return {
+							...program,
+							images: buildImages(
+								currentImages,
+								typeof program.title === 'string' ? program.title : 'Training image'
+							)
+						};
+					})
+				};
+				return { next, changed };
+			}
+		))
 	);
 
 	writes.push(
-		...(
-			await updateJsonFile<Record<string, unknown>>(catalogPath, 'catalog.json', (current) => {
-				let changed = false;
-				const nextEntries = Object.entries(current).map(([key, value]) => {
-					if (!value || typeof value !== 'object' || !Array.isArray((value as { items?: unknown[] }).items)) {
-						return [key, value] as const;
-					}
-					const section = value as { items: Array<Record<string, unknown>> } & Record<string, unknown>;
-					const nextItems = section.items.map((item) => {
-						if (item.route !== trainingRoute) return item;
-						changed = true;
-						return { ...item, image: input.landscapePublicUrl };
-					});
-					return [key, { ...section, items: nextItems }] as const;
+		...(await updateJsonFile<Record<string, unknown>>(catalogPath, 'catalog.json', (current) => {
+			let changed = false;
+			const nextEntries = Object.entries(current).map(([key, value]) => {
+				if (
+					!value ||
+					typeof value !== 'object' ||
+					!Array.isArray((value as { items?: unknown[] }).items)
+				) {
+					return [key, value] as const;
+				}
+				const section = value as { items: Array<Record<string, unknown>> } & Record<
+					string,
+					unknown
+				>;
+				const nextItems = section.items.map((item) => {
+					if (item.route !== trainingRoute) return item;
+					changed = true;
+					return { ...item, image: input.landscapePublicUrl };
 				});
-				return { next: Object.fromEntries(nextEntries), changed };
-			})
-		)
+				return [key, { ...section, items: nextItems }] as const;
+			});
+			return { next: Object.fromEntries(nextEntries), changed };
+		}))
 	);
 
 	return writes;

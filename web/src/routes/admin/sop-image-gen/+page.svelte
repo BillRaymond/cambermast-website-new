@@ -59,6 +59,7 @@
 				<code>web/static/images/admin/image-gen/templates/01-template-1x1-square.jpg</code>
 			</li>
 			<li>Folder-based template previews from the same template directory</li>
+			<li>Static template destination saves the selected square image back into that directory</li>
 			<li>
 				Training program references from
 				<code>images.current.square.url</code>
