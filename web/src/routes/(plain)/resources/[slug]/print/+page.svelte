@@ -27,6 +27,7 @@
 				radial-gradient(circle at top, rgba(219, 234, 254, 0.35), transparent 40%),
 				linear-gradient(180deg, #eff6ff 0%, #ffffff 30%);
 			color: #111827;
+			font-family: 'Liberation Sans', Arial, Helvetica, sans-serif;
 		}
 
 		.print-list,
@@ -81,9 +82,16 @@
 			}
 
 			.print-card,
-			.print-table {
+			.print-table,
+			.print-keep-together {
 				break-inside: avoid;
+				page-break-inside: avoid;
 				box-shadow: none;
+			}
+
+			pre,
+			code {
+				font-family: 'Liberation Mono', 'Courier New', monospace;
 			}
 
 			.print-page-break-after {

@@ -204,8 +204,8 @@
 		</div>
 	</section>
 
-	<section id="checklist" class="rounded-[1.2rem] border border-gray-200 bg-white p-4">
-		<div class="rounded-[1rem] border border-emerald-200 bg-emerald-50 p-4">
+	<section id="checklist" class="print-keep-together rounded-[1.2rem] border border-gray-200 bg-white p-4">
+		<div class="print-keep-together rounded-[1rem] border border-emerald-200 bg-emerald-50 p-4">
 			<h2 class="text-xl font-black tracking-tight text-emerald-950">{resource.finalChecklist.title}</h2>
 			<p class="mt-2 text-[0.78rem] leading-relaxed text-emerald-950">
 				A good AI coding prompt does not need to be long. It just needs the right starting
