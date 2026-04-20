@@ -15,10 +15,17 @@ const isPrintableResourceEnabled = (slug: string): boolean => {
 	return Boolean(resource?.pdf?.enabled);
 };
 
+const withCurrentHeroImage = (resource: PrintableResource): PrintableResource => {
+	const registryResource = getResource(resource.slug, { includeDrafts: true });
+	const landscapeUrl = registryResource?.images?.current?.landscape?.url;
+	return landscapeUrl ? { ...resource, heroImage: landscapeUrl } : resource;
+};
+
 export const listPrintableResources = (): PrintableResource[] =>
 	Object.values(printableResourceContentBySlug)
 		.filter((resource) => isPrintableResourceEnabled(resource.slug))
 		.filter((resource) => runtimeDev || !resource.draft)
+		.map(withCurrentHeroImage)
 		.slice()
 		.sort((left, right) => new Date(right.publishedAt).valueOf() - new Date(left.publishedAt).valueOf());
 
