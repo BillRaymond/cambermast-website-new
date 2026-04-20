@@ -103,12 +103,14 @@
 
 <main class="print-main mx-auto flex max-w-5xl flex-col gap-4 px-5 py-6 text-[12px] text-gray-900 print:max-w-none print:px-0">
 	<section class="rounded-[1.5rem] border border-gray-200 bg-white p-5 shadow-sm">
-		<div class="grid gap-4 md:grid-cols-[7.5rem_1fr] md:items-start">
-			<img
-				src={resource.heroImage}
-				alt={resource.heroImageAlt}
-				class="w-full rounded-[1.2rem] border border-gray-200 object-contain"
-			/>
+		<div class="flex flex-col gap-4 sm:flex-row sm:items-start">
+			<figure class="w-full overflow-hidden rounded-2xl border border-gray-200 bg-white sm:w-48 sm:shrink-0">
+				<img
+					src={resource.heroImage}
+					alt={resource.heroImageAlt}
+					class="h-auto w-full object-contain"
+				/>
+			</figure>
 			<div class="space-y-3">
 				<div class="flex flex-wrap items-center gap-3">
 					<p class="text-[0.65rem] font-semibold tracking-[0.18em] text-blue-600 uppercase">
