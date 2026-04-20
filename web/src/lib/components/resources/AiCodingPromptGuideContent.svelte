@@ -236,7 +236,7 @@
 		</div>
 	</section>
 
-	<section id="prompt-formula" class="mb-12 grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
+	<section id="prompt-formula" class="mb-12">
 		<article class="rounded-[2rem] border border-gray-200 bg-white p-6 shadow-sm">
 			<p class="text-sm font-semibold tracking-[0.18em] text-blue-700 uppercase">Prompt formula</p>
 			<h2 class="mt-2 text-3xl font-black tracking-tight text-gray-950">
@@ -252,7 +252,7 @@
 				<p class="mt-1 text-lg font-black tracking-tight text-blue-950">
 					{resource.promptFormula.pattern}
 				</p>
-				<div class="mt-4 space-y-3">
+				<div class="mt-4 grid gap-3 sm:grid-cols-2">
 					{#each resource.promptFormula.examples as example, index}
 						<div class="rounded-2xl border border-white/90 bg-white/90 p-4">
 							<div class="flex items-center gap-3">
@@ -268,7 +268,7 @@
 					{/each}
 				</div>
 			</div>
-			<ul class="mt-5 grid grid-cols-2 gap-3 text-sm leading-relaxed text-gray-700">
+			<ul class="mt-5 grid grid-cols-2 gap-3 text-sm leading-relaxed text-gray-700 lg:grid-cols-4">
 				{#each resource.promptFormula.fields as item}
 					<li class="flex items-center gap-3 rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3">
 						<span class="inline-flex h-6 w-6 flex-none items-center justify-center rounded-full bg-gray-900 text-xs font-bold text-white">
@@ -278,72 +278,6 @@
 					</li>
 				{/each}
 			</ul>
-		</article>
-
-		<article id="copy-ready-prompts" class="rounded-[2rem] border border-gray-200 bg-white p-6 shadow-sm">
-			<p class="text-sm font-semibold tracking-[0.18em] text-blue-700 uppercase">Copy-ready prompts</p>
-			<h2 class="mt-2 text-3xl font-black tracking-tight text-gray-950">
-				{resource.copyReadyPrompts.title}
-			</h2>
-			<div class="mt-6 space-y-4">
-				{#each resource.copyReadyPrompts.groups as group, index}
-					<section class="rounded-[1.5rem] border border-gray-200 bg-gray-50 p-4">
-						<div class="space-y-3">
-							<div>
-								<h3 class="text-lg font-bold text-gray-950">{group.title}</h3>
-								<p class="mt-1 text-sm text-gray-700">{group.description}</p>
-							</div>
-						</div>
-						<div class="mt-4 overflow-hidden rounded-2xl border border-gray-800 bg-gray-900">
-							<div class="flex items-center justify-between gap-3 border-b border-gray-800 px-4 py-3">
-								<p class="text-[11px] font-semibold tracking-[0.18em] text-gray-400 uppercase">
-									Prompt text
-								</p>
-								<button
-									class="copy-button inline-flex items-center gap-1.5 rounded-full border border-gray-700 bg-gray-800 px-2.5 py-1 text-[11px] font-semibold text-gray-100 shadow-sm transition hover:border-gray-500 hover:bg-gray-700"
-									class:copied={copiedPromptId === `copy-ready-prompt:${index}`}
-									type="button"
-									aria-label={`Copy prompt: ${group.title}`}
-									on:click={() => handleCopyPrompt(`copy-ready-prompt:${index}`, group.prompt)}
-								>
-									{#if copiedPromptId === `copy-ready-prompt:${index}`}
-										<svg class="h-3.5 w-3.5" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-											<path
-												d="M3.5 8.5 6.5 11.5 12.5 4.5"
-												stroke="currentColor"
-												stroke-width="1.7"
-												stroke-linecap="round"
-												stroke-linejoin="round"
-											/>
-										</svg>
-										<span>Copied</span>
-									{:else}
-										<svg class="h-3.5 w-3.5" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-											<rect
-												x="5"
-												y="3"
-												width="8"
-												height="10"
-												rx="1.5"
-												stroke="currentColor"
-												stroke-width="1.4"
-											/>
-											<path
-												d="M3 10V5.5C3 4.672 3.672 4 4.5 4H10"
-												stroke="currentColor"
-												stroke-width="1.4"
-												stroke-linecap="round"
-											/>
-										</svg>
-										<span>Copy</span>
-									{/if}
-								</button>
-							</div>
-							<pre class="whitespace-pre-wrap p-4 font-mono text-sm leading-relaxed text-gray-100"><code>{group.prompt}</code></pre>
-						</div>
-					</section>
-				{/each}
-			</div>
 		</article>
 	</section>
 
@@ -428,6 +362,74 @@
 					</div>
 			</article>
 		{/each}
+	</section>
+
+	<section id="copy-ready-prompts" class="mb-12">
+		<article class="rounded-[2rem] border border-gray-200 bg-white p-6 shadow-sm">
+			<p class="text-sm font-semibold tracking-[0.18em] text-blue-700 uppercase">Copy-ready prompts</p>
+			<h2 class="mt-2 text-3xl font-black tracking-tight text-gray-950">
+				{resource.copyReadyPrompts.title}
+			</h2>
+			<div class="mt-6 space-y-4">
+				{#each resource.copyReadyPrompts.groups as group, index}
+					<section class="rounded-[1.5rem] border border-gray-200 bg-gray-50 p-4">
+						<div class="space-y-3">
+							<div>
+								<h3 class="text-lg font-bold text-gray-950">{group.title}</h3>
+								<p class="mt-1 text-sm text-gray-700">{group.description}</p>
+							</div>
+						</div>
+						<div class="mt-4 overflow-hidden rounded-2xl border border-gray-800 bg-gray-900">
+							<div class="flex items-center justify-between gap-3 border-b border-gray-800 px-4 py-3">
+								<p class="text-[11px] font-semibold tracking-[0.18em] text-gray-400 uppercase">
+									Prompt text
+								</p>
+								<button
+									class="copy-button inline-flex items-center gap-1.5 rounded-full border border-gray-700 bg-gray-800 px-2.5 py-1 text-[11px] font-semibold text-gray-100 shadow-sm transition hover:border-gray-500 hover:bg-gray-700"
+									class:copied={copiedPromptId === `copy-ready-prompt:${index}`}
+									type="button"
+									aria-label={`Copy prompt: ${group.title}`}
+									on:click={() => handleCopyPrompt(`copy-ready-prompt:${index}`, group.prompt)}
+								>
+									{#if copiedPromptId === `copy-ready-prompt:${index}`}
+										<svg class="h-3.5 w-3.5" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+											<path
+												d="M3.5 8.5 6.5 11.5 12.5 4.5"
+												stroke="currentColor"
+												stroke-width="1.7"
+												stroke-linecap="round"
+												stroke-linejoin="round"
+											/>
+										</svg>
+										<span>Copied</span>
+									{:else}
+										<svg class="h-3.5 w-3.5" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+											<rect
+												x="5"
+												y="3"
+												width="8"
+												height="10"
+												rx="1.5"
+												stroke="currentColor"
+												stroke-width="1.4"
+											/>
+											<path
+												d="M3 10V5.5C3 4.672 3.672 4 4.5 4H10"
+												stroke="currentColor"
+												stroke-width="1.4"
+												stroke-linecap="round"
+											/>
+										</svg>
+										<span>Copy</span>
+									{/if}
+								</button>
+							</div>
+							<pre class="whitespace-pre-wrap p-4 font-mono text-sm leading-relaxed text-gray-100"><code>{group.prompt}</code></pre>
+						</div>
+					</section>
+				{/each}
+			</div>
+		</article>
 	</section>
 
 	<section id="checklist" class="mb-12">
