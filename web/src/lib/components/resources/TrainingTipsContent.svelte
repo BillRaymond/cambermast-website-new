@@ -19,9 +19,8 @@
 			text: '🛒 Check the prerequisites for your training program and make sure you purchase or download any required apps, hardware, or services. They are typically listed on the public site where you signed up or in an email. Here are links to our public programs where you can find the prerequisites:',
 			showPrograms: true
 		},
-		{
-			text: '🖥️ Set up two monitors if possible. Some people use an iPad or similar device when they do not have multiple monitors.'
-		},
+		{ text: '🖥️ Set up two monitors if possible. Some people use an iPad or similar device when they do not have multiple monitors.' },
+		{ text: 'Be ready to share your screen if the trainer needs to see your desktop.' },
 		{ text: '📶 Join from a quiet space with reliable Wi-Fi or a wired connection.' },
 		{ text: '🎙️ Test your mic and camera before we begin.' },
 		{ text: '📝 Keep a notebook or doc open to capture ideas and action items.' }
@@ -37,7 +36,7 @@
 <section class="space-y-6 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
 	<h3 class="text-2xl font-semibold text-gray-900">Before we start</h3>
 	<ul class="list-disc space-y-2 pl-6 text-sm text-gray-700">
-		{#each coreTips as tip}
+		{#each coreTips.slice(0, 5) as tip}
 			<li>
 				{tip.text}
 				{#if tip.link}
@@ -65,6 +64,22 @@
 			</li>
 		{/each}
 	</ul>
+	<section class="rounded-2xl border border-green-200 bg-green-50 p-5">
+		<h4 class="text-lg font-semibold text-green-900">Quick setup checklist</h4>
+		<ul class="mt-4 space-y-3 text-sm text-gray-700">
+			{#each coreTips.slice(5) as tip}
+				<li class="flex items-start gap-3 rounded-xl border border-green-200 bg-white/70 px-4 py-3">
+					<span
+						class="mt-0.5 inline-flex h-6 w-6 flex-none items-center justify-center rounded-full bg-green-600 text-sm font-bold text-white"
+						aria-hidden="true"
+					>
+						✓
+					</span>
+					<div>{tip.text}</div>
+				</li>
+			{/each}
+		</ul>
+	</section>
 </section>
 
 <section
