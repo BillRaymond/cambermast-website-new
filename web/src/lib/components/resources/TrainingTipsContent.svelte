@@ -20,7 +20,10 @@
 			showPrograms: true
 		},
 		{ text: '🖥️ Set up two monitors if possible. Some people use an iPad or similar device when they do not have multiple monitors.' },
-		{ text: 'Be ready to share your screen if the trainer needs to see your desktop.' },
+		{
+			text: '🤖 Limit ChatGPT, Claude, Gemini, or Copilot use for up to 24 hours before the session so you do not hit usage limits.'
+		},
+		{ text: '🖱️ Be ready to share your screen if the trainer needs to see your desktop.' },
 		{ text: '📶 Join from a quiet space with reliable Wi-Fi or a wired connection.' },
 		{ text: '🎙️ Test your mic and camera before we begin.' },
 		{ text: '📝 Keep a notebook or doc open to capture ideas and action items.' }
@@ -68,9 +71,9 @@
 		<h4 class="text-lg font-semibold text-green-900">Quick setup checklist</h4>
 		<ul class="mt-4 space-y-3 text-sm text-gray-700">
 			{#each coreTips.slice(5) as tip}
-				<li class="flex items-start gap-3 rounded-xl border border-green-200 bg-white/70 px-4 py-3">
+				<li class="flex items-center gap-3 rounded-xl border border-green-200 bg-white/70 px-4 py-3">
 					<span
-						class="mt-0.5 inline-flex h-6 w-6 flex-none items-center justify-center rounded-full bg-green-600 text-sm font-bold text-white"
+						class="inline-flex h-6 w-6 flex-none items-center justify-center rounded-full bg-green-600 text-sm font-bold text-white"
 						aria-hidden="true"
 					>
 						✓
