@@ -395,6 +395,8 @@
 						brochureUrl={entry.card.brochureUrl}
 						registerUrl={entry.card.registerUrl}
 						registerLabel={entry.card.registerLabel}
+						alternateRegistrationUrl={entry.card.alternateRegistrationUrl}
+						alternateRegistrationLabel={entry.card.alternateRegistrationLabel}
 						statusLabel={entry.card.statusLabel}
 						startTimestamp={entry.card.startTimestamp}
 						learnMoreUrl={entry.card.learnMoreUrl}

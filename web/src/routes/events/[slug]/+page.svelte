@@ -107,7 +107,7 @@
 		if (isHappeningNow || isTrainingInProgress) return 'Enrollment closed';
 		if (event.registrationStatus === 'none') return isOpenSoon ? 'Open soon' : 'Enrollment closed';
 		if (event.registrationStatus === 'closed') return 'Enrollment closed';
-		if (event.registrationStatus === 'sold_out') return 'Enrollment closed';
+		if (event.registrationStatus === 'sold_out') return 'Sold out';
 		return 'Enrollment closed';
 	};
 
@@ -305,13 +305,22 @@
 		event.registrationStatus !== 'none' &&
 		event.registrationStatus !== 'sold_out';
 	const showOpenSoonCta = isOpenSoon && !isPastEvent && !isTrainingInProgress;
+	const alternateRegistrationCta = event.alternateRegistrationCta;
+	const alternateRegistrationLabel = alternateRegistrationCta?.label?.trim() ?? '';
+	const alternateRegistrationUrl = alternateRegistrationCta?.url?.trim() ?? '';
+	const hasAlternateRegistrationCta = Boolean(
+		alternateRegistrationLabel && alternateRegistrationUrl
+	);
+	const isExternalAlternateRegistrationUrl = Boolean(alternateRegistrationUrl.startsWith('http'));
 	const registerCtaLabel = event.cta.labelWithPrice ?? event.cta.label;
 	const detailCtaLabel = showOpenSoonCta ? 'Open soon' : registerCtaLabel;
 
 	const shouldShowClosedCountdownState = isHappeningNow || isTrainingInProgress || !canRegister;
 	const countdownPanelLabel = shouldShowClosedCountdownState ? 'Status' : countdownLabelPrefix;
 	const countdownPanelValue = shouldShowClosedCountdownState
-		? (showOpenSoonCta ? 'Open soon' : 'Enrollment closed')
+		? showOpenSoonCta
+			? 'Open soon'
+			: getClosedLabel()
 		: countdownLabel;
 
 	const isExternalCtaUrl = Boolean(event.cta?.url?.startsWith('http'));
@@ -414,6 +423,17 @@
 			event_slug: event.slug,
 			placement,
 			cta_url_is_external: isExternalCtaUrl
+		});
+	};
+
+	const trackAlternateRegistrationClick = (placement: 'hero' | 'sticky' | 'body') => {
+		if (typeof window === 'undefined') return;
+		const gtag = (window as Window & { gtag?: (...args: unknown[]) => void }).gtag;
+		if (typeof gtag !== 'function') return;
+		gtag('event', 'event_alternate_registration_click', {
+			event_slug: event.slug,
+			placement,
+			cta_url_is_external: isExternalAlternateRegistrationUrl
 		});
 	};
 </script>
@@ -645,6 +665,14 @@
 								>
 									{getClosedLabel()}
 								</span>
+								{#if hasAlternateRegistrationCta}
+									<EventRegisterButton
+										href={alternateRegistrationUrl}
+										label={alternateRegistrationLabel}
+										size="lg"
+										onClick={() => trackAlternateRegistrationClick('hero')}
+									/>
+								{/if}
 								<a
 									href="/events"
 									class="inline-flex rounded-full border border-slate-300 px-6 py-3 text-sm font-semibold text-slate-700 transition hover:border-slate-400 hover:text-slate-900"
@@ -985,6 +1013,17 @@
 								onClick={() => trackRegistrationClick('sticky')}
 							/>
 						{:else}
+							{#if hasAlternateRegistrationCta}
+								<EventRegisterButton
+									href={alternateRegistrationUrl}
+									label={alternateRegistrationLabel}
+									theme="slate"
+									size="sm"
+									fullWidth={true}
+									className="mt-3 py-2.5"
+									onClick={() => trackAlternateRegistrationClick('sticky')}
+								/>
+							{/if}
 							<a
 								href="/events"
 								class="mt-3 inline-flex w-full items-center justify-center rounded-full border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:border-slate-400 hover:text-slate-900"

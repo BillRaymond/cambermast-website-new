@@ -58,6 +58,11 @@ export type EventCta = {
 	campaignId: string;
 };
 
+export type EventLinkCta = {
+	label: string;
+	url: string;
+};
+
 export type EventLocation = {
 	mode: EventLocationMode;
 	publicLabel: string;
@@ -131,6 +136,7 @@ export type EventSource = {
 	lifecycleStatus: EventLifecycleStatus;
 	registrationStatus: EventRegistrationStatus;
 	cta: EventCta;
+	alternateRegistrationCta?: EventLinkCta;
 	location: EventLocation;
 	tagline: string;
 	description?: string | EventDescription;

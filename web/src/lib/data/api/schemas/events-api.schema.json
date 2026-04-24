@@ -200,6 +200,19 @@
 							}
 						}
 					},
+					"alternateRegistrationCta": {
+						"description": "Optional secondary CTA for sold-out or closed events that should direct visitors to an alternate cohort or waitlist page without reopening the primary event registration.",
+						"type": "object",
+						"additionalProperties": false,
+						"required": ["label", "url"],
+						"properties": {
+							"label": { "type": "string", "minLength": 1 },
+							"url": {
+								"type": "string",
+								"pattern": "^(\\/|https?:\\/\\/).+"
+							}
+						}
+					},
 					"location": {
 						"type": "object",
 						"additionalProperties": false,

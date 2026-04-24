@@ -156,6 +156,8 @@
 							statusLabel={slide.statusLabel}
 							registerUrl={slide.registerUrl}
 							registerLabel={slide.registerLabel ?? 'Register now'}
+							alternateRegistrationUrl={slide.alternateRegistrationUrl}
+							alternateRegistrationLabel={slide.alternateRegistrationLabel}
 							learnMoreUrl={slide.learnMoreUrl}
 							hostText={slide.hostText}
 							partnerText={slide.partnerText}

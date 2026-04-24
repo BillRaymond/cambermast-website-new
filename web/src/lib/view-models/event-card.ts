@@ -39,6 +39,8 @@ export type EventCardModel = {
 	speakerText?: string;
 	registerUrl?: string;
 	registerLabel?: string;
+	alternateRegistrationUrl?: string;
+	alternateRegistrationLabel?: string;
 	learnMoreUrl: string;
 	tone: EventCardTone;
 	eventType: string;
@@ -145,7 +147,9 @@ export const toEventCardModel = (
 			? registerLabel || 'Enrollment closed'
 			: openSoon
 				? 'Open soon'
-				: (countdownLabel ?? (registerDisabled ? 'Enrollment closed' : undefined));
+				: event.registrationStatus === 'sold_out'
+					? 'Sold out'
+					: (countdownLabel ?? (registerDisabled ? 'Enrollment closed' : undefined));
 	const partnerText = (event.partners ?? [])
 		.map((partnerRef) => getPartnerByCode(partnerRef.code)?.name ?? partnerRef.code)
 		.filter((name) => Boolean(name) && name !== 'NONE')
@@ -178,7 +182,9 @@ export const toEventCardModel = (
 		imageAlt: getImageAlt(event.images) ?? getImageAlt(relatedProgram?.images) ?? event.title,
 		typeLabel,
 		brochureUrl:
-			relatedProgram && hasTrainingPdf(relatedProgram) ? getTrainingPdfUrl(relatedProgram) : undefined,
+			relatedProgram && hasTrainingPdf(relatedProgram)
+				? getTrainingPdfUrl(relatedProgram)
+				: undefined,
 		statusLabel: options.statusLabelOverride ?? statusLabelDefault,
 		certificateText: relatedProgram ? getProgramCertificateText(relatedProgram) : undefined,
 		videoUrl: relatedProgram?.videoUrl,
@@ -186,6 +192,8 @@ export const toEventCardModel = (
 		speakerText: speakerText || undefined,
 		registerUrl: registerDisabled ? undefined : openSoon ? `/events/${event.slug}` : event.cta?.url,
 		registerLabel: pricedRegisterLabel,
+		alternateRegistrationUrl: event.alternateRegistrationCta?.url,
+		alternateRegistrationLabel: event.alternateRegistrationCta?.label,
 		learnMoreUrl: `/events/${event.slug}`,
 		tone,
 		eventType: event.type,

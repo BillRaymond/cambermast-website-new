@@ -241,6 +241,13 @@
 		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">open</code> only after a real registration
 		destination is published.
 	</p>
+	<p class="mt-3 max-w-3xl text-gray-700">
+		For sold-out cohorts that should send visitors to another available cohort, keep the primary
+		event state as <code class="rounded bg-gray-100 px-1 py-0.5 text-xs">sold_out</code> and add
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">alternateRegistrationCta</code> with a
+		clear label and the alternate event URL. Do not reuse the sold-out event's primary
+		<code class="rounded bg-gray-100 px-1 py-0.5 text-xs">cta.url</code> for the alternate cohort.
+	</p>
 	<h3 class="mt-6 text-xl font-semibold">External event workflow (webinar, talk, partner event)</h3>
 	<ol class="mt-3 max-w-3xl list-decimal space-y-2 pl-5 text-gray-700">
 		<li>

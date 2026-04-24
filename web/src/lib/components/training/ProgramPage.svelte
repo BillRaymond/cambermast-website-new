@@ -303,6 +303,8 @@
 									statusLabel={session.statusLabel}
 									registerUrl={session.registerUrl}
 									registerLabel={session.registerLabel ?? 'Register now'}
+									alternateRegistrationUrl={session.alternateRegistrationUrl}
+									alternateRegistrationLabel={session.alternateRegistrationLabel}
 									learnMoreUrl={session.learnMoreUrl}
 									hostText={session.hostText}
 									partnerText={session.partnerText}
@@ -582,6 +584,8 @@
 								statusLabel={session.statusLabel}
 								registerUrl={session.registerUrl}
 								registerLabel={session.registerLabel ?? 'Register now'}
+								alternateRegistrationUrl={session.alternateRegistrationUrl}
+								alternateRegistrationLabel={session.alternateRegistrationLabel}
 								learnMoreUrl={session.learnMoreUrl}
 								hostText={session.hostText}
 								partnerText={session.partnerText}

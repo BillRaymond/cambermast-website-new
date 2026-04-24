@@ -1241,16 +1241,19 @@
 			}
 		},
 		{
-			"title": "🌻 AI Workshop for Content Creators (Summer 2026)",
+			"title": "🌻 AI Workshop for Content Creators (Summer 2026, Tuesday Cohort)",
 			"type": "training_session",
 			"typeLabel": "LIVE TRAINING",
 			"visibility": "public",
 			"lifecycleStatus": "scheduled",
-			"registrationStatus": "external",
+			"registrationStatus": "sold_out",
 			"cta": {
-				"label": "Register now",
-				"url": "https://luma.com/g2c21nco",
+				"label": "Sold out",
 				"campaignId": "k4f8n1"
+			},
+			"alternateRegistrationCta": {
+				"label": "Register for Wednesday cohort",
+				"url": "/events/ai-workshop-for-tech-writers-and-content-creators-summer-2026-wednesday-cohort-s26wed"
 			},
 			"timeZoneIana": "America/Los_Angeles",
 			"location": {
@@ -1336,6 +1339,128 @@
 			},
 			"videoUrl": "https://www.youtube.com/watch?v=pDMU-xyu8GA",
 			"campaignId": "k4f8n1",
+			"images": {
+				"current": {
+					"square": {
+						"url": "/images/events/ai-workshop-for-content-creators-summer-2026/hero-square.jpg"
+					},
+					"landscape": {
+						"url": "/images/events/ai-workshop-for-content-creators-summer-2026/hero-landscape.jpg"
+					},
+					"portrait": {
+						"url": "/images/events/ai-workshop-for-content-creators-summer-2026/hero-portrait.jpg"
+					},
+					"alt": "AI Workshop for Tech Writers and Content Creators illustration",
+					"kind": "manual",
+					"prompts": {
+						"square": "AI Workshop for Tech Writers and Content Creators illustration. Migrated from legacy image data without preserved generation prompts.",
+						"landscape": "AI Workshop for Tech Writers and Content Creators illustration. Migrated from legacy image data without preserved generation prompts.",
+						"portrait": "AI Workshop for Tech Writers and Content Creators illustration. Migrated from legacy image data without preserved generation prompts."
+					},
+					"reference": {
+						"url": null,
+						"sourceType": "legacy_migration",
+						"label": "Legacy migration: image preserved without generation provenance"
+					},
+					"historyId": "bcf33060e76ebed5"
+				}
+			}
+		},
+		{
+			"title": "🌻 AI Workshop for Content Creators (Summer 2026, Wednesday Cohort)",
+			"type": "training_session",
+			"typeLabel": "LIVE TRAINING",
+			"visibility": "public",
+			"lifecycleStatus": "scheduled",
+			"registrationStatus": "none",
+			"cta": {
+				"label": "Open soon",
+				"campaignId": "s26wed"
+			},
+			"timeZoneIana": "America/Los_Angeles",
+			"location": {
+				"mode": "online",
+				"publicLabel": "Online",
+				"detailsVisibility": "public"
+			},
+			"ticketing": {
+				"currency": "USD",
+				"amountUsd": 1749
+			},
+			"registrationSettings": {
+				"approvalRequired": false,
+				"capacity": {
+					"type": "unlimited"
+				}
+			},
+			"programRef": {
+				"sku": "CM-TR-005"
+			},
+			"partners": [
+				{
+					"code": "TCW",
+					"role": "community"
+				}
+			],
+			"speakers": [
+				{
+					"name": "Bill Raymond",
+					"title": "Host",
+					"shortBio": "Bill is a technical content strategist and AI practitioner who uses generative tools daily to ship human-centered documentation and learning experiences."
+				}
+			],
+			"description": "This multi-session workshop combines strategy and hands-on implementation. Participants build repeatable workflows for research, drafting, editing, and quality checks while preserving voice, review standards, and governance expectations.",
+			"highlights": [
+				"Structured prompting systems for high-quality first drafts",
+				"Editorial quality controls and policy-aligned review loops",
+				"Reusable workflow templates for documentation teams"
+			],
+			"template": {
+				"kind": "training_event_v1",
+				"sourceProgramSku": "CM-TR-005",
+				"sourceProgramSlug": "ai-workshop-for-content-creators",
+				"sourceProgramRoute": "/training/ai-workshop-for-content-creators"
+			},
+			"id": "s26wed",
+			"slug": "ai-workshop-for-tech-writers-and-content-creators-summer-2026-wednesday-cohort-s26wed",
+			"tagline": "Get real results from your content with AI-powered workflows.",
+			"summary": "This is a 7-week course that meets on Wednesdays. July 15 - August 26, 2026, from 10 am PT to 12 pm PT.",
+			"sessions": [
+				{
+					"startAtUtc": "2026-07-15T17:00:00.000Z",
+					"endAtUtc": "2026-07-15T19:00:00.000Z"
+				},
+				{
+					"startAtUtc": "2026-07-22T17:00:00.000Z",
+					"endAtUtc": "2026-07-22T19:00:00.000Z"
+				},
+				{
+					"startAtUtc": "2026-07-29T17:00:00.000Z",
+					"endAtUtc": "2026-07-29T19:00:00.000Z"
+				},
+				{
+					"startAtUtc": "2026-08-05T17:00:00.000Z",
+					"endAtUtc": "2026-08-05T19:00:00.000Z"
+				},
+				{
+					"startAtUtc": "2026-08-12T17:00:00.000Z",
+					"endAtUtc": "2026-08-12T19:00:00.000Z"
+				},
+				{
+					"startAtUtc": "2026-08-19T17:00:00.000Z",
+					"endAtUtc": "2026-08-19T19:00:00.000Z"
+				},
+				{
+					"startAtUtc": "2026-08-26T17:00:00.000Z",
+					"endAtUtc": "2026-08-26T19:00:00.000Z"
+				}
+			],
+			"schedule": {
+				"durationDays": 42,
+				"estimatedHoursCommitment": 2
+			},
+			"videoUrl": "https://www.youtube.com/watch?v=pDMU-xyu8GA",
+			"campaignId": "s26wed",
 			"images": {
 				"current": {
 					"square": {

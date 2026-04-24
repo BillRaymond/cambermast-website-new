@@ -197,6 +197,8 @@
 								startTimestamp={session.startTimestamp}
 								registerUrl={session.registerUrl}
 								registerLabel={session.registerLabel ?? 'Register now'}
+								alternateRegistrationUrl={session.alternateRegistrationUrl}
+								alternateRegistrationLabel={session.alternateRegistrationLabel}
 								learnMoreUrl={session.learnMoreUrl ?? item.route}
 								hostText={session.hostText}
 								partnerText={session.partnerText}

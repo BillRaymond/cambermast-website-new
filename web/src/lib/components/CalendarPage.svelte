@@ -197,6 +197,8 @@
 												statusLabel={entry.statusLabel}
 												registerUrl={entry.registerUrl}
 												registerLabel={entry.registerLabel}
+												alternateRegistrationUrl={entry.alternateRegistrationUrl}
+												alternateRegistrationLabel={entry.alternateRegistrationLabel}
 												learnMoreUrl={entry.learnMoreUrl}
 												hostText={entry.hostText}
 												partnerText={entry.partnerText}

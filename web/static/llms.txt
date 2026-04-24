@@ -74,6 +74,8 @@ Authoritative sources:
 - https://cambermast.com/training/table
 - https://cambermast.com/events
 - https://cambermast.com/events/archive
+- https://cambermast.com/events/ai-workshop-for-tech-writers-and-content-creators-summer-2026-k4f8n1
+- https://cambermast.com/events/ai-workshop-for-tech-writers-and-content-creators-summer-2026-wednesday-cohort-s26wed
 - https://cambermast.com/calendar
 - https://cambermast.com/training/print
 - https://cambermast.com/training/ai-fundamentals

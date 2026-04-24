@@ -70,13 +70,29 @@
 			"partner": "the-content-wrangler",
 			"partnerLabel": "The Content Wrangler",
 			"landingPath": "/events/ai-workshop-for-tech-writers-and-content-creators-summer-2026-k4f8n1",
-			"description": "Campaign short link for the 🌻 AI Workshop for Content Creators (Summer 2026) event page.",
+			"description": "Campaign short link for the 🌻 AI Workshop for Content Creators (Summer 2026, Tuesday Cohort) event page.",
 			"createdAt": "2026-07-14T17:00:00.000Z",
 			"params": {
 				"utm_source": "qr",
 				"utm_medium": "offline",
 				"utm_campaign": "events",
 				"utm_content": "k4f8n1",
+				"src": "qr",
+				"ad": "the-content-wrangler"
+			}
+		},
+		{
+			"id": "s26wed",
+			"partner": "the-content-wrangler",
+			"partnerLabel": "The Content Wrangler",
+			"landingPath": "/events/ai-workshop-for-tech-writers-and-content-creators-summer-2026-wednesday-cohort-s26wed",
+			"description": "Campaign short link for the 🌻 AI Workshop for Content Creators (Summer 2026, Wednesday Cohort) event page.",
+			"createdAt": "2026-07-15T17:00:00.000Z",
+			"params": {
+				"utm_source": "qr",
+				"utm_medium": "offline",
+				"utm_campaign": "events",
+				"utm_content": "s26wed",
 				"src": "qr",
 				"ad": "the-content-wrangler"
 			}

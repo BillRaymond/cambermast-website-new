@@ -17,6 +17,9 @@ const publicEvents = listEvents({ includeDrafts: true, includeUnlisted: true })
 	})
 	.sort((a, b) => new Date(a.startAtUtc).valueOf() - new Date(b.startAtUtc).valueOf());
 
+const toAbsoluteUrl = (value: string, origin: string): string =>
+	value.startsWith('/') ? `${origin}${value}` : value;
+
 const toApiEvent = (event: Event, origin: string) => ({
 	id: event.id,
 	slug: event.slug,
@@ -44,6 +47,12 @@ const toApiEvent = (event: Event, origin: string) => ({
 	lifecycleStatus: event.lifecycleStatus,
 	registrationStatus: event.registrationStatus,
 	cta: event.cta,
+	alternateRegistrationCta: event.alternateRegistrationCta
+		? {
+				...event.alternateRegistrationCta,
+				url: toAbsoluteUrl(event.alternateRegistrationCta.url, origin)
+			}
+		: undefined,
 	location: event.locationMeta,
 	ticketing: event.ticketing,
 	registrationSettings: event.registrationSettings,

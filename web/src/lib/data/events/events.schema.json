@@ -166,6 +166,18 @@
 				"current": { "$ref": "#/$defs/entityCurrentImageSet" }
 			}
 		},
+		"eventLinkCta": {
+			"type": "object",
+			"additionalProperties": false,
+			"required": ["label", "url"],
+			"properties": {
+				"label": { "type": "string", "minLength": 1 },
+				"url": {
+					"type": "string",
+					"pattern": "^(\\/|https?:\\/\\/).+"
+				}
+			}
+		},
 		"event": {
 			"type": "object",
 			"additionalProperties": false,
@@ -316,6 +328,10 @@
 							"pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
 						}
 					}
+				},
+				"alternateRegistrationCta": {
+					"description": "Optional secondary CTA for sold-out or closed events that should direct visitors to an alternate cohort or waitlist page without reopening the primary event registration.",
+					"$ref": "#/$defs/eventLinkCta"
 				},
 				"location": {
 					"type": "object",

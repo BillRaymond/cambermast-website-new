@@ -17,6 +17,8 @@
 	export let brochureUrl: string | undefined = undefined;
 	export let registerUrl: string | undefined = undefined;
 	export let registerLabel = 'Register now';
+	export let alternateRegistrationUrl: string | undefined = undefined;
+	export let alternateRegistrationLabel: string | undefined = undefined;
 	export let statusLabel: string | undefined = undefined;
 	export let startTimestamp: number | null = null;
 	export let learnMoreUrl: string | undefined = undefined;
@@ -50,6 +52,7 @@
 	$: cadenceLabel = cadenceMatch ? cadenceMatch[2] : undefined;
 	$: isCarousel = variant === 'carousel';
 	$: isExternalLearnMoreUrl = Boolean(learnMoreUrl?.startsWith('http'));
+	$: isExternalAlternateRegistrationUrl = Boolean(alternateRegistrationUrl?.startsWith('http'));
 	$: hasCardNavigation = Boolean(learnMoreUrl);
 	$: showLearnMoreLink = Boolean(learnMoreUrl) && tone !== 'happening';
 	$: showTrailerChip = Boolean(videoUrl);
@@ -228,6 +231,15 @@
 						shape="rounded"
 						className={registerButtonClass}
 					/>
+				{:else if alternateRegistrationUrl && alternateRegistrationLabel}
+					<a
+						href={alternateRegistrationUrl}
+						target={isExternalAlternateRegistrationUrl ? '_blank' : undefined}
+						rel={isExternalAlternateRegistrationUrl ? 'noopener noreferrer' : undefined}
+						class={registerButtonClass}
+					>
+						{alternateRegistrationLabel}
+					</a>
 				{/if}
 				{#if showLearnMoreLink}
 					<a
