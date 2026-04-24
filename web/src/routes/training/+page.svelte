@@ -39,13 +39,20 @@
 		.sort((a, b) => (a.catalog?.order ?? 999) - (b.catalog?.order ?? 999))
 		.map((program) => {
 			const durationStat = findProgramStat(program, 'duration');
-			const upcomingSessions = listUpcomingTrainingEntriesForProgram(program.sku).map((entry) =>
-				toEventCardModel(toEventUiModel(entry.event), {
-					program,
-					referenceTimestamp: Date.now(),
-					forceTone: 'upcoming'
+			const upcomingSessions = listUpcomingTrainingEntriesForProgram(program.sku)
+				.sort((a, b) => {
+					const aAvailable = a.event.registrationStatus !== 'sold_out';
+					const bAvailable = b.event.registrationStatus !== 'sold_out';
+					if (aAvailable !== bAvailable) return aAvailable ? -1 : 1;
+					return 0;
 				})
-			);
+				.map((entry) =>
+					toEventCardModel(toEventUiModel(entry.event), {
+						program,
+						referenceTimestamp: Date.now(),
+						forceTone: 'upcoming'
+					})
+				);
 			const happeningSessions = listHappeningTrainingEntriesForProgram(program.sku).map((entry) =>
 				toEventCardModel(toEventUiModel(entry.event), {
 					program,
