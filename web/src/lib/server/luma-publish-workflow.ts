@@ -543,7 +543,7 @@ const pickLumaDate = async (
 
 		for (let monthAdvance = 0; monthAdvance < 12; monthAdvance += 1) {
 			const dayCell = page
-				.locator(`${targetMonthSelector} .day:not(.disabled)`)
+				.locator(`${targetMonthSelector} .day.in-active-month:not(.disabled)`)
 				.filter({ hasText: new RegExp(`^${day.toString()}$`) })
 				.first();
 			if ((await dayCell.count()) > 0) {
@@ -561,6 +561,15 @@ const pickLumaDate = async (
 			await page.waitForTimeout(250);
 		}
 	}
+
+	await input.click({ timeout: 5000, force: true }).catch(() => null);
+	await page.keyboard.press(process.platform === 'darwin' ? 'Meta+A' : 'Control+A').catch(() => null);
+	await input.fill(formatLumaDate(timestamp, timeZone)).catch(() => null);
+	await page.keyboard.press('Enter').catch(() => null);
+	await page.waitForTimeout(300);
+	await dismissFloatingPortalIfPresent(page);
+	const fallbackValue = (await input.inputValue().catch(() => '')).trim();
+	if (fallbackValue.includes(targetNeedle)) return true;
 
 	await dismissFloatingPortalIfPresent(page);
 	return false;
