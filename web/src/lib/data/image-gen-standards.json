@@ -1,7 +1,49 @@
 {
 	"version": 1,
-	"updatedAt": "2026-04-20T15:38:30.491Z",
+	"updatedAt": "2026-04-24T21:51:27.421Z",
 	"standards": [
+		{
+			"id": "8dace307651549c1",
+			"createdAt": "2026-04-24T21:51:27.420Z",
+			"entityType": "events",
+			"entitySlug": "ai-workshop-for-tech-writers-and-content-creators-summer-2026-k4f8n1",
+			"assetKeys": {
+				"square": "events/ai-workshop-for-tech-writers-and-content-creators-summer-2026-k4f8n1/hero-square.jpg",
+				"landscape": "events/ai-workshop-for-tech-writers-and-content-creators-summer-2026-k4f8n1/hero-landscape.jpg",
+				"portrait": "events/ai-workshop-for-tech-writers-and-content-creators-summer-2026-k4f8n1/hero-portrait.jpg"
+			},
+			"prompts": {
+				"square": "Recreate this image and reduce graininess, then:\n\n1. Add the text \"Tuesday cohort\" toward the bottom with a background that does not clash with the rest of the image\n2. Add a \"Sold Out\" corner ribbon with a complementary red background",
+				"landscape": "Recreate this image and reduce the graininess",
+				"portrait": "Recreate this image and reduce the graininess"
+			},
+			"reference": {
+				"url": "/images/events/ai-workshop-for-content-creators-summer-2026/hero-square.jpg",
+				"sourceType": "training_reference",
+				"label": "🌻 AI Workshop for Content Creators (Summer 2026, Tuesday Cohort)"
+			}
+		},
+		{
+			"id": "0de862f5fd154f34",
+			"createdAt": "2026-04-24T21:18:40.159Z",
+			"entityType": "events",
+			"entitySlug": "ai-workshop-for-tech-writers-and-content-creators-summer-2026-wednesday-cohort-s26wed",
+			"assetKeys": {
+				"square": "events/ai-workshop-for-tech-writers-and-content-creators-summer-2026-wednesday-cohort-s26wed/hero-square.jpg",
+				"landscape": "events/ai-workshop-for-tech-writers-and-content-creators-summer-2026-wednesday-cohort-s26wed/hero-landscape.jpg",
+				"portrait": "events/ai-workshop-for-tech-writers-and-content-creators-summer-2026-wednesday-cohort-s26wed/hero-portrait.jpg"
+			},
+			"prompts": {
+				"square": "Recrate this image and reduce the graininess. Add the text WEDNESDAY COHORT toward the bottom.",
+				"landscape": "Recreate this image. Reduce graininess.",
+				"portrait": "Recreate this image and reduce the graininess"
+			},
+			"reference": {
+				"url": "/images/events/ai-workshop-for-content-creators-summer-2026/hero-landscape.jpg",
+				"sourceType": "training_reference",
+				"label": "🌻 AI Workshop for Content Creators (Summer 2026, Wednesday Cohort)"
+			}
+		},
 		{
 			"id": "e7dc7dcff5ca47b4",
 			"createdAt": "2026-04-20T15:38:30.489Z",

@@ -1,0 +1,8 @@
+Square prompt:
+Recrate this image and reduce the graininess. Add the text WEDNESDAY COHORT toward the bottom.
+
+Landscape prompt:
+Recreate this image. Reduce graininess.
+
+Portrait prompt:
+Recreate this image and reduce the graininess

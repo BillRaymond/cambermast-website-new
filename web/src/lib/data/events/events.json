@@ -1342,27 +1342,27 @@
 			"images": {
 				"current": {
 					"square": {
-						"url": "/images/events/ai-workshop-for-content-creators-summer-2026/hero-square.jpg"
+						"url": "/images/events/ai-workshop-for-tech-writers-and-content-creators-summer-2026-k4f8n1/hero-square.jpg"
 					},
 					"landscape": {
-						"url": "/images/events/ai-workshop-for-content-creators-summer-2026/hero-landscape.jpg"
+						"url": "/images/events/ai-workshop-for-tech-writers-and-content-creators-summer-2026-k4f8n1/hero-landscape.jpg"
 					},
 					"portrait": {
-						"url": "/images/events/ai-workshop-for-content-creators-summer-2026/hero-portrait.jpg"
+						"url": "/images/events/ai-workshop-for-tech-writers-and-content-creators-summer-2026-k4f8n1/hero-portrait.jpg"
 					},
 					"alt": "AI Workshop for Tech Writers and Content Creators illustration",
-					"kind": "manual",
+					"kind": "generated",
 					"prompts": {
-						"square": "AI Workshop for Tech Writers and Content Creators illustration. Migrated from legacy image data without preserved generation prompts.",
-						"landscape": "AI Workshop for Tech Writers and Content Creators illustration. Migrated from legacy image data without preserved generation prompts.",
-						"portrait": "AI Workshop for Tech Writers and Content Creators illustration. Migrated from legacy image data without preserved generation prompts."
+						"square": "Recreate this image and reduce graininess, then:\n\n1. Add the text \"Tuesday cohort\" toward the bottom with a background that does not clash with the rest of the image\n2. Add a \"Sold Out\" corner ribbon with a complementary red background",
+						"landscape": "Recreate this image and reduce the graininess",
+						"portrait": "Recreate this image and reduce the graininess"
 					},
 					"reference": {
-						"url": null,
-						"sourceType": "legacy_migration",
-						"label": "Legacy migration: image preserved without generation provenance"
+						"url": "/images/events/ai-workshop-for-content-creators-summer-2026/hero-square.jpg",
+						"sourceType": "training_reference",
+						"label": "🌻 AI Workshop for Content Creators (Summer 2026, Tuesday Cohort)"
 					},
-					"historyId": "bcf33060e76ebed5"
+					"historyId": "8dace307651549c1"
 				}
 			}
 		},
@@ -1372,9 +1372,10 @@
 			"typeLabel": "LIVE TRAINING",
 			"visibility": "public",
 			"lifecycleStatus": "scheduled",
-			"registrationStatus": "none",
+			"registrationStatus": "external",
 			"cta": {
-				"label": "Open soon",
+				"label": "Register now",
+				"url": "https://luma.com/jk3hjd4t",
 				"campaignId": "s26wed"
 			},
 			"timeZoneIana": "America/Los_Angeles",
@@ -1464,27 +1465,27 @@
 			"images": {
 				"current": {
 					"square": {
-						"url": "/images/events/ai-workshop-for-content-creators-summer-2026/hero-square.jpg"
+						"url": "/images/events/ai-workshop-for-tech-writers-and-content-creators-summer-2026-wednesday-cohort-s26wed/hero-square.jpg"
 					},
 					"landscape": {
-						"url": "/images/events/ai-workshop-for-content-creators-summer-2026/hero-landscape.jpg"
+						"url": "/images/events/ai-workshop-for-tech-writers-and-content-creators-summer-2026-wednesday-cohort-s26wed/hero-landscape.jpg"
 					},
 					"portrait": {
-						"url": "/images/events/ai-workshop-for-content-creators-summer-2026/hero-portrait.jpg"
+						"url": "/images/events/ai-workshop-for-tech-writers-and-content-creators-summer-2026-wednesday-cohort-s26wed/hero-portrait.jpg"
 					},
 					"alt": "AI Workshop for Tech Writers and Content Creators illustration",
-					"kind": "manual",
+					"kind": "generated",
 					"prompts": {
-						"square": "AI Workshop for Tech Writers and Content Creators illustration. Migrated from legacy image data without preserved generation prompts.",
-						"landscape": "AI Workshop for Tech Writers and Content Creators illustration. Migrated from legacy image data without preserved generation prompts.",
-						"portrait": "AI Workshop for Tech Writers and Content Creators illustration. Migrated from legacy image data without preserved generation prompts."
+						"square": "Recrate this image and reduce the graininess. Add the text WEDNESDAY COHORT toward the bottom.",
+						"landscape": "Recreate this image. Reduce graininess.",
+						"portrait": "Recreate this image and reduce the graininess"
 					},
 					"reference": {
-						"url": null,
-						"sourceType": "legacy_migration",
-						"label": "Legacy migration: image preserved without generation provenance"
+						"url": "/images/events/ai-workshop-for-content-creators-summer-2026/hero-landscape.jpg",
+						"sourceType": "training_reference",
+						"label": "🌻 AI Workshop for Content Creators (Summer 2026, Wednesday Cohort)"
 					},
-					"historyId": "bcf33060e76ebed5"
+					"historyId": "0de862f5fd154f34"
 				}
 			}
 		},

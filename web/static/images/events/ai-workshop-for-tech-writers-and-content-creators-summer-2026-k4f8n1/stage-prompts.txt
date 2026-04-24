@@ -1,0 +1,11 @@
+Square prompt:
+Recreate this image and reduce graininess, then:
+
+1. Add the text "Tuesday cohort" toward the bottom with a background that does not clash with the rest of the image
+2. Add a "Sold Out" corner ribbon with a complementary red background
+
+Landscape prompt:
+Recreate this image and reduce the graininess
+
+Portrait prompt:
+Recreate this image and reduce the graininess
