@@ -168,6 +168,8 @@ If existing event records drift out of sync, run `npm --prefix web run campaigns
   - `postJsonWithTimeout(...)` for consistent timeout handling.
   - `getWebhookSubmissionErrorMessage(...)` for consistent timeout/network/CORS messaging.
 - Keep webhook error payloads compatible with existing parsing patterns used by forms: `message`, `error`, `error-codes`, or `messages`.
+- Do not strip or pre-escape ordinary user text such as quotes, newlines, or backslashes on the front end. The browser payload should remain normal JSON.
+- In n8n, avoid raw JSON templates that place form values inside quoted JSON strings, such as `"name": "{{ $json.body.name }}"`. Use field mappings or serialize the full object with `JSON.stringify(...)` so names, textarea responses, and option labels cannot break the workflow.
 
 ## Microsoft Project Server Migration Support
 
