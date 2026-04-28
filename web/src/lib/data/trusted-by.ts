@@ -12,6 +12,21 @@ export const trustedByOrganizations: TrustedByOrganization[] = [
 		logoSrc: '/images/trusted-by/microsoft.png'
 	},
 	{
+		name: 'HP',
+		url: 'https://www.hp.com/',
+		logoSrc: '/images/trusted-by/hp.png'
+	},
+	{
+		name: 'HealthEdge',
+		url: 'https://healthedge.com/',
+		logoSrc: '/images/trusted-by/healthedge.png'
+	},
+	{
+		name: 'Adyen',
+		url: 'https://www.adyen.com/',
+		logoSrc: '/images/trusted-by/adyen.png'
+	},
+	{
 		name: 'Digital.ai',
 		url: 'https://digital.ai/',
 		logoSrc: '/images/trusted-by/digital-ai.png'
