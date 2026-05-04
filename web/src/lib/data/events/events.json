@@ -1465,27 +1465,27 @@
 			"images": {
 				"current": {
 					"square": {
-						"url": "/images/events/ai-workshop-for-tech-writers-and-content-creators-summer-2026-wednesday-cohort-s26wed/hero-square-v2.jpg"
+						"url": "/images/events/ai-workshop-for-tech-writers-and-content-creators-summer-2026-wednesday-cohort-s26wed/hero-square-v3.jpg"
 					},
 					"landscape": {
-						"url": "/images/events/ai-workshop-for-tech-writers-and-content-creators-summer-2026-wednesday-cohort-s26wed/hero-landscape-v2.jpg"
+						"url": "/images/events/ai-workshop-for-tech-writers-and-content-creators-summer-2026-wednesday-cohort-s26wed/hero-landscape-v3.jpg"
 					},
 					"portrait": {
-						"url": "/images/events/ai-workshop-for-tech-writers-and-content-creators-summer-2026-wednesday-cohort-s26wed/hero-portrait-v2.jpg"
+						"url": "/images/events/ai-workshop-for-tech-writers-and-content-creators-summer-2026-wednesday-cohort-s26wed/hero-portrait-v3.jpg"
 					},
 					"alt": "AI Workshop for Tech Writers and Content Creators illustration",
 					"kind": "generated",
 					"prompts": {
-						"square": "Recrate this image, reduce the graininess, and add a corner ribbon with the text \"SOLD OUT\"",
-						"landscape": "Recreate this image. Reduce graininess.",
+						"square": "Recrate this image and reduce the graininess.",
+						"landscape": "Recreate this image. Reduce graininess. Make sure the word sold out is in the center of the banner",
 						"portrait": "Recreate this image and reduce the graininess"
 					},
 					"reference": {
-						"url": "/images/events/ai-workshop-for-tech-writers-and-content-creators-summer-2026-wednesday-cohort-s26wed/hero-square.png",
+						"url": "/images/events/ai-workshop-for-tech-writers-and-content-creators-summer-2026-wednesday-cohort-s26wed/hero-square-v2.png",
 						"sourceType": "training_reference",
 						"label": "🌻 AI Workshop for Content Creators (Summer 2026, Wednesday Cohort)"
 					},
-					"historyId": "f828a1b12f1c459f"
+					"historyId": "a601ed56a7ef4bf0"
 				}
 			}
 		},

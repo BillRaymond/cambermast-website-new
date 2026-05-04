@@ -1,7 +1,28 @@
 {
 	"version": 1,
-	"updatedAt": "2026-05-04T16:18:20.471Z",
+	"updatedAt": "2026-05-04T18:26:19.549Z",
 	"standards": [
+		{
+			"id": "a601ed56a7ef4bf0",
+			"createdAt": "2026-05-04T18:26:19.548Z",
+			"entityType": "events",
+			"entitySlug": "ai-workshop-for-tech-writers-and-content-creators-summer-2026-wednesday-cohort-s26wed",
+			"assetKeys": {
+				"square": "events/ai-workshop-for-tech-writers-and-content-creators-summer-2026-wednesday-cohort-s26wed/hero-square-v3.jpg",
+				"landscape": "events/ai-workshop-for-tech-writers-and-content-creators-summer-2026-wednesday-cohort-s26wed/hero-landscape-v3.jpg",
+				"portrait": "events/ai-workshop-for-tech-writers-and-content-creators-summer-2026-wednesday-cohort-s26wed/hero-portrait-v3.jpg"
+			},
+			"prompts": {
+				"square": "Recrate this image and reduce the graininess.",
+				"landscape": "Recreate this image. Reduce graininess. Make sure the word sold out is in the center of the banner",
+				"portrait": "Recreate this image and reduce the graininess"
+			},
+			"reference": {
+				"url": "/images/events/ai-workshop-for-tech-writers-and-content-creators-summer-2026-wednesday-cohort-s26wed/hero-square-v2.png",
+				"sourceType": "training_reference",
+				"label": "🌻 AI Workshop for Content Creators (Summer 2026, Wednesday Cohort)"
+			}
+		},
 		{
 			"id": "f828a1b12f1c459f",
 			"createdAt": "2026-05-04T16:18:20.469Z",

@@ -1,0 +1,8 @@
+Square prompt:
+Recrate this image and reduce the graininess.
+
+Landscape prompt:
+Recreate this image. Reduce graininess. Make sure the word sold out is in the center of the banner
+
+Portrait prompt:
+Recreate this image and reduce the graininess
