@@ -66,6 +66,10 @@ export const uploadBytesToC3 = async (input: {
 		| {
 				key?: string;
 				url?: string;
+				result?: {
+					key?: string;
+					url?: string;
+				};
 				error?: unknown;
 				message?: unknown;
 		  }
@@ -79,7 +83,7 @@ export const uploadBytesToC3 = async (input: {
 	}
 
 	return {
-		key: json?.key ?? input.key,
-		url: json?.url
+		key: json?.key ?? json?.result?.key ?? input.key,
+		url: json?.url ?? json?.result?.url
 	};
 };
