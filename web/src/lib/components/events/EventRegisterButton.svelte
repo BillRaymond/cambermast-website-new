@@ -10,6 +10,7 @@
 	export let shape: Shape = 'pill';
 	export let fullWidth = false;
 	export let disabled = false;
+	export let reload = false;
 	export let className = '';
 	export let onClick: ((event: MouseEvent) => void) | undefined = undefined;
 
@@ -41,6 +42,7 @@
 		class={classes}
 		target={isExternal ? '_blank' : undefined}
 		rel={isExternal ? 'noopener noreferrer' : undefined}
+		data-sveltekit-reload={reload ? '' : undefined}
 		on:click={onClick}
 	>
 		{label}

@@ -670,6 +670,7 @@
 										href={alternateRegistrationUrl}
 										label={alternateRegistrationLabel}
 										size="lg"
+										reload={!isExternalAlternateRegistrationUrl}
 										onClick={() => trackAlternateRegistrationClick('hero')}
 									/>
 								{/if}
@@ -1021,6 +1022,7 @@
 									size="sm"
 									fullWidth={true}
 									className="mt-3 py-2.5"
+									reload={!isExternalAlternateRegistrationUrl}
 									onClick={() => trackAlternateRegistrationClick('sticky')}
 								/>
 							{/if}
