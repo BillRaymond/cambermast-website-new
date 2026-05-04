@@ -1,0 +1,4 @@
+path: events/ai-workshop-for-tech-writers-and-content-creators-summer-2026-wednesday-cohort-s26wed
+square: https://.../browser/blobs/cambermastweb/generated/events/ai-workshop-for-tech-writers-and-content-creators-summer-2026-wednesday-cohort-s26wed/square/248342b8-aca7-46cb-ba41-adcca0f536ec/candidate-3.png
+landscape: https://.../browser/blobs/cambermastweb/generated/events/ai-workshop-for-tech-writers-and-content-creators-summer-2026-wednesday-cohort-s26wed/landscape/a1e8c4e5-f2cb-4e04-8124-feb3f0f94e4b/candidate-1.png
+portrait: https://.../browser/blobs/cambermastweb/generated/events/ai-workshop-for-tech-writers-and-content-creators-summer-2026-wednesday-cohort-s26wed/portrait/f48c1103-ee12-4c11-b624-0e993c320fb8/candidate-1.png

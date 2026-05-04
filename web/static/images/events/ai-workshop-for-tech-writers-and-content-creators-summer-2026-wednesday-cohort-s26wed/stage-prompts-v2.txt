@@ -1,0 +1,8 @@
+Square prompt:
+Recrate this image, reduce the graininess, and add a corner ribbon with the text "SOLD OUT"
+
+Landscape prompt:
+Recreate this image. Reduce graininess.
+
+Portrait prompt:
+Recreate this image and reduce the graininess
