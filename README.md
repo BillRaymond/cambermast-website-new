@@ -24,10 +24,13 @@ The current public production deployment remains GitHub Pages:
 
 During the platform migration, this repository also publishes a production-like SvelteKit Node image for a Tailnet-only VPS test deployment:
 
-1. Pushes build `ghcr.io/billraymond/cambermast-website-new/sveltekit`.
-2. `main` publishes `:latest` and `:main-<short_sha>`.
-3. Every branch publishes `:branch-<branch-name>` and `:branch-<branch-name>-<short_sha>`.
-4. The VPS instance is `cambermast-web`, reachable only through Tailscale for now.
+1. Push to `main`.
+2. `.github/workflows/pages.yml` builds and deploys GitHub Pages.
+3. After that workflow succeeds, `.github/workflows/build-publish-vps.yml` builds `ghcr.io/billraymond/cambermast-website-new/sveltekit`.
+4. `main` publishes `:latest`, `:main-<short_sha>`, `:branch-main`, and `:branch-main-<short_sha>`.
+5. The VPS instance is `cambermast-web`, reachable only through Tailscale for now, and Watchtower reuses the updated `:latest` image automatically.
+
+Manual branch image builds are still available through the `Build and Publish VPS Image` workflow dispatch input. Use a branch name as the `ref` and then deploy the resulting `:branch-<branch-name>` tag to the VPS test instance.
 
 The VPS deployment is intentionally standalone and file-backed at this stage. Do not require Postgres, n8n, Redis, or other platform services until a migration branch explicitly introduces those dependencies.
 
