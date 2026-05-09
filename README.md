@@ -14,9 +14,35 @@ Cambermast is led by CEO Bill Raymond, a certified FutureLab AI Mastermind Train
 
 This repository powers the public marketing site for Cambermast. It contains the content, components, and configuration used to deploy [cambermast.com](https://cambermast.com).
 
+## Deployment Workflow
+
+The current public production deployment remains GitHub Pages:
+
+1. Edit locally in the VS Code Dev Container.
+2. Push to GitHub.
+3. `.github/workflows/pages.yml` builds the static site and deploys GitHub Pages.
+
+During the platform migration, this repository also publishes a production-like SvelteKit Node image for a Tailnet-only VPS test deployment:
+
+1. Pushes build `ghcr.io/billraymond/cambermast-website-new/sveltekit`.
+2. `main` publishes `:latest` and `:main-<short_sha>`.
+3. Every branch publishes `:branch-<branch-name>` and `:branch-<branch-name>-<short_sha>`.
+4. The VPS instance is `cambermast-web`, reachable only through Tailscale for now.
+
+The VPS deployment is intentionally standalone and file-backed at this stage. Do not require Postgres, n8n, Redis, or other platform services until a migration branch explicitly introduces those dependencies.
+
+To deploy a future migration branch image to the Tailnet-only VPS instance:
+
+```bash
+cd /home/billraymond/homelab
+./create-sk-instance update \
+  --slug cambermast-web \
+  --image ghcr.io/billraymond/cambermast-website-new/sveltekit:branch-<branch-name>
+```
+
 ## Tech Stack
 
-- **SvelteKit + Svelte 5:** Static adapter keeps the marketing site fast and CDN-friendly while letting us ship the same component-driven experience everywhere.
+- **SvelteKit + Svelte 5:** GitHub Pages uses the static adapter for the current public site, while the Tailnet-only VPS test deployment uses the node adapter for a production-like server runtime.
 - **Vite 7 toolchain:** Dev/preview/build scripts live in `web/package.json`, providing instant feedback via `vite dev` and optimized output via `vite build`.
 - **TypeScript-first:** The Svelte project runs `svelte-check` with a shared `tsconfig.json`, giving type safety across components, data sources, and endpoints.
 - **Tailwind CSS 4:** Base styles, typography, and form controls are composed with Tailwind plus the official `@tailwindcss/forms` and `@tailwindcss/typography` plugins.

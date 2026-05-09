@@ -7,6 +7,13 @@ Use this file to keep automated changes aligned with the site’s governance and
 - Keep policy, governance, and AI guidance consistent across the site.
 - Do not invent services, partners, credentials, pricing, or dates.
 
+## Deployment guardrails
+- Do not remove, bypass, or rewrite the GitHub Pages workflow unless the user explicitly asks.
+- Preserve the standalone VPS deployment until Postgres, n8n, Redis, or other service integrations are intentionally added in a migration branch.
+- Treat `cambermast-web` as production-like but test-only: it should run with production settings, but it must stay Tailnet-only during the temporary phase.
+- Do not assume public DNS or Caddy exposure for the VPS deployment until the user explicitly asks to make it public.
+- Keep the devcontainer workflow separate from the production VPS image workflow.
+
 ## Schema governance rule (required)
 - Use schema-first for every structured registry contract under `web/src/lib/data/**`.
 - Every registry schema must have:

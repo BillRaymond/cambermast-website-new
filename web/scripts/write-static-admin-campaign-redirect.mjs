@@ -1,6 +1,11 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 
+if (process.env.SVELTEKIT_ADAPTER === 'node') {
+	console.log('Skipping static admin campaign redirect for adapter-node build.');
+	process.exit(0);
+}
+
 const buildRoot = path.resolve('build');
 const targetDir = path.join(buildRoot, 'admin', 'campaigns');
 const targetFile = path.join(targetDir, 'index.html');
