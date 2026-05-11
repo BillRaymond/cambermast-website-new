@@ -22,6 +22,8 @@ The current public production deployment remains GitHub Pages:
 2. Push to GitHub.
 3. `.github/workflows/pages.yml` builds the static site and deploys GitHub Pages.
 
+The Pages workflow publishes `/deploy-sha.txt` so each deployment can be matched back to the exact Git commit that produced it.
+
 During the platform migration, this repository also publishes a production-like SvelteKit Node image for a Tailnet-only VPS test deployment:
 
 1. Push to `main`.
