@@ -12,11 +12,11 @@ Cambermast is led by CEO Bill Raymond, a certified FutureLab AI Mastermind Train
 
 ## About This Repository
 
-This repository powers the public marketing site for Cambermast. It contains the content, components, and configuration used to deploy [cambermast.com](https://cambermast.com).
+This repository powers the current public GitHub Pages marketing site for Cambermast. During the VPS migration it is hotfix-only; new VPS-bound development happens in private repo `BillRaymond/cambermast-web`.
 
 ## Deployment Workflow
 
-The current public production deployment remains GitHub Pages:
+This repository publishes only to GitHub Pages:
 
 1. Edit locally in the VS Code Dev Container.
 2. Push to GitHub.
@@ -24,32 +24,11 @@ The current public production deployment remains GitHub Pages:
 
 The Pages workflow publishes `/deploy-sha.txt` so each deployment can be matched back to the exact Git commit that produced it.
 
-During the platform migration, this repository also publishes a production-like SvelteKit Node image for a Tailnet-only VPS test deployment:
-
-1. Push to `main`.
-2. `.github/workflows/pages.yml` builds and deploys GitHub Pages.
-3. After that workflow succeeds, `.github/workflows/build-publish-vps.yml` builds `ghcr.io/billraymond/cambermast-website-new/sveltekit`.
-4. `main` publishes `:latest`, `:main-<short_sha>`, `:branch-main`, and `:branch-main-<short_sha>`.
-5. The VPS instance is `cambermast-web`, reachable only through Tailscale for now, and Watchtower reuses the updated `:latest` image automatically.
-
-The VPS image also publishes `/deploy-sha.txt`, stamped from the workflow source SHA. From a Tailscale-connected host, `curl http://cambermast-web/deploy-sha.txt` should match the GitHub Pages marker after Watchtower has pulled the latest image.
-
-Manual branch image builds are still available through the `Build and Publish VPS Image` workflow dispatch input. Use a branch name as the `ref` and then deploy the resulting `:branch-<branch-name>` tag to the VPS test instance.
-
-The VPS deployment is intentionally standalone and file-backed at this stage. Do not require Postgres, n8n, Redis, or other platform services until a migration branch explicitly introduces those dependencies.
-
-To deploy a future migration branch image to the Tailnet-only VPS instance:
-
-```bash
-cd /home/billraymond/homelab
-./create-sk-instance update \
-  --slug cambermast-web \
-  --image ghcr.io/billraymond/cambermast-website-new/sveltekit:branch-<branch-name>
-```
+This repository must not build or publish VPS/GHCR deployment artifacts. The private `BillRaymond/cambermast-web` repo owns the `ghcr.io/billraymond/cambermast-web/app` image and the VPS migration path.
 
 ## Tech Stack
 
-- **SvelteKit + Svelte 5:** GitHub Pages uses the static adapter for the current public site, while the Tailnet-only VPS test deployment uses the node adapter for a production-like server runtime.
+- **SvelteKit + Svelte 5:** GitHub Pages uses the static adapter for the current public site.
 - **Vite 7 toolchain:** Dev/preview/build scripts live in `web/package.json`, providing instant feedback via `vite dev` and optimized output via `vite build`.
 - **TypeScript-first:** The Svelte project runs `svelte-check` with a shared `tsconfig.json`, giving type safety across components, data sources, and endpoints.
 - **Tailwind CSS 4:** Base styles, typography, and form controls are composed with Tailwind plus the official `@tailwindcss/forms` and `@tailwindcss/typography` plugins.
