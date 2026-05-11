@@ -149,5 +149,18 @@
     "allowPublicUse": true,
     "source": "training-testimonial",
     "createdAt": "2026-02-04T20:56:42.792Z"
+  },
+  {
+    "id": "tm-cm-tr-006-001",
+    "programSku": "CM-TR-006",
+    "programSlug": "ai-workshop-code-and-automate-with-ai",
+    "programRoute": "/training/ai-workshop-code-and-automate-with-ai",
+    "displayName": "Chris",
+    "jobTitle": "Small Business Owner",
+    "rating": 5,
+    "quote": "It was really useful for me to learn how to use Git and GitHub. Finally!",
+    "source": "training-testimonial",
+    "createdAt": "2026-05-11T21:32:12.164Z",
+    "allowPublicUse": true
   }
 ]
