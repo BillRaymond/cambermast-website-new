@@ -81,6 +81,7 @@ jobs:
 
           {
             echo "image=${image}"
+            echo "source_sha=${source_sha}"
             echo "tags<<EOF"
             printf '%s\n' "${tags[@]}"
             echo "EOF"
@@ -93,3 +94,5 @@ jobs:
           file: ./Dockerfile.production
           push: true
           tags: ${{ steps.meta.outputs.tags }}
+          build-args: |
+            CAMBERMAST_DEPLOY_SHA=${{ steps.meta.outputs.source_sha }}

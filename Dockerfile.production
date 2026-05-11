@@ -8,6 +8,7 @@ FROM node:20-bookworm-slim AS build
 WORKDIR /app
 
 ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
+ARG CAMBERMAST_DEPLOY_SHA=unknown
 
 RUN apt-get update \
 	&& apt-get install -y --no-install-recommends ca-certificates \
@@ -21,6 +22,7 @@ WORKDIR /app/web
 RUN npx playwright install --with-deps chromium
 RUN npm run prepare
 RUN SVELTEKIT_ADAPTER=node npm run build
+RUN printf '%s\n' "$CAMBERMAST_DEPLOY_SHA" > build/client/deploy-sha.txt
 
 FROM node:20-bookworm-slim AS runtime
 WORKDIR /app/web
