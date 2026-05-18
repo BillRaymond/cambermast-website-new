@@ -1,0 +1,8 @@
+Square prompt:
+Use the provided template image as a visual style and composition reference. Create a new image of the same type. Add "Summer Mornings, 2026". Add a light summer flourish to the event, but don't go crazy. Reduce image graininess. Avoid the top and bottom 25%.
+
+Landscape prompt:
+Recreate the provided template image as a landscape. Avoid the top and bottom 25%. Reduce the graininess.
+
+Portrait prompt:
+Recreate the provided template image in portrait format. Avoid the top and bottom 25%. Reduce the graininess.

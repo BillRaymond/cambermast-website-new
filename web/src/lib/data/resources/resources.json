@@ -45,8 +45,8 @@
 			"id": "resource-ai-workshop-code-and-automate-with-ai-setup",
 			"slug": "ai-workshop-code-and-automate-with-ai-setup",
 			"route": "/resources/ai-workshop-code-and-automate-with-ai-setup",
-			"title": "AI Workshop: Code and Automate with AI setup guide",
-			"summary": "Install Visual Studio Code, a Codex or Claude extension, Git, GitHub, and Docker Desktop, then confirm your paid AI account works in the browser.",
+			"title": "AI Workshop: Code and Automate with ChatGPT Codex setup guide",
+			"summary": "Install Visual Studio Code, the ChatGPT Codex extension, Git, GitHub, and Docker Desktop, then confirm your paid ChatGPT account works in the browser.",
 			"category": "workshop-setup",
 			"publishedAt": "2026-03-10",
 			"label": "Workshop setup",
@@ -61,7 +61,7 @@
 					"portrait": {
 						"url": "/images/resources/ai-workshop-code-and-automate-with-ai-setup/hero-portrait-v2.jpg"
 					},
-					"alt": "AI Workshop: Code and Automate with AI setup guide featured image.",
+					"alt": "AI Workshop: Code and Automate with ChatGPT Codex setup guide featured image.",
 					"kind": "generated",
 					"prompts": {
 						"square": "Use the provided template image as a visual style and composition reference. Create a new image of the same type. Have the people sit together at a desk. \n\nChange the subtitle to \"WORKSHOP PRE-WORK\" and get rid of that symbol\n\nAvoid the top and bottom 25%.",

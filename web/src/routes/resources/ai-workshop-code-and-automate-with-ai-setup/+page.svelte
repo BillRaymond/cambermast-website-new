@@ -10,7 +10,7 @@
 		getLandscapeImageUrl(resource?.images) ??
 		'/images/resources/ai-workshop-code-and-automate-with-ai-setup/hero-landscape-v2.jpg';
 	const heroImageAlt =
-		getImageAlt(resource?.images) ?? 'AI Workshop: Code and Automate with AI setup guide hero image.';
+		getImageAlt(resource?.images) ?? 'AI Workshop: Code and Automate with ChatGPT Codex setup guide hero image.';
 	const homebrewInstallCommand =
 		'/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"';
 	const brewInstallGitCommand = 'brew install git';
@@ -44,8 +44,8 @@
 		},
 		{
 			id: 'ai-account',
-			name: 'ChatGPT Plus or Claude Pro',
-			why: 'We recommend ChatGPT Plus or Claude Pro so you have reliable access during the live sessions.',
+			name: 'ChatGPT Plus',
+			why: 'We recommend ChatGPT Plus so you have reliable access during the live sessions.',
 			linkLabel: '',
 			linkHref: ''
 		},
@@ -72,8 +72,8 @@
 		},
 		{
 			id: 'vscode-extension',
-			name: 'Codex or Claude VS Code extension (free)',
-			why: 'Install one AI coding extension in VS Code so you can work inside the editor during the workshop.',
+			name: 'ChatGPT Codex VS Code extension (free)',
+			why: 'Install the ChatGPT Codex extension in VS Code so you can work inside the editor during the workshop.',
 			linkLabel: 'Open VS Code Extensions Marketplace',
 			linkHref: 'https://code.visualstudio.com/docs/configure/extensions/extension-marketplace'
 		}
@@ -101,7 +101,7 @@
 
 <ResourceHeader
 	title={pageMeta.title.replace(' | Cambermast', '')}
-	description="Install Visual Studio Code, a Codex or Claude VS Code extension, Git, GitHub, Docker Desktop, and make sure your ChatGPT Plus or Claude Pro account is ready before AI Workshop: Code and Automate with AI."
+	description="Install Visual Studio Code, the ChatGPT Codex VS Code extension, Git, GitHub, Docker Desktop, and make sure your ChatGPT Plus account is ready before AI Workshop: Code and Automate with ChatGPT Codex."
 	path="/resources/ai-workshop-code-and-automate-with-ai-setup"
 	imageSrc={heroImage}
 	imageAlt={heroImageAlt}
@@ -117,9 +117,9 @@
 		</p>
 		<div class="rounded-2xl border border-gray-200 bg-gray-50 p-4">
 			<p class="text-gray-700">
-				You need six things: Visual Studio Code, a working ChatGPT Plus or Claude Pro account in
+				You need six things: Visual Studio Code, a working ChatGPT Plus account in
 				your browser, Git, a GitHub account, a Docker account with Docker Desktop installed, and
-				one Codex or Claude extension in VS Code.
+				the ChatGPT Codex extension in VS Code.
 			</p>
 			<p class="mt-3 text-sm text-gray-600">
 				Use the
@@ -240,12 +240,12 @@
 			{:else if step.id === 'ai-account'}
 				<div class="mt-3 space-y-2 text-sm text-gray-600">
 					<p>
-						You do not need to install a desktop app for ChatGPT or Claude. We recommend ChatGPT
-						Plus or Claude Pro, and you should make sure your account works in the browser before
+						You do not need to install a desktop app for ChatGPT. We recommend a paid ChatGPT
+						account, and you should make sure it works in the browser before
 						the workshop starts.
 					</p>
 					<p>
-						Set up your AI account before moving on to Git so you know your login is working and
+						Set up your ChatGPT account before moving on to Git so you know your login is working and
 						ready for the workshop.
 					</p>
 					<p>
@@ -257,17 +257,6 @@
 							rel="noopener noreferrer"
 						>
 							openai.com/chatgpt/pricing
-						</a>
-					</p>
-					<p>
-						Claude Pro:
-						<a
-							href="https://www.anthropic.com/pricing"
-							class="font-semibold text-blue-700 underline decoration-blue-200 underline-offset-4 hover:text-blue-900"
-							target="_blank"
-							rel="noopener noreferrer"
-						>
-							anthropic.com/pricing
 						</a>
 					</p>
 				</div>
@@ -472,13 +461,9 @@
 						In VS Code, the Extensions tab is the area where you browse and install add-ons for the editor.
 						Look for the square icon on the left sidebar, or open it from the View menu.
 					</p>
-					<p>Open the Extensions tab and install either the Codex extension or the Claude extension.</p>
+					<p>Open the Extensions tab and install the ChatGPT Codex extension.</p>
 					<p>
-						If you use ChatGPT, install the Codex extension first, then complete its sign-in flow.
-					</p>
-					<p>
-						If you use Claude, install the Claude Code extension next and authenticate it in VS
-						Code.
+						Install the ChatGPT Codex extension, then complete its sign-in flow.
 					</p>
 					<p>
 						After installation, sign in to the extension and make sure it appears in VS Code as
@@ -495,13 +480,13 @@
 		<h2 class="text-xl font-semibold text-emerald-900">Checklist before Week 1</h2>
 		<ul class="mt-3 list-none space-y-2 pl-0 text-emerald-900">
 			<li>✓ VS Code opens normally.</li>
-			<li>✓ Your Codex or Claude extension is installed in VS Code and signed in.</li>
+			<li>✓ The ChatGPT Codex extension is installed in VS Code and signed in.</li>
 			<li>✓ You know how to open Terminal on Mac or Terminal/PowerShell on Windows.</li>
 			<li>✓ Git is installed, your username and email are configured, and your default branch is set to <code>main</code>.</li>
 			<li>✓ You can sign in to GitHub with two-factor authentication enabled.</li>
 			<li>✓ You can close your browser, reopen it, and sign back in to GitHub successfully.</li>
 			<li>✓ Docker Desktop starts successfully and you can sign in to the app.</li>
-			<li>✓ You can sign in to ChatGPT Plus or Claude Pro in your browser.</li>
+			<li>✓ You can sign in to ChatGPT Plus in your browser.</li>
 		</ul>
 	</div>
 

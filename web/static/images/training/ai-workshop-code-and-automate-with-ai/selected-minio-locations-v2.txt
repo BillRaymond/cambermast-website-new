@@ -1,0 +1,4 @@
+path: training/ai-workshop-code-and-automate-with-ai
+square: https://.../browser/blobs/cambermastweb/generated/training/ai-workshop-code-and-automate-with-ai/square/56903559-adae-49f3-8a97-596e872bd995/candidate-2.png
+landscape: https://.../browser/blobs/cambermastweb/generated/training/ai-workshop-code-and-automate-with-ai/landscape/805041c1-b63e-4d9c-b31e-2c56c77b227d/candidate-1.png
+portrait: https://.../browser/blobs/cambermastweb/generated/training/ai-workshop-code-and-automate-with-ai/portrait/1557f030-ad9b-4538-81da-fff189b7b170/candidate-1.png

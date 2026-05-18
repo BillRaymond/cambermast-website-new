@@ -87,13 +87,13 @@
 			},
 			{
 				"id": "training-ai-workshop-code-and-automate-with-ai",
-				"title": "AI Workshop: Code and Automate with AI",
-				"summary": "A four-week hands-on cohort for builders, operators, consultants, IT professionals, and aspiring developers who want to code, automate workflows, and ship practical tools with AI.",
-				"image": "/images/training/ai-workshop-code-and-automate-with-ai/hero-landscape.jpg",
-				"imageAlt": "AI Workshop: Code and Automate with AI illustration",
+				"title": "AI Workshop: Code and Automate with ChatGPT Codex",
+				"summary": "A five-week hands-on cohort for builders, operators, consultants, IT professionals, and aspiring developers who want to code, automate workflows, and ship practical tools with ChatGPT Codex.",
+				"image": "/images/training/ai-workshop-code-and-automate-with-ai/hero-landscape-v2.jpg",
+				"imageAlt": "AI Workshop: Code and Automate with ChatGPT Codex illustration",
 				"bullets": [
 					"Turn plain-language ideas into working scripts and lightweight apps",
-					"Practice debugging, refactoring, and testing AI-generated code",
+					"Enhance a website before moving into GitHub, Docker, and deployment",
 					"Ship a practical final project and earn a completion certificate"
 				],
 				"route": "/training/ai-workshop-code-and-automate-with-ai",
@@ -129,14 +129,14 @@
 			},
 			{
 				"id": "agents-ai-workshop-code-and-automate-with-ai",
-				"title": "AI Workshop: Code and Automate with AI",
-				"summary": "A four-week hands-on cohort for builders who want to ship scripts, tools, automations, and lightweight applications with AI.",
-				"image": "/images/training/ai-workshop-code-and-automate-with-ai/hero-landscape.jpg",
-				"imageAlt": "AI Workshop: Code and Automate with AI illustration",
+				"title": "AI Workshop: Code and Automate with ChatGPT Codex",
+				"summary": "A five-week hands-on cohort for builders who want to ship scripts, tools, automations, and lightweight applications with ChatGPT Codex.",
+				"image": "/images/training/ai-workshop-code-and-automate-with-ai/hero-landscape-v2.jpg",
+				"imageAlt": "AI Workshop: Code and Automate with ChatGPT Codex illustration",
 				"bullets": [
 					"Turn plain-language ideas into working scripts and lightweight apps",
-					"Practice debugging, refactoring, and testing AI-generated code",
-					"Build practical internal tools and automations with AI"
+					"Enhance a website before moving into GitHub, Docker, and deployment",
+					"Build practical internal tools and automations with ChatGPT Codex"
 				],
 				"route": "/training/ai-workshop-code-and-automate-with-ai",
 				"order": 1,

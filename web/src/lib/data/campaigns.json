@@ -22,7 +22,7 @@
 			"partner": "cambermast",
 			"partnerLabel": "Cambermast",
 			"landingPath": "/events/ai-workshop-code-and-automate-with-ai-april-2026",
-			"description": "Campaign short link for the AI Workshop: Code and Automate with AI April 2026 event page.",
+			"description": "Campaign short link for the AI Workshop: Code and Automate with ChatGPT Codex April 2026 event page.",
 			"createdAt": "2026-03-10T17:00:21.975Z",
 			"params": {
 				"utm_source": "qr",
@@ -31,6 +31,22 @@
 				"utm_content": "aicd26",
 				"src": "qr",
 				"ad": "cambermast"
+			}
+		},
+		{
+			"id": "n20ywh",
+			"partner": "techlab",
+			"partnerLabel": "TechLAB",
+			"landingPath": "/events/ai-workshop-code-and-automate-with-ai-june-2026-n20ywh",
+			"description": "Campaign short link for the AI Workshop: Code and Automate with ChatGPT Codex June 2026 event page.",
+			"createdAt": "2026-05-18T17:59:27.114Z",
+			"params": {
+				"utm_source": "qr",
+				"utm_medium": "offline",
+				"utm_campaign": "events",
+				"utm_content": "n20ywh",
+				"src": "qr",
+				"ad": "techlab"
 			}
 		},
 		{

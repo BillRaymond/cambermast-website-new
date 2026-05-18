@@ -72,9 +72,9 @@ export const pageSeo: SeoOverrides = {
 			'Prepare for live Cambermast training with practical tips on setup, tools, and participation.'
 	},
 	'/resources/ai-workshop-code-and-automate-with-ai-setup': {
-		title: 'AI Workshop: Code and Automate with AI Setup Guide | Cambermast',
+		title: 'AI Workshop: Code and Automate with ChatGPT Codex Setup Guide | Cambermast',
 		description:
-			'Install Visual Studio Code, a Codex or Claude extension, Git, GitHub, and Docker Desktop, then confirm your paid Claude or ChatGPT account works in the browser.'
+			'Install Visual Studio Code, the ChatGPT Codex extension, Git, GitHub, and Docker Desktop, then confirm your paid ChatGPT account works in the browser.'
 	},
 	'/resources/ai-coding-prompt-guide': {
 		title: 'AI Coding Prompt Guide | Cambermast',
