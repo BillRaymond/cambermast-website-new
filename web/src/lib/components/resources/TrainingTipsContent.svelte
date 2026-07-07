@@ -3,10 +3,9 @@
 
 	const trainingPrograms = listTrainingPrograms().sort((a, b) => a.title.localeCompare(b.title));
 
-	const coreTips = [
+	const beforeStartTips = [
 		{ text: '⏰ Arrive on time so you do not miss the kickoff context.' },
 		{ text: '🗓️ Block your calendar and minimize distractions during the session.' },
-		{ text: '🎥 Keep your video and audio on whenever you can for better collaboration.' },
 		{
 			text: '⬇️ Download and install Zoom before the session starts',
 			link: {
@@ -18,7 +17,11 @@
 		{
 			text: '🛒 Check the prerequisites for your training program and make sure you purchase or download any required apps, hardware, or services. They are typically listed on the public site where you signed up or in an email. Here are links to our public programs where you can find the prerequisites:',
 			showPrograms: true
-		},
+		}
+	];
+
+	const setupChecklist = [
+		{ text: '🎥 Share your video whenever you can to improve collaboration.' },
 		{ text: '🖥️ Set up two monitors if possible. Some people use an iPad or similar device when they do not have multiple monitors.' },
 		{
 			text: '🤖 Limit ChatGPT, Claude, Gemini, or Copilot use for up to 24 hours before the session so you do not hit usage limits.'
@@ -39,7 +42,7 @@
 <section class="space-y-6 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
 	<h3 class="text-2xl font-semibold text-gray-900">Before we start</h3>
 	<ul class="list-disc space-y-2 pl-6 text-sm text-gray-700">
-		{#each coreTips.slice(0, 5) as tip}
+		{#each beforeStartTips as tip}
 			<li>
 				{tip.text}
 				{#if tip.link}
@@ -70,7 +73,7 @@
 	<section class="rounded-2xl border border-green-200 bg-green-50 p-5">
 		<h4 class="text-lg font-semibold text-green-900">Quick setup checklist</h4>
 		<ul class="mt-4 space-y-3 text-sm text-gray-700">
-			{#each coreTips.slice(5) as tip}
+			{#each setupChecklist as tip}
 				<li class="flex items-center gap-3 rounded-xl border border-green-200 bg-white/70 px-4 py-3">
 					<span
 						class="inline-flex h-6 w-6 flex-none items-center justify-center rounded-full bg-green-600 text-sm font-bold text-white"
