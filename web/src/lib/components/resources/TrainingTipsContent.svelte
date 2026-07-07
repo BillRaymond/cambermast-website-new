@@ -5,7 +5,9 @@
 
 	const beforeStartTips = [
 		{ text: '⏰ Arrive on time so you do not miss the kickoff context.' },
-		{ text: '🗓️ Block your calendar and minimize distractions during the session.' },
+		{
+			text: '🗓️ Block your calendar, silence your phone, turn off nonessential notifications, and close email or chat windows you do not need.'
+		},
 		{
 			text: '⬇️ Download and install Zoom before the session starts',
 			link: {
@@ -21,6 +23,9 @@
 	];
 
 	const setupChecklist = [
+		{
+			text: '🙋 Be ready to ask and answer questions. These workshops are interactive and designed for you.'
+		},
 		{ text: '🎥 Share your video whenever you can to improve collaboration.' },
 		{ text: '🖥️ Set up two monitors if possible. Some people use an iPad or similar device when they do not have multiple monitors.' },
 		{
@@ -41,6 +46,10 @@
 
 <section class="space-y-6 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
 	<h3 class="text-2xl font-semibold text-gray-900">Before we start</h3>
+	<p class="text-sm text-gray-700">
+		Cambermast workshops are interactive and designed for you. Come ready to ask
+		questions, answer prompts, and connect the material to the work you actually do.
+	</p>
 	<ul class="list-disc space-y-2 pl-6 text-sm text-gray-700">
 		{#each beforeStartTips as tip}
 			<li>
