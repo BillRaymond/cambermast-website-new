@@ -3,9 +3,12 @@
 	import { onMount } from 'svelte';
 	import SeoHead from '$lib/components/SeoHead.svelte';
 	import TurnstileField from '$lib/components/forms/TurnstileField.svelte';
+	import WebhookUnsafeTextWarning from '$lib/components/forms/WebhookUnsafeTextWarning.svelte';
 	import { listTrainingPrograms } from '$lib/data/training';
 	import { getImageAlt, getLandscapeImageUrl } from '$lib/data/image-contract';
 	import {
+		getUnsafeWebhookFieldErrors,
+		getUnsafeWebhookSubmissionMessage,
 		getWebhookSubmissionErrorMessage,
 		postJsonWithTimeout
 	} from '$lib/utils/form-submission';
@@ -245,6 +248,27 @@
 		image: getLandscapeImageUrl(selectedProgramData?.images) ?? fallbackOgImage,
 		imageAlt: getImageAlt(selectedProgramData?.images) ?? fallbackOgAlt
 	};
+	$: webhookUnsafeFieldErrors = getUnsafeWebhookFieldErrors([
+		{
+			key: 'customProgramTitle',
+			label: 'the training program name',
+			value: selectedProgram === 'other' ? customProgramTitle : ''
+		},
+		{ key: 'email', label: 'your email address', value: email },
+		{ key: 'name', label: 'your name', value: name },
+		{ key: 'skillLevelOther', label: 'your skill level', value: skillLevelOther },
+		{ key: 'llmOther', label: 'the other AI model', value: llmOther },
+		{ key: 'roleOther', label: 'your role', value: roleOther },
+		{ key: 'contentOther', label: 'the other work output', value: contentOther },
+		{ key: 'aiToolsExperience', label: 'your AI tools response', value: aiToolsExperience },
+		{ key: 'communityOther', label: 'the other community option', value: communityOther },
+		{ key: 'syllabusSuggestions', label: 'your syllabus response', value: syllabusSuggestions },
+		{ key: 'workshopGoal', label: 'your workshop goal', value: workshopGoal },
+		{ key: 'additionalNotes', label: 'your additional notes', value: additionalNotes },
+		{ key: 'accessibilityNeeds', label: 'your accessibility response', value: accessibilityNeeds }
+	]);
+	$: webhookUnsafeSubmissionMessage = getUnsafeWebhookSubmissionMessage(webhookUnsafeFieldErrors);
+	$: hasWebhookUnsafeCharacters = webhookUnsafeFieldErrors.length > 0;
 
 	const getTurnstileWindow = (): TurnstileWindow | undefined => {
 		if (typeof window === 'undefined') return undefined;
@@ -447,6 +471,11 @@
 	async function submitForm(event: Event) {
 		event.preventDefault();
 		if (status === 'sending') return;
+		if (webhookUnsafeSubmissionMessage) {
+			status = 'error';
+			errorMsg = webhookUnsafeSubmissionMessage;
+			return;
+		}
 		status = 'sending';
 		errorMsg = '';
 
@@ -699,6 +728,11 @@
 					placeholder="Share the program name"
 					required
 				/>
+				<WebhookUnsafeTextWarning
+					id="pre-training-program-warning"
+					fieldLabel="the training program name"
+					value={customProgramTitle}
+				/>
 			{/if}
 		</div>
 
@@ -714,6 +748,11 @@
 				name="email"
 				type="email"
 				required
+			/>
+			<WebhookUnsafeTextWarning
+				id="pre-training-email-warning"
+				fieldLabel="your email address"
+				value={email}
 			/>
 		</div>
 
@@ -731,8 +770,13 @@
 				id="name"
 				name="name"
 				type="text"
-				placeholder={'William Raymond. Call me "Bill, like the Dollar" (he/him)'}
+				placeholder="William Raymond. Call me Bill, like the Dollar (he/him)"
 				required
+			/>
+			<WebhookUnsafeTextWarning
+				id="pre-training-name-warning"
+				fieldLabel="your name"
+				value={name}
 			/>
 		</div>
 
@@ -766,6 +810,11 @@
 							name="skillLevelOther"
 							placeholder="Describe your AI skill level"
 							required
+						/>
+						<WebhookUnsafeTextWarning
+							id="pre-training-skill-level-warning"
+							fieldLabel="your skill level"
+							value={skillLevelOther}
 						/>
 					{/if}
 				{/each}
@@ -801,6 +850,11 @@
 							name="llmOther"
 							placeholder="Which other model?"
 							required
+						/>
+						<WebhookUnsafeTextWarning
+							id="pre-training-llm-other-warning"
+							fieldLabel="the other AI model"
+							value={llmOther}
 						/>
 					{/if}
 				{/each}
@@ -890,6 +944,11 @@
 							placeholder="Share your role"
 							required
 						/>
+						<WebhookUnsafeTextWarning
+							id="pre-training-role-other-warning"
+							fieldLabel="your role"
+							value={roleOther}
+						/>
 					{/if}
 				{/each}
 			</div>
@@ -922,6 +981,11 @@
 							placeholder="Share the other work output"
 							required
 						/>
+						<WebhookUnsafeTextWarning
+							id="pre-training-content-other-warning"
+							fieldLabel="the other work output"
+							value={contentOther}
+						/>
 					{/if}
 				{/each}
 			</div>
@@ -949,6 +1013,11 @@
 				name="aiToolsExperience"
 				rows="4"
 			></textarea>
+			<WebhookUnsafeTextWarning
+				id="pre-training-ai-tools-warning"
+				fieldLabel="your AI tools response"
+				value={aiToolsExperience}
+			/>
 		</div>
 
 		<fieldset class="border-0 p-0">
@@ -978,6 +1047,11 @@
 							name="communityOther"
 							placeholder="Share another option"
 							required
+						/>
+						<WebhookUnsafeTextWarning
+							id="pre-training-community-other-warning"
+							fieldLabel="the other community option"
+							value={communityOther}
 						/>
 					{/if}
 				{/each}
@@ -1016,6 +1090,11 @@
 				name="syllabusSuggestions"
 				rows="4"
 			></textarea>
+			<WebhookUnsafeTextWarning
+				id="pre-training-syllabus-warning"
+				fieldLabel="your syllabus response"
+				value={syllabusSuggestions}
+			/>
 		</div>
 
 		<div>
@@ -1037,6 +1116,11 @@
 				name="workshopGoal"
 				rows="4"
 			></textarea>
+			<WebhookUnsafeTextWarning
+				id="pre-training-workshop-goal-warning"
+				fieldLabel="your workshop goal"
+				value={workshopGoal}
+			/>
 		</div>
 
 		<div>
@@ -1053,6 +1137,11 @@
 				name="additionalNotes"
 				rows="4"
 			></textarea>
+			<WebhookUnsafeTextWarning
+				id="pre-training-additional-warning"
+				fieldLabel="your additional notes"
+				value={additionalNotes}
+			/>
 		</div>
 
 		<div>
@@ -1085,12 +1174,19 @@
 				name="accessibilityNeeds"
 				rows="4"
 			></textarea>
+			<WebhookUnsafeTextWarning
+				id="pre-training-accessibility-warning"
+				fieldLabel="your accessibility response"
+				value={accessibilityNeeds}
+			/>
 		</div>
 
 		<TurnstileField bind:containerRef={turnstileContainer} />
 
 		<div aria-live="polite">
-			{#if status === 'sent'}
+			{#if webhookUnsafeSubmissionMessage}
+				<p class="text-sm text-amber-700" role="alert">{webhookUnsafeSubmissionMessage}</p>
+			{:else if status === 'sent'}
 				<p class="text-sm text-green-600" role="status">
 					Thank you for sharing! We'll review your responses and follow up as needed.
 				</p>
@@ -1108,7 +1204,7 @@
 
 		<button
 			class="rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 px-6 py-2.5 text-base font-semibold text-white shadow-lg shadow-blue-200 transition hover:from-blue-700 hover:to-blue-600 disabled:opacity-60"
-			disabled={status === 'sending'}
+			disabled={status === 'sending' || hasWebhookUnsafeCharacters}
 			type="submit"
 		>
 			{status === 'sending' ? 'Sending...' : 'Submit survey'}

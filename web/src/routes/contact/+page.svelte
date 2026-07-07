@@ -4,6 +4,11 @@
 	import { getSeo } from '$lib/seo';
 	import SeoHead from '$lib/components/SeoHead.svelte';
 	import TurnstileField from '$lib/components/forms/TurnstileField.svelte';
+	import WebhookUnsafeTextWarning from '$lib/components/forms/WebhookUnsafeTextWarning.svelte';
+	import {
+		getUnsafeWebhookFieldErrors,
+		getUnsafeWebhookSubmissionMessage
+	} from '$lib/utils/form-submission';
 
 	type FormStatus = 'idle' | 'sending' | 'sent' | 'error';
 
@@ -110,6 +115,14 @@
 
 	const pageMeta = getSeo('/contact');
 
+	$: webhookUnsafeFieldErrors = getUnsafeWebhookFieldErrors([
+		{ key: 'name', label: 'your full name', value: name },
+		{ key: 'email', label: 'your email address', value: email },
+		{ key: 'message', label: 'your message', value: message }
+	]);
+	$: webhookUnsafeSubmissionMessage = getUnsafeWebhookSubmissionMessage(webhookUnsafeFieldErrors);
+	$: hasWebhookUnsafeCharacters = webhookUnsafeFieldErrors.length > 0;
+
 	const initTurnstile = () => {
 		const turnstileWindow = getTurnstileWindow();
 		if (!turnstileWindow || !turnstileContainer) return;
@@ -184,6 +197,12 @@
 
 	async function submitForm(e: Event) {
 		e.preventDefault();
+		if (status === 'sending') return;
+		if (webhookUnsafeSubmissionMessage) {
+			status = 'error';
+			errorMsg = webhookUnsafeSubmissionMessage;
+			return;
+		}
 		status = 'sending';
 		errorMsg = '';
 
@@ -282,6 +301,11 @@
 				type="text"
 				required
 			/>
+			<WebhookUnsafeTextWarning
+				id="contact-name-warning"
+				fieldLabel="your full name"
+				value={name}
+			/>
 		</div>
 
 		<div>
@@ -297,6 +321,11 @@
 				name="email"
 				type="email"
 				required
+			/>
+			<WebhookUnsafeTextWarning
+				id="contact-email-warning"
+				fieldLabel="your email address"
+				value={email}
 			/>
 		</div>
 
@@ -336,12 +365,19 @@
 				rows="5"
 				required
 			></textarea>
+			<WebhookUnsafeTextWarning
+				id="contact-message-warning"
+				fieldLabel="your message"
+				value={message}
+			/>
 		</div>
 
 		<TurnstileField bind:containerRef={turnstileContainer} />
 
 		<div>
-			{#if status === 'sent'}
+			{#if webhookUnsafeSubmissionMessage}
+				<p class="text-sm text-amber-700" role="alert">{webhookUnsafeSubmissionMessage}</p>
+			{:else if status === 'sent'}
 				<p class="text-sm text-green-600" role="status">Thanks! We’ll get back to you soon.</p>
 			{:else if status === 'error'}
 				<p class="text-sm text-red-600" role="alert">
@@ -356,7 +392,7 @@
 
 		<button
 			class="rounded-lg bg-blue-600 px-5 py-2 font-medium text-white hover:bg-blue-700 disabled:opacity-60"
-			disabled={status === 'sending'}
+			disabled={status === 'sending' || hasWebhookUnsafeCharacters}
 			type="submit"
 		>
 			{status === 'sending' ? 'Sending…' : 'Send message'}

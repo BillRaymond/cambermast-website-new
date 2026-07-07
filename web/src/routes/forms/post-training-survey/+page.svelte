@@ -3,8 +3,11 @@
 	import { onMount } from 'svelte';
 	import SeoHead from '$lib/components/SeoHead.svelte';
 	import TurnstileField from '$lib/components/forms/TurnstileField.svelte';
+	import WebhookUnsafeTextWarning from '$lib/components/forms/WebhookUnsafeTextWarning.svelte';
 	import { listTrainingPrograms } from '$lib/data/training';
 	import {
+		getUnsafeWebhookFieldErrors,
+		getUnsafeWebhookSubmissionMessage,
 		getWebhookSubmissionErrorMessage,
 		postJsonWithTimeout
 	} from '$lib/utils/form-submission';
@@ -96,6 +99,18 @@
 		image: '/images/post-training-survey-og.png',
 		imageAlt: 'Post-training survey checklist with title text.'
 	};
+	$: webhookUnsafeFieldErrors = getUnsafeWebhookFieldErrors([
+		{
+			key: 'customProgramTitle',
+			label: 'the training program name',
+			value: selectedProgram === 'other' ? customProgramTitle : ''
+		},
+		{ key: 'mostHelpful', label: 'your top takeaway', value: mostHelpful },
+		{ key: 'needsClarification', label: 'your future events response', value: needsClarification },
+		{ key: 'email', label: 'your email address', value: email }
+	]);
+	$: webhookUnsafeSubmissionMessage = getUnsafeWebhookSubmissionMessage(webhookUnsafeFieldErrors);
+	$: hasWebhookUnsafeCharacters = webhookUnsafeFieldErrors.length > 0;
 
 	const getTurnstileWindow = (): TurnstileWindow | undefined => {
 		if (typeof window === 'undefined') return undefined;
@@ -277,6 +292,11 @@
 	async function submitForm(event: Event) {
 		event.preventDefault();
 		if (status === 'sending') return;
+		if (webhookUnsafeSubmissionMessage) {
+			status = 'error';
+			errorMsg = webhookUnsafeSubmissionMessage;
+			return;
+		}
 		status = 'sending';
 		errorMsg = '';
 
@@ -438,6 +458,11 @@
 					placeholder="Share the program name"
 					required
 				/>
+				<WebhookUnsafeTextWarning
+					id="post-training-program-warning"
+					fieldLabel="the training program name"
+					value={customProgramTitle}
+				/>
 			{/if}
 		</div>
 
@@ -547,6 +572,11 @@
 				placeholder="What helped you most or stood out?"
 				rows="4"
 			></textarea>
+			<WebhookUnsafeTextWarning
+				id="post-training-most-helpful-warning"
+				fieldLabel="your top takeaway"
+				value={mostHelpful}
+			/>
 		</div>
 
 		<div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
@@ -561,6 +591,11 @@
 				placeholder="Share briefly if anything could be better"
 				rows="4"
 			></textarea>
+			<WebhookUnsafeTextWarning
+				id="post-training-needs-clarification-warning"
+				fieldLabel="your future events response"
+				value={needsClarification}
+			/>
 		</div>
 
 		<div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
@@ -579,6 +614,11 @@
 				placeholder="you@company.com"
 				autocomplete="email"
 			/>
+			<WebhookUnsafeTextWarning
+				id="post-training-email-warning"
+				fieldLabel="your email address"
+				value={email}
+			/>
 			<label class="mt-3 flex items-center gap-2 text-sm text-gray-700">
 				<input
 					class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
@@ -593,7 +633,9 @@
 		<TurnstileField bind:containerRef={turnstileContainer} />
 
 		<div aria-live="polite">
-			{#if status === 'sent'}
+			{#if webhookUnsafeSubmissionMessage}
+				<p class="text-sm text-amber-700" role="alert">{webhookUnsafeSubmissionMessage}</p>
+			{:else if status === 'sent'}
 				<p class="text-sm text-green-600" role="status">
 					Thanks for the feedback! We'll use it to shape upcoming sessions.
 				</p>
@@ -611,7 +653,7 @@
 
 		<button
 			class="rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 px-6 py-2.5 text-base font-semibold text-white shadow-lg shadow-blue-200 transition hover:from-blue-700 hover:to-blue-600 disabled:opacity-60"
-			disabled={status === 'sending'}
+			disabled={status === 'sending' || hasWebhookUnsafeCharacters}
 			type="submit"
 		>
 			{status === 'sending' ? 'Sending...' : 'Submit survey'}

@@ -5,6 +5,79 @@ type TimedJsonPostOptions = Omit<RequestInit, 'body' | 'method' | 'signal'> & {
 	timeoutMs?: number;
 };
 
+const UNSAFE_WEBHOOK_CHARACTER_DEFINITIONS = [
+	{
+		id: 'double-quote',
+		label: 'straight double quotes (")',
+		pattern: /"/
+	},
+	{
+		id: 'backslash',
+		label: 'backslashes (\\)',
+		pattern: /\\/
+	},
+	{
+		id: 'line-break',
+		label: 'line breaks',
+		pattern: /\r|\n/
+	}
+] as const;
+
+export type UnsafeWebhookCharacter = (typeof UNSAFE_WEBHOOK_CHARACTER_DEFINITIONS)[number];
+
+export type UnsafeWebhookField = {
+	key: string;
+	label: string;
+	value: unknown;
+};
+
+export type UnsafeWebhookFieldError = {
+	key: string;
+	label: string;
+	characters: UnsafeWebhookCharacter[];
+};
+
+const formatList = (items: string[]): string => {
+	if (items.length === 0) return '';
+	if (items.length === 1) return items[0];
+	if (items.length === 2) return `${items[0]} and ${items[1]}`;
+	return `${items.slice(0, -1).join(', ')}, and ${items[items.length - 1]}`;
+};
+
+export const getUnsafeWebhookCharacters = (value: unknown): UnsafeWebhookCharacter[] => {
+	if (typeof value !== 'string' || !value) return [];
+	return UNSAFE_WEBHOOK_CHARACTER_DEFINITIONS.filter((definition) =>
+		definition.pattern.test(value)
+	);
+};
+
+export const formatUnsafeWebhookCharacterList = (characters: UnsafeWebhookCharacter[]): string =>
+	formatList(characters.map((character) => character.label));
+
+export const getUnsafeWebhookFieldErrors = (
+	fields: UnsafeWebhookField[]
+): UnsafeWebhookFieldError[] =>
+	fields
+		.map((field) => ({
+			key: field.key,
+			label: field.label,
+			characters: getUnsafeWebhookCharacters(field.value)
+		}))
+		.filter((field): field is UnsafeWebhookFieldError => field.characters.length > 0);
+
+export const getUnsafeWebhookSubmissionMessage = (errors: UnsafeWebhookFieldError[]): string => {
+	if (!errors.length) return '';
+	const characters = new Map<string, UnsafeWebhookCharacter>();
+	for (const error of errors) {
+		for (const character of error.characters) {
+			characters.set(character.id, character);
+		}
+	}
+	const characterList = formatUnsafeWebhookCharacterList([...characters.values()]);
+	const fieldList = formatList(errors.map((error) => error.label));
+	return `Please remove ${characterList} from ${fieldList} before submitting. This temporary form cannot safely send those characters yet.`;
+};
+
 export const postJsonWithTimeout = async (
 	url: string,
 	payload: unknown,

@@ -3,9 +3,12 @@
 	import { onMount } from 'svelte';
 	import SeoHead from '$lib/components/SeoHead.svelte';
 	import TurnstileField from '$lib/components/forms/TurnstileField.svelte';
+	import WebhookUnsafeTextWarning from '$lib/components/forms/WebhookUnsafeTextWarning.svelte';
 	import { listTestimonials } from '$lib/data/testimonials';
 	import { getTrainingProgram, listTrainingPrograms } from '$lib/data/training';
 	import {
+		getUnsafeWebhookFieldErrors,
+		getUnsafeWebhookSubmissionMessage,
 		getWebhookSubmissionErrorMessage,
 		postJsonWithTimeout
 	} from '$lib/utils/form-submission';
@@ -145,6 +148,20 @@
 		image: '/images/training-recognition.jpg',
 		imageAlt: 'Cambermast training graduates smiling and holding red hearts.'
 	};
+	$: webhookUnsafeFieldErrors = getUnsafeWebhookFieldErrors([
+		{
+			key: 'customProgramTitle',
+			label: 'the training program name',
+			value: selectedProgram === 'other' ? customProgramTitle : ''
+		},
+		{ key: 'quote', label: 'your testimonial', value: quote },
+		{ key: 'displayName', label: 'the display name', value: displayName },
+		{ key: 'jobTitle', label: 'your role or title', value: jobTitle },
+		{ key: 'company', label: 'your company or industry', value: company },
+		{ key: 'email', label: 'your email address', value: email }
+	]);
+	$: webhookUnsafeSubmissionMessage = getUnsafeWebhookSubmissionMessage(webhookUnsafeFieldErrors);
+	$: hasWebhookUnsafeCharacters = webhookUnsafeFieldErrors.length > 0;
 
 	const getTurnstileWindow = (): TurnstileWindow | undefined => {
 		if (typeof window === 'undefined') return undefined;
@@ -324,6 +341,11 @@
 	async function submitForm(event: Event) {
 		event.preventDefault();
 		if (status === 'sending') return;
+		if (webhookUnsafeSubmissionMessage) {
+			status = 'error';
+			errorMsg = webhookUnsafeSubmissionMessage;
+			return;
+		}
 		status = 'sending';
 		errorMsg = '';
 
@@ -493,6 +515,11 @@
 					placeholder="What should we call the session?"
 					required={selectedProgram === 'other'}
 				/>
+				<WebhookUnsafeTextWarning
+					id="testimonial-program-warning"
+					fieldLabel="the training program name"
+					value={customProgramTitle}
+				/>
 			{/if}
 		</div>
 
@@ -561,6 +588,11 @@
 				placeholder="Finally, a training course that made working with AI feel practical and enjoyable! I learned a lot, gained confidence, and am ready for the next step in my career."
 				required
 			></textarea>
+			<WebhookUnsafeTextWarning
+				id="testimonial-quote-warning"
+				fieldLabel="your testimonial"
+				value={quote}
+			/>
 			<div class={`mt-1 text-right text-xs font-medium ${countdownTone}`}>
 				{remainingChars} character{remainingChars === 1 ? '' : 's'} left
 			</div>
@@ -591,6 +623,11 @@
 				placeholder="Scott A., Scott Abel, etc."
 				required
 			/>
+			<WebhookUnsafeTextWarning
+				id="testimonial-name-warning"
+				fieldLabel="the display name"
+				value={displayName}
+			/>
 			<p class="mt-1 text-xs text-gray-500">
 				This is the name that can appear on the website or slides alongside the quote.
 			</p>
@@ -608,6 +645,11 @@
 				type="text"
 				placeholder="Product Manager, Consultant, Founder, etc."
 			/>
+			<WebhookUnsafeTextWarning
+				id="testimonial-title-warning"
+				fieldLabel="your role or title"
+				value={jobTitle}
+			/>
 		</div>
 
 		<div>
@@ -621,6 +663,11 @@
 				name="company"
 				type="text"
 				placeholder="Acme Labs, Fintech startup, Healthcare consulting, etc."
+			/>
+			<WebhookUnsafeTextWarning
+				id="testimonial-company-warning"
+				fieldLabel="your company or industry"
+				value={company}
 			/>
 			<p class="mt-1 text-xs text-gray-500">
 				Tip: share a company name if you’re comfortable, or list the industry if you prefer
@@ -698,6 +745,11 @@
 				type="email"
 				required
 			/>
+			<WebhookUnsafeTextWarning
+				id="testimonial-email-warning"
+				fieldLabel="your email address"
+				value={email}
+			/>
 			<p class="mt-1 text-xs text-gray-500">
 				We will only use your email for follow up and to keep you informed about our services. It
 				will never be published.
@@ -707,7 +759,9 @@
 		<TurnstileField bind:containerRef={turnstileContainer} />
 
 		<div aria-live="polite">
-			{#if status === 'sent'}
+			{#if webhookUnsafeSubmissionMessage}
+				<p class="text-sm text-amber-700" role="alert">{webhookUnsafeSubmissionMessage}</p>
+			{:else if status === 'sent'}
 				<p class="text-sm text-green-600" role="status">
 					Incredible - thank you for sharing! Keep an eye out for a follow up email.
 				</p>
@@ -725,7 +779,7 @@
 
 		<button
 			class="rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 px-6 py-2.5 text-base font-semibold text-white shadow-lg shadow-blue-200 transition hover:from-blue-700 hover:to-blue-600 disabled:opacity-60"
-			disabled={status === 'sending'}
+			disabled={status === 'sending' || hasWebhookUnsafeCharacters}
 			type="submit"
 		>
 			{status === 'sending' ? 'Sending...' : 'Share my story'}
