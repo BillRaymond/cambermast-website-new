@@ -36,6 +36,12 @@ const partners: Partner[] = [
 		slug: 'the-content-wrangler',
 		name: 'The Content Wrangler',
 		logo: '/images/trusted-by/the-content-wrangler.png'
+	},
+	{
+		code: 'AIC',
+		slug: 'the-ai-collective',
+		name: 'The AI Collective',
+		homepageUrl: 'https://www.aicollective.com/'
 	}
 ];
 

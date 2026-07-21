@@ -144,6 +144,54 @@
 				"src": "qr",
 				"ad": "the-content-wrangler"
 			}
+		},
+		{
+			"id": "p010ai",
+			"partner": "cambermast",
+			"partnerLabel": "Cambermast",
+			"landingPath": "/events/practical-ai-at-work-create-your-own-ai-work-companion",
+			"description": "Campaign short link for the Practical AI at Work: Create Your Own AI Work Companion event page.",
+			"createdAt": "2026-07-21T00:00:00Z",
+			"params": {
+				"utm_source": "qr",
+				"utm_medium": "offline",
+				"utm_campaign": "events",
+				"utm_content": "p010ai",
+				"src": "qr",
+				"ad": "cambermast"
+			}
+		},
+		{
+			"id": "p020ih",
+			"partner": "cambermast",
+			"partnerLabel": "Cambermast",
+			"landingPath": "/events/practical-ai-at-work-build-an-automated-inbox-hero",
+			"description": "Campaign short link for the Practical AI at Work: Build an Automated Inbox Hero event page.",
+			"createdAt": "2026-07-21T00:00:00Z",
+			"params": {
+				"utm_source": "qr",
+				"utm_medium": "offline",
+				"utm_campaign": "events",
+				"utm_content": "p020ih",
+				"src": "qr",
+				"ad": "cambermast"
+			}
+		},
+		{
+			"id": "p030bs",
+			"partner": "cambermast",
+			"partnerLabel": "Cambermast",
+			"landingPath": "/events/practical-ai-at-work-turn-your-brand-guide-into-an-ai-ready-skill",
+			"description": "Campaign short link for the Practical AI at Work: Turn Your Brand Guide Into an AI-Ready Skill event page.",
+			"createdAt": "2026-07-21T00:00:00Z",
+			"params": {
+				"utm_source": "qr",
+				"utm_medium": "offline",
+				"utm_campaign": "events",
+				"utm_content": "p030bs",
+				"src": "qr",
+				"ad": "cambermast"
+			}
 		}
 	]
 }

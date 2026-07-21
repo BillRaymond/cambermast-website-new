@@ -1528,6 +1528,266 @@
 					"historyId": "0e4894b83cac5844"
 				}
 			}
+		},
+		{
+			"id": "p010ai",
+			"slug": "practical-ai-at-work-create-your-own-ai-work-companion",
+			"title": "Practical AI at Work: Create Your Own AI Work Companion",
+			"type": "webinar",
+			"typeLabel": "WEBINAR",
+			"tagline": "Spend one hour. Get one valuable result.",
+			"summary": "In this live one-hour session, Bill Raymond shows you how to design and create a custom animated pet for Codex.",
+			"description": "You will establish one approved main look and develop it into a reusable Codex pet package. The pet is a visual companion rather than another AI assistant.",
+			"highlights": [
+				"Turn a description or reference image into a clear character design",
+				"Choose visual details that remain readable when the pet is small",
+				"Create one approved main look that anchors every later pose",
+				"Translate the character into animations without losing its identity",
+				"Review motion and correct poses that drift or do not read clearly",
+				"Package the finished design as a custom Codex pet"
+			],
+			"sessions": [
+				{
+					"startAtUtc": "2026-07-29T19:00:00.000Z",
+					"endAtUtc": "2026-07-29T20:00:00.000Z"
+				}
+			],
+			"visibility": "public",
+			"lifecycleStatus": "scheduled",
+			"registrationStatus": "external",
+			"cta": {
+				"label": "Register on Luma",
+				"url": "https://luma.com/h6svmuok",
+				"campaignId": "p010ai"
+			},
+			"location": {
+				"mode": "online",
+				"publicLabel": "Zoom",
+				"detailsVisibility": "post_signup"
+			},
+			"speakers": [
+				{
+					"name": "Bill Raymond",
+					"title": "Host"
+				}
+			],
+			"partners": [
+				{
+					"code": "AIC",
+					"role": "host"
+				}
+			],
+			"campaignId": "p010ai",
+			"timeZoneIana": "America/Los_Angeles",
+			"ticketing": {
+				"currency": "USD",
+				"amountUsd": 0
+			},
+			"registrationSettings": {
+				"approvalRequired": true
+			},
+			"template": {
+				"kind": "webinar_event_v1"
+			},
+			"images": {
+				"current": {
+					"square": {
+						"url": "/images/events/practical-ai-at-work-create-your-own-ai-work-companion/hero-square.png"
+					},
+					"landscape": {
+						"url": "/images/events/practical-ai-at-work-create-your-own-ai-work-companion/hero-landscape.png"
+					},
+					"portrait": {
+						"url": "/images/events/practical-ai-at-work-create-your-own-ai-work-companion/hero-portrait.png"
+					},
+					"alt": "Practical AI at Work: Create Your Own AI Work Companion promotional artwork",
+					"kind": "generated",
+					"prompts": {
+						"square": "Approved square promotional artwork from the Practical AI at Work webinar package.",
+						"landscape": "Approved widescreen promotional artwork from the Practical AI at Work webinar package.",
+						"portrait": "Approved square promotional artwork reused for the portrait variant."
+					},
+					"reference": {
+						"url": null,
+						"sourceType": "generated_asset",
+						"label": "Approved promotional artwork from practical-ai-at-work."
+					},
+					"historyId": "p010aiimg"
+				}
+			}
+		},
+		{
+			"id": "p020ih",
+			"slug": "practical-ai-at-work-build-an-automated-inbox-hero",
+			"title": "Practical AI at Work: Build an Automated Inbox Hero",
+			"type": "webinar",
+			"typeLabel": "WEBINAR",
+			"tagline": "Spend one hour. Get one valuable result.",
+			"summary": "In this live one-hour session, Bill Raymond shows you how to use ChatGPT Work to build an Inbox Hero for unread Gmail messages.",
+			"description": "You will build a reusable workflow that marks unimportant messages as read while keeping messages that need your attention unread. Nothing is archived, deleted, sent, or unsubscribed automatically.",
+			"highlights": [
+				"Have AI identify routine, low-value messages and mark them as read automatically",
+				"Keep customer questions, security notices, decisions, and other important messages unread",
+				"Reduce inbox clutter so the messages that need you stand out",
+				"Spend less time sorting routine updates manually",
+				"Leave ambiguous messages unread for human review",
+				"Refine the rules as you learn what deserves your attention"
+			],
+			"sessions": [
+				{
+					"startAtUtc": "2026-08-12T19:00:00.000Z",
+					"endAtUtc": "2026-08-12T20:00:00.000Z"
+				}
+			],
+			"visibility": "public",
+			"lifecycleStatus": "scheduled",
+			"registrationStatus": "external",
+			"cta": {
+				"label": "Register on Luma",
+				"url": "https://luma.com/81m5s002",
+				"campaignId": "p020ih"
+			},
+			"location": {
+				"mode": "online",
+				"publicLabel": "Zoom",
+				"detailsVisibility": "post_signup"
+			},
+			"speakers": [
+				{
+					"name": "Bill Raymond",
+					"title": "Host"
+				}
+			],
+			"partners": [
+				{
+					"code": "AIC",
+					"role": "host"
+				}
+			],
+			"campaignId": "p020ih",
+			"timeZoneIana": "America/Los_Angeles",
+			"ticketing": {
+				"currency": "USD",
+				"amountUsd": 0
+			},
+			"registrationSettings": {
+				"approvalRequired": true
+			},
+			"template": {
+				"kind": "webinar_event_v1"
+			},
+			"images": {
+				"current": {
+					"square": {
+						"url": "/images/events/practical-ai-at-work-build-an-automated-inbox-hero/hero-square.png"
+					},
+					"landscape": {
+						"url": "/images/events/practical-ai-at-work-build-an-automated-inbox-hero/hero-landscape.png"
+					},
+					"portrait": {
+						"url": "/images/events/practical-ai-at-work-build-an-automated-inbox-hero/hero-portrait.png"
+					},
+					"alt": "Practical AI at Work: Build an Automated Inbox Hero promotional artwork",
+					"kind": "generated",
+					"prompts": {
+						"square": "Approved square promotional artwork from the Practical AI at Work webinar package.",
+						"landscape": "Approved widescreen promotional artwork from the Practical AI at Work webinar package.",
+						"portrait": "Approved square promotional artwork reused for the portrait variant."
+					},
+					"reference": {
+						"url": null,
+						"sourceType": "generated_asset",
+						"label": "Approved promotional artwork from practical-ai-at-work."
+					},
+					"historyId": "p020ihimg"
+				}
+			}
+		},
+		{
+			"id": "p030bs",
+			"slug": "practical-ai-at-work-turn-your-brand-guide-into-an-ai-ready-skill",
+			"title": "Practical AI at Work: Turn Your Brand Guide Into an AI-Ready Skill",
+			"type": "webinar",
+			"typeLabel": "WEBINAR",
+			"tagline": "Spend one hour. Get one valuable result.",
+			"summary": "In this live one-hour session, Bill Raymond shows you how to organize your brand into a structured AI skill.",
+			"description": "You will build a minimum viable brand skill and refine it using a real branded visual. The session is for people responsible for recurring branded work who already have approved materials and want a more reliable way to use them with AI.",
+			"highlights": [
+				"Write copy and content in a consistent voice",
+				"Build branded landing pages",
+				"Design social images and event graphics",
+				"Create presentations, reports, and decision visuals",
+				"Review AI-generated work against approved brand guidance"
+			],
+			"sessions": [
+				{
+					"startAtUtc": "2026-08-26T19:00:00.000Z",
+					"endAtUtc": "2026-08-26T20:00:00.000Z"
+				}
+			],
+			"visibility": "public",
+			"lifecycleStatus": "scheduled",
+			"registrationStatus": "external",
+			"cta": {
+				"label": "Register on Luma",
+				"url": "https://luma.com/0egsw9cf",
+				"campaignId": "p030bs"
+			},
+			"location": {
+				"mode": "online",
+				"publicLabel": "Zoom",
+				"detailsVisibility": "post_signup"
+			},
+			"speakers": [
+				{
+					"name": "Bill Raymond",
+					"title": "Host"
+				}
+			],
+			"partners": [
+				{
+					"code": "AIC",
+					"role": "host"
+				}
+			],
+			"campaignId": "p030bs",
+			"timeZoneIana": "America/Los_Angeles",
+			"ticketing": {
+				"currency": "USD",
+				"amountUsd": 0
+			},
+			"registrationSettings": {
+				"approvalRequired": true
+			},
+			"template": {
+				"kind": "webinar_event_v1"
+			},
+			"images": {
+				"current": {
+					"square": {
+						"url": "/images/events/practical-ai-at-work-turn-your-brand-guide-into-an-ai-ready-skill/hero-square.png"
+					},
+					"landscape": {
+						"url": "/images/events/practical-ai-at-work-turn-your-brand-guide-into-an-ai-ready-skill/hero-landscape.png"
+					},
+					"portrait": {
+						"url": "/images/events/practical-ai-at-work-turn-your-brand-guide-into-an-ai-ready-skill/hero-portrait.png"
+					},
+					"alt": "Practical AI at Work: Turn Your Brand Guide Into an AI-Ready Skill promotional artwork",
+					"kind": "generated",
+					"prompts": {
+						"square": "Approved square promotional artwork from the Practical AI at Work webinar package.",
+						"landscape": "Approved widescreen promotional artwork from the Practical AI at Work webinar package.",
+						"portrait": "Approved square promotional artwork reused for the portrait variant."
+					},
+					"reference": {
+						"url": null,
+						"sourceType": "generated_asset",
+						"label": "Approved promotional artwork from practical-ai-at-work."
+					},
+					"historyId": "p030bsimg"
+				}
+			}
 		}
 	]
 }
