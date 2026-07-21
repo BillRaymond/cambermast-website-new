@@ -92,6 +92,11 @@
 			title: 'Cambermast Default Images API',
 			type: 'application/json'
 		},
+		{
+			href: '/api/image-gen-standards.json',
+			title: 'Cambermast Image Standards API',
+			type: 'application/json'
+		},
 		{ href: '/api/redirects.json', title: 'Cambermast Redirects API', type: 'application/json' }
 	]}
 />
