@@ -144,6 +144,7 @@ export const appendImageGenPromptStandard = async (input: AppendImageGenPromptSt
 	const nextRegistry: ImageGenPromptStandardsRegistry = {
 		version: 1,
 		updatedAt: new Date().toISOString(),
+		formats: registry.formats,
 		standards: [entry, ...(registry.standards ?? [])].slice(0, 500)
 	};
 

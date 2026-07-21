@@ -1,6 +1,8 @@
+import { IMAGE_GEN_SIZE_BY_STAGE } from '$lib/data/image-gen-standards';
+
 export type ImageGenStage = 'square' | 'landscape' | 'portrait';
 
-export type ImageGenSize = '1024x1024' | '1536x1024' | '1024x1536';
+export type ImageGenSize = (typeof IMAGE_GEN_SIZE_BY_STAGE)[ImageGenStage];
 export type ImageGenDestinationType =
 	| 'events'
 	| 'training'
@@ -9,7 +11,7 @@ export type ImageGenDestinationType =
 	| 'static-templates'
 	| 'custom';
 
-export const IMAGE_GEN_MODEL = 'gpt-image-1.5';
+export const IMAGE_GEN_MODEL = 'gpt-image-2';
 
 export const IMAGE_GEN_DEFAULT_COUNT = 4;
 export const IMAGE_GEN_MIN_COUNT = 1;
@@ -24,11 +26,7 @@ export const DEFAULT_LANDSCAPE_PROMPT =
 export const DEFAULT_PORTRAIT_PROMPT =
 	'Recreate the provided template image in portrait format. Avoid the top and bottom 25%.';
 
-export const STAGE_SIZE_MAP: Record<ImageGenStage, ImageGenSize> = {
-	square: '1024x1024',
-	landscape: '1536x1024',
-	portrait: '1024x1536'
-};
+export const STAGE_SIZE_MAP: Record<ImageGenStage, ImageGenSize> = IMAGE_GEN_SIZE_BY_STAGE;
 
 export const DEFAULT_TEMPLATE_URL = '/images/admin/image-gen/templates/01-template-1x1-square.jpg';
 

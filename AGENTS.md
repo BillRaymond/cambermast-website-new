@@ -48,6 +48,8 @@ Use this file to keep automated changes aligned with the site’s governance and
 
 ## Assets and media
 - Testimonial photos must live in `web/static/images/testimonials/` and be square (~300x300).
+- Generated site images use three explicit variants: square `1024x1024` (1:1), horizontal `1536x864` (16:9), and portrait `1024x1280` (4:5, recommended for LinkedIn/mobile-first social posts). Keep all important content inside the frame; use contain/padding when adapting an existing image rather than cropping it.
+- The dev-only generator targets OpenAI `gpt-image-2`. Follow the [OpenAI Image Generation API guide](https://developers.openai.com/api/docs/guides/image-generation); generations use JSON and template edits use multipart `image[]` uploads. Review outputs for accuracy and unintended readable text or branding before committing them.
 
 ## Forms
 - Use `web/src/lib/components/forms/TurnstileField.svelte` for Cloudflare Turnstile on new forms to keep mobile layout consistent.

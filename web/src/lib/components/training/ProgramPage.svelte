@@ -218,7 +218,7 @@
 					<img
 						src={getLandscapeImageUrl(program.images)}
 						alt={getImageAlt(program.images) ?? program.title}
-						class="mt-5 w-full rounded-2xl border border-blue-100 object-cover"
+						class="mt-5 aspect-video w-full rounded-2xl border border-blue-100 bg-slate-50 object-contain"
 						loading="lazy"
 					/>
 				{/if}

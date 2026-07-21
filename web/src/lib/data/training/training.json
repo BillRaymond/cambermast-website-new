@@ -251,16 +251,16 @@
 			"images": {
 				"current": {
 					"square": {
-						"url": "/images/ai-fundamentals.jpeg"
+						"url": "/images/training/ai-fundamentals/hero-square-v2.jpg"
 					},
 					"landscape": {
-						"url": "/images/ai-fundamentals.jpeg"
+						"url": "/images/training/ai-fundamentals/hero-landscape-v2.jpg"
 					},
 					"portrait": {
-						"url": "/images/ai-fundamentals.jpeg"
+						"url": "/images/training/ai-fundamentals/hero-portrait-v2.jpg"
 					},
 					"alt": "AI Power Prompting training workshop illustration",
-					"kind": "manual",
+					"kind": "generated",
 					"prompts": {
 						"square": "AI Power Prompting training workshop illustration. Migrated from legacy image data without preserved generation prompts.",
 						"landscape": "AI Power Prompting training workshop illustration. Migrated from legacy image data without preserved generation prompts.",
@@ -485,16 +485,16 @@
 			"images": {
 				"current": {
 					"square": {
-						"url": "/images/ai-accelerator.jpeg"
+						"url": "/images/training/ai-accelerator-workshop/hero-square-v2.jpg"
 					},
 					"landscape": {
-						"url": "/images/ai-accelerator.jpeg"
+						"url": "/images/training/ai-accelerator-workshop/hero-landscape-v2.jpg"
 					},
 					"portrait": {
-						"url": "/images/ai-accelerator.jpeg"
+						"url": "/images/training/ai-accelerator-workshop/hero-portrait-v2.jpg"
 					},
 					"alt": "AI Accelerator Workshop illustration",
-					"kind": "manual",
+					"kind": "generated",
 					"prompts": {
 						"square": "AI Accelerator Workshop illustration. Migrated from legacy image data without preserved generation prompts.",
 						"landscape": "AI Accelerator Workshop illustration. Migrated from legacy image data without preserved generation prompts.",
@@ -786,16 +786,16 @@
 			"images": {
 				"current": {
 					"square": {
-						"url": "/images/ai-advanced.jpeg"
+						"url": "/images/training/ai-advanced-workshop/hero-square-v2.jpg"
 					},
 					"landscape": {
-						"url": "/images/ai-advanced.jpeg"
+						"url": "/images/training/ai-advanced-workshop/hero-landscape-v2.jpg"
 					},
 					"portrait": {
-						"url": "/images/ai-advanced.jpeg"
+						"url": "/images/training/ai-advanced-workshop/hero-portrait-v2.jpg"
 					},
 					"alt": "AI Workshop for Modern Teams illustration",
-					"kind": "manual",
+					"kind": "generated",
 					"prompts": {
 						"square": "AI Workshop for Modern Teams illustration. Migrated from legacy image data without preserved generation prompts.",
 						"landscape": "AI Workshop for Modern Teams illustration. Migrated from legacy image data without preserved generation prompts.",
@@ -1051,16 +1051,16 @@
 			"images": {
 				"current": {
 					"square": {
-						"url": "/images/ai-automation.jpg"
+						"url": "/images/training/ai-automation-with-agents/hero-square-v2.jpg"
 					},
 					"landscape": {
-						"url": "/images/ai-automation.jpg"
+						"url": "/images/training/ai-automation-with-agents/hero-landscape-v2.jpg"
 					},
 					"portrait": {
-						"url": "/images/ai-automation.jpg"
+						"url": "/images/training/ai-automation-with-agents/hero-portrait-v2.jpg"
 					},
 					"alt": "AI Automation with Agents Workshop illustration",
-					"kind": "manual",
+					"kind": "generated",
 					"prompts": {
 						"square": "AI Automation with Agents Workshop illustration. Migrated from legacy image data without preserved generation prompts.",
 						"landscape": "AI Automation with Agents Workshop illustration. Migrated from legacy image data without preserved generation prompts.",
@@ -1402,10 +1402,10 @@
 						"url": "/images/training/ai-workshop-for-content-creators/hero-square-v2.jpg"
 					},
 					"landscape": {
-						"url": "/images/training/ai-workshop-for-content-creators/hero-landscape-v2.jpg"
+						"url": "/images/training/ai-workshop-for-content-creators/hero-landscape-v3.jpg"
 					},
 					"portrait": {
-						"url": "/images/training/ai-workshop-for-content-creators/hero-portrait.jpg"
+						"url": "/images/training/ai-workshop-for-content-creators/hero-portrait-v2.jpg"
 					},
 					"alt": "AI Workshop for Tech Writers and Content Creators illustration",
 					"kind": "generated",
@@ -1730,10 +1730,10 @@
 						"url": "/images/training/ai-workshop-code-and-automate-with-ai/hero-square-v2.jpg"
 					},
 					"landscape": {
-						"url": "/images/training/ai-workshop-code-and-automate-with-ai/hero-landscape-v2.jpg"
+						"url": "/images/training/ai-workshop-code-and-automate-with-ai/hero-landscape-v3.jpg"
 					},
 					"portrait": {
-						"url": "/images/training/ai-workshop-code-and-automate-with-ai/hero-portrait-v2.jpg"
+						"url": "/images/training/ai-workshop-code-and-automate-with-ai/hero-portrait-v3.jpg"
 					},
 					"alt": "AI Workshop: Code and Automate with ChatGPT Codex illustration",
 					"kind": "generated",
@@ -1861,13 +1861,13 @@
 			"images": {
 				"current": {
 					"square": {
-						"url": "/images/ai-fundamentals.jpeg"
+						"url": "/images/training/ai-fundamentals/hero-square-v2.jpg"
 					},
 					"landscape": {
-						"url": "/images/ai-fundamentals.jpeg"
+						"url": "/images/training/ai-fundamentals/hero-landscape-v2.jpg"
 					},
 					"portrait": {
-						"url": "/images/ai-fundamentals.jpeg"
+						"url": "/images/training/ai-fundamentals/hero-portrait-v2.jpg"
 					},
 					"alt": "AI Power Prompting lab concept art",
 					"kind": "manual",

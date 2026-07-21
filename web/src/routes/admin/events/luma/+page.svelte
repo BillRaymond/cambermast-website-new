@@ -696,7 +696,7 @@
 							<img
 								src={selectedEvent.previewImageUrl}
 								alt={selectedEvent.imageAlt}
-								class="mt-3 aspect-[3/2] w-full rounded-2xl border border-gray-200 object-cover"
+								class="mt-3 aspect-video w-full rounded-2xl border border-gray-200 bg-slate-50 object-contain"
 								loading="lazy"
 							/>
 							<p class="mt-2 text-xs text-gray-500">

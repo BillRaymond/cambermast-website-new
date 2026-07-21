@@ -218,6 +218,8 @@ When publishing significant messaging or offer changes:
 
 - Canonical generated-image storage lives under `web/static/images/<type>/<slug>/`.
 - Supported typed destinations are `events`, `training`, `resources`, `featured-images`, and `custom`.
+- The site image contract is fixed to square `1024x1024` (1:1), horizontal `1536x864` (16:9), and portrait `1024x1280` (4:5). Use the horizontal variant for website heroes, event cards, and link previews; use the 4:5 variant for LinkedIn and other mobile-first social posts.
+- The dev-only generator uses OpenAI's `gpt-image-2` through the [Image Generation API guide](https://developers.openai.com/api/docs/guides/image-generation): JSON requests go to image generations, while template edits use multipart `image[]` uploads to image edits. Keep the configured `size` exact and review every output for accidental text, logos, signage, and edge cutoffs before saving.
 - The admin image generator shows the full MinIO browser URL for every generated candidate and supports copy/paste directly from the UI.
 - Keep the current live generated set for each slug folder and prune older superseded versions when doing cleanup.
 - Saving a new selected set still versions existing files with `-v2`, `-v3`, etc. rather than overwriting prior outputs.

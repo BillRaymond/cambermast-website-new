@@ -445,7 +445,7 @@
 	image={heroImage}
 	imageAlt={heroImageAlt}
 	imageWidth={1536}
-	imageHeight={1024}
+	imageHeight={864}
 	type="article"
 />
 
@@ -546,7 +546,7 @@
 						<img
 							src={heroImage}
 							alt={heroImageAlt}
-							class="mt-5 aspect-[3/2] w-full rounded-2xl border border-slate-200 object-cover"
+							class="mt-5 aspect-video w-full rounded-2xl border border-slate-200 bg-slate-50 object-contain"
 							loading="lazy"
 						/>
 					{/if}
@@ -1063,7 +1063,7 @@
 					<img
 						src={heroImage}
 						alt={heroImageAlt}
-						class="mt-5 aspect-[3/2] w-full rounded-2xl border border-slate-200 object-cover"
+						class="mt-5 aspect-video w-full rounded-2xl border border-slate-200 bg-slate-50 object-contain"
 						loading="lazy"
 					/>
 				{/if}

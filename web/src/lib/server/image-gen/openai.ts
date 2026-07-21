@@ -6,7 +6,13 @@ type OpenAiImagePayload = {
 	prompt: string;
 	size: ImageGenSize;
 	n: number;
-	images?: Array<{ image_url: string }>;
+	quality: 'high';
+	output_format: 'png';
+	image?: Array<{
+		field: 'image[]';
+		filename: string;
+		contentType: string;
+	}>;
 };
 
 type OpenAiImageResponse = {
@@ -21,6 +27,11 @@ type OpenAiImageResponse = {
 
 const OPENAI_EDITS_ENDPOINT = 'https://api.openai.com/v1/images/edits';
 const OPENAI_GENERATIONS_ENDPOINT = 'https://api.openai.com/v1/images/generations';
+
+const OPENAI_IMAGE_OPTIONS = {
+	quality: 'high' as const,
+	output_format: 'png' as const
+};
 
 const toDataUrl = async (entry: { b64_json?: string; url?: string }): Promise<string> => {
 	if (typeof entry.b64_json === 'string' && entry.b64_json.length > 0) {
@@ -44,19 +55,32 @@ export const buildPayloadPreview = (input: {
 	n: number;
 	templateImageDataUrl?: string;
 }): OpenAiImagePayload => {
-	const basePayload: Omit<OpenAiImagePayload, 'images'> = {
+	const basePayload: Omit<OpenAiImagePayload, 'image'> = {
 		model: IMAGE_GEN_MODEL,
 		prompt: input.prompt,
 		size: input.size,
-		n: input.n
+		n: input.n,
+		...OPENAI_IMAGE_OPTIONS
 	};
 	if (input.templateImageDataUrl?.startsWith('data:image/')) {
 		return {
 			...basePayload,
-			images: [{ image_url: input.templateImageDataUrl }]
+			image: [
+				{
+					field: 'image[]',
+					filename: 'template.png',
+					contentType: 'image/png'
+				}
+			]
 		};
 	}
 	return basePayload;
+};
+
+const dataUrlToBlob = (dataUrl: string): Blob => {
+	const match = dataUrl.match(/^data:(image\/[a-z0-9.+-]+);base64,(.+)$/i);
+	if (!match) throw new Error('Template image must be a base64 data URL');
+	return new Blob([Buffer.from(match[2], 'base64')], { type: match[1] });
 };
 
 export const generateImagesWithOpenAi = async (input: {
@@ -67,16 +91,34 @@ export const generateImagesWithOpenAi = async (input: {
 	templateImageDataUrl?: string;
 }): Promise<{ payloadPreview: OpenAiImagePayload; dataUrls: string[] }> => {
 	const payloadPreview = buildPayloadPreview(input);
-	const endpoint = payloadPreview.images ? OPENAI_EDITS_ENDPOINT : OPENAI_GENERATIONS_ENDPOINT;
+	const isEdit = Boolean(input.templateImageDataUrl?.startsWith('data:image/'));
+	const endpoint = isEdit ? OPENAI_EDITS_ENDPOINT : OPENAI_GENERATIONS_ENDPOINT;
+	const request = isEdit ? new FormData() : null;
+	let response: Response;
 
-	const response = await fetch(endpoint, {
-		method: 'POST',
-		headers: {
-			Authorization: `Bearer ${input.apiKey}`,
-			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify(payloadPreview)
-	});
+	if (request && input.templateImageDataUrl) {
+		request.append('model', IMAGE_GEN_MODEL);
+		request.append('prompt', input.prompt);
+		request.append('size', input.size);
+		request.append('n', input.n.toString());
+		request.append('quality', OPENAI_IMAGE_OPTIONS.quality);
+		request.append('output_format', OPENAI_IMAGE_OPTIONS.output_format);
+		request.append('image[]', dataUrlToBlob(input.templateImageDataUrl), 'template.png');
+		response = await fetch(endpoint, {
+			method: 'POST',
+			headers: { Authorization: `Bearer ${input.apiKey}` },
+			body: request
+		});
+	} else {
+		response = await fetch(endpoint, {
+			method: 'POST',
+			headers: {
+				Authorization: `Bearer ${input.apiKey}`,
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(payloadPreview)
+		});
+	}
 
 	const json = (await response.json().catch(() => null)) as OpenAiImageResponse | null;
 	if (!response.ok) {
