@@ -514,10 +514,12 @@
 
 	.tlp-hero__image {
 		width: 100%;
+		aspect-ratio: 16 / 9;
 		border-radius: 14px;
 		border: 1px solid rgba(255, 255, 255, 0.35);
 		margin-bottom: 0.75rem;
-		object-fit: cover;
+		background: #f8fafc;
+		object-fit: contain;
 	}
 
 	.tlp-stat-grid {

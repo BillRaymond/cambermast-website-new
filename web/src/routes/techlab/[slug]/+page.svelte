@@ -35,7 +35,7 @@
 	image={seoImage}
 	imageAlt={seoImageAlt}
 	imageWidth={1536}
-	imageHeight={1024}
+	imageHeight={864}
 	type="article"
 	siteName="TechLAB × Cambermast"
 />

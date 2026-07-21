@@ -81,7 +81,7 @@
 		: 'transition-colors';
 	$: paddingClass = isCarousel ? 'p-2.5 sm:p-3 md:p-4' : 'p-4';
 	$: imageWrapClass = variant === 'carousel' ? 'w-full sm:w-44' : 'w-full sm:w-48';
-	$: imageClass = 'aspect-[3/2] w-full rounded-xl border border-slate-200 object-cover';
+	$: imageClass = 'aspect-video w-full rounded-xl border border-slate-200 bg-slate-50 object-contain';
 	$: contentWrapClass = isCarousel
 		? 'relative flex flex-col gap-3 sm:flex-row sm:items-start sm:gap-5'
 		: 'relative flex flex-col gap-4 sm:flex-row sm:items-start sm:gap-5';

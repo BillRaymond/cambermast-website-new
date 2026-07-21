@@ -87,6 +87,7 @@ export const buildImageGenStandardsApiPayload = ({
 		generatedAt: generatedAt ?? new Date().toISOString(),
 		version: registry.version,
 		updatedAt: registry.updatedAt,
+		formats: registry.formats,
 		standards: registry.standards.map((entry) => toApiStandard(entry, origin))
 	};
 };
@@ -100,10 +101,11 @@ export const buildImageGenStandardsApiExamples = (origin: string) => {
 	return {
 		response: payload,
 		example: first
-			? {
+		? {
 					generatedAt: payload.generatedAt,
 					version: payload.version,
 					updatedAt: payload.updatedAt,
+					formats: payload.formats,
 					standards: [first]
 				}
 			: payload

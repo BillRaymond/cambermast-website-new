@@ -75,23 +75,31 @@
 	<div>
 		<h2 class="text-2xl font-semibold">OpenAI Contract</h2>
 		<p class="mt-2 max-w-3xl text-gray-700">
-			Model is fixed to <code>gpt-image-1.5</code>. Batch generation uses <code>n</code> with range
-			1 to 10 (default 4).
+			Model is fixed to <code>gpt-image-2</code>. Batch generation uses <code>n</code> with range
+			1 to 10 (default 4). See the
+			<a class="font-semibold text-blue-700 underline" href="https://developers.openai.com/api/docs/guides/image-generation" target="_blank" rel="noreferrer">OpenAI Image Generation API guide</a>.
 		</p>
 		<p class="mt-2 max-w-3xl text-gray-700">
-			The outbound OpenAI JSON payload is intentionally minimal and only includes:
-			<code>model</code>, <code>prompt</code>, <code>size</code>, <code>n</code>, and
-			<code>images</code>.
+			New images use a JSON request to image generations with <code>model</code>, <code>prompt</code>,
+			<code>size</code>, <code>n</code>, <code>quality</code>, and <code>output_format</code>. Template
+			edits use multipart form-data with an <code>image[]</code> file field and the same generation
+			options.
 		</p>
 	</div>
 
 	<div>
 		<h2 class="text-2xl font-semibold">Stage Defaults</h2>
 		<ul class="mt-3 list-disc space-y-2 pl-5 text-gray-700">
-			<li>Square: <code>1024x1024</code></li>
-			<li>Landscape: <code>1536x1024</code></li>
-			<li>Portrait: <code>1024x1536</code></li>
+			<li>Square: <code>1024x1024</code> (1:1) for square site cards and social posts</li>
+			<li>Horizontal: <code>1536x864</code> (16:9) for website heroes, event cards, and link previews</li>
+			<li>Portrait: <code>1024x1280</code> (4:5) for LinkedIn and other mobile-first social posts</li>
 		</ul>
+		<p class="mt-2 max-w-3xl text-gray-700">
+			These dimensions are part of the public image-gen standards contract. Do not force a crop to
+			fit a card: when an input is not exact, resize with contain/padding so text and subjects remain
+			fully visible. Reject outputs with inaccurate titles, accidental readable text, logos, signage,
+			or other unintended branding.
+		</p>
 	</div>
 
 	<div>

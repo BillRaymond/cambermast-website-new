@@ -77,7 +77,7 @@
 					<img
 						src={item.image}
 						alt={item.imageAlt ?? item.title}
-						class="catalog-card__image aspect-[3/2] w-full rounded-xl object-cover transition group-hover:opacity-95"
+						class="catalog-card__image aspect-video w-full rounded-xl bg-slate-50 object-contain transition group-hover:opacity-95"
 						class:mb-3={!isRowLayout}
 						loading="lazy"
 					/>
@@ -86,7 +86,7 @@
 				<img
 					src={item.image}
 					alt={item.imageAlt ?? item.title}
-					class="catalog-card__image aspect-[3/2] w-full rounded-xl object-cover"
+					class="catalog-card__image aspect-video w-full rounded-xl bg-slate-50 object-contain"
 					class:mb-3={!isRowLayout}
 					loading="lazy"
 				/>

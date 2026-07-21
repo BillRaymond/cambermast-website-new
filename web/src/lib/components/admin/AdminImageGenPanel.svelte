@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { createEventDispatcher, onMount } from 'svelte';
 	import { getMinioBrowserUrl } from '$lib/utils/storage-urls';
+	import { IMAGE_GEN_SIZE_BY_STAGE } from '$lib/data/image-gen-standards';
 
 	type ImageGenStage = 'square' | 'landscape' | 'portrait';
 	type DestinationType =
@@ -105,11 +106,7 @@ STRICT AVOIDANCE RULES
 		}
 	];
 
-	const STAGE_SIZE_MAP: Record<ImageGenStage, '1024x1024' | '1536x1024' | '1024x1536'> = {
-		square: '1024x1024',
-		landscape: '1536x1024',
-		portrait: '1024x1536'
-	};
+	const STAGE_SIZE_MAP = IMAGE_GEN_SIZE_BY_STAGE;
 	const ALL_IMAGE_GEN_STAGES: ImageGenStage[] = ['square', 'landscape', 'portrait'];
 
 	type Candidate = {
@@ -1610,7 +1607,7 @@ STRICT AVOIDANCE RULES
 		</div>
 
 			<div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
-				<h2 class="text-xl font-semibold">Stage B: Landscape (1536x1024)</h2>
+			<h2 class="text-xl font-semibold">Stage B: Landscape (1536x864)</h2>
 				<textarea bind:value={landscapePrompt} rows={3} class="mt-3 w-full rounded-lg border border-gray-300 p-3 text-sm"></textarea>
 				<div class="mt-3">
 					<div class="flex items-center justify-between gap-3">
@@ -1647,7 +1644,7 @@ STRICT AVOIDANCE RULES
 				<div class="mt-5 grid gap-4 sm:grid-cols-2">
 					{#each buildPlaceholderKeys('landscape', getPendingCount('landscape')) as placeholderKey (placeholderKey)}
 						<div class="animate-pulse rounded-xl border border-blue-100 bg-blue-50 p-2">
-							<div class="aspect-[3/2] w-full rounded bg-blue-100"></div>
+						<div class="aspect-video w-full rounded bg-blue-100"></div>
 							<div class="mt-2 h-3 w-2/3 rounded bg-blue-100"></div>
 						</div>
 					{/each}
@@ -1665,7 +1662,7 @@ STRICT AVOIDANCE RULES
 									checked={selectedLandscapeCandidateId === candidate.id}
 									on:change={() => (selectedLandscapeCandidateId = candidate.id)}
 								/>
-								<img class="mt-2 aspect-[3/2] w-full rounded object-cover" src={candidate.dataUrl} alt={candidate.id} />
+								<img class="mt-2 aspect-video w-full rounded bg-slate-50 object-contain" src={candidate.dataUrl} alt={candidate.id} />
 							</label>
 							<div class="mt-2 flex flex-wrap items-center gap-2">
 								<button
@@ -1712,7 +1709,7 @@ STRICT AVOIDANCE RULES
 		</div>
 
 			<div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
-				<h2 class="text-xl font-semibold">Stage C: Portrait (1024x1536)</h2>
+				<h2 class="text-xl font-semibold">Stage C: Portrait (1024x1280)</h2>
 				<textarea bind:value={portraitPrompt} rows={3} class="mt-3 w-full rounded-lg border border-gray-300 p-3 text-sm"></textarea>
 				<div class="mt-3">
 					<div class="flex items-center justify-between gap-3">
@@ -1749,7 +1746,7 @@ STRICT AVOIDANCE RULES
 				<div class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
 					{#each buildPlaceholderKeys('portrait', getPendingCount('portrait')) as placeholderKey (placeholderKey)}
 						<div class="animate-pulse rounded-xl border border-blue-100 bg-blue-50 p-2">
-							<div class="aspect-[2/3] w-full rounded bg-blue-100"></div>
+						<div class="aspect-[4/5] w-full rounded bg-blue-100"></div>
 							<div class="mt-2 h-3 w-2/3 rounded bg-blue-100"></div>
 						</div>
 					{/each}
@@ -1767,7 +1764,7 @@ STRICT AVOIDANCE RULES
 									checked={selectedPortraitCandidateId === candidate.id}
 									on:change={() => (selectedPortraitCandidateId = candidate.id)}
 								/>
-								<img class="mt-2 aspect-[2/3] w-full rounded object-cover" src={candidate.dataUrl} alt={candidate.id} />
+								<img class="mt-2 aspect-[4/5] w-full rounded bg-slate-50 object-contain" src={candidate.dataUrl} alt={candidate.id} />
 							</label>
 							<div class="mt-2 flex flex-wrap items-center gap-2">
 								<button
